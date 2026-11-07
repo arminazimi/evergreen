@@ -1,0 +1,3930 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "serverless/examples",
+  "commit": "71d6720f68e1f25ee02bbef7c3e843591870639a",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 325,
+    "findings": [
+      {
+        "ruleId": "serverless.aws-lambda.dotnet10",
+        "path": "aws-dotnet-rest-api-with-dynamodb/src/DotNetServerless.Lambda/serverless.yml",
+        "line": 9
+      },
+      {
+        "ruleId": "serverless.aws-lambda.java25",
+        "path": "aws-java-simple-http-endpoint/serverless.yml",
+        "line": 6
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs22.x",
+        "path": "mcp/custom/express-web-adapter/serverless.yml",
+        "line": 10
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs22.x",
+        "path": "mcp/custom/function-url/serverless.yml",
+        "line": 10
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs22.x",
+        "path": "mcp/custom/hono/serverless.yml",
+        "line": 10
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs22.x",
+        "path": "mcp/custom/rest-api/serverless.yml",
+        "line": 10
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-comprehensive/serverless.yml",
+        "line": 25
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-gateway/serverless.yml",
+        "line": 12
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-multi-gateway/serverless.yml",
+        "line": 12
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-multi-gateway/serverless.yml",
+        "line": 16
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-bedrock-agentcore/javascript/mcp-server-lambda-tools/serverless.yml",
+        "line": 14
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-ffmpeg-layer/serverless.yml",
+        "line": 6
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-multiple-runtime/serverless.yml",
+        "line": 18
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-alexa-skill/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-auth0-cognito-custom-authorizers-api/serverless.yml",
+        "line": 8
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-auth0-custom-authorizers-api/serverless.yml",
+        "line": 11
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-dynamic-image-resizer/serverless.yml",
+        "line": 10
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-dynamodb-stream-processing/serverless.yml",
+        "line": 12
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-env-variables-encrypted-in-a-file/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-env-variables/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-esm-esbuild/serverless.yml",
+        "line": 6
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-express-api/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-express-dynamodb-api/serverless.yml",
+        "line": 12
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-fetch-file-and-store-in-s3/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-github-webhook-listener/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-graphql-api-with-dynamodb/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-http-api-dynamodb-local/serverless.yml",
+        "line": 23
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-http-api-dynamodb/serverless.yml",
+        "line": 6
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-http-api-mongodb/serverless.yml",
+        "line": 6
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-http-api-typescript-dynamodb/serverless.yml",
+        "line": 6
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-http-api-typescript/serverless.yml",
+        "line": 6
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-http-api/serverless.yml",
+        "line": 6
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-iot-event/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-mongodb-atlas/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-puppeteer/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-recursive-function/serverless.yml",
+        "line": 10
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-rekognition-analysis-s3-image/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-rest-api-mongodb/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-rest-api-typescript-simple/serverless.yml",
+        "line": 6
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-rest-api-typescript/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-rest-api-with-dynamodb-and-offline/serverless.yml",
+        "line": 24
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-rest-api-with-dynamodb/serverless.yml",
+        "line": 6
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-rest-api/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-s3-file-replicator/serverless.yml",
+        "line": 16
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-scheduled-cron/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-self-managed-code-storage/serverless.yml",
+        "line": 6
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-serve-dynamic-html-via-http-endpoint/serverless.yml",
+        "line": 8
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-serverless-gong/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-ses-receive-email-body/serverless.yml",
+        "line": 12
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-ses-receive-email-header/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-shared-gateway/gateway/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-shared-gateway/products/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-shared-gateway/transactions/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-shared-gateway/users/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-signed-uploads/serverless.yml",
+        "line": 15
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-simple-http-endpoint/serverless.yml",
+        "line": 6
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-simple-transcribe-s3/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-single-page-app-via-cloudfront/serverless.yml",
+        "line": 10
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-sqs-worker/serverless.yml",
+        "line": 6
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-stripe-integration/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-telegram-echo-bot/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-text-analysis-via-sns-post-processing/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-twilio-send-text-message/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-typescript-apollo-lambda/serverless.yml",
+        "line": 14
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-typescript-kinesis/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-typescript-nest/serverless.yml",
+        "line": 25
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-typescript-rest-api-with-dynamodb/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-typescript-sqs-standard/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-upload-to-s3-and-postprocess/serverless.yml",
+        "line": 11
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-websockets-authorizers/serverless.yml",
+        "line": 8
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "compose-multiframework/sam/template.yml",
+        "line": 14
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "compose-multiframework/traditional/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "compose-shared-services/api/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "compose-shared-services/worker/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "mcp/minimal/serverless.yml",
+        "line": 10
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "mcp/oauth-authorizer/serverless.yml",
+        "line": 13
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "mcp/oauth-cognito/serverless.yml",
+        "line": 12
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "mcp/oauth-in-module/serverless.yml",
+        "line": 15
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "sandboxes/self-hosted-webhook/serverless.yml",
+        "line": 17
+      },
+      {
+        "ruleId": "serverless.aws-lambda.provided.al2023",
+        "path": "aws-golang-auth-examples/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.provided.al2023",
+        "path": "aws-golang-googlemap/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.provided.al2023",
+        "path": "aws-golang-http-get-post/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.provided.al2023",
+        "path": "aws-golang-rest-api-with-dynamodb/serverless.yml",
+        "line": 8
+      },
+      {
+        "ruleId": "serverless.aws-lambda.provided.al2023",
+        "path": "aws-golang-s3-file-replicator/serverless.yml",
+        "line": 12
+      },
+      {
+        "ruleId": "serverless.aws-lambda.provided.al2023",
+        "path": "aws-golang-simple-http-endpoint/serverless.yml",
+        "line": 6
+      },
+      {
+        "ruleId": "serverless.aws-lambda.provided.al2023",
+        "path": "aws-rust-simple-http-endpoint/serverless.yml",
+        "line": 6
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.13",
+        "path": "aws-python-line-echo-bot/serverless.yml",
+        "line": 11
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-bedrock-agentcore/python/langgraph-gateway/serverless.yml",
+        "line": 12
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-bedrock-agentcore/python/langgraph-multi-gateway/serverless.yml",
+        "line": 12
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-bedrock-agentcore/python/langgraph-multi-gateway/serverless.yml",
+        "line": 16
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-multiple-runtime/serverless.yml",
+        "line": 11
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-alexa-skill/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-auth0-custom-authorizers-api/serverless.yml",
+        "line": 25
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-flask-api/serverless.yml",
+        "line": 18
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-flask-dynamodb-api/serverless.yml",
+        "line": 26
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-http-api-with-dynamodb/serverless.yml",
+        "line": 6
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-http-api-with-pynamodb/serverless.yml",
+        "line": 25
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-http-api/serverless.yml",
+        "line": 6
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-pynamodb-s3-sigurl/serverless.yml",
+        "line": 54
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-rest-api-with-dynamodb/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-rest-api-with-pymongo/serverless.yml",
+        "line": 15
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-rest-api-with-pynamodb/serverless.yml",
+        "line": 26
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-rest-api/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-scheduled-cron/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-simple-http-endpoint/serverless.yml",
+        "line": 6
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-sqs-worker/serverless.yml",
+        "line": 6
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-telegram-bot/serverless.yml",
+        "line": 11
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.ruby4.0",
+        "path": "aws-ruby-cron-with-dynamodb/serverless.yml",
+        "line": 8
+      },
+      {
+        "ruleId": "serverless.aws-lambda.ruby4.0",
+        "path": "aws-ruby-line-bot/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.ruby4.0",
+        "path": "aws-ruby-simple-http-endpoint/serverless.yml",
+        "line": 6
+      },
+      {
+        "ruleId": "serverless.aws-lambda.ruby4.0",
+        "path": "aws-ruby-sinatra-dynamodb-api/serverless.yml",
+        "line": 16
+      },
+      {
+        "ruleId": "serverless.aws-lambda.ruby4.0",
+        "path": "aws-ruby-sqs-with-dynamodb/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.ruby4.0",
+        "path": "aws-ruby-step-functions-express/serverless.yml",
+        "line": 7
+      },
+      {
+        "ruleId": "serverless.aws-lambda.ruby4.0",
+        "path": "aws-ruby-step-functions-with-callback/serverless.yml",
+        "line": 8
+      },
+      {
+        "ruleId": "serverless.aws-lambda.ruby4.0",
+        "path": "aws-ruby-step-functions/serverless.yml",
+        "line": 7
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 91167,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-basic-dockerfile/Dockerfile",
+        "name": "public.ecr.aws/docker/library/node",
+        "currentValue": "24-slim",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-basic-dockerfile/Dockerfile",
+        "name": "public.ecr.aws/docker/library/node",
+        "currentValue": "24-slim",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-multi-gateway/Dockerfile.private",
+        "name": "public.ecr.aws/docker/library/node",
+        "currentValue": "24-slim",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-multi-gateway/Dockerfile.public",
+        "name": "public.ecr.aws/docker/library/node",
+        "currentValue": "24-slim",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-basic-docker/Dockerfile",
+        "name": "public.ecr.aws/docker/library/python",
+        "currentValue": "3.14-slim",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser-custom/Dockerfile",
+        "name": "python",
+        "currentValue": "3.14-slim",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser-custom/Dockerfile",
+        "name": "libnss3",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser-custom/Dockerfile",
+        "name": "libnspr4",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser-custom/Dockerfile",
+        "name": "libatk1.0-0",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser-custom/Dockerfile",
+        "name": "libatk-bridge2.0-0",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser-custom/Dockerfile",
+        "name": "libcups2",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser-custom/Dockerfile",
+        "name": "libdrm2",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser-custom/Dockerfile",
+        "name": "libxkbcommon0",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser-custom/Dockerfile",
+        "name": "libxcomposite1",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser-custom/Dockerfile",
+        "name": "libxdamage1",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser-custom/Dockerfile",
+        "name": "libxfixes3",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser-custom/Dockerfile",
+        "name": "libxrandr2",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser-custom/Dockerfile",
+        "name": "libgbm1",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser-custom/Dockerfile",
+        "name": "libasound2",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser-custom/Dockerfile",
+        "name": "libpango-1.0-0",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser-custom/Dockerfile",
+        "name": "libcairo2",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser/Dockerfile",
+        "name": "python",
+        "currentValue": "3.14-slim",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser/Dockerfile",
+        "name": "libnss3",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser/Dockerfile",
+        "name": "libnspr4",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser/Dockerfile",
+        "name": "libatk1.0-0",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser/Dockerfile",
+        "name": "libatk-bridge2.0-0",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser/Dockerfile",
+        "name": "libcups2",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser/Dockerfile",
+        "name": "libdrm2",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser/Dockerfile",
+        "name": "libxkbcommon0",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser/Dockerfile",
+        "name": "libxcomposite1",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser/Dockerfile",
+        "name": "libxdamage1",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser/Dockerfile",
+        "name": "libxfixes3",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser/Dockerfile",
+        "name": "libxrandr2",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser/Dockerfile",
+        "name": "libgbm1",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser/Dockerfile",
+        "name": "libasound2",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser/Dockerfile",
+        "name": "libpango-1.0-0",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-browser/Dockerfile",
+        "name": "libcairo2",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-code-interpreter-custom/Dockerfile",
+        "name": "python",
+        "currentValue": "3.14-slim",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-code-interpreter/Dockerfile",
+        "name": "python",
+        "currentValue": "3.14-slim",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-gateway/Dockerfile",
+        "name": "public.ecr.aws/docker/library/python",
+        "currentValue": "3.14-slim",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-memory/Dockerfile",
+        "name": "public.ecr.aws/docker/library/python",
+        "currentValue": "3.14-slim",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-multi-gateway/Dockerfile.private",
+        "name": "public.ecr.aws/docker/library/python",
+        "currentValue": "3.14-slim",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/langgraph-multi-gateway/Dockerfile.public",
+        "name": "public.ecr.aws/docker/library/python",
+        "currentValue": "3.14-slim",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-bedrock-agentcore/python/strands-browser/Dockerfile",
+        "name": "python",
+        "currentValue": "3.14-slim",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-node-container-snapstart/Dockerfile",
+        "name": "public.ecr.aws/lambda/nodejs",
+        "currentValue": "22",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-node-http-api-dynamodb-local/dynamodb/Dockerfile",
+        "name": "amazon/dynamodb-local",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aws-node-rest-api-with-dynamodb-and-offline/dynamodb/Dockerfile",
+        "name": "amazon/dynamodb-local",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "mcp/custom/fastify-container/Dockerfile",
+        "name": "public.ecr.aws/awsguru/aws-lambda-adapter",
+        "currentValue": "0.9.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "mcp/custom/fastify-container/Dockerfile",
+        "name": "public.ecr.aws/docker/library/node",
+        "currentValue": "22-slim",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "sandboxes/complete/app/Dockerfile",
+        "name": "public.ecr.aws/docker/library/node",
+        "currentValue": "24-slim",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "sandboxes/minimal/app/Dockerfile",
+        "name": "public.ecr.aws/docker/library/node",
+        "currentValue": "24-slim",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "sandboxes/self-hosted-webhook/worker/Dockerfile",
+        "name": "public.ecr.aws/docker/library/node",
+        "currentValue": "24-slim",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "sandboxes/self-hosted-webhook/worker/Dockerfile",
+        "name": "bash",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "sandboxes/self-hosted-webhook/worker/Dockerfile",
+        "name": "ca-certificates",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "sandboxes/self-hosted-webhook/worker/Dockerfile",
+        "name": "git",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-basic-dockerfile/package.json",
+        "name": "@aws-sdk/client-bedrock-agentcore",
+        "currentValue": "^3.993.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-basic-dockerfile/package.json",
+        "name": "@langchain/aws",
+        "currentValue": "^1.2.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-basic-dockerfile/package.json",
+        "name": "@langchain/core",
+        "currentValue": "^1.1.28",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-basic-dockerfile/package.json",
+        "name": "bedrock-agentcore",
+        "currentValue": "^0.4.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-basic-dockerfile/package.json",
+        "name": "langchain",
+        "currentValue": "^1.2.27",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-basic-dockerfile/package.json",
+        "name": "zod",
+        "currentValue": "^4.4.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-basic-dockerfile/package.json",
+        "name": "node",
+        "currentValue": "24.x",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-basic/package.json",
+        "name": "@aws-sdk/client-bedrock-agentcore",
+        "currentValue": "^3.993.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-basic/package.json",
+        "name": "@langchain/aws",
+        "currentValue": "^1.2.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-basic/package.json",
+        "name": "@langchain/core",
+        "currentValue": "^1.1.28",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-basic/package.json",
+        "name": "bedrock-agentcore",
+        "currentValue": "^0.4.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-basic/package.json",
+        "name": "langchain",
+        "currentValue": "^1.2.27",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-basic/package.json",
+        "name": "zod",
+        "currentValue": "^4.4.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-basic/package.json",
+        "name": "node",
+        "currentValue": "24.x",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-browser-custom/package.json",
+        "name": "@aws-sdk/client-bedrock-agentcore",
+        "currentValue": "^3.993.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-browser-custom/package.json",
+        "name": "@langchain/aws",
+        "currentValue": "^1.2.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-browser-custom/package.json",
+        "name": "@langchain/core",
+        "currentValue": "^1.1.28",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-browser-custom/package.json",
+        "name": "bedrock-agentcore",
+        "currentValue": "^0.4.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-browser-custom/package.json",
+        "name": "langchain",
+        "currentValue": "^1.2.27",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-browser-custom/package.json",
+        "name": "playwright",
+        "currentValue": "^1.58.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-browser-custom/package.json",
+        "name": "zod",
+        "currentValue": "^4.3.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-browser-custom/package.json",
+        "name": "node",
+        "currentValue": "24.x",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-browser/package.json",
+        "name": "@aws-sdk/client-bedrock-agentcore",
+        "currentValue": "^3.993.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-browser/package.json",
+        "name": "@langchain/aws",
+        "currentValue": "^1.2.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-browser/package.json",
+        "name": "@langchain/core",
+        "currentValue": "^1.1.28",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-browser/package.json",
+        "name": "bedrock-agentcore",
+        "currentValue": "^0.4.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-browser/package.json",
+        "name": "langchain",
+        "currentValue": "^1.2.27",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-browser/package.json",
+        "name": "playwright",
+        "currentValue": "^1.58.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-browser/package.json",
+        "name": "zod",
+        "currentValue": "^4.3.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-browser/package.json",
+        "name": "node",
+        "currentValue": "24.x",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-code-interpreter-custom/package.json",
+        "name": "@aws-sdk/client-bedrock-agentcore",
+        "currentValue": "^3.993.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-code-interpreter-custom/package.json",
+        "name": "@langchain/aws",
+        "currentValue": "^1.2.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-code-interpreter-custom/package.json",
+        "name": "@langchain/core",
+        "currentValue": "^1.1.28",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-code-interpreter-custom/package.json",
+        "name": "bedrock-agentcore",
+        "currentValue": "^0.4.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-code-interpreter-custom/package.json",
+        "name": "langchain",
+        "currentValue": "^1.2.27",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-code-interpreter-custom/package.json",
+        "name": "zod",
+        "currentValue": "^4.3.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-code-interpreter-custom/package.json",
+        "name": "node",
+        "currentValue": "24.x",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-code-interpreter/package.json",
+        "name": "@aws-sdk/client-bedrock-agentcore",
+        "currentValue": "^3.993.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-code-interpreter/package.json",
+        "name": "@langchain/aws",
+        "currentValue": "^1.2.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-code-interpreter/package.json",
+        "name": "@langchain/core",
+        "currentValue": "^1.1.28",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-code-interpreter/package.json",
+        "name": "bedrock-agentcore",
+        "currentValue": "^0.4.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-code-interpreter/package.json",
+        "name": "langchain",
+        "currentValue": "^1.2.27",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-code-interpreter/package.json",
+        "name": "zod",
+        "currentValue": "^4.3.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-code-interpreter/package.json",
+        "name": "node",
+        "currentValue": "24.x",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-comprehensive/package.json",
+        "name": "@aws-sdk/client-bedrock-agentcore",
+        "currentValue": "^3.993.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-comprehensive/package.json",
+        "name": "@aws-sdk/credential-provider-node",
+        "currentValue": "^3.972.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-comprehensive/package.json",
+        "name": "@langchain/aws",
+        "currentValue": "^1.2.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-comprehensive/package.json",
+        "name": "@langchain/core",
+        "currentValue": "^1.1.28",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-comprehensive/package.json",
+        "name": "@langchain/mcp-adapters",
+        "currentValue": "^1.1.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-comprehensive/package.json",
+        "name": "@modelcontextprotocol/sdk",
+        "currentValue": "^1.26.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-comprehensive/package.json",
+        "name": "aws4fetch",
+        "currentValue": "^1.0.20",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-comprehensive/package.json",
+        "name": "bedrock-agentcore",
+        "currentValue": "^0.4.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-comprehensive/package.json",
+        "name": "langchain",
+        "currentValue": "^1.2.27",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-comprehensive/package.json",
+        "name": "playwright",
+        "currentValue": "^1.58.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-comprehensive/package.json",
+        "name": "zod",
+        "currentValue": "^4.3.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-comprehensive/package.json",
+        "name": "node",
+        "currentValue": "24.x",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-gateway/package.json",
+        "name": "@aws-sdk/client-bedrock-agentcore",
+        "currentValue": "^3.993.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-gateway/package.json",
+        "name": "@aws-sdk/credential-provider-node",
+        "currentValue": "^3.972.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-gateway/package.json",
+        "name": "@langchain/aws",
+        "currentValue": "^1.2.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-gateway/package.json",
+        "name": "@langchain/core",
+        "currentValue": "^1.1.28",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-gateway/package.json",
+        "name": "@langchain/langgraph",
+        "currentValue": "^1.1.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-gateway/package.json",
+        "name": "@langchain/mcp-adapters",
+        "currentValue": "^1.1.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-gateway/package.json",
+        "name": "@modelcontextprotocol/sdk",
+        "currentValue": "^1.26.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-gateway/package.json",
+        "name": "aws4fetch",
+        "currentValue": "^1.0.20",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-gateway/package.json",
+        "name": "bedrock-agentcore",
+        "currentValue": "^0.4.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-gateway/package.json",
+        "name": "zod",
+        "currentValue": "^4.3.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-gateway/package.json",
+        "name": "node",
+        "currentValue": "24.x",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-memory/package.json",
+        "name": "@aws-sdk/client-bedrock-agentcore",
+        "currentValue": "^3.993.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-memory/package.json",
+        "name": "@langchain/aws",
+        "currentValue": "^1.2.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-memory/package.json",
+        "name": "@langchain/core",
+        "currentValue": "^1.1.28",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-memory/package.json",
+        "name": "@langchain/langgraph",
+        "currentValue": "^1.1.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-memory/package.json",
+        "name": "bedrock-agentcore",
+        "currentValue": "^0.4.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-memory/package.json",
+        "name": "zod",
+        "currentValue": "^4.3.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-memory/package.json",
+        "name": "node",
+        "currentValue": "24.x",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-multi-gateway/package.json",
+        "name": "@aws-sdk/client-bedrock-agentcore",
+        "currentValue": "^3.993.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-multi-gateway/package.json",
+        "name": "@aws-sdk/credential-provider-node",
+        "currentValue": "^3.972.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-multi-gateway/package.json",
+        "name": "@langchain/aws",
+        "currentValue": "^1.2.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-multi-gateway/package.json",
+        "name": "@langchain/core",
+        "currentValue": "^1.1.28",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-multi-gateway/package.json",
+        "name": "@langchain/langgraph",
+        "currentValue": "^1.1.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-multi-gateway/package.json",
+        "name": "@langchain/mcp-adapters",
+        "currentValue": "^1.1.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-multi-gateway/package.json",
+        "name": "@modelcontextprotocol/sdk",
+        "currentValue": "^1.26.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-multi-gateway/package.json",
+        "name": "aws4fetch",
+        "currentValue": "^1.0.20",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-multi-gateway/package.json",
+        "name": "bedrock-agentcore",
+        "currentValue": "^0.4.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-multi-gateway/package.json",
+        "name": "zod",
+        "currentValue": "^4.3.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-multi-gateway/package.json",
+        "name": "node",
+        "currentValue": "24.x",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-streaming/package.json",
+        "name": "@aws-sdk/client-bedrock-agentcore",
+        "currentValue": "^3.993.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-streaming/package.json",
+        "name": "@langchain/aws",
+        "currentValue": "^1.2.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-streaming/package.json",
+        "name": "@langchain/core",
+        "currentValue": "^1.1.28",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-streaming/package.json",
+        "name": "bedrock-agentcore",
+        "currentValue": "^0.4.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-streaming/package.json",
+        "name": "langchain",
+        "currentValue": "^1.2.27",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-streaming/package.json",
+        "name": "zod",
+        "currentValue": "^4.3.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-streaming/package.json",
+        "name": "node",
+        "currentValue": "24.x",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/mcp-server-lambda-tools/package.json",
+        "name": "@aws-crypto/sha256-js",
+        "currentValue": "^5.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/mcp-server-lambda-tools/package.json",
+        "name": "@aws-sdk/credential-provider-node",
+        "currentValue": "^3.750.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/mcp-server-lambda-tools/package.json",
+        "name": "@smithy/protocol-http",
+        "currentValue": "^5.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/mcp-server-lambda-tools/package.json",
+        "name": "@smithy/signature-v4",
+        "currentValue": "^5.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/mcp-server/package.json",
+        "name": "@modelcontextprotocol/node",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/mcp-server/package.json",
+        "name": "@modelcontextprotocol/server",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/mcp-server/package.json",
+        "name": "zod",
+        "currentValue": "^4.4.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/mcp-server/package.json",
+        "name": "@aws-crypto/sha256-js",
+        "currentValue": "^5.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/mcp-server/package.json",
+        "name": "@aws-sdk/credential-provider-node",
+        "currentValue": "^3.750.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/mcp-server/package.json",
+        "name": "@smithy/protocol-http",
+        "currentValue": "^5.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/mcp-server/package.json",
+        "name": "@smithy/signature-v4",
+        "currentValue": "^5.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/mcp-server/package.json",
+        "name": "node",
+        "currentValue": "24.x",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/strands-browser/package.json",
+        "name": "@aws-sdk/client-bedrock-agentcore",
+        "currentValue": "^3.993.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/strands-browser/package.json",
+        "name": "@strands-agents/sdk",
+        "currentValue": "^1.9.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/strands-browser/package.json",
+        "name": "bedrock-agentcore",
+        "currentValue": "^0.4.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/strands-browser/package.json",
+        "name": "playwright",
+        "currentValue": "^1.58.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/strands-browser/package.json",
+        "name": "zod",
+        "currentValue": "^4.3.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-bedrock-agentcore/javascript/strands-browser/package.json",
+        "name": "node",
+        "currentValue": "24.x",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-dev-mode/package.json",
+        "name": "@aws-sdk/client-sqs",
+        "currentValue": "^3.1000.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-dev-mode/package.json",
+        "name": "node",
+        "currentValue": ">=20.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-ffmpeg-layer/package.json",
+        "name": "@aws-sdk/client-s3",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-golang-auth-examples/package.json",
+        "name": "serverless",
+        "currentValue": "^4.39.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-auth0-cognito-custom-authorizers-api/package.json",
+        "name": "jose",
+        "currentValue": "^4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-auth0-cognito-custom-authorizers-api/package.json",
+        "name": "jsonwebtoken",
+        "currentValue": "^9.0.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-auth0-cognito-custom-authorizers-api/package.json",
+        "name": "jwks-rsa",
+        "currentValue": "^4.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-auth0-cognito-custom-authorizers-api/package.json",
+        "name": "jose",
+        "currentValue": "^4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-auth0-custom-authorizers-api/package.json",
+        "name": "jsonwebtoken",
+        "currentValue": "^9.0.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-auth0-custom-authorizers-api/package.json",
+        "name": "serverless-offline",
+        "currentValue": "^14.7.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-dynamic-image-resizer/package.json",
+        "name": "@aws-sdk/client-s3",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-dynamic-image-resizer/package.json",
+        "name": "@aws-sdk/lib-storage",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-dynamic-image-resizer/package.json",
+        "name": "sharp",
+        "currentValue": "^0.35.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-dynamic-image-resizer/package.json",
+        "name": "serverless-offline",
+        "currentValue": "^14.7.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-dynamodb-stream-processing/package.json",
+        "name": "@aws-sdk/client-s3",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-dynamodb-stream-processing/package.json",
+        "name": "@aws-sdk/util-dynamodb",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-env-variables-encrypted-in-a-file/package.json",
+        "name": "@aws-sdk/client-kms",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-env-variables-encrypted-in-a-file/package.json",
+        "name": "yaml",
+        "currentValue": "^2.9.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-express-api/package.json",
+        "name": "express",
+        "currentValue": "^5.2.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-express-api/package.json",
+        "name": "serverless-http",
+        "currentValue": "^4.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-express-dynamodb-api/package.json",
+        "name": "@aws-sdk/client-dynamodb",
+        "currentValue": "^3.585.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-express-dynamodb-api/package.json",
+        "name": "@aws-sdk/lib-dynamodb",
+        "currentValue": "^3.585.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-express-dynamodb-api/package.json",
+        "name": "express",
+        "currentValue": "^5.2.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-express-dynamodb-api/package.json",
+        "name": "serverless-http",
+        "currentValue": "^4.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-express-web-app/package.json",
+        "name": "express",
+        "currentValue": "^5.2.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-fetch-file-and-store-in-s3/package.json",
+        "name": "@aws-sdk/client-s3",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-graphql-api-with-dynamodb/package.json",
+        "name": "@aws-sdk/client-dynamodb",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-graphql-api-with-dynamodb/package.json",
+        "name": "@aws-sdk/lib-dynamodb",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-graphql-api-with-dynamodb/package.json",
+        "name": "graphql",
+        "currentValue": "^17.0.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-http-api-dynamodb-local/package.json",
+        "name": "@aws-sdk/client-dynamodb",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-http-api-dynamodb-local/package.json",
+        "name": "@aws-sdk/lib-dynamodb",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-http-api-dynamodb-local/package.json",
+        "name": "serverless-dynamodb",
+        "currentValue": "^0.2.58",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-http-api-dynamodb-local/package.json",
+        "name": "serverless-offline",
+        "currentValue": "^14.7.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-http-api-dynamodb/package.json",
+        "name": "@aws-sdk/client-dynamodb",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-http-api-dynamodb/package.json",
+        "name": "@aws-sdk/lib-dynamodb",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-http-api-mongodb/package.json",
+        "name": "mongoose",
+        "currentValue": "^9.7.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-http-api-mongodb/package.json",
+        "name": "validator",
+        "currentValue": "^13.15.35",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-http-api-typescript-dynamodb/package.json",
+        "name": "@aws-sdk/client-dynamodb",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-http-api-typescript-dynamodb/package.json",
+        "name": "@aws-sdk/lib-dynamodb",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-http-api-typescript-dynamodb/package.json",
+        "name": "@types/aws-lambda",
+        "currentValue": "^8.10.145",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-http-api-typescript-dynamodb/package.json",
+        "name": "@types/node",
+        "currentValue": "^24.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-http-api-typescript-dynamodb/package.json",
+        "name": "typescript",
+        "currentValue": "^5.9.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-http-api-typescript/package.json",
+        "name": "@types/aws-lambda",
+        "currentValue": "^8.10.145",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-http-api-typescript/package.json",
+        "name": "typescript",
+        "currentValue": "^5.9.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-mongodb-atlas/package.json",
+        "name": "@faker-js/faker",
+        "currentValue": "^10.5.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-mongodb-atlas/package.json",
+        "name": "express",
+        "currentValue": "^5.2.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-mongodb-atlas/package.json",
+        "name": "mongodb",
+        "currentValue": "^7.5.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-mongodb-atlas/package.json",
+        "name": "serverless-http",
+        "currentValue": "^4.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-nextjs-web-app/package.json",
+        "name": "next",
+        "currentValue": "^16.4.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-nextjs-web-app/package.json",
+        "name": "react",
+        "currentValue": "^19.3.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-nextjs-web-app/package.json",
+        "name": "react-dom",
+        "currentValue": "^19.3.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-puppeteer/package.json",
+        "name": "@sparticuz/chromium",
+        "currentValue": "^149.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-puppeteer/package.json",
+        "name": "puppeteer-core",
+        "currentValue": "^25.3.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-puppeteer/package.json",
+        "name": "serverless-offline",
+        "currentValue": "^14.7.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-recursive-function/package.json",
+        "name": "@aws-sdk/client-lambda",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rekognition-analysis-s3-image/package.json",
+        "name": "@aws-sdk/client-rekognition",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-mongodb/package.json",
+        "name": "mongoose",
+        "currentValue": "^9.7.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-mongodb/package.json",
+        "name": "validator",
+        "currentValue": "^13.15.35",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-typescript-simple/package.json",
+        "name": "@types/aws-lambda",
+        "currentValue": "^8.10.145",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-typescript-simple/package.json",
+        "name": "typescript",
+        "currentValue": "^5.9.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-typescript/package.json",
+        "name": "mongoose",
+        "currentValue": "^9.7.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-typescript/package.json",
+        "name": "@types/aws-lambda",
+        "currentValue": "^8.10.162",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-typescript/package.json",
+        "name": "@types/chai",
+        "currentValue": "^5.2.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-typescript/package.json",
+        "name": "@types/lambda-tester",
+        "currentValue": "^4.0.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-typescript/package.json",
+        "name": "@types/mocha",
+        "currentValue": "^10.0.10",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-typescript/package.json",
+        "name": "@types/node",
+        "currentValue": "^24.13.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-typescript/package.json",
+        "name": "@types/sinon",
+        "currentValue": "^22.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-typescript/package.json",
+        "name": "chai",
+        "currentValue": "^6.2.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-typescript/package.json",
+        "name": "cross-env",
+        "currentValue": "^10.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-typescript/package.json",
+        "name": "lambda-tester",
+        "currentValue": "^4.0.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-typescript/package.json",
+        "name": "mocha",
+        "currentValue": "^11.7.6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-typescript/package.json",
+        "name": "nyc",
+        "currentValue": "^18.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-typescript/package.json",
+        "name": "serverless-offline",
+        "currentValue": "^14.7.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-typescript/package.json",
+        "name": "sinon",
+        "currentValue": "^22.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-typescript/package.json",
+        "name": "tsx",
+        "currentValue": "^4.20.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-typescript/package.json",
+        "name": "typescript",
+        "currentValue": "^5.9.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-with-dynamodb-and-offline/package.json",
+        "name": "@aws-sdk/client-dynamodb",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-with-dynamodb-and-offline/package.json",
+        "name": "@aws-sdk/lib-dynamodb",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-with-dynamodb-and-offline/package.json",
+        "name": "serverless-dynamodb",
+        "currentValue": "^0.2.58",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-with-dynamodb-and-offline/package.json",
+        "name": "serverless-offline",
+        "currentValue": "^14.7.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-with-dynamodb/package.json",
+        "name": "@aws-sdk/client-dynamodb",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-rest-api-with-dynamodb/package.json",
+        "name": "@aws-sdk/lib-dynamodb",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-s3-file-replicator/package.json",
+        "name": "@aws-sdk/client-s3",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-s3-file-replicator/package.json",
+        "name": "serverless-lift",
+        "currentValue": "^1.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-ses-receive-email-body/package.json",
+        "name": "@aws-sdk/client-s3",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-ses-receive-email-body/package.json",
+        "name": "mailparser",
+        "currentValue": "^3.7.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-signed-uploads/package.json",
+        "name": "@aws-sdk/client-s3",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-signed-uploads/package.json",
+        "name": "@aws-sdk/s3-request-presigner",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-signed-uploads/package.json",
+        "name": "serverless-offline",
+        "currentValue": "^14.7.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-simple-transcribe-s3/package.json",
+        "name": "@aws-sdk/client-transcribe",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-single-page-app-via-cloudfront/package.json",
+        "name": "serverless-single-page-app-plugin",
+        "currentValue": "file:./serverless-single-page-app-plugin",
+        "skipReason": "file",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-sqs-worker/package.json",
+        "name": "@aws-sdk/client-sqs",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-stripe-integration/package.json",
+        "name": "stripe",
+        "currentValue": "^22.3.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-text-analysis-via-sns-post-processing/package.json",
+        "name": "@aws-sdk/client-sns",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-text-analysis-via-sns-post-processing/package.json",
+        "name": "sentiment",
+        "currentValue": "^5.0.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-twilio-send-text-message/package.json",
+        "name": "twilio",
+        "currentValue": "^6.0.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-twilio-send-text-message/package.json",
+        "name": "chai",
+        "currentValue": "^6.2.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-twilio-send-text-message/package.json",
+        "name": "mocha",
+        "currentValue": "^11.7.6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-twilio-send-text-message/package.json",
+        "name": "sinon",
+        "currentValue": "^22.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-apollo-lambda/package.json",
+        "name": "@apollo/server",
+        "currentValue": "^5.5.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-apollo-lambda/package.json",
+        "name": "@as-integrations/aws-lambda",
+        "currentValue": "^4.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-apollo-lambda/package.json",
+        "name": "graphql",
+        "currentValue": "^16.14.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-apollo-lambda/package.json",
+        "name": "@types/aws-lambda",
+        "currentValue": "^8.10.162",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-apollo-lambda/package.json",
+        "name": "@types/node",
+        "currentValue": "^24.13.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-apollo-lambda/package.json",
+        "name": "serverless",
+        "currentValue": "^4.39.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-apollo-lambda/package.json",
+        "name": "serverless-offline",
+        "currentValue": "^14.7.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-apollo-lambda/package.json",
+        "name": "typescript",
+        "currentValue": "^5.9.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-kinesis/package.json",
+        "name": "@aws-sdk/client-kinesis",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-kinesis/package.json",
+        "name": "@types/aws-lambda",
+        "currentValue": "^8.10.162",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-kinesis/package.json",
+        "name": "@types/node",
+        "currentValue": "^24.13.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-kinesis/package.json",
+        "name": "typescript",
+        "currentValue": "^5.9.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-nest/package.json",
+        "name": "@codegenie/serverless-express",
+        "currentValue": "^5.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-nest/package.json",
+        "name": "@nestjs/common",
+        "currentValue": "^11.1.28",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-nest/package.json",
+        "name": "@nestjs/core",
+        "currentValue": "^11.1.28",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-nest/package.json",
+        "name": "@nestjs/platform-express",
+        "currentValue": "^11.1.28",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-nest/package.json",
+        "name": "reflect-metadata",
+        "currentValue": "^0.2.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-nest/package.json",
+        "name": "rxjs",
+        "currentValue": "^7.8.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-nest/package.json",
+        "name": "@nestjs/testing",
+        "currentValue": "^11.1.28",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-nest/package.json",
+        "name": "@types/aws-lambda",
+        "currentValue": "^8.10.162",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-nest/package.json",
+        "name": "@types/express",
+        "currentValue": "^5.0.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-nest/package.json",
+        "name": "@types/jest",
+        "currentValue": "^30.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-nest/package.json",
+        "name": "@types/node",
+        "currentValue": "^24.13.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-nest/package.json",
+        "name": "@types/supertest",
+        "currentValue": "^7.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-nest/package.json",
+        "name": "jest",
+        "currentValue": "^30.4.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-nest/package.json",
+        "name": "prettier",
+        "currentValue": "^3.9.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-nest/package.json",
+        "name": "serverless-offline",
+        "currentValue": "^14.7.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-nest/package.json",
+        "name": "supertest",
+        "currentValue": "^7.2.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-nest/package.json",
+        "name": "ts-jest",
+        "currentValue": "^29.4.11",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-nest/package.json",
+        "name": "typescript",
+        "currentValue": "^5.9.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-rest-api-with-dynamodb/package.json",
+        "name": "@aws-sdk/client-dynamodb",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-rest-api-with-dynamodb/package.json",
+        "name": "@aws-sdk/lib-dynamodb",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-rest-api-with-dynamodb/package.json",
+        "name": "@types/aws-lambda",
+        "currentValue": "^8.10.162",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-rest-api-with-dynamodb/package.json",
+        "name": "@types/node",
+        "currentValue": "^24.13.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-rest-api-with-dynamodb/package.json",
+        "name": "typescript",
+        "currentValue": "^5.9.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-sqs-standard/package.json",
+        "name": "@aws-sdk/client-sqs",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-sqs-standard/package.json",
+        "name": "@types/aws-lambda",
+        "currentValue": "^8.10.162",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-sqs-standard/package.json",
+        "name": "@types/node",
+        "currentValue": "^24.13.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-typescript-sqs-standard/package.json",
+        "name": "typescript",
+        "currentValue": "^5.9.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-upload-to-s3-and-postprocess/package.json",
+        "name": "crypto-js",
+        "currentValue": "^4.2.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-web-app-custom-domain/api/package.json",
+        "name": "express",
+        "currentValue": "^5.2.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-web-app-custom-domain/web/package.json",
+        "name": "next",
+        "currentValue": "^16.4.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-web-app-custom-domain/web/package.json",
+        "name": "react",
+        "currentValue": "^19.3.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-web-app-custom-domain/web/package.json",
+        "name": "react-dom",
+        "currentValue": "^19.3.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-node-websockets-authorizers/package.json",
+        "name": "@aws-sdk/client-apigatewaymanagementapi",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-python-auth0-custom-authorizers-api/package.json",
+        "name": "serverless-offline",
+        "currentValue": "^14.7.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-python-flask-api/package.json",
+        "name": "serverless-wsgi",
+        "currentValue": "^3.0.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-python-flask-dynamodb-api/package.json",
+        "name": "serverless-wsgi",
+        "currentValue": "^3.0.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-python-sqs-worker/package.json",
+        "name": "serverless-lift",
+        "currentValue": "^1.1.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-ruby-cron-with-dynamodb/package.json",
+        "name": "serverless-ruby-layer",
+        "currentValue": "^1.5.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-ruby-cron-with-dynamodb/package.json",
+        "name": "serverless-export-env",
+        "currentValue": "2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-ruby-line-bot/package.json",
+        "name": "serverless-hooks-plugin",
+        "currentValue": "^1.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-ruby-sinatra-dynamodb-api/package.json",
+        "name": "serverless-rack",
+        "currentValue": "^2.0.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-ruby-sqs-with-dynamodb/package.json",
+        "name": "serverless-lift",
+        "currentValue": "^1.1.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-ruby-sqs-with-dynamodb/package.json",
+        "name": "serverless-ruby-layer",
+        "currentValue": "^1.5.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-ruby-sqs-with-dynamodb/src/package.json",
+        "name": "serverless-lift",
+        "currentValue": "^1.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-ruby-sqs-with-dynamodb/src/package.json",
+        "name": "serverless-ruby-layer",
+        "currentValue": "^1.5.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-ruby-step-functions-express/package.json",
+        "name": "serverless-ruby-layer",
+        "currentValue": "^1.5.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-ruby-step-functions-express/package.json",
+        "name": "serverless-step-functions",
+        "currentValue": "^3.30.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-ruby-step-functions-with-callback/package.json",
+        "name": "serverless-ruby-layer",
+        "currentValue": "^1.5.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-ruby-step-functions-with-callback/package.json",
+        "name": "serverless-step-functions",
+        "currentValue": "^3.30.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "aws-ruby-step-functions/package.json",
+        "name": "serverless-ruby-layer",
+        "currentValue": "^1.5.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "aws-ruby-step-functions/package.json",
+        "name": "serverless-step-functions",
+        "currentValue": "^3.30.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "compose-shared-services/api/package.json",
+        "name": "@aws-sdk/client-dynamodb",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "compose-shared-services/api/package.json",
+        "name": "@aws-sdk/client-sqs",
+        "currentValue": "^3.700.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/express-web-adapter/package.json",
+        "name": "@modelcontextprotocol/express",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/express-web-adapter/package.json",
+        "name": "@modelcontextprotocol/node",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/express-web-adapter/package.json",
+        "name": "@modelcontextprotocol/server",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/express-web-adapter/package.json",
+        "name": "express",
+        "currentValue": "^5.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/express-web-adapter/package.json",
+        "name": "jose",
+        "currentValue": "^6.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/express-web-adapter/package.json",
+        "name": "zod",
+        "currentValue": "^4.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/fastify-container/package.json",
+        "name": "@modelcontextprotocol/fastify",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/fastify-container/package.json",
+        "name": "@modelcontextprotocol/node",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/fastify-container/package.json",
+        "name": "@modelcontextprotocol/server",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/fastify-container/package.json",
+        "name": "fastify",
+        "currentValue": "^5.6.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/fastify-container/package.json",
+        "name": "zod",
+        "currentValue": "^4.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/function-url/package.json",
+        "name": "@modelcontextprotocol/node",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/function-url/package.json",
+        "name": "@modelcontextprotocol/server",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/function-url/package.json",
+        "name": "zod",
+        "currentValue": "^4.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/hono/package.json",
+        "name": "@modelcontextprotocol/hono",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/hono/package.json",
+        "name": "@modelcontextprotocol/server",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/hono/package.json",
+        "name": "hono",
+        "currentValue": "^4.11.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/hono/package.json",
+        "name": "zod",
+        "currentValue": "^4.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/rest-api/package.json",
+        "name": "@modelcontextprotocol/node",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/rest-api/package.json",
+        "name": "@modelcontextprotocol/server",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/rest-api/package.json",
+        "name": "jose",
+        "currentValue": "^6.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/custom/rest-api/package.json",
+        "name": "zod",
+        "currentValue": "^4.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/minimal/package.json",
+        "name": "@modelcontextprotocol/server",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/minimal/package.json",
+        "name": "zod",
+        "currentValue": "^4.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/oauth-authorizer/package.json",
+        "name": "@modelcontextprotocol/server",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/oauth-authorizer/package.json",
+        "name": "jose",
+        "currentValue": "^6.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/oauth-authorizer/package.json",
+        "name": "zod",
+        "currentValue": "^4.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/oauth-cognito/package.json",
+        "name": "@modelcontextprotocol/server",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/oauth-cognito/package.json",
+        "name": "zod",
+        "currentValue": "^4.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/oauth-in-module/package.json",
+        "name": "@modelcontextprotocol/server",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/oauth-in-module/package.json",
+        "name": "jose",
+        "currentValue": "^6.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "mcp/oauth-in-module/package.json",
+        "name": "zod",
+        "currentValue": "^4.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "node",
+        "currentValue": ">=24",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "sandboxes/self-hosted-webhook/package.json",
+        "name": "@anthropic-ai/sdk",
+        "currentValue": "^0.112.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "sandboxes/self-hosted-webhook/package.json",
+        "name": "@aws-sdk/client-lambda-microvms",
+        "currentValue": "^3.1074.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "sandboxes/self-hosted-webhook/package.json",
+        "name": "@aws-sdk/client-secrets-manager",
+        "currentValue": "^3.1057.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "sandboxes/self-hosted-webhook/package.json",
+        "name": "standardwebhooks",
+        "currentValue": "^1.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "sandboxes/self-hosted-webhook/worker/package.json",
+        "name": "@anthropic-ai/sdk",
+        "currentValue": "^0.112.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "sandboxes/self-hosted-webhook/worker/package.json",
+        "name": "@aws-sdk/client-secrets-manager",
+        "currentValue": "^3.600.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "sandboxes/self-hosted-webhook/worker/package.json",
+        "name": "node",
+        "currentValue": ">=24",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      }
+    ]
+  }
+}

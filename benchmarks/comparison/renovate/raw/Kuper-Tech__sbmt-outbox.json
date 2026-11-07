@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "Kuper-Tech/sbmt-outbox",
+  "commit": "44b85d696cc316b13b24277ea063519c8f47551c",
+  "ecosystem": "database",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 81,
+    "findings": [
+      {
+        "ruleId": "container.postgres.eol-13-and-older",
+        "path": "docker-compose.yml",
+        "line": 24
+      },
+      {
+        "ruleId": "database.postgresql.end-of-life-13",
+        "path": "docker-compose.yml",
+        "line": 24
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/tests.yml",
+        "line": 17
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/tests.yml",
+        "line": 40
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 16259,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "docker-compose",
+        "path": "docker-compose.yml",
+        "name": "postgres",
+        "currentValue": "13",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "docker-compose",
+        "path": "docker-compose.yml",
+        "name": "redis",
+        "currentValue": "7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/tests.yml",
+        "name": "actions/checkout",
+        "currentValue": "v3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/tests.yml",
+        "name": "ruby/setup-ruby",
+        "currentValue": "v1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/tests.yml",
+        "name": "actions/checkout",
+        "currentValue": "v3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/tests.yml",
+        "name": "ruby/setup-ruby",
+        "currentValue": "v1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/tests.yml",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/tests.yml",
+        "name": "ruby",
+        "currentValue": "3.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/tests.yml",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/tests.yml",
+        "name": "ruby",
+        "currentValue": "${{ matrix.ruby }}",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      }
+    ]
+  }
+}

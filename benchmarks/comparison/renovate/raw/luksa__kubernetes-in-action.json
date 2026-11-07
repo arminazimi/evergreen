@@ -1,0 +1,391 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "luksa/kubernetes-in-action",
+  "commit": "d15844af7b4153eb8d10ba56c5925a21205f490e",
+  "ecosystem": "kubernetes",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 96,
+    "findings": [
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "Chapter02/kubia/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "Chapter04/kubia-unhealthy/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "Chapter09/v1/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "Chapter09/v2/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "Chapter09/v3/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "Chapter09/v4/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "Chapter10/kubia-pet-image/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "Chapter10/kubia-pet-peers-image/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "Chapter13/kubia-run-as-user-5/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "Chapter17/kubia/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.apiextensions-k8s-io.customresourcedefinition.v1beta1.removed",
+        "path": "Chapter18/website-crd.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.apps.daemonset.v1beta2.removed",
+        "path": "Chapter04/ssd-monitor-daemonset.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+        "path": "Chapter09/kubia-deployment-and-service-v1.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+        "path": "Chapter09/kubia-deployment-v2.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+        "path": "Chapter09/kubia-deployment-v3-with-readinesscheck.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+        "path": "Chapter09/kubia-deployment-v3.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+        "path": "Chapter18/website-controller.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.apps.deployment.v1beta2.removed",
+        "path": "Chapter15/deployment-apps-v1beta2.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.apps.replicaset.v1beta2.removed",
+        "path": "Chapter04/kubia-replicaset-matchexpressions.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.apps.replicaset.v1beta2.removed",
+        "path": "Chapter04/kubia-replicaset.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.apps.statefulset.v1beta1.removed",
+        "path": "Chapter10/kubia-statefulset-peers.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+        "path": "Chapter04/cronjob.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+        "path": "Chapter15/deployment.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+        "path": "Chapter16/frontend-podaffinity-host.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+        "path": "Chapter16/frontend-podaffinity-preferred-host.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+        "path": "Chapter16/frontend-podaffinity-rack.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+        "path": "Chapter16/frontend-podantiaffinity-host.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+        "path": "Chapter16/preferred-deployment.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+        "path": "Chapter16/production-deployment.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+        "path": "Chapter05/kubia-ingress-tls.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+        "path": "Chapter05/kubia-ingress.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.extensions.podsecuritypolicy.v1beta1.removed",
+        "path": "Chapter13/pod-security-policy.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.extensions.podsecuritypolicy.v1beta1.removed",
+        "path": "Chapter13/psp-capabilities.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.extensions.podsecuritypolicy.v1beta1.removed",
+        "path": "Chapter13/psp-must-run-as.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.extensions.podsecuritypolicy.v1beta1.removed",
+        "path": "Chapter13/psp-privileged.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.extensions.podsecuritypolicy.v1beta1.removed",
+        "path": "Chapter13/psp-volumes.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.extensions.replicaset.v1beta1.removed",
+        "path": "Chapter17/replicaset-crashingpods.yaml",
+        "line": 1
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 11757,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "dockerfile",
+        "path": "Chapter02/kubia/Dockerfile",
+        "name": "node",
+        "currentValue": "7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Chapter04/batch-job/Dockerfile",
+        "name": "busybox",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Chapter04/kubia-unhealthy/Dockerfile",
+        "name": "node",
+        "currentValue": "7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Chapter04/ssd-monitor/Dockerfile",
+        "name": "busybox",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Chapter06/fortune/Dockerfile",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Chapter06/fortune/Dockerfile",
+        "name": "fortune",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Chapter07/fortune-args/Dockerfile",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Chapter07/fortune-args/Dockerfile",
+        "name": "fortune",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Chapter07/fortune-env/Dockerfile",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Chapter07/fortune-env/Dockerfile",
+        "name": "fortune",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Chapter08/kubectl-proxy/Dockerfile",
+        "name": "alpine",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Chapter08/kubectl-proxy/Dockerfile",
+        "name": "curl",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Chapter09/v1/Dockerfile",
+        "name": "node",
+        "currentValue": "7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Chapter09/v2/Dockerfile",
+        "name": "node",
+        "currentValue": "7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Chapter09/v3/Dockerfile",
+        "name": "node",
+        "currentValue": "7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Chapter09/v4/Dockerfile",
+        "name": "node",
+        "currentValue": "7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Chapter10/kubia-pet-image/Dockerfile",
+        "name": "node",
+        "currentValue": "7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Chapter10/kubia-pet-peers-image/Dockerfile",
+        "name": "node",
+        "currentValue": "7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Chapter13/kubia-run-as-user-5/Dockerfile",
+        "name": "node",
+        "currentValue": "7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Chapter17/kubia/Dockerfile",
+        "name": "node",
+        "currentValue": "7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

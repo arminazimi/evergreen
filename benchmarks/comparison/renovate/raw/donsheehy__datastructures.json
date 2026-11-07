@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "donsheehy/datastructures",
+  "commit": "7b9cd1c0d6d686e08cf2469cbe20ec6cbcdf5986",
+  "ecosystem": "python",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 29,
+    "findings": [
+      {
+        "ruleId": "python.runtime.eol-3.9-and-older",
+        "path": "setup.py",
+        "line": 21
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 1325,
+    "status": "ok",
+    "dependencies": []
+  }
+}

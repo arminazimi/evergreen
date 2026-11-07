@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "thenbsp/wechat",
+  "commit": "1eef58ac53f50dc886914ef260f55d0df067af6f",
+  "ecosystem": "php",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 22,
+    "findings": [
+      {
+        "ruleId": "php.package.doctrine.cache.abandoned",
+        "path": "composer.json",
+        "line": 16
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 4984,
+    "status": "ok",
+    "dependencies": []
+  }
+}

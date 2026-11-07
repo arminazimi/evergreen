@@ -1,0 +1,201 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "vinifmor/bauh",
+  "commit": "b1ea479a3aed504e0ddc329f2474e9a93331927c",
+  "ecosystem": "python",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 105,
+    "findings": [
+      {
+        "ruleId": "container.debian.eol-11-and-older",
+        "path": "linux_dist/appimage/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "python.runtime.eol-3.9-and-older",
+        "path": "pyproject.toml",
+        "line": 9
+      },
+      {
+        "ruleId": "python.runtime.eol-3.9-and-older",
+        "path": "setup.py",
+        "line": 35
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 2555,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "dockerfile",
+        "path": "linux_dist/appimage/Dockerfile",
+        "name": "debian",
+        "currentValue": "bullseye-slim",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "linux_dist/appimage/Dockerfile",
+        "name": "python3-pip",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "linux_dist/appimage/Dockerfile",
+        "name": "python3-build",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "linux_dist/appimage/Dockerfile",
+        "name": "python3-setuptools",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "linux_dist/appimage/Dockerfile",
+        "name": "python3-wheel",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "linux_dist/appimage/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "linux_dist/appimage/Dockerfile",
+        "name": "fuse",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "linux_dist/appimage/Dockerfile",
+        "name": "binutils",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "linux_dist/appimage/Dockerfile",
+        "name": "coreutils",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "linux_dist/appimage/Dockerfile",
+        "name": "desktop-file-utils",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "linux_dist/appimage/Dockerfile",
+        "name": "fakeroot",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "linux_dist/appimage/Dockerfile",
+        "name": "patchelf",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "linux_dist/appimage/Dockerfile",
+        "name": "squashfs-tools",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "linux_dist/appimage/Dockerfile",
+        "name": "strace",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "linux_dist/appimage/Dockerfile",
+        "name": "zsync",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "linux_dist/appimage/Dockerfile",
+        "name": "libgdk-pixbuf2.0-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "linux_dist/appimage/Dockerfile",
+        "name": "gtk-update-icon-cache",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "linux_dist/appimage/Dockerfile",
+        "name": "file",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      }
+    ]
+  }
+}

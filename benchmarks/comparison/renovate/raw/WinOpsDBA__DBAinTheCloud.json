@@ -1,0 +1,1945 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "WinOpsDBA/DBAinTheCloud",
+  "commit": "6fe6ba7afe2923cea62ba11b7af9bb2f1a8f8a24",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 147,
+    "findings": [
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "02-naming-and-tagging/main.tf",
+        "line": 6
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "02-naming-and-tagging/variable.tf",
+        "line": 35
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "03-sql-server-basic/main.tf",
+        "line": 6
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "03-sql-server-basic/variable.tf",
+        "line": 54
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "03-sql-server-basic/vm.tf",
+        "line": 70
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "04-sql-server-basic/main.tf",
+        "line": 6
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "04-sql-server-basic/variable.tf",
+        "line": 54
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "04-sql-server-basic/vm.tf",
+        "line": 70
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "06-vm-extensions/dc/main.tf",
+        "line": 6
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "06-vm-extensions/dc/network.tf",
+        "line": 9
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "06-vm-extensions/dc/nsg.tf",
+        "line": 7
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "06-vm-extensions/dc/storage.tf",
+        "line": 14
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "06-vm-extensions/dc/variable.tf",
+        "line": 58
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "06-vm-extensions/dc/vm.tf",
+        "line": 108
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "06-vm-extensions/dc/vm.tf",
+        "line": 11
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "06-vm-extensions/dc/vm.tf",
+        "line": 35
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "06-vm-extensions/dc/vm.tf",
+        "line": 78
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "06-vm-extensions/sql/main.tf",
+        "line": 6
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "06-vm-extensions/sql/storage.tf",
+        "line": 14
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "06-vm-extensions/sql/variable.tf",
+        "line": 64
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 71
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "07-vsts-agent/main.tf",
+        "line": 6
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+        "line": 110
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+        "line": 12
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+        "line": 141
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+        "line": 35
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+        "line": 76
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "07-vsts-agent/modules/vm-dc/vm.tf",
+        "line": 103
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "07-vsts-agent/modules/vm-dc/vm.tf",
+        "line": 11
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "07-vsts-agent/modules/vm-dc/vm.tf",
+        "line": 33
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "07-vsts-agent/modules/vm-dc/vm.tf",
+        "line": 73
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "07-vsts-agent/network.tf",
+        "line": 9
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "07-vsts-agent/nsg.tf",
+        "line": 7
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "07-vsts-agent/storage.tf",
+        "line": 15
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "07-vsts-agent/variable.tf",
+        "line": 70
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "08-sql-server/main.tf",
+        "line": 6
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "08-sql-server/modules/vm-ado/vm.tf",
+        "line": 119
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "08-sql-server/modules/vm-ado/vm.tf",
+        "line": 12
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "08-sql-server/modules/vm-ado/vm.tf",
+        "line": 153
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "08-sql-server/modules/vm-ado/vm.tf",
+        "line": 39
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "08-sql-server/modules/vm-ado/vm.tf",
+        "line": 84
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "08-sql-server/modules/vm-dc/vm.tf",
+        "line": 103
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "08-sql-server/modules/vm-dc/vm.tf",
+        "line": 11
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "08-sql-server/modules/vm-dc/vm.tf",
+        "line": 33
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "08-sql-server/modules/vm-dc/vm.tf",
+        "line": 73
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "08-sql-server/modules/vm-sql/vm.tf",
+        "line": 12
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "08-sql-server/modules/vm-sql/vm.tf",
+        "line": 123
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "08-sql-server/modules/vm-sql/vm.tf",
+        "line": 157
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "08-sql-server/modules/vm-sql/vm.tf",
+        "line": 39
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "08-sql-server/modules/vm-sql/vm.tf",
+        "line": 88
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "08-sql-server/network.tf",
+        "line": 9
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "08-sql-server/nsg.tf",
+        "line": 7
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "08-sql-server/storage.tf",
+        "line": 15
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "08-sql-server/variable.tf",
+        "line": 70
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "09-sql-server-tests/infrastructure/main.tf",
+        "line": 6
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "09-sql-server-tests/infrastructure/modules/vm-ado/vm.tf",
+        "line": 108
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "09-sql-server-tests/infrastructure/modules/vm-ado/vm.tf",
+        "line": 11
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "09-sql-server-tests/infrastructure/modules/vm-ado/vm.tf",
+        "line": 139
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "09-sql-server-tests/infrastructure/modules/vm-ado/vm.tf",
+        "line": 34
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "09-sql-server-tests/infrastructure/modules/vm-ado/vm.tf",
+        "line": 76
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "09-sql-server-tests/infrastructure/modules/vm-dc/vm.tf",
+        "line": 104
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "09-sql-server-tests/infrastructure/modules/vm-dc/vm.tf",
+        "line": 11
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "09-sql-server-tests/infrastructure/modules/vm-dc/vm.tf",
+        "line": 33
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "09-sql-server-tests/infrastructure/modules/vm-dc/vm.tf",
+        "line": 74
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "09-sql-server-tests/infrastructure/modules/vm-sql/vm.tf",
+        "line": 11
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "09-sql-server-tests/infrastructure/modules/vm-sql/vm.tf",
+        "line": 112
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "09-sql-server-tests/infrastructure/modules/vm-sql/vm.tf",
+        "line": 143
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "09-sql-server-tests/infrastructure/modules/vm-sql/vm.tf",
+        "line": 34
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "09-sql-server-tests/infrastructure/modules/vm-sql/vm.tf",
+        "line": 80
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "09-sql-server-tests/infrastructure/network.tf",
+        "line": 9
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "09-sql-server-tests/infrastructure/nsg.tf",
+        "line": 7
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "09-sql-server-tests/infrastructure/storage.tf",
+        "line": 19
+      },
+      {
+        "ruleId": "terraform.function.list-map",
+        "path": "09-sql-server-tests/infrastructure/variable.tf",
+        "line": 70
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 104
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 105
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 106
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 126
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 127
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 32
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 38
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 39
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 51
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 53
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 54
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 61
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 62
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 70
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 71
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 79
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 80
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 89
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 90
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 91
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 95
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "01-sql-server-basic/sql-server-basic.tf",
+        "line": 97
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "02-naming-and-tagging/main.tf",
+        "line": 4
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "02-naming-and-tagging/main.tf",
+        "line": 6
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "02-naming-and-tagging/output.tf",
+        "line": 2
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "02-naming-and-tagging/variable.tf",
+        "line": 33
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/main.tf",
+        "line": 4
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/main.tf",
+        "line": 6
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/network.tf",
+        "line": 16
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/network.tf",
+        "line": 17
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/network.tf",
+        "line": 18
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/network.tf",
+        "line": 5
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/network.tf",
+        "line": 6
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/network.tf",
+        "line": 7
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/network.tf",
+        "line": 9
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/nsg.tf",
+        "line": 19
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/nsg.tf",
+        "line": 21
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/nsg.tf",
+        "line": 22
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/nsg.tf",
+        "line": 4
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/nsg.tf",
+        "line": 5
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/nsg.tf",
+        "line": 7
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/provider.tf",
+        "line": 2
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/provider.tf",
+        "line": 3
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/provider.tf",
+        "line": 4
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/provider.tf",
+        "line": 5
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/variable.tf",
+        "line": 52
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/vm.tf",
+        "line": 12
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/vm.tf",
+        "line": 18
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/vm.tf",
+        "line": 20
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/vm.tf",
+        "line": 21
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/vm.tf",
+        "line": 22
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/vm.tf",
+        "line": 26
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/vm.tf",
+        "line": 29
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/vm.tf",
+        "line": 32
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/vm.tf",
+        "line": 37
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/vm.tf",
+        "line": 39
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/vm.tf",
+        "line": 40
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/vm.tf",
+        "line": 42
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/vm.tf",
+        "line": 43
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/vm.tf",
+        "line": 5
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/vm.tf",
+        "line": 62
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/vm.tf",
+        "line": 63
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/vm.tf",
+        "line": 7
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/vm.tf",
+        "line": 70
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "03-sql-server-basic/vm.tf",
+        "line": 8
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/main.tf",
+        "line": 4
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/main.tf",
+        "line": 6
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/network.tf",
+        "line": 16
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/network.tf",
+        "line": 17
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/network.tf",
+        "line": 18
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/network.tf",
+        "line": 5
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/network.tf",
+        "line": 6
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/network.tf",
+        "line": 7
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/network.tf",
+        "line": 9
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/nsg.tf",
+        "line": 19
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/nsg.tf",
+        "line": 21
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/nsg.tf",
+        "line": 22
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/nsg.tf",
+        "line": 4
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/nsg.tf",
+        "line": 5
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/nsg.tf",
+        "line": 7
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/provider.tf",
+        "line": 5
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/provider.tf",
+        "line": 6
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/provider.tf",
+        "line": 7
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/provider.tf",
+        "line": 8
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/variable.tf",
+        "line": 52
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/vm.tf",
+        "line": 12
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/vm.tf",
+        "line": 18
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/vm.tf",
+        "line": 20
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/vm.tf",
+        "line": 21
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/vm.tf",
+        "line": 22
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/vm.tf",
+        "line": 26
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/vm.tf",
+        "line": 29
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/vm.tf",
+        "line": 32
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/vm.tf",
+        "line": 37
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/vm.tf",
+        "line": 39
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/vm.tf",
+        "line": 40
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/vm.tf",
+        "line": 42
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/vm.tf",
+        "line": 43
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/vm.tf",
+        "line": 5
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/vm.tf",
+        "line": 62
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/vm.tf",
+        "line": 63
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/vm.tf",
+        "line": 7
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/vm.tf",
+        "line": 70
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "04-sql-server-basic/vm.tf",
+        "line": 8
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/dc/network.tf",
+        "line": 7
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/dc/output.tf",
+        "line": 2
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/dc/output.tf",
+        "line": 6
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/dc/variable.tf",
+        "line": 56
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/main.tf",
+        "line": 4
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/main.tf",
+        "line": 6
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/network.tf",
+        "line": 3
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/network.tf",
+        "line": 4
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/network.tf",
+        "line": 5
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/nsg.tf",
+        "line": 19
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/nsg.tf",
+        "line": 21
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/nsg.tf",
+        "line": 22
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/nsg.tf",
+        "line": 4
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/nsg.tf",
+        "line": 5
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/nsg.tf",
+        "line": 7
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/provider.tf",
+        "line": 5
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/provider.tf",
+        "line": 6
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/provider.tf",
+        "line": 7
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/provider.tf",
+        "line": 8
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/variable.tf",
+        "line": 62
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 111
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 113
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 114
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 12
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 145
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 147
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 148
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 18
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 20
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 21
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 22
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 23
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 27
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 30
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 33
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 38
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 40
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 41
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 43
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 44
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 5
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 63
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 64
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 7
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 71
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 8
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 82
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 84
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "06-vm-extensions/sql/vm.tf",
+        "line": 85
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/main.tf",
+        "line": 16
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/main.tf",
+        "line": 19
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/main.tf",
+        "line": 20
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/main.tf",
+        "line": 21
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/main.tf",
+        "line": 22
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/main.tf",
+        "line": 23
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/main.tf",
+        "line": 24
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/main.tf",
+        "line": 25
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/main.tf",
+        "line": 26
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/main.tf",
+        "line": 33
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/main.tf",
+        "line": 36
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/main.tf",
+        "line": 37
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/main.tf",
+        "line": 38
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/main.tf",
+        "line": 39
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/main.tf",
+        "line": 40
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/main.tf",
+        "line": 41
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/main.tf",
+        "line": 42
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/main.tf",
+        "line": 43
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/main.tf",
+        "line": 44
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/main.tf",
+        "line": 45
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+        "line": 120
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+        "line": 122
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+        "line": 150
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+        "line": 151
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+        "line": 22
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+        "line": 26
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+        "line": 32
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+        "line": 44
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+        "line": 48
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+        "line": 5
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+        "line": 87
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/network.tf",
+        "line": 7
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/storage.tf",
+        "line": 12
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/storage.tf",
+        "line": 12
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/storage.tf",
+        "line": 12
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/variable.tf",
+        "line": 68
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/variable.tf",
+        "line": 79
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/variable.tf",
+        "line": 80
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "07-vsts-agent/variable.tf",
+        "line": 81
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 16
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 19
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 20
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 21
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 22
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 23
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 24
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 25
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 26
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 27
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 33
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 36
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 37
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 38
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 39
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 40
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 41
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 42
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 43
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 44
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 45
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 52
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 55
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 56
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 57
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 58
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 59
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 60
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 61
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 62
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/main.tf",
+        "line": 63
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-ado/vm.tf",
+        "line": 128
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-ado/vm.tf",
+        "line": 132
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-ado/vm.tf",
+        "line": 162
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-ado/vm.tf",
+        "line": 163
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-ado/vm.tf",
+        "line": 22
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-ado/vm.tf",
+        "line": 27
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-ado/vm.tf",
+        "line": 36
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-ado/vm.tf",
+        "line": 48
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-ado/vm.tf",
+        "line": 5
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-ado/vm.tf",
+        "line": 53
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-ado/vm.tf",
+        "line": 93
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-ado/vm.tf",
+        "line": 98
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-dc/output.tf",
+        "line": 2
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-sql/vm.tf",
+        "line": 102
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-sql/vm.tf",
+        "line": 132
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-sql/vm.tf",
+        "line": 136
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-sql/vm.tf",
+        "line": 166
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-sql/vm.tf",
+        "line": 168
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-sql/vm.tf",
+        "line": 198
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-sql/vm.tf",
+        "line": 199
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-sql/vm.tf",
+        "line": 22
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-sql/vm.tf",
+        "line": 27
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-sql/vm.tf",
+        "line": 36
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-sql/vm.tf",
+        "line": 48
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-sql/vm.tf",
+        "line": 5
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-sql/vm.tf",
+        "line": 53
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/modules/vm-sql/vm.tf",
+        "line": 97
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/network.tf",
+        "line": 7
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/storage.tf",
+        "line": 12
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/storage.tf",
+        "line": 12
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/storage.tf",
+        "line": 12
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/variable.tf",
+        "line": 68
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/variable.tf",
+        "line": 79
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/variable.tf",
+        "line": 80
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "08-sql-server/variable.tf",
+        "line": 81
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 101
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 102
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 103
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 107
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 109
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 117
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 118
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 125
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 126
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 132
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 138
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 139
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 140
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 148
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 149
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 150
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 170
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 171
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 181
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 182
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 183
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 32
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 33
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 34
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 35
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 42
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 48
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 49
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 62
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 64
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 65
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 72
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 73
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 81
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 82
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 91
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "workbench/workbench.tf",
+        "line": 92
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 2419,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "dockerfile",
+        "path": "12-container-trivy-sacnning/dockerfile",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "12-container-trivy-sacnning/dockerfile",
+        "name": "gnupg",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "12-container-trivy-sacnning/dockerfile",
+        "name": "software-properties-common",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "12-container-trivy-sacnning/dockerfile",
+        "name": "curl",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "12-container-trivy-sacnning/dockerfile",
+        "name": "ca-certificates",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "12-container-trivy-sacnning/dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "12-container-trivy-sacnning/dockerfile",
+        "name": "lsb-release",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "12-container-trivy-sacnning/dockerfile",
+        "name": "terraform",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "12-container-trivy-sacnning/dockerfile",
+        "name": "azure-cli",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "shahedc/NetLearnerApp",
+  "commit": "88a6784662a5a4d68268dc72cfd8a4245f0e1b22",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 144,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "experimental/DocMaker/DocMaker.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "experimental/NetLearner.OrgAuth/OrgAuth.Blazor/OrgAuth.Blazor.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "experimental/NetLearner.OrgAuth/OrgAuth.Mvc/OrgAuth.Mvc.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "experimental/NetLearner.OrgAuth/OrgAuth.Pages/OrgAuth.Pages.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "experimental/NetLearner.SignalRPoll/NetLearner.SignalRPoll.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "experimental/TagHelperAuthoring/TagHelperAuthoring.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "src/NetLearner.Api/NetLearner.Api.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "src/NetLearner.Blazor.Tests/NetLearner.Blazor.Tests.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "src/NetLearner.Blazor/NetLearner.Blazor.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "src/NetLearner.EmptySample/NetLearner.EmptySample.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "src/NetLearner.Mvc.Tests/NetLearner.Mvc.Tests.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "src/NetLearner.Mvc/NetLearner.Mvc.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "src/NetLearner.Pages.Tests/NetLearner.Pages.Tests.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "src/NetLearner.Pages/NetLearner.Pages.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "src/NetLearner.Portal/NetLearner.Portal.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "src/NetLearner.SharedLib.Tests/NetLearner.SharedLib.Tests.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "src/NetLearnerApp/NetLearnerApp.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": "experimental/NetLearner.DotNet5/NetLearner.DotNet5/NetLearner.DotNet5.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": "experimental/NetLearner.DotNet5/NetLearner.DotNet5Api/NetLearner.DotNet5Api.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": "experimental/NetLearner.DotNet5/NetLearner.DotNet5Blazor/NetLearner.DotNet5Blazor.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": "experimental/NetLearner.DotNet5/NetLearner.DotNet5Mvc/NetLearner.DotNet5Mvc.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": "experimental/NetLearner.DotNet5/NetLearner.DotNet5Pages/NetLearner.DotNet5Pages.csproj",
+        "line": 4
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 10467,
+    "status": "ok",
+    "dependencies": []
+  }
+}

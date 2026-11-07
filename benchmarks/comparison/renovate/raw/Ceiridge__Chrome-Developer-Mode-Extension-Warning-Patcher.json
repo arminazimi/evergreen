@@ -1,0 +1,144 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "Ceiridge/Chrome-Developer-Mode-Extension-Warning-Patcher",
+  "commit": "936977542ecfb025b784cd457fcbfd7dffbe5f5c",
+  "ecosystem": "dotnet",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 16,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": ".github/workflows/buildandrelease.yml",
+        "line": 44
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": "ChromeDevExtWarningPatcher/ChromeDevExtWarningPatcher.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": "ChromeDllInjector/ChromeDllInjector.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": "ChromeDllInjectorBuildZipper/ChromeDllInjectorBuildZipper.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/buildandrelease.yml",
+        "line": 11
+      },
+      {
+        "ruleId": "github-actions.setup-dotnet.node20",
+        "path": ".github/workflows/buildandrelease.yml",
+        "line": 42
+      },
+      {
+        "ruleId": "github-actions.upload-artifact.retired",
+        "path": ".github/workflows/buildandrelease.yml",
+        "line": 63
+      },
+      {
+        "ruleId": "github-actions.upload-artifact.retired",
+        "path": ".github/workflows/buildandrelease.yml",
+        "line": 68
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 10500,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/buildandrelease.yml",
+        "name": "actions/checkout",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/buildandrelease.yml",
+        "name": "Ceiridge/base64-to-file",
+        "currentValue": "master",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/buildandrelease.yml",
+        "name": "actions/setup-dotnet",
+        "currentValue": "v3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/buildandrelease.yml",
+        "name": "microsoft/setup-msbuild",
+        "currentValue": "v1.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/buildandrelease.yml",
+        "name": "actions/upload-artifact",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/buildandrelease.yml",
+        "name": "actions/upload-artifact",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/buildandrelease.yml",
+        "name": "Ceiridge/action-automatic-releases",
+        "currentValue": "master",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/buildandrelease.yml",
+        "name": "windows",
+        "currentValue": "2022",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/buildandrelease.yml",
+        "name": "dotnet-sdk",
+        "currentValue": "6.0.x",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

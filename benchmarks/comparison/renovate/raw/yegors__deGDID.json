@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "yegors/deGDID",
+  "commit": "3a5d5a90f1c90e2a99900d1fc9bd6884ee1f17fe",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 12,
+    "findings": []
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 1188,
+    "status": "ok",
+    "dependencies": []
+  }
+}

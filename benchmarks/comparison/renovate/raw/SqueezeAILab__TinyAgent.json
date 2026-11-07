@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "SqueezeAILab/TinyAgent",
+  "commit": "cc45c0e842f5d163c3df1c8f41d60e90e005867d",
+  "ecosystem": "python",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 28,
+    "findings": []
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 8211,
+    "status": "ok",
+    "dependencies": []
+  }
+}

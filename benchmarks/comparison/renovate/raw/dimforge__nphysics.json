@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "dimforge/nphysics",
+  "commit": "65aa85c5470a5da85e0c13652ce58400ae2e2201",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 51,
+    "findings": []
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 24663,
+    "status": "ok",
+    "dependencies": []
+  }
+}

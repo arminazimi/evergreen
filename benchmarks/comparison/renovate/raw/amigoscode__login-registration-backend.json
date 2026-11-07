@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "amigoscode/login-registration-backend",
+  "commit": "cdcda175982e23a3607e76ed9e7e80adeeafb5e4",
+  "ecosystem": "java",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 13,
+    "findings": [
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "pom.xml",
+        "line": 18
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 3011,
+    "status": "ok",
+    "dependencies": []
+  }
+}

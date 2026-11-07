@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "hamstergem/hamster",
+  "commit": "804571abcba69e12c763d68e456697e35eddcf9a",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 105,
+    "findings": [
+      {
+        "ruleId": "ruby.runtime.eol-3.0",
+        "path": ".ruby-version",
+        "line": 1
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 2754,
+    "status": "ok",
+    "dependencies": []
+  }
+}

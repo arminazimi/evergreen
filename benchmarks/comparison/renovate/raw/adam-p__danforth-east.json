@@ -1,0 +1,283 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "adam-p/danforth-east",
+  "commit": "87e75c2e7d6674f16f9fb30eed41c86507fd841e",
+  "ecosystem": "python",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 16,
+    "findings": []
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 5571,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "btoa",
+        "currentValue": "~1.1.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "glob",
+        "currentValue": "~4.0.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt",
+        "currentValue": "~0.4.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt-autoprefixer",
+        "currentValue": "~0.7.6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt-banner",
+        "currentValue": "~0.2.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt-contrib-clean",
+        "currentValue": "~0.5.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt-contrib-concat",
+        "currentValue": "~0.4.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt-contrib-connect",
+        "currentValue": "~0.8.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt-contrib-copy",
+        "currentValue": "~0.5.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt-contrib-csslint",
+        "currentValue": "~0.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt-contrib-cssmin",
+        "currentValue": "~0.10.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt-contrib-jade",
+        "currentValue": "~0.12.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt-contrib-jshint",
+        "currentValue": "~0.10.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt-contrib-less",
+        "currentValue": "~0.11.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt-contrib-qunit",
+        "currentValue": "~0.5.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt-contrib-uglify",
+        "currentValue": "~0.5.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt-contrib-watch",
+        "currentValue": "~0.6.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt-csscomb",
+        "currentValue": "~2.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt-exec",
+        "currentValue": "~0.4.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt-html-validation",
+        "currentValue": "~0.1.18",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt-jekyll",
+        "currentValue": "~0.4.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt-jscs-checker",
+        "currentValue": "~0.6.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt-saucelabs",
+        "currentValue": "~8.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "grunt-sed",
+        "currentValue": "~0.1.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "load-grunt-tasks",
+        "currentValue": "~0.6.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "markdown",
+        "currentValue": "~0.5.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "npm-shrinkwrap",
+        "currentValue": "~3.1.6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "time-grunt",
+        "currentValue": "~0.3.2",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "static/vendor/bootstrap/bootstrap-source/package.json",
+        "name": "node",
+        "currentValue": "~0.10.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

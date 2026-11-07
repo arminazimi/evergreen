@@ -1,0 +1,669 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "zhanghuanchong/icon-workshop",
+  "commit": "ff97dfe709e4dd71d5c08c16ede35d54637a0c04",
+  "ecosystem": "php",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 426,
+    "findings": [
+      {
+        "ruleId": "nodejs.runtime.legacy",
+        "path": ".node-version",
+        "line": 1
+      },
+      {
+        "ruleId": "npm.package.are-we-there-yet.eol",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.boom.deprecated",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.cryptiles.deprecated",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.fstream.eol",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.gauge.eol",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.gulp-util.deprecated",
+        "path": "package.json",
+        "line": 20
+      },
+      {
+        "ruleId": "npm.package.har-validator.deprecated",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.lodash-isequal.deprecated",
+        "path": "package.json",
+        "line": 18
+      },
+      {
+        "ruleId": "npm.package.natives.deprecated",
+        "path": "package.json",
+        "line": 27
+      },
+      {
+        "ruleId": "npm.package.node-pre-gyp.deprecated",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.node-sass.deprecated",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.node-sass.eol",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.npmlog.eol",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.osenv.eol",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.popper.js.deprecated",
+        "path": "package.json",
+        "line": 28
+      },
+      {
+        "ruleId": "npm.package.q.deprecated",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.querystring.deprecated",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.request.deprecated",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.resolve-url.deprecated",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.sntp.deprecated",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.source-map-url.deprecated",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.stable.deprecated",
+        "path": "package.json",
+        "line": 21
+      },
+      {
+        "ruleId": "npm.package.uglify-es.deprecated",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.vue.eol-2",
+        "path": "package.json",
+        "line": 30
+      },
+      {
+        "ruleId": "php.package.doctrine.cache.abandoned",
+        "path": "composer.lock",
+        "line": 205
+      },
+      {
+        "ruleId": "php.package.fzaninotto.faker.abandoned",
+        "path": "composer.json",
+        "line": 29
+      },
+      {
+        "ruleId": "php.package.fzaninotto.faker.abandoned",
+        "path": "composer.lock",
+        "line": 6182
+      },
+      {
+        "ruleId": "php.package.swiftmailer.swiftmailer.abandoned",
+        "path": "composer.lock",
+        "line": 3262
+      },
+      {
+        "ruleId": "php.runtime.eol-7.4",
+        "path": "composer.json",
+        "line": 8
+      },
+      {
+        "ruleId": "php.runtime.eol-7.4",
+        "path": "composer.lock",
+        "line": 8626
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 11946,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "axios",
+        "currentValue": "^0.18",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "bootstrap",
+        "currentValue": "^4.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "cross-env",
+        "currentValue": "^5.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "del",
+        "currentValue": "1.1.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "graceful-fs",
+        "currentValue": "4.x",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "gulp",
+        "currentValue": "^4.0.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "gulp-concat",
+        "currentValue": "^2.6.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "gulp-minify-css",
+        "currentValue": "^1.2.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "gulp-ng-annotate",
+        "currentValue": "^1.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "gulp-uglify",
+        "currentValue": "1.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "jquery",
+        "currentValue": "^3.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "laravel-mix",
+        "currentValue": "^2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "lodash",
+        "currentValue": "^4.17.13",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "merge2",
+        "currentValue": "^1.0.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "natives",
+        "currentValue": "^1.1.6",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "popper.js",
+        "currentValue": "^1.12",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "stringstream",
+        "currentValue": "^1.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "vue",
+        "currentValue": "^2.5.7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "await-to-js",
+        "currentValue": "^2.1.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "axios",
+        "currentValue": "^0.19.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "marvel-devices.css",
+        "currentValue": "^1.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "moment",
+        "currentValue": "^2.23.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "perfect-scrollbar",
+        "currentValue": "^1.4.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "qs",
+        "currentValue": "^6.6.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "screenfull",
+        "currentValue": "^4.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "uuid",
+        "currentValue": "^3.3.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "vue-google-adsense",
+        "currentValue": "^1.4.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "vue-i18n",
+        "currentValue": "^7.3.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "vue-perfect-scrollbar",
+        "currentValue": "^0.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "vue-script2",
+        "currentValue": "^2.0.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "vuedraggable",
+        "currentValue": "^2.23.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "vuelidate",
+        "currentValue": "^0.7.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "vuex-persistedstate",
+        "currentValue": "^2.5.4",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "babel-eslint",
+        "currentValue": "^8.2.1",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "eslint",
+        "currentValue": "^4.18.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "eslint-config-standard",
+        "currentValue": "^11.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "eslint-friendly-formatter",
+        "currentValue": "^4.0.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "eslint-loader",
+        "currentValue": "^2.0.0",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "eslint-plugin-import",
+        "currentValue": "^2.9.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "eslint-plugin-node",
+        "currentValue": "^6.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "eslint-plugin-promise",
+        "currentValue": "^3.7.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "eslint-plugin-standard",
+        "currentValue": "^3.0.1",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "eslint-plugin-vue",
+        "currentValue": "^4.3.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "fstream",
+        "currentValue": "^1.0.12",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "js-yaml",
+        "currentValue": "^3.13.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "node-sass",
+        "currentValue": "^4.10.0",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "quasar-cli",
+        "currentValue": "^0.17.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "sass-loader",
+        "currentValue": "^7.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "strip-ansi",
+        "currentValue": "=3.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "webpack-bundle-analyzer",
+        "currentValue": "^3.3.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "webpack-dev-server",
+        "currentValue": "^3.1.11",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "node",
+        "currentValue": ">= 8.9.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "npm",
+        "currentValue": ">= 5.6.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "resources/ui/package.json",
+        "name": "yarn",
+        "currentValue": ">= 1.6.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      }
+    ]
+  }
+}

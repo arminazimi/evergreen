@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "DanielKeep/cargo-script",
+  "commit": "614e60e5932e218ebff1e471303eb0d59870d03b",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 23,
+    "findings": [
+      {
+        "ruleId": "rust.crate.atty.unmaintained",
+        "path": "Cargo.toml",
+        "line": 47
+      },
+      {
+        "ruleId": "rust.crate.tempdir.unmaintained",
+        "path": "Cargo.toml",
+        "line": 52
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 26769,
+    "status": "ok",
+    "dependencies": []
+  }
+}

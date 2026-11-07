@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "vkhorikov/CSharpFunctionalExtensions",
+  "commit": "e0fc908ecf0b006b0b5fdfea1d028137c9e5c5ae",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 254,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "CSharpFunctionalExtensions.Tests/CSharpFunctionalExtensions.Tests.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Dockerfile",
+        "line": 1
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 8073,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile",
+        "name": "mcr.microsoft.com/dotnet/sdk",
+        "currentValue": "8.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

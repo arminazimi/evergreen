@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "technicalpickles/jeweler",
+  "commit": "2ab86309fc2494ba2a4e9c86c514742cd4f681c2",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 36,
+    "findings": []
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 24710,
+    "status": "ok",
+    "dependencies": []
+  }
+}

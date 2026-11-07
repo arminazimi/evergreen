@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "Azure/AppConfiguration-DotnetProvider",
+  "commit": "1fd01ba6fbc23e833cf117e1396e6aa701cd64b3",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 104,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "examples/ConfigStoreDemo/ConfigStoreDemo.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "examples/ConsoleApplication/ConsoleApplication.csproj",
+        "line": 6
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "examples/ConsoleAppWithFailOver/ConsoleAppWithFailOver.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/Microsoft.Azure.AppConfiguration.AspNetCore/Microsoft.Azure.AppConfiguration.AspNetCore.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/Microsoft.Azure.AppConfiguration.Functions.Worker/Microsoft.Azure.AppConfiguration.Functions.Worker.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "tests/Tests.AzureAppConfiguration.AspNetCore/Tests.AzureAppConfiguration.AspNetCore.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "tests/Tests.AzureAppConfiguration.Functions.Worker/Tests.AzureAppConfiguration.Functions.Worker.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "tests/Tests.AzureAppConfiguration/Tests.AzureAppConfiguration.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-9.0",
+        "path": "src/Microsoft.Azure.AppConfiguration.AspNetCore/Microsoft.Azure.AppConfiguration.AspNetCore.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-9.0",
+        "path": "src/Microsoft.Azure.AppConfiguration.Functions.Worker/Microsoft.Azure.AppConfiguration.Functions.Worker.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-9.0",
+        "path": "tests/Tests.AzureAppConfiguration.AspNetCore/Tests.AzureAppConfiguration.AspNetCore.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-9.0",
+        "path": "tests/Tests.AzureAppConfiguration.Functions.Worker/Tests.AzureAppConfiguration.Functions.Worker.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-9.0",
+        "path": "tests/Tests.AzureAppConfiguration/Tests.AzureAppConfiguration.csproj",
+        "line": 4
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 5396,
+    "status": "ok",
+    "dependencies": []
+  }
+}

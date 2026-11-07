@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "ddomingof/PubMed2PDF",
+  "commit": "9300a4390c223005d7e11acde908edf8e6c921d6",
+  "ecosystem": "python",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 5,
+    "findings": [
+      {
+        "ruleId": "python.runtime.eol-3.9-and-older",
+        "path": "setup.cfg",
+        "line": 52
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 1891,
+    "status": "ok",
+    "dependencies": []
+  }
+}

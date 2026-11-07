@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "botchagalupe/DockerDo",
+  "commit": "b3cfe2e4f49c9557589e3639c3c2a8a11b42d34c",
+  "ecosystem": "container",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 4,
+    "findings": [
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "Dockerfile.md",
+        "line": 152
+      },
+      {
+        "ruleId": "container.dockerfile.maintainer",
+        "path": "Dockerfile.md",
+        "line": 151
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "Dockerfile.md",
+        "line": 11
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "Dockerfile.md",
+        "line": 113
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "Dockerfile.md",
+        "line": 149
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "Dockerfile.md",
+        "line": 47
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "Dockerfile.md",
+        "line": 67
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 8587,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile.md",
+        "name": "ubuntu",
+        "currentValue": "14.04",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile.md",
+        "name": "apache2",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile.md",
+        "name": "ubuntu",
+        "currentValue": "14.04",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile.md",
+        "name": "ubuntu",
+        "currentValue": "14.04",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile.md",
+        "name": "apache2",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile.md",
+        "name": "ubuntu",
+        "currentValue": "14.04",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile.md",
+        "name": "apache2",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile.md",
+        "name": "ubuntu",
+        "currentValue": "14.04",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile.md",
+        "name": "apache2",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      }
+    ]
+  }
+}

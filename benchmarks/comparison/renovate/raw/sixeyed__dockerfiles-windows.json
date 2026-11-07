@@ -1,0 +1,1505 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "sixeyed/dockerfiles-windows",
+  "commit": "83ff302133e79a43c0efbed1c3d8669a3340e987",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 57,
+    "findings": [
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "aspnet/windowsservercore/1809/Dockerfile",
+        "line": 28
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker-cli/windowsservercore/ltsc2019/Dockerfile",
+        "line": 27
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "dotnet-framework-3.5-runtime/windowsservercore/1809/Dockerfile",
+        "line": 33
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "dotnet-framework-runtime/windowsservercore/1809/Dockerfile",
+        "line": 3
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "dotnet-framework-sdk/windowsservercore/1809-ignore/Dockerfile",
+        "line": 5
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "dotnet-framework-sdk/windowsservercore/1809-ignore/Dockerfile.old",
+        "line": 10
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "dotnet-framework-sdk/windowsservercore/1809-ignore/Dockerfile.old",
+        "line": 36
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "golang/Dockerfile",
+        "line": 10
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "httpd/Dockerfile",
+        "line": 5
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "nginx/windowsservercore/ltsc2016/Dockerfile",
+        "line": 16
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "nginx/windowsservercore/ltsc2019/Dockerfile",
+        "line": 16
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "openjdk/nanoserver/1809/Dockerfile",
+        "line": 38
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "openjdk/nanoserver/1809/Dockerfile",
+        "line": 39
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "openjdk/nanoserver/1809/Dockerfile",
+        "line": 40
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "openjdk/nanoserver/sac2016/Dockerfile",
+        "line": 21
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "openjdk/nanoserver/sac2016/Dockerfile",
+        "line": 28
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "openjdk/nanoserver/sac2016/Dockerfile",
+        "line": 29
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "openjdk/nanoserver/sac2016/Dockerfile",
+        "line": 30
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "openjdk/nanoserver/sac2016/Dockerfile",
+        "line": 31
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "openjdk/windowsservercore/ltsc2016/Dockerfile",
+        "line": 13
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "openjdk/windowsservercore/ltsc2016/Dockerfile",
+        "line": 14
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "openjdk/windowsservercore/ltsc2016/Dockerfile",
+        "line": 15
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "openjdk/windowsservercore/ltsc2016/Dockerfile",
+        "line": 16
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "openjdk/windowsservercore/ltsc2016/Dockerfile",
+        "line": 6
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "openjdk/windowsservercore/ltsc2019/Dockerfile",
+        "line": 38
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "openjdk/windowsservercore/ltsc2019/Dockerfile",
+        "line": 39
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "openjdk/windowsservercore/ltsc2019/Dockerfile",
+        "line": 40
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "rabbitmq/Dockerfile",
+        "line": 10
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "rabbitmq/Dockerfile",
+        "line": 13
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "rabbitmq/Dockerfile",
+        "line": 35
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "rabbitmq/Dockerfile",
+        "line": 4
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "rabbitmq/Dockerfile",
+        "line": 7
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "aspnetcore-sample/HelloWorld/HelloWorld.csproj",
+        "line": 3
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.0",
+        "path": "whoami-dotnet/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.0",
+        "path": "whoami-dotnet/Dockerfile",
+        "line": 11
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.0",
+        "path": "whoami-dotnet/src/whoami/whoami.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/init.tf",
+        "line": 13
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/init.tf",
+        "line": 14
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/init.tf",
+        "line": 15
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/init.tf",
+        "line": 21
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/init.tf",
+        "line": 22
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/init.tf",
+        "line": 28
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/init.tf",
+        "line": 29
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/init.tf",
+        "line": 30
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/init.tf",
+        "line": 31
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/init.tf",
+        "line": 6
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/init.tf",
+        "line": 7
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 11
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 12
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 17
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 19
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 20
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 24
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 25
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 31
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 34
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 37
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 42
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 44
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 45
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 49
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 5
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 51
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 52
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 53
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 54
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 6
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 67
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "azure-vm-provisioner/scripts/windows.tf",
+        "line": 68
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 55879,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "dockerfile",
+        "path": "aspnet-3.5/windowsservercore/1809/Dockerfile",
+        "name": "sixeyed/dotnet-framework-3.5-runtime",
+        "currentValue": "windowsservercore-1809",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aspnet/windowsservercore/1809/Dockerfile",
+        "name": "sixeyed/dotnet-framework-runtime",
+        "currentValue": "4.7.2-windowsservercore-1809",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aspnetcore-sample/Dockerfile",
+        "name": "microsoft/aspnetcore-build",
+        "currentValue": "2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "aspnetcore-sample/Dockerfile",
+        "name": "microsoft/aspnetcore",
+        "currentValue": "2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "azcopy/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "azure-vm-provisioner/windowsservercore/Dockerfile",
+        "name": "sixeyed/terraform",
+        "currentValue": "0.9.4-windowsservercore-ltsc2016",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "bonobo/windowsservercore/1809-ignore/Dockerfile",
+        "name": "mcr.microsoft.com/windows/servercore",
+        "currentValue": "1809",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "bonobo/windowsservercore/1809-ignore/Dockerfile",
+        "name": "sixeyed/aspnet",
+        "currentValue": "4.7.2-windowsservercore-1809",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "bonobo/windowsservercore/ltsc2016/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "currentValue": "ltsc2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "bonobo/windowsservercore/ltsc2016/Dockerfile",
+        "name": "microsoft/aspnet",
+        "currentValue": "4.7.2-windowsservercore-ltsc2016",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "chocolatey/windowsservercore/ltsc2016/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "currentValue": "10.0.14393.2007",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "chocolatey/windowsservercore/ltsc2019/Dockerfile",
+        "name": "mcr.microsoft.com/windows/servercore",
+        "currentValue": "ltsc2019",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker-cli/windowsservercore/ltsc2019/Dockerfile",
+        "name": "sixeyed/chocolatey",
+        "currentValue": "windowsservercore-ltsc2019",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker-cli/windowsservercore/ltsc2019/Dockerfile",
+        "name": "mcr.microsoft.com/windows/servercore",
+        "currentValue": "1809",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker-ee/windowsservercore/ltsc2016/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "currentValue": "ltsc2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker-ee/windowsservercore/ltsc2016/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "currentValue": "ltsc2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "dotnet-framework-3.5-runtime/windowsservercore/1809/Dockerfile",
+        "name": "mcr.microsoft.com/windows/servercore",
+        "currentValue": "ltsc2019",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "dotnet-framework-runtime/windowsservercore/1809/Dockerfile",
+        "name": "mcr.microsoft.com/windows/servercore",
+        "currentValue": "ltsc2019",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "dotnet-framework-sdk/windowsservercore/1809-ignore/Dockerfile",
+        "name": "sixeyed/chocolatey",
+        "currentValue": "0.10.11-windowsservercore-1809",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "dotnet-framework-sdk/windowsservercore/1809-ignore/Dockerfile.old",
+        "name": "sixeyed/dotnet-framework-runtime",
+        "currentValue": "4.7.2-windowsservercore-1809",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "elasticsearch/nanoserver/sac2016/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "currentValue": "ltsc2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "elasticsearch/nanoserver/sac2016/Dockerfile",
+        "name": "openjdk",
+        "currentValue": "8-nanoserver-sac2016",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "elasticsearch/windowsservercore/ltsc2016/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "currentValue": "ltsc2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "elasticsearch/windowsservercore/ltsc2016/Dockerfile",
+        "name": "openjdk",
+        "currentValue": "8-windowsservercore-ltsc2016",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "elasticsearch/windowsservercore/ltsc2019/Dockerfile",
+        "name": "mcr.microsoft.com/windows/servercore",
+        "currentValue": "ltsc2019",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "elasticsearch/windowsservercore/ltsc2019/Dockerfile",
+        "name": "openjdk",
+        "currentValue": "8-windowsservercore-1809",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "erlang/nanoserver/sac2016/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "currentValue": "ltsc2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "erlang/nanoserver/sac2016/Dockerfile",
+        "name": "microsoft/nanoserver",
+        "currentValue": "sac2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "erlang/windowsservercore/ltsc2016/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "currentValue": "ltsc2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "erlang/windowsservercore/ltsc2016/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "currentValue": "ltsc2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "git/nanoserver/1809/Dockerfile",
+        "name": "mcr.microsoft.com/windows/servercore",
+        "currentValue": "ltsc2019",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "git/nanoserver/1809/Dockerfile",
+        "name": "mcr.microsoft.com/windows/nanoserver",
+        "currentValue": "1809",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "git/windowsservercore/ltsc2016/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "currentValue": "ltsc2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "git/windowsservercore/ltsc2016/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "currentValue": "ltsc2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "gogs/nanoserver/1809/Dockerfile",
+        "name": "mcr.microsoft.com/windows/servercore",
+        "currentValue": "ltsc2019",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "gogs/nanoserver/1809/Dockerfile",
+        "name": "mcr.microsoft.com/windows/nanoserver",
+        "currentValue": "1809",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "gogs/nanoserver/1809/Dockerfile",
+        "name": "sixeyed/git",
+        "currentValue": "2.17.1-windowsservercore-1809",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "golang-1.10.2/windowsservercore/ltsc2019/Dockerfile",
+        "name": "mcr.microsoft.com/windows/servercore",
+        "currentValue": "ltsc2019",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "golang-1.10.2/windowsservercore/ltsc2019/Dockerfile",
+        "name": "mcr.microsoft.com/windows/servercore",
+        "currentValue": "ltsc2019",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "golang-1.10.2/windowsservercore/ltsc2019/Dockerfile",
+        "name": "sixeyed/git",
+        "currentValue": "2.17.1-windowsservercore-1809",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "golang/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "golang/nanoserver/1809/Dockerfile",
+        "name": "mcr.microsoft.com/windows/servercore",
+        "currentValue": "ltsc2019",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "golang/nanoserver/1809/Dockerfile",
+        "name": "mcr.microsoft.com/windows/nanoserver",
+        "currentValue": "1809",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "golang/nanoserver/1809/Dockerfile",
+        "name": "sixeyed/git",
+        "currentValue": "2.17.1-windowsservercore-1809",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "hello-world/Dockerfile",
+        "name": "microsoft/nanoserver",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "httpd/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "jenkins-presentations/windowsservercore/Dockerfile",
+        "name": "sixeyed/git",
+        "currentValue": "2.16.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "jenkins-presentations/windowsservercore/Dockerfile",
+        "name": "sixeyed/docker",
+        "currentValue": "17.06.2-ee-7",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "jenkins-presentations/windowsservercore/Dockerfile",
+        "name": "sixeyed/jenkins",
+        "currentValue": "2.107.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "jenkins-sample/windowsservercore/ltsc2016/Dockerfile",
+        "name": "sixeyed/jenkins",
+        "currentValue": "2.121.1-windowsservercore-ltsc2016",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "jenkins-sample/windowsservercore/ltsc2016/Dockerfile",
+        "name": "sixeyed/git",
+        "currentValue": "2.17.1-windowsservercore-ltsc2016",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "jenkins-sample/windowsservercore/ltsc2016/Dockerfile",
+        "name": "sixeyed/docker-ee",
+        "currentValue": "18.03-windowsservercore-ltsc2016",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "jenkins-sample/windowsservercore/ltsc2019/Dockerfile",
+        "name": "sixeyed/jenkins",
+        "currentValue": "2.121.1-windowsservercore-ltsc2019",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "jenkins-sample/windowsservercore/ltsc2019/Dockerfile",
+        "name": "sixeyed/git",
+        "currentValue": "2.17.1-windowsservercore-ltsc2019",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "jenkins-sample/windowsservercore/ltsc2019/Dockerfile",
+        "name": "sixeyed/docker-cli",
+        "currentValue": "18.06.1-windowsservercore-ltsc2019",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "jenkins/windowsservercore/ltsc2016/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "jenkins/windowsservercore/ltsc2016/Dockerfile",
+        "name": "openjdk",
+        "currentValue": "8-windowsservercore-ltsc2016",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "jenkins/windowsservercore/ltsc2019/Dockerfile",
+        "name": "mcr.microsoft.com/windows/servercore",
+        "currentValue": "ltsc2019",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "jenkins/windowsservercore/ltsc2019/Dockerfile",
+        "name": "sixeyed/openjdk",
+        "currentValue": "8-windowsservercore-ltsc2019",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "kibana/windowsservercore/ltsc2016/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "currentValue": "ltsc2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "kibana/windowsservercore/ltsc2016/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "currentValue": "ltsc2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "kibana/windowsservercore/ltsc2019/Dockerfile",
+        "name": "mcr.microsoft.com/windows/servercore",
+        "currentValue": "ltsc2019",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "kibana/windowsservercore/ltsc2019/Dockerfile",
+        "name": "mcr.microsoft.com/windows/servercore",
+        "currentValue": "ltsc2019",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "kibana/windowsservercore/ltsc2019/Dockerfile",
+        "name": "downloader",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "kubectl/Dockerfile",
+        "name": "microsoft/nanoserver",
+        "currentValue": "sac2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "micro/nanoserver/sac2016/Dockerfile",
+        "name": "microsoft/nanoserver",
+        "currentValue": "sac2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "micro/nanoserver/sac2016/Dockerfile",
+        "name": "microsoft/nanoserver",
+        "currentValue": "sac2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "msbuild/dotnet/Dockerfile",
+        "name": "microsoft/dotnet",
+        "currentValue": "1.1.2-sdk-nanoserver",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "msbuild/dotnet/Dockerfile",
+        "name": "sixeyed/chocolatey",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "msbuild/netfx-3.5-webdeploy/Dockerfile",
+        "name": "microsoft/dotnet-framework-build",
+        "currentValue": "3.5-windowsservercore-ltsc2016",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "msbuild/netfx-4.5.2-dotnet-1.1.2-sdk/Dockerfile",
+        "name": "microsoft/dotnet",
+        "currentValue": "1.1.2-sdk-nanoserver",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "msbuild/netfx-4.5.2-dotnet-1.1.2-sdk/Dockerfile",
+        "name": "sixeyed/msbuild",
+        "currentValue": "netfx-4.5.2-10.0.14393.1480",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "msbuild/netfx-4.5.2-ssdt/Dockerfile",
+        "name": "sixeyed/msbuild",
+        "currentValue": "netfx-4.5.2-10.0.14393.1480",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "msbuild/netfx-4.5.2-webdeploy/Dockerfile",
+        "name": "sixeyed/msbuild",
+        "currentValue": "netfx-4.5.2-10.0.14393.1480",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "msbuild/netfx-4.5.2/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "currentValue": "10.0.14393.1480",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "msbuild/netfx-4.7.1-webdeploy/Dockerfile",
+        "name": "microsoft/dotnet-framework-build",
+        "currentValue": "4.7.1-windowsservercore-ltsc2016",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "msbuild/netfx-4.7.2-ssdt/Dockerfile",
+        "name": "microsoft/dotnet-framework",
+        "currentValue": "4.7.2-sdk-20180814-windowsservercore-ltsc2016",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "msbuild/netfx-4.7.2-webdeploy/Dockerfile",
+        "name": "microsoft/dotnet-framework-build",
+        "currentValue": "4.7.2-windowsservercore-ltsc2016",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "msmq/windowsservercore/1809/Dockerfile",
+        "name": "mcr.microsoft.com/windows/servercore",
+        "currentValue": "1809",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "nats-bench/Dockerfile",
+        "name": "golang",
+        "currentValue": "1.8-windowsservercore",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "nats-bench/Dockerfile.broken",
+        "name": "golang",
+        "currentValue": "1.8-nanoserver",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "nats/nanoserver/1809/Dockerfile",
+        "name": "sixeyed/golang",
+        "currentValue": "1.11.1-nanoserver-1809",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "nats/nanoserver/1809/Dockerfile",
+        "name": "mcr.microsoft.com/windows/nanoserver",
+        "currentValue": "1809",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "nats/nanoserver/Dockerfile",
+        "name": "golang",
+        "currentValue": "1.8.3-windowsservercore",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "nats/nanoserver/Dockerfile",
+        "name": "microsoft/nanoserver",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "nats/windowservercore/Dockerfile",
+        "name": "golang",
+        "currentValue": "1.8.3-windowsservercore",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "nats/windowservercore/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "nginx/windowsservercore/ltsc2016/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "currentValue": "ltsc2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "nginx/windowsservercore/ltsc2016/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "currentValue": "ltsc2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "nginx/windowsservercore/ltsc2019/Dockerfile",
+        "name": "mcr.microsoft.com/windows/servercore",
+        "currentValue": "ltsc2019",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "nginx/windowsservercore/ltsc2019/Dockerfile",
+        "name": "mcr.microsoft.com/windows/servercore",
+        "currentValue": "ltsc2019",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "nunit/windowsservercore/ltsc2016/Dockerfile",
+        "name": "microsoft/dotnet-framework",
+        "currentValue": "4.7.2-runtime",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "openjdk/nanoserver/1809/Dockerfile",
+        "name": "mcr.microsoft.com/windows/servercore",
+        "currentValue": "ltsc2019",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "openjdk/nanoserver/1809/Dockerfile",
+        "name": "mcr.microsoft.com/windows/nanoserver",
+        "currentValue": "1809",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "openjdk/nanoserver/sac2016/Dockerfile",
+        "name": "microsoft/nanoserver",
+        "currentValue": "sac2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "openjdk/symlink-test/Dockerfile",
+        "name": "sixeyed/openjdk-nanoserver",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "openjdk/windowsservercore/ltsc2016/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "currentValue": "ltsc2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "openjdk/windowsservercore/ltsc2019/Dockerfile",
+        "name": "mcr.microsoft.com/windows/servercore",
+        "currentValue": "ltsc2019",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "openjdk/windowsservercore/ltsc2019/Dockerfile",
+        "name": "mcr.microsoft.com/windows/servercore",
+        "currentValue": "ltsc2019",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "openssl/Dockerfile",
+        "name": "microsoft/nanoserver",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "powershell-azurerm/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "rabbitmq/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "rabbitmq/nanoserver/sac2016-ignore/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "currentValue": "ltsc2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "rabbitmq/nanoserver/sac2016-ignore/Dockerfile",
+        "name": "sixeyed/erlang",
+        "currentValue": "21.1-nanoserver-sac2016",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "rabbitmq/windowsservercore/ltsc2016-ignore/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "currentValue": "ltsc2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "rabbitmq/windowsservercore/ltsc2016-ignore/Dockerfile",
+        "name": "sixeyed/erlang",
+        "currentValue": "21.1-windowsservercore-ltsc2016",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "registry/nanoserver/1809/Dockerfile",
+        "name": "sixeyed/golang",
+        "currentValue": "1.11.1-nanoserver-1809",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "registry/nanoserver/1809/Dockerfile",
+        "name": "mcr.microsoft.com/windows/nanoserver",
+        "currentValue": "1809",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "registry/nanoserver/sac2016/Dockerfile",
+        "name": "golang",
+        "currentValue": "1.10-windowsservercore-ltsc2016",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "registry/nanoserver/sac2016/Dockerfile",
+        "name": "microsoft/nanoserver",
+        "currentValue": "sac2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "sql-server/windowsservercore/ltsc2019/Dockerfile",
+        "name": "mcr.microsoft.com/windows/servercore",
+        "currentValue": "ltsc2019",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "terraform/windowsservercore/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "currentValue": "ltsc2016",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "traefik/nanoserver/1809/Dockerfile",
+        "name": "mcr.microsoft.com/windows/nanoserver",
+        "currentValue": "1809",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "traefik/nanoserver/1809/Dockerfile",
+        "name": "traefik",
+        "currentValue": "v1.7.8-nanoserver-sac2016",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "umbraco-demo/Dockerfile",
+        "name": "sixeyed/umbraco",
+        "currentValue": "7.6.0-windowsservercore-10.0.14393.1066",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "umbraco/Dockerfile",
+        "name": "microsoft/windowsservercore",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "umbraco/Dockerfile",
+        "name": "microsoft/aspnet",
+        "currentValue": "windowsservercore-10.0.14393.1066",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "whoami-dotnet/Dockerfile",
+        "name": "mcr.microsoft.com/dotnet/core/sdk",
+        "currentValue": "3.0.100",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "whoami-dotnet/Dockerfile",
+        "name": "mcr.microsoft.com/dotnet/core/aspnet",
+        "currentValue": "3.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "whoami-dotnet/nanoserver/1809/Dockerfile",
+        "name": "microsoft/dotnet",
+        "currentValue": "2.1-sdk-nanoserver-1809",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "whoami-dotnet/nanoserver/1809/Dockerfile",
+        "name": "microsoft/dotnet",
+        "currentValue": "2.1-aspnetcore-runtime-nanoserver-1809",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "AnomalyInnovations/serverless-stack-demo-api",
+  "commit": "755e2e49dd0a69556b39249b57f5db54b4ae893e",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 104,
+    "findings": [
+      {
+        "ruleId": "npm.package.abab.deprecated",
+        "path": "package.json",
+        "line": 17
+      },
+      {
+        "ruleId": "npm.package.are-we-there-yet.eol",
+        "path": "package.json",
+        "line": 17
+      },
+      {
+        "ruleId": "npm.package.babel-eslint.deprecated",
+        "path": "package.json",
+        "line": 18
+      },
+      {
+        "ruleId": "npm.package.domexception.deprecated",
+        "path": "package.json",
+        "line": 17
+      },
+      {
+        "ruleId": "npm.package.figgy-pudding.eol",
+        "path": "package.json",
+        "line": 18
+      },
+      {
+        "ruleId": "npm.package.gauge.eol",
+        "path": "package.json",
+        "line": 17
+      },
+      {
+        "ruleId": "npm.package.hapi.joi.deprecated",
+        "path": "package.json",
+        "line": 20
+      },
+      {
+        "ruleId": "npm.package.har-validator.deprecated",
+        "path": "package.json",
+        "line": 17
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "package.json",
+        "line": 18
+      },
+      {
+        "ruleId": "npm.package.left-pad.deprecated",
+        "path": "package.json",
+        "line": 17
+      },
+      {
+        "ruleId": "npm.package.node-pre-gyp.deprecated",
+        "path": "package.json",
+        "line": 17
+      },
+      {
+        "ruleId": "npm.package.npmlog.eol",
+        "path": "package.json",
+        "line": 17
+      },
+      {
+        "ruleId": "npm.package.osenv.eol",
+        "path": "package.json",
+        "line": 17
+      },
+      {
+        "ruleId": "npm.package.querystring.deprecated",
+        "path": "package.json",
+        "line": 16
+      },
+      {
+        "ruleId": "npm.package.request-promise-native.deprecated",
+        "path": "package.json",
+        "line": 17
+      },
+      {
+        "ruleId": "npm.package.request.deprecated",
+        "path": "package.json",
+        "line": 17
+      },
+      {
+        "ruleId": "npm.package.resolve-url.deprecated",
+        "path": "package.json",
+        "line": 17
+      },
+      {
+        "ruleId": "npm.package.source-map-url.deprecated",
+        "path": "package.json",
+        "line": 17
+      },
+      {
+        "ruleId": "npm.package.w3c-hr-time.deprecated",
+        "path": "package.json",
+        "line": 17
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs12.x",
+        "path": "serverless.yml",
+        "line": 21
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 7149,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "stripe",
+        "currentValue": "^8.39.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "uuid",
+        "currentValue": "^7.0.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "aws-sdk",
+        "currentValue": "^2.655.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "jest",
+        "currentValue": "^25.2.7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "serverless-bundle",
+        "currentValue": "^1.3.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "serverless-dotenv-plugin",
+        "currentValue": "^2.3.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "serverless-offline",
+        "currentValue": "^6.1.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

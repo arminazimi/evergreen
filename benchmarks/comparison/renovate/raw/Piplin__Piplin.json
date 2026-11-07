@@ -1,0 +1,383 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "Piplin/Piplin",
+  "commit": "6edf0a0480c449b6f6fb40d1c0f458c90cef9c9a",
+  "ecosystem": "php",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 2325,
+    "findings": [
+      {
+        "ruleId": "npm.package.are-we-there-yet.eol",
+        "path": "package.json",
+        "line": 36
+      },
+      {
+        "ruleId": "npm.package.boom.deprecated",
+        "path": "package.json",
+        "line": 36
+      },
+      {
+        "ruleId": "npm.package.cryptiles.deprecated",
+        "path": "package.json",
+        "line": 36
+      },
+      {
+        "ruleId": "npm.package.fstream.eol",
+        "path": "package.json",
+        "line": 36
+      },
+      {
+        "ruleId": "npm.package.gauge.eol",
+        "path": "package.json",
+        "line": 36
+      },
+      {
+        "ruleId": "npm.package.gulp-util.deprecated",
+        "path": "package.json",
+        "line": 32
+      },
+      {
+        "ruleId": "npm.package.har-validator.deprecated",
+        "path": "package.json",
+        "line": 36
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "package.json",
+        "line": 32
+      },
+      {
+        "ruleId": "npm.package.lodash-isequal.deprecated",
+        "path": "package.json",
+        "line": 32
+      },
+      {
+        "ruleId": "npm.package.node-pre-gyp.deprecated",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.node-sass.deprecated",
+        "path": "package.json",
+        "line": 36
+      },
+      {
+        "ruleId": "npm.package.node-sass.eol",
+        "path": "package.json",
+        "line": 36
+      },
+      {
+        "ruleId": "npm.package.npmlog.eol",
+        "path": "package.json",
+        "line": 36
+      },
+      {
+        "ruleId": "npm.package.osenv.eol",
+        "path": "package.json",
+        "line": 36
+      },
+      {
+        "ruleId": "npm.package.q.deprecated",
+        "path": "package.json",
+        "line": 32
+      },
+      {
+        "ruleId": "npm.package.querystring.deprecated",
+        "path": "package.json",
+        "line": 32
+      },
+      {
+        "ruleId": "npm.package.request.deprecated",
+        "path": "package.json",
+        "line": 36
+      },
+      {
+        "ruleId": "npm.package.resolve-url.deprecated",
+        "path": "package.json",
+        "line": 32
+      },
+      {
+        "ruleId": "npm.package.sntp.deprecated",
+        "path": "package.json",
+        "line": 36
+      },
+      {
+        "ruleId": "npm.package.source-map-url.deprecated",
+        "path": "package.json",
+        "line": 32
+      },
+      {
+        "ruleId": "npm.package.uglify-es.deprecated",
+        "path": "package.json",
+        "line": 32
+      },
+      {
+        "ruleId": "php.package.doctrine.cache.abandoned",
+        "path": "composer.lock",
+        "line": 438
+      },
+      {
+        "ruleId": "php.package.fzaninotto.faker.abandoned",
+        "path": "composer.json",
+        "line": 42
+      },
+      {
+        "ruleId": "php.package.fzaninotto.faker.abandoned",
+        "path": "composer.lock",
+        "line": 4693
+      },
+      {
+        "ruleId": "php.package.swiftmailer.swiftmailer.abandoned",
+        "path": "composer.lock",
+        "line": 2883
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 10398,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "dotenv",
+        "currentValue": "^4.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "ioredis",
+        "currentValue": "^3.2.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "jsonwebtoken",
+        "currentValue": "^7.4.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "parseuri",
+        "currentValue": "^0.0.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "socket.io",
+        "currentValue": "^2.0.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "socket.io-client",
+        "currentValue": "^2.0.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "ace-min-noconflict",
+        "currentValue": "~1.1.9",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "backbone",
+        "currentValue": "~1.3.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "bootstrap-sass",
+        "currentValue": "^3.3.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "browser-sync",
+        "currentValue": "^2.18.13",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "browser-sync-webpack-plugin",
+        "currentValue": "^1.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "clipboard",
+        "currentValue": "~1.7.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "cropper",
+        "currentValue": "~2.3.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "cross-env",
+        "currentValue": "^5.0.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "ionicons",
+        "currentValue": "~2.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "jquery",
+        "currentValue": "~2.2.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "jquery-sortable",
+        "currentValue": "~0.9.13",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "laravel-mix",
+        "currentValue": "^1.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "livestamp",
+        "currentValue": "git+https://github.com/mattbradley/livestampjs.git#develop",
+        "skipReason": "unversioned-reference",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "moment",
+        "currentValue": "~2.19.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "morris.js",
+        "currentValue": "~0.5.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "node-sass",
+        "currentValue": "^4.5.3",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "raphael",
+        "currentValue": "~2.2.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "select2",
+        "currentValue": "~4.0.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "toastr",
+        "currentValue": "~2.1.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "underscore",
+        "currentValue": "^1.8.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

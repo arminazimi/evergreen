@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "inikep/lizard",
+  "commit": "d3becc7e80d3eb01147c2f63bed2e23fac533f19",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 5,
+    "findings": [
+      {
+        "ruleId": "cpp.cmake.policy-below-3.5.removed",
+        "path": "cmake_unofficial/CMakeLists.txt",
+        "line": 9
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 1162,
+    "status": "ok",
+    "dependencies": []
+  }
+}

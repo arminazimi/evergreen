@@ -1,0 +1,4885 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "gitcoinco/grants-stack",
+  "commit": "572d3fb116354692af661339dea122cbfdd66648",
+  "ecosystem": "database",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 1282,
+    "findings": [
+      {
+        "ruleId": "container.postgres.eol-13-and-older",
+        "path": "docker-compose.yml",
+        "line": 42
+      },
+      {
+        "ruleId": "database.postgresql.end-of-life-13",
+        "path": "docker-compose.yml",
+        "line": 42
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/builder.yml",
+        "line": 17
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/common.yml",
+        "line": 16
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/data-layer.yml",
+        "line": 16
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/grant-explorer.yml",
+        "line": 16
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/round-manager.yml",
+        "line": 16
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/verify-env.yml",
+        "line": 16
+      },
+      {
+        "ruleId": "github-actions.setup-node.node20",
+        "path": ".github/workflows/builder.yml",
+        "line": 25
+      },
+      {
+        "ruleId": "github-actions.setup-node.node20",
+        "path": ".github/workflows/common.yml",
+        "line": 24
+      },
+      {
+        "ruleId": "github-actions.setup-node.node20",
+        "path": ".github/workflows/data-layer.yml",
+        "line": 24
+      },
+      {
+        "ruleId": "github-actions.setup-node.node20",
+        "path": ".github/workflows/grant-explorer.yml",
+        "line": 24
+      },
+      {
+        "ruleId": "github-actions.setup-node.node20",
+        "path": ".github/workflows/round-manager.yml",
+        "line": 24
+      },
+      {
+        "ruleId": "github-actions.setup-node.node20",
+        "path": ".github/workflows/verify-env.yml",
+        "line": 24
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": ".github/workflows/builder.yml",
+        "line": 27
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": ".github/workflows/common.yml",
+        "line": 26
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": ".github/workflows/data-layer.yml",
+        "line": 26
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": ".github/workflows/grant-explorer.yml",
+        "line": 26
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": ".github/workflows/round-manager.yml",
+        "line": 26
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": ".github/workflows/verify-env.yml",
+        "line": 26
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": ".nvmrc",
+        "line": 1
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": "package.json",
+        "line": 7
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": "packages/builder/package.json",
+        "line": 7
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": "packages/data-layer/package.json",
+        "line": 52
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": "packages/grant-explorer/package.json",
+        "line": 154
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": "packages/grant-explorer/package.json",
+        "line": 158
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": "packages/round-manager/package.json",
+        "line": 8
+      },
+      {
+        "ruleId": "npm.package.abab.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 157
+      },
+      {
+        "ruleId": "npm.package.abab.deprecated",
+        "path": "packages/common/package.json",
+        "line": 59
+      },
+      {
+        "ruleId": "npm.package.abab.deprecated",
+        "path": "packages/data-layer/package.json",
+        "line": 49
+      },
+      {
+        "ruleId": "npm.package.abab.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 150
+      },
+      {
+        "ruleId": "npm.package.abab.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 87
+      },
+      {
+        "ruleId": "npm.package.abab.deprecated",
+        "path": "packages/verify-env/package.json",
+        "line": 21
+      },
+      {
+        "ruleId": "npm.package.domexception.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 157
+      },
+      {
+        "ruleId": "npm.package.domexception.deprecated",
+        "path": "packages/common/package.json",
+        "line": 59
+      },
+      {
+        "ruleId": "npm.package.domexception.deprecated",
+        "path": "packages/data-layer/package.json",
+        "line": 49
+      },
+      {
+        "ruleId": "npm.package.domexception.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 150
+      },
+      {
+        "ruleId": "npm.package.domexception.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 87
+      },
+      {
+        "ruleId": "npm.package.domexception.deprecated",
+        "path": "packages/verify-env/package.json",
+        "line": 21
+      },
+      {
+        "ruleId": "npm.package.har-validator.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 83
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 146
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "packages/data-layer/package.json",
+        "line": 37
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "packages/eslint-config-gitcoin/package.json",
+        "line": 10
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 73
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 87
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 146
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "packages/data-layer/package.json",
+        "line": 37
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "packages/eslint-config-gitcoin/package.json",
+        "line": 10
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 73
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 87
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "package.json",
+        "line": 39
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 35
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/common/package.json",
+        "line": 19
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/data-layer/package.json",
+        "line": 27
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/eslint-config-gitcoin/package.json",
+        "line": 8
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 43
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 152
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/verify-env/package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.lodash-isequal.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 47
+      },
+      {
+        "ruleId": "npm.package.lodash-isequal.deprecated",
+        "path": "packages/common/package.json",
+        "line": 48
+      },
+      {
+        "ruleId": "npm.package.lodash-isequal.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 36
+      },
+      {
+        "ruleId": "npm.package.lodash-isequal.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 64
+      },
+      {
+        "ruleId": "npm.package.q.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 29
+      },
+      {
+        "ruleId": "npm.package.q.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 52
+      },
+      {
+        "ruleId": "npm.package.q.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 133
+      },
+      {
+        "ruleId": "npm.package.querystring.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 31
+      },
+      {
+        "ruleId": "npm.package.querystring.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 54
+      },
+      {
+        "ruleId": "npm.package.querystring.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 135
+      },
+      {
+        "ruleId": "npm.package.react-native.0.77-to-0.84.end-of-support",
+        "path": "packages/builder/package.json",
+        "line": 35
+      },
+      {
+        "ruleId": "npm.package.react-native.0.77-to-0.84.end-of-support",
+        "path": "packages/common/package.json",
+        "line": 27
+      },
+      {
+        "ruleId": "npm.package.react-native.0.77-to-0.84.end-of-support",
+        "path": "packages/grant-explorer/package.json",
+        "line": 59
+      },
+      {
+        "ruleId": "npm.package.react-native.0.77-to-0.84.end-of-support",
+        "path": "packages/round-manager/package.json",
+        "line": 46
+      },
+      {
+        "ruleId": "npm.package.request.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 83
+      },
+      {
+        "ruleId": "npm.package.resolve-url.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 84
+      },
+      {
+        "ruleId": "npm.package.resolve-url.deprecated",
+        "path": "packages/common/package.json",
+        "line": 19
+      },
+      {
+        "ruleId": "npm.package.resolve-url.deprecated",
+        "path": "packages/data-layer/package.json",
+        "line": 42
+      },
+      {
+        "ruleId": "npm.package.resolve-url.deprecated",
+        "path": "packages/eslint-config-gitcoin/package.json",
+        "line": 8
+      },
+      {
+        "ruleId": "npm.package.resolve-url.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 146
+      },
+      {
+        "ruleId": "npm.package.resolve-url.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 151
+      },
+      {
+        "ruleId": "npm.package.rollup-plugin-terser.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 79
+      },
+      {
+        "ruleId": "npm.package.rollup-plugin-terser.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 38
+      },
+      {
+        "ruleId": "npm.package.rollup-plugin-terser.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 87
+      },
+      {
+        "ruleId": "npm.package.source-map-url.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 84
+      },
+      {
+        "ruleId": "npm.package.source-map-url.deprecated",
+        "path": "packages/common/package.json",
+        "line": 19
+      },
+      {
+        "ruleId": "npm.package.source-map-url.deprecated",
+        "path": "packages/data-layer/package.json",
+        "line": 42
+      },
+      {
+        "ruleId": "npm.package.source-map-url.deprecated",
+        "path": "packages/eslint-config-gitcoin/package.json",
+        "line": 8
+      },
+      {
+        "ruleId": "npm.package.source-map-url.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 146
+      },
+      {
+        "ruleId": "npm.package.source-map-url.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 151
+      },
+      {
+        "ruleId": "npm.package.sourcemap-codec.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 79
+      },
+      {
+        "ruleId": "npm.package.sourcemap-codec.deprecated",
+        "path": "packages/common/package.json",
+        "line": 59
+      },
+      {
+        "ruleId": "npm.package.sourcemap-codec.deprecated",
+        "path": "packages/data-layer/package.json",
+        "line": 36
+      },
+      {
+        "ruleId": "npm.package.sourcemap-codec.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 137
+      },
+      {
+        "ruleId": "npm.package.sourcemap-codec.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 87
+      },
+      {
+        "ruleId": "npm.package.sourcemap-codec.deprecated",
+        "path": "packages/verify-env/package.json",
+        "line": 19
+      },
+      {
+        "ruleId": "npm.package.stable.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 29
+      },
+      {
+        "ruleId": "npm.package.stable.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 52
+      },
+      {
+        "ruleId": "npm.package.stable.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 133
+      },
+      {
+        "ruleId": "npm.package.w3c-hr-time.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 157
+      },
+      {
+        "ruleId": "npm.package.w3c-hr-time.deprecated",
+        "path": "packages/common/package.json",
+        "line": 59
+      },
+      {
+        "ruleId": "npm.package.w3c-hr-time.deprecated",
+        "path": "packages/data-layer/package.json",
+        "line": 49
+      },
+      {
+        "ruleId": "npm.package.w3c-hr-time.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 150
+      },
+      {
+        "ruleId": "npm.package.w3c-hr-time.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 87
+      },
+      {
+        "ruleId": "npm.package.w3c-hr-time.deprecated",
+        "path": "packages/verify-env/package.json",
+        "line": 21
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 33638,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "docker-compose",
+        "path": "docker-compose.yml",
+        "name": "ghcr.io/gitcoinco/pina",
+        "currentValue": "main",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "docker-compose",
+        "path": "docker-compose.yml",
+        "name": "ghcr.io/foundry-rs/foundry",
+        "currentValue": "nightly-b174c3a4f80938636f18b3c9e49d45e6643f64a9",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "docker-compose",
+        "path": "docker-compose.yml",
+        "name": "ghcr.io/foundry-rs/foundry",
+        "currentValue": "nightly-b174c3a4f80938636f18b3c9e49d45e6643f64a9",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "docker-compose",
+        "path": "docker-compose.yml",
+        "name": "postgres",
+        "currentValue": "13",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "docker-compose",
+        "path": "docker-compose.yml",
+        "name": "ghcr.io/gravityblast/grants-stack-indexer",
+        "currentValue": "main",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/builder.yml",
+        "name": "actions/checkout",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/builder.yml",
+        "name": "pnpm/action-setup",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/builder.yml",
+        "name": "actions/setup-node",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/builder.yml",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/builder.yml",
+        "name": "pnpm",
+        "currentValue": "9",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/builder.yml",
+        "name": "node",
+        "currentValue": "20",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/common.yml",
+        "name": "actions/checkout",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/common.yml",
+        "name": "pnpm/action-setup",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/common.yml",
+        "name": "actions/setup-node",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/common.yml",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/common.yml",
+        "name": "pnpm",
+        "currentValue": "9",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/common.yml",
+        "name": "node",
+        "currentValue": "20",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/data-layer.yml",
+        "name": "actions/checkout",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/data-layer.yml",
+        "name": "pnpm/action-setup",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/data-layer.yml",
+        "name": "actions/setup-node",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/data-layer.yml",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/data-layer.yml",
+        "name": "pnpm",
+        "currentValue": "9",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/data-layer.yml",
+        "name": "node",
+        "currentValue": "20",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/gitstream.yml",
+        "name": "linear-b/gitstream-github-action",
+        "currentValue": "v1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/gitstream.yml",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/grant-explorer.yml",
+        "name": "actions/checkout",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/grant-explorer.yml",
+        "name": "pnpm/action-setup",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/grant-explorer.yml",
+        "name": "actions/setup-node",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/grant-explorer.yml",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/grant-explorer.yml",
+        "name": "pnpm",
+        "currentValue": "9",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/grant-explorer.yml",
+        "name": "node",
+        "currentValue": "20",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/round-manager.yml",
+        "name": "actions/checkout",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/round-manager.yml",
+        "name": "pnpm/action-setup",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/round-manager.yml",
+        "name": "actions/setup-node",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/round-manager.yml",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/round-manager.yml",
+        "name": "pnpm",
+        "currentValue": "8",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/round-manager.yml",
+        "name": "node",
+        "currentValue": "20",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/verify-env.yml",
+        "name": "actions/checkout",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/verify-env.yml",
+        "name": "pnpm/action-setup",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/verify-env.yml",
+        "name": "actions/setup-node",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/verify-env.yml",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/verify-env.yml",
+        "name": "pnpm",
+        "currentValue": "8",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/verify-env.yml",
+        "name": "node",
+        "currentValue": "20",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "concurrently",
+        "currentValue": "^8.2.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "prettier",
+        "currentValue": "^3.2.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "@commitlint/cli",
+        "currentValue": "^17.8.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "@commitlint/config-conventional",
+        "currentValue": "^17.8.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "turbo",
+        "currentValue": "^1.13.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "npm",
+        "currentValue": ">=8.5.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "node",
+        "currentValue": ">=20.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "webpack",
+        "currentValue": "^5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@babel/core",
+        "currentValue": "^7.20.12",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@babel/plugin-syntax-flow",
+        "currentValue": "^7.14.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@babel/plugin-transform-react-jsx",
+        "currentValue": "^7.14.9",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@chakra-ui/react",
+        "currentValue": "2.6.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@craco/craco",
+        "currentValue": "7.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@datadog/browser-logs",
+        "currentValue": "^4.21.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@datadog/browser-rum",
+        "currentValue": "^4.16.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@ethersproject/address",
+        "currentValue": "^5.7.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@ethersproject/providers",
+        "currentValue": "^5.7.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@gitcoinco/passport-sdk-types",
+        "currentValue": "^0.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@headlessui/react",
+        "currentValue": "^1.6.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@heroicons/react",
+        "currentValue": "^2.0.11",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@lagunovsky/redux-react-router",
+        "currentValue": "^2.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@pinata/sdk",
+        "currentValue": "^1.1.26",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@playwright/test",
+        "currentValue": "^1.41.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@rainbow-me/rainbowkit",
+        "currentValue": "2.1.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@redux-devtools/extension",
+        "currentValue": "^3.2.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@rsbuild/core",
+        "currentValue": "^0.4.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@rsbuild/plugin-react",
+        "currentValue": "^0.3.11",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@rsbuild/plugin-svgr",
+        "currentValue": "^0.3.11",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@rsdoctor/rspack-plugin",
+        "currentValue": "^0.1.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@synthetixio/synpress",
+        "currentValue": "3.7.2-beta.10",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@tailwindcss/line-clamp",
+        "currentValue": "^0.4.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@tailwindcss/typography",
+        "currentValue": "^0.5.9",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@tanstack/query-core",
+        "currentValue": "5.40.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@tanstack/react-query",
+        "currentValue": "^5.40.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@testing-library/dom",
+        "currentValue": ">=7.21.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@testing-library/jest-dom",
+        "currentValue": "^5.16.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@testing-library/react",
+        "currentValue": "^13.1.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@testing-library/user-event",
+        "currentValue": "^13.5.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@types/jest",
+        "currentValue": "^27.5.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@types/node",
+        "currentValue": "^18.11.18",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@types/react",
+        "currentValue": "^18.0.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@types/react-dom",
+        "currentValue": "^18.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@types/react-redux",
+        "currentValue": "^7.1.24",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@types/testing-library__jest-dom",
+        "currentValue": "^5.14.5",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@wagmi/core",
+        "currentValue": "2.10.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@walletconnect/ethereum-provider",
+        "currentValue": "^2.9.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@walletconnect/modal",
+        "currentValue": "^2.5.9",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "allo-indexer-client",
+        "currentValue": "github:gitcoinco/allo-indexer-client",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "assert",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "autoprefixer",
+        "currentValue": "^10.4.7",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "axios",
+        "currentValue": "^0.27.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "buffer",
+        "currentValue": "^6.0.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "classnames",
+        "currentValue": "^2.3.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "common",
+        "currentValue": "workspace:*",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "craco-esbuild",
+        "currentValue": "^0.5.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "crypto-browserify",
+        "currentValue": "^3.12.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "data-layer",
+        "currentValue": "workspace:*",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "dompurify",
+        "currentValue": "^2.4.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "ethers",
+        "currentValue": "^5.7.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "framer-motion",
+        "currentValue": "^6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "gitcoin-lit-js-sdk",
+        "currentValue": "^1.3.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "history",
+        "currentValue": "^5.3.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "https-browserify",
+        "currentValue": "^1.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "jszip",
+        "currentValue": "^3.10.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "localforage",
+        "currentValue": "^1.10.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "os-browserify",
+        "currentValue": "^0.3.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "pnpm",
+        "currentValue": "9",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "postcss",
+        "currentValue": "^8.4.14",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "posthog-js",
+        "currentValue": "1.132.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "process",
+        "currentValue": "^0.11.10",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "react",
+        "currentValue": "^18.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "react-dom",
+        "currentValue": "^18.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "react-gtm-module",
+        "currentValue": "^2.0.11",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "react-image-crop",
+        "currentValue": "^10.0.6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "react-redux",
+        "currentValue": "^7.2.8",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "react-router",
+        "currentValue": "^6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "react-router-dom",
+        "currentValue": "^6.3.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "react-scripts",
+        "currentValue": "5.0.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "redux",
+        "currentValue": "^4.2.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "redux-thunk",
+        "currentValue": "^2.4.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "stream-browserify",
+        "currentValue": "^3.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "stream-http",
+        "currentValue": "^3.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "tailwindcss",
+        "currentValue": "^3.0.24",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "ts-debounce",
+        "currentValue": "^4.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "ts-jest",
+        "currentValue": "^27.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "typescript",
+        "currentValue": "^5.3.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "url",
+        "currentValue": "^0.11.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "verify-env",
+        "currentValue": "workspace:*",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "viem",
+        "currentValue": "^2.13.10",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "wagmi",
+        "currentValue": "2.10.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "web-vitals",
+        "currentValue": "^2.1.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "yup",
+        "currentValue": "^0.32.11",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "zod",
+        "currentValue": "^3.22.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@babel/eslint-parser",
+        "currentValue": "^7.17.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@babel/plugin-transform-modules-commonjs",
+        "currentValue": "^7.25.9",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@babel/preset-env",
+        "currentValue": "^7.20.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@babel/preset-react",
+        "currentValue": "^7.18.6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@babel/preset-typescript",
+        "currentValue": "^7.21.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@types/dompurify",
+        "currentValue": "^2.4.0",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@types/jest-when",
+        "currentValue": "^3.5.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@types/react-gtm-module",
+        "currentValue": "^2.0.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@typescript-eslint/eslint-plugin",
+        "currentValue": "^6.7.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@typescript-eslint/parser",
+        "currentValue": "^5.23.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "babel-jest",
+        "currentValue": "^29.7.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "dotenv",
+        "currentValue": "^16.4.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "eslint",
+        "currentValue": ">=8.1.0 <9.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "eslint-config-airbnb",
+        "currentValue": "^19.0.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "eslint-config-airbnb-typescript",
+        "currentValue": "^17.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "eslint-config-prettier",
+        "currentValue": "^8.5.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "eslint-plugin-import",
+        "currentValue": "^2.25.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "eslint-plugin-jsx-a11y",
+        "currentValue": "^6.5.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "eslint-plugin-prettier",
+        "currentValue": "^4.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "eslint-plugin-react",
+        "currentValue": "^7.28.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "eslint-plugin-react-hooks",
+        "currentValue": "^4.3.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "hardhat-deploy",
+        "currentValue": "^0.11.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "jest",
+        "currentValue": "^27.5.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "jest-environment-jsdom",
+        "currentValue": "^27.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "jest-transform-stub",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "jest-when",
+        "currentValue": "^3.5.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "lokijs",
+        "currentValue": "^1.5.12",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "msw",
+        "currentValue": "^0.47.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "postcss-import",
+        "currentValue": "^14.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "prettier",
+        "currentValue": "2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "npm",
+        "currentValue": ">=8.5.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "node",
+        "currentValue": ">=20.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@typescript-eslint/eslint-plugin",
+        "currentValue": "6.7.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "@typescript-eslint/parser",
+        "currentValue": "5.23.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/builder/package.json",
+        "name": "typescript",
+        "currentValue": "5.1.6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "@allo-team/allo-v2-sdk",
+        "currentValue": "1.1.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "@ethersproject/abstract-signer",
+        "currentValue": "^5.7.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "@ethersproject/providers",
+        "currentValue": "^5.7.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "@gitcoin/gitcoin-chain-data",
+        "currentValue": "^1.0.56",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "@gitcoinco/passport-sdk-types",
+        "currentValue": "^0.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "@openzeppelin/merkle-tree",
+        "currentValue": "1.0.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "@rainbow-me/rainbowkit",
+        "currentValue": "2.1.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "@spruceid/didkit-wasm",
+        "currentValue": "0.3.0-alpha0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "@tanstack/react-query",
+        "currentValue": "^5.40.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "@wagmi/chains",
+        "currentValue": "^1.8.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "abitype",
+        "currentValue": "^0.10.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "classnames",
+        "currentValue": "^2.3.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "@heroicons/react",
+        "currentValue": "^2.0.13",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "data-layer",
+        "currentValue": "workspace:*",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "dompurify",
+        "currentValue": "^2.4.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "eslint-config-gitcoin",
+        "currentValue": "workspace:*",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "ethers",
+        "currentValue": "^5.6.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "framer-motion",
+        "currentValue": "^10.12.7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "markdown-it",
+        "currentValue": "^13.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "moment-timezone",
+        "currentValue": "^0.5.45",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "react",
+        "currentValue": "^18.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "react-hook-form",
+        "currentValue": "^7.42.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "react-router",
+        "currentValue": "^6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "react-router-dom",
+        "currentValue": "^6.11.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "swr",
+        "currentValue": "^2.0.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "tailwind-styled-components",
+        "currentValue": "^2.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "tiny-emitter",
+        "currentValue": "^2.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "ts-debounce",
+        "currentValue": "^4.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "viem",
+        "currentValue": "^2.13.10",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "wagmi",
+        "currentValue": "2.10.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "zod",
+        "currentValue": "^3.22.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "@types/dompurify",
+        "currentValue": "^2.4.0",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "@types/markdown-it",
+        "currentValue": "^12.2.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "@types/node",
+        "currentValue": "^18.15.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "@types/react",
+        "currentValue": "^18.0.31",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "@types/react-dom",
+        "currentValue": "^18.0.11",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "dotenv-flow",
+        "currentValue": "^3.3.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "typescript",
+        "currentValue": "^5.6.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/common/package.json",
+        "name": "vitest",
+        "currentValue": "^0.34.6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "@gitcoinco/passport-sdk-types",
+        "currentValue": "^0.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "cross-fetch",
+        "currentValue": "^4.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "debug",
+        "currentValue": "^4.3.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "dotenv-flow",
+        "currentValue": "^3.3.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "graphql-request",
+        "currentValue": "^6.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "knuth-shuffle-seeded",
+        "currentValue": "^1.0.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "papaparse",
+        "currentValue": "^5.4.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "ts-custom-error",
+        "currentValue": "^3.3.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "ts-essentials",
+        "currentValue": "^9.4.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "viem",
+        "currentValue": "2.13.10",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "zod",
+        "currentValue": "^3.22.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "@faker-js/faker",
+        "currentValue": "^8.3.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "@openapitools/openapi-generator-cli",
+        "currentValue": "^2.7.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "@tsconfig/node18",
+        "currentValue": "^18.2.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "@types/debug",
+        "currentValue": "^4.1.8",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "@types/knuth-shuffle-seeded",
+        "currentValue": "^1.0.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "@types/node",
+        "currentValue": "^20.6.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "@types/papaparse",
+        "currentValue": "^5.3.14",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "@types/react",
+        "currentValue": "^18.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "@typescript-eslint/eslint-plugin",
+        "currentValue": "^6.7.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "@typescript-eslint/parser",
+        "currentValue": "^6.7.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "@vitest/coverage-v8",
+        "currentValue": "^0.34.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "eslint",
+        "currentValue": "^8.49.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "eslint-config-prettier",
+        "currentValue": "^9.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "eslint-plugin-import",
+        "currentValue": "^2.28.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "eslint-plugin-prettier",
+        "currentValue": "^5.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "eslint-plugin-vitest",
+        "currentValue": "^0.3.10",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "leasot",
+        "currentValue": "^13.3.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "lefthook",
+        "currentValue": "^1.4.11",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "prettier",
+        "currentValue": "^3.0.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "react",
+        "currentValue": "^18.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "ts-unused-exports",
+        "currentValue": "^10.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "tsx",
+        "currentValue": "^3.12.10",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "typescript",
+        "currentValue": "^5.6.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "vitest",
+        "currentValue": "^0.34.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "react",
+        "currentValue": "^18.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/data-layer/package.json",
+        "name": "node",
+        "currentValue": ">=20.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/eslint-config-gitcoin/package.json",
+        "name": "@typescript-eslint/eslint-plugin",
+        "currentValue": "^6.7.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/eslint-config-gitcoin/package.json",
+        "name": "@typescript-eslint/parser",
+        "currentValue": "^6.7.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/eslint-config-gitcoin/package.json",
+        "name": "typescript",
+        "currentValue": "^5.6.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/eslint-config-gitcoin/package.json",
+        "name": "eslint",
+        "currentValue": "^8.49.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/eslint-config-gitcoin/package.json",
+        "name": "eslint-config-turbo",
+        "currentValue": "^1.10.14",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/eslint-config-gitcoin/package.json",
+        "name": "eslint-plugin-react",
+        "currentValue": "^7.31.7",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/eslint-config-gitcoin/package.json",
+        "name": "eslint-plugin-react-hooks",
+        "currentValue": "^4.6.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@0xsquid/widget",
+        "currentValue": "^1.7.17",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@chakra-ui/react",
+        "currentValue": "^2.1.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@craco/craco",
+        "currentValue": "^7.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@datadog/browser-logs",
+        "currentValue": "^4.19.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@datadog/browser-rum",
+        "currentValue": "^4.19.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@emotion/react",
+        "currentValue": "^11",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@emotion/styled",
+        "currentValue": "^11",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@ethereum-attestation-service/eas-contracts",
+        "currentValue": "1.7.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@ethersproject/abstract-signer",
+        "currentValue": "^5.7.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@ethersproject/providers",
+        "currentValue": "^5.7.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@headlessui/react",
+        "currentValue": "^1.7.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@heroicons/react",
+        "currentValue": "^2.0.13",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@playwright/test",
+        "currentValue": "^1.41.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@rainbow-me/rainbowkit",
+        "currentValue": "2.1.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@rsbuild/core",
+        "currentValue": "^0.4.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@rsbuild/plugin-react",
+        "currentValue": "^0.3.11",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@rsbuild/plugin-svgr",
+        "currentValue": "^0.3.11",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@rsdoctor/rspack-plugin",
+        "currentValue": "^0.1.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@synthetixio/synpress",
+        "currentValue": "3.7.2-beta.10",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@tailwindcss/forms",
+        "currentValue": "^0.5.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@tailwindcss/line-clamp",
+        "currentValue": "^0.4.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@tailwindcss/typography",
+        "currentValue": "^0.5.9",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@tanstack/query-core",
+        "currentValue": "5.40.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@tanstack/react-query",
+        "currentValue": "^5.40.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@testing-library/jest-dom",
+        "currentValue": "^5.16.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@testing-library/react",
+        "currentValue": "^13.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@testing-library/user-event",
+        "currentValue": "^14.1.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@wagmi/core",
+        "currentValue": "2.10.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@walletconnect/modal",
+        "currentValue": "^2.5.9",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "allo-indexer-client",
+        "currentValue": "github:gitcoinco/allo-indexer-client",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "babel-loader",
+        "currentValue": "^8.3.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "buffer",
+        "currentValue": "^6.0.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "common",
+        "currentValue": "workspace:*",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "craco-esbuild",
+        "currentValue": "^0.5.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "crypto-browserify",
+        "currentValue": "^3.12.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "data-layer",
+        "currentValue": "workspace:*",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "date-fns",
+        "currentValue": "^2.29.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "eslint",
+        "currentValue": ">=8.1.0 <9.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "ethereum-blockies",
+        "currentValue": "^0.1.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "ethers",
+        "currentValue": "^5.7.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "framer-motion",
+        "currentValue": "^10.15.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "graphql",
+        "currentValue": "^16.8.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "graphql-request",
+        "currentValue": "^6.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "history",
+        "currentValue": "^5.3.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "html-react-parser",
+        "currentValue": "^3.0.7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "html2canvas-pro",
+        "currentValue": "1.5.8",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "https-browserify",
+        "currentValue": "^1.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "ipfs-core",
+        "currentValue": "^0.14.3",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "ipfs-core-types",
+        "currentValue": "^0.14.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "jest",
+        "currentValue": "^27.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "jszip",
+        "currentValue": "^3.10.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "localforage",
+        "currentValue": "^1.10.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "lodash",
+        "currentValue": "^4.17.21",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "lodash-es",
+        "currentValue": "^4.17.21",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "moment",
+        "currentValue": "^2.29.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "node-fetch",
+        "currentValue": "^3.3.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "os-browserify",
+        "currentValue": "^0.3.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "posthog-js",
+        "currentValue": "1.132.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "process",
+        "currentValue": "^0.11.10",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "react",
+        "currentValue": "^18.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "react-datetime",
+        "currentValue": "^3.1.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "react-dom",
+        "currentValue": "^18.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "react-gtm-module",
+        "currentValue": "^2.0.11",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "react-hook-form",
+        "currentValue": "^7.31.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "react-router",
+        "currentValue": "^6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "react-router-dom",
+        "currentValue": "6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "react-tooltip",
+        "currentValue": "^4.5.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "react-use",
+        "currentValue": "^17.5.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "sleep-promise",
+        "currentValue": "^9.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "stream-browserify",
+        "currentValue": "^3.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "stream-http",
+        "currentValue": "^3.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "swr",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "ts-is-present",
+        "currentValue": "^1.2.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "url",
+        "currentValue": "^0.11.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "util",
+        "currentValue": "^0.12.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "verify-env",
+        "currentValue": "workspace:*",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "viem",
+        "currentValue": "2.13.10",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "wagmi",
+        "currentValue": "2.10.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "web-vitals",
+        "currentValue": "^2.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "zod",
+        "currentValue": "^3.22.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "zustand",
+        "currentValue": "^4.4.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@babel/core",
+        "currentValue": "^7.20.12",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@babel/plugin-syntax-flow",
+        "currentValue": "^7.14.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@babel/plugin-transform-react-jsx",
+        "currentValue": "^7.14.9",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@babel/preset-env",
+        "currentValue": "^7.20.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@babel/preset-react",
+        "currentValue": "^7.18.6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@babel/preset-typescript",
+        "currentValue": "^7.21.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@faker-js/faker",
+        "currentValue": "^7.5.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@gitcoinco/passport-sdk-types",
+        "currentValue": "^0.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@testing-library/dom",
+        "currentValue": ">=7.21.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@types/dompurify",
+        "currentValue": "^2.4.0",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@types/ethereum-blockies",
+        "currentValue": "^0.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@types/lodash",
+        "currentValue": "^4.14.192",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@types/lodash-es",
+        "currentValue": "^4.17.8",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@types/node",
+        "currentValue": "^17.0.25",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@types/react",
+        "currentValue": "^18.0.6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@types/react-dom",
+        "currentValue": "^18.0.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@types/react-gtm-module",
+        "currentValue": "^2.0.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@types/testing-library__jest-dom",
+        "currentValue": "^5.14.5",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "@vitest/coverage-v8",
+        "currentValue": "^0.34.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "autoprefixer",
+        "currentValue": "^10.4.7",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "dotenv",
+        "currentValue": "^16.4.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "dotenv-flow",
+        "currentValue": "^3.3.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "eslint-config-gitcoin",
+        "currentValue": "workspace:*",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "happy-dom",
+        "currentValue": "^11.0.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "postcss",
+        "currentValue": "^8.4.14",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "resize-observer-polyfill",
+        "currentValue": "^1.5.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "tailwind-styled-components",
+        "currentValue": "^2.1.7",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "tailwindcss",
+        "currentValue": "^3.0.24",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "ts-unused-exports",
+        "currentValue": "^10.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "typescript",
+        "currentValue": "^5.6.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "vite",
+        "currentValue": "^4.4.9",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "vitest",
+        "currentValue": "^0.34.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "vitest-fetch-mock",
+        "currentValue": "^0.2.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "node",
+        "currentValue": ">=20.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "npm",
+        "currentValue": ">=8.5.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/grant-explorer/package.json",
+        "name": "node",
+        "currentValue": "20.14.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@babel/core",
+        "currentValue": "^7.20.12",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@craco/craco",
+        "currentValue": "^7.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@datadog/browser-logs",
+        "currentValue": "^4.17.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@datadog/browser-rum",
+        "currentValue": "^4.17.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@ethersproject/abi",
+        "currentValue": "5.7.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@ethersproject/abstract-signer",
+        "currentValue": "^5.7.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@ethersproject/providers",
+        "currentValue": "^5.7.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@headlessui/react",
+        "currentValue": "^1.6.6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@heroicons/react",
+        "currentValue": "^1.0.6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@hookform/resolvers",
+        "currentValue": "^2.9.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@openzeppelin/merkle-tree",
+        "currentValue": "^1.0.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@rainbow-me/rainbowkit",
+        "currentValue": "2.1.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@reduxjs/toolkit",
+        "currentValue": "^1.8.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@safe-global/safe-apps-provider",
+        "currentValue": "^0.18.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@safe-global/safe-apps-react-sdk",
+        "currentValue": "^4.7.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@tailwindcss/forms",
+        "currentValue": "^0.5.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@tailwindcss/typography",
+        "currentValue": "^0.5.9",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@tanstack/query-core",
+        "currentValue": "5.40.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@tanstack/react-query",
+        "currentValue": "^5.40.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@testing-library/jest-dom",
+        "currentValue": "^5.16.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@testing-library/react",
+        "currentValue": "^13.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@testing-library/user-event",
+        "currentValue": "^14.1.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@types/jest",
+        "currentValue": "^27.4.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@types/node",
+        "currentValue": "^17.0.25",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@wagmi/core",
+        "currentValue": "2.10.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "allo-indexer-client",
+        "currentValue": "github:gitcoinco/allo-indexer-client",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "buffer",
+        "currentValue": "^6.0.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "common",
+        "currentValue": "workspace:*",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "crypto-browserify",
+        "currentValue": "^3.12.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "csv-parse",
+        "currentValue": "^5.3.8",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "csv-stringify",
+        "currentValue": "^6.3.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "data-layer",
+        "currentValue": "workspace:*",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "date-fns",
+        "currentValue": "^2.29.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "deepmerge",
+        "currentValue": "^4.3.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "eslint-config-gitcoin",
+        "currentValue": "workspace:*",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "ethers",
+        "currentValue": "^5.7.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "gitcoin-lit-js-sdk",
+        "currentValue": "^1.3.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "history",
+        "currentValue": "^5.3.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "html-react-parser",
+        "currentValue": "^3.0.7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "https-browserify",
+        "currentValue": "^1.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "jest-fetch-mock",
+        "currentValue": "^3.0.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "jszip",
+        "currentValue": "^3.10.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "localforage",
+        "currentValue": "^1.10.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "lodash",
+        "currentValue": "^4.17.21",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "moment",
+        "currentValue": "^2.29.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "os-browserify",
+        "currentValue": "^0.3.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "papaparse",
+        "currentValue": "^5.4.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "posthog-js",
+        "currentValue": "1.132.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "process",
+        "currentValue": "^0.11.10",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "react",
+        "currentValue": "^18.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "react-datetime",
+        "currentValue": "^3.1.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "react-dom",
+        "currentValue": "^18.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "react-dropzone",
+        "currentValue": "^14.2.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "react-gtm-module",
+        "currentValue": "^2.0.11",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "react-hook-form",
+        "currentValue": "^7.31.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "react-icons",
+        "currentValue": "^4.7.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "react-redux",
+        "currentValue": "^8.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "react-router",
+        "currentValue": "6.15.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "react-router-dom",
+        "currentValue": "6.15.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "react-scripts",
+        "currentValue": "5.0.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "react-tooltip",
+        "currentValue": "^4.4.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "redux",
+        "currentValue": "^4.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "redux-thunk",
+        "currentValue": "^2.4.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "stream-browserify",
+        "currentValue": "^3.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "stream-http",
+        "currentValue": "^3.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "swr",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "typescript",
+        "currentValue": "^5.3.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "url",
+        "currentValue": "^0.11.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "util",
+        "currentValue": "^0.12.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "uuid",
+        "currentValue": "^9.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "verify-env",
+        "currentValue": "workspace:*",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "viem",
+        "currentValue": "2.13.10",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "wagmi",
+        "currentValue": "2.10.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "web-vitals",
+        "currentValue": "^2.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "yup",
+        "currentValue": "^0.32.11",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "zustand",
+        "currentValue": "^4.4.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@faker-js/faker",
+        "currentValue": "^7.4.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@gitcoinco/passport-sdk-types",
+        "currentValue": "^0.1.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@playwright/test",
+        "currentValue": "^1.41.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@rsbuild/core",
+        "currentValue": "^0.4.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@rsbuild/plugin-react",
+        "currentValue": "^0.3.11",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@rsbuild/plugin-svgr",
+        "currentValue": "^0.3.11",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@rsdoctor/rspack-plugin",
+        "currentValue": "^0.1.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@synthetixio/synpress",
+        "currentValue": "3.7.2-beta.10",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@tailwindcss/line-clamp",
+        "currentValue": "^0.4.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@typechain/ethers-v5",
+        "currentValue": "10.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@types/lodash",
+        "currentValue": "^4.14.192",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@types/papaparse",
+        "currentValue": "^5.3.14",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@types/react",
+        "currentValue": "^18.0.26",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@types/react-dom",
+        "currentValue": "^18.0.10",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@types/react-gtm-module",
+        "currentValue": "^2.0.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "@types/testing-library__jest-dom",
+        "currentValue": "^5.14.5",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "add",
+        "currentValue": "^2.0.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "autoprefixer",
+        "currentValue": "^10.4.7",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "craco-esbuild",
+        "currentValue": "^0.5.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "dotenv",
+        "currentValue": "^16.4.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "postcss",
+        "currentValue": "^8.4.14",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "resize-observer-polyfill",
+        "currentValue": "^1.5.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "tailwind-styled-components",
+        "currentValue": "2.1.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "tailwindcss",
+        "currentValue": "^3.0.24",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "typechain",
+        "currentValue": "^8.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "npm",
+        "currentValue": ">=8.5.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/round-manager/package.json",
+        "name": "node",
+        "currentValue": ">=20.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/verify-env/package.json",
+        "name": "glob",
+        "currentValue": "^10.3.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/verify-env/package.json",
+        "name": "@tsconfig/node-lts",
+        "currentValue": "^18.12.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/verify-env/package.json",
+        "name": "@types/node",
+        "currentValue": "^20.5.9",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/verify-env/package.json",
+        "name": "pkgroll",
+        "currentValue": "^1.11.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/verify-env/package.json",
+        "name": "typescript",
+        "currentValue": "^5.6.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/verify-env/package.json",
+        "name": "vitest",
+        "currentValue": "^0.34.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

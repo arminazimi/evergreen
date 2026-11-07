@@ -1,0 +1,1864 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "slimkit/plus",
+  "commit": "01c87057426d5656e4c667ea228f758dc89e7793",
+  "ecosystem": "php",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 1339,
+    "findings": [
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.q.deprecated",
+        "path": "package.json",
+        "line": 22
+      },
+      {
+        "ruleId": "npm.package.querystring.deprecated",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.stable.deprecated",
+        "path": "package.json",
+        "line": 24
+      },
+      {
+        "ruleId": "npm.package.vue.eol-2",
+        "path": "package.json",
+        "line": 45
+      },
+      {
+        "ruleId": "php.runtime.eol-7.4",
+        "path": "composer.json",
+        "line": 148
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 23337,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile-fpm",
+        "name": "php",
+        "currentValue": "7.2-fpm",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile-fpm",
+        "name": "libfreetype6-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile-fpm",
+        "name": "libjpeg62-turbo-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile-fpm",
+        "name": "libmcrypt-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile-fpm",
+        "name": "libpng-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile-fpm",
+        "name": "libxml2-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile-fpm",
+        "name": "libmemcached-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile-fpm",
+        "name": "zlib1g-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "@slimkit/plus-editor",
+        "currentValue": "^0.0.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "axios",
+        "currentValue": "^0.22.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "babel-plugin-transform-class-properties",
+        "currentValue": "^6.24.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "bootstrap-sass",
+        "currentValue": "^3.3.7",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "echarts",
+        "currentValue": "^5.2.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "chart.js",
+        "currentValue": "^3.5.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "highlight.js",
+        "currentValue": "^11.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "jquery",
+        "currentValue": "^3.6.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "js-md5",
+        "currentValue": "^0.7.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "lodash",
+        "currentValue": "^4.17.21",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "markdown-it",
+        "currentValue": "^12.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "plus-message-bundle",
+        "currentValue": "^1.0.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "simkit-bootstrap-ui-kit",
+        "currentValue": "^1.1.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "vue",
+        "currentValue": "^2.6.14",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "vue-echarts-v3",
+        "currentValue": "^2.0.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "vue-router",
+        "currentValue": "^3.5.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "vuex",
+        "currentValue": "^3.6.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "vuex-router-sync",
+        "currentValue": "^5.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "@babel/core",
+        "currentValue": "^7.15.8",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "@babel/plugin-proposal-class-properties",
+        "currentValue": "^7.14.5",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "@vue/babel-preset-app",
+        "currentValue": "^3.9.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "babel-loader",
+        "currentValue": "^8.2.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "conventional-changelog-cli",
+        "currentValue": "^2.1.1",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "cross-env",
+        "currentValue": "^7.0.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "laravel-mix",
+        "currentValue": "^6.0.34",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "opencollective",
+        "currentValue": "^1.0.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "resolve-url-loader",
+        "currentValue": "^4.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "sass",
+        "currentValue": "^1.41.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "sass-loader",
+        "currentValue": "7.*",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "vue-template-compiler",
+        "currentValue": "^2.6.14",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "axios",
+        "currentValue": "^0.17.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "element-ui",
+        "currentValue": "^1.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "extract-text-webpack-plugin",
+        "currentValue": "^3.0.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "less",
+        "currentValue": "^2.7.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "less-loader",
+        "currentValue": "^4.0.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "optimize-css-assets-webpack-plugin",
+        "currentValue": "^3.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "plus-message-bundle",
+        "currentValue": "^0.0.5",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "trash-cli",
+        "currentValue": "^1.4.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "vue",
+        "currentValue": "^2.1.6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "vue-router",
+        "currentValue": "^3.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "vue-timeago",
+        "currentValue": "^3.3.6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "webpack-laravel-mix-manifest",
+        "currentValue": "^1.0.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "babel-core",
+        "currentValue": "^6.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "babel-loader",
+        "currentValue": "^6.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "babel-preset-es2015",
+        "currentValue": "^6.24.1",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "babel-preset-vue-app",
+        "currentValue": "^1.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "cross-env",
+        "currentValue": "^1.0.6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "css-loader",
+        "currentValue": "^0.23.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "file-loader",
+        "currentValue": "^0.8.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "style-loader",
+        "currentValue": "^0.13.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "vue-loader",
+        "currentValue": "^9.8.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-appversion/package.json",
+        "name": "webpack",
+        "currentValue": "^3.0.0-rc.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "@material-ui/core",
+        "currentValue": "^3.3.2",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "@material-ui/icons",
+        "currentValue": "^3.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "axios",
+        "currentValue": "^0.18.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "classnames",
+        "currentValue": "^2.2.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "lodash",
+        "currentValue": "^4.17.11",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "plus-message-bundle",
+        "currentValue": "^1.0.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "react",
+        "currentValue": "^16.6.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "react-dom",
+        "currentValue": "^16.6.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "react-router-dom",
+        "currentValue": "^4.3.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "react-select",
+        "currentValue": "^2.1.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "@babel/core",
+        "currentValue": "^7.1.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "@babel/plugin-proposal-class-properties",
+        "currentValue": "^7.1.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "@babel/plugin-proposal-decorators",
+        "currentValue": "^7.1.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "@babel/plugin-proposal-export-namespace-from",
+        "currentValue": "^7.0.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "@babel/plugin-proposal-function-sent",
+        "currentValue": "^7.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "@babel/plugin-proposal-json-strings",
+        "currentValue": "^7.0.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "@babel/plugin-proposal-numeric-separator",
+        "currentValue": "^7.0.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "@babel/plugin-proposal-throw-expressions",
+        "currentValue": "^7.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "@babel/plugin-syntax-dynamic-import",
+        "currentValue": "^7.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "@babel/plugin-syntax-import-meta",
+        "currentValue": "^7.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "@babel/plugin-transform-runtime",
+        "currentValue": "^7.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "@babel/preset-env",
+        "currentValue": "^7.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "@babel/preset-react",
+        "currentValue": "^7.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "@babel/register",
+        "currentValue": "^7.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "babel-eslint",
+        "currentValue": "^10.0.1",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "babel-loader",
+        "currentValue": "^8.0.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "clean-webpack-plugin",
+        "currentValue": "^0.1.19",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "copy-webpack-plugin",
+        "currentValue": "^4.6.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "cross-env",
+        "currentValue": "^5.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "eslint",
+        "currentValue": "^5.8.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "eslint-plugin-react",
+        "currentValue": "^7.11.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "uglifyjs-webpack-plugin",
+        "currentValue": "^2.0.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "webpack",
+        "currentValue": "^4.23.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "webpack-cli",
+        "currentValue": "^3.1.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-feed/package.json",
+        "name": "webpack-laravel-mix-manifest",
+        "currentValue": "2.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-id/package.json",
+        "name": "axios",
+        "currentValue": "^0.17.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-id/package.json",
+        "name": "lodash",
+        "currentValue": "^4.17.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-id/package.json",
+        "name": "plus-message-bundle",
+        "currentValue": "^0.0.5",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-id/package.json",
+        "name": "simkit-bootstrap-ui-kit",
+        "currentValue": "^0.0.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-id/package.json",
+        "name": "vue",
+        "currentValue": "^2.5.9",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-id/package.json",
+        "name": "vue-router",
+        "currentValue": "^3.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-id/package.json",
+        "name": "vuex",
+        "currentValue": "^3.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-id/package.json",
+        "name": "vuex-router-sync",
+        "currentValue": "^5.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-id/package.json",
+        "name": "babel-preset-env",
+        "currentValue": "^1.6.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-id/package.json",
+        "name": "babel-preset-stage-2",
+        "currentValue": "^6.24.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-id/package.json",
+        "name": "cross-env",
+        "currentValue": "^5.0.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-id/package.json",
+        "name": "laravel-mix",
+        "currentValue": "^1.6.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-id/package.json",
+        "name": "vue-template-compiler",
+        "currentValue": "^2.5.9",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "@slimkit/plus-editor",
+        "currentValue": "^0.0.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "axios",
+        "currentValue": "^0.16.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "bootstrap-sass",
+        "currentValue": "^3.3.7",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "github-markdown-css",
+        "currentValue": "^2.8.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "highlight.js",
+        "currentValue": "^9.10.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "jquery",
+        "currentValue": "^3.2.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "js-md5",
+        "currentValue": "^0.4.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "lodash",
+        "currentValue": "^4.17.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "markdown-it",
+        "currentValue": "^8.4.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "markdown-it-plus-image",
+        "currentValue": "^1.0.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "plus-message-bundle",
+        "currentValue": "0.0.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "simplemde",
+        "currentValue": "^1.11.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "vue",
+        "currentValue": "^2.3.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "vue-router",
+        "currentValue": "^2.5.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "autoprefixer",
+        "currentValue": "^6.7.7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "babel-core",
+        "currentValue": "^6.24.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "babel-loader",
+        "currentValue": "^7.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "babel-preset-es2015",
+        "currentValue": "^6.24.1",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "babel-preset-stage-2",
+        "currentValue": "^6.24.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "clean-webpack-plugin",
+        "currentValue": "^0.1.16",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "cross-env",
+        "currentValue": "^5.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "css-loader",
+        "currentValue": "^0.28.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "extract-text-webpack-plugin",
+        "currentValue": "^2.1.0",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "file-loader",
+        "currentValue": "^0.11.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "node-sass",
+        "currentValue": "^4.5.3",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "optimize-css-assets-webpack-plugin",
+        "currentValue": "^1.3.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "sass-loader",
+        "currentValue": "^6.0.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "url-loader",
+        "currentValue": "^0.5.8",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "vue-loader",
+        "currentValue": "^11.3.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "vue-template-compiler",
+        "currentValue": "^2.2.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "webpack",
+        "currentValue": "^2.5.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "webpack-dev-server",
+        "currentValue": "^2.4.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/slimkit-plus-news/package.json",
+        "name": "webpack-laravel-mix-manifest",
+        "currentValue": "^1.0.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/zhiyicx-plus-pc/package.json",
+        "name": "axios",
+        "currentValue": "^0.18.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/zhiyicx-plus-pc/package.json",
+        "name": "js-md5",
+        "currentValue": "^0.7.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/zhiyicx-plus-pc/package.json",
+        "name": "simkit-bootstrap-ui-kit",
+        "currentValue": "^1.1.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/zhiyicx-plus-pc/package.json",
+        "name": "vue",
+        "currentValue": "^2.5.9",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/zhiyicx-plus-pc/package.json",
+        "name": "vue-router",
+        "currentValue": "^3.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/zhiyicx-plus-pc/package.json",
+        "name": "@babel/preset-env",
+        "currentValue": "^7.4.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/zhiyicx-plus-pc/package.json",
+        "name": "babel-loader",
+        "currentValue": "^8.0.6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/zhiyicx-plus-pc/package.json",
+        "name": "babel-preset-env",
+        "currentValue": "^1.6.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/zhiyicx-plus-pc/package.json",
+        "name": "babel-preset-stage-2",
+        "currentValue": "^6.24.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/zhiyicx-plus-pc/package.json",
+        "name": "cross-env",
+        "currentValue": "^5.0.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/zhiyicx-plus-pc/package.json",
+        "name": "laravel-mix",
+        "currentValue": "^4.0.15",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/zhiyicx-plus-pc/package.json",
+        "name": "vue-template-compiler",
+        "currentValue": "^2.5.9",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "axios",
+        "currentValue": "^0.19.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "c-swipe",
+        "currentValue": "^2.1.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "cropperjs",
+        "currentValue": "^1.5.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "crypto-js",
+        "currentValue": "^3.1.9-1",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "dexie",
+        "currentValue": "^2.0.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "easemob-websdk",
+        "currentValue": "3.0.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "github-markdown-css",
+        "currentValue": "^3.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "headroom.js",
+        "currentValue": "^0.9.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "js-md5",
+        "currentValue": "^0.7.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "lodash",
+        "currentValue": "^4.17.15",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "markdown-it",
+        "currentValue": "^9.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "markdown-it-plus-image",
+        "currentValue": "^1.0.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "photoswipe",
+        "currentValue": "^4.1.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "plus-message-bundle",
+        "currentValue": "^1.0.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "register-service-worker",
+        "currentValue": "^1.5.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "underscore",
+        "currentValue": "^1.9.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "vue",
+        "currentValue": "^2.5.21",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "vue-i18n",
+        "currentValue": "^8.14.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "vue-router",
+        "currentValue": "^3.1.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "vuex",
+        "currentValue": "^3.1.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "weixin-js-sdk",
+        "currentValue": "^1.4.0-test",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "xss",
+        "currentValue": "^1.0.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "@vue/cli-plugin-babel",
+        "currentValue": "^3.10.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "@vue/cli-plugin-eslint",
+        "currentValue": "^3.10.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "@vue/cli-plugin-pwa",
+        "currentValue": "^3.10.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "@vue/cli-plugin-unit-jest",
+        "currentValue": "^3.10.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "@vue/cli-service",
+        "currentValue": "^3.10.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "@vue/eslint-config-standard",
+        "currentValue": "^4.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "@vue/test-utils",
+        "currentValue": "^1.0.0-beta.26",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "babel-core",
+        "currentValue": "7.0.0-bridge.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "babel-eslint",
+        "currentValue": "^10.0.2",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "babel-jest",
+        "currentValue": "^24.8.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "eslint",
+        "currentValue": "^6.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "eslint-plugin-vue",
+        "currentValue": "^5.2.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "highlight.js",
+        "currentValue": "^9.15.10",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "json-loader",
+        "currentValue": "^0.5.7",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "less",
+        "currentValue": "^3.8.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "less-loader",
+        "currentValue": "^5.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "markdown-it-container",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "postcss-px2rem",
+        "currentValue": "^0.3.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "strip-css-comments",
+        "currentValue": "^4.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "vue-cli-plugin-i18n",
+        "currentValue": "^0.6.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "vue-template-compiler",
+        "currentValue": "^2.5.17",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/spa/package.json",
+        "name": "yaml-loader",
+        "currentValue": "^0.5.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/stubs/package/package.json",
+        "name": "babel-preset-env",
+        "currentValue": "^1.6.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "resources/stubs/package/package.json",
+        "name": "babel-preset-stage-2",
+        "currentValue": "^6.24.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "resources/stubs/package/package.json",
+        "name": "cross-env",
+        "currentValue": "^5.0.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "resources/stubs/package/package.json",
+        "name": "laravel-mix",
+        "currentValue": "^2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

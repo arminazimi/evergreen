@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "griffin-stewie/clg",
+  "commit": "331b33dfadb29fa79935ed673a76e40bbc90a546",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 10,
+    "findings": [
+      {
+        "ruleId": "swift.xcode.app-store-below-15",
+        "path": ".xcode-version",
+        "line": 1
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 3532,
+    "status": "ok",
+    "dependencies": []
+  }
+}

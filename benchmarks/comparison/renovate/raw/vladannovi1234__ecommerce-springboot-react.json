@@ -1,0 +1,281 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "vladannovi1234/ecommerce-springboot-react",
+  "commit": "d71a50af1c30d0faa3a2028c76e5c79e560ae80d",
+  "ecosystem": "java",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 111,
+    "findings": [
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "api-gateway/pom.xml",
+        "line": 15
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "api-gateway/pom.xml",
+        "line": 16
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "auth-service/pom.xml",
+        "line": 15
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "auth-service/pom.xml",
+        "line": 16
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "cart-service/pom.xml",
+        "line": 15
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "cart-service/pom.xml",
+        "line": 16
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "catalog-service/pom.xml",
+        "line": 15
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "catalog-service/pom.xml",
+        "line": 16
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "commons/pom.xml",
+        "line": 16
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "commons/pom.xml",
+        "line": 17
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "config-service/pom.xml",
+        "line": 15
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "config-service/pom.xml",
+        "line": 16
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "customer-service/pom.xml",
+        "line": 15
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "customer-service/pom.xml",
+        "line": 16
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "discovery-server/pom.xml",
+        "line": 15
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "discovery-server/pom.xml",
+        "line": 16
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "image-service/pom.xml",
+        "line": 15
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "image-service/pom.xml",
+        "line": 16
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "order-service/pom.xml",
+        "line": 15
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "order-service/pom.xml",
+        "line": 16
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "pom.xml",
+        "line": 35
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 7864,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "npm",
+        "path": "frontend/package.json",
+        "name": "@emotion/react",
+        "currentValue": "^11.10.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "frontend/package.json",
+        "name": "@emotion/styled",
+        "currentValue": "^11.10.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "frontend/package.json",
+        "name": "@mui/material",
+        "currentValue": "^5.11.11",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "frontend/package.json",
+        "name": "@mui/styles",
+        "currentValue": "^5.11.11",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "frontend/package.json",
+        "name": "@testing-library/jest-dom",
+        "currentValue": "^5.16.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "frontend/package.json",
+        "name": "@testing-library/react",
+        "currentValue": "^13.4.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "frontend/package.json",
+        "name": "@testing-library/user-event",
+        "currentValue": "^13.5.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "frontend/package.json",
+        "name": "@types/jest",
+        "currentValue": "^27.5.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "frontend/package.json",
+        "name": "@types/node",
+        "currentValue": "^16.18.14",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "frontend/package.json",
+        "name": "@types/react",
+        "currentValue": "^18.0.28",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "frontend/package.json",
+        "name": "@types/react-dom",
+        "currentValue": "^18.0.11",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "frontend/package.json",
+        "name": "react",
+        "currentValue": "^18.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "frontend/package.json",
+        "name": "react-dom",
+        "currentValue": "^18.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "frontend/package.json",
+        "name": "react-router-dom",
+        "currentValue": "^6.8.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "frontend/package.json",
+        "name": "react-scripts",
+        "currentValue": "5.0.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "frontend/package.json",
+        "name": "typescript",
+        "currentValue": "^4.9.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "frontend/package.json",
+        "name": "web-vitals",
+        "currentValue": "^2.1.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

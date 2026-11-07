@@ -1,0 +1,386 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "matryer/xbar",
+  "commit": "d624239058997c80118eaebe2e7f8331b3c765e0",
+  "ecosystem": "go",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 31,
+    "findings": [
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/deploy-xbarappcom.yaml",
+        "line": 16
+      },
+      {
+        "ruleId": "github-actions.setup-go.node20",
+        "path": ".github/workflows/deploy-xbarappcom.yaml",
+        "line": 21
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "app/go.mod",
+        "line": 3
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "pkg/metadata/go.mod",
+        "line": 3
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "pkg/plugins/go.mod",
+        "line": 3
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "pkg/update/go.mod",
+        "line": 3
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "tools/xbarmdcheck/go.mod",
+        "line": 3
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "xbarapp.com/go.mod",
+        "line": 3
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.22",
+        "path": "tools/sitegen/go.mod",
+        "line": 3
+      },
+      {
+        "ruleId": "swift.app-store.ios-below-13",
+        "path": "archive/bitbar/App/Vendor/DateTools/Examples/DateToolsExample/DateToolsExample.xcodeproj/project.pbxproj",
+        "line": 735
+      },
+      {
+        "ruleId": "swift.app-store.ios-below-13",
+        "path": "archive/bitbar/App/Vendor/DateTools/Examples/DateToolsExample/DateToolsExample.xcodeproj/project.pbxproj",
+        "line": 749
+      },
+      {
+        "ruleId": "swift.app-store.ios-below-13",
+        "path": "archive/bitbar/App/Vendor/DateTools/Tests/DateToolsTests/DateToolsTests.xcodeproj/project.pbxproj",
+        "line": 467
+      },
+      {
+        "ruleId": "swift.app-store.ios-below-13",
+        "path": "archive/bitbar/App/Vendor/DateTools/Tests/DateToolsTests/DateToolsTests.xcodeproj/project.pbxproj",
+        "line": 481
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 23658,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/deploy-xbarappcom.yaml",
+        "name": "actions/checkout",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/deploy-xbarappcom.yaml",
+        "name": "actions/setup-go",
+        "currentValue": "v3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/deploy-xbarappcom.yaml",
+        "name": "google-github-actions/auth",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/deploy-xbarappcom.yaml",
+        "name": "google-github-actions/setup-gcloud",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/deploy-xbarappcom.yaml",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/deploy-xbarappcom.yaml",
+        "name": "go",
+        "currentValue": "1.22",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "svelte-hash-router",
+        "currentValue": "^1.0.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "@rollup/plugin-commonjs",
+        "currentValue": "^11.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "@rollup/plugin-image",
+        "currentValue": "^2.0.6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "@rollup/plugin-node-resolve",
+        "currentValue": "^7.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "@rollup/plugin-url",
+        "currentValue": "^5.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "@wails/runtime",
+        "currentValue": "^1.3.10",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "autoprefixer",
+        "currentValue": "^10.4.14",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "focus-visible",
+        "currentValue": "^5.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "highlight.js",
+        "currentValue": ">=10.4.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "postcss",
+        "currentValue": "^8.4.21",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "postcss-import",
+        "currentValue": "^15.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "rollup",
+        "currentValue": "^2.35.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "rollup-plugin-livereload",
+        "currentValue": "^1.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "rollup-plugin-postcss",
+        "currentValue": "^4.0.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "rollup-plugin-string",
+        "currentValue": "^3.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "rollup-plugin-svelte",
+        "currentValue": "~6.1.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "rollup-plugin-terser",
+        "currentValue": "^5.1.2",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "sirv-cli",
+        "currentValue": "^0.4.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "svelte",
+        "currentValue": "^3.32.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "svelte-highlight",
+        "currentValue": "^0.6.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "svelte-preprocess",
+        "currentValue": "^4.6.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "app/frontend/package.json",
+        "name": "tailwindcss",
+        "currentValue": "^3.3.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "xbarapp.com/package.json",
+        "name": "autoprefixer",
+        "currentValue": "^10.2.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "xbarapp.com/package.json",
+        "name": "cssnano",
+        "currentValue": "^4.1.10",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "xbarapp.com/package.json",
+        "name": "postcss",
+        "currentValue": "^8.4.18",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "xbarapp.com/package.json",
+        "name": "postcss-cli",
+        "currentValue": "^8.3.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "xbarapp.com/package.json",
+        "name": "tailwindcss",
+        "currentValue": "^2.0.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

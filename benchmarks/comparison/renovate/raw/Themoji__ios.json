@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "Themoji/ios",
+  "commit": "7e5a113716ad9e0c345da5c3bcfc4a6250d52db8",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 12,
+    "findings": [
+      {
+        "ruleId": "swift.app-store.ios-below-13",
+        "path": "Themoji.xcodeproj/project.pbxproj",
+        "line": 505
+      },
+      {
+        "ruleId": "swift.app-store.ios-below-13",
+        "path": "Themoji.xcodeproj/project.pbxproj",
+        "line": 534
+      },
+      {
+        "ruleId": "swift.xcode.app-store-below-15",
+        "path": ".xcode-version",
+        "line": 1
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 23950,
+    "status": "ok",
+    "dependencies": []
+  }
+}

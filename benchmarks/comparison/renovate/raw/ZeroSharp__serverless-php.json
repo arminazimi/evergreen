@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "ZeroSharp/serverless-php",
+  "commit": "20fb85d0afc01b04c6646bf4b958b2929b778ad2",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 5,
+    "findings": [
+      {
+        "ruleId": "serverless.aws-lambda.nodejs14.x",
+        "path": "serverless.yml",
+        "line": 22
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 8184,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "dockerfile",
+        "path": "dockerfile.buildphp",
+        "name": "amazonlinux",
+        "currentValue": "2017.03.1.20170812",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "mozilla/crlite",
+  "commit": "008299826177078097b2539a57564b7926916a2c",
+  "ecosystem": "python",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 43,
+    "findings": [
+      {
+        "ruleId": "container.golang.eol-1.25-and-older",
+        "path": "containers/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "go.mod",
+        "line": 3
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.24",
+        "path": "go/go.mod",
+        "line": 32
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.24",
+        "path": "go/go.mod",
+        "line": 34
+      },
+      {
+        "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+        "path": "containers/crlite-generate/pod.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+        "path": "containers/crlite-publish/pod.yaml",
+        "line": 1
+      },
+      {
+        "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+        "path": "containers/crlite-signoff/pod.yaml",
+        "line": 1
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 25877,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "dockerfile",
+        "path": "containers/Dockerfile",
+        "name": "golang",
+        "currentValue": "1.24.5-bookworm",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "containers/Dockerfile",
+        "name": "rust",
+        "currentValue": "latest",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "containers/Dockerfile",
+        "name": "python",
+        "currentValue": "3.12.2-slim-bookworm",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "containers/Dockerfile",
+        "name": "ca-certificates",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      }
+    ]
+  }
+}

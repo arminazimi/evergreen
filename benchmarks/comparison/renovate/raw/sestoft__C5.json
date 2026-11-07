@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "sestoft/C5",
+  "commit": "224386389d83bce81a55f9da304a95d18be15aac",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 69,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": "C5/C5.csproj",
+        "line": 3
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": ".github/workflows/main.yml",
+        "line": 35
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "C5.Tests/C5.Tests.csproj",
+        "line": 3
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "C5.UserGuideExamples/C5.UserGuideExamples.csproj",
+        "line": 3
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "C5/C5.csproj",
+        "line": 3
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/main.yml",
+        "line": 30
+      },
+      {
+        "ruleId": "github-actions.download-artifact.retired",
+        "path": ".github/workflows/main.yml",
+        "line": 72
+      },
+      {
+        "ruleId": "github-actions.setup-dotnet.node20",
+        "path": ".github/workflows/main.yml",
+        "line": 33
+      },
+      {
+        "ruleId": "github-actions.upload-artifact.retired",
+        "path": ".github/workflows/main.yml",
+        "line": 47
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 12509,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/main.yml",
+        "name": "actions/checkout",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/main.yml",
+        "name": "actions/setup-dotnet",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/main.yml",
+        "name": "actions/upload-artifact",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/main.yml",
+        "name": "actions/download-artifact",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/main.yml",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/main.yml",
+        "name": "dotnet-sdk",
+        "currentValue": "8.0.x",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/main.yml",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      }
+    ]
+  }
+}

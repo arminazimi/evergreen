@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "dogo/AKSideMenu",
+  "commit": "9d51d81c923935829e8996788b21b2d25cd05e12",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 17,
+    "findings": [
+      {
+        "ruleId": "ruby.runtime.eol-3.1",
+        "path": "AKSideMenuExamples/Simple/.ruby-version",
+        "line": 1
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.1",
+        "path": "AKSideMenuExamples/Storyboard/.ruby-version",
+        "line": 1
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.1",
+        "path": "Gemfile",
+        "line": 3
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.1",
+        "path": "Gemfile.lock",
+        "line": 113
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 12121,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/Build.yml",
+        "name": "actions/checkout",
+        "currentValue": "v6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/Build.yml",
+        "name": "macos",
+        "currentValue": "26",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      }
+    ]
+  }
+}

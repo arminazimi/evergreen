@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "gchp/iota",
+  "commit": "8f35dd5cba2f07077590619760e62dbb74a71fab",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 30,
+    "findings": [
+      {
+        "ruleId": "rust.crate.tempdir.unmaintained",
+        "path": "Cargo.toml",
+        "line": 16
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 12961,
+    "status": "ok",
+    "dependencies": []
+  }
+}

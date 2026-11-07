@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "golang/groupcache",
+  "commit": "2c02b8208cf8c02a3e358cb1d9b60950647543fc",
+  "ecosystem": "go",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 7,
+    "findings": [
+      {
+        "ruleId": "go.module.github.com.golang.protobuf.deprecated",
+        "path": "go.mod",
+        "line": 5
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "go.mod",
+        "line": 3
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 7581,
+    "status": "ok",
+    "dependencies": []
+  }
+}

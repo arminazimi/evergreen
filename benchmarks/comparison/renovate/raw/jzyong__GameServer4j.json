@@ -1,0 +1,409 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "jzyong/GameServer4j",
+  "commit": "a8bb3edfe065292f3f2497a9185188f03936210f",
+  "ecosystem": "java",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 231,
+    "findings": [
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docs/archive/game-cluster/Dockerfile",
+        "line": 7
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "game-api/Dockerfile",
+        "line": 7
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "game-gate/Dockerfile",
+        "line": 7
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "game-hall/Dockerfile",
+        "line": 7
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "game-manage/Dockerfile",
+        "line": 6
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "game-res/archive/game-cluster/Dockerfile",
+        "line": 7
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "docs/archive/game-cluster/pom.xml",
+        "line": 60
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "docs/archive/game-cluster/pom.xml",
+        "line": 61
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "docs/archive/game-engine/pom.xml",
+        "line": 84
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "docs/archive/game-engine/pom.xml",
+        "line": 85
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-api/pom.xml",
+        "line": 35
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-api/pom.xml",
+        "line": 36
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-gate/pom.xml",
+        "line": 33
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-gate/pom.xml",
+        "line": 34
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-hall/pom.xml",
+        "line": 32
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-hall/pom.xml",
+        "line": 33
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-manage/pom.xml",
+        "line": 101
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-manage/pom.xml",
+        "line": 102
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-manage/pom.xml",
+        "line": 16
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-manage/pom.xml",
+        "line": 17
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-message/pom.xml",
+        "line": 44
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-message/pom.xml",
+        "line": 45
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-res/archive/game-cluster/pom.xml",
+        "line": 60
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-res/archive/game-cluster/pom.xml",
+        "line": 61
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-res/archive/game-engine/pom.xml",
+        "line": 84
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-res/archive/game-engine/pom.xml",
+        "line": 85
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "pom.xml",
+        "line": 17
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "pom.xml",
+        "line": 18
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "pom.xml",
+        "line": 74
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "pom.xml",
+        "line": 75
+      },
+      {
+        "ruleId": "scala.runtime.eol-2.11",
+        "path": "docs/archive/game-db/build.sbt",
+        "line": 7
+      },
+      {
+        "ruleId": "scala.runtime.eol-2.11",
+        "path": "game-res/archive/game-db/build.sbt",
+        "line": 7
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 22363,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "docker-compose",
+        "path": "docs/docker/local/docker-compose.yml",
+        "name": "mongo",
+        "currentValue": "latest",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "docker-compose",
+        "path": "docs/docker/local/docker-compose.yml",
+        "name": "redis",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "docker-compose",
+        "path": "docs/docker/local/docker-compose.yml",
+        "name": "zookeeper",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "docker-compose",
+        "path": "docs/docker/local/docker-compose.yml",
+        "name": "mongo-express",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "docker-compose",
+        "path": "docs/docker/local/docker-compose.yml",
+        "name": "game-api",
+        "currentValue": "releases",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "docker-compose",
+        "path": "docs/docker/local/docker-compose.yml",
+        "name": "game-gate",
+        "currentValue": "releases",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "docker-compose",
+        "path": "docs/docker/local/docker-compose.yml",
+        "name": "game-hall",
+        "currentValue": "releases",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "docker-compose",
+        "path": "docs/docker/local/docker-compose.yml",
+        "name": "game-manage",
+        "currentValue": "releases",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "docker-compose",
+        "path": "docs/kafka/docker-compose.yml",
+        "name": "docker.io/bitnami/kafka",
+        "currentValue": "3.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "docker-compose",
+        "path": "game-res/docker/local/docker-compose.yml",
+        "name": "mongo",
+        "currentValue": "latest",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "docker-compose",
+        "path": "game-res/docker/local/docker-compose.yml",
+        "name": "redis",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "docker-compose",
+        "path": "game-res/docker/local/docker-compose.yml",
+        "name": "zookeeper",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "docker-compose",
+        "path": "game-res/docker/local/docker-compose.yml",
+        "name": "mongo-express",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "docker-compose",
+        "path": "game-res/docker/local/docker-compose.yml",
+        "name": "game-api",
+        "currentValue": "releases",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "docker-compose",
+        "path": "game-res/docker/local/docker-compose.yml",
+        "name": "game-gate",
+        "currentValue": "releases",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "docker-compose",
+        "path": "game-res/docker/local/docker-compose.yml",
+        "name": "game-hall",
+        "currentValue": "releases",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "docker-compose",
+        "path": "game-res/docker/local/docker-compose.yml",
+        "name": "game-manage",
+        "currentValue": "releases",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "docker-compose",
+        "path": "game-res/kafka/docker-compose.yml",
+        "name": "docker.io/bitnami/kafka",
+        "currentValue": "3.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docs/archive/game-cluster/Dockerfile",
+        "name": "openjdk",
+        "currentValue": "14-jdk-alpine",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "game-api/Dockerfile",
+        "name": "openjdk",
+        "currentValue": "14-jdk",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "game-gate/Dockerfile",
+        "name": "openjdk",
+        "currentValue": "14-jdk",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "game-hall/Dockerfile",
+        "name": "openjdk",
+        "currentValue": "14-jdk",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "game-manage/Dockerfile",
+        "name": "openjdk",
+        "currentValue": "14-jdk",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "game-res/archive/game-cluster/Dockerfile",
+        "name": "openjdk",
+        "currentValue": "14-jdk-alpine",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      }
+    ]
+  }
+}

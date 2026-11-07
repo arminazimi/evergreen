@@ -1,0 +1,259 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "aws-samples/aws-lambda-extensions",
+  "commit": "cfed93e212d6415115d6a0a8a10885cded5a2b3b",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 117,
+    "findings": [
+      {
+        "ruleId": "container.python.eol-3.10-and-older",
+        "path": "s3-logs-extension-demo-container-image/extension/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "csharp-example-extension/csharp-example-extension.csproj",
+        "line": 6
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": "csharp-example-extension/csharp-example-extension.csproj",
+        "line": 6
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "cache-extension-demo/go.mod",
+        "line": 3
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "go-example-adaptive-batching-extension/go.mod",
+        "line": 3
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "go-example-crash-uploader-extension/go.mod",
+        "line": 5
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "go-example-extension/go.mod",
+        "line": 3
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "go-example-ipc-extension/go.mod",
+        "line": 3
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "go-example-lambda-runtime-api-proxy-extension/go.mod",
+        "line": 3
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "go-example-logs-api-extension/go.mod",
+        "line": 3
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "go-example-telemetry-api-extension/go.mod",
+        "line": 3
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "kinesis-stream-logs-extension-demo/go.mod",
+        "line": 3
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "kinesisfirehose-logs-extension-demo/go.mod",
+        "line": 3
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs12.x",
+        "path": "cache-extension-demo/SAM/template.yaml",
+        "line": 108
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs12.x",
+        "path": "cache-extension-demo/SAM/template.yaml",
+        "line": 70
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs12.x",
+        "path": "go-example-adaptive-batching-extension/template.yaml",
+        "line": 36
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs12.x",
+        "path": "go-example-logs-api-extension/template.yaml",
+        "line": 37
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs12.x",
+        "path": "kinesis-stream-logs-extension-demo/template.yaml",
+        "line": 57
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs12.x",
+        "path": "kinesisfirehose-logs-extension-demo/template.yaml",
+        "line": 66
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs12.x",
+        "path": "nodejs-example-logs-api-extension/template.yaml",
+        "line": 32
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs16.x",
+        "path": "go-example-telemetry-api-extension/template.yaml",
+        "line": 22
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs16.x",
+        "path": "nodejs-example-telemetry-api-extension/template.yaml",
+        "line": 24
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs18.x",
+        "path": "go-example-lambda-runtime-api-proxy-extension/template.yaml",
+        "line": 24
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs22.x",
+        "path": "awsappconfig-extension-demo/template.yml",
+        "line": 27
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs22.x",
+        "path": "awsappconfig-extension-demo/template.yml",
+        "line": 52
+      },
+      {
+        "ruleId": "serverless.aws-lambda.provided.al2",
+        "path": "custom-runtime-extension-demo/template.yml",
+        "line": 22
+      },
+      {
+        "ruleId": "serverless.aws-lambda.provided.al2",
+        "path": "go-example-extension-sam-layer/template.yaml",
+        "line": 38
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.8",
+        "path": "python-example-logs-api-extension/template.yaml",
+        "line": 35
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.8",
+        "path": "s3-logs-extension-demo-zip-archive/template.yml",
+        "line": 22
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 108290,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "dockerfile",
+        "path": "s3-logs-extension-demo-container-image/extension/Dockerfile",
+        "name": "python",
+        "currentValue": "3.8-alpine",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "s3-logs-extension-demo-container-image/function/functionsrc/Dockerfile",
+        "name": "978558897928.dkr.ecr.us-east-1.amazonaws.com/log-extension-image",
+        "currentValue": "latest",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "s3-logs-extension-demo-container-image/function/functionsrc/Dockerfile",
+        "name": "public.ecr.aws/lambda/python",
+        "currentValue": "3.8",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "cache-extension-demo/SAM/DatabaseEntryCode/package.json",
+        "name": "cfn-response",
+        "currentValue": "^1.0.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "nodejs-example-extension/nodejs-example-extension/package.json",
+        "name": "node-fetch",
+        "currentValue": "^2.6.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "nodejs-example-lambda-runtime-api-proxy-extension/nodejs-example-lambda-runtime-api-proxy-extension/package.json",
+        "name": "express",
+        "currentValue": "^4.21.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "nodejs-example-logs-api-extension/nodejs-example-logs-api-extension/package.json",
+        "name": "aws-sdk",
+        "currentValue": "2.1354.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "nodejs-example-logs-api-extension/nodejs-example-logs-api-extension/package.json",
+        "name": "node-fetch",
+        "currentValue": "^3.1.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "nodejs-example-telemetry-api-extension/nodejs-example-telemetry-api-extension/package.json",
+        "name": "node-fetch",
+        "currentValue": "^3.3.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "nodejs-example-telemetry-api-extension/nodejs-example-telemetry-api-extension/package.json",
+        "name": "express",
+        "currentValue": "^4.21.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

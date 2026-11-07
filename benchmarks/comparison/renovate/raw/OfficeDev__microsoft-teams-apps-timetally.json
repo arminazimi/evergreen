@@ -1,0 +1,466 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "OfficeDev/microsoft-teams-apps-timetally",
+  "commit": "ef150e141a5a1db361e287db3d650099996b5aa4",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 65,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet.Common/Microsoft.Teams.Apps.Timesheet.Common.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet.ReminderFunction/Microsoft.Teams.Apps.Timesheet.ReminderFunction.csproj",
+        "line": 3
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet.Test/Microsoft.Teams.Apps.Timesheet.Test.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/Microsoft.Teams.Apps.Timesheet.csproj",
+        "line": 4
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 8982,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "@fluentui/react",
+        "currentValue": "^7.128.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "@fluentui/react-component-event-listener",
+        "currentValue": "^0.48.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "@fluentui/react-component-ref",
+        "currentValue": "^0.48.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "@fluentui/react-icons-northstar",
+        "currentValue": "^0.51.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "@fluentui/react-northstar",
+        "currentValue": "^0.51.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "@microsoft/applicationinsights-react-js",
+        "currentValue": "^3.0.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "@microsoft/teams-js",
+        "currentValue": "^1.8.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "@uifabric/icons",
+        "currentValue": "^7.5.16",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "@uifabric/variants",
+        "currentValue": "^7.2.30",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "@types/enzyme",
+        "currentValue": "^3.10.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "@types/jest",
+        "currentValue": "^26.0.19",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "@types/lodash",
+        "currentValue": "^4.14.167",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "@types/pretty",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "axios",
+        "currentValue": "^0.21.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "enzyme",
+        "currentValue": "^3.11.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "enzyme-adapter-react-16",
+        "currentValue": "^1.15.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "enzyme-to-json",
+        "currentValue": "^3.5.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "guid-typescript",
+        "currentValue": "1.0.9",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "http-status-codes",
+        "currentValue": "^2.1.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "i18next",
+        "currentValue": "19.4.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "i18next-xhr-backend",
+        "currentValue": "^3.2.2",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "lodash",
+        "currentValue": "^4.17.20",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "moment",
+        "currentValue": "^2.29.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "moment-timezone",
+        "currentValue": "^0.5.32",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "node-sass",
+        "currentValue": "^4.14.1",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "react",
+        "currentValue": "^16.10.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "react-appinsights",
+        "currentValue": "^3.0.0-rc.6",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "react-circular-progressbar",
+        "currentValue": "2.0.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "react-dom",
+        "currentValue": "^16.10.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "react-donut",
+        "currentValue": "1.1.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "react-i18next",
+        "currentValue": "^11.7.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "react-infinite-scroller",
+        "currentValue": "^1.2.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "react-intl",
+        "currentValue": "4.1.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "react-router",
+        "currentValue": "^5.1.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "react-router-dom",
+        "currentValue": "^5.1.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "react-test-renderer",
+        "currentValue": "^16.13.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "ts-jest",
+        "currentValue": "^26.4.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "tslint",
+        "currentValue": "^6.1.3",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "pretty",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "@types/lodash",
+        "currentValue": "^4.14.166",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "@types/react",
+        "currentValue": "16.9.6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "@types/react-dom",
+        "currentValue": "16.9.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "@types/react-router-dom",
+        "currentValue": "^5.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "react-scripts",
+        "currentValue": "3.4.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "tslint-microsoft-contrib",
+        "currentValue": "^6.2.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "typescript",
+        "currentValue": "^3.9.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Source/Microsoft.Teams.Apps.Timesheet/ClientApp/package.json",
+        "name": "prettier",
+        "currentValue": "2.1.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

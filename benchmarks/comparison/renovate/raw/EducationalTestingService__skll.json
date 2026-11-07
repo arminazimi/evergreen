@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "EducationalTestingService/skll",
+  "commit": "b350eb00ffa43f8dfcc672a373d1d3a1946230cd",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 40,
+    "findings": [
+      {
+        "ruleId": "python.runtime.eol-3.10-and-older",
+        "path": "pyproject.toml",
+        "line": 8
+      },
+      {
+        "ruleId": "python.runtime.eol-3.10-and-older",
+        "path": "runtime.txt",
+        "line": 1
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 7818,
+    "status": "ok",
+    "dependencies": []
+  }
+}

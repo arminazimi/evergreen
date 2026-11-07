@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "n8chur/AdvancediOS",
+  "commit": "1bcf78bac211c5b29af699a8c98b9b190791cbd7",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 181,
+    "findings": [
+      {
+        "ruleId": "ruby.runtime.eol-2.5",
+        "path": ".ruby-version",
+        "line": 1
+      },
+      {
+        "ruleId": "ruby.runtime.eol-2.5",
+        "path": "Gemfile.lock",
+        "line": 159
+      },
+      {
+        "ruleId": "swift.xcode.app-store-below-15",
+        "path": ".xcode-version",
+        "line": 1
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 15369,
+    "status": "ok",
+    "dependencies": []
+  }
+}

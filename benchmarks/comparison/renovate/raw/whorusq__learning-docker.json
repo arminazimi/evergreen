@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "whorusq/learning-docker",
+  "commit": "4f39aef4501bfc4f56406e8afcba885a29242b04",
+  "ecosystem": "container",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 9,
+    "findings": [
+      {
+        "ruleId": "container.dockerfile.maintainer",
+        "path": "lamp2/Dockerfile",
+        "line": 10
+      },
+      {
+        "ruleId": "container.dockerfile.maintainer",
+        "path": "tools/Dockerfile",
+        "line": 8
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "Dockerfile.md",
+        "line": 112
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "lamp2/Dockerfile",
+        "line": 9
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "tools/Dockerfile",
+        "line": 7
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 8631,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile.md",
+        "name": "nginx",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile.md",
+        "name": "ubuntu",
+        "currentValue": "16.04",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "lamp2/Dockerfile",
+        "name": "ubuntu",
+        "currentValue": "16.04",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "lamp3/build/php_apache/Dockerfile",
+        "name": "libfreetype6-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "lamp3/build/php_apache/Dockerfile",
+        "name": "libjpeg62-turbo-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "lamp3/build/php_apache/Dockerfile",
+        "name": "libmcrypt-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "lamp3/build/php_apache/Dockerfile",
+        "name": "libpng12-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "lamp3/build/php_apache/Dockerfile",
+        "name": "libgearman-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "tools/Dockerfile",
+        "name": "ubuntu",
+        "currentValue": "16.04",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

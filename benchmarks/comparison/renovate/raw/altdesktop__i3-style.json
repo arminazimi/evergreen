@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "altdesktop/i3-style",
+  "commit": "f93821b239667cb4ecff41e6ad9632da0b5aaa50",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 10,
+    "findings": []
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 14100,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "npm",
+        "path": "legacy/package.json",
+        "name": "color-namer",
+        "currentValue": "^1.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "legacy/package.json",
+        "name": "commander",
+        "currentValue": "^2.9.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "legacy/package.json",
+        "name": "js-yaml",
+        "currentValue": "^3.4.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "legacy/package.json",
+        "name": "shelljs",
+        "currentValue": "^0.3.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "legacy/package.json",
+        "name": "underscore",
+        "currentValue": "^1.8.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "legacy/package.json",
+        "name": "chai",
+        "currentValue": "^3.4.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "legacy/package.json",
+        "name": "coffee-script",
+        "currentValue": "^1.10.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "legacy/package.json",
+        "name": "mocha",
+        "currentValue": "^2.3.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "legacy/package.json",
+        "name": "which",
+        "currentValue": "^1.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

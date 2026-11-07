@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "hexawyz/NetUnicodeInfo",
+  "commit": "c2ab5227094d8f934b34fe6d3186c7f1e2be5e74",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 21,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": "System.Unicode/System.Unicode.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": "System.Unicode.Build.DatabaseGenerator/System.Unicode.Build.DatabaseGenerator.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": "System.Unicode.Tests/System.Unicode.Tests.csproj",
+        "line": 4
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 3658,
+    "status": "ok",
+    "dependencies": []
+  }
+}

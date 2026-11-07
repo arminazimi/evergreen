@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "hisaac/Sensorium",
+  "commit": "8797500e6ada78c4f03a32a4a2d607c4493f72cb",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 8,
+    "findings": [
+      {
+        "ruleId": "swift.xcode.app-store-15-through-25",
+        "path": ".xcode-version",
+        "line": 1
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 5849,
+    "status": "ok",
+    "dependencies": []
+  }
+}

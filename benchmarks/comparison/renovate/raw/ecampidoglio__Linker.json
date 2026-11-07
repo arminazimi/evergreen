@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "ecampidoglio/Linker",
+  "commit": "960c42b6c3454f941afeb43193370bac3bb1ec69",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 14,
+    "findings": [
+      {
+        "ruleId": "ci-images.azure-pipelines.windows-2019",
+        "path": "azure-pipelines.yml",
+        "line": 2
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.0",
+        "path": "Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.0",
+        "path": "src/Linker/Linker.csproj",
+        "line": 8
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.0",
+        "path": "test/Linker.Tests/Linker.Tests.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "global.json",
+        "line": 3
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/build.yml",
+        "line": 16
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 8757,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile",
+        "name": "mcr.microsoft.com/dotnet/core/aspnet",
+        "currentValue": "3.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/build.yml",
+        "name": "actions/checkout",
+        "currentValue": "v1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/build.yml",
+        "name": "cake-build/cake-action",
+        "currentValue": "v1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/Linker/package.json",
+        "name": "jquery",
+        "currentValue": "^3.5.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/Linker/package.json",
+        "name": "webui-popover",
+        "currentValue": "^1.2.18",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "src/Linker/package.json",
+        "name": "browserify",
+        "currentValue": "^16.2.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/Linker/package.json",
+        "name": "clean-css-cli",
+        "currentValue": "^4.3.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/Linker/package.json",
+        "name": "copyfiles",
+        "currentValue": "^2.1.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/Linker/package.json",
+        "name": "node-sass",
+        "currentValue": "^7.0.0",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/Linker/package.json",
+        "name": "uglify-js",
+        "currentValue": "^3.5.15",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

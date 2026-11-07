@@ -1,0 +1,134 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "PacktPublishing/Effective-DevOps-with-AWS-Second-Edition",
+  "commit": "37555d2cdd759986a47881475a9210c88f539ffb",
+  "ecosystem": "database",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 41,
+    "findings": [
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter04/fourthproject/helloworldansiblepull.tf",
+        "line": 21
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter04/fourthproject/helloworldansiblepull.tf",
+        "line": 33
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter04/secondproject/helloworldec2.tf",
+        "line": 23
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter04/thirdproject/helloworldansible.tf",
+        "line": 21
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter04/thirdproject/helloworldansible.tf",
+        "line": 36
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter06/main.tf",
+        "line": 13
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter06/main.tf",
+        "line": 3
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter06/main.tf",
+        "line": 35
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter06/main.tf",
+        "line": 8
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter08/main.tf",
+        "line": 17
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter08/outputs.tf",
+        "line": 1
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter08/outputs.tf",
+        "line": 2
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter08/outputs.tf",
+        "line": 3
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 3639,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "dockerfile",
+        "path": "Chapter07/helloworld/Dockerfile",
+        "name": "node",
+        "currentValue": "argon",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "Chapter05/helloworld/package.json",
+        "name": "mocha",
+        "currentValue": "^2.5.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Chapter05/helloworld/package.json",
+        "name": "zombie",
+        "currentValue": "^3.0.15",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Chapter07/helloworld/package.json",
+        "name": "mocha",
+        "currentValue": "^2.5.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Chapter07/helloworld/package.json",
+        "name": "zombie",
+        "currentValue": "^3.0.15",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

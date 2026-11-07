@@ -7,6 +7,8 @@ This directory holds the measured comparison with endoflife.date, run under
 2. **Data correctness:** when both sides publish a lifecycle date for the same release cycle, do they agree, and
    which side matches the date the ground-truth audit checked against the vendor?
 
+The comparison with Renovate lives in [renovate/](renovate/README.md).
+
 The result is committed as [endoflife-date.json](endoflife-date.json) (the data) and
 [endoflife-date.md](endoflife-date.md) (the tables). Both are generated; do not edit them by hand.
 

@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "PowerShell/PSReadLine",
+  "commit": "a2d143f78904f8a954f8d4b055e55ceca6939bfc",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 57,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "global.json",
+        "line": 3
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "MockPSConsole/MockPSConsole.csproj",
+        "line": 7
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "PSReadLine/PSReadLine.csproj",
+        "line": 12
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "test/PSReadLine.Tests.csproj",
+        "line": 8
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/IssuePreTriage.yml",
+        "line": 29
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-6",
+        "path": "tools/releaseTools.psm1",
+        "line": 1
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 9338,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/IssuePreTriage.yml",
+        "name": "actions/checkout",
+        "currentValue": "v4.4.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/IssuePreTriage.yml",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,542 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "HomeBusProjects/HomeBus",
+  "commit": "15681fbaf24f3c54b16c9526cdde983a34f96d21",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 136,
+    "findings": [
+      {
+        "ruleId": "container.debian.eol-11-and-older",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.8-builded",
+        "line": 1
+      },
+      {
+        "ruleId": "container.debian.eol-11-and-older",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.9-builded",
+        "line": 1
+      },
+      {
+        "ruleId": "container.ruby.eol-3.2-and-older",
+        "path": "Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.ubuntu.16.04-builded",
+        "line": 1
+      },
+      {
+        "ruleId": "database.redis.end-of-life-7.0",
+        "path": "docker-compose.yml",
+        "line": 13
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/test.yml",
+        "line": 25
+      },
+      {
+        "ruleId": "ruby.runtime.eol-2.6",
+        "path": "deploy/.ruby-version",
+        "line": 1
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.1",
+        "path": ".ruby-version",
+        "line": 1
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.1",
+        "path": "Gemfile",
+        "line": 6
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.1",
+        "path": "Gemfile.lock",
+        "line": 371
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 30145,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "docker-compose",
+        "path": "docker-compose.yml",
+        "name": "postgres",
+        "currentValue": "15.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "docker-compose",
+        "path": "docker-compose.yml",
+        "name": "redis",
+        "currentValue": "7.0.11",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "docker-compose",
+        "path": "docker-compose.yml",
+        "name": "eclipse-mosquitto",
+        "currentValue": "2.0.15",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile",
+        "name": "ruby",
+        "currentValue": "3.1.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile",
+        "name": "build-essential",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile",
+        "name": "zip",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile",
+        "name": "nodejs",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile",
+        "name": "postgresql-contrib",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/Dockerfile-centos6",
+        "name": "centos",
+        "currentValue": "6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/Dockerfile-ubuntu14.04",
+        "name": "ubuntu",
+        "currentValue": "14.04",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/Dockerfile-ubuntu14.04",
+        "name": "python-apt",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/Dockerfile-ubuntu14.04",
+        "name": "python-pycurl",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/Dockerfile-ubuntu14.04",
+        "name": "python-pip",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/Dockerfile-ubuntu14.04",
+        "name": "python-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/Dockerfile-ubuntu14.04",
+        "name": "libffi-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/Dockerfile-ubuntu14.04",
+        "name": "libssl-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/Dockerfile-ubuntu14.04",
+        "name": "locales",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.centos.6-builded",
+        "name": "centos",
+        "currentValue": "6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.centos.7-builded",
+        "name": "centos",
+        "currentValue": "7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.8-builded",
+        "name": "debian",
+        "currentValue": "8",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.8-builded",
+        "name": "python-minimal",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.8-builded",
+        "name": "systemd",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.8-builded",
+        "name": "gnupg",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.8-builded",
+        "name": "iproute2",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.8-builded",
+        "name": "sudo",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.9-builded",
+        "name": "debian",
+        "currentValue": "9",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.9-builded",
+        "name": "python-minimal",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.9-builded",
+        "name": "systemd",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.9-builded",
+        "name": "gnupg",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.9-builded",
+        "name": "iproute2",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.9-builded",
+        "name": "sudo",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.ubuntu.16.04-builded",
+        "name": "ubuntu",
+        "currentValue": "16.04",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.ubuntu.16.04-builded",
+        "name": "python-minimal",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.ubuntu.16.04-builded",
+        "name": "systemd",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.ubuntu.16.04-builded",
+        "name": "gnupg",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.ubuntu.16.04-builded",
+        "name": "iproute2",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.ubuntu.16.04-builded",
+        "name": "sudo",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/sansible.mosquitto/molecule/default/Dockerfile.j2",
+        "name": "{{",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/sansible.mosquitto/molecule/default/Dockerfile.j2",
+        "name": "python",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/sansible.mosquitto/molecule/default/Dockerfile.j2",
+        "name": "sudo",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/sansible.mosquitto/molecule/default/Dockerfile.j2",
+        "name": "bash",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/sansible.mosquitto/molecule/default/Dockerfile.j2",
+        "name": "ca-certificates",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/sansible.mosquitto/molecule/default/Dockerfile.j2",
+        "name": "python",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/sansible.mosquitto/molecule/default/Dockerfile.j2",
+        "name": "sudo",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/sansible.mosquitto/molecule/default/Dockerfile.j2",
+        "name": "bash",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "ansible/playbooks/roles/sansible.mosquitto/molecule/default/Dockerfile.j2",
+        "name": "ca-certificates",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/test.yml",
+        "name": "actions/checkout",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/test.yml",
+        "name": "ruby/setup-ruby",
+        "currentValue": "v1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/test.yml",
+        "name": "redis",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/test.yml",
+        "name": "postgres",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/test.yml",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/test.yml",
+        "name": "ruby",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,455 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "zackradisic/aussieplusplus",
+  "commit": "9522366ef0602946420fee19fa2ad6769b773c07",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 28,
+    "findings": []
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 13732,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "@headlessui/react",
+        "currentValue": "^1.4.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "@heroicons/react",
+        "currentValue": "^1.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "@monaco-editor/react",
+        "currentValue": "^4.3.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "@tailwindcss/aspect-ratio",
+        "currentValue": "^0.2.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "@wasmer/wasi",
+        "currentValue": "^0.12.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "@wasmer/wasm-terminal",
+        "currentValue": "^0.12.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "@wasmer/wasm-transformer",
+        "currentValue": "^0.12.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "@wasmer/wasmfs",
+        "currentValue": "^0.12.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "autoprefixer",
+        "currentValue": "^10.2.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "classnames",
+        "currentValue": "^2.3.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "fflate",
+        "currentValue": "^0.7.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "isomorphic-path",
+        "currentValue": "^2.0.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "next",
+        "currentValue": "latest",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "postcss",
+        "currentValue": "^8.2.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "prismjs",
+        "currentValue": "^1.25.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "react",
+        "currentValue": "^17.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "react-dom",
+        "currentValue": "^16.12.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "react-markdown",
+        "currentValue": "^7.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "react-simple-code-editor",
+        "currentValue": "^0.11.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "tailwindcss",
+        "currentValue": "^2.2.9",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "use-breakpoint",
+        "currentValue": "^2.0.2",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "@types/node",
+        "currentValue": "^12.12.21",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "@types/prismjs",
+        "currentValue": "^1.16.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "@types/react",
+        "currentValue": "^16.9.16",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "@types/react-dom",
+        "currentValue": "^16.9.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "@typescript-eslint/eslint-plugin",
+        "currentValue": "^4.14.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "@typescript-eslint/parser",
+        "currentValue": "^4.14.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "babel-eslint",
+        "currentValue": "^10.1.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "eslint",
+        "currentValue": "^7.19.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "eslint-config-prettier",
+        "currentValue": "^7.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "eslint-config-prettier-standard",
+        "currentValue": "^3.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "eslint-config-react-app",
+        "currentValue": "^6.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "eslint-config-standard",
+        "currentValue": "^16.0.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "eslint-plugin-flowtype",
+        "currentValue": "^5.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "eslint-plugin-import",
+        "currentValue": "^2.22.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "eslint-plugin-jsx-a11y",
+        "currentValue": "^6.4.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "eslint-plugin-node",
+        "currentValue": "^11.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "eslint-plugin-prettier",
+        "currentValue": "^3.3.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "eslint-plugin-promise",
+        "currentValue": "^4.2.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "eslint-plugin-react",
+        "currentValue": "^7.22.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "eslint-plugin-react-hooks",
+        "currentValue": "^4.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "eslint-plugin-simple-import-sort",
+        "currentValue": "^7.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "eslint-plugin-standard",
+        "currentValue": "^5.0.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "husky",
+        "currentValue": "^4.3.8",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "prettier",
+        "currentValue": "^2.2.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "prettier-config-standard",
+        "currentValue": "^1.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "slugify",
+        "currentValue": "^1.6.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "site/package.json",
+        "name": "typescript",
+        "currentValue": "~4.3.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

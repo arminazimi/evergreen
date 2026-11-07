@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "nettitude/SharpSocks",
+  "commit": "208226df71205e977afd7edf6d25fb6d8793bd99",
+  "ecosystem": "dotnet",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 145,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": "global.json",
+        "line": 3
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": "SharpSocksCommon/SharpSocksCommon.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": "SharpSocksServer/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": "SharpSocksServer/Dockerfile",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": "SharpSocksServer/global.json",
+        "line": 3
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": ".github/workflows/sharpsocks-server.yml",
+        "line": 19
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": "SharpSocksServer/SharpSocksServer.csproj",
+        "line": 3
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/sharpsocks-server.yml",
+        "line": 15
+      },
+      {
+        "ruleId": "github-actions.setup-dotnet.node20",
+        "path": ".github/workflows/sharpsocks-server.yml",
+        "line": 17
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 10948,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "dockerfile",
+        "path": "SharpSocksServer/Dockerfile",
+        "name": "mcr.microsoft.com/dotnet/runtime",
+        "currentValue": "5.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "SharpSocksServer/Dockerfile",
+        "name": "mcr.microsoft.com/dotnet/sdk",
+        "currentValue": "5.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/sharpsocks-server.yml",
+        "name": "actions/checkout",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/sharpsocks-server.yml",
+        "name": "actions/setup-dotnet",
+        "currentValue": "v1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/sharpsocks-server.yml",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/sharpsocks-server.yml",
+        "name": "dotnet-sdk",
+        "currentValue": "6.0.x",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

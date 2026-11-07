@@ -1,0 +1,1458 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "galnir/Master-Bot",
+  "commit": "cb023bee70d6d96b4692b35c4dc49051f58e9fba",
+  "ecosystem": "node-actions",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 168,
+    "findings": [
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "Dockerfile",
+        "line": 4
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "Dockerfile",
+        "line": 9
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/main.yml",
+        "line": 8
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-18",
+        "path": "apps/bot/package.json",
+        "line": 18
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-19",
+        "path": "apps/bot/package.json",
+        "line": 18
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": "apps/bot/package.json",
+        "line": 18
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": "package.json",
+        "line": 5
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "apps/bot/package.json",
+        "line": 59
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "apps/dashboard/package.json",
+        "line": 53
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "packages/api/package.json",
+        "line": 27
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "packages/auth/package.json",
+        "line": 26
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "packages/config/eslint/package.json",
+        "line": 23
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "apps/bot/package.json",
+        "line": 59
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "apps/dashboard/package.json",
+        "line": 53
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "packages/api/package.json",
+        "line": 27
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "packages/auth/package.json",
+        "line": 26
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "packages/config/eslint/package.json",
+        "line": 23
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "apps/bot/package.json",
+        "line": 59
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "apps/dashboard/package.json",
+        "line": 55
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/api/package.json",
+        "line": 27
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/auth/package.json",
+        "line": 26
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/config/eslint/package.json",
+        "line": 11
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/config/tailwind/package.json",
+        "line": 13
+      },
+      {
+        "ruleId": "npm.package.next.14.support-end",
+        "path": "apps/dashboard/package.json",
+        "line": 36
+      },
+      {
+        "ruleId": "npm.package.next.14.support-end",
+        "path": "packages/auth/package.json",
+        "line": 18
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 28947,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "docker-compose",
+        "path": "docker-compose.yml",
+        "name": "fredboat/lavalink",
+        "currentValue": "3-alpine",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "docker-compose",
+        "path": "docker-compose.yml",
+        "name": "postgres",
+        "currentValue": "15-alpine",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "docker-compose",
+        "path": "docker-compose.yml",
+        "name": "redis",
+        "currentValue": "7-alpine",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile",
+        "name": "node",
+        "currentValue": "18-slim",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile",
+        "name": "openssl",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "Dockerfile",
+        "name": "libfontconfig1",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/main.yml",
+        "name": "actions/checkout",
+        "currentValue": "v3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/main.yml",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "@discordjs/collection",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "@lavaclient/spotify",
+        "currentValue": "^3.1.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "@lavalink/encoding",
+        "currentValue": "^0.1.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "@master-bot/api",
+        "currentValue": "^0.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "@napi-rs/canvas",
+        "currentValue": "^0.1.44",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "@prisma/client",
+        "currentValue": "^5.6.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "@sapphire/decorators",
+        "currentValue": "^6.0.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "@sapphire/discord.js-utilities",
+        "currentValue": "^7.1.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "@sapphire/framework",
+        "currentValue": "^4.8.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "@sapphire/plugin-hmr",
+        "currentValue": "^2.0.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "@sapphire/time-utilities",
+        "currentValue": "^1.7.10",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "@sapphire/utilities",
+        "currentValue": "^3.13.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "@t3-oss/env-core",
+        "currentValue": "^0.7.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "@trpc/client",
+        "currentValue": "next",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "@trpc/server",
+        "currentValue": "next",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "axios",
+        "currentValue": "^1.6.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "colorette",
+        "currentValue": "^2.0.20",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "discord.js",
+        "currentValue": "^14.14.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "genius-discord-lyrics",
+        "currentValue": "1.0.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "google-translate-api-x",
+        "currentValue": "^10.6.7",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "ioredis",
+        "currentValue": "^5.3.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "iso-639-1",
+        "currentValue": "^3.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "lavaclient",
+        "currentValue": "^4.1.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "metadata-filter",
+        "currentValue": "^1.3.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "ncp",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "node-fetch",
+        "currentValue": "^3.3.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "npm-run-all",
+        "currentValue": "^4.1.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "string-progressbar",
+        "currentValue": "^1.0.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "superjson",
+        "currentValue": "1.13.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "winston",
+        "currentValue": "^3.11.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "winston-daily-rotate-file",
+        "currentValue": "^4.7.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "zod",
+        "currentValue": "^3.22.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "@lavaclient/types",
+        "currentValue": "^2.1.1",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "@sapphire/ts-config",
+        "currentValue": "^5.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "@types/ioredis",
+        "currentValue": "^4.28.10",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "@types/node",
+        "currentValue": "^20.9.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "@typescript-eslint/eslint-plugin",
+        "currentValue": "^6.12.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "@typescript-eslint/parser",
+        "currentValue": "^6.12.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "dotenv",
+        "currentValue": "^16.3.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "dotenv-cli",
+        "currentValue": "^7.3.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "prettier",
+        "currentValue": "^3.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "tslib",
+        "currentValue": "^2.6.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "typescript",
+        "currentValue": "^5.3.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/bot/package.json",
+        "name": "node",
+        "currentValue": ">=v18.16.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "@master-bot/api",
+        "currentValue": "^0.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "@master-bot/auth",
+        "currentValue": "^0.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "@master-bot/db",
+        "currentValue": "^0.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "@radix-ui/react-dropdown-menu",
+        "currentValue": "^2.0.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "@radix-ui/react-select",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "@radix-ui/react-slot",
+        "currentValue": "^1.0.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "@radix-ui/react-switch",
+        "currentValue": "^1.0.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "@radix-ui/react-toast",
+        "currentValue": "^1.1.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "@t3-oss/env-nextjs",
+        "currentValue": "^0.7.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "@tanstack/react-query",
+        "currentValue": "^5.8.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "@tanstack/react-query-devtools",
+        "currentValue": "^5.8.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "@tanstack/react-query-next-experimental",
+        "currentValue": "5.8.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "@trpc/client",
+        "currentValue": "next",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "@trpc/next",
+        "currentValue": "next",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "@trpc/react-query",
+        "currentValue": "next",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "@trpc/server",
+        "currentValue": "next",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "class-variance-authority",
+        "currentValue": "^0.7.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "clsx",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "discord-api-types",
+        "currentValue": "^0.37.64",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "lucide-react",
+        "currentValue": "^0.292.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "next",
+        "currentValue": "^14.0.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "next-themes",
+        "currentValue": "^0.2.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "react",
+        "currentValue": "18.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "react-dom",
+        "currentValue": "18.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "superjson",
+        "currentValue": "1.13.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "tailwind-merge",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "tailwindcss-animate",
+        "currentValue": "^1.0.7",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "zod",
+        "currentValue": "^3.22.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "@master-bot/eslint-config",
+        "currentValue": "^0.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "@master-bot/tailwind-config",
+        "currentValue": "^0.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "@types/node",
+        "currentValue": "^20.9.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "@types/react",
+        "currentValue": "^18.2.38",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "@types/react-dom",
+        "currentValue": "^18.2.16",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "autoprefixer",
+        "currentValue": "^10.4.16",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "dotenv-cli",
+        "currentValue": "^7.3.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "eslint",
+        "currentValue": "^8.54.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "postcss",
+        "currentValue": "^8.4.31",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "tailwindcss",
+        "currentValue": "^3.3.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "apps/dashboard/package.json",
+        "name": "typescript",
+        "currentValue": "^5.3.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "@ianvs/prettier-plugin-sort-imports",
+        "currentValue": "^4.1.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "@manypkg/cli",
+        "currentValue": "^0.21.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "prettier",
+        "currentValue": "^3.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "prettier-plugin-tailwindcss",
+        "currentValue": "^0.5.7",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "turbo",
+        "currentValue": "^1.10.16",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "typescript",
+        "currentValue": "^5.3.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "node",
+        "currentValue": ">=v20.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "pnpm",
+        "currentValue": "8.6.7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/api/package.json",
+        "name": "@master-bot/auth",
+        "currentValue": "^0.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/api/package.json",
+        "name": "@master-bot/db",
+        "currentValue": "^0.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/api/package.json",
+        "name": "@t3-oss/env-core",
+        "currentValue": "^0.7.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/api/package.json",
+        "name": "@trpc/client",
+        "currentValue": "next",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/api/package.json",
+        "name": "@trpc/server",
+        "currentValue": "next",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/api/package.json",
+        "name": "axios",
+        "currentValue": "^1.6.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/api/package.json",
+        "name": "discord-api-types",
+        "currentValue": "^0.37.64",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/api/package.json",
+        "name": "superjson",
+        "currentValue": "1.13.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/api/package.json",
+        "name": "zod",
+        "currentValue": "^3.22.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/api/package.json",
+        "name": "@master-bot/eslint-config",
+        "currentValue": "^0.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/api/package.json",
+        "name": "dotenv",
+        "currentValue": "^16.3.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/api/package.json",
+        "name": "eslint",
+        "currentValue": "^8.54.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/api/package.json",
+        "name": "typescript",
+        "currentValue": "^5.3.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/auth/package.json",
+        "name": "@auth/core",
+        "currentValue": "^0.18.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/auth/package.json",
+        "name": "@auth/prisma-adapter",
+        "currentValue": "^1.0.8",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/auth/package.json",
+        "name": "@master-bot/db",
+        "currentValue": "^0.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/auth/package.json",
+        "name": "@t3-oss/env-nextjs",
+        "currentValue": "^0.7.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/auth/package.json",
+        "name": "next",
+        "currentValue": "^14.0.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/auth/package.json",
+        "name": "next-auth",
+        "currentValue": "5.0.0-beta.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/auth/package.json",
+        "name": "react",
+        "currentValue": "18.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/auth/package.json",
+        "name": "react-dom",
+        "currentValue": "18.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/auth/package.json",
+        "name": "zod",
+        "currentValue": "^3.22.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/auth/package.json",
+        "name": "@master-bot/eslint-config",
+        "currentValue": "^0.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "packages/auth/package.json",
+        "name": "eslint",
+        "currentValue": "^8.54.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/auth/package.json",
+        "name": "typescript",
+        "currentValue": "^5.3.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/config/eslint/package.json",
+        "name": "@next/eslint-plugin-next",
+        "currentValue": "^14.0.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/config/eslint/package.json",
+        "name": "@types/eslint",
+        "currentValue": "^8.44.7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/config/eslint/package.json",
+        "name": "@typescript-eslint/eslint-plugin",
+        "currentValue": "^6.12.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/config/eslint/package.json",
+        "name": "@typescript-eslint/parser",
+        "currentValue": "^6.12.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/config/eslint/package.json",
+        "name": "eslint-config-prettier",
+        "currentValue": "^9.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/config/eslint/package.json",
+        "name": "eslint-config-turbo",
+        "currentValue": "^1.10.16",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/config/eslint/package.json",
+        "name": "eslint-plugin-import",
+        "currentValue": "^2.29.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/config/eslint/package.json",
+        "name": "eslint-plugin-jsx-a11y",
+        "currentValue": "^6.8.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/config/eslint/package.json",
+        "name": "eslint-plugin-react",
+        "currentValue": "^7.33.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/config/eslint/package.json",
+        "name": "eslint-plugin-react-hooks",
+        "currentValue": "^4.6.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/config/eslint/package.json",
+        "name": "eslint",
+        "currentValue": "^8.54.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/config/eslint/package.json",
+        "name": "typescript",
+        "currentValue": "^5.3.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/config/tailwind/package.json",
+        "name": "autoprefixer",
+        "currentValue": "^10.4.16",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/config/tailwind/package.json",
+        "name": "postcss",
+        "currentValue": "^8.4.31",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/config/tailwind/package.json",
+        "name": "tailwindcss",
+        "currentValue": "^3.3.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/db/package.json",
+        "name": "@prisma/client",
+        "currentValue": "^5.6.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/db/package.json",
+        "name": "@types/node",
+        "currentValue": "^20.9.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/db/package.json",
+        "name": "dotenv-cli",
+        "currentValue": "^7.3.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/db/package.json",
+        "name": "prisma",
+        "currentValue": "^5.6.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "packages/db/package.json",
+        "name": "typescript",
+        "currentValue": "^5.3.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

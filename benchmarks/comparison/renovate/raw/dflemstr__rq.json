@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "dflemstr/rq",
+  "commit": "eb2f033051f7068cb2a6a85dac9e47204cc88cf2",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 15,
+    "findings": [
+      {
+        "ruleId": "rust.crate.ansi-term.unmaintained",
+        "path": "Cargo.toml",
+        "line": 28
+      },
+      {
+        "ruleId": "rust.crate.atty.unmaintained",
+        "path": "Cargo.toml",
+        "line": 29
+      },
+      {
+        "ruleId": "rust.crate.failure.unmaintained",
+        "path": "Cargo.toml",
+        "line": 34
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 30357,
+    "status": "ok",
+    "dependencies": []
+  }
+}

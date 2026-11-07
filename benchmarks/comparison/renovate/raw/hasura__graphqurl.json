@@ -1,0 +1,1224 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "hasura/graphqurl",
+  "commit": "1d142d21a78f5d4e139840075d9d3e5a425b98dd",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 56,
+    "findings": [
+      {
+        "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+        "path": "azure-pipelines.yml",
+        "line": 28
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-18",
+        "path": "package.json",
+        "line": 31
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-19",
+        "path": "package.json",
+        "line": 31
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": "package.json",
+        "line": 31
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "package.json",
+        "line": 27
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "package.json",
+        "line": 27
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "package.json",
+        "line": 27
+      },
+      {
+        "ruleId": "npm.package.lodash-get.deprecated",
+        "path": "package.json",
+        "line": 28
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 13227,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "@oclif/command",
+        "currentValue": "1.8.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "@oclif/config",
+        "currentValue": "1.17.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "@oclif/errors",
+        "currentValue": "1.3.4",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "@oclif/plugin-help",
+        "currentValue": "^3.3.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "cli-ux",
+        "currentValue": "^4.7.3",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "express",
+        "currentValue": "^4.19.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "graphql",
+        "currentValue": "15.5.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "graphql-language-service",
+        "currentValue": "^5.3.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "isomorphic-ws",
+        "currentValue": "4.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "open",
+        "currentValue": "7.3.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "terminal-kit",
+        "currentValue": "^3.1.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "ws",
+        "currentValue": "^7.5.9",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "@vercel/ncc",
+        "currentValue": "^0.38.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "eslint",
+        "currentValue": "^7.26.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "eslint-config-oclif",
+        "currentValue": "^1.5.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "package.json",
+        "name": "node",
+        "currentValue": ">=18.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "apollo-link",
+        "currentValue": "^1.2.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "apollo-link-ws",
+        "currentValue": "^1.0.8",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "babel-plugin-transform-class-properties",
+        "currentValue": "^6.24.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "graphiql",
+        "currentValue": "1.0.0-alpha.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "graphiql-code-exporter",
+        "currentValue": "^2.0.8",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "graphiql-explorer",
+        "currentValue": "^0.6.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "graphql",
+        "currentValue": "^14.3.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "history",
+        "currentValue": "^3.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "isomorphic-fetch",
+        "currentValue": "^2.2.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "less",
+        "currentValue": "^3.7.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "lru-memoize",
+        "currentValue": "^1.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "map-props",
+        "currentValue": "^1.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "match-sorter",
+        "currentValue": "^2.3.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "multireducer",
+        "currentValue": "^1.0.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "piping",
+        "currentValue": "^0.3.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "prettier",
+        "currentValue": "^1.16.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "pretty-error",
+        "currentValue": "^1.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "prop-types",
+        "currentValue": "^15.6.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "react",
+        "currentValue": "16.8.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "react-bootstrap",
+        "currentValue": "^0.32.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "react-copy-to-clipboard",
+        "currentValue": "^5.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "react-dom",
+        "currentValue": "16.8.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "react-helmet",
+        "currentValue": "^5.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "react-notification-system",
+        "currentValue": "^0.2.17",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "react-progress-bar-plus",
+        "currentValue": "^1.3.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "react-redux",
+        "currentValue": "^5.0.6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "react-router",
+        "currentValue": "^3.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "react-router-redux",
+        "currentValue": "^4.0.8",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "react-tabs",
+        "currentValue": "^2.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "redux",
+        "currentValue": "^4.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "redux-logger",
+        "currentValue": "^3.0.6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "redux-thunk",
+        "currentValue": "^2.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "semver",
+        "currentValue": "5.5.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "subscriptions-transport-ws",
+        "currentValue": "^0.9.12",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "valid-url",
+        "currentValue": "^1.0.9",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "@babel/core",
+        "currentValue": "^7.3.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "@babel/plugin-proposal-class-properties",
+        "currentValue": "^7.12.1",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "@babel/plugin-proposal-decorators",
+        "currentValue": "^7.3.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "@babel/plugin-proposal-do-expressions",
+        "currentValue": "^7.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "@babel/plugin-proposal-export-default-from",
+        "currentValue": "^7.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "@babel/plugin-proposal-export-namespace-from",
+        "currentValue": "^7.2.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "@babel/plugin-proposal-function-bind",
+        "currentValue": "^7.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "@babel/plugin-proposal-function-sent",
+        "currentValue": "^7.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "@babel/plugin-proposal-json-strings",
+        "currentValue": "^7.2.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "@babel/plugin-proposal-logical-assignment-operators",
+        "currentValue": "^7.0.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "@babel/plugin-proposal-nullish-coalescing-operator",
+        "currentValue": "^7.0.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "@babel/plugin-proposal-numeric-separator",
+        "currentValue": "^7.2.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "@babel/plugin-proposal-optional-chaining",
+        "currentValue": "^7.0.0",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "@babel/plugin-proposal-pipeline-operator",
+        "currentValue": "^7.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "@babel/plugin-proposal-throw-expressions",
+        "currentValue": "^7.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "@babel/plugin-syntax-dynamic-import",
+        "currentValue": "^7.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "@babel/plugin-syntax-import-meta",
+        "currentValue": "^7.2.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "@babel/preset-env",
+        "currentValue": "^7.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "@babel/preset-react",
+        "currentValue": "^7.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "@babel/register",
+        "currentValue": "^7.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "@babel/runtime",
+        "currentValue": "^7.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "babel-eslint",
+        "currentValue": "^9.0.0",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "babel-loader",
+        "currentValue": "^8.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "babel-plugin-istanbul",
+        "currentValue": "^5.1.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "babel-plugin-transform-react-remove-prop-types",
+        "currentValue": "^0.4.10",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "babel-plugin-typecheck",
+        "currentValue": "^2.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "better-npm-run",
+        "currentValue": "^0.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "bootstrap-loader",
+        "currentValue": "^2.2.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "bootstrap-sass",
+        "currentValue": "^3.3.7",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "clean-webpack-plugin",
+        "currentValue": "^0.1.17",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "concurrently",
+        "currentValue": "^3.5.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "css-loader",
+        "currentValue": "^0.28.11",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "dotenv",
+        "currentValue": "^5.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "eslint",
+        "currentValue": "^4.19.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "eslint-config-airbnb",
+        "currentValue": "16.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "eslint-loader",
+        "currentValue": "^1.0.0",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "eslint-plugin-chai-friendly",
+        "currentValue": "^0.4.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "eslint-plugin-import",
+        "currentValue": "^2.12.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "eslint-plugin-jsx-a11y",
+        "currentValue": "^6.0.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "eslint-plugin-react",
+        "currentValue": "^7.9.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "express",
+        "currentValue": "^4.13.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "express-session",
+        "currentValue": "^1.12.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "extract-hoc",
+        "currentValue": "0.0.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "extract-text-webpack-plugin",
+        "currentValue": "^3.0.2",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "file-loader",
+        "currentValue": "^1.1.11",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "font-awesome",
+        "currentValue": "^4.7.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "font-awesome-webpack",
+        "currentValue": "0.0.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "husky",
+        "currentValue": "^0.14.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "ignore-loader",
+        "currentValue": "^0.1.2",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "jquery",
+        "currentValue": "^3.4.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "json-loader",
+        "currentValue": "^0.5.4",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "less-loader",
+        "currentValue": "^4.1.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "lint-staged",
+        "currentValue": "^6.1.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "mini-css-extract-plugin",
+        "currentValue": "^0.4.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "node-sass",
+        "currentValue": "^4.14.0",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "nyc",
+        "currentValue": "^13.3.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "optimize-css-assets-webpack-plugin",
+        "currentValue": "^4.0.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "react-a11y",
+        "currentValue": "^0.2.6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "react-addons-test-utils",
+        "currentValue": "^15.0.3",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "react-hot-loader",
+        "currentValue": "^4.6.5",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "redux-devtools",
+        "currentValue": "^3.4.1",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "redux-devtools-dock-monitor",
+        "currentValue": "^1.1.2",
+        "deprecated": true,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "redux-devtools-log-monitor",
+        "currentValue": "^1.3.0",
+        "deprecated": true,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "resolve-url-loader",
+        "currentValue": "^2.3.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "sass-loader",
+        "currentValue": "^7.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "sinon",
+        "currentValue": "^1.17.7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "style-loader",
+        "currentValue": "^0.20.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "timekeeper",
+        "currentValue": "1.0.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "uglifyjs-webpack-plugin",
+        "currentValue": "^1.2.7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "unused-files-webpack-plugin",
+        "currentValue": "^3.4.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "url-loader",
+        "currentValue": "^1.0.1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "webpack",
+        "currentValue": "4.42.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "webpack-cli",
+        "currentValue": "3.3.11",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "webpack-dev-middleware",
+        "currentValue": "3.7.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "webpack-hot-middleware",
+        "currentValue": "2.25.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "terser-webpack-plugin",
+        "currentValue": "2.3.5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "webpack-isomorphic-tools",
+        "currentValue": "3.0.6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "src/graphiql/app/package.json",
+        "name": "node",
+        "currentValue": ">=8.9.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      }
+    ]
+  }
+}

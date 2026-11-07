@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "SeriaWei/ASP.NET-MVC-CMS",
+  "commit": "5b764bb1c8c73a8c5e099a209d644eaf3bb4f6b3",
+  "ecosystem": "dotnet",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 234,
+    "findings": []
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 2983,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "npm",
+        "path": "Easy.CMS.Web/Scripts/jstree/package.json",
+        "name": "jquery",
+        "currentValue": ">=1.9.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "Easy.CMS.Web/Scripts/jstree/package.json",
+        "name": "grunt",
+        "currentValue": "~0.4.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Easy.CMS.Web/Scripts/jstree/package.json",
+        "name": "grunt-contrib-uglify",
+        "currentValue": "*",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "Easy.CMS.Web/Scripts/jstree/package.json",
+        "name": "grunt-contrib-jshint",
+        "currentValue": "*",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "Easy.CMS.Web/Scripts/jstree/package.json",
+        "name": "grunt-contrib-concat",
+        "currentValue": "*",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "Easy.CMS.Web/Scripts/jstree/package.json",
+        "name": "grunt-contrib-copy",
+        "currentValue": "*",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "Easy.CMS.Web/Scripts/jstree/package.json",
+        "name": "dox",
+        "currentValue": "~0.4.4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Easy.CMS.Web/Scripts/jstree/package.json",
+        "name": "grunt-contrib-less",
+        "currentValue": "~0.8.2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Easy.CMS.Web/Scripts/jstree/package.json",
+        "name": "grunt-contrib-watch",
+        "currentValue": "~0.5.3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Easy.CMS.Web/Scripts/jstree/package.json",
+        "name": "grunt-contrib-imagemin",
+        "currentValue": "~0.4.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Easy.CMS.Web/Scripts/jstree/package.json",
+        "name": "grunt-contrib-qunit",
+        "currentValue": "~v0.3.0",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "npm",
+        "path": "Easy.CMS.Web/Scripts/jstree/package.json",
+        "name": "grunt-text-replace",
+        "currentValue": "~0.3.11",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

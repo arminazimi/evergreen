@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "zHaytam/SmartBreadcrumbs",
+  "commit": "ba32d8293481b765cfe206a23e09fb86bd8abc82",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 51,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.0",
+        "path": "examples/RazorPagesAndMvc/RazorPagesAndMvc.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.0",
+        "path": "src/SmartBreadcrumbs.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.0",
+        "path": "tests/SmartBreadcrumbs.UnitTests/SmartBreadcrumbs.UnitTests.csproj",
+        "line": 4
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 4949,
+    "status": "ok",
+    "dependencies": []
+  }
+}

@@ -1,0 +1,945 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "ardalis/SmartEnum",
+  "commit": "e06da550950b347f0ee47b1ec370a7416e79b030",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 236,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": ".github/workflows/build.yml",
+        "line": 21
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": ".github/workflows/publish-autofixture.yml",
+        "line": 22
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": ".github/workflows/publish-dapper.yml",
+        "line": 22
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": ".github/workflows/publish-efcore.yml",
+        "line": 22
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": ".github/workflows/publish-guardclauses.yml",
+        "line": 22
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": ".github/workflows/publish-json.yml",
+        "line": 22
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": ".github/workflows/publish-messagepack.yml",
+        "line": 22
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": ".github/workflows/publish-modelbinding.yml",
+        "line": 22
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": ".github/workflows/publish-protobufnet.yml",
+        "line": 22
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": ".github/workflows/publish-systemtextjson.yml",
+        "line": 22
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": ".github/workflows/publish-utf8json.yml",
+        "line": 22
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": ".github/workflows/publish.yml",
+        "line": 22
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": "Directory.Build.props",
+        "line": 12
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": "test/Directory.Build.props",
+        "line": 3
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": ".github/workflows/build.yml",
+        "line": 22
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": ".github/workflows/publish-autofixture.yml",
+        "line": 23
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": ".github/workflows/publish-dapper.yml",
+        "line": 23
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": ".github/workflows/publish-efcore.yml",
+        "line": 23
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": ".github/workflows/publish-guardclauses.yml",
+        "line": 23
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": ".github/workflows/publish-json.yml",
+        "line": 23
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": ".github/workflows/publish-messagepack.yml",
+        "line": 23
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": ".github/workflows/publish-modelbinding.yml",
+        "line": 23
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": ".github/workflows/publish-protobufnet.yml",
+        "line": 23
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": ".github/workflows/publish-systemtextjson.yml",
+        "line": 23
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": ".github/workflows/publish-utf8json.yml",
+        "line": 23
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": ".github/workflows/publish.yml",
+        "line": 23
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": "Directory.Build.props",
+        "line": 12
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": "test/Directory.Build.props",
+        "line": 3
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": ".github/workflows/build.yml",
+        "line": 23
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": ".github/workflows/publish-autofixture.yml",
+        "line": 24
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": ".github/workflows/publish-dapper.yml",
+        "line": 24
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": ".github/workflows/publish-efcore.yml",
+        "line": 24
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": ".github/workflows/publish-guardclauses.yml",
+        "line": 24
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": ".github/workflows/publish-json.yml",
+        "line": 24
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": ".github/workflows/publish-messagepack.yml",
+        "line": 24
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": ".github/workflows/publish-modelbinding.yml",
+        "line": 24
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": ".github/workflows/publish-protobufnet.yml",
+        "line": 24
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": ".github/workflows/publish-systemtextjson.yml",
+        "line": 24
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": ".github/workflows/publish-utf8json.yml",
+        "line": 24
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": ".github/workflows/publish.yml",
+        "line": 24
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Directory.Build.props",
+        "line": 12
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "test/Directory.Build.props",
+        "line": 3
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/build.yml",
+        "line": 16
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/publish-autofixture.yml",
+        "line": 14
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/publish-dapper.yml",
+        "line": 14
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/publish-efcore.yml",
+        "line": 14
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/publish-guardclauses.yml",
+        "line": 14
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/publish-json.yml",
+        "line": 14
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/publish-messagepack.yml",
+        "line": 14
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/publish-modelbinding.yml",
+        "line": 14
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/publish-protobufnet.yml",
+        "line": 14
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/publish-systemtextjson.yml",
+        "line": 14
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/publish-utf8json.yml",
+        "line": 14
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/publish.yml",
+        "line": 14
+      },
+      {
+        "ruleId": "github-actions.setup-dotnet.node20",
+        "path": ".github/workflows/build.yml",
+        "line": 18
+      },
+      {
+        "ruleId": "github-actions.setup-dotnet.node20",
+        "path": ".github/workflows/publish-autofixture.yml",
+        "line": 19
+      },
+      {
+        "ruleId": "github-actions.setup-dotnet.node20",
+        "path": ".github/workflows/publish-dapper.yml",
+        "line": 19
+      },
+      {
+        "ruleId": "github-actions.setup-dotnet.node20",
+        "path": ".github/workflows/publish-efcore.yml",
+        "line": 19
+      },
+      {
+        "ruleId": "github-actions.setup-dotnet.node20",
+        "path": ".github/workflows/publish-guardclauses.yml",
+        "line": 19
+      },
+      {
+        "ruleId": "github-actions.setup-dotnet.node20",
+        "path": ".github/workflows/publish-json.yml",
+        "line": 19
+      },
+      {
+        "ruleId": "github-actions.setup-dotnet.node20",
+        "path": ".github/workflows/publish-messagepack.yml",
+        "line": 19
+      },
+      {
+        "ruleId": "github-actions.setup-dotnet.node20",
+        "path": ".github/workflows/publish-modelbinding.yml",
+        "line": 19
+      },
+      {
+        "ruleId": "github-actions.setup-dotnet.node20",
+        "path": ".github/workflows/publish-protobufnet.yml",
+        "line": 19
+      },
+      {
+        "ruleId": "github-actions.setup-dotnet.node20",
+        "path": ".github/workflows/publish-systemtextjson.yml",
+        "line": 19
+      },
+      {
+        "ruleId": "github-actions.setup-dotnet.node20",
+        "path": ".github/workflows/publish-utf8json.yml",
+        "line": 19
+      },
+      {
+        "ruleId": "github-actions.setup-dotnet.node20",
+        "path": ".github/workflows/publish.yml",
+        "line": 19
+      },
+      {
+        "ruleId": "github-actions.upload-artifact.retired",
+        "path": ".github/workflows/build.yml",
+        "line": 48
+      },
+      {
+        "ruleId": "github-actions.upload-artifact.retired",
+        "path": ".github/workflows/build.yml",
+        "line": 63
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 10469,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/build.yml",
+        "name": "actions/checkout",
+        "currentValue": "v3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/build.yml",
+        "name": "actions/setup-dotnet",
+        "currentValue": "v3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/build.yml",
+        "name": "irongut/CodeCoverageSummary",
+        "currentValue": "v1.3.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/build.yml",
+        "name": "actions/upload-artifact",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/build.yml",
+        "name": "actions/upload-artifact",
+        "currentValue": "v4",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/build.yml",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/build.yml",
+        "name": "dotnet-sdk",
+        "currentValue": "6.0.x\n7.0.x\n8.0.x\n",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-autofixture.yml",
+        "name": "actions/checkout",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-autofixture.yml",
+        "name": "actions/setup-dotnet",
+        "currentValue": "v3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-autofixture.yml",
+        "name": "alirezanet/publish-nuget",
+        "currentValue": "v3.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-autofixture.yml",
+        "name": "windows",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-autofixture.yml",
+        "name": "dotnet-sdk",
+        "currentValue": "6.0.x\n7.0.x\n8.0.x\n",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-dapper.yml",
+        "name": "actions/checkout",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-dapper.yml",
+        "name": "actions/setup-dotnet",
+        "currentValue": "v3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-dapper.yml",
+        "name": "alirezanet/publish-nuget",
+        "currentValue": "v3.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-dapper.yml",
+        "name": "windows",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-dapper.yml",
+        "name": "dotnet-sdk",
+        "currentValue": "6.0.x\n7.0.x\n8.0.x\n",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-efcore.yml",
+        "name": "actions/checkout",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-efcore.yml",
+        "name": "actions/setup-dotnet",
+        "currentValue": "v3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-efcore.yml",
+        "name": "alirezanet/publish-nuget",
+        "currentValue": "v3.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-efcore.yml",
+        "name": "windows",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-efcore.yml",
+        "name": "dotnet-sdk",
+        "currentValue": "6.0.x\n7.0.x\n8.0.x\n",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-guardclauses.yml",
+        "name": "actions/checkout",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-guardclauses.yml",
+        "name": "actions/setup-dotnet",
+        "currentValue": "v3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-guardclauses.yml",
+        "name": "alirezanet/publish-nuget",
+        "currentValue": "v3.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-guardclauses.yml",
+        "name": "windows",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-guardclauses.yml",
+        "name": "dotnet-sdk",
+        "currentValue": "6.0.x\n7.0.x\n8.0.x\n",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-json.yml",
+        "name": "actions/checkout",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-json.yml",
+        "name": "actions/setup-dotnet",
+        "currentValue": "v3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-json.yml",
+        "name": "alirezanet/publish-nuget",
+        "currentValue": "v3.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-json.yml",
+        "name": "windows",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-json.yml",
+        "name": "dotnet-sdk",
+        "currentValue": "6.0.x\n7.0.x\n8.0.x\n",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-messagepack.yml",
+        "name": "actions/checkout",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-messagepack.yml",
+        "name": "actions/setup-dotnet",
+        "currentValue": "v3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-messagepack.yml",
+        "name": "alirezanet/publish-nuget",
+        "currentValue": "v3.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-messagepack.yml",
+        "name": "windows",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-messagepack.yml",
+        "name": "dotnet-sdk",
+        "currentValue": "6.0.x\n7.0.x\n8.0.x\n",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-modelbinding.yml",
+        "name": "actions/checkout",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-modelbinding.yml",
+        "name": "actions/setup-dotnet",
+        "currentValue": "v3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-modelbinding.yml",
+        "name": "alirezanet/publish-nuget",
+        "currentValue": "v3.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-modelbinding.yml",
+        "name": "windows",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-modelbinding.yml",
+        "name": "dotnet-sdk",
+        "currentValue": "6.0.x\n7.0.x\n8.0.x\n",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-protobufnet.yml",
+        "name": "actions/checkout",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-protobufnet.yml",
+        "name": "actions/setup-dotnet",
+        "currentValue": "v3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-protobufnet.yml",
+        "name": "alirezanet/publish-nuget",
+        "currentValue": "v3.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-protobufnet.yml",
+        "name": "windows",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-protobufnet.yml",
+        "name": "dotnet-sdk",
+        "currentValue": "6.0.x\n7.0.x\n8.0.x\n",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-systemtextjson.yml",
+        "name": "actions/checkout",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-systemtextjson.yml",
+        "name": "actions/setup-dotnet",
+        "currentValue": "v3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-systemtextjson.yml",
+        "name": "alirezanet/publish-nuget",
+        "currentValue": "v3.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-systemtextjson.yml",
+        "name": "windows",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-systemtextjson.yml",
+        "name": "dotnet-sdk",
+        "currentValue": "6.0.x\n7.0.x\n8.0.x\n",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-utf8json.yml",
+        "name": "actions/checkout",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-utf8json.yml",
+        "name": "actions/setup-dotnet",
+        "currentValue": "v3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-utf8json.yml",
+        "name": "alirezanet/publish-nuget",
+        "currentValue": "v3.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-utf8json.yml",
+        "name": "windows",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish-utf8json.yml",
+        "name": "dotnet-sdk",
+        "currentValue": "6.0.x\n7.0.x\n8.0.x\n",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish.yml",
+        "name": "actions/checkout",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish.yml",
+        "name": "actions/setup-dotnet",
+        "currentValue": "v3",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish.yml",
+        "name": "alirezanet/publish-nuget",
+        "currentValue": "v3.0.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish.yml",
+        "name": "windows",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/publish.yml",
+        "name": "dotnet-sdk",
+        "currentValue": "6.0.x\n7.0.x\n8.0.x\n",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      }
+    ]
+  }
+}

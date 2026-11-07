@@ -1,0 +1,241 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "ignatandrei/NETCoreBlockly",
+  "commit": "cfc5e1fcb1452853e95c0ad902b429372a68e2f2",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 93,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "src/NetCore2Blockly/GraphQLDemo/GraphQLDemo.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "src/NetCore2Blockly/TestBlocklyHtml/Dockerfile",
+        "line": 3
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "src/NetCore2Blockly/TestBlocklyHtml/Dockerfile",
+        "line": 7
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "src/NetCore2Blockly/TestNetCore3/WebApplication5/WebApplication5.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/NetCore2Blockly/DeploySampleSiteAzure/DeploySampleSiteAzure.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/NetCore2Blockly/NetCore2Blockly/NetCore2Blockly.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/NetCore2Blockly/NetCore2BlocklyStorage.Sqlite/NetCore2BlocklyStorage.Sqlite.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/NetCore2Blockly/NetCore2BlocklyUnitTests/NetCore2BlocklyUnitTests.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/NetCore2Blockly/TestNetCorePackage/TestNetCorePackage.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/dotnetTools.yml",
+        "line": 20
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/master_netcoreblockly.yml",
+        "line": 17
+      },
+      {
+        "ruleId": "github-actions.download-artifact.retired",
+        "path": ".github/workflows/master_netcoreblockly.yml",
+        "line": 54
+      },
+      {
+        "ruleId": "github-actions.setup-dotnet.node20",
+        "path": ".github/workflows/master_netcoreblockly.yml",
+        "line": 20
+      },
+      {
+        "ruleId": "github-actions.upload-artifact.retired",
+        "path": ".github/workflows/master_netcoreblockly.yml",
+        "line": 40
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 10697,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "dockerfile",
+        "path": "src/NetCore2Blockly/TestBlocklyHtml/Dockerfile",
+        "name": "mcr.microsoft.com/dotnet/core/aspnet",
+        "currentValue": "3.1-buster-slim",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "src/NetCore2Blockly/TestBlocklyHtml/Dockerfile",
+        "name": "mcr.microsoft.com/dotnet/core/sdk",
+        "currentValue": "3.1-buster",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/dotnetTools.yml",
+        "name": "actions/checkout",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/dotnetTools.yml",
+        "name": "actions/setup-dotnet",
+        "currentValue": "v5",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/dotnetTools.yml",
+        "name": "NuGet/login",
+        "currentValue": "v1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/dotnetTools.yml",
+        "name": "windows",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/dotnetTools.yml",
+        "name": "dotnet-sdk",
+        "currentValue": "10.0.x\n",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/master_netcoreblockly.yml",
+        "name": "actions/checkout",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/master_netcoreblockly.yml",
+        "name": "actions/setup-dotnet",
+        "currentValue": "v1",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/master_netcoreblockly.yml",
+        "name": "actions/upload-artifact",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/master_netcoreblockly.yml",
+        "name": "actions/download-artifact",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/master_netcoreblockly.yml",
+        "name": "azure/webapps-deploy",
+        "currentValue": "v2",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/master_netcoreblockly.yml",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/master_netcoreblockly.yml",
+        "name": "dotnet-sdk",
+        "currentValue": "7.x",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/master_netcoreblockly.yml",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "npm",
+        "path": "IntegrationTesting/package.json",
+        "name": "playwright",
+        "currentValue": "^1.2.1",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      }
+    ]
+  }
+}

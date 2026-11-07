@@ -1,0 +1,211 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "dotpcap/sharppcap",
+  "commit": "667db1721cf0f91000c584fb6f5e8ff1f8327364",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 68,
+    "findings": [
+      {
+        "ruleId": "ci-images.azure-pipelines.macos-14",
+        "path": "azure-pipelines.yml",
+        "line": 32
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/CreatingCaptureFile/CreatingCaptureFile.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/Example1.IfList/Example01.IfList.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/Example10.SendQueue/Example10.SendQueue.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/Example11.Statistics/Example11.Statistics.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/Example12.PacketManipulation/Example12.PacketManipulation.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/Example2.ArpResolve/Example02.ArpResolve.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/Example3.BasicCap/Example03.BasicCap.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/Example4.BasicCapNoCallback/Example04.BasicCapNoCallback.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/Example5.PcapFilter/Example05.PcapFilter.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/Example6.DumpTCP/Example06.DumpTCP.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/Example9.SendPacket/Example09.SendPacket.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/MultipleFiltersOnDevice/MultipleFiltersOnDevice.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/NpcapRemoteCapture/NpcapRemoteCapture.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/QueuingPacketsForBackgroundProcessing/QueuingPacketsForBackgroundProcessing.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/ReadingCaptureFile/ReadingCaptureFile.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/WakeOnLan/WakeOnLan.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/WinpkFilterExample/WinpkFilterExample.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "SharpPcap/SharpPcap.csproj",
+        "line": 10
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Test/Test.csproj",
+        "line": 11
+      },
+      {
+        "ruleId": "github-actions.upload-artifact.retired",
+        "path": ".github/workflows/dotnet-core.yml",
+        "line": 39
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 7385,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/dotnet-core.yml",
+        "name": "actions/checkout",
+        "currentValue": "v6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/dotnet-core.yml",
+        "name": "mikepenz/action-junit-report",
+        "currentValue": "v6",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/dotnet-core.yml",
+        "name": "actions/upload-artifact",
+        "currentValue": "v6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/dotnet-core.yml",
+        "name": "alirezanet/publish-nuget",
+        "currentValue": "v3.1.0",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/dotnet-core.yml",
+        "name": "actions/checkout",
+        "currentValue": "v6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/dotnet-core.yml",
+        "name": "actions/setup-python",
+        "currentValue": "v6",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/dotnet-core.yml",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/dotnet-core.yml",
+        "name": "ubuntu",
+        "currentValue": "latest",
+        "skipReason": "invalid-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "github-actions",
+        "path": ".github/workflows/dotnet-core.yml",
+        "name": "python",
+        "currentValue": "3.14",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      }
+    ]
+  }
+}

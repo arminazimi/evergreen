@@ -1,0 +1,3645 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "takuya-takeuchi/DlibDotNet",
+  "commit": "19c1a91a7743eca966da5633e327875372e5ebe4",
+  "ecosystem": "dotnet",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 316,
+    "findings": [
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+        "line": 20
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+        "line": 21
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+        "line": 22
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+        "line": 23
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+        "line": 24
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+        "line": 25
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+        "line": 26
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+        "line": 27
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+        "line": 20
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+        "line": 21
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+        "line": 22
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+        "line": 23
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+        "line": 24
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+        "line": 25
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+        "line": 26
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+        "line": 27
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+        "line": 20
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+        "line": 21
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+        "line": 22
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+        "line": 23
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+        "line": 24
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+        "line": 25
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+        "line": 26
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+        "line": 27
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+        "line": 20
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+        "line": 21
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+        "line": 22
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+        "line": 23
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+        "line": 24
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+        "line": 25
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+        "line": 26
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+        "line": 27
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+        "line": 20
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+        "line": 21
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+        "line": 22
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+        "line": 23
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+        "line": 24
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+        "line": 25
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+        "line": 26
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+        "line": 27
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+        "line": 20
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+        "line": 21
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+        "line": 22
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+        "line": 23
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+        "line": 24
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+        "line": 25
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+        "line": 26
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+        "line": 27
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+        "line": 20
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+        "line": 21
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+        "line": 22
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+        "line": 23
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+        "line": 24
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+        "line": 25
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+        "line": 26
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+        "line": 27
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 11
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 12
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 13
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 14
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 15
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 27
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 5
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 53
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 54
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 55
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 56
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 6
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 64
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 65
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 66
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 7
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 8
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 87
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 9
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 92
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "line": 18
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "line": 19
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "line": 20
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "line": 21
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "line": 22
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "line": 23
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "line": 24
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "line": 25
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "line": 18
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "line": 19
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "line": 20
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "line": 21
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "line": 22
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "line": 23
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "line": 24
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "line": 25
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "line": 18
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "line": 19
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "line": 20
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "line": 21
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "line": 22
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "line": 23
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "line": 24
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "line": 25
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "line": 18
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "line": 19
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "line": 20
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "line": 21
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "line": 22
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "line": 23
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "line": 24
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "line": 25
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "line": 18
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "line": 19
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "line": 20
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "line": 21
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "line": 22
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "line": 23
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "line": 24
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "line": 25
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "line": 18
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "line": 19
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "line": 20
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "line": 21
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "line": 22
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "line": 23
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "line": 24
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "line": 25
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "line": 18
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "line": 19
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "line": 20
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "line": 21
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "line": 22
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "line": 23
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "line": 24
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "line": 25
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "line": 18
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "line": 19
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "line": 20
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "line": 21
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "line": 22
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "line": 23
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "line": 24
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "line": 25
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "line": 18
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "line": 19
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "line": 20
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "line": 21
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "line": 22
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "line": 23
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "line": 24
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "line": 25
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/runtime/centos/7/Dockerfile",
+        "line": 12
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/runtime/ubuntu/16/arm/Dockerfile.bak",
+        "line": 17
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/runtime/ubuntu/16/arm/Dockerfile.bak",
+        "line": 20
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/runtime/ubuntu/16/arm64/Dockerfile.bak",
+        "line": 17
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/runtime/ubuntu/16/arm64/Dockerfile.bak",
+        "line": 20
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/runtime/ubuntu/16/Dockerfile",
+        "line": 19
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "docker/base/ubuntu/16/cpu/x64/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "docker/base/ubuntu/16/cpu/x86/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "docker/base/ubuntu/16/mkl/x64/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "docker/base/ubuntu/16/mkl/x86/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "docker/devel/ubuntu/16/cpu/x64/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "docker/devel/ubuntu/16/mkl/x64/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "line": 1
+      },
+      {
+        "ruleId": "cpp.cmake.policy-below-3.5.removed",
+        "path": "examples/MultiThreadFaceDetectionCpp/CMakeLists.txt",
+        "line": 1
+      },
+      {
+        "ruleId": "cpp.cmake.policy-below-3.5.removed",
+        "path": "src/DlibDotNet.Native.Dnn/CMakeLists.txt",
+        "line": 1
+      },
+      {
+        "ruleId": "cpp.cmake.policy-below-3.5.removed",
+        "path": "src/DlibDotNet.Native/CMakeLists.txt",
+        "line": 1
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/3DPointCloud/3DPointCloud.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/3rdparty/OpenCVSharp/MatToArray2D/MatToArray2D.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/3rdparty/OpenCVSharp/MatToMatrix/MatToMatrix.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnFaceRecognition/DnnFaceRecognition.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnInception/DnnInception.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnInstanceSegmentation/DnnInstanceSegmentation.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnInstanceSegmentationTrain/DnnInstanceSegmentationTrain.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnIntroduction/DnnIntroduction.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnMetricLearning/DnnMetricLearning.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnMmod/DnnMmod.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnMmodDogHipsterizer/DnnMmodDogHipsterizer.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnMmodFaceDetection/DnnMmodFaceDetection.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnMmodFindCars/DnnMmodFindCars.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnMmodFindCars2/DnnMmodFindCars2.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnMmodTrainFindCars/DnnMmodTrainFindCars.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnSemanticSegmentation/DnnSemanticSegmentation.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnSemanticSegmentationOld/DnnSemanticSegmentationOld.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnSemanticSegmentationTrain/DnnSemanticSegmentationTrain.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnSemanticSegmentationTrainOld/DnnSemanticSegmentationTrainOld.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/FaceDetection/FaceDetection.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/FaceLandmarkDetection/FaceLandmarkDetection.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/FHog/FHog.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/FHogObjectDetector/FHogObjectDetector.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/HoughTransform/HoughTransform.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/Image/Image.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/KCentroid/KCentroid.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/KKMeans/KKMeans.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/Krls/Krls.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/KrlsFilter/KrlsFilter.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/Logger/Logger.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/Logger2/Logger2.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/LoggerCustomOutput/LoggerCustomOutput.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/MaxCostAssignment/MaxCostAssignment.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/Mlp/Mlp.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/Pipe/Pipe.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/Queue/Queue.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/RandomCropper/RandomCropper.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/RunningStats/RunningStats.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/Surf/Surf.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/Svm/Svm.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/SvmC/SvmC.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/SvmPegasos/SvmPegasos.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/TrainShapePredictor/TrainShapePredictor.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/VideoTracking/VideoTracking.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/WebcamFacePose/WebcamFacePose.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "test/DlibDotNet.Native.Tests/DlibDotNet.Native.Tests.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.1",
+        "path": "test/DlibDotNet.Extensions.Tests/DlibDotNet.Extensions.Tests.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.1",
+        "path": "test/DlibDotNet.Tests/DlibDotNet.Tests.csproj",
+        "line": 4
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "examples/ASP.NET/FaceDetection.Client/FaceDetection.Client.csproj",
+        "line": 5
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "examples/ASP.NET/FaceDetection.Server/FaceDetection.Server.csproj",
+        "line": 4
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 31201,
+    "status": "ok",
+    "dependencies": [
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/centos/7/cpu/x64/Dockerfile",
+        "name": "centos",
+        "currentValue": "7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/centos/7/cuda/10.0/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "10.0-cudnn7-devel-centos7",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/centos/7/cuda/10.1/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "10.1-cudnn7-devel-centos7",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/centos/7/cuda/10.2/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "10.2-cudnn7-devel-centos7",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/centos/7/cuda/11.0/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "11.0.3-cudnn8-devel-centos7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/centos/7/cuda/11.1/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "11.1.1-cudnn8-devel-centos7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/centos/7/cuda/11.2/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "11.2.1-cudnn8-devel-centos7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/centos/7/cuda/9.2/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "9.2-cudnn7-devel-centos7",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/centos/7/mkl/x64/Dockerfile",
+        "name": "centos",
+        "currentValue": "7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/arm/Dockerfile.bak",
+        "name": "arm32v7/ubuntu",
+        "currentValue": "16.04_amd64",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/arm/Dockerfile.bak",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/arm/Dockerfile.bak",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/arm/Dockerfile.bak",
+        "name": "libx11-6",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "arm64v8/ubuntu",
+        "currentValue": "16.04_amd64",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "libx11-6",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cpu/x64/Dockerfile",
+        "name": "ubuntu",
+        "currentValue": "16.04",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cpu/x64/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cpu/x64/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cpu/x64/Dockerfile",
+        "name": "libx11-6",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "ubuntu",
+        "currentValue": "16.04",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "libx11-6",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/10.0/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "10.0-cudnn7-devel-ubuntu16.04",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/10.0/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/10.0/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/10.0/Dockerfile",
+        "name": "libx11-6",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/10.1/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "10.1-cudnn7-devel-ubuntu16.04",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/10.1/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/10.1/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/10.1/Dockerfile",
+        "name": "libx11-6",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/10.2/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "10.2-cudnn7-devel-ubuntu16.04",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/10.2/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/10.2/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/10.2/Dockerfile",
+        "name": "libx11-6",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/11.0/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "11.0-cudnn8-devel-ubuntu16.04",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/11.0/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/11.0/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/11.0/Dockerfile",
+        "name": "libx11-6",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/11.1/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "11.1-cudnn8-devel-ubuntu16.04",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/11.1/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/11.1/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/11.1/Dockerfile",
+        "name": "libx11-6",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/11.2/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "11.2.1-cudnn8-devel-ubuntu16.04",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/11.2/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/11.2/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/11.2/Dockerfile",
+        "name": "libx11-6",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/9.0/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "9.0-cudnn7-devel-ubuntu16.04",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/9.0/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/9.0/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/9.0/Dockerfile",
+        "name": "libx11-6",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/9.1/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "9.1-cudnn7-devel-ubuntu16.04",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/9.1/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/9.1/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/9.1/Dockerfile",
+        "name": "libx11-6",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/9.2/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "9.2-cudnn7-devel-ubuntu16.04",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/9.2/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/9.2/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/cuda/9.2/Dockerfile",
+        "name": "libx11-6",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/mkl/x64/Dockerfile",
+        "name": "ubuntu",
+        "currentValue": "16.04",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/mkl/x64/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/mkl/x64/Dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/mkl/x64/Dockerfile",
+        "name": "libx11-6",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/mkl/x64/Dockerfile",
+        "name": "intel-mkl-64bit-2020.0.088",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "ubuntu",
+        "currentValue": "16.04",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "libx11-6",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/base/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "intel-mkl-32bit-2020.0-088",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/build/ubuntu/16/Dockerfile",
+        "name": "gosu",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/build/ubuntu/16/Dockerfile",
+        "name": "software-properties-common",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/build/ubuntu/16/Dockerfile",
+        "name": "git",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/centos/7/cpu/x64/Dockerfile",
+        "name": "centos",
+        "currentValue": "7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "10.0-cudnn7-devel-centos7",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "10.1-cudnn7-devel-centos7",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "10.2-cudnn7-devel-centos7",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "11.0.3-cudnn8-devel-centos7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "11.1.1-cudnn8-devel-centos7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "11.2.1-cudnn8-devel-centos7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "9.2-cudnn7-devel-centos7",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/centos/7/mkl/x64/Dockerfile",
+        "name": "centos",
+        "currentValue": "7",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "name": "ubuntu",
+        "currentValue": "16.04",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "name": "build-essential",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "name": "libx11-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "name": "libgtk2.0-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "name": "pkg-config",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "name": "openjdk-8-jdk",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "name": "ca-certificates-java",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "name": "unzip",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "name": "powershell",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm/Dockerfile.bak",
+        "name": "arm32v7/ubuntu",
+        "currentValue": "16.04_amd64",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm/Dockerfile.bak",
+        "name": "build-essential",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm/Dockerfile.bak",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm/Dockerfile.bak",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm/Dockerfile.bak",
+        "name": "libx11-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm/Dockerfile.bak",
+        "name": "cmake",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm/Dockerfile.bak",
+        "name": "libc6-armel-cross",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm/Dockerfile.bak",
+        "name": "libc6-dev-armel-cross",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm/Dockerfile.bak",
+        "name": "libunwind8",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm/Dockerfile.bak",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm/Dockerfile.bak",
+        "name": "tar",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm/Dockerfile.bak",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "arm64v8/ubuntu",
+        "currentValue": "16.04_amd64",
+        "skipReason": "invalid-value",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "build-essential",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "libx11-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "cmake",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "libc6-armel-cross",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "libc6-dev-armel-cross",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "binutils-arm-linux-gnueabi",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "g++-arm-linux-gnueabihf",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "gcc-arm-linux-gnueabihf",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "libunwind8",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "tar",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x64/Dockerfile",
+        "name": "ubuntu",
+        "currentValue": "16.04",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x64/Dockerfile",
+        "name": "build-essential",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x64/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x64/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x64/Dockerfile",
+        "name": "libx11-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x64/Dockerfile",
+        "name": "cmake",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x64/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x64/Dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x64/Dockerfile",
+        "name": "powershell",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "ubuntu",
+        "currentValue": "16.04",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "cpp-5",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "cpp",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "gcc-5",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "gcc",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "gfortran-5",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "gfortran",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "libblas-common",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "libblas3",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "libblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "libx11-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "cmake",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "libc6-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "gcc-multilib",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "g++-multilib",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "name": "powershell",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "10.0-cudnn7-devel-ubuntu16.04",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "name": "build-essential",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "name": "libx11-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "name": "cmake",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "name": "powershell",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "10.1-cudnn7-devel-ubuntu16.04",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "name": "build-essential",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "name": "libx11-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "name": "cmake",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "name": "powershell",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "10.2-cudnn7-devel-ubuntu16.04",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "name": "build-essential",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "name": "libx11-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "name": "cmake",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "name": "powershell",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "11.0-cudnn8-devel-ubuntu16.04",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "name": "build-essential",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "name": "libx11-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "name": "cmake",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "name": "powershell",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "11.1-cudnn8-devel-ubuntu16.04",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "name": "build-essential",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "name": "libx11-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "name": "cmake",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "name": "powershell",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "11.2.1-cudnn8-devel-ubuntu16.04",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "name": "build-essential",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "name": "libx11-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "name": "cmake",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "name": "powershell",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "9.0-cudnn7-devel-ubuntu16.04",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "name": "build-essential",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "name": "libx11-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "name": "cmake",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "name": "powershell",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "9.1-cudnn7-devel-ubuntu16.04",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "name": "build-essential",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "name": "libx11-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "name": "cmake",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "name": "powershell",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "name": "nvidia/cuda",
+        "currentValue": "9.2-cudnn7-devel-ubuntu16.04",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "name": "build-essential",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "name": "libx11-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "name": "cmake",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "name": "powershell",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x64/Dockerfile",
+        "name": "ubuntu",
+        "currentValue": "16.04",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x64/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x64/Dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x64/Dockerfile",
+        "name": "build-essential",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x64/Dockerfile",
+        "name": "libx11-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x64/Dockerfile",
+        "name": "intel-mkl-64bit-2020.0.088",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x64/Dockerfile",
+        "name": "cmake",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x64/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x64/Dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x64/Dockerfile",
+        "name": "powershell",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "ubuntu",
+        "currentValue": "16.04",
+        "deprecated": false,
+        "majorUpdate": true,
+        "anyUpdate": true
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "cpp-5",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "cpp",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "gcc-5",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "gcc",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "gfortran-5",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "gfortran",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "libblas-common",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "libblas3",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "libblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "libopenblas-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "liblapack-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "libx11-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "cmake",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "libc6",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "libc6-dev",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "gcc-multilib",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "g++-multilib",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "intel-mkl-32bit-2020.0.088",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "name": "powershell",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/runtime/ubuntu/16/Dockerfile",
+        "name": "ca-certificates",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/runtime/ubuntu/16/Dockerfile",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/runtime/ubuntu/16/Dockerfile",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/runtime/ubuntu/16/arm/Dockerfile.bak",
+        "name": "ca-certificates",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/runtime/ubuntu/16/arm/Dockerfile.bak",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/runtime/ubuntu/16/arm/Dockerfile.bak",
+        "name": "libicu55",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/runtime/ubuntu/16/arm/Dockerfile.bak",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/runtime/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "ca-certificates",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/runtime/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "wget",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/runtime/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "libicu55",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/runtime/ubuntu/16/arm64/Dockerfile.bak",
+        "name": "apt-transport-https",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/test/ubuntu/16/Dockerfile",
+        "name": "gosu",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      },
+      {
+        "manager": "dockerfile",
+        "path": "docker/test/ubuntu/16/Dockerfile",
+        "name": "powershell",
+        "skipReason": "unspecified-version",
+        "deprecated": false,
+        "majorUpdate": false,
+        "anyUpdate": false
+      }
+    ]
+  }
+}

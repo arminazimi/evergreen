@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "evergreen.comparison.renovate.raw.v1",
+  "repository": "Xtra-Computing/thundergbm",
+  "commit": "e3f824e4bdeba9230f4230b121f87119f63c425c",
+  "ecosystem": "cpp",
+  "selection": "blind",
+  "continuity": false,
+  "concurrency": 4,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "8dd8580a304d93336fdaf0b344b276e5928410e3",
+    "durationMs": 11,
+    "findings": [
+      {
+        "ruleId": "cpp.cmake.policy-below-3.5.removed",
+        "path": "CMakeLists.txt",
+        "line": 2
+      },
+      {
+        "ruleId": "cpp.cmake.policy-below-3.5.removed",
+        "path": "CMakeLists.txt",
+        "line": 4
+      }
+    ]
+  },
+  "renovate": {
+    "version": "44.164.10",
+    "durationMs": 5373,
+    "status": "ok",
+    "dependencies": []
+  }
+}
