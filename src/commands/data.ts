@@ -51,7 +51,7 @@ export const command: CliCommand = {
           if (error instanceof DataUpdateError) {
             return isOfflineDataUpdateFailure(error.message)
               ? ctx.failActionable("data", offlineDataUpdate(error.message))
-              : ctx.fail("data", error.message);
+              : ctx.failError(error);
           }
           throw error;
         }

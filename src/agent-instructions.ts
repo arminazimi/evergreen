@@ -1,5 +1,7 @@
 /** The section `evergreen init --agents` keeps in a repository's AGENTS.md or CLAUDE.md. */
 
+import { EvergreenError } from "./evergreen-error.js";
+
 export const SECTION_BEGIN = "<!-- evergreen:begin -->";
 export const SECTION_END = "<!-- evergreen:end -->";
 
@@ -18,9 +20,9 @@ export const AGENT_SECTION = `${SECTION_BEGIN}
 
 ${DEPENDENCY_CHECK_INSTRUCTIONS}${SECTION_END}`;
 
-export class AgentFileError extends Error {
+export class AgentFileError extends EvergreenError {
   constructor(message: string) {
-    super(message);
+    super("invalid-agent-file", message);
     this.name = "AgentFileError";
   }
 }

@@ -43,7 +43,7 @@ export const command: CliCommand = {
         process.stdout.write(`${JSON.stringify(bom, null, 2)}\n`);
         return 0;
       } catch (error) {
-        if (error instanceof CycloneDxError || error instanceof SpdxError) return ctx.fail("parse", error.message);
+        if (error instanceof CycloneDxError || error instanceof SpdxError) return ctx.failError(error);
         throw error;
       }
     });

@@ -30,7 +30,7 @@ export const command: CliCommand = {
         );
         return 0;
       } catch (error) {
-        if (error instanceof RollupError) return ctx.fail("usage", error.message);
+        if (error instanceof RollupError) return ctx.failError(error);
         throw error;
       }
     });

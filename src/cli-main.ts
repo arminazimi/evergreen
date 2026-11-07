@@ -4,6 +4,7 @@ import { commands } from "./commands/index.generated.js";
 import { bindContext, createCommandContext, fail } from "./commands/runtime.js";
 import { isCompletionShell, renderCompletions, renderHelp } from "./completions.js";
 import { unexpectedFailure } from "./errors.js";
+import { EvergreenError } from "./evergreen-error.js";
 import { VERSION } from "./version.js";
 
 const HELP = renderHelp(commands);
@@ -25,7 +26,7 @@ export async function main(rawArgs: readonly string[]): Promise<number> {
   }
   const name = args[0];
   const command = commands.find((candidate) => candidate.name === name);
-  if (!command) return ctx.fail("usage", `Unknown command: ${name ?? ""}`, `\n${HELP}`);
+  if (!command) return ctx.fail("usage", `Unknown command: ${name ?? ""}`, `\n${HELP}`, "unknown-command");
   return command.run(args.slice(1), ctx);
 }
 
@@ -37,7 +38,10 @@ export async function run(rawArgs: readonly string[] = process.argv.slice(2)): P
   try {
     return await main(rawArgs);
   } catch (error) {
+    if (error instanceof EvergreenError && error.kind !== "internal") {
+      return fail(error.kind, error.message, "", error.code);
+    }
     const { message, appendix } = unexpectedFailure(error, rawArgs.includes("--debug"));
-    return fail("internal", message, appendix);
+    return fail("internal", message, appendix, error instanceof EvergreenError ? error.code : "internal");
   }
 }

@@ -125,7 +125,7 @@ export const command: CliCommand = {
       }
       return installSkills(plan, root, yes, ctx);
     } catch (error) {
-      if (error instanceof AgentFileError) return ctx.fail("parse", error.message);
+      if (error instanceof AgentFileError) return ctx.failError(error);
       throw error;
     }
   },

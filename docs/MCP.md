@@ -106,7 +106,7 @@ The file is a snapshot. Run a scan, or call `scan_repository`, to see the curren
 
 ### Tools
 
-Each tool has an `outputSchema` (the published JSON Schema in [`schemas/`](https://github.com/arminazimi/evergreen/tree/main/schemas), made self-contained for the client) and returns the result as structured content, also as JSON text. Failures return `isError` with a message and no structured content.
+Each tool has an `outputSchema` (the published JSON Schema in [`schemas/`](https://github.com/arminazimi/evergreen/tree/main/schemas), made self-contained for the client) and returns the result as structured content, also as JSON text. Failures return `isError` with a message and no structured content. Every failure also carries `_meta.evergreen` with `code` (a stable reason code), `class` (`usage`, `data`, `parse`, or `internal`), and `exitCode`, the exit code the CLI uses for that class, so a client can branch without parsing the message. The reason codes are listed in [CLI exit codes](CLI.md#exit-codes).
 
 | Tool | Input | Output | Purpose |
 | --- | --- | --- | --- |

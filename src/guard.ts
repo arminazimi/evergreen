@@ -6,6 +6,7 @@ import type { DependencyCheck } from "./check-dependency.js";
 import { severityValues } from "./domain.js";
 import { required } from "./required.js";
 import type { Severity } from "./domain.js";
+import { EvergreenError } from "./evergreen-error.js";
 
 /** The severity at or above which a package is refused; `none` never refuses. */
 export type GuardGate = Severity | "none";
@@ -62,9 +63,9 @@ export interface GuardResult {
   output: string;
 }
 
-export class GuardUsageError extends Error {
+export class GuardUsageError extends EvergreenError {
   constructor(message: string) {
-    super(message);
+    super("invalid-argument", message);
     this.name = "GuardUsageError";
   }
 }

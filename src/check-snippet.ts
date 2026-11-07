@@ -5,6 +5,7 @@ import { dirname, join } from "node:path";
 import { builtInDetectors } from "./detectors/index.js";
 import type { Finding } from "./domain.js";
 import { scanRepository } from "./engine/index.js";
+import { EvergreenError } from "./evergreen-error.js";
 
 export const CHECK_SNIPPET_SCHEMA_VERSION = "evergreen.check-snippet.v1" as const;
 
@@ -26,9 +27,9 @@ export interface SnippetCheck {
   message: string;
 }
 
-export class SnippetInputError extends Error {
+export class SnippetInputError extends EvergreenError {
   constructor(message: string) {
-    super(message);
+    super("invalid-argument", message);
     this.name = "SnippetInputError";
   }
 }

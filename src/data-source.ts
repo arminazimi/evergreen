@@ -15,6 +15,7 @@ import { DataSignatureError, verifyArtifactSignature } from "./data-signature.js
 import type { SignerPolicy, VerifiedSigner } from "./data-signature.js";
 import { findPackageFile } from "./package-files.js";
 import { VERSION } from "./version.js";
+import { EvergreenError } from "./evergreen-error.js";
 
 export type DataSourceKind = "bundled" | "cache" | "pinned";
 
@@ -58,12 +59,12 @@ export interface DataSourceOptions {
   verifySignature?: (bytes: Uint8Array, signatureJson: string) => VerifiedSigner;
 }
 
-export class DataPinError extends Error {
+export class DataPinError extends EvergreenError {
   /** True when the pin is not a data version at all (a usage error), false when it names data that cannot be used. */
   readonly malformed: boolean;
 
   constructor(message: string, malformed = false) {
-    super(message);
+    super(malformed ? "invalid-data-version" : "data-unavailable", message);
     this.malformed = malformed;
     this.name = "DataPinError";
   }

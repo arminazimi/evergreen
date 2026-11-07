@@ -43,7 +43,7 @@ export const command: CliCommand = {
       try {
         result = await verifyInstalledRelease(root);
       } catch (error) {
-        if (error instanceof ReleaseManifestError) return ctx.fail("usage", error.message);
+        if (error instanceof ReleaseManifestError) return ctx.failError(error);
         throw error;
       }
       process.stdout.write(`${renderReleaseVerification(result)}\n`);

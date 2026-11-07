@@ -4,8 +4,14 @@ import { basename, dirname, extname } from "node:path";
 import { severityValues } from "./domain.js";
 import type { ScanResult, Severity } from "./domain.js";
 import { required } from "./required.js";
+import { EvergreenError } from "./evergreen-error.js";
 
-export class RollupError extends Error {}
+export class RollupError extends EvergreenError {
+  constructor(message: string) {
+    super("invalid-argument", message);
+    this.name = "RollupError";
+  }
+}
 
 export const UNOWNED = "unowned";
 

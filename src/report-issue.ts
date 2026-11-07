@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import { basename, isAbsolute, relative, resolve } from "node:path";
 
 import type { Finding } from "./domain.js";
+import { EvergreenError } from "./evergreen-error.js";
 
 /** Lines kept on each side of the finding's line. Everything else in the file is left out. */
 const CONTEXT_LINES = 2;
@@ -12,9 +13,9 @@ const URL_CREDENTIALS = /\b([a-z][a-z0-9+.-]*:\/\/)[^\s/@:]+(?::[^\s/@]*)?@/gi;
 const SECRET_ASSIGNMENT =
   /\b([\w.-]*(?:token|secret|password|passwd|api[_-]?key|auth)[\w.-]*)(["']?\s*[:=]\s*["']?)[^\s"',]+/gi;
 
-export class ReportIssueError extends Error {
+export class ReportIssueError extends EvergreenError {
   constructor(message: string) {
-    super(message);
+    super("data-unavailable", message);
     this.name = "ReportIssueError";
   }
 }

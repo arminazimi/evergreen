@@ -54,6 +54,7 @@ import {
 import { STATUS_FILE_NAME, writeStatusFile } from "../status-file.js";
 import { browseFindings, canBrowse } from "../tui.js";
 import { selectorValuesSummary, unknownSelectors } from "../scan-selectors.js";
+import { classifyError, DEFAULT_REASONS, type ErrorCode } from "../evergreen-error.js";
 import { EXIT_CODES, type CommandContext, type FailureClass } from "./types.js";
 
 export type { FailureClass };
@@ -90,8 +91,8 @@ export function bindContext(ctx: CommandContext): void {
 }
 
 /** Failure path for errors thrown outside a command handler. Uses the bound context when `main` has started. */
-export function fail(kind: FailureClass, message: string, appendix = ""): number {
-  if (activeFail) return activeFail(kind, message, appendix);
+export function fail(kind: FailureClass, message: string, appendix = "", reason?: ErrorCode): number {
+  if (activeFail) return activeFail(kind, message, appendix, reason);
   process.stderr.write(`${message}\n${appendix}`);
   return EXIT_CODES[kind];
 }
@@ -110,12 +111,12 @@ export function createCommandContext(
     help,
     exitCodes: EXIT_CODES,
     completionScript,
-    fail(kind, message, appendix = "") {
+    fail(kind, message, appendix = "", reason = DEFAULT_REASONS[kind]) {
       process.stderr.write(`${message}\n${appendix}`);
       if (jsonErrors && kind !== "policy") {
         const document = {
           schemaVersion: "evergreen.error.v1",
-          error: { code: kind, exitCode: EXIT_CODES[kind], message },
+          error: { code: kind, reason, exitCode: EXIT_CODES[kind], message },
         };
         process.stdout.write(`${JSON.stringify(document, null, 2)}\n`);
       }
@@ -124,6 +125,10 @@ export function createCommandContext(
     failActionable(kind, actionable) {
       const rendered = renderActionable(actionable);
       return ctx.fail(kind, rendered.message, rendered.appendix);
+    },
+    failError(error, appendix = "") {
+      const { code, kind } = classifyError(error);
+      return this.fail(kind, error instanceof Error ? error.message : String(error), appendix, code);
     },
   };
   return ctx;
@@ -177,7 +182,7 @@ async function preparedConfig(
   try {
     return await loadConfig(pathArgument);
   } catch (error) {
-    if (error instanceof ConfigError) return ctx.fail("usage", error.message);
+    if (error instanceof ConfigError) return ctx.failError(error);
     throw error;
   }
 }
@@ -210,7 +215,7 @@ async function pinnedData(
   try {
     await getActiveData();
   } catch (error) {
-    if (error instanceof DataPinError) return ctx.fail(error.malformed ? "usage" : "data", error.message);
+    if (error instanceof DataPinError) return ctx.failError(error);
     throw error;
   }
   return undefined;
@@ -682,7 +687,7 @@ async function printContextPacket(state: Gated, result: ScanResult, ctx: Command
 /** `report-issue`: the issue text, printed or written where the user can review it. */
 async function printIssueReport(state: Gated, result: ScanResult, ctx: CommandContext): Promise<number | undefined> {
   const finding = result.findings.find((candidate) => candidate.id === state.findingId);
-  if (!finding) return ctx.fail("data", `Finding not found: ${state.findingId}`);
+  if (!finding) return ctx.fail("data", `Finding not found: ${state.findingId}`, "", "finding-not-found");
   try {
     const report = await createIssueReport(state.pathArgument, finding);
     const output = state.optionValue("--output");
@@ -696,7 +701,7 @@ async function printIssueReport(state: Gated, result: ScanResult, ctx: CommandCo
       `Wrote the report to ${destination}. Review it before you open an issue; Evergreen never opens one.\n`,
     );
   } catch (error) {
-    if (error instanceof ReportIssueError) return ctx.fail("data", error.message);
+    if (error instanceof ReportIssueError) return ctx.failError(error);
     throw error;
   }
   return undefined;
@@ -705,7 +710,7 @@ async function printIssueReport(state: Gated, result: ScanResult, ctx: CommandCo
 /** `explain`: the one finding named on the command line, as text or as the JSON document. */
 function printExplainedFinding(state: Gated, result: ScanResult, ctx: CommandContext): number | undefined {
   const finding = result.findings.find((candidate) => candidate.id === state.findingId);
-  if (!finding) return ctx.fail("data", `Finding not found: ${state.findingId}`);
+  if (!finding) return ctx.fail("data", `Finding not found: ${state.findingId}`, "", "finding-not-found");
   process.stdout.write(`${state.json ? JSON.stringify(finding, null, 2) : renderFindingText(finding)}\n`);
   return undefined;
 }

@@ -3,12 +3,13 @@ import { basename, dirname, join, resolve } from "node:path";
 
 import type { ScanResult, Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
+import { EvergreenError } from "./evergreen-error.js";
 
 export const CONFIG_FILE_NAME = ".evergreen.json";
 
-export class ConfigError extends Error {
+export class ConfigError extends EvergreenError {
   constructor(message: string) {
-    super(message);
+    super("invalid-config", message);
     this.name = "ConfigError";
   }
 }

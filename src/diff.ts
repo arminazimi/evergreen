@@ -7,10 +7,16 @@ import { findingFingerprint } from "./baseline.js";
 import type { Detector } from "./sdk.js";
 import type { Finding } from "./domain.js";
 import { scanRepository } from "./engine/index.js";
+import { EvergreenError } from "./evergreen-error.js";
 
 const MAX_ARCHIVE_BYTES = 1024 * 1024 * 1024;
 
-export class DiffError extends Error {}
+export class DiffError extends EvergreenError {
+  constructor(message: string) {
+    super("invalid-argument", message);
+    this.name = "DiffError";
+  }
+}
 
 /** What a change did to the findings: the ones it added, the ones it removed, and how many it left alone. */
 export interface DiffResult {

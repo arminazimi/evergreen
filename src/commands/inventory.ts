@@ -13,7 +13,7 @@ export const command: CliCommand = {
     try {
       return await inventoryCommand(args);
     } catch (error) {
-      if (error instanceof InventoryUsageError) return ctx.fail("usage", error.message);
+      if (error instanceof InventoryUsageError) return ctx.failError(error);
       throw error;
     }
   },

@@ -13,6 +13,7 @@ import {
   verifyDataBundle,
 } from "./data-source.js";
 import type { DataSourceOptions, VerifiedDataBundle } from "./data-source.js";
+import { EvergreenError } from "./evergreen-error.js";
 
 export const DATA_UPDATE_SCHEMA_VERSION = "evergreen.data-update.v1" as const;
 
@@ -26,9 +27,9 @@ const REQUEST_TIMEOUT_MS = 30_000;
 const KEEP_VERSIONS = 3;
 const TAG_PATTERN = /^data-v(\d{4}\.\d{2}\.\d{2}(?:\.\d+)?)$/;
 
-export class DataUpdateError extends Error {
+export class DataUpdateError extends EvergreenError {
   constructor(message: string) {
-    super(message);
+    super("data-update-failed", message);
     this.name = "DataUpdateError";
   }
 }

@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 import { DEFAULT_MAX_REVIEW_AGE_DAYS, validateRegistryV2 } from "./registry.js";
+import { EvergreenError } from "./evergreen-error.js";
 
 export const DATA_BUNDLE_SCHEMA_VERSION = "evergreen.data-bundle.v1" as const;
 
@@ -68,9 +69,9 @@ export interface DataBundle {
   files: Record<string, Record<string, unknown>>;
 }
 
-export class DataBundleError extends Error {
+export class DataBundleError extends EvergreenError {
   constructor(message: string) {
-    super(message);
+    super("data-unavailable", message);
     this.name = "DataBundleError";
   }
 }

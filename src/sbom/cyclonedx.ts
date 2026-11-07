@@ -10,12 +10,13 @@ import { validateRegistryV2 } from "../registry.js";
 import type { RegistryV2Rule } from "../registry.js";
 import { required } from "../required.js";
 import "../vers/index.js";
+import { EvergreenError } from "../evergreen-error.js";
 
 type JsonObject = Record<string, unknown>;
 
-export class CycloneDxError extends Error {
+export class CycloneDxError extends EvergreenError {
   constructor(message: string) {
-    super(message);
+    super("invalid-sbom", message);
     this.name = "CycloneDxError";
   }
 }

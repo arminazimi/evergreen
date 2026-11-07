@@ -7,13 +7,14 @@ import { severityValues } from "../domain.js";
 import type { Severity } from "../domain.js";
 import { inventoryImporters, runInventory } from "./index.js";
 import type { InventoryReport, InventoryResult } from "./types.js";
+import { EvergreenError } from "../evergreen-error.js";
 
 export const INVENTORY_USAGE =
   "Usage: evergreen inventory <file>... [--format auto|<importer-id>] [--json] [--fail-on <severity|none>] [--redact]";
 
-export class InventoryUsageError extends Error {
+export class InventoryUsageError extends EvergreenError {
   constructor(message: string) {
-    super(message);
+    super("invalid-argument", message);
     this.name = "InventoryUsageError";
   }
 }

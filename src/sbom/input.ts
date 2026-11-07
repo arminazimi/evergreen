@@ -5,6 +5,7 @@ import type { DependencyCheck } from "../check-dependency.js";
 import { parsePurl } from "../purl.js";
 import { required } from "../required.js";
 import { CycloneDxError } from "./cyclonedx.js";
+import { EvergreenError } from "../evergreen-error.js";
 
 type JsonObject = Record<string, unknown>;
 
@@ -15,9 +16,9 @@ export interface SbomComponentCheck extends DependencyCheck {
   spdxId?: string;
 }
 
-export class SpdxError extends Error {
+export class SpdxError extends EvergreenError {
   constructor(message: string) {
-    super(message);
+    super("invalid-sbom", message);
     this.name = "SpdxError";
   }
 }

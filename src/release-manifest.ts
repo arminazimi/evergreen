@@ -5,6 +5,7 @@ import { dirname, join, resolve, sep } from "node:path";
 import { verifyArtifactSignature } from "./data-signature.js";
 import type { VerifiedSigner } from "./data-signature.js";
 import { findPackageFileSync } from "./package-files.js";
+import { EvergreenError } from "./evergreen-error.js";
 
 export const RELEASE_MANIFEST_SCHEMA_VERSION = "evergreen.release-manifest.v1" as const;
 
@@ -39,9 +40,9 @@ export interface ReleaseManifest {
   files: ReleaseManifestFile[];
 }
 
-export class ReleaseManifestError extends Error {
+export class ReleaseManifestError extends EvergreenError {
   constructor(message: string) {
-    super(message);
+    super("invalid-argument", message);
     this.name = "ReleaseManifestError";
   }
 }

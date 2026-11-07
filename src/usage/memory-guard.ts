@@ -1,4 +1,5 @@
 import { getHeapStatistics } from "node:v8";
+import { EvergreenError } from "../evergreen-error.js";
 
 /** Share of the V8 heap limit a scan may use before it stops with a clear error instead of crashing. */
 const heapUseLimit = 0.85;
@@ -10,10 +11,13 @@ const reservedBytes = 64 * 1024 * 1024;
 const checkEvery = 50;
 
 /** Raised when a scan would exhaust the heap, so the caller sees a message instead of a V8 abort. */
-export class ScanMemoryError extends Error {
+export class ScanMemoryError extends EvergreenError {
   constructor(usedBytes: number, limitBytes: number) {
     const megabytes = (bytes: number): number => Math.round(bytes / 1024 / 1024);
-    super(`Scan stopped: the heap reached ${megabytes(usedBytes)} MB of its ${megabytes(limitBytes)} MB limit.`);
+    super(
+      "scan-memory-exceeded",
+      `Scan stopped: the heap reached ${megabytes(usedBytes)} MB of its ${megabytes(limitBytes)} MB limit.`,
+    );
     this.name = "ScanMemoryError";
   }
 }

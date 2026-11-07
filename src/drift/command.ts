@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 import { renderDiff } from "../agent-instructions.js";
 import { analyzeDrift, driftCollectors } from "./index.js";
 import type { DriftCollector, DriftReport, RuntimeDrift, RuntimePin } from "./types.js";
+import { EvergreenError } from "../evergreen-error.js";
 
 const USAGE = "Usage: evergreen drift [path] [--json] [--check] [--runtime <id>] [--align <release>]";
 
@@ -15,7 +16,12 @@ interface DriftOptions {
   align?: string;
 }
 
-class DriftUsageError extends Error {}
+class DriftUsageError extends EvergreenError {
+  constructor(message: string) {
+    super("invalid-argument", message);
+    this.name = "DriftUsageError";
+  }
+}
 
 function parseOptions(args: string[]): DriftOptions {
   const options: DriftOptions = { path: ".", json: false, check: false };

@@ -18,7 +18,10 @@ if (nodeProblem) {
   const { message, appendix } = renderActionable(nodeProblem);
   process.stderr.write(`${message}\n${appendix}`);
   if (jsonErrors) {
-    const document = { schemaVersion: "evergreen.error.v1", error: { code: "usage", exitCode: 2, message } };
+    const document = {
+      schemaVersion: "evergreen.error.v1",
+      error: { code: "usage", reason: "invalid-argument", exitCode: 2, message },
+    };
     process.stdout.write(`${JSON.stringify(document, null, 2)}\n`);
   }
   process.exitCode = 2;

@@ -9,6 +9,7 @@ import { required } from "./required.js";
 import { validateRegistryV2 } from "./registry.js";
 import type { RegistryV2Rule } from "./registry.js";
 import { parseVersLenient, versContains } from "./vers.js";
+import { EvergreenError } from "./evergreen-error.js";
 
 export { CHECK_SCHEMA_VERSION };
 export type { CheckStatus, DependencyCheck, DependencyFinding };
@@ -17,9 +18,9 @@ export type { CheckStatus, DependencyCheck, DependencyFinding };
 const BUNDLED_REGISTRIES = ["github-actions", "nodejs", "npm", "python"] as const;
 
 /** Thrown when the input cannot be checked, such as an invalid PURL or version. */
-export class CheckDependencyError extends Error {
+export class CheckDependencyError extends EvergreenError {
   constructor(message: string) {
-    super(message);
+    super("invalid-purl", message);
     this.name = "CheckDependencyError";
   }
 }

@@ -1,0 +1,1 @@
+- Give every failure one stable reason code: the CLI `--json` error document gains `error.reason` and MCP tool failures carry the same code in `_meta.evergreen`. (#2094)

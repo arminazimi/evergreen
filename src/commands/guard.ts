@@ -18,7 +18,7 @@ export const command: CliCommand = {
         const result = await guardCommand(args, { report: (output) => process.stderr.write(`${output}\n`) });
         return result.exitCode;
       } catch (error) {
-        if (error instanceof GuardUsageError) return ctx.fail("usage", error.message);
+        if (error instanceof GuardUsageError) return ctx.failError(error);
         throw error;
       }
     });

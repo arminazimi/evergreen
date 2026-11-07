@@ -15,10 +15,11 @@ import type { Finding, SourceUsage, UsageMatcher } from "./domain.js";
 import { scanRepository } from "./engine/index.js";
 import { runInventory } from "./inventory/index.js";
 import { analyzeSourceUsage } from "./source-usage.js";
+import { EvergreenError } from "./evergreen-error.js";
 
-export class RuleTestError extends Error {
+export class RuleTestError extends EvergreenError {
   constructor(message: string) {
-    super(message);
+    super("invalid-argument", message);
     this.name = "RuleTestError";
   }
 }

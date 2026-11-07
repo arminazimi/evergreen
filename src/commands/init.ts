@@ -116,7 +116,7 @@ async function runInitAgent(args: readonly string[], ctx: CommandContext): Promi
     for (const entry of result.entries) process.stdout.write(agentSectionReport(entry, dryRun));
     return 0;
   } catch (error) {
-    if (error instanceof AgentFileError) return ctx.fail("parse", error.message);
+    if (error instanceof AgentFileError) return ctx.failError(error);
     throw error;
   }
 }
@@ -301,7 +301,7 @@ async function applyInit(options: InitOptions, ctx: CommandContext): Promise<num
       await applyHooksFor(options.hooksFor, options.root, options.dryRun);
     return 0;
   } catch (error) {
-    if (error instanceof AgentFileError) return ctx.fail("parse", error.message);
+    if (error instanceof AgentFileError) return ctx.failError(error);
     throw error;
   }
 }

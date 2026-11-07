@@ -41,7 +41,7 @@ export const command: CliCommand = {
         process.stdout.write(`${renderRuleTestText(result)}\n`);
         return result.passed ? 0 : ctx.exitCodes.policy;
       } catch (error) {
-        if (error instanceof RuleTestError) return ctx.fail("usage", error.message);
+        if (error instanceof RuleTestError) return ctx.failError(error);
         throw error;
       }
     }

@@ -568,4 +568,26 @@ Every failure belongs to one class, and the class decides the exit code. With `-
 
 A `policy` failure is a verdict on a result that was already printed, so stdout stays that single result document and no error document is added. The message also goes to stderr in every mode, and `--debug` adds the stack trace for `internal` failures.
 
-The classes and their exit codes are stable; a new class would get a new number rather than renumber an existing one. The same table is published in [Capability manifest](CAPABILITIES.md#exit-codes-and-error-codes), and its source is the `EXIT_CODES` constant in `src/commands/types.ts`.
+Each failure also carries one stable reason code, written as `error.reason` in the error document.
+
+| Reason (`error.reason`) | Class | Raised when |
+| --- | --- | --- |
+| `policy-failed` | `policy` | A configured gate failed. No error document is written. |
+| `invalid-argument` | `usage` | A flag, value, or operand is wrong or missing. |
+| `invalid-config` | `usage` | The repository configuration file cannot be read or is invalid. |
+| `invalid-data-version` | `usage` | `--data-version` is not a data version. |
+| `unknown-command` | `usage` | The command name is not one Evergreen has. |
+| `finding-not-found` | `data` | A finding ID matches no finding in the scan. |
+| `finding-not-observed` | `data` | A finding ID was not observed earlier in this MCP session. |
+| `data-unavailable` | `data` | A pinned data version or bundle is not available or does not verify. |
+| `data-update-failed` | `data` | `evergreen data update` could not finish. |
+| `invalid-purl` | `parse` | A Package URL is invalid. |
+| `invalid-agent-file` | `parse` | An `AGENTS.md` section is damaged. |
+| `invalid-sbom` | `parse` | An SBOM is not valid CycloneDX or SPDX. |
+| `invalid-input` | `parse` | Another input could not be parsed. |
+| `scan-memory-exceeded` | `internal` | The scan reached its heap limit. |
+| `internal` | `internal` | Evergreen failed unexpectedly. |
+
+Reason codes are stable: one is never renamed or moved to another class. The source is `ERROR_CODES` in `src/evergreen-error.ts`.
+
+The classes and their exit codes are stable; a new class would get a new number rather than renumber an existing one. The same table is published in [Capability manifest](CAPABILITIES.md#exit-codes-and-error-codes), and its source is the `EXIT_CODES` constant in `src/evergreen-error.ts`.

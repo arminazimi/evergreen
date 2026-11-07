@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 import * as z from "zod/v4";
 
 import type { EvergreenAgentTools } from "../../agent-tools.js";
+import { EvergreenError } from "../../evergreen-error.js";
 import { checkUpgrade, parseUpgradeTarget } from "../../upgrade/index.js";
 import { failure, registerMcpTool, success } from "../tool-support.js";
 
@@ -28,7 +29,12 @@ export function registerCheckUpgrade(server: McpServer, tools: EvergreenAgentToo
       try {
         const parsed = parseUpgradeTarget(target);
         if (!parsed)
-          return failure(new Error(`target must be <runtime>@<version>, for example php@8.4 (got "${target}").`));
+          return failure(
+            new EvergreenError(
+              "invalid-argument",
+              `target must be <runtime>@<version>, for example php@8.4 (got "${target}").`,
+            ),
+          );
         return success(await checkUpgrade(resolve(path), parsed));
       } catch (error) {
         return failure(error);

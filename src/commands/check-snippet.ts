@@ -60,7 +60,7 @@ export const command: CliCommand = {
         process.stdout.write(`${text}\n`);
         return 0;
       } catch (error) {
-        if (error instanceof SnippetInputError) return ctx.fail("usage", error.message);
+        if (error instanceof SnippetInputError) return ctx.failError(error);
         throw error;
       }
     });

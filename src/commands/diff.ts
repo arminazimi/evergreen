@@ -23,7 +23,7 @@ export const command: CliCommand = {
         process.stdout.write(`${state.json ? JSON.stringify(result, null, 2) : renderDiffText(result)}\n`);
         return result.introduced.length > 0 ? ctx.exitCodes.policy : 0;
       } catch (error) {
-        if (error instanceof DiffError) return ctx.fail("usage", error.message);
+        if (error instanceof DiffError) return ctx.failError(error);
         throw error;
       }
     });

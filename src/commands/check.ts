@@ -36,7 +36,7 @@ export const command: CliCommand = {
           ? ctx.exitCodes.policy
           : 0;
       } catch (error) {
-        if (error instanceof CheckDependencyError) return ctx.fail("parse", error.message);
+        if (error instanceof CheckDependencyError) return ctx.failError(error);
         throw error;
       }
     });

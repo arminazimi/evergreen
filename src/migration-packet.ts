@@ -9,6 +9,7 @@ import type {
   SourceUsage,
   VerificationCommand,
 } from "./domain.js";
+import { EvergreenError } from "./evergreen-error.js";
 import { runtimeConflicts } from "./runtime-pin.js";
 import type { PinnedRuntimes } from "./runtime-pin.js";
 
@@ -535,7 +536,7 @@ export function createMigrationPacket(
   pinned: PinnedRuntimes = {},
 ): MigrationPacket {
   const finding = result.findings.find((candidate) => candidate.id === findingId);
-  if (!finding) throw new Error(`Finding not found: ${findingId}`);
+  if (!finding) throw new EvergreenError("finding-not-found", `Finding not found: ${findingId}`);
   const paths = affectedFiles(finding);
   const upgradePath = planUpgradePath(finding, rules, result.scannedAt.slice(0, 10));
   return validateMigrationPacket({

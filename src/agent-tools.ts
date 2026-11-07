@@ -11,6 +11,7 @@ import { renderReceiptMarkdown } from "./receipt-markdown.js";
 import { readPinnedRuntimes } from "./runtime-pin.js";
 import { runScanRequest } from "./scan-request.js";
 import type { MigrationPacket } from "./migration-packet.js";
+import { EvergreenError } from "./evergreen-error.js";
 
 /** A finding reduced to what a list of deprecations shows. */
 export interface DeprecationSummary {
@@ -61,9 +62,10 @@ export interface ObservedFinding {
 export const repositoryKey = (root: string): string => createHash("sha256").update(root).digest("hex").slice(0, 8);
 
 /** Thrown when a finding is used before this session scanned the repository that contains it. */
-export class FindingNotObservedError extends Error {
+export class FindingNotObservedError extends EvergreenError {
   constructor(findingId: string) {
     super(
+      "finding-not-observed",
       `Finding was not observed in this MCP session: ${findingId}. Call scan_repository, explain_deprecation, or create_migration_context before editing the repository.`,
     );
     this.name = "FindingNotObservedError";
@@ -113,7 +115,7 @@ export class EvergreenAgentTools {
   async explain(findingId: string, repositoryPath = "."): Promise<Finding> {
     const result = await this.scan(repositoryPath);
     const finding = result.findings.find((candidate) => candidate.id === findingId);
-    if (!finding) throw new Error(`Finding not found: ${findingId}`);
+    if (!finding) throw new EvergreenError("finding-not-found", `Finding not found: ${findingId}`);
     return finding;
   }
 

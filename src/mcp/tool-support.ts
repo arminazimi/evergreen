@@ -2,6 +2,7 @@ import type { McpServer } from "@modelcontextprotocol/server";
 import * as z from "zod/v4";
 
 import type { EvergreenAgentTools } from "../agent-tools.js";
+import { classifyError, EXIT_CODES } from "../evergreen-error.js";
 import { outputSchema } from "./output-schema.js";
 import { MCP_TOOL_ANNOTATIONS, type McpToolName } from "./tool-names.js";
 
@@ -43,8 +44,13 @@ export function success(value: object): McpToolResult {
   };
 }
 
-/** A failed call: the message as text and the MCP error flag, never as structured content. */
+/**
+ * A failed call: the message as text and the MCP error flag, never as structured content. The stable reason code, its
+ * failure class, and the CLI exit code for that class travel in `_meta.evergreen`, so a client branches without parsing
+ * the message.
+ */
 export function failure(error: unknown): McpToolResult {
+  const { code, kind } = classifyError(error);
   return {
     content: [
       {
@@ -53,6 +59,7 @@ export function failure(error: unknown): McpToolResult {
       },
     ],
     isError: true,
+    _meta: { evergreen: { code, class: kind, exitCode: EXIT_CODES[kind] } },
   };
 }
 

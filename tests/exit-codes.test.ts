@@ -39,7 +39,7 @@ async function emptyRepository(): Promise<string> {
 
 function errorDocument(outcome: Outcome): {
   schemaVersion: string;
-  error: { code: string; exitCode: number; message: string };
+  error: { code: string; reason: string; exitCode: number; message: string };
 } {
   return JSON.parse(outcome.stdout) as ReturnType<typeof errorDocument>;
 }
@@ -55,6 +55,7 @@ test("usage failures exit 2 with the code usage", async () => {
   assert.equal(unknown.code, 2);
   assert.deepEqual(errorDocument(unknown).error.code, "usage");
   assert.equal(errorDocument(unknown).error.exitCode, 2);
+  assert.equal(errorDocument(unknown).error.reason, "unknown-command");
   assert.equal(errorDocument(unknown).schemaVersion, "evergreen.error.v1");
   assert.match(unknown.stderr, /Unknown command: frobnicate/);
   assert.doesNotMatch(
@@ -74,6 +75,7 @@ test("usage failures exit 2 with the code usage", async () => {
   const malformedPin = await run(["check", "pkg:npm/request", "--data-version", "latest", "--json"]);
   assert.equal(malformedPin.code, 2);
   assert.equal(errorDocument(malformedPin).error.code, "usage");
+  assert.equal(errorDocument(malformedPin).error.reason, "invalid-data-version");
 });
 
 test("data failures exit 3 with the code data", async () => {
@@ -81,6 +83,7 @@ test("data failures exit 3 with the code data", async () => {
   const missing = await run(["explain", "no-such-finding", root, "--json"]);
   assert.equal(missing.code, 3);
   assert.equal(errorDocument(missing).error.code, "data");
+  assert.equal(errorDocument(missing).error.reason, "finding-not-found");
   assert.match(errorDocument(missing).error.message, /Finding not found: no-such-finding/);
   assert.match(missing.stderr, /Finding not found/);
 
@@ -148,7 +151,7 @@ test("the exit-code table in docs/CAPABILITIES.md cannot drift from the code", a
   }
   assert.ok(documented.size > 0, "the table was not found");
 
-  const source = await readFile(resolve("dist/src/commands/types.js"), "utf8");
+  const source = await readFile(resolve("dist/src/evergreen-error.js"), "utf8");
   const codes = source.match(/EXIT_CODES = \{([^}]*)\}/);
   assert.ok(codes, "EXIT_CODES was not found in the compiled CLI");
   const implemented = new Map(

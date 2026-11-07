@@ -1,11 +1,9 @@
 import type { ActionableMessage } from "../errors.js";
 
-/**
- * The stable failure classes. `policy` (1) and `usage` (2) keep the exit codes Evergreen has always used; the rest are
- * distinct so a caller can branch on the exit code alone. Documented in docs/CAPABILITIES.md.
- */
-export const EXIT_CODES = { policy: 1, usage: 2, data: 3, parse: 4, internal: 5 } as const;
-export type FailureClass = keyof typeof EXIT_CODES;
+import { EXIT_CODES, type ErrorCode, type FailureClass } from "../evergreen-error.js";
+
+export { EXIT_CODES };
+export type { FailureClass };
 
 /** Shared helpers a command handler needs. Command files take this instead of importing the CLI entry. */
 export interface CommandContext {
@@ -16,7 +14,9 @@ export interface CommandContext {
   readonly exitCodes: typeof EXIT_CODES;
   /** The shell completion script for `shell`, or undefined when the shell is unknown. Supplied by the CLI entry. */
   completionScript(shell: string | undefined): string | undefined;
-  fail(kind: FailureClass, message: string, appendix?: string): number;
+  fail(kind: FailureClass, message: string, appendix?: string, reason?: ErrorCode): number;
+  /** Fails with the class and reason code carried by `error`; anything that is not an `EvergreenError` is `internal`. */
+  failError(error: unknown, appendix?: string): number;
   failActionable(kind: FailureClass, actionable: ActionableMessage): number;
 }
 
