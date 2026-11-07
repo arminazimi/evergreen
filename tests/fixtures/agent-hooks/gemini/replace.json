@@ -1,0 +1,18 @@
+{
+  "session_id": "6f1a2b3c-4d5e-4f60-8a91-b2c3d4e5f607",
+  "transcript_path": "/Users/dev/.gemini/tmp/app/chats/session-2026-11-07.json",
+  "cwd": "/Users/dev/app",
+  "hook_event_name": "AfterTool",
+  "timestamp": "2026-11-07T10:14:02.118Z",
+  "tool_name": "replace",
+  "tool_input": {
+    "file_path": "packages/app/Dockerfile",
+    "old_string": "FROM node:22",
+    "new_string": "FROM node:16",
+    "instruction": "Pin an older runtime"
+  },
+  "tool_response": {
+    "llmContent": "File edited successfully.",
+    "returnDisplay": "packages/app/Dockerfile"
+  }
+}

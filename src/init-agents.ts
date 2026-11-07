@@ -353,6 +353,97 @@ export async function initCursorHooks(options: InitCursorHooksOptions): Promise<
   return { hooks, rule };
 }
 
+export const GEMINI_SETTINGS_FILE = ".gemini/settings.json";
+export const GEMINI_HOOK_MATCHER = "write_file|replace";
+/** The same launcher as the other hosts: the project's own package first, the global `evergreen` bin as fallback. */
+export const GEMINI_HOOK_COMMAND = "npx --no-install evergreen-deprecation hook gemini";
+/** Gemini CLI measures hook timeouts in milliseconds, so this is the documented default of one minute. */
+export const GEMINI_HOOK_TIMEOUT_MS = 60_000;
+
+export type InitGeminiHooksOptions = InitClaudeHooksOptions;
+export type InitGeminiHooksResult = InitClaudeHooksResult;
+
+/** Recognizes the Gemini CLI hook this command wrote, however its launcher is spelled. */
+const EVERGREEN_GEMINI_HOOK_COMMAND = /\bevergreen(?:-deprecation)?\b.*\bhook\s+gemini\b/;
+
+function hasEvergreenGeminiAfterTool(entries: readonly unknown[]): boolean {
+  return entries.some((entry) => {
+    if (!isRecord(entry) || !Array.isArray(entry.hooks)) return false;
+    return entry.hooks.some(
+      (hook) => isRecord(hook) && typeof hook.command === "string" && EVERGREEN_GEMINI_HOOK_COMMAND.test(hook.command),
+    );
+  });
+}
+
+/**
+ * Merges the `AfterTool` entry into a parsed Gemini CLI settings document, keeping every existing setting and
+ * hook. Gemini CLI reads the project file `.gemini/settings.json` with `hooks.<Event>` arrays of
+ * `{ matcher, hooks }` entries, and matchers are regular expressions
+ * (<https://github.com/google-gemini/gemini-cli/blob/main/docs/hooks/reference.md>, Gemini CLI 0.67.0, 2026-11-04).
+ */
+export function withGeminiAfterTool(settings: unknown): {
+  settings: Record<string, unknown>;
+  change: "added" | "unchanged";
+} {
+  if (!isRecord(settings))
+    throw new AgentFileError(`${GEMINI_SETTINGS_FILE} does not hold a JSON object, so it was not changed.`);
+  const hooksValue = settings.hooks;
+  if (hooksValue !== undefined && !isRecord(hooksValue)) {
+    throw new AgentFileError(
+      `${GEMINI_SETTINGS_FILE} has a "hooks" value that is not an object, so it was not changed.`,
+    );
+  }
+  const hooks: Record<string, unknown> = hooksValue === undefined ? {} : hooksValue;
+  const afterValue = hooks.AfterTool;
+  if (afterValue !== undefined && !Array.isArray(afterValue)) {
+    throw new AgentFileError(
+      `${GEMINI_SETTINGS_FILE} has a "hooks.AfterTool" value that is not an array, so it was not changed.`,
+    );
+  }
+  const afterTool = (afterValue ?? []) as unknown[];
+  if (hasEvergreenGeminiAfterTool(afterTool)) return { settings: structuredClone(settings), change: "unchanged" };
+  const entry = {
+    matcher: GEMINI_HOOK_MATCHER,
+    hooks: [{ name: "evergreen", type: "command", command: GEMINI_HOOK_COMMAND, timeout: GEMINI_HOOK_TIMEOUT_MS }],
+  };
+  return {
+    settings: {
+      ...structuredClone(settings),
+      hooks: { ...hooks, AfterTool: [...structuredClone(afterTool), entry] },
+    },
+    change: "added",
+  };
+}
+
+/**
+ * Writes or merges the Gemini CLI post-edit hook into `.gemini/settings.json`, preserving the user's settings
+ * and hooks. The home directory is never touched.
+ */
+export async function initGeminiHooks(options: InitGeminiHooksOptions): Promise<InitGeminiHooksResult> {
+  const root = resolve(options.root);
+  const info = await lstat(root).catch(() => undefined);
+  if (!info?.isDirectory()) throw new AgentFileError(`${root} is not a directory.`);
+  const path = join(root, GEMINI_SETTINGS_FILE);
+  await assertInside(root, path);
+  const before = await read(path);
+  let parsed: unknown = {};
+  if (before !== undefined) {
+    try {
+      parsed = JSON.parse(before);
+    } catch {
+      throw new AgentFileError(`${GEMINI_SETTINGS_FILE} is not valid JSON, so it was not changed.`);
+    }
+  }
+  const update = withGeminiAfterTool(parsed);
+  const text = `${JSON.stringify(update.settings, null, 2)}\n`;
+  const change = before === undefined ? "created" : update.change === "unchanged" ? "unchanged" : "updated";
+  const diff = change === "unchanged" ? "" : renderDiff(GEMINI_SETTINGS_FILE, before ?? "", text);
+  if (change === "unchanged" || options.dryRun) return { file: GEMINI_SETTINGS_FILE, change, written: false, diff };
+  await mkdir(dirname(path), { recursive: true });
+  await writeFile(path, text);
+  return { file: GEMINI_SETTINGS_FILE, change, written: true, diff };
+}
+
 export async function initAgents(options: InitAgentsOptions): Promise<InitAgentsResult> {
   const root = resolve(options.root);
   const info = await lstat(root).catch(() => undefined);

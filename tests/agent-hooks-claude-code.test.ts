@@ -209,7 +209,7 @@ test("the init command writes the hook and honors --dry-run", async () => {
 
   const unknown = spawnSync(process.execPath, [cli, "init", "--hooks-for", "gitlab", root], { encoding: "utf8" });
   assert.equal(unknown.status, 2);
-  assert.match(unknown.stderr, /--hooks-for needs a host: claude-code, codex, or cursor/);
+  assert.match(unknown.stderr, /--hooks-for needs a host: claude-code, codex, cursor, or gemini/);
 });
 
 test("end to end: writing FROM node:16 gets the rule and replacement back on stderr with exit 2", async () => {

@@ -1,0 +1,1 @@
+- Add the Gemini CLI edit hook: `evergreen hook gemini` returns lifecycle findings from an `AfterTool` `write_file` or `replace` payload as `additionalContext`, and `init --hooks-for gemini` merges the hook into `.gemini/settings.json` while keeping existing settings.

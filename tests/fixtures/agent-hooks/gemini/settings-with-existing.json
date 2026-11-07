@@ -1,0 +1,23 @@
+{
+  "theme": "Default",
+  "mcpServers": {
+    "evergreen": {
+      "command": "npx",
+      "args": ["--yes", "--package", "evergreen-deprecation@0.7.3", "evergreen-mcp"]
+    }
+  },
+  "hooks": {
+    "BeforeTool": [
+      {
+        "matcher": "run_shell_command",
+        "hooks": [{ "name": "shell-policy", "type": "command", "command": "echo checked", "timeout": 5000 }]
+      }
+    ],
+    "AfterTool": [
+      {
+        "matcher": "run_shell_command",
+        "hooks": [{ "name": "command-log", "type": "command", "command": "echo done", "timeout": 5000 }]
+      }
+    ]
+  }
+}
