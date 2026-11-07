@@ -38,7 +38,17 @@ export function parseRange(range: string): { base: string; head: string } {
   return { base, head };
 }
 
-function git(root: string, args: string[], input?: Buffer): Buffer {
+/** Reads stderr from a child_process failure: Buffer, string, or missing. */
+export function stderrMessage(error: unknown): string | undefined {
+  if (typeof error !== "object" || error === null || !("stderr" in error)) return undefined;
+  const stderr = error.stderr;
+  if (Buffer.isBuffer(stderr)) return stderr.toString().trim() || undefined;
+  if (typeof stderr === "string") return stderr.trim() || undefined;
+  return undefined;
+}
+
+/** Runs `git` in `root` from objects alone; throws DiffError on failure. Shared by `diff` and `wrapped`. */
+export function git(root: string, args: string[], input?: Buffer): Buffer {
   try {
     return execFileSync("git", args, {
       cwd: root,
@@ -48,13 +58,12 @@ function git(root: string, args: string[], input?: Buffer): Buffer {
       windowsHide: true,
     });
   } catch (error) {
-    const stderr = (error as { stderr?: Buffer }).stderr?.toString().trim();
-    throw new DiffError(stderr || `git ${args[0]} failed.`);
+    throw new DiffError(stderrMessage(error) || `git ${args[0]} failed.`);
   }
 }
 
 /** Writes a ref's tree into `directory` from git objects alone: no checkout, no network, the working tree untouched. */
-function exportRef(root: string, ref: string, directory: string): void {
+export function exportRef(root: string, ref: string, directory: string): void {
   if (ref.startsWith("-")) throw new DiffError(`"${ref}" is not a valid ref.`);
   const archive = git(root, ["archive", "--format=tar", ref, "--"]);
   const extracted = spawnSync("tar", ["-x", "-C", directory], {
@@ -66,7 +75,8 @@ function exportRef(root: string, ref: string, directory: string): void {
     throw new DiffError(`Cannot unpack ${ref}: ${extracted.stderr?.toString().trim() || "tar failed"}.`);
 }
 
-async function scanRef(root: string, ref: string, detectors: readonly Detector[]): Promise<Finding[]> {
+/** Scans one ref from a temporary archive and removes the archive afterwards. */
+export async function scanRef(root: string, ref: string, detectors: readonly Detector[]): Promise<Finding[]> {
   const directory = await mkdtemp(join(tmpdir(), "evergreen-diff-"));
   try {
     exportRef(root, ref, directory);

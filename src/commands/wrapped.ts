@@ -1,15 +1,9 @@
 import process from "node:process";
 import { basename, resolve } from "node:path";
 
+import { DiffError } from "../diff.js";
 import { builtInDetectors } from "../detectors/index.js";
-import {
-  buildWrapped,
-  parseWrappedYear,
-  playWrapped,
-  renderWrappedText,
-  writeWrappedSvg,
-  WrappedError,
-} from "../wrapped.js";
+import { buildWrapped, parseWrappedYear, playWrapped, renderWrappedText, writeWrappedSvg } from "../wrapped.js";
 import type { CliCommand, CommandContext } from "./types.js";
 
 const usageText = "Usage: evergreen wrapped [path] [--year <YYYY>] [--svg <file>] [--json]";
@@ -91,7 +85,8 @@ export const command: CliCommand = {
       await playWrapped(result);
       return 0;
     } catch (error) {
-      if (error instanceof WrappedError) return ctx.failError(error);
+      // Shared git/archive helpers throw DiffError; WrappedError extends it for year parsing.
+      if (error instanceof DiffError) return ctx.failError(error);
       throw error;
     }
   },

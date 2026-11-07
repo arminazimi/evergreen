@@ -1,17 +1,12 @@
-import { execFileSync, spawnSync } from "node:child_process";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { writeFile } from "node:fs/promises";
 import process from "node:process";
 
 import { CODEOWNERS_LOCATIONS, ownersOf, parseCodeowners } from "./codeowners.js";
-import { compareFindings, DiffError } from "./diff.js";
+import { compareFindings, DiffError, git, scanRef } from "./diff.js";
 import type { Detector } from "./sdk.js";
 import type { Finding } from "./domain.js";
-import { scanRepository } from "./engine/index.js";
 import { required } from "./required.js";
 
-const MAX_ARCHIVE_BYTES = 1024 * 1024 * 1024;
 const DAY_MS = 86_400_000;
 
 /** The longest `wrapped` play on a terminal, in milliseconds. */
@@ -75,53 +70,8 @@ export interface WrappedOptions {
   asOf?: string;
 }
 
-function stderrMessage(error: unknown): string | undefined {
-  if (typeof error !== "object" || error === null || !("stderr" in error)) return undefined;
-  const stderr = error.stderr;
-  if (Buffer.isBuffer(stderr)) return stderr.toString().trim() || undefined;
-  if (typeof stderr === "string") return stderr.trim() || undefined;
-  return undefined;
-}
-
-function git(root: string, args: string[], input?: Buffer): Buffer {
-  try {
-    return execFileSync("git", args, {
-      cwd: root,
-      input,
-      maxBuffer: MAX_ARCHIVE_BYTES,
-      stdio: ["pipe", "pipe", "pipe"],
-      windowsHide: true,
-    });
-  } catch (error) {
-    throw new WrappedError(stderrMessage(error) || `git ${args[0]} failed.`);
-  }
-}
-
 function gitText(root: string, args: string[]): string {
   return git(root, args).toString("utf8").trim();
-}
-
-/** Writes a ref's tree into `directory` from git objects alone: no checkout, the working tree untouched. */
-function exportRef(root: string, ref: string, directory: string): void {
-  if (ref.startsWith("-")) throw new WrappedError(`"${ref}" is not a valid ref.`);
-  const archive = git(root, ["archive", "--format=tar", ref, "--"]);
-  const extracted = spawnSync("tar", ["-x", "-C", directory], {
-    input: archive,
-    stdio: ["pipe", "ignore", "pipe"],
-    windowsHide: true,
-  });
-  if (extracted.status !== 0)
-    throw new WrappedError(`Cannot unpack ${ref}: ${extracted.stderr?.toString().trim() || "tar failed"}.`);
-}
-
-async function scanRef(root: string, ref: string, detectors: readonly Detector[]): Promise<Finding[]> {
-  const directory = await mkdtemp(join(tmpdir(), "evergreen-wrapped-"));
-  try {
-    exportRef(root, ref, directory);
-    return (await scanRepository(directory, detectors)).findings;
-  } finally {
-    await rm(directory, { recursive: true, force: true });
-  }
 }
 
 /** Reads CODEOWNERS text from a ref without touching the working tree. */
@@ -177,7 +127,8 @@ export function resolveWrappedRefs(
   return { base: first, head, usedFirstCommitFallback: true };
 }
 
-function longestEndedFinding(findings: readonly Finding[], asOf: string): WrappedDatedFinding | undefined {
+/** The head finding whose deadline is furthest past `asOf`; ties prefer the earlier deadline. */
+export function longestEndedFinding(findings: readonly Finding[], asOf: string): WrappedDatedFinding | undefined {
   const asOfMs = Date.parse(`${asOf}T00:00:00Z`);
   let best: WrappedDatedFinding | undefined;
   for (const finding of findings) {
@@ -185,18 +136,20 @@ function longestEndedFinding(findings: readonly Finding[], asOf: string): Wrappe
     const deadlineMs = Date.parse(`${finding.deadline}T00:00:00Z`);
     if (Number.isNaN(deadlineMs)) continue;
     const daysPast = Math.floor((asOfMs - deadlineMs) / DAY_MS);
-    if (
+    const better =
       best === undefined ||
       daysPast > (best.daysPast ?? 0) ||
-      (daysPast === best.daysPast && finding.deadline < best.deadline)
-    ) {
+      (daysPast === best.daysPast && finding.deadline < best.deadline) ||
+      (daysPast === best.daysPast && finding.deadline === best.deadline && finding.ruleId < best.ruleId);
+    if (better) {
       best = { title: finding.title, ruleId: finding.ruleId, deadline: finding.deadline, daysPast };
     }
   }
   return best;
 }
 
-function nextDeadlineInComingYear(findings: readonly Finding[], year: number): WrappedDatedFinding | undefined {
+/** The earliest head finding whose deadline falls in the calendar year after `year`. */
+export function nextDeadlineInComingYear(findings: readonly Finding[], year: number): WrappedDatedFinding | undefined {
   const start = `${year + 1}-01-01`;
   const end = `${year + 1}-12-31`;
   let best: WrappedDatedFinding | undefined;
@@ -209,7 +162,8 @@ function nextDeadlineInComingYear(findings: readonly Finding[], year: number): W
   return best;
 }
 
-function topOwnersByFixed(fixed: readonly Finding[], text: string | undefined): WrappedOwner[] | undefined {
+/** Top three CODEOWNERS owners by fixed findings; `undefined` when there is no CODEOWNERS text. */
+export function topOwnersByFixed(fixed: readonly Finding[], text: string | undefined): WrappedOwner[] | undefined {
   if (text === undefined) return undefined;
   const rules = parseCodeowners(text);
   const counts = new Map<string, number>();
@@ -316,6 +270,20 @@ function defaultIo(): WrappedIo {
 }
 
 /**
+ * Plays pre-built cards one at a time within six seconds. Used by `playWrapped` and by tests that need a
+ * single-card or empty-card schedule.
+ */
+export async function animateWrappedCards(cards: readonly string[], io: WrappedIo, notice?: string): Promise<void> {
+  if (notice !== undefined && notice !== "") io.write(`${notice}\n\n`);
+  const pause = Math.floor(WRAPPED_MAX_MS / Math.max(cards.length, 1));
+  for (let index = 0; index < cards.length; index += 1) {
+    if (index > 0) io.write("\u001b[2J\u001b[H");
+    io.write(`${cards[index]}\n`);
+    if (index < cards.length - 1) await io.sleep(pause);
+  }
+}
+
+/**
  * Plays the cards one at a time on a terminal, within six seconds total. Off a terminal, or with
  * `noAnimation`, prints the static text.
  */
@@ -325,16 +293,10 @@ export async function playWrapped(result: WrappedResult, options: PlayWrappedOpt
     io.write(`${renderWrappedText(result)}\n`);
     return;
   }
-  if (result.usedFirstCommitFallback) {
-    io.write(`No commit before ${result.year}; comparing against the first commit.\n\n`);
-  }
-  const cards = buildWrappedCards(result);
-  const pause = Math.floor(WRAPPED_MAX_MS / Math.max(cards.length, 1));
-  for (let index = 0; index < cards.length; index += 1) {
-    if (index > 0) io.write("\u001b[2J\u001b[H");
-    io.write(`${cards[index]}\n`);
-    if (index < cards.length - 1) await io.sleep(pause);
-  }
+  const notice = result.usedFirstCommitFallback
+    ? `No commit before ${result.year}; comparing against the first commit.`
+    : undefined;
+  await animateWrappedCards(buildWrappedCards(result), io, notice);
 }
 
 /** A 1200×630 summary card for sharing. No script and no external references. */

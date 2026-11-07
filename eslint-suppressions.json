@@ -321,11 +321,6 @@
       "count": 1
     }
   },
-  "src/diff.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 1
-    }
-  },
   "src/doctor.ts": {
     "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 1
