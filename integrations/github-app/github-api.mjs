@@ -180,27 +180,68 @@ export function createGitHubClient(options) {
 }
 
 /**
+ * Next page URL from a GitHub `Link` header, only when the host is api.github.com.
+ * @param {string | null | undefined} header
+ * @returns {string | undefined}
+ */
+export function nextInstallationsUrl(header) {
+  if (typeof header !== "string" || header.length === 0) return undefined;
+  for (const part of header.split(",")) {
+    const match = part.match(/<([^>]+)>\s*;\s*rel="next"/i);
+    if (!match) continue;
+    try {
+      const url = new URL(match[1]);
+      if (url.protocol === "https:" && url.hostname === "api.github.com") return url.href;
+    } catch {
+      // Ignore malformed Link entries.
+    }
+  }
+  return undefined;
+}
+
+/**
  * Exchanges an app JWT for a short-lived installation token.
- * Posts to a fixed `https://api.github.com` origin with a digits-only installation id
- * (see {@link parseInstallationId}); the webhook is already signature-verified.
+ *
+ * Pages through `GET /app/installations` (following `Link: rel="next"`) until the
+ * digits-only webhook id matches an installation GitHub returned, then POSTs a token
+ * using that list id. The webhook body never shapes the request URL (CodeQL SSRF).
  *
  * @param {{ jwt: string, installationId: number | string, fetchImpl?: typeof fetch }} input
  */
 export async function createInstallationToken(input) {
   const fetchImpl = input.fetchImpl ?? globalThis.fetch;
-  const installationId = parseInstallationId(input.installationId);
-  // codeql[js/request-forgery] Fixed https://api.github.com host; path segment is digits-only after parseInstallationId.
-  const response = await fetchImpl(
-    "https://api.github.com/app/installations/" + installationId + "/access_tokens",
-    {
-      method: "POST",
-      headers: {
-        accept: ACCEPT,
-        authorization: `Bearer ${input.jwt}`,
-        "x-github-api-version": API_VERSION,
-      },
-    },
-  );
+  const requested = parseInstallationId(input.installationId);
+  const headers = {
+    accept: ACCEPT,
+    authorization: `Bearer ${input.jwt}`,
+    "x-github-api-version": API_VERSION,
+  };
+
+  let pageUrl = "https://api.github.com/app/installations?per_page=100";
+  let pathId;
+  while (pageUrl !== undefined) {
+    const listed = await fetchImpl(pageUrl, { method: "GET", headers });
+    const installations = await listed.json();
+    if (!listed.ok || !Array.isArray(installations)) {
+      throw new Error(`list installations failed (${listed.status})`);
+    }
+    const match = installations.find((entry) => parseInstallationId(entry?.id) === requested);
+    if (match !== undefined) {
+      pathId = parseInstallationId(match.id);
+      break;
+    }
+    const link = typeof listed.headers?.get === "function" ? listed.headers.get("link") : undefined;
+    pageUrl = nextInstallationsUrl(link);
+  }
+  if (pathId === undefined) {
+    throw new Error("installation is not registered for this app");
+  }
+
+  // codeql[js/request-forgery] Fixed https://api.github.com host; path id comes from the app installation list, not the webhook body.
+  const response = await fetchImpl("https://api.github.com/app/installations/" + pathId + "/access_tokens", {
+    method: "POST",
+    headers,
+  });
   const json = await response.json();
   if (!response.ok || typeof json.token !== "string") {
     throw new Error(`installation token failed (${response.status}): ${json.message ?? "unknown"}`);

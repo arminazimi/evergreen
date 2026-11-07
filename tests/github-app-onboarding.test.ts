@@ -16,6 +16,7 @@ type FetchStub = (
 ) => Promise<{
   ok: boolean;
   status: number;
+  headers?: { get: (name: string) => string | null };
   json: () => Promise<unknown>;
 }>;
 
@@ -78,6 +79,7 @@ interface GitHubApiModule {
     fetchImpl?: FetchStub;
   }) => Promise<string>;
   parseInstallationId: (value: unknown) => string;
+  nextInstallationsUrl: (header: string | null | undefined) => string | undefined;
 }
 
 interface CommitFilesModule {
@@ -210,31 +212,70 @@ test("handleWebhook rejects a bad signature before calling GitHub", async () => 
   );
 });
 
-test("createInstallationToken posts directly for ids beyond the first page of 100", async () => {
-  const { createInstallationToken, parseInstallationId } = await load<GitHubApiModule>("github-api.mjs");
+test("createInstallationToken follows Link pages until the installation id is found", async () => {
+  const { createInstallationToken, parseInstallationId, nextInstallationsUrl } =
+    await load<GitHubApiModule>("github-api.mjs");
   assert.equal(parseInstallationId(150), "150");
-  let listed = false;
+  assert.equal(
+    nextInstallationsUrl(
+      '<https://api.github.com/app/installations?per_page=100&page=2>; rel="next", <https://api.github.com/app/installations?per_page=100&page=2>; rel="last"',
+    ),
+    "https://api.github.com/app/installations?per_page=100&page=2",
+  );
+  assert.equal(nextInstallationsUrl('<https://evil.example/next>; rel="next"'), undefined);
+
+  const page1 = Array.from({ length: 100 }, (_, index) => ({ id: index + 1 }));
+  const calls: string[] = [];
   const token = await createInstallationToken({
     jwt: "jwt",
     installationId: 150,
     fetchImpl: async (url) => {
       const href = String(url);
-      if (href.includes("per_page") || /\/app\/installations\/?(\?|$)/.test(href)) {
-        listed = true;
-        throw new Error("must not list installations");
+      calls.push(href);
+      if (href === "https://api.github.com/app/installations?per_page=100") {
+        return {
+          ok: true,
+          status: 200,
+          headers: {
+            get: (name) =>
+              name.toLowerCase() === "link"
+                ? '<https://api.github.com/app/installations?per_page=100&page=2>; rel="next"'
+                : null,
+          },
+          async json() {
+            return page1;
+          },
+        };
       }
-      assert.equal(href, "https://api.github.com/app/installations/150/access_tokens");
-      return {
-        ok: true,
-        status: 201,
-        async json() {
-          return { token: "installation-token-150" };
-        },
-      };
+      if (href === "https://api.github.com/app/installations?per_page=100&page=2") {
+        return {
+          ok: true,
+          status: 200,
+          headers: { get: () => null },
+          async json() {
+            return [{ id: 150 }, { id: 151 }];
+          },
+        };
+      }
+      if (href === "https://api.github.com/app/installations/150/access_tokens") {
+        return {
+          ok: true,
+          status: 201,
+          headers: { get: () => null },
+          async json() {
+            return { token: "installation-token-150" };
+          },
+        };
+      }
+      throw new Error(`unexpected fetch: ${href}`);
     },
   });
   assert.equal(token, "installation-token-150");
-  assert.equal(listed, false);
+  assert.deepEqual(calls, [
+    "https://api.github.com/app/installations?per_page=100",
+    "https://api.github.com/app/installations?per_page=100&page=2",
+    "https://api.github.com/app/installations/150/access_tokens",
+  ]);
 });
 
 test("readBody rejects oversize payloads before the stream ends", async () => {
@@ -305,10 +346,22 @@ test("handleWebhook continues after one repository fails", async () => {
     appId: "1",
     privateKeyPem: appKeyPem(),
     fetchImpl: async (url) => {
-      assert.match(String(url), /\/app\/installations\/9\/access_tokens$/);
+      const href = String(url);
+      if (href.includes("/app/installations") && !href.includes("/access_tokens")) {
+        return {
+          ok: true,
+          status: 200,
+          headers: { get: () => null },
+          async json() {
+            return [{ id: 9 }];
+          },
+        };
+      }
+      assert.match(href, /\/app\/installations\/9\/access_tokens$/);
       return {
         ok: true,
         status: 201,
+        headers: { get: () => null },
         async json() {
           return { token: "tok" };
         },

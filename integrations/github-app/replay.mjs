@@ -91,11 +91,22 @@ export async function replayInstallationWebhook(options = {}) {
   const installationTokenCalls = [];
   const fetchImpl = async (url, init) => {
     const href = String(url);
+    if (href.includes("/app/installations") && !href.includes("/access_tokens")) {
+      return {
+        ok: true,
+        status: 200,
+        headers: { get: () => null },
+        async json() {
+          return [{ id: 1, account: { login: "acme" } }];
+        },
+      };
+    }
     if (href.includes("/access_tokens")) {
       installationTokenCalls.push({ url: href, init });
       return {
         ok: true,
         status: 201,
+        headers: { get: () => null },
         async json() {
           return { token: "installation-token" };
         },
