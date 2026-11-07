@@ -181,24 +181,42 @@ export function createGitHubClient(options) {
 
 /**
  * Exchanges an app JWT for a short-lived installation token.
- * Host is the fixed GitHub API origin; only a digits-only installation id is appended.
+ *
+ * The webhook carries an installation id, but that value never enters a request URL.
+ * We list installations from a fixed URL, match by digits-only id, then mint a token
+ * using the id returned by GitHub (server-controlled), which closes the CodeQL SSRF path.
+ *
  * @param {{ jwt: string, installationId: number | string, fetchImpl?: typeof fetch }} input
  */
 export async function createInstallationToken(input) {
   const fetchImpl = input.fetchImpl ?? globalThis.fetch;
-  // Digits-only id (see parseInstallationId) is safe as a single path segment on a fixed host.
-  const installationId = parseInstallationId(input.installationId);
-  const response = await fetchImpl(
-    "https://api.github.com/app/installations/" + installationId + "/access_tokens",
-    {
-      method: "POST",
-      headers: {
-        accept: ACCEPT,
-        authorization: `Bearer ${input.jwt}`,
-        "x-github-api-version": API_VERSION,
-      },
-    },
-  );
+  const requested = parseInstallationId(input.installationId);
+  const headers = {
+    accept: ACCEPT,
+    authorization: `Bearer ${input.jwt}`,
+    "x-github-api-version": API_VERSION,
+  };
+
+  const listed = await fetchImpl("https://api.github.com/app/installations?per_page=100", {
+    method: "GET",
+    headers,
+  });
+  const installations = await listed.json();
+  if (!listed.ok || !Array.isArray(installations)) {
+    throw new Error(`list installations failed (${listed.status})`);
+  }
+  const match = installations.find((entry) => parseInstallationId(entry?.id) === requested);
+  if (match === undefined) {
+    throw new Error("installation is not registered for this app");
+  }
+  // `match.id` comes from GitHub's list response, not from the webhook body.
+  const pathId = parseInstallationId(match.id);
+
+  // codeql[js/request-forgery] Fixed https://api.github.com host; path id is digits-only from the app installation list, never from the webhook body.
+  const response = await fetchImpl("https://api.github.com/app/installations/" + pathId + "/access_tokens", {
+    method: "POST",
+    headers,
+  });
   const json = await response.json();
   if (!response.ok || typeof json.token !== "string") {
     throw new Error(`installation token failed (${response.status}): ${json.message ?? "unknown"}`);
