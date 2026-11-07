@@ -2,6 +2,14 @@
 
 Instructions for coding agents (Codex, Claude Code, Cursor, Copilot, Kilo Code, and others) and for people working the same way. Read this before changing the repository.
 
+## Before you change anything
+
+CI rejects a pull request that edits a generated or release-time file, so these three rules save a failed run:
+
+- **Never edit `CHANGELOG.md`.** Add one fragment file under `changes/` instead (see [changes/README.md](changes/README.md)). Only the release pull request, whose title starts with `chore: release`, changes `CHANGELOG.md`.
+- **Never commit a generated file** (`docs/llms-full.txt`, `dist/action/index.js`, `docs/api/v1/`, and the rest of the build-time list in [docs/generated-files.md](docs/generated-files.md)). Change the source and regenerate locally.
+- **Run `npm run check` before you open the pull request.** It is the same gate CI runs.
+
 ## What Evergreen is
 
 Evergreen is a local-first CLI that finds evidence-backed lifecycle risks (deprecations, end-of-life runtimes, retired APIs) in a repository, shows exactly where they are used, and produces migration context for humans and agents. It ships as one TypeScript package with a CLI, a local MCP server, a GitHub Action, an Agent Skill, and Codex and Claude plugins.
