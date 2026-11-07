@@ -1,6 +1,7 @@
 # Release stage: generate the CycloneDX SBOM from the production dependency tree, validate it against
-# the CycloneDX 1.5 schema, sign it keylessly, and attach it to the GitHub release.
-# A dry run generates and validates it and attaches nothing.
+# the CycloneDX 1.5 schema, derive the VEX file from the reviewed statements in security/vex, validate
+# that too, sign both keylessly, and attach them to the GitHub release.
+# A dry run generates and validates them and attaches nothing.
 name: Release SBOM
 
 on:
@@ -39,6 +40,10 @@ jobs:
           node .github/scripts/release-sbom.mjs generate --tree npm-tree.json --output sbom.cdx.json
       - name: Validate the SBOM against the CycloneDX schema and the release tree
         run: node .github/scripts/release-sbom.mjs check sbom.cdx.json --tree npm-tree.json
+      - name: Generate and validate the VEX file from security/vex
+        run: |
+          node .github/scripts/release-vex.mjs generate --sbom sbom.cdx.json --statements security/vex --output vex.cdx.json
+          node .github/scripts/release-vex.mjs check vex.cdx.json --sbom sbom.cdx.json --statements security/vex
       - uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
         if: ${{ !inputs.dry_run }}
       - name: Sign and verify the SBOM (keyless)
@@ -50,6 +55,15 @@ jobs:
             --certificate-oidc-issuer "${OIDC_ISSUER}" \
             --certificate-identity-regexp "${IDENTITY_PATTERN}" \
             sbom.cdx.json
+      - name: Sign and verify the VEX file (keyless)
+        if: ${{ !inputs.dry_run }}
+        run: |
+          cosign sign-blob --yes --bundle vex.cdx.json.sigstore.json vex.cdx.json
+          cosign verify-blob \
+            --bundle vex.cdx.json.sigstore.json \
+            --certificate-oidc-issuer "${OIDC_ISSUER}" \
+            --certificate-identity-regexp "${IDENTITY_PATTERN}" \
+            vex.cdx.json
       - name: Attach to the release
         if: ${{ !inputs.dry_run }}
         env:
@@ -62,6 +76,7 @@ jobs:
             gh release create "$tag" --verify-tag --title "$tag" --notes "SBOM for $tag. Release notes follow." $prerelease
           fi
           gh release upload "$tag" sbom.cdx.json sbom.cdx.json.sigstore.json --clobber
+          gh release upload "$tag" vex.cdx.json vex.cdx.json.sigstore.json --clobber
       - name: Record dry-run stage
         if: inputs.dry_run
-        run: echo "Publish stage (SBOM) generated and validated sbom.cdx.json; nothing was attached." >> "$GITHUB_STEP_SUMMARY"
+        run: echo "Publish stage (SBOM) generated and validated sbom.cdx.json and vex.cdx.json; nothing was attached." >> "$GITHUB_STEP_SUMMARY"

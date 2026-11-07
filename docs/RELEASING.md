@@ -144,6 +144,10 @@ cosign verify-blob \
 
 A manual run with `dry_run` on generates and validates the SBOM and attaches nothing.
 
+### VEX statements
+
+Every release also attaches `vex.cdx.json`: a CycloneDX 1.5 VEX file that says which known dependency vulnerabilities do not affect Evergreen, with a reason for each. The statements are reviewed files in [`security/vex/`](../security/vex/README.md), one per advisory and package, each with a CycloneDX justification and a plain-words reason. The same stage that builds the SBOM turns them into the VEX file (`.github/scripts/release-vex.mjs`), keeps only the statements whose package is a component of that release's SBOM, links each to its component, validates the result against the CycloneDX 1.5 schema, and signs it with the same keyless identity as the SBOM. With no statements the file is valid and lists no vulnerabilities. Verify it like the SBOM, with `vex.cdx.json` and `vex.cdx.json.sigstore.json`. Add a statement when a dependency advisory does not affect Evergreen; fix the dependency when it does.
+
 ### Signing a release that predates the signing stage
 
 Use this only for a release cut before the signing stage landed; a normal release signs itself. Run *Release backfill signatures* from Actions, enter the tags (for example `v0.7.0 v0.6.1`), and turn *dry run* off. The workflow downloads the assets already attached to those releases, signs those exact bytes with keyless Sigstore (cosign), verifies every signature, and uploads a `.sigstore.json` bundle next to each asset. It never rebuilds or replaces an asset.

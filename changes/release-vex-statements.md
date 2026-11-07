@@ -1,0 +1,1 @@
+- Publish a signed CycloneDX VEX file with every release that says which dependency advisories do not affect Evergreen. (#2159)
