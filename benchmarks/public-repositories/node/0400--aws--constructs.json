@@ -1,0 +1,7 @@
+{
+  "repository": "aws/constructs",
+  "commit": "763cd6ae06b69377d3bf902c17f81d0c82948833",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": []
+}

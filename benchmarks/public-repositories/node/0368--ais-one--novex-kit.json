@@ -1,0 +1,17 @@
+{
+  "repository": "ais-one/novex-kit",
+  "commit": "c095604ab38fc5b9ef7b92237fa88d4e6d368260",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "docs/cloud/cloudflare/cf_workers.tf",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 40 of docs/cloud/cloudflare/cf_workers.tf reads `tags = [\"${var.project}\", \"${var.env}\", \"spa-fallback\"]`. Interpolation-only strings are deprecated. Terraform v0.12.14 deprecated a string whose whole value is one interpolation, such as \"${var.name}\": the same value is written as the bare expression var.name. Terraform still accepts the quoted form but recommends the bare expression for readability, and terraform fmt repairs simple examples. A string that mixes text with an interpolation, such as \"prefix-${var.name}\", is not the deprecated form and still needs its quotes. Source: https://github.com/hashicorp/terraform/releases/tag/v0.12.14. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

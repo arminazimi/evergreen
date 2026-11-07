@@ -1,0 +1,44 @@
+{
+  "repository": "azirbel/npoint",
+  "commit": "f6c8c20f213a6f3e210ee935427e010d9d642cad",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .ruby-version reads `3.2.4`. Ruby 3.2 is end-of-life. The Ruby maintenance branches page marks Ruby 3.2 as eol: normal maintenance ended on 2025-04-01 and the branch reached end-of-life on 2026-04-01. Source: https://www.ruby-lang.org/en/downloads/branches/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "Gemfile",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of Gemfile reads `ruby '3.2.4'`. Ruby 3.2 is end-of-life. The Ruby maintenance branches page marks Ruby 3.2 as eol: normal maintenance ended on 2025-04-01 and the branch reached end-of-life on 2026-04-01. Source: https://www.ruby-lang.org/en/downloads/branches/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "Gemfile.lock",
+      "line": 438,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 438 of Gemfile.lock reads `ruby 3.2.4p170`. Ruby 3.2 is end-of-life. The Ruby maintenance branches page marks Ruby 3.2 as eol: normal maintenance ended on 2025-04-01 and the branch reached end-of-life on 2026-04-01. Source: https://www.ruby-lang.org/en/downloads/branches/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "package.json",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 7 of package.json reads `\"node\" : \"14.17.0\"`. Legacy Node.js runtime is end-of-life. This Node.js release line is end-of-life and no longer receives security or bug fixes. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

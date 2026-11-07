@@ -1,0 +1,26 @@
+{
+  "repository": "alabsi91/reanimated-color-picker",
+  "commit": "bae423b0319422bc357f1f11f8188c1b8130b28c",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "ruby.runtime.eol-2.6",
+      "path": "ExampleLatest/Gemfile.lock",
+      "line": 114,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 114 of ExampleLatest/Gemfile.lock reads `ruby 2.6.10p210`. Ruby 2.6 is end-of-life. The Ruby maintenance branches page marks Ruby 2.6 as eol: normal maintenance ended on 2021-04-01 and the branch reached end-of-life on 2022-04-12. Source: https://www.ruby-lang.org/en/downloads/branches/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.6",
+      "path": "ExampleOldArch/Gemfile.lock",
+      "line": 117,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 117 of ExampleOldArch/Gemfile.lock reads `ruby 2.6.10p210`. Ruby 2.6 is end-of-life. The Ruby maintenance branches page marks Ruby 2.6 as eol: normal maintenance ended on 2021-04-01 and the branch reached end-of-life on 2022-04-12. Source: https://www.ruby-lang.org/en/downloads/branches/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

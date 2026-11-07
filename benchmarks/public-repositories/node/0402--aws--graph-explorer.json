@@ -1,0 +1,7 @@
+{
+  "repository": "aws/graph-explorer",
+  "commit": "2ff4ceabe1c7b4b1e786344decb184362b320306",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": []
+}

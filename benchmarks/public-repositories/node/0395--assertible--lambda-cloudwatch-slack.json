@@ -1,0 +1,7 @@
+{
+  "repository": "assertible/lambda-cloudwatch-slack",
+  "commit": "833964f51364cd7d53991dbc04555a7a91e9d4d6",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": []
+}

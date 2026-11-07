@@ -1,0 +1,17 @@
+{
+  "repository": "cedricdelpoux/react-responsive-masonry",
+  "commit": "9c24809d900568d731a4c574154f8a033dda3b98",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "npm.package.babel-eslint.deprecated",
+      "path": "package.json",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 49 of package.json reads `\"babel-eslint\": \"^10.1.0\",`. babel-eslint is deprecated. npm marks babel-eslint as deprecated: \"babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.\" Source: https://www.npmjs.com/package/babel-eslint. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

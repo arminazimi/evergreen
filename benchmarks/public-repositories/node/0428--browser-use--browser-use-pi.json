@@ -1,0 +1,7 @@
+{
+  "repository": "browser-use/browser-use-pi",
+  "commit": "2d66d5c8d566247aafa508ce8b90ddb947e2bd26",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": []
+}

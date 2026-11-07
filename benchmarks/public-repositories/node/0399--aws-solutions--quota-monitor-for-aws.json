@@ -1,0 +1,7 @@
+{
+  "repository": "aws-solutions/quota-monitor-for-aws",
+  "commit": "59b9055385fe0c0aedc53ef3bfb6b4705d4ac22c",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": []
+}

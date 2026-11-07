@@ -1,0 +1,44 @@
+{
+  "repository": "bcms/cms",
+  "commit": "d0e643d3269c27f20f57b23dfed4b45655a465fb",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of Dockerfile reads `FROM node:20-slim`. Node.js image release lines 21 and older are end-of-life. These Node.js release lines no longer receive security or bug fixes, so images tagged with them are built on an unsupported runtime. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile.backend.dev",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of Dockerfile.backend.dev reads `FROM node:20-slim`. Node.js image release lines 21 and older are end-of-life. These Node.js release lines no longer receive security or bug fixes, so images tagged with them are built on an unsupported runtime. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile.ui.dev",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of Dockerfile.ui.dev reads `FROM node:20-slim`. Node.js image release lines 21 and older are end-of-life. These Node.js release lines no longer receive security or bug fixes, so images tagged with them are built on an unsupported runtime. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "ui/Dockerfile.dev",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of ui/Dockerfile.dev reads `FROM node:20-slim`. Node.js image release lines 21 and older are end-of-life. These Node.js release lines no longer receive security or bug fixes, so images tagged with them are built on an unsupported runtime. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

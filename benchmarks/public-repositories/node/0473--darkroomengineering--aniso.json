@@ -1,0 +1,26 @@
+{
+  "repository": "darkroomengineering/aniso",
+  "commit": "59d0aa139b6964de2ba4c042f04505677aed4cd8",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/main.yml",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 36 of .github/workflows/main.yml reads `- uses: actions/checkout@v3.0.2 # pin @v2.4.0`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "npm.package.next.15.support-end",
+      "path": "package.json",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 33 of package.json reads `\"next\": \"15.5.19\",`. Next.js 15 is out of support. Next.js 15 was released on 2024-10-21. The support policy keeps each major in Maintenance LTS for two years after release, so its window ended on 2026-10-21; the policy page still listed 15.x under Supported Versions on 2026-10-25. Next.js 16 is the Active LTS release. Source: https://nextjs.org/support-policy. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

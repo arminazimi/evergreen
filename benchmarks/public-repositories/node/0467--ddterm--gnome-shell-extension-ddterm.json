@@ -1,0 +1,7 @@
+{
+  "repository": "ddterm/gnome-shell-extension-ddterm",
+  "commit": "befa77d23d0cce3b5fddec817ef6e6261b0cfc02",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": []
+}

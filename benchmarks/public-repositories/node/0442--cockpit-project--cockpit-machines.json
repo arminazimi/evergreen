@@ -1,0 +1,7 @@
+{
+  "repository": "cockpit-project/cockpit-machines",
+  "commit": "a759311b08871c32db4779d40df83ba4bfb4f24f",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": []
+}

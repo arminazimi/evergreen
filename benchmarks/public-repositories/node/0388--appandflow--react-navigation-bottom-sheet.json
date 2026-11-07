@@ -1,0 +1,71 @@
+{
+  "repository": "appandflow/react-navigation-bottom-sheet",
+  "commit": "a2f7be59eb3f118d0ff47d06c29e11e9f27115bf",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 23 of .github/workflows/ci.yml reads `uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 39 of .github/workflows/ci.yml reads `uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 52 of .github/workflows/ci.yml reads `uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".nvmrc",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .nvmrc reads `v22.20.0`. Node.js 22 reaches end-of-life on 2027-04-30. Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, according to the Node.js Release Working Group schedule. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "npm.package.react-native.0.77-to-0.84.end-of-support",
+      "path": "example/expo-router/package.json",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 25 of example/expo-router/package.json reads `\"react-native\": \"0.81.5\",`. React Native 0.77 through 0.84 are unsupported. The React Native release schedule lists the 0.77.x through 0.84.x minor series as Unsupported. No new releases are expected, except possible fixes for very important regressions, and the Release Crew recommends upgrading as soon as possible. Source: https://github.com/reactwg/react-native-releases/blob/main/docs/support.md. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "npm.package.react-native.0.77-to-0.84.end-of-support",
+      "path": "example/react-navigation/package.json",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 22 of example/react-navigation/package.json reads `\"react-native\": \"0.81.4\",`. React Native 0.77 through 0.84 are unsupported. The React Native release schedule lists the 0.77.x through 0.84.x minor series as Unsupported. No new releases are expected, except possible fixes for very important regressions, and the Release Crew recommends upgrading as soon as possible. Source: https://github.com/reactwg/react-native-releases/blob/main/docs/support.md. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "npm.package.react-native.0.77-to-0.84.end-of-support",
+      "path": "package.json",
+      "line": 83,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 83 of package.json reads `\"react-native\": \"0.81.4\",`. React Native 0.77 through 0.84 are unsupported. The React Native release schedule lists the 0.77.x through 0.84.x minor series as Unsupported. No new releases are expected, except possible fixes for very important regressions, and the Release Crew recommends upgrading as soon as possible. Source: https://github.com/reactwg/react-native-releases/blob/main/docs/support.md. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

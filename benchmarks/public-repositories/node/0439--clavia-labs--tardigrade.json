@@ -1,0 +1,7 @@
+{
+  "repository": "clavia-labs/tardigrade",
+  "commit": "6a8e2250f2efc091cb10e97127b11bce98dfac55",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": []
+}
