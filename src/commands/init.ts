@@ -6,6 +6,7 @@ import { severityValues } from "../domain.js";
 import {
   initAgents,
   initClaudeHooks,
+  initClineHooks,
   initCodexHooks,
   initCopilotHooks,
   initCursorHooks,
@@ -30,7 +31,7 @@ export const command: CliCommand = {
     "  evergreen init --agents [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]",
     "  evergreen init --hooks [path] [--fail-on <severity>] [--dry-run]   # git pre-push hook; combine with --agents",
     "  evergreen init --personal [--fail-on <severity>] [--yes] [--dry-run]   # global config and pre-push hook for every repository",
-    "  evergreen init --hooks-for claude-code|codex|cursor|gemini|copilot [path] [--dry-run]   # post-edit hook for Claude Code, Codex, Cursor, Gemini CLI, or GitHub Copilot",
+    "  evergreen init --hooks-for claude-code|codex|cursor|gemini|copilot|cline [path] [--dry-run]   # post-edit hook for Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, or Cline",
   ],
   usageSlots: [49, 50, 51, 52, 53],
   run(args, ctx) {
@@ -54,9 +55,18 @@ async function confirmOnTerminal(summary: string, defaultYes = false): Promise<b
 }
 
 const initUsage =
-  "Usage: evergreen init [agent] [--agents] [--hooks] [--personal] [--hooks-for claude-code|codex|cursor|gemini|copilot] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]\n";
-const hooksForHosts = "claude-code, codex, cursor, gemini, or copilot";
+  "Usage: evergreen init [agent] [--agents] [--hooks] [--personal] [--hooks-for claude-code|codex|cursor|gemini|copilot|cline] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]\n";
+const hooksForHosts = "claude-code, codex, cursor, gemini, copilot, or cline";
 const agentUsage = "Usage: evergreen init agent [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]\n";
+
+/** The hosts `--hooks-for` accepts; one entry per adapter `evergreen hook <host>` serves. */
+const hooksForHostNames = ["claude-code", "codex", "cursor", "gemini", "copilot", "cline"] as const;
+type HooksForHost = (typeof hooksForHostNames)[number];
+const hooksForHostSet = new Set<string>(hooksForHostNames);
+
+function isHooksForHost(value: string | undefined): value is HooksForHost {
+  return value !== undefined && hooksForHostSet.has(value);
+}
 
 /** The `init` flags that choose what to set up, and the operands and values they take. */
 interface InitOptions {
@@ -156,14 +166,7 @@ type InitValues = ReturnType<typeof initValueOptions>;
 
 /** Flag combinations that cannot mean one thing, in the order `init` refuses them. */
 function initCombinationProblem(flags: InitFlags, ctx: CommandContext): number | undefined {
-  if (
-    flags.hooksForIndex !== -1 &&
-    flags.hooksFor !== "claude-code" &&
-    flags.hooksFor !== "codex" &&
-    flags.hooksFor !== "cursor" &&
-    flags.hooksFor !== "gemini" &&
-    flags.hooksFor !== "copilot"
-  )
+  if (flags.hooksForIndex !== -1 && !isHooksForHost(flags.hooksFor))
     return ctx.fail("usage", `--hooks-for needs a host: ${hooksForHosts}.`, initUsage);
   if (flags.personal && (flags.agents || flags.hooks || flags.hooksFor))
     return ctx.fail("usage", "--personal cannot be combined with --agents, --hooks, or --hooks-for.", initUsage);
@@ -312,14 +315,7 @@ async function applyInit(options: InitOptions, ctx: CommandContext): Promise<num
         options.dryRun,
         options.gate,
       );
-    if (
-      options.hooksFor === "claude-code" ||
-      options.hooksFor === "codex" ||
-      options.hooksFor === "cursor" ||
-      options.hooksFor === "gemini" ||
-      options.hooksFor === "copilot"
-    )
-      await applyHooksFor(options.hooksFor, options.root, options.dryRun);
+    if (isHooksForHost(options.hooksFor)) await applyHooksFor(options.hooksFor, options.root, options.dryRun);
     return 0;
   } catch (error) {
     if (error instanceof AgentFileError) return ctx.failError(error);
@@ -385,6 +381,15 @@ async function applyHooksFor(hooksFor: string, root: string, dryRun: boolean): P
   if (hooksFor === "copilot") {
     const result = await initCopilotHooks({ root, dryRun });
     printHooksFileResult(result, dryRun, "GitHub Copilot now runs Evergreen after create and edit.");
+    return;
+  }
+  if (hooksFor === "cline") {
+    const result = await initClineHooks({ root, dryRun });
+    printHooksFileResult(
+      result,
+      dryRun,
+      "Cline now runs Evergreen after write_to_file and replace_in_file; turn on Hooks in Cline's feature settings.",
+    );
     return;
   }
   const codex = hooksFor === "codex";

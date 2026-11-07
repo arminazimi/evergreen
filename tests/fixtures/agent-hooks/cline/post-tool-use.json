@@ -1,0 +1,18 @@
+{
+  "clineVersion": "1.0.0",
+  "hookName": "PostToolUse",
+  "timestamp": "2026-11-08T09:14:22.104Z",
+  "taskId": "task-7f3c",
+  "workspaceRoots": ["/Users/dev/app"],
+  "userId": "user",
+  "postToolUse": {
+    "toolName": "write_to_file",
+    "parameters": {
+      "path": "/Users/dev/app/Dockerfile",
+      "content": "FROM node:16\nWORKDIR /app\n"
+    },
+    "result": "File written",
+    "success": true,
+    "executionTimeMs": 42
+  }
+}

@@ -142,7 +142,7 @@ A measured run needs installed agent CLIs (`claude -p`, `codex exec`, `gemini -p
 
 - Prompt wording affects what agents write; the task set is fixed and version-free so runs stay comparable, but it is not a census of every prompt an engineer might type.
 - Agent and model versions drift. Publish the version string from `meta.json` with every measured row; do not compare rows across unstated versions.
-- The `hooks` arm only installs host configuration Evergreen knows how to write today (`claude-code`, `codex`, `cursor`, `gemini`, and `copilot` for `--hooks-for`). Hosts without a hook adapter still get `init --agents`.
+- The `hooks` arm only installs host configuration Evergreen knows how to write today (`claude-code`, `codex`, `cursor`, `gemini`, `copilot`, and `cline` for `--hooks-for`). Hosts without a hook adapter still get `init --agents`.
 - Scoring judges the files the agent left on disk. It never executes repository code, never calls an agent, and never uses the network.
 
 ### Reproduction

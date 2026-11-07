@@ -1,0 +1,1 @@
+- Add the Cline edit hook: `evergreen hook cline` answers Cline's `PostToolUse` and `tool_result` payloads with lifecycle findings, and `init --hooks-for cline` writes the project-level `.clinerules/hooks/PostToolUse` script while leaving a hook Evergreen did not write untouched.

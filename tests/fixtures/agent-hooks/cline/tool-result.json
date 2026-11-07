@@ -1,0 +1,20 @@
+{
+  "hookName": "tool_result",
+  "clineVersion": "1.0.0",
+  "timestamp": "2026-11-08T09:16:44.020Z",
+  "taskId": "conv-123",
+  "workspaceRoots": ["/Users/dev/app"],
+  "userId": "user",
+  "iteration": 3,
+  "tool_result": {
+    "id": "call-456",
+    "name": "write_file",
+    "input": {
+      "filePath": "/Users/dev/app/Dockerfile",
+      "content": "FROM node:16\nWORKDIR /app\n"
+    },
+    "output": "File written",
+    "error": null,
+    "durationMs": 45
+  }
+}

@@ -537,6 +537,41 @@ export async function initCopilotHooks(options: InitCopilotHooksOptions): Promis
   return { file: COPILOT_HOOKS_FILE, change, written: true, diff };
 }
 
+export const CLINE_HOOKS_FILE = ".clinerules/hooks/PostToolUse";
+/** The same launcher as the other hosts: the project's own package first, the global `evergreen` bin as fallback. */
+export const CLINE_HOOK_COMMAND = "npx --no-install evergreen-deprecation hook cline";
+/** Cline reads one executable file per event through its shebang, so the configuration is the script itself. */
+export const CLINE_HOOK_SCRIPT = `#!/usr/bin/env bash\n# Evergreen checks the file Cline's PostToolUse payload names; it only prints and never edits files.\nexec ${CLINE_HOOK_COMMAND}\n`;
+
+export type InitClineHooksOptions = InitClaudeHooksOptions;
+export type InitClineHooksResult = InitClaudeHooksResult;
+
+/**
+ * Writes Cline's project-level `PostToolUse` file hook at `.clinerules/hooks/PostToolUse`, the workspace
+ * location the VS Code extension documents
+ * (<https://github.com/cline/cline/blob/main/.clinerules/hooks/README.md>, checked 2026-11-08 against Cline
+ * 4.1.26, current stable, 2026-10-26). Cline keeps one file per event, not a list of entries, so a file Evergreen
+ * did not write is left untouched.
+ */
+export async function initClineHooks(options: InitClineHooksOptions): Promise<InitClineHooksResult> {
+  const root = resolve(options.root);
+  const info = await lstat(root).catch(() => undefined);
+  if (!info?.isDirectory()) throw new AgentFileError(`${root} is not a directory.`);
+  const path = join(root, CLINE_HOOKS_FILE);
+  await assertInside(root, path);
+  const before = await read(path);
+  if (before !== undefined && before !== CLINE_HOOK_SCRIPT)
+    throw new AgentFileError(
+      `${CLINE_HOOKS_FILE} already holds a hook Evergreen did not write, so it was not changed. Add \`${CLINE_HOOK_COMMAND}\` to it yourself.`,
+    );
+  const change = before === undefined ? "created" : "unchanged";
+  const diff = change === "unchanged" ? "" : renderDiff(CLINE_HOOKS_FILE, "", CLINE_HOOK_SCRIPT);
+  if (change === "unchanged" || options.dryRun) return { file: CLINE_HOOKS_FILE, change, written: false, diff };
+  await mkdir(dirname(path), { recursive: true });
+  await writeFile(path, CLINE_HOOK_SCRIPT, { mode: 0o755 });
+  return { file: CLINE_HOOKS_FILE, change, written: true, diff };
+}
+
 export async function initAgents(options: InitAgentsOptions): Promise<InitAgentsResult> {
   const root = resolve(options.root);
   const info = await lstat(root).catch(() => undefined);

@@ -1,0 +1,17 @@
+{
+  "clineVersion": "1.0.0",
+  "hookName": "PostToolUse",
+  "timestamp": "2026-11-08T09:17:10.553Z",
+  "taskId": "task-7f3c",
+  "workspaceRoots": ["/Users/dev/app"],
+  "userId": "user",
+  "postToolUse": {
+    "toolName": "execute_command",
+    "parameters": {
+      "command": "ls"
+    },
+    "result": "Dockerfile\nREADME.md",
+    "success": true,
+    "executionTimeMs": 12
+  }
+}

@@ -1,5 +1,6 @@
 import type { Finding } from "../domain.js";
 import { claudeCodeAdapter } from "./claude-code.js";
+import { clineAdapter } from "./cline.js";
 import { codexAdapter } from "./codex.js";
 import { copilotAdapter } from "./copilot.js";
 import { cursorAdapter } from "./cursor.js";
@@ -11,6 +12,7 @@ export type { HookEdit, HookResponse, HostAdapter } from "./types.js";
 /** Every built-in host adapter. Each host task in the shield epic appends its own entry. */
 export const hostAdapters: HostAdapter[] = [
   claudeCodeAdapter,
+  clineAdapter,
   codexAdapter,
   copilotAdapter,
   cursorAdapter,

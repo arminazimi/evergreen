@@ -1,0 +1,18 @@
+{
+  "clineVersion": "1.0.0",
+  "hookName": "PostToolUse",
+  "timestamp": "2026-11-08T09:15:07.881Z",
+  "taskId": "task-7f3c",
+  "workspaceRoots": ["/Users/dev/app"],
+  "userId": "user",
+  "postToolUse": {
+    "toolName": "replace_in_file",
+    "parameters": {
+      "path": "/Users/dev/app/packages/app/Dockerfile",
+      "diff": "------- SEARCH\nFROM node:20\n=======\nFROM node:16\n+++++++ REPLACE"
+    },
+    "result": "File edited",
+    "success": true,
+    "executionTimeMs": 31
+  }
+}
