@@ -1,0 +1,35 @@
+{
+  "repository": "NanoTurtle1145/root-my-s24",
+  "commit": "e6437b67b96f0e82a49fc4a01d9678d65839e1d9",
+  "ecosystem": "android",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 49 of .github/workflows/release.yml reads `uses: actions/checkout@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 60,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 60 of .github/workflows/release.yml reads `uses: actions/setup-java@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/release.yml",
+      "line": 177,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 177 of .github/workflows/release.yml reads `uses: actions/upload-artifact@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    }
+  ]
+}

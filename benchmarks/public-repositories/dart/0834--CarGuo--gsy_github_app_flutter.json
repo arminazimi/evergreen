@@ -1,0 +1,62 @@
+{
+  "repository": "CarGuo/gsy_github_app_flutter",
+  "commit": "f5e6565a60be06af28ea06c0202cbc85c26e81f6",
+  "ecosystem": "dart",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 32 of .github/workflows/ci.yml reads `- uses: actions/checkout@v2`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 33 of .github/workflows/ci.yml reads `- uses: actions/setup-java@v2`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 76,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 76 of .github/workflows/ci.yml reads `uses: actions/checkout@v2`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 78,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 78 of .github/workflows/ci.yml reads `uses: actions/setup-java@v2`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/ci.yml",
+      "line": 93,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 93 of .github/workflows/ci.yml reads `uses: actions/upload-artifact@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/ci.yml",
+      "line": 114,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 114 of .github/workflows/ci.yml reads `uses: actions/download-artifact@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    }
+  ]
+}

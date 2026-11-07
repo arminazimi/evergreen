@@ -1,0 +1,44 @@
+{
+  "repository": "icerockdev/moko-socket-io",
+  "commit": "36488af57ba786073fe663401097777144bf5101",
+  "ecosystem": "android",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/compilation-check.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 14 of .github/workflows/compilation-check.yml reads `- uses: actions/checkout@v1`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/compilation-check.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of .github/workflows/compilation-check.yml reads `uses: actions/setup-java@v1`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 22 of .github/workflows/publish.yml reads `- uses: actions/checkout@v1`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 24 of .github/workflows/publish.yml reads `uses: actions/setup-java@v1`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    }
+  ]
+}

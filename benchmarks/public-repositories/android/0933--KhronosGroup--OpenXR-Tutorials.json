@@ -1,0 +1,170 @@
+{
+  "repository": "KhronosGroup/OpenXR-Tutorials",
+  "commit": "184b836e7c6db5b58c56297bd5daecf7ec3c1c48",
+  "ecosystem": "android",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build-android-arch.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 13 of .github/workflows/build-android-arch.yml reads `uses: actions/checkout@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/build-android-arch.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 18 of .github/workflows/build-android-arch.yml reads `uses: softprops/action-gh-release@v1`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build-android.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 22 of .github/workflows/build-android.yml reads `uses: actions/checkout@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build-common-archs.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 13 of .github/workflows/build-common-archs.yml reads `uses: actions/checkout@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/build-common-archs.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 22 of .github/workflows/build-common-archs.yml reads `uses: softprops/action-gh-release@v1`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build-eoc-archs.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 13 of .github/workflows/build-eoc-archs.yml reads `uses: actions/checkout@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/build-eoc-archs.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 18 of .github/workflows/build-eoc-archs.yml reads `uses: softprops/action-gh-release@v1`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build-host-linux.yml",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 30 of .github/workflows/build-host-linux.yml reads `uses: actions/checkout@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build-host-windows.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 21 of .github/workflows/build-host-windows.yml reads `uses: actions/checkout@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build-site.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 13 of .github/workflows/build-site.yml reads `uses: actions/checkout@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/build-site.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 20 of .github/workflows/build-site.yml reads `uses: softprops/action-gh-release@v1`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/gradle-wrapper-validation.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 13 of .github/workflows/gradle-wrapper-validation.yml reads `- uses: actions/checkout@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "Chapter1/app/build.gradle",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 13 of Chapter1/app/build.gradle reads `targetSdk 29`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "Chapter2/app/build.gradle",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 13 of Chapter2/app/build.gradle reads `targetSdk 29`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "Chapter3/app/build.gradle",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 13 of Chapter3/app/build.gradle reads `targetSdk 29`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "Chapter4/app/build.gradle",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 13 of Chapter4/app/build.gradle reads `targetSdk 27`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "Chapter5/app/build.gradle",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 13 of Chapter5/app/build.gradle reads `targetSdk 27`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "Chapter6_1_Multiview/Chapter6/app/build.gradle",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 13 of Chapter6_1_Multiview/Chapter6/app/build.gradle reads `targetSdk 29`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    }
+  ]
+}

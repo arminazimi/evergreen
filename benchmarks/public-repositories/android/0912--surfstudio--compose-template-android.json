@@ -1,0 +1,26 @@
+{
+  "repository": "surfstudio/compose-template-android",
+  "commit": "f9fb201721f15b72c4bc4b296b112cbbf9fbca35",
+  "ecosystem": "android",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/pull_request.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 11 of .github/workflows/pull_request.yml reads `- uses: actions/checkout@v2`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/pull_request.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 13 of .github/workflows/pull_request.yml reads `uses: actions/setup-java@v2`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    }
+  ]
+}

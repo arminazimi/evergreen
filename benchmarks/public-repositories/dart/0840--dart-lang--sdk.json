@@ -1,0 +1,35 @@
+{
+  "repository": "dart-lang/sdk",
+  "commit": "f017eb8d9c74c497aea4577ea700abbe975aba2a",
+  "ecosystem": "dart",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dart.sdk.end-of-support-2-and-older",
+      "path": "pkg/compiler/test/codesize/swarm/pubspec.yaml",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 4 of pkg/compiler/test/codesize/swarm/pubspec.yaml reads `sdk: '>=2.17.0 <3.0.0'`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-2-and-older",
+      "path": "pkg/language_versioning_2_12_test/pubspec.yaml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 11 of pkg/language_versioning_2_12_test/pubspec.yaml reads `sdk: '>=2.12.0 <3.0.0'`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-2-and-older",
+      "path": "runtime/tools/dartfuzz/pubspec.yaml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 6 of runtime/tools/dartfuzz/pubspec.yaml reads `sdk: '>=2.10.0 <3.0.0'`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
+      }
+    }
+  ]
+}

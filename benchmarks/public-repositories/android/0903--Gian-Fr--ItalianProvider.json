@@ -1,0 +1,17 @@
+{
+  "repository": "Gian-Fr/ItalianProvider",
+  "commit": "4db51cdbdbd2ac2528e0fda6fd824a1338d7bac0",
+  "ecosystem": "android",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 36 of .github/workflows/build.yml reads `uses: actions/setup-java@v1`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    }
+  ]
+}

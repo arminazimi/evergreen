@@ -1,0 +1,71 @@
+{
+  "repository": "VGVentures/supabase_example",
+  "commit": "ed679074bdcc60a4439f5c5e20861f5a1a20409c",
+  "ecosystem": "dart",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "dart.sdk.end-of-support-2-and-older",
+      "path": "packages/email_launcher/pubspec.yaml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 6 of packages/email_launcher/pubspec.yaml reads `sdk: \">=2.17.0 <3.0.0\"`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-2-and-older",
+      "path": "packages/form_inputs/pubspec.yaml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 6 of packages/form_inputs/pubspec.yaml reads `sdk: \">=2.17.0 <3.0.0\"`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-2-and-older",
+      "path": "packages/supabase_auth_client/pubspec.yaml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 6 of packages/supabase_auth_client/pubspec.yaml reads `sdk: \">=2.17.0 <3.0.0\"`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-2-and-older",
+      "path": "packages/supabase_database_client/pubspec.yaml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 6 of packages/supabase_database_client/pubspec.yaml reads `sdk: \">=2.17.0 <3.0.0\"`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-2-and-older",
+      "path": "packages/user_repository/pubspec.yaml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 6 of packages/user_repository/pubspec.yaml reads `sdk: \">=2.17.0 <3.0.0\"`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-2-and-older",
+      "path": "pubspec.lock",
+      "line": 849,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 849 of pubspec.lock reads `dart: \">=2.17.0 <3.0.0\"`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-2-and-older",
+      "path": "pubspec.yaml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 7 of pubspec.yaml reads `sdk: \">=2.17.0 <3.0.0\"`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
+      }
+    }
+  ]
+}

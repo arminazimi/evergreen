@@ -10,7 +10,7 @@
       "line": 14,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Read .github/workflows/dart.yml:14 at this commit: `- uses: actions/checkout@v3.5.2`; the declaration matches the rule's affected range."
+        "note": "Reviewed at this commit: line 14 of .github/workflows/dart.yml reads `- uses: actions/checkout@v3.5.2`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
       }
     },
     {
@@ -19,7 +19,7 @@
       "line": 15,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Read .github/workflows/dart.yml:15 at this commit: `- uses: actions/setup-java@v3.11.0`; the declaration matches the rule's affected range."
+        "note": "Reviewed at this commit: line 15 of .github/workflows/dart.yml reads `- uses: actions/setup-java@v3.11.0`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
       }
     },
     {
@@ -28,7 +28,16 @@
       "line": 16,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Read .github/workflows/publish.yml:16 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+        "note": "Reviewed at this commit: line 16 of .github/workflows/publish.yml reads `- uses: actions/checkout@v3`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-2-and-older",
+      "path": "example/pubspec.yaml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 14 of example/pubspec.yaml reads `sdk: '>=2.18.6 <3.0.0'`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
       }
     }
   ]

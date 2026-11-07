@@ -36,7 +36,7 @@ These 50 pages answer “Is it end of life?” for products people search for. E
 - [Is Google Kubernetes Engine end of life?](google-kubernetes-engine.html) — `pkg:generic/google-kubernetes-engine`, 5 rules
 - [Is Amazon EKS end of life?](amazon-eks.html) — `pkg:generic/amazon-eks`, 11 rules
 - [Is Rust end of life?](rust.html) — `pkg:generic/rust`, 1 rule
-- [Is Dart end of life?](dart.html) — `pkg:generic/dart`, 5 rules
+- [Is Dart end of life?](dart.html) — `pkg:generic/dart`, 14 rules
 - [Is Scala end of life?](scala.html) — `pkg:generic/scala`, 2 rules
 - [Is Erlang end of life?](erlang.html) — `pkg:generic/erlang`, 2 rules
 - [Is Vue end of life?](vue.html) — `pkg:npm/vue`, 1 rule

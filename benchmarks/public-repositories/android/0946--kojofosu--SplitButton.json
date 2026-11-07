@@ -1,0 +1,26 @@
+{
+  "repository": "kojofosu/SplitButton",
+  "commit": "92dc6efc6e1cef5b2af7c525c0a9fbb703453a1c",
+  "ecosystem": "android",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "app/build.gradle",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 12 of app/build.gradle reads `targetSdk 30`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "SplitButtonLibrary/build.gradle",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 39 of SplitButtonLibrary/build.gradle reads `targetSdk 30`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    }
+  ]
+}

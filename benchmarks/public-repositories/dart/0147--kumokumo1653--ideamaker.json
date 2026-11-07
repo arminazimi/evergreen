@@ -10,7 +10,7 @@
       "line": 15,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 15 of .github/workflows/deploy-develop-preview.yml reads uses: actions/checkout@v4, a release below the supported major."
+        "note": "Reviewed at this commit: line 15 of .github/workflows/deploy-develop-preview.yml reads `- uses: actions/checkout@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
       }
     },
     {
@@ -19,7 +19,7 @@
       "line": 1206,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 1206 of pubspec.lock reads `dart: \"3.8.1\"`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security)."
+        "note": "Reviewed at this commit: line 1206 of pubspec.lock reads `dart: \"3.8.1\"`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
       }
     },
     {
@@ -28,7 +28,7 @@
       "line": 7,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 7 of pubspec.yaml reads `sdk: 3.8.1`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security)."
+        "note": "Reviewed at this commit: line 7 of pubspec.yaml reads `sdk: 3.8.1`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
       }
     }
   ]

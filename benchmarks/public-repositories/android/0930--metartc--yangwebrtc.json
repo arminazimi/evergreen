@@ -1,0 +1,44 @@
+{
+  "repository": "metartc/yangwebrtc",
+  "commit": "c383961eeb5d73a6fb248aa36dd083bff6926bd7",
+  "ecosystem": "android",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "libmetartc5/CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of libmetartc5/CMakeLists.txt reads `cmake_minimum_required(VERSION 2.8)`. The cited CMake declaration matches a reviewed removal rule."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "libmetartccore5/CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of libmetartccore5/CMakeLists.txt reads `cmake_minimum_required(VERSION 2.8)`. The cited CMake declaration matches a reviewed removal rule."
+      }
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "metaplayer5_android/app/build.gradle",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 11 of metaplayer5_android/app/build.gradle reads `targetSdk 29`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "metapushstream5_android/app/build.gradle",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 11 of metapushstream5_android/app/build.gradle reads `targetSdk 29`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    }
+  ]
+}

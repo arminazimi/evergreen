@@ -1,0 +1,35 @@
+{
+  "repository": "flutter/samples",
+  "commit": "9df2cac15cc3d28a51aace018ad822387d30ac72",
+  "ecosystem": "dart",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "swift.app-store.ios-below-13",
+      "path": "platform_view_swift/ios/Runner.xcodeproj/project.pbxproj",
+      "line": 327,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 327 of platform_view_swift/ios/Runner.xcodeproj/project.pbxproj reads `IPHONEOS_DEPLOYMENT_TARGET = 8.0;`. The cited Xcode or iOS deployment target matches a reviewed acceptance rule."
+      }
+    },
+    {
+      "ruleId": "swift.app-store.ios-below-13",
+      "path": "platform_view_swift/ios/Runner.xcodeproj/project.pbxproj",
+      "line": 461,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 461 of platform_view_swift/ios/Runner.xcodeproj/project.pbxproj reads `IPHONEOS_DEPLOYMENT_TARGET = 8.0;`. The cited Xcode or iOS deployment target matches a reviewed acceptance rule."
+      }
+    },
+    {
+      "ruleId": "swift.app-store.ios-below-13",
+      "path": "platform_view_swift/ios/Runner.xcodeproj/project.pbxproj",
+      "line": 489,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 489 of platform_view_swift/ios/Runner.xcodeproj/project.pbxproj reads `IPHONEOS_DEPLOYMENT_TARGET = 8.0;`. The cited Xcode or iOS deployment target matches a reviewed acceptance rule."
+      }
+    }
+  ]
+}

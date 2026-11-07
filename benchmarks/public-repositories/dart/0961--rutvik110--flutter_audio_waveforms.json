@@ -1,0 +1,44 @@
+{
+  "repository": "rutvik110/flutter_audio_waveforms",
+  "commit": "8e80eb85227e4f9f18461d01b7031e5784a8c11a",
+  "ecosystem": "dart",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "dart.sdk.end-of-support-2-and-older",
+      "path": "example/pubspec.lock",
+      "line": 360,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 360 of example/pubspec.lock reads `dart: \">=2.18.0 <3.0.0\"`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-2-and-older",
+      "path": "example/pubspec.yaml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 21 of example/pubspec.yaml reads `sdk: \">=2.17.0 <3.0.0\"`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-2-and-older",
+      "path": "pubspec.lock",
+      "line": 324,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 324 of pubspec.lock reads `dart: \">=2.18.0 <3.0.0\"`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-2-and-older",
+      "path": "pubspec.yaml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 7 of pubspec.yaml reads `sdk: \">=2.17.0 <3.0.0\"`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
+      }
+    }
+  ]
+}

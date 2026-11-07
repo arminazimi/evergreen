@@ -1,0 +1,17 @@
+{
+  "repository": "LyraVoid/FolkLite",
+  "commit": "56e092b316076c9db63312e9cd8113b3fe1544a4",
+  "ecosystem": "android",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/build.yml",
+      "line": 100,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 100 of .github/workflows/build.yml reads `uses: actions/upload-artifact@v5`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    }
+  ]
+}

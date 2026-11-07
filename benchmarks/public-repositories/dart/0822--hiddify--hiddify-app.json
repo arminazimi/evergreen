@@ -1,0 +1,62 @@
+{
+  "repository": "hiddify/hiddify-app",
+  "commit": "0d6eb8826635babf392f34572727a3f9f6ef6316",
+  "ecosystem": "dart",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/build.yml",
+      "line": 68,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 68 of .github/workflows/build.yml reads `run: echo \"::set-output name=datetime::$(date +'%d.%H.%M')\"`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/build.yml",
+      "line": 544,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 544 of .github/workflows/build.yml reads `uses: actions/upload-artifact@v6`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 604,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 604 of .github/workflows/build.yml reads `uses: softprops/action-gh-release@v2`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 658,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 658 of .github/workflows/build.yml reads `uses: softprops/action-gh-release@v2`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-22.04",
+      "path": "Dockerfile",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 7 of Dockerfile reads `FROM ubuntu:22.04`. The cited image or runner pin matches a reviewed lifecycle rule."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-3.11",
+      "path": "pubspec.lock",
+      "line": 2073,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 2073 of pubspec.lock reads `dart: \">=3.10.4 <3.12.0-z\"`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
+      }
+    }
+  ]
+}

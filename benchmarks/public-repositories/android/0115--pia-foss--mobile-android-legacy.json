@@ -5,49 +5,12 @@
   "selection": "targeted",
   "expected": [
     {
-      "ruleId": "android.play-billing.version-5",
-      "path": "app/build.gradle",
-      "line": 88,
-      "groundTruthSource": {
-        "kind": "maintainer-review",
-        "url": "https://developer.android.com/google/play/billing/deprecation-faq",
-        "note": "Reviewed independently at this commit: line 88 of app/build.gradle pins com.android.billingclient:billing:5.2.1; Google's Play Billing deprecation timeline says version 5 can no longer be used for new releases."
-      }
-    },
-    {
-      "ruleId": "cpp.cmake.policy-below-3.5.removed",
-      "path": "app/tools/CMakeLists.txt",
-      "line": 5,
-      "groundTruthSource": {
-        "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 5 of app/tools/CMakeLists.txt declares cmake_minimum_required(VERSION 3.1.0), below the policy version removed by CMake 4.0."
-      }
-    },
-    {
       "ruleId": "github-actions.checkout.node20",
       "path": ".github/workflows/build-playstore-android.yaml",
       "line": 7,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 7 of .github/workflows/build-playstore-android.yaml uses actions/checkout@v3, below the supported major."
-      }
-    },
-    {
-      "ruleId": "github-actions.checkout.node20",
-      "path": ".github/workflows/build-web-android.yaml",
-      "line": 7,
-      "groundTruthSource": {
-        "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 7 of .github/workflows/build-web-android.yaml uses actions/checkout@v3, below the supported major."
-      }
-    },
-    {
-      "ruleId": "github-actions.checkout.node20",
-      "path": ".github/workflows/test-android.yaml",
-      "line": 7,
-      "groundTruthSource": {
-        "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 7 of .github/workflows/test-android.yaml uses actions/checkout@v3, below the supported major."
+        "note": "Reviewed at this commit: line 7 of .github/workflows/build-playstore-android.yaml reads `- uses: actions/checkout@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
       }
     },
     {
@@ -56,25 +19,7 @@
       "line": 10,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 10 of .github/workflows/build-playstore-android.yaml uses actions/setup-java@v3, below the supported major."
-      }
-    },
-    {
-      "ruleId": "github-actions.setup-java.node20",
-      "path": ".github/workflows/build-web-android.yaml",
-      "line": 10,
-      "groundTruthSource": {
-        "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 10 of .github/workflows/build-web-android.yaml uses actions/setup-java@v3, below the supported major."
-      }
-    },
-    {
-      "ruleId": "github-actions.setup-java.node20",
-      "path": ".github/workflows/test-android.yaml",
-      "line": 10,
-      "groundTruthSource": {
-        "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 10 of .github/workflows/test-android.yaml uses actions/setup-java@v3, below the supported major."
+        "note": "Reviewed at this commit: line 10 of .github/workflows/build-playstore-android.yaml reads `- uses: actions/setup-java@v3`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
       }
     },
     {
@@ -83,7 +28,25 @@
       "line": 27,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 27 of .github/workflows/build-playstore-android.yaml uses the retired actions/upload-artifact@v3 release."
+        "note": "Reviewed at this commit: line 27 of .github/workflows/build-playstore-android.yaml reads `- uses: actions/upload-artifact@v3`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build-web-android.yaml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 7 of .github/workflows/build-web-android.yaml reads `- uses: actions/checkout@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/build-web-android.yaml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 10 of .github/workflows/build-web-android.yaml reads `- uses: actions/setup-java@v3`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
       }
     },
     {
@@ -92,7 +55,43 @@
       "line": 37,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 37 of .github/workflows/build-web-android.yaml uses the retired actions/upload-artifact@v3 release."
+        "note": "Reviewed at this commit: line 37 of .github/workflows/build-web-android.yaml reads `- uses: actions/upload-artifact@v3`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test-android.yaml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 7 of .github/workflows/test-android.yaml reads `- uses: actions/checkout@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/test-android.yaml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 10 of .github/workflows/test-android.yaml reads `- uses: actions/setup-java@v3`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "android.play-billing.version-5",
+      "path": "app/build.gradle",
+      "line": 88,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 88 of app/build.gradle reads `implementation \"com.android.billingclient:billing:5.2.1\"`. Google Play Billing Library majors follow the two-year deprecation cycle on https://developer.android.com/google/play/billing/deprecation-faq."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "app/tools/CMakeLists.txt",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of app/tools/CMakeLists.txt reads `cmake_minimum_required(VERSION 3.4.1)`. The cited CMake declaration matches a reviewed removal rule."
       }
     },
     {
@@ -101,7 +100,7 @@
       "line": 3,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 3 of app/tools/libwg-go/go.mod declares Go 1.19, which is outside the supported release window."
+        "note": "Reviewed at this commit: line 3 of app/tools/libwg-go/go.mod reads `go 1.18`. The cited Go declaration matches a reviewed end-of-life rule."
       }
     }
   ]

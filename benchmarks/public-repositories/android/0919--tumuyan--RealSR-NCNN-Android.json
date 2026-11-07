@@ -1,0 +1,278 @@
+{
+  "repository": "tumuyan/RealSR-NCNN-Android",
+  "commit": "0eb16763761e46f55c6223439ca1ad20216bc4ab",
+  "ecosystem": "android",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/android.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 21 of .github/workflows/android.yml reads `uses: actions/checkout@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/android.yml",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 38 of .github/workflows/android.yml reads `uses: actions/setup-java@v3`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/android.yml",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 54 of .github/workflows/android.yml reads `uses: actions/upload-artifact@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/huggingface.yml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 23 of .github/workflows/huggingface.yml reads `uses: actions/setup-python@v1`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/libmnn-linux.yml",
+      "line": 61,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 61 of .github/workflows/libmnn-linux.yml reads `uses: actions/checkout@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/libmnn-linux.yml",
+      "line": 118,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 118 of .github/workflows/libmnn-linux.yml reads `uses: actions/upload-artifact@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/libs.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 26 of .github/workflows/libs.yml reads `uses: actions/upload-artifact@v3`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/libs.yml",
+      "line": 55,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 55 of .github/workflows/libs.yml reads `uses: actions/upload-artifact@v3`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/mnnsr-linux.yml",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 49 of .github/workflows/mnnsr-linux.yml reads `uses: actions/checkout@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/mnnsr-linux.yml",
+      "line": 120,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 120 of .github/workflows/mnnsr-linux.yml reads `uses: actions/upload-artifact@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/mnnsr-linux.yml",
+      "line": 162,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 162 of .github/workflows/mnnsr-linux.yml reads `uses: actions/upload-artifact@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/mnnsr-linux.yml",
+      "line": 176,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 176 of .github/workflows/mnnsr-linux.yml reads `uses: actions/download-artifact@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/mnnsr-linux.yml",
+      "line": 194,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 194 of .github/workflows/mnnsr-linux.yml reads `uses: actions/upload-artifact@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/mnnsr-linux.yml",
+      "line": 201,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 201 of .github/workflows/mnnsr-linux.yml reads `uses: actions/download-artifact@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/mnnsr-linux.yml",
+      "line": 211,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 211 of .github/workflows/mnnsr-linux.yml reads `uses: actions/upload-artifact@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "RealSR-NCNN-Android-CLI/Anime4k/build.gradle",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 8 of RealSR-NCNN-Android-CLI/Anime4k/build.gradle reads `targetSdk 34`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.10.deprecated",
+      "path": "RealSR-NCNN-Android-CLI/Anime4k/src/main/jni/CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of RealSR-NCNN-Android-CLI/Anime4k/src/main/jni/CMakeLists.txt reads `cmake_minimum_required(VERSION 3.9)`. The cited CMake declaration matches a reviewed removal rule."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.10.deprecated",
+      "path": "RealSR-NCNN-Android-CLI/MNN-SR/src/main/jni/CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of RealSR-NCNN-Android-CLI/MNN-SR/src/main/jni/CMakeLists.txt reads `cmake_minimum_required(VERSION 3.5)`. The cited CMake declaration matches a reviewed removal rule."
+      }
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "RealSR-NCNN-Android-CLI/RealCUGAN/build.gradle",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 8 of RealSR-NCNN-Android-CLI/RealCUGAN/build.gradle reads `targetSdk 34`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.10.deprecated",
+      "path": "RealSR-NCNN-Android-CLI/RealCUGAN/src/main/jni/CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of RealSR-NCNN-Android-CLI/RealCUGAN/src/main/jni/CMakeLists.txt reads `cmake_minimum_required(VERSION 3.5)`. The cited CMake declaration matches a reviewed removal rule."
+      }
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "RealSR-NCNN-Android-CLI/RealSR/build.gradle",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 8 of RealSR-NCNN-Android-CLI/RealSR/build.gradle reads `targetSdk 34`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.10.deprecated",
+      "path": "RealSR-NCNN-Android-CLI/RealSR/src/main/jni/CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of RealSR-NCNN-Android-CLI/RealSR/src/main/jni/CMakeLists.txt reads `cmake_minimum_required(VERSION 3.5)`. The cited CMake declaration matches a reviewed removal rule."
+      }
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "RealSR-NCNN-Android-CLI/Resize/build.gradle",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 8 of RealSR-NCNN-Android-CLI/Resize/build.gradle reads `targetSdk 34`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.10.deprecated",
+      "path": "RealSR-NCNN-Android-CLI/Resize/src/main/jni/CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of RealSR-NCNN-Android-CLI/Resize/src/main/jni/CMakeLists.txt reads `cmake_minimum_required(VERSION 3.5)`. The cited CMake declaration matches a reviewed removal rule."
+      }
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "RealSR-NCNN-Android-CLI/SRMD/build.gradle",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 8 of RealSR-NCNN-Android-CLI/SRMD/build.gradle reads `targetSdk 34`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.10.deprecated",
+      "path": "RealSR-NCNN-Android-CLI/SRMD/src/main/jni/CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of RealSR-NCNN-Android-CLI/SRMD/src/main/jni/CMakeLists.txt reads `cmake_minimum_required(VERSION 3.5)`. The cited CMake declaration matches a reviewed removal rule."
+      }
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "RealSR-NCNN-Android-CLI/Waifu2x/build.gradle",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 8 of RealSR-NCNN-Android-CLI/Waifu2x/build.gradle reads `targetSdk 34`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.10.deprecated",
+      "path": "RealSR-NCNN-Android-CLI/Waifu2x/src/main/jni/CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of RealSR-NCNN-Android-CLI/Waifu2x/src/main/jni/CMakeLists.txt reads `cmake_minimum_required(VERSION 3.5)`. The cited CMake declaration matches a reviewed removal rule."
+      }
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "RealSR-NCNN-Android-GUI/app/build.gradle",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 12 of RealSR-NCNN-Android-GUI/app/build.gradle reads `targetSdk 28`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "Resize-CLI/app/src/main/jni/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of Resize-CLI/app/src/main/jni/CMakeLists.txt reads `cmake_minimum_required(VERSION 3.4.1)`. The cited CMake declaration matches a reviewed removal rule."
+      }
+    }
+  ]
+}

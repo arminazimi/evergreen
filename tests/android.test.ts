@@ -310,14 +310,14 @@ test("a migration packet for an Android finding names the file, steps, and verif
   assert.ok(packet.verification.some((check) => check.command === "./gradlew dependencies"));
 });
 
-test("the detector is registered and Android is experimental in the capability manifest", () => {
+test("the detector is registered and Android is supported in the capability manifest", () => {
   assert.ok(builtInDetectors.some((detector) => detector.id === "android"));
   assert.deepEqual(
     getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "android"),
     {
       id: "android",
-      status: "experimental",
-      maturity: "experimental",
+      status: "supported",
+      maturity: "stable",
       detectorIds: ["android"],
     },
   );

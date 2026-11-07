@@ -1,0 +1,17 @@
+{
+  "repository": "msmt2018/zero-Symbol-input-view",
+  "commit": "688fe8846e7e5b7df33eba3aff16e704273989f7",
+  "ecosystem": "android",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "oniguruma-native/src/main/cpp/oniguruma/sample/CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of oniguruma-native/src/main/cpp/oniguruma/sample/CMakeLists.txt reads `cmake_minimum_required(VERSION 2.8)`. The cited CMake declaration matches a reviewed removal rule."
+      }
+    }
+  ]
+}

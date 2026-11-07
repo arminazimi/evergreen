@@ -102,6 +102,7 @@ test("the evidence counts agree with the reviewed corpus", () => {
   // The Elixir stable corpus and the two Deno/Bun pins add 139 GitHub Actions findings in 24 new
   // repositories, 4 .NET findings in one repository, 3 Ruby findings in one repository, and 1 C/C++
   // finding in one repository.
+  // The Dart and Android stable corpus (#1894) added 63 and 72 repositories; their workflows and nested packages add GitHub Actions, C/C++, Ruby, and shell findings recorded from a full offline scan.
   assert.deepEqual(counts(evidence["github-actions"]!), {
     repositoriesWithFindings: 405,
     expectedFindings: 2583,
@@ -128,8 +129,8 @@ test("the evidence counts agree with the reviewed corpus", () => {
     zeroFindingRepositories: 23,
   });
   assert.deepEqual(counts(evidence["swift"]!), {
-    repositoriesWithFindings: 55,
-    expectedFindings: 66,
+    repositoriesWithFindings: 58,
+    expectedFindings: 75,
     zeroFindingRepositories: 15,
   });
   assert.deepEqual(counts(evidence["cpp"]!), {
@@ -143,9 +144,14 @@ test("the evidence counts agree with the reviewed corpus", () => {
     zeroFindingRepositories: 20,
   });
   assert.deepEqual(counts(evidence["dart"]!), {
-    repositoriesWithFindings: 4,
-    expectedFindings: 8,
-    zeroFindingRepositories: 3,
+    repositoriesWithFindings: 30,
+    expectedFindings: 136,
+    zeroFindingRepositories: 18,
+  });
+  assert.deepEqual(counts(evidence["android"]!), {
+    repositoriesWithFindings: 41,
+    expectedFindings: 86,
+    zeroFindingRepositories: 22,
   });
   assert.deepEqual(counts(evidence["terraform"]!), {
     repositoriesWithFindings: 15,

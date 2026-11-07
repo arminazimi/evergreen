@@ -10,7 +10,7 @@
       "line": 12,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Read .github/workflows/needs-attention.yml:12 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+        "note": "Reviewed at this commit: line 12 of .github/workflows/needs-attention.yml reads `- uses: actions/checkout@v2`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
       }
     },
     {
@@ -19,7 +19,7 @@
       "line": 10,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Read .github/workflows/stale.yml:10 at this commit: `- uses: actions/stale@v4`; the declaration matches the rule's affected range."
+        "note": "Reviewed at this commit: line 10 of .github/workflows/stale.yml reads `- uses: actions/stale@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
       }
     },
     {
@@ -28,7 +28,7 @@
       "line": 60,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Read facebook-core/build.gradle.kts:60 at this commit: `testImplementation(\"com.android.billingclient:billing:8.0.0\")`; the declaration matches the rule's affected range."
+        "note": "Reviewed at this commit: line 60 of facebook-core/build.gradle.kts reads `testImplementation(\"com.android.billingclient:billing:8.0.0\")`. Google Play Billing Library majors follow the two-year deprecation cycle on https://developer.android.com/google/play/billing/deprecation-faq."
       }
     }
   ]

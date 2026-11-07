@@ -1,0 +1,35 @@
+{
+  "repository": "ketanchoyal/custom_radio_grouped_button",
+  "commit": "d6453421625406d04a790aeee460468ffbff7f70",
+  "ecosystem": "dart",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/dart.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 12 of .github/workflows/dart.yml reads `uses: actions/checkout@v2 # required!`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-2-and-older",
+      "path": "example/pubspec.yaml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 10 of example/pubspec.yaml reads `sdk: \">=2.17.0 <3.0.0\"`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-2-and-older",
+      "path": "pubspec.yaml",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 8 of pubspec.yaml reads `sdk: \">=2.17.0 <3.0.0\"`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "uber/AutoDispose",
+  "commit": "b7205200096aae97db7f07afb87d27486bf684ac",
+  "ecosystem": "android",
+  "selection": "blind",
+  "expected": []
+}

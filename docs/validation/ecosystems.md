@@ -147,3 +147,24 @@ Issue #1898 added 30 container entries, all blind. The rule, fixed on 2026-11-07
 The corpus now has 42 container entries, 37 blind (88%). Seven have no findings of any detector. A full offline run reported no false positives and no false negatives for the container detector.
 
 Because the corpus scans every detector, every finding is recorded, not only the container ones, and each expected finding was checked by reading its line at the pinned commit.
+
+## Dart corpus
+
+Issue #1894 promoted the `dart` detector to stable. The corpus holds 75 pinned Dart repositories: 55 selected blind (73%) and 20 targeted. 30 have expected Dart findings (136 in total); 18 have no expected findings of any detector.
+
+**Blind rule (fixed 2026-11-07 before Evergreen ran on these additions):** GitHub repository search `--language=Dart --stars='>=80' --archived=false`, sorted by stars descending. Walk results in order; keep a repository when its default branch contains a `pubspec.yaml`, it is not a fork, it is not already in the corpus, and it is not a meta list such as `awesome-flutter`. Skip `flutter/flutter` (over the 100,000 KB size cap). Take the first 48. Pin each at its default-branch HEAD commit SHA on that day.
+
+**Targeted rule (fixed the same day):** GitHub code search for `>=2.17.0 <3.0.0` in `filename:pubspec.yaml`, taking hits in returned order, one repository once; skip forks, templates (`.twig`, `.hbs`, `templates/`), repositories already chosen, and repositories already in the corpus. Cap at 15. Earlier targeted entries cover exact SDK pins of Dart 3.8.
+
+Ground truth: every finding in these repositories, from every detector, was read at its pinned line and recorded with a `maintainer-review` note naming the path and line. Dart end-of-support dates come from the [Dart security policy](https://dart.dev/security) and [changelog](https://dart.dev/changelog).
+
+## Android corpus
+
+Issue #1894 promoted the `android` detector to stable. The corpus holds 84 pinned Android repositories: 56 selected blind (67%) and 28 targeted. 38 have expected Android findings (82 in total); 22 have no expected findings of any detector.
+
+**Blind rule (fixed 2026-11-07 before Evergreen ran on these additions):** GitHub code search for `targetSdk` in `filename:build.gradle`, then the same for `filename:build.gradle.kts`. Walk hits in returned order, one repository once across both queries. Skip forks, archives, repositories already in the corpus, and paths that are not exactly `build.gradle` / `build.gradle.kts` or under a directory with those names. Take the first 48. Pin at default-branch HEAD.
+
+**Targeted rule (fixed the same day):** GitHub code search for `targetSdk 28` through `targetSdk 30` in `filename:build.gradle`, and `targetSdk = 33` / `targetSdk = 34` in `filename:build.gradle.kts`, taking repositories whose matching path ends in `build.gradle` or `build.gradle.kts`. Skip forks, archives, already-chosen repositories, and template/backup suffixes. Cap so the blind share stays at or above two thirds.
+
+Ground truth: every finding was read at its pinned line. Play Billing deprecation dates come from the [Billing Library deprecation FAQ](https://developer.android.com/google/play/billing/deprecation-faq); the targetSdk floor comes from [Google Play's target API level requirement](https://developer.android.com/google/play/requirements/target-sdk).
+

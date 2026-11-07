@@ -1,0 +1,17 @@
+{
+  "repository": "scottyab/rootbeer",
+  "commit": "de7bc7b4b09c9db148b62b331b4a44076b2eb480",
+  "ecosystem": "android",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "rootbeerlib/src/main/cpp/CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of rootbeerlib/src/main/cpp/CMakeLists.txt reads `cmake_minimum_required(VERSION 3.4.1)`. The cited CMake declaration matches a reviewed removal rule."
+      }
+    }
+  ]
+}

@@ -10,7 +10,7 @@
       "line": 35,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 35 of .github/workflows/pr_check.yml reads uses: actions/github-script@v6, a release below the supported major."
+        "note": "Reviewed at this commit: line 35 of .github/workflows/pr_check.yml reads `uses: actions/github-script@v6`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
       }
     },
     {
@@ -19,7 +19,7 @@
       "line": 1220,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 1220 of pubspec.lock reads `dart: \"3.8.1\"`, an exact Dart 3.8.1 pin. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security). Vendor-checked by AI agent (Claude Code) under maintainer direction on 2026-11-03 against the primary vendor page https://dart.dev/security: Dart publishes security updates only for the current stable release, and the page's documentation reflects Dart 3.13.7, so Dart 3.8.1 is no longer the current stable release. Outcome: confirmed."
+        "note": "Reviewed at this commit: line 1220 of pubspec.lock reads `dart: \"3.8.1\"`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
       }
     },
     {
@@ -28,7 +28,7 @@
       "line": 8,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 8 of pubspec.yaml reads `sdk: 3.8.1`, an exact Dart 3.8.1 pin. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security). Vendor-checked by AI agent (Claude Code) under maintainer direction on 2026-11-03 against the primary vendor page https://dart.dev/security: Dart publishes security updates only for the current stable release, and the page's documentation reflects Dart 3.13.7, so Dart 3.8.1 is no longer the current stable release. Outcome: confirmed."
+        "note": "Reviewed at this commit: line 8 of pubspec.yaml reads `sdk: 3.8.1`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
       }
     }
   ]

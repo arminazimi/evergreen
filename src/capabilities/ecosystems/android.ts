@@ -2,8 +2,8 @@ import type { ManifestEcosystem } from "../schema.js";
 
 const android: ManifestEcosystem = {
   id: "android",
-  status: "experimental",
-  maturity: "experimental",
+  status: "supported",
+  maturity: "stable",
   detectorIds: ["android"],
 };
 

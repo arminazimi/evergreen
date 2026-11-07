@@ -10,7 +10,7 @@
       "line": 2,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Read packages/naga/native/rust-toolchain.toml:2 at this commit: `channel = \"1.87.0\"`; the declaration matches the rule's affected range."
+        "note": "Reviewed at this commit: line 2 of packages/naga/native/rust-toolchain.toml reads `channel = \"1.87.0\"`. The cited Rust declaration matches a reviewed end-of-life or crate advisory rule."
       }
     },
     {
@@ -19,7 +19,7 @@
       "line": 6,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Read packages/wgpu/native/rust-toolchain.toml:6 at this commit: `channel = \"1.92.0\"`; the declaration matches the rule's affected range."
+        "note": "Reviewed at this commit: line 6 of packages/wgpu/native/rust-toolchain.toml reads `channel = \"1.92.0\"`. The cited Rust declaration matches a reviewed end-of-life or crate advisory rule."
       }
     }
   ]

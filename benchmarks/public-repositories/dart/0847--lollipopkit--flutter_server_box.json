@@ -1,0 +1,17 @@
+{
+  "repository": "lollipopkit/flutter_server_box",
+  "commit": "3e2db60c8645d61519762feff87a114eccaae8a8",
+  "ecosystem": "dart",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "rust.toolchain.end-of-support-1.98-and-older",
+      "path": "crates/sbm_ffi/rust-toolchain.toml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of crates/sbm_ffi/rust-toolchain.toml reads `channel = \"1.98.1\"`. The cited Rust declaration matches a reviewed end-of-life or crate advisory rule."
+      }
+    }
+  ]
+}

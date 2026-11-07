@@ -371,6 +371,663 @@
       }
     },
     {
+      "id": "dart.sdk.end-of-support-3.7",
+      "ecosystem": "dart",
+      "purl": "pkg:generic/dart",
+      "vers": "vers:semver/>=3.7.0|<3.8.0",
+      "event": "end-of-support",
+      "title": "Dart 3.7 no longer receives security updates",
+      "summary": "The Dart security policy commits security updates only for the most recent stable SDK release. Dart 3.7 stopped being that release when Dart 3.8 shipped on 2025-05-14.",
+      "severity": "high",
+      "replacement": "Dart 3.13 or later",
+      "deadline": "2025-05-14",
+      "sources": [
+        {
+          "title": "Dart security policy",
+          "url": "https://dart.dev/security",
+          "accessedAt": "2026-11-07"
+        },
+        {
+          "title": "Dart changelog",
+          "url": "https://dart.dev/changelog",
+          "accessedAt": "2026-11-07"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-07",
+        "reviewedAt": "2026-11-07",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep environment.sdk in pubspec.yaml, the sdks block in pubspec.lock, the Flutter version pinned in .fvmrc, and the SDK used in CI on one supported release.",
+          "A Flutter project gets its Dart SDK from the Flutter release it pins, so raise the Flutter pin to a release that bundles the Dart version in the replacement instead of installing Dart on its own."
+        ],
+        "steps": [
+          {
+            "id": "raise-sdk-pin",
+            "title": "Raise the SDK pin",
+            "instructions": "Change the reported Dart SDK pin to the version in the replacement. For a Flutter project, raise the Flutter version in .fvmrc or .fvm/fvm_config.json to a release that bundles that Dart version.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-sdk-constraint",
+            "title": "Raise the SDK constraint",
+            "instructions": "Raise the lower bound of environment.sdk in pubspec.yaml (and environment.flutter for an app) so it admits only supported SDKs, then re-resolve dependencies so pubspec.lock records the new sdks constraints.",
+            "targets": "all"
+          },
+          {
+            "id": "align-ci-toolchain",
+            "title": "Align CI and documentation",
+            "instructions": "Update CI workflows, Docker images, and setup documentation that install the Dart or Flutter SDK so they match the new pin.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "dart --version",
+            "purpose": "Confirm the active Dart SDK is the intended release."
+          },
+          {
+            "command": "dart pub get",
+            "purpose": "Re-resolve dependencies against the new SDK constraint."
+          },
+          {
+            "command": "dart analyze && flutter test",
+            "purpose": "Analyze and test a Flutter app on the new SDK."
+          },
+          {
+            "command": "dart analyze && dart test",
+            "purpose": "Analyze and test a Dart package on the new SDK."
+          }
+        ]
+      }
+    },
+    {
+      "id": "dart.sdk.end-of-support-3.6",
+      "ecosystem": "dart",
+      "purl": "pkg:generic/dart",
+      "vers": "vers:semver/>=3.6.0|<3.7.0",
+      "event": "end-of-support",
+      "title": "Dart 3.6 no longer receives security updates",
+      "summary": "The Dart security policy commits security updates only for the most recent stable SDK release. Dart 3.6 stopped being that release when Dart 3.7 shipped on 2025-02-12.",
+      "severity": "high",
+      "replacement": "Dart 3.13 or later",
+      "deadline": "2025-02-12",
+      "sources": [
+        {
+          "title": "Dart security policy",
+          "url": "https://dart.dev/security",
+          "accessedAt": "2026-11-07"
+        },
+        {
+          "title": "Dart changelog",
+          "url": "https://dart.dev/changelog",
+          "accessedAt": "2026-11-07"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-07",
+        "reviewedAt": "2026-11-07",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep environment.sdk in pubspec.yaml, the sdks block in pubspec.lock, the Flutter version pinned in .fvmrc, and the SDK used in CI on one supported release.",
+          "A Flutter project gets its Dart SDK from the Flutter release it pins, so raise the Flutter pin to a release that bundles the Dart version in the replacement instead of installing Dart on its own."
+        ],
+        "steps": [
+          {
+            "id": "raise-sdk-pin",
+            "title": "Raise the SDK pin",
+            "instructions": "Change the reported Dart SDK pin to the version in the replacement. For a Flutter project, raise the Flutter version in .fvmrc or .fvm/fvm_config.json to a release that bundles that Dart version.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-sdk-constraint",
+            "title": "Raise the SDK constraint",
+            "instructions": "Raise the lower bound of environment.sdk in pubspec.yaml (and environment.flutter for an app) so it admits only supported SDKs, then re-resolve dependencies so pubspec.lock records the new sdks constraints.",
+            "targets": "all"
+          },
+          {
+            "id": "align-ci-toolchain",
+            "title": "Align CI and documentation",
+            "instructions": "Update CI workflows, Docker images, and setup documentation that install the Dart or Flutter SDK so they match the new pin.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "dart --version",
+            "purpose": "Confirm the active Dart SDK is the intended release."
+          },
+          {
+            "command": "dart pub get",
+            "purpose": "Re-resolve dependencies against the new SDK constraint."
+          },
+          {
+            "command": "dart analyze && flutter test",
+            "purpose": "Analyze and test a Flutter app on the new SDK."
+          },
+          {
+            "command": "dart analyze && dart test",
+            "purpose": "Analyze and test a Dart package on the new SDK."
+          }
+        ]
+      }
+    },
+    {
+      "id": "dart.sdk.end-of-support-3.5",
+      "ecosystem": "dart",
+      "purl": "pkg:generic/dart",
+      "vers": "vers:semver/>=3.5.0|<3.6.0",
+      "event": "end-of-support",
+      "title": "Dart 3.5 no longer receives security updates",
+      "summary": "The Dart security policy commits security updates only for the most recent stable SDK release. Dart 3.5 stopped being that release when Dart 3.6 shipped on 2024-12-11.",
+      "severity": "high",
+      "replacement": "Dart 3.13 or later",
+      "deadline": "2024-12-11",
+      "sources": [
+        {
+          "title": "Dart security policy",
+          "url": "https://dart.dev/security",
+          "accessedAt": "2026-11-07"
+        },
+        {
+          "title": "Dart changelog",
+          "url": "https://dart.dev/changelog",
+          "accessedAt": "2026-11-07"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-07",
+        "reviewedAt": "2026-11-07",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep environment.sdk in pubspec.yaml, the sdks block in pubspec.lock, the Flutter version pinned in .fvmrc, and the SDK used in CI on one supported release.",
+          "A Flutter project gets its Dart SDK from the Flutter release it pins, so raise the Flutter pin to a release that bundles the Dart version in the replacement instead of installing Dart on its own."
+        ],
+        "steps": [
+          {
+            "id": "raise-sdk-pin",
+            "title": "Raise the SDK pin",
+            "instructions": "Change the reported Dart SDK pin to the version in the replacement. For a Flutter project, raise the Flutter version in .fvmrc or .fvm/fvm_config.json to a release that bundles that Dart version.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-sdk-constraint",
+            "title": "Raise the SDK constraint",
+            "instructions": "Raise the lower bound of environment.sdk in pubspec.yaml (and environment.flutter for an app) so it admits only supported SDKs, then re-resolve dependencies so pubspec.lock records the new sdks constraints.",
+            "targets": "all"
+          },
+          {
+            "id": "align-ci-toolchain",
+            "title": "Align CI and documentation",
+            "instructions": "Update CI workflows, Docker images, and setup documentation that install the Dart or Flutter SDK so they match the new pin.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "dart --version",
+            "purpose": "Confirm the active Dart SDK is the intended release."
+          },
+          {
+            "command": "dart pub get",
+            "purpose": "Re-resolve dependencies against the new SDK constraint."
+          },
+          {
+            "command": "dart analyze && flutter test",
+            "purpose": "Analyze and test a Flutter app on the new SDK."
+          },
+          {
+            "command": "dart analyze && dart test",
+            "purpose": "Analyze and test a Dart package on the new SDK."
+          }
+        ]
+      }
+    },
+    {
+      "id": "dart.sdk.end-of-support-3.4",
+      "ecosystem": "dart",
+      "purl": "pkg:generic/dart",
+      "vers": "vers:semver/>=3.4.0|<3.5.0",
+      "event": "end-of-support",
+      "title": "Dart 3.4 no longer receives security updates",
+      "summary": "The Dart security policy commits security updates only for the most recent stable SDK release. Dart 3.4 stopped being that release when Dart 3.5 shipped on 2024-08-07.",
+      "severity": "high",
+      "replacement": "Dart 3.13 or later",
+      "deadline": "2024-08-07",
+      "sources": [
+        {
+          "title": "Dart security policy",
+          "url": "https://dart.dev/security",
+          "accessedAt": "2026-11-07"
+        },
+        {
+          "title": "Dart changelog",
+          "url": "https://dart.dev/changelog",
+          "accessedAt": "2026-11-07"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-07",
+        "reviewedAt": "2026-11-07",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep environment.sdk in pubspec.yaml, the sdks block in pubspec.lock, the Flutter version pinned in .fvmrc, and the SDK used in CI on one supported release.",
+          "A Flutter project gets its Dart SDK from the Flutter release it pins, so raise the Flutter pin to a release that bundles the Dart version in the replacement instead of installing Dart on its own."
+        ],
+        "steps": [
+          {
+            "id": "raise-sdk-pin",
+            "title": "Raise the SDK pin",
+            "instructions": "Change the reported Dart SDK pin to the version in the replacement. For a Flutter project, raise the Flutter version in .fvmrc or .fvm/fvm_config.json to a release that bundles that Dart version.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-sdk-constraint",
+            "title": "Raise the SDK constraint",
+            "instructions": "Raise the lower bound of environment.sdk in pubspec.yaml (and environment.flutter for an app) so it admits only supported SDKs, then re-resolve dependencies so pubspec.lock records the new sdks constraints.",
+            "targets": "all"
+          },
+          {
+            "id": "align-ci-toolchain",
+            "title": "Align CI and documentation",
+            "instructions": "Update CI workflows, Docker images, and setup documentation that install the Dart or Flutter SDK so they match the new pin.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "dart --version",
+            "purpose": "Confirm the active Dart SDK is the intended release."
+          },
+          {
+            "command": "dart pub get",
+            "purpose": "Re-resolve dependencies against the new SDK constraint."
+          },
+          {
+            "command": "dart analyze && flutter test",
+            "purpose": "Analyze and test a Flutter app on the new SDK."
+          },
+          {
+            "command": "dart analyze && dart test",
+            "purpose": "Analyze and test a Dart package on the new SDK."
+          }
+        ]
+      }
+    },
+    {
+      "id": "dart.sdk.end-of-support-3.3",
+      "ecosystem": "dart",
+      "purl": "pkg:generic/dart",
+      "vers": "vers:semver/>=3.3.0|<3.4.0",
+      "event": "end-of-support",
+      "title": "Dart 3.3 no longer receives security updates",
+      "summary": "The Dart security policy commits security updates only for the most recent stable SDK release. Dart 3.3 stopped being that release when Dart 3.4 shipped on 2024-05-14.",
+      "severity": "high",
+      "replacement": "Dart 3.13 or later",
+      "deadline": "2024-05-14",
+      "sources": [
+        {
+          "title": "Dart security policy",
+          "url": "https://dart.dev/security",
+          "accessedAt": "2026-11-07"
+        },
+        {
+          "title": "Dart changelog",
+          "url": "https://dart.dev/changelog",
+          "accessedAt": "2026-11-07"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-07",
+        "reviewedAt": "2026-11-07",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep environment.sdk in pubspec.yaml, the sdks block in pubspec.lock, the Flutter version pinned in .fvmrc, and the SDK used in CI on one supported release.",
+          "A Flutter project gets its Dart SDK from the Flutter release it pins, so raise the Flutter pin to a release that bundles the Dart version in the replacement instead of installing Dart on its own."
+        ],
+        "steps": [
+          {
+            "id": "raise-sdk-pin",
+            "title": "Raise the SDK pin",
+            "instructions": "Change the reported Dart SDK pin to the version in the replacement. For a Flutter project, raise the Flutter version in .fvmrc or .fvm/fvm_config.json to a release that bundles that Dart version.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-sdk-constraint",
+            "title": "Raise the SDK constraint",
+            "instructions": "Raise the lower bound of environment.sdk in pubspec.yaml (and environment.flutter for an app) so it admits only supported SDKs, then re-resolve dependencies so pubspec.lock records the new sdks constraints.",
+            "targets": "all"
+          },
+          {
+            "id": "align-ci-toolchain",
+            "title": "Align CI and documentation",
+            "instructions": "Update CI workflows, Docker images, and setup documentation that install the Dart or Flutter SDK so they match the new pin.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "dart --version",
+            "purpose": "Confirm the active Dart SDK is the intended release."
+          },
+          {
+            "command": "dart pub get",
+            "purpose": "Re-resolve dependencies against the new SDK constraint."
+          },
+          {
+            "command": "dart analyze && flutter test",
+            "purpose": "Analyze and test a Flutter app on the new SDK."
+          },
+          {
+            "command": "dart analyze && dart test",
+            "purpose": "Analyze and test a Dart package on the new SDK."
+          }
+        ]
+      }
+    },
+    {
+      "id": "dart.sdk.end-of-support-3.2",
+      "ecosystem": "dart",
+      "purl": "pkg:generic/dart",
+      "vers": "vers:semver/>=3.2.0|<3.3.0",
+      "event": "end-of-support",
+      "title": "Dart 3.2 no longer receives security updates",
+      "summary": "The Dart security policy commits security updates only for the most recent stable SDK release. Dart 3.2 stopped being that release when Dart 3.3 shipped on 2024-02-15.",
+      "severity": "high",
+      "replacement": "Dart 3.13 or later",
+      "deadline": "2024-02-15",
+      "sources": [
+        {
+          "title": "Dart security policy",
+          "url": "https://dart.dev/security",
+          "accessedAt": "2026-11-07"
+        },
+        {
+          "title": "Dart changelog",
+          "url": "https://dart.dev/changelog",
+          "accessedAt": "2026-11-07"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-07",
+        "reviewedAt": "2026-11-07",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep environment.sdk in pubspec.yaml, the sdks block in pubspec.lock, the Flutter version pinned in .fvmrc, and the SDK used in CI on one supported release.",
+          "A Flutter project gets its Dart SDK from the Flutter release it pins, so raise the Flutter pin to a release that bundles the Dart version in the replacement instead of installing Dart on its own."
+        ],
+        "steps": [
+          {
+            "id": "raise-sdk-pin",
+            "title": "Raise the SDK pin",
+            "instructions": "Change the reported Dart SDK pin to the version in the replacement. For a Flutter project, raise the Flutter version in .fvmrc or .fvm/fvm_config.json to a release that bundles that Dart version.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-sdk-constraint",
+            "title": "Raise the SDK constraint",
+            "instructions": "Raise the lower bound of environment.sdk in pubspec.yaml (and environment.flutter for an app) so it admits only supported SDKs, then re-resolve dependencies so pubspec.lock records the new sdks constraints.",
+            "targets": "all"
+          },
+          {
+            "id": "align-ci-toolchain",
+            "title": "Align CI and documentation",
+            "instructions": "Update CI workflows, Docker images, and setup documentation that install the Dart or Flutter SDK so they match the new pin.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "dart --version",
+            "purpose": "Confirm the active Dart SDK is the intended release."
+          },
+          {
+            "command": "dart pub get",
+            "purpose": "Re-resolve dependencies against the new SDK constraint."
+          },
+          {
+            "command": "dart analyze && flutter test",
+            "purpose": "Analyze and test a Flutter app on the new SDK."
+          },
+          {
+            "command": "dart analyze && dart test",
+            "purpose": "Analyze and test a Dart package on the new SDK."
+          }
+        ]
+      }
+    },
+    {
+      "id": "dart.sdk.end-of-support-3.1",
+      "ecosystem": "dart",
+      "purl": "pkg:generic/dart",
+      "vers": "vers:semver/>=3.1.0|<3.2.0",
+      "event": "end-of-support",
+      "title": "Dart 3.1 no longer receives security updates",
+      "summary": "The Dart security policy commits security updates only for the most recent stable SDK release. Dart 3.1 stopped being that release when Dart 3.2 shipped on 2023-12-06.",
+      "severity": "high",
+      "replacement": "Dart 3.13 or later",
+      "deadline": "2023-12-06",
+      "sources": [
+        {
+          "title": "Dart security policy",
+          "url": "https://dart.dev/security",
+          "accessedAt": "2026-11-07"
+        },
+        {
+          "title": "Dart changelog",
+          "url": "https://dart.dev/changelog",
+          "accessedAt": "2026-11-07"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-07",
+        "reviewedAt": "2026-11-07",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep environment.sdk in pubspec.yaml, the sdks block in pubspec.lock, the Flutter version pinned in .fvmrc, and the SDK used in CI on one supported release.",
+          "A Flutter project gets its Dart SDK from the Flutter release it pins, so raise the Flutter pin to a release that bundles the Dart version in the replacement instead of installing Dart on its own."
+        ],
+        "steps": [
+          {
+            "id": "raise-sdk-pin",
+            "title": "Raise the SDK pin",
+            "instructions": "Change the reported Dart SDK pin to the version in the replacement. For a Flutter project, raise the Flutter version in .fvmrc or .fvm/fvm_config.json to a release that bundles that Dart version.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-sdk-constraint",
+            "title": "Raise the SDK constraint",
+            "instructions": "Raise the lower bound of environment.sdk in pubspec.yaml (and environment.flutter for an app) so it admits only supported SDKs, then re-resolve dependencies so pubspec.lock records the new sdks constraints.",
+            "targets": "all"
+          },
+          {
+            "id": "align-ci-toolchain",
+            "title": "Align CI and documentation",
+            "instructions": "Update CI workflows, Docker images, and setup documentation that install the Dart or Flutter SDK so they match the new pin.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "dart --version",
+            "purpose": "Confirm the active Dart SDK is the intended release."
+          },
+          {
+            "command": "dart pub get",
+            "purpose": "Re-resolve dependencies against the new SDK constraint."
+          },
+          {
+            "command": "dart analyze && flutter test",
+            "purpose": "Analyze and test a Flutter app on the new SDK."
+          },
+          {
+            "command": "dart analyze && dart test",
+            "purpose": "Analyze and test a Dart package on the new SDK."
+          }
+        ]
+      }
+    },
+    {
+      "id": "dart.sdk.end-of-support-3.0",
+      "ecosystem": "dart",
+      "purl": "pkg:generic/dart",
+      "vers": "vers:semver/>=3.0.0|<3.1.0",
+      "event": "end-of-support",
+      "title": "Dart 3.0 no longer receives security updates",
+      "summary": "The Dart security policy commits security updates only for the most recent stable SDK release. Dart 3.0 stopped being that release when Dart 3.1 shipped on 2023-08-16.",
+      "severity": "high",
+      "replacement": "Dart 3.13 or later",
+      "deadline": "2023-08-16",
+      "sources": [
+        {
+          "title": "Dart security policy",
+          "url": "https://dart.dev/security",
+          "accessedAt": "2026-11-07"
+        },
+        {
+          "title": "Dart changelog",
+          "url": "https://dart.dev/changelog",
+          "accessedAt": "2026-11-07"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-07",
+        "reviewedAt": "2026-11-07",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep environment.sdk in pubspec.yaml, the sdks block in pubspec.lock, the Flutter version pinned in .fvmrc, and the SDK used in CI on one supported release.",
+          "A Flutter project gets its Dart SDK from the Flutter release it pins, so raise the Flutter pin to a release that bundles the Dart version in the replacement instead of installing Dart on its own."
+        ],
+        "steps": [
+          {
+            "id": "raise-sdk-pin",
+            "title": "Raise the SDK pin",
+            "instructions": "Change the reported Dart SDK pin to the version in the replacement. For a Flutter project, raise the Flutter version in .fvmrc or .fvm/fvm_config.json to a release that bundles that Dart version.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-sdk-constraint",
+            "title": "Raise the SDK constraint",
+            "instructions": "Raise the lower bound of environment.sdk in pubspec.yaml (and environment.flutter for an app) so it admits only supported SDKs, then re-resolve dependencies so pubspec.lock records the new sdks constraints.",
+            "targets": "all"
+          },
+          {
+            "id": "align-ci-toolchain",
+            "title": "Align CI and documentation",
+            "instructions": "Update CI workflows, Docker images, and setup documentation that install the Dart or Flutter SDK so they match the new pin.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "dart --version",
+            "purpose": "Confirm the active Dart SDK is the intended release."
+          },
+          {
+            "command": "dart pub get",
+            "purpose": "Re-resolve dependencies against the new SDK constraint."
+          },
+          {
+            "command": "dart analyze && flutter test",
+            "purpose": "Analyze and test a Flutter app on the new SDK."
+          },
+          {
+            "command": "dart analyze && dart test",
+            "purpose": "Analyze and test a Dart package on the new SDK."
+          }
+        ]
+      }
+    },
+    {
+      "id": "dart.sdk.end-of-support-2-and-older",
+      "ecosystem": "dart",
+      "purl": "pkg:generic/dart",
+      "vers": "vers:semver/<3.0.0",
+      "event": "end-of-support",
+      "title": "Dart 2 and older no longer receive security updates",
+      "summary": "The Dart security policy commits security updates only for the most recent stable SDK release. Dart 2.x and every older release stopped being that release when Dart 3.0 shipped on 2023-05-10.",
+      "severity": "high",
+      "replacement": "Dart 3.13 or later",
+      "deadline": "2023-05-10",
+      "sources": [
+        {
+          "title": "Dart security policy",
+          "url": "https://dart.dev/security",
+          "accessedAt": "2026-11-07"
+        },
+        {
+          "title": "Dart changelog",
+          "url": "https://dart.dev/changelog",
+          "accessedAt": "2026-11-07"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-07",
+        "reviewedAt": "2026-11-07",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep environment.sdk in pubspec.yaml, the sdks block in pubspec.lock, the Flutter version pinned in .fvmrc, and the SDK used in CI on one supported release.",
+          "A Flutter project gets its Dart SDK from the Flutter release it pins, so raise the Flutter pin to a release that bundles the Dart version in the replacement instead of installing Dart on its own."
+        ],
+        "steps": [
+          {
+            "id": "raise-sdk-pin",
+            "title": "Raise the SDK pin",
+            "instructions": "Change the reported Dart SDK pin to the version in the replacement. For a Flutter project, raise the Flutter version in .fvmrc or .fvm/fvm_config.json to a release that bundles that Dart version.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-sdk-constraint",
+            "title": "Raise the SDK constraint",
+            "instructions": "Raise the lower bound of environment.sdk in pubspec.yaml (and environment.flutter for an app) so it admits only supported SDKs, then re-resolve dependencies so pubspec.lock records the new sdks constraints.",
+            "targets": "all"
+          },
+          {
+            "id": "align-ci-toolchain",
+            "title": "Align CI and documentation",
+            "instructions": "Update CI workflows, Docker images, and setup documentation that install the Dart or Flutter SDK so they match the new pin.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "dart --version",
+            "purpose": "Confirm the active Dart SDK is the intended release."
+          },
+          {
+            "command": "dart pub get",
+            "purpose": "Re-resolve dependencies against the new SDK constraint."
+          },
+          {
+            "command": "dart analyze && flutter test",
+            "purpose": "Analyze and test a Flutter app on the new SDK."
+          },
+          {
+            "command": "dart analyze && dart test",
+            "purpose": "Analyze and test a Dart package on the new SDK."
+          }
+        ]
+      }
+    },
+    {
       "id": "dart.package.analysis-server-client.discontinued",
       "ecosystem": "dart",
       "purl": "pkg:pub/analysis_server_client",

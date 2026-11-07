@@ -1,0 +1,1 @@
+- Promote the `dart` and `android` detectors to stable, report Dart SDK constraints that allow only end-of-support release lines, add Dart 2.x and 3.0–3.7 lifecycle rules, and expand both corpora. (#1894)

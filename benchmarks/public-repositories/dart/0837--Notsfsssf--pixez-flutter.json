@@ -1,0 +1,17 @@
+{
+  "repository": "Notsfsssf/pixez-flutter",
+  "commit": "3734462418675338b5af50d74c758c8d7caab336",
+  "ecosystem": "dart",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "rust.toolchain.end-of-support-1.98-and-older",
+      "path": "plugins/rhttp/rhttp/rust/rust-toolchain.toml",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of plugins/rhttp/rhttp/rust/rust-toolchain.toml reads `channel = \"1.98.1\"`. The cited Rust declaration matches a reviewed end-of-life or crate advisory rule."
+      }
+    }
+  ]
+}

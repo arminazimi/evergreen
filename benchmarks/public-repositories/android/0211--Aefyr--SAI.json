@@ -10,7 +10,7 @@
       "line": 13,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Read .github/workflows/stale.yml:13 at this commit: `- uses: actions/stale@v1`; the declaration matches the rule's affected range."
+        "note": "Reviewed at this commit: line 13 of .github/workflows/stale.yml reads `- uses: actions/stale@v1`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
       }
     }
   ]

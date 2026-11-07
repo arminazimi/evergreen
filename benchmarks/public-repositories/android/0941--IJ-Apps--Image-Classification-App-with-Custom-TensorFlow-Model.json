@@ -1,0 +1,17 @@
+{
+  "repository": "IJ-Apps/Image-Classification-App-with-Custom-TensorFlow-Model",
+  "commit": "532269c7f5adc035c3ddea7fc83ec0a702e88d0d",
+  "ecosystem": "android",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "app/build.gradle",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 11 of app/build.gradle reads `targetSdk 30`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    }
+  ]
+}

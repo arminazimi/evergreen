@@ -1,0 +1,53 @@
+{
+  "repository": "nisrulz/android-examples",
+  "commit": "3ca3cffbfc1d1f8e64681ff8b16269884aa4bc00",
+  "ecosystem": "android",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "AppShortcuts/app/build.gradle",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 10 of AppShortcuts/app/build.gradle reads `targetSdk 25`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "JNI/app/src/main/cpp/CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of JNI/app/src/main/cpp/CMakeLists.txt reads `cmake_minimum_required(VERSION 3.4.1)`. The cited CMake declaration matches a reviewed removal rule."
+      }
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "ModulesUnderSubdirectory/group1/module1/build.gradle",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 9 of ModulesUnderSubdirectory/group1/module1/build.gradle reads `targetSdk 29`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "ModulesUnderSubdirectory/group2/module2/build.gradle",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 9 of ModulesUnderSubdirectory/group2/module2/build.gradle reads `targetSdk 29`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "ModulesUnderSubdirectory/module3/build.gradle",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 9 of ModulesUnderSubdirectory/module3/build.gradle reads `targetSdk 29`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    }
+  ]
+}

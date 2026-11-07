@@ -2,11 +2,11 @@
   "schemaVersion": "evergreen.corpus-targets.v1",
   "target": 200,
   "minimum": {
-    "android": 12,
+    "android": 84,
     "ci-images": 98,
     "container": 42,
     "cpp": 15,
-    "dart": 12,
+    "dart": 75,
     "database": 12,
     "deno": 0,
     "dotnet": 18,

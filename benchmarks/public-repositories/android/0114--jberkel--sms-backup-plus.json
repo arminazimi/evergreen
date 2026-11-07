@@ -10,8 +10,7 @@
       "line": 78,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "url": "https://developer.android.com/google/play/billing/deprecation-faq",
-        "note": "Reviewed independently at this commit: line 78 of app/build.gradle pins com.android.billingclient:billing:7.1.1; Google's Play Billing deprecation timeline requires version 8 or newer for releases after the 2026 deadline. Vendor-checked by AI agent (Claude Code) under maintainer direction on 2026-11-03 against the primary vendor page https://developer.android.com/google/play/billing/deprecation-faq: Google's Play Billing deprecation timeline keeps version 7's new-app/update deadline at 2026-08-31, matching the rule. Outcome: confirmed."
+        "note": "Reviewed at this commit: line 78 of app/build.gradle reads `implementation 'com.android.billingclient:billing:7.1.1'`. Google Play Billing Library majors follow the two-year deprecation cycle on https://developer.android.com/google/play/billing/deprecation-faq."
       }
     }
   ]

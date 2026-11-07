@@ -10,6 +10,7 @@ import { DETECTOR_API_VERSION } from "../../sdk.js";
 import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
 import { analyzeSourceUsage, findDartDynamicReferences } from "../../source-usage.js";
 import { parseVersLenient, versContains } from "../../vers/index.js";
+import { allowedDartLines } from "./parse-dart-constraint.js";
 import { parseFvmConfigJson, parseFvmrc } from "./parse-fvm.js";
 import { parsePubspec } from "./parse-pubspec.js";
 import type { PubspecDeclaration } from "./parse-pubspec.js";
@@ -25,11 +26,12 @@ import type { PubspecLockDeclaration } from "./parse-pubspec-lock.js";
  * SDK, `pkg:generic/flutter` for the Flutter SDK, and `pkg:pub/<name>` for a hosted package.
  *
  * A version that is pinned exactly (a resolved `pubspec.lock` package, an FVM pin, or a constraint written
- * without an operator) is matched against the first rule whose VERS range contains it. A constraint such as
- * `^1.0.0` or `>=3.8.0 <4.0.0` admits versions outside any single release line, so it is only matched against
- * a rule that covers every version, which is how a discontinued package is recorded. A rule whose VERS is
- * malformed never matches and does not hide a later rule. Dart, Flutter, and pub are never run and nothing is
- * fetched.
+ * without an operator) is matched against the first rule whose VERS range contains it. A Dart SDK constraint
+ * that can only resolve to end-of-support release lines (`>=2.17.0 <3.0.0`) is reported at the newest such
+ * line's rule. A constraint that also admits a supported or unjudged line (`^3.11.0`, `>=3.8.0 <4.0.0`) is
+ * not an old-SDK finding. A package constraint is matched only against a rule that covers every version,
+ * which is how a discontinued package is recorded. A rule whose VERS is malformed never matches and does
+ * not hide a later rule. Dart, Flutter, and pub are never run and nothing is fetched.
  *
  * A rule that lists `usage` matchers also gets the `.dart` files that import its package, call it through an
  * `as` prefix, or call a name it imports with `show`, so a migration packet lists exact files. A bare import
@@ -129,9 +131,27 @@ function coversEveryVersion(rule: RegistryV2Rule): boolean {
   }
 }
 
-/** The rule a declared version or constraint matches: an exact version by range, any other constraint only by a rule covering every version. */
-function ruleForDeclared(rules: readonly RegistryV2Rule[], value: string): RegistryV2Rule | undefined {
-  return EXACT_VERSION.test(value) ? firstMatchingRule(rules, value) : rules.find(coversEveryVersion);
+/**
+ * A Dart SDK constraint that can only resolve to end-of-support release lines: the rule of the newest line it
+ * allows. A constraint that also allows a supported or unjudged line returns nothing.
+ */
+function endOfLifeCeiling(runtimeRules: readonly RegistryV2Rule[], constraint: string): RegistryV2Rule | undefined {
+  const lines = allowedDartLines(constraint);
+  if (!lines) return undefined;
+  const matched = lines.map((line) => firstMatchingRule(runtimeRules, `${line}.0`));
+  if (matched.some((rule) => rule === undefined)) return undefined;
+  return matched[matched.length - 1];
+}
+
+/** The rule a declared version or constraint matches. */
+function ruleForDeclared(
+  rules: readonly RegistryV2Rule[],
+  value: string,
+  options: { sdkConstraint?: boolean } = {},
+): RegistryV2Rule | undefined {
+  if (EXACT_VERSION.test(value)) return firstMatchingRule(rules, value);
+  if (options.sdkConstraint) return endOfLifeCeiling(rules, value) ?? rules.find(coversEveryVersion);
+  return rules.find(coversEveryVersion);
 }
 
 /** A declaration from either Dart manifest the detector parses. */
@@ -194,7 +214,9 @@ function reportDeclaration(
   }
   const sdk = declaration.kind === "dart-sdk" ? "Dart" : "Flutter";
   const purl = declaration.kind === "dart-sdk" ? DART_PURL : FLUTTER_PURL;
-  const rule = ruleForDeclared(byPurl.get(purl) ?? [], declaration.value);
+  const rule = ruleForDeclared(byPurl.get(purl) ?? [], declaration.value, {
+    sdkConstraint: declaration.kind === "dart-sdk",
+  });
   if (rule) report(rule, path, declaration.line, `${path} declares ${sdk} SDK ${declaration.value}. ${rule.summary}`);
 }
 

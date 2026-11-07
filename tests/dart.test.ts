@@ -112,8 +112,11 @@ test("dart passes detector conformance on every fixture", async () => {
   });
 });
 
-test("the old-SDK positive fixture matches no committed rule because a range admits newer SDKs", async () => {
-  assert.deepEqual(await dartDetector.scan({ root: resolve(fixtures, "positive") }), []);
+test("the old-SDK positive fixture reports Dart 2 constraints that admit only end-of-support lines", async () => {
+  const dart2 = (await committedRules()).find((item) => item.id === "dart.sdk.end-of-support-2-and-older")!;
+  const findings = await dartDetector.scan({ root: resolve(fixtures, "positive") });
+  assert.ok(findings.some((finding) => finding.ruleId === dart2.id));
+  assert.ok(findings.every((finding) => finding.ruleId === dart2.id));
 });
 
 test("is registered as a built-in detector", () => {
@@ -274,4 +277,39 @@ test("a migration packet for a Dart SDK finding names the file, steps, and verif
     ["raise-sdk-pin", "raise-sdk-constraint", "align-ci-toolchain"],
   );
   assert.ok(packet.verification.some((check) => check.command === "dart analyze && flutter test"));
+});
+
+test("reports a Dart SDK constraint that allows only end-of-support lines", async () => {
+  const dart2 = (await committedRules()).find((item) => item.id === "dart.sdk.end-of-support-2-and-older")!;
+  const dart34 = (await committedRules()).find((item) => item.id === "dart.sdk.end-of-support-3.4")!;
+  const onlyDart2 = await dartDetector.scan({
+    root: await repository({ "pubspec.yaml": 'environment:\n  sdk: ">=2.17.0 <3.0.0"\n' }),
+  });
+  assert.deepEqual(
+    onlyDart2.map((finding) => [finding.ruleId, finding.location.line]),
+    [[dart2.id, 2]],
+  );
+  assert.match(onlyDart2[0]!.summary, /declares Dart SDK >=2\.17\.0 <3\.0\.0/);
+  const onlyOld3 = await dartDetector.scan({
+    root: await repository({ "pubspec.yaml": 'environment:\n  sdk: ">=3.0.0 <3.5.0"\n' }),
+  });
+  assert.deepEqual(
+    onlyOld3.map((finding) => [finding.ruleId, finding.location.line]),
+    [[dart34.id, 2]],
+  );
+});
+
+test("does not report a Dart SDK constraint that admits the current stable line", async () => {
+  assert.deepEqual(
+    await dartDetector.scan({
+      root: await repository({ "pubspec.yaml": "environment:\n  sdk: ^3.11.0\n" }),
+    }),
+    [],
+  );
+  assert.deepEqual(
+    await dartDetector.scan({
+      root: await repository({ "pubspec.yaml": 'environment:\n  sdk: ">=3.8.0 <4.0.0"\n' }),
+    }),
+    [],
+  );
 });

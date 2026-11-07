@@ -5,12 +5,12 @@
   "selection": "blind",
   "expected": [
     {
-      "ruleId": "github-actions.checkout.node20",
-      "path": ".github/workflows/precompile.yml",
-      "line": 21,
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/ci.yml",
+      "line": 45,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Read .github/workflows/precompile.yml:21 at this commit: `- uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+        "note": "Reviewed at this commit: line 45 of .github/workflows/ci.yml reads `node-version: 22`. The cited Node.js or npm declaration matches a reviewed end-of-life or deprecation rule."
       }
     },
     {
@@ -19,16 +19,16 @@
       "line": 129,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 129 of .github/workflows/ci.yml reads node-version: 22, a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+        "note": "Reviewed at this commit: line 129 of .github/workflows/ci.yml reads `node-version: 22`. The cited Node.js or npm declaration matches a reviewed end-of-life or deprecation rule."
       }
     },
     {
-      "ruleId": "nodejs.runtime.eol-22",
-      "path": ".github/workflows/ci.yml",
-      "line": 45,
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/precompile.yml",
+      "line": 21,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 45 of .github/workflows/ci.yml reads node-version: 22, a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+        "note": "Reviewed at this commit: line 21 of .github/workflows/precompile.yml reads `- uses: actions/checkout@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
       }
     }
   ]

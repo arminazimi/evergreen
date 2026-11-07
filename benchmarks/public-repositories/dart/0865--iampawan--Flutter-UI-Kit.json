@@ -1,0 +1,17 @@
+{
+  "repository": "iampawan/Flutter-UI-Kit",
+  "commit": "04dc321f7a6e909904cfeb7f9782ac9afbae0078",
+  "ecosystem": "dart",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dart.sdk.end-of-support-2-and-older",
+      "path": "pubspec.lock",
+      "line": 200,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 200 of pubspec.lock reads `dart: \">=2.2.0 <3.0.0\"`. Dart publishes security updates only for the current stable release (Dart security policy, https://dart.dev/security); the page's documentation reflects Dart 3.13.7 as the current stable line."
+      }
+    }
+  ]
+}

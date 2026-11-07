@@ -8,10 +8,11 @@ Each page documents one ecosystem detector: what it reads, what it reports, and 
 
 | Detector | What it reads | Maturity |
 | --- | --- | --- |
+| [Android](android.md) | `build.gradle(.kts)`, `settings.gradle(.kts)`, `libs.versions.toml` | Supported |
 | [C and C++](cpp.md) | `CMakeLists.txt`, `conanfile.txt`/`py`, `vcpkg.json` | Supported |
 | [CI runner images](ci-images.md) | `pool.vmImage` in `azure-pipelines.yml` (GitLab and CircleCI images are read, not judged) | Supported |
 | [Container base images](container.md) | `FROM` lines in Dockerfiles/Containerfiles and `services.*.image` in Compose | Supported |
-| [Dart and Flutter](dart.md) | `pubspec.yaml`/`lock`, `.fvmrc`, `.fvm/fvm_config.json` | Experimental |
+| [Dart and Flutter](dart.md) | `pubspec.yaml`/`lock`, `.fvmrc`, `.fvm/fvm_config.json` | Supported |
 | [Database runtimes](database.md) | Compose image tags and managed DB versions in `*.tf` | Experimental |
 | [Deno and Bun](deno.md) | Exact runtime pins in `deno.json(c)`, `bunfig.toml`, `.bun-version` | Experimental |
 | [.NET](dotnet.md) | `global.json`, project files, `Directory.Build.props`, `Directory.Packages.props`, `packages.lock.json` | Beta |

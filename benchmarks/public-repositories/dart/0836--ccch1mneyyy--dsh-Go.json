@@ -1,0 +1,17 @@
+{
+  "repository": "ccch1mneyyy/dsh-Go",
+  "commit": "219f2d1099976c0488d9fad718dc890a122f0c5d",
+  "ecosystem": "dart",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "app/android/app/build.gradle.kts",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 51 of app/android/app/build.gradle.kts reads `targetSdk = 28`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    }
+  ]
+}

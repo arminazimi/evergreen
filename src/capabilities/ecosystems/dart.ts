@@ -2,8 +2,8 @@ import type { ManifestEcosystem } from "../schema.js";
 
 const dart: ManifestEcosystem = {
   id: "dart",
-  status: "experimental",
-  maturity: "experimental",
+  status: "supported",
+  maturity: "stable",
   detectorIds: ["dart"],
 };
 

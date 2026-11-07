@@ -1,0 +1,17 @@
+{
+  "repository": "flame-engine/flame",
+  "commit": "88c043804b0bcc288ee9e6b0f89b3181d737a0dc",
+  "ecosystem": "dart",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/cicd.yml",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 54 of .github/workflows/cicd.yml reads `node-version: 22`. The cited Node.js or npm declaration matches a reviewed end-of-life or deprecation rule."
+      }
+    }
+  ]
+}

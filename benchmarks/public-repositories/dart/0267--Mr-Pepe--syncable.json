@@ -10,7 +10,7 @@
       "line": 15,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Read .github/workflows/publish_to_pub.yml:15 at this commit: `- uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+        "note": "Reviewed at this commit: line 15 of .github/workflows/publish_to_pub.yml reads `- uses: actions/checkout@v4`. The cited workflow pin is below the supported major for that Action under Evergreen's reviewed GitHub Actions lifecycle rules."
       }
     }
   ]

@@ -10,7 +10,7 @@
       "line": 47,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Read library/build.gradle:47 at this commit: `api 'com.android.billingclient:billing:9.1.0'`; the declaration matches the rule's affected range."
+        "note": "Reviewed at this commit: line 47 of library/build.gradle reads `api 'com.android.billingclient:billing:9.1.0'`. Google Play Billing Library majors follow the two-year deprecation cycle on https://developer.android.com/google/play/billing/deprecation-faq."
       }
     }
   ]

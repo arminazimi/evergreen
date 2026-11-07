@@ -1,0 +1,17 @@
+{
+  "repository": "A5245/Wearable-Debug",
+  "commit": "a2b60a78d99667a8c518dc40beac492ad547bca2",
+  "ecosystem": "android",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "app/build.gradle.kts",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of app/build.gradle.kts reads `targetSdk = 33`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    }
+  ]
+}

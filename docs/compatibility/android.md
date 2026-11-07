@@ -8,7 +8,7 @@ The detector's supported declarations, package URLs, what it reports, what it in
 
 ## Android detector
 
-The `android` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories are pinned for it in `benchmarks/public-repositories/` (four targeted, one blind). Its lifecycle rules are in `registry/android.json` and ship in the [data bundle](../DATA.md). The bundled rules cover Google Play Billing Library majors 5 through 9 and cite the [Google Play Billing Library version deprecation](https://developer.android.com/google/play/billing/deprecation-faq) timeline. Scans read that bundled registry only.
+The `android` detector is **supported**: its level is recorded as `stable` in `benchmarks/thresholds.json`. Eighty-four public repositories are pinned for it in `benchmarks/public-repositories/`. Its lifecycle rules are in `registry/android.json` and ship in the [data bundle](../DATA.md). The bundled rules cover Google Play Billing Library majors 5 through 9 and cite the [Google Play Billing Library version deprecation](https://developer.android.com/google/play/billing/deprecation-faq) timeline. Scans read that bundled registry only.
 
 ### Supported files and declarations
 
@@ -28,7 +28,8 @@ A string-notation dependency `group:artifact:version` is `pkg:maven/<group>/<art
 ### What it reports
 
 - A string-notation `com.android.billingclient:billing` version that a bundled rule contains. The rules cover majors 5, 6, 7, 8, and 9.
-- An SDK level, Android Gradle Plugin version, Kotlin Android plugin version, or catalog `agp` / `kotlin` pin when a rule for that Package URL contains the version text. No such rules are bundled, so those declarations produce no finding today.
+- A literal `targetSdk` below 35 inside an `android { }` block (`android.target-sdk.existing.default-below-35`).
+- An Android Gradle Plugin version, Kotlin Android plugin version, `compileSdk`, `minSdk`, `buildToolsVersion`, or catalog `agp` / `kotlin` pin when a rule for that Package URL contains the version text. No AGP/Kotlin/`compileSdk` rules are bundled today, so those declarations produce no finding until one is added.
 
 The first matching rule wins. A rule whose VERS is malformed, or whose comparison throws, is skipped and does not hide a later rule. Each finding names the file and line, and carries its rule's source, replacement, deadline, migration guidance, and verification commands. A rule that lists usage matchers also lists `.java` and `.kt` usages. The bundled Play Billing rules do not list matchers, so those findings point at the declaration only.
 

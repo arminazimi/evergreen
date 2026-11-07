@@ -1,0 +1,7 @@
+{
+  "repository": "mongodb/kbson",
+  "commit": "a30d74aacf08cf0595c94b906e7eb307dd45d609",
+  "ecosystem": "android",
+  "selection": "blind",
+  "expected": []
+}

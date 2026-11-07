@@ -70,11 +70,14 @@ The `dart` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COM
 
 ### Same ecosystem
 
+- [Dart 2 and older no longer receive security updates](dart.sdk.end-of-support-2-and-older.html)
+- [Dart 3.0 no longer receives security updates](dart.sdk.end-of-support-3.0.html)
+- [Dart 3.1 no longer receives security updates](dart.sdk.end-of-support-3.1.html)
 - [Dart 3.10 no longer receives security updates](dart.sdk.end-of-support-3.10.html)
 - [Dart 3.11 no longer receives security updates](dart.sdk.end-of-support-3.11.html)
 - [Dart 3.12 no longer receives security updates](dart.sdk.end-of-support-3.12.html)
-- [Dart 3.8 no longer receives security updates](dart.sdk.end-of-support-3.8.html)
-- [Dart 3.9 no longer receives security updates](dart.sdk.end-of-support-3.9.html)
+- [Dart 3.2 no longer receives security updates](dart.sdk.end-of-support-3.2.html)
+- [Dart 3.3 no longer receives security updates](dart.sdk.end-of-support-3.3.html)
 
 
 ## Data

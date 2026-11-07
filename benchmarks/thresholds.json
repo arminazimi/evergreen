@@ -6,8 +6,8 @@
   },
   "detectors": {
     "android": {
-      "level": "experimental",
-      "stable": false,
+      "level": "stable",
+      "stable": true,
       "minPrecision": 0.95
     },
     "ci-images": {
@@ -26,8 +26,8 @@
       "minPrecision": 0.95
     },
     "dart": {
-      "level": "experimental",
-      "stable": false,
+      "level": "stable",
+      "stable": true,
       "minPrecision": 0.95
     },
     "database": {

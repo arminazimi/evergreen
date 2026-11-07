@@ -1,0 +1,17 @@
+{
+  "repository": "mrcsxsiq/Kotlin-Pokedex",
+  "commit": "f805f5d0d4cde44b7d56814293cd4471dadd64b1",
+  "ecosystem": "android",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "app/build.gradle.kts",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of app/build.gradle.kts reads `targetSdk = 33`. Google Play requires targetSdk 35+ for existing phone and tablet apps (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    }
+  ]
+}
