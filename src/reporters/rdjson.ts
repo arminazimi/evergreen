@@ -1,5 +1,5 @@
 import type { ScanResult, Severity } from "../domain.js";
-import { findingOrder } from "./shared.js";
+import { REPORTER_API_VERSION, findingOrder, type Reporter } from "./shared.js";
 
 const RDJSON_SEVERITY: Record<Severity, "ERROR" | "WARNING" | "INFO"> = {
   critical: "ERROR",
@@ -36,3 +36,10 @@ export function renderRdjson(result: ScanResult): string {
   };
   return JSON.stringify(rdjson, null, 2);
 }
+
+/** `--format rdjson`: reviewdog Diagnostic Format. */
+export const rdjsonReporter: Reporter = {
+  apiVersion: REPORTER_API_VERSION,
+  id: "rdjson",
+  render: renderRdjson,
+};

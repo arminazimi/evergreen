@@ -1,0 +1,35 @@
+{
+  "repository": "Themoji/ios",
+  "commit": "7e5a113716ad9e0c345da5c3bcfc4a6250d52db8",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "swift.xcode.app-store-below-15",
+      "path": ".xcode-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .xcode-version reads `9.2`, an Xcode release older than 15. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 15 starting April 29, 2024 (https://developer.apple.com/news/upcoming-requirements/?id=04292024a)."
+      }
+    },
+    {
+      "ruleId": "swift.app-store.ios-below-13",
+      "path": "Themoji.xcodeproj/project.pbxproj",
+      "line": 505,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 505 of Themoji.xcodeproj/project.pbxproj reads `\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 9.1;`, an iOS deployment target below 13. Apple's App Store upcoming requirements require iOS and iPadOS apps uploaded to App Store Connect to target iOS 13 or later starting September 9, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=0992026a)."
+      }
+    },
+    {
+      "ruleId": "swift.app-store.ios-below-13",
+      "path": "Themoji.xcodeproj/project.pbxproj",
+      "line": 534,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 534 of Themoji.xcodeproj/project.pbxproj reads `\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 9.1;`, an iOS deployment target below 13. Apple's App Store upcoming requirements require iOS and iPadOS apps uploaded to App Store Connect to target iOS 13 or later starting September 9, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=0992026a)."
+      }
+    }
+  ]
+}

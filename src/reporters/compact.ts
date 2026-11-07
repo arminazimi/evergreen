@@ -1,5 +1,5 @@
 import type { ScanResult } from "../domain.js";
-import { findingOrder, severityRank } from "./shared.js";
+import { REPORTER_API_VERSION, findingOrder, severityRank, type Reporter } from "./shared.js";
 
 /** The most findings `--format compact` lists. The rest are counted, not listed. */
 export const COMPACT_MAX_FINDINGS = 25;
@@ -31,3 +31,10 @@ export function renderCompact(result: ScanResult): string {
   if (omitted > 0) lines.push(`${omitted} more finding${omitted === 1 ? "" : "s"} omitted; use --format json for all.`);
   return lines.join("\n");
 }
+
+/** `--format compact`: one line per finding for agent context windows. */
+export const compactReporter: Reporter = {
+  apiVersion: REPORTER_API_VERSION,
+  id: "compact",
+  render: renderCompact,
+};

@@ -4,7 +4,7 @@ import type { Forecast } from "../forecast.js";
 import { renderForecastSvg } from "../forecast-svg.js";
 import { renderTreemapSvg, treemapFileId } from "../treemap.js";
 import { renderJson } from "./json.js";
-import { describeData, findingOrder } from "./shared.js";
+import { REPORTER_API_VERSION, describeData, findingOrder, type Reporter } from "./shared.js";
 
 const HTML_ESCAPES: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
 
@@ -227,3 +227,13 @@ export function renderHtml(result: ScanResult, options: HtmlOptions = {}): strin
     "</html>",
   ].join("\n");
 }
+
+/** `--format html`: self-contained shareable page. */
+export const htmlReporter: Reporter = {
+  apiVersion: REPORTER_API_VERSION,
+  id: "html",
+  commands: ["scan", "rollup"],
+  render(result, options = {}) {
+    return renderHtml(result, { forecast: options.forecast });
+  },
+};

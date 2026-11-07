@@ -1,6 +1,6 @@
 import type { Finding, ScanResult, Severity } from "../domain.js";
 import { VERSION } from "../version.js";
-import { compare, findingOrder } from "./shared.js";
+import { REPORTER_API_VERSION, compare, findingOrder, type Reporter } from "./shared.js";
 
 const SARIF_SCHEMA = "https://json.schemastore.org/sarif-2.1.0.json";
 const SARIF_LEVEL: Record<Severity, "error" | "warning" | "note"> = {
@@ -111,3 +111,10 @@ export function renderSarif(result: ScanResult): string {
   };
   return JSON.stringify(sarif, null, 2);
 }
+
+/** `--format sarif`: SARIF 2.1.0 for code scanning. */
+export const sarifReporter: Reporter = {
+  apiVersion: REPORTER_API_VERSION,
+  id: "sarif",
+  render: renderSarif,
+};

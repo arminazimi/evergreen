@@ -1,0 +1,44 @@
+{
+  "repository": "thisisthekap/Tonestro.Maui.Amplitude.iOS",
+  "commit": "8a5e7e1f560a9b66e95263708501987e5af581eb",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "swift.xcode.app-store-15-through-25",
+      "path": ".xcode-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .xcode-version reads `16.0.0`, an Xcode 15–25 release. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 26 or later starting April 28, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=04282026a)."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "global.json",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of global.json reads `    \"version\": \"8.0.404\"`. Microsoft's .NET releases index lists this release line as past or scheduled for end of support (https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json)."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "Tonestro.Maui.Amplitude.iOS.UsageChecker/Tonestro.Maui.Amplitude.iOS.UsageChecker.csproj",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 10 of Tonestro.Maui.Amplitude.iOS.UsageChecker/Tonestro.Maui.Amplitude.iOS.UsageChecker.csproj reads `    <TargetFramework>net8.0-ios</TargetFramework>`. Microsoft's .NET releases index lists this release line as past or scheduled for end of support (https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json)."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "Tonestro.Maui.Amplitude.iOS/Tonestro.Maui.Amplitude.iOS.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of Tonestro.Maui.Amplitude.iOS/Tonestro.Maui.Amplitude.iOS.csproj reads `    <TargetFramework>net8.0-ios</TargetFramework>`. Microsoft's .NET releases index lists this release line as past or scheduled for end of support (https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json)."
+      }
+    }
+  ]
+}

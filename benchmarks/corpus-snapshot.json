@@ -2,16 +2,16 @@
   "schemaVersion": "evergreen.corpus-snapshot.v1",
   "detectors": {
     "android": {
-      "findings": 10,
-      "repositories": 7
+      "findings": 14,
+      "repositories": 10
     },
     "ci-images": {
       "findings": 63,
       "repositories": 29
     },
     "container": {
-      "findings": 1049,
-      "repositories": 116
+      "findings": 1057,
+      "repositories": 118
     },
     "cpp": {
       "findings": 242,
@@ -26,12 +26,12 @@
       "repositories": 21
     },
     "dotnet": {
-      "findings": 578,
-      "repositories": 62
+      "findings": 581,
+      "repositories": 63
     },
     "github-actions": {
-      "findings": 2046,
-      "repositories": 341
+      "findings": 2251,
+      "repositories": 363
     },
     "go": {
       "findings": 114,
@@ -46,12 +46,12 @@
       "repositories": 18
     },
     "nodejs": {
-      "findings": 361,
-      "repositories": 84
+      "findings": 371,
+      "repositories": 89
     },
     "npm": {
-      "findings": 142,
-      "repositories": 65
+      "findings": 143,
+      "repositories": 66
     },
     "php": {
       "findings": 70,
@@ -62,12 +62,12 @@
       "repositories": 134
     },
     "ruby": {
-      "findings": 232,
-      "repositories": 41
+      "findings": 257,
+      "repositories": 57
     },
     "rust": {
-      "findings": 65,
-      "repositories": 39
+      "findings": 67,
+      "repositories": 41
     },
     "scala": {
       "findings": 2,
@@ -82,8 +82,8 @@
       "repositories": 29
     },
     "swift": {
-      "findings": 22,
-      "repositories": 13
+      "findings": 66,
+      "repositories": 55
     },
     "terraform": {
       "findings": 472,

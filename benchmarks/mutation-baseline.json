@@ -14,6 +14,7 @@
     { "file": "src/reporters/junit.ts", "score": 96.23 },
     { "file": "src/reporters/markdown.ts", "score": 94.67 },
     { "file": "src/reporters/rdjson.ts", "score": 100 },
+    { "file": "src/reporters/registry.ts", "score": 92.41 },
     { "file": "src/reporters/sarif.ts", "score": 91.8 },
     { "file": "src/reporters/shared.ts", "score": 100 },
     { "file": "src/reporters/text.ts", "score": 97.64 },

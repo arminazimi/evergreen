@@ -1,19 +1,19 @@
 import type { DependencyCheck } from "../check-dependency.js";
 import { COVERAGE_WALK_LIMIT, type ScanCoverage, type ScanResult } from "../domain.js";
 import type { MigrationPacket, UpgradePath } from "../migration-packet.js";
-import { compare, describeData } from "./shared.js";
+import { REPORTER_API_VERSION, compare, describeData, type Reporter } from "./shared.js";
 
 /** How many paths the empty-scan text report lists before saying "... and N more". JSON coverage stays complete. */
 export const EMPTY_SCAN_PATH_LIST_LIMIT = 10;
 
 export interface TextOptions {
   /** No Evergreen config exists yet: lead with a short summary and the next command to run. */
-  firstRun?: boolean;
+  firstRun?: boolean | undefined;
   /**
    * What a zero-finding scan checked. When omitted, uses `result.coverage`, then unclassified
    * references on the result (or reports none).
    */
-  coverage?: ScanCoverage;
+  coverage?: ScanCoverage | undefined;
 }
 
 function formatCoverageList(values: readonly string[]): string {
@@ -147,6 +147,16 @@ export function renderText(result: ScanResult, options: TextOptions = {}): strin
 
   return lines.join("\n");
 }
+
+/** `--format text`: the default human-readable scan report. */
+export const textReporter: Reporter = {
+  apiVersion: REPORTER_API_VERSION,
+  id: "text",
+  commands: ["scan", "check", "check-snippet"],
+  render(result, options = {}) {
+    return renderText(result, { firstRun: options.firstRun });
+  },
+};
 
 export function renderCheckText(check: DependencyCheck): string {
   const lines = [
