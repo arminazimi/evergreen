@@ -3,7 +3,14 @@ import process from "node:process";
 import { AgentFileError } from "../agent-instructions.js";
 import type { Severity } from "../domain.js";
 import { severityValues } from "../domain.js";
-import { initAgents, initClaudeHooks, initCodexHooks, initCursorHooks, initGeminiHooks } from "../init-agents.js";
+import {
+  initAgents,
+  initClaudeHooks,
+  initCodexHooks,
+  initCopilotHooks,
+  initCursorHooks,
+  initGeminiHooks,
+} from "../init-agents.js";
 import type { AgentFileName, InitClaudeHooksResult, InitCursorHooksResult } from "../init-agents.js";
 import { initHooks } from "../init-hooks.js";
 import type { InitHooksResult } from "../init-hooks.js";
@@ -23,7 +30,7 @@ export const command: CliCommand = {
     "  evergreen init --agents [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]",
     "  evergreen init --hooks [path] [--fail-on <severity>] [--dry-run]   # git pre-push hook; combine with --agents",
     "  evergreen init --personal [--fail-on <severity>] [--yes] [--dry-run]   # global config and pre-push hook for every repository",
-    "  evergreen init --hooks-for claude-code|codex|cursor|gemini [path] [--dry-run]   # post-edit hook for Claude Code, Codex, Cursor, or Gemini CLI",
+    "  evergreen init --hooks-for claude-code|codex|cursor|gemini|copilot [path] [--dry-run]   # post-edit hook for Claude Code, Codex, Cursor, Gemini CLI, or GitHub Copilot",
   ],
   usageSlots: [49, 50, 51, 52, 53],
   run(args, ctx) {
@@ -47,8 +54,8 @@ async function confirmOnTerminal(summary: string, defaultYes = false): Promise<b
 }
 
 const initUsage =
-  "Usage: evergreen init [agent] [--agents] [--hooks] [--personal] [--hooks-for claude-code|codex|cursor|gemini] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]\n";
-const hooksForHosts = "claude-code, codex, cursor, or gemini";
+  "Usage: evergreen init [agent] [--agents] [--hooks] [--personal] [--hooks-for claude-code|codex|cursor|gemini|copilot] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]\n";
+const hooksForHosts = "claude-code, codex, cursor, gemini, or copilot";
 const agentUsage = "Usage: evergreen init agent [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]\n";
 
 /** The `init` flags that choose what to set up, and the operands and values they take. */
@@ -154,7 +161,8 @@ function initCombinationProblem(flags: InitFlags, ctx: CommandContext): number |
     flags.hooksFor !== "claude-code" &&
     flags.hooksFor !== "codex" &&
     flags.hooksFor !== "cursor" &&
-    flags.hooksFor !== "gemini"
+    flags.hooksFor !== "gemini" &&
+    flags.hooksFor !== "copilot"
   )
     return ctx.fail("usage", `--hooks-for needs a host: ${hooksForHosts}.`, initUsage);
   if (flags.personal && (flags.agents || flags.hooks || flags.hooksFor))
@@ -308,7 +316,8 @@ async function applyInit(options: InitOptions, ctx: CommandContext): Promise<num
       options.hooksFor === "claude-code" ||
       options.hooksFor === "codex" ||
       options.hooksFor === "cursor" ||
-      options.hooksFor === "gemini"
+      options.hooksFor === "gemini" ||
+      options.hooksFor === "copilot"
     )
       await applyHooksFor(options.hooksFor, options.root, options.dryRun);
     return 0;
@@ -371,6 +380,11 @@ async function applyHooksFor(hooksFor: string, root: string, dryRun: boolean): P
   if (hooksFor === "gemini") {
     const result = await initGeminiHooks({ root, dryRun });
     printHooksFileResult(result, dryRun, "Gemini CLI now runs Evergreen after write_file and replace.");
+    return;
+  }
+  if (hooksFor === "copilot") {
+    const result = await initCopilotHooks({ root, dryRun });
+    printHooksFileResult(result, dryRun, "GitHub Copilot now runs Evergreen after create and edit.");
     return;
   }
   const codex = hooksFor === "codex";

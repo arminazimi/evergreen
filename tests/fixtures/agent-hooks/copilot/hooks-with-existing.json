@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "type": "command",
+        "bash": "echo session started",
+        "timeoutSec": 5
+      }
+    ],
+    "postToolUse": [
+      {
+        "type": "command",
+        "matcher": "bash",
+        "command": "echo tool call logged",
+        "timeoutSec": 5
+      }
+    ]
+  }
+}

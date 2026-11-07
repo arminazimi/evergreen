@@ -1,0 +1,1 @@
+- Add the GitHub Copilot edit hook: `evergreen hook copilot` returns lifecycle findings from a `postToolUse` `create` or `edit` payload as `additionalContext`, and `init --hooks-for copilot` merges the hook into `.github/hooks/evergreen.json` for Copilot CLI and Copilot in the cloud while keeping existing hooks.

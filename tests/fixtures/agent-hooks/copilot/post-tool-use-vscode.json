@@ -1,0 +1,16 @@
+{
+  "hook_event_name": "PostToolUse",
+  "session_id": "6f1a2b3c-4d5e-4f60-8a91-b2c3d4e5f607",
+  "timestamp": "2026-11-07T10:12:31.004Z",
+  "cwd": "/Users/dev/app",
+  "tool_name": "Edit",
+  "tool_input": {
+    "file_path": "/Users/dev/app/Dockerfile",
+    "old_string": "FROM node:20",
+    "new_string": "FROM node:16"
+  },
+  "tool_result": {
+    "result_type": "success",
+    "text_result_for_llm": "Edited Dockerfile"
+  }
+}

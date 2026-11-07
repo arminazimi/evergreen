@@ -69,7 +69,7 @@ Usage:
   evergreen capabilities [--json]
   evergreen completions <bash|zsh|fish>   # print a shell completion script
   evergreen hook <host> [--fail-on <severity|none>]   # check the file an agent just wrote and answer in its hook protocol
-  evergreen init --hooks-for claude-code|codex|cursor|gemini [path] [--dry-run]   # post-edit hook for Claude Code, Codex, Cursor, or Gemini CLI
+  evergreen init --hooks-for claude-code|codex|cursor|gemini|copilot [path] [--dry-run]   # post-edit hook for Claude Code, Codex, Cursor, Gemini CLI, or GitHub Copilot
   evergreen timelapse [path] [--from <YYYY-MM>] [--to <YYYY-MM>] [--svg <file>] [--json]   # month-by-month aging: files turn red as deadlines pass
   evergreen verify [path]   # check the installed release's files against its manifest and say what it cannot check offline
   evergreen watch --board [--json]   # ranked risk board across watched projects, with trend arrows

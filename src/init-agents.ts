@@ -444,6 +444,99 @@ export async function initGeminiHooks(options: InitGeminiHooksOptions): Promise<
   return { file: GEMINI_SETTINGS_FILE, change, written: true, diff };
 }
 
+export const COPILOT_HOOKS_FILE = ".github/hooks/evergreen.json";
+export const COPILOT_HOOK_MATCHER = "create|edit";
+/** The same launcher as the other hosts: the project's own package first, the global `evergreen` bin as fallback. */
+export const COPILOT_HOOK_COMMAND = "npx --no-install evergreen-deprecation hook copilot";
+/** Copilot measures hook timeouts in seconds, so this is a minute, matching the other hosts. */
+export const COPILOT_HOOK_TIMEOUT_SEC = 60;
+
+export type InitCopilotHooksOptions = InitClaudeHooksOptions;
+export type InitCopilotHooksResult = InitClaudeHooksResult;
+
+/** Recognizes a Copilot hook this command wrote, however its launcher is spelled and whichever command field holds it. */
+const EVERGREEN_COPILOT_HOOK_COMMAND = /\bevergreen(?:-deprecation)?\b.*\bhook\s+copilot\b/;
+
+function isEvergreenCopilotEntry(entry: unknown): boolean {
+  if (!isRecord(entry)) return false;
+  return [entry.command, entry.bash, entry.powershell].some(
+    (command) => typeof command === "string" && EVERGREEN_COPILOT_HOOK_COMMAND.test(command),
+  );
+}
+
+/**
+ * Merges the `postToolUse` entry into a parsed Copilot hooks document, keeping every existing key and hook.
+ * Copilot reads every `.github/hooks/*.json` file with `version: 1` and `hooks.<event>` arrays of command
+ * hooks, and matches `postToolUse` against the runtime tool name
+ * (<https://docs.github.com/en/copilot/reference/hooks-reference>, Copilot CLI 1.0.107, 2026-11-07).
+ */
+export function withCopilotPostToolUse(document: unknown): {
+  document: Record<string, unknown>;
+  change: "added" | "unchanged";
+} {
+  if (!isRecord(document))
+    throw new AgentFileError(`${COPILOT_HOOKS_FILE} does not hold a JSON object, so it was not changed.`);
+  if (document.version !== undefined && document.version !== 1)
+    throw new AgentFileError(`${COPILOT_HOOKS_FILE} has a "version" value other than 1, so it was not changed.`);
+  const hooksValue = document.hooks;
+  if (hooksValue !== undefined && !isRecord(hooksValue)) {
+    throw new AgentFileError(`${COPILOT_HOOKS_FILE} has a "hooks" value that is not an object, so it was not changed.`);
+  }
+  const hooks: Record<string, unknown> = hooksValue === undefined ? {} : hooksValue;
+  const postValue = hooks.postToolUse;
+  if (postValue !== undefined && !Array.isArray(postValue)) {
+    throw new AgentFileError(
+      `${COPILOT_HOOKS_FILE} has a "hooks.postToolUse" value that is not an array, so it was not changed.`,
+    );
+  }
+  const postToolUse = (postValue ?? []) as unknown[];
+  if (postToolUse.some(isEvergreenCopilotEntry)) return { document: structuredClone(document), change: "unchanged" };
+  const entry = {
+    type: "command",
+    matcher: COPILOT_HOOK_MATCHER,
+    command: COPILOT_HOOK_COMMAND,
+    timeoutSec: COPILOT_HOOK_TIMEOUT_SEC,
+  };
+  return {
+    document: {
+      ...structuredClone(document),
+      version: document.version ?? 1,
+      hooks: { ...hooks, postToolUse: [...structuredClone(postToolUse), entry] },
+    },
+    change: "added",
+  };
+}
+
+/**
+ * Writes or merges the Copilot post-edit hook into `.github/hooks/evergreen.json`, preserving the user's hooks.
+ * The repo-level file is the one Copilot CLI and Copilot in the cloud both load; the instruction file that
+ * `evergreen setup` writes stays untouched.
+ */
+export async function initCopilotHooks(options: InitCopilotHooksOptions): Promise<InitCopilotHooksResult> {
+  const root = resolve(options.root);
+  const info = await lstat(root).catch(() => undefined);
+  if (!info?.isDirectory()) throw new AgentFileError(`${root} is not a directory.`);
+  const path = join(root, COPILOT_HOOKS_FILE);
+  await assertInside(root, path);
+  const before = await read(path);
+  let parsed: unknown = {};
+  if (before !== undefined) {
+    try {
+      parsed = JSON.parse(before);
+    } catch {
+      throw new AgentFileError(`${COPILOT_HOOKS_FILE} is not valid JSON, so it was not changed.`);
+    }
+  }
+  const update = withCopilotPostToolUse(parsed);
+  const text = `${JSON.stringify(update.document, null, 2)}\n`;
+  const change = before === undefined ? "created" : update.change === "unchanged" ? "unchanged" : "updated";
+  const diff = change === "unchanged" ? "" : renderDiff(COPILOT_HOOKS_FILE, before ?? "", text);
+  if (change === "unchanged" || options.dryRun) return { file: COPILOT_HOOKS_FILE, change, written: false, diff };
+  await mkdir(dirname(path), { recursive: true });
+  await writeFile(path, text);
+  return { file: COPILOT_HOOKS_FILE, change, written: true, diff };
+}
+
 export async function initAgents(options: InitAgentsOptions): Promise<InitAgentsResult> {
   const root = resolve(options.root);
   const info = await lstat(root).catch(() => undefined);
