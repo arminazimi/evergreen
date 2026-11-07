@@ -1,0 +1,35 @@
+{
+  "repository": "ZhgChgLi/ZMarkupParser",
+  "commit": "413d78df208ab9ee860ef0899a1f02145c4682cf",
+  "ecosystem": "ruby",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-snapshots.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci-snapshots.yml:13 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yml:18 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "scripts/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/.ruby-version:1 at this commit: `2.7.5`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

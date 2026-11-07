@@ -1,0 +1,7 @@
+{
+  "repository": "container-interop/container-interop",
+  "commit": "79cbf1341c22ec75643d841642dd5d6acd83bdb8",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": []
+}

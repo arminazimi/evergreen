@@ -1,0 +1,107 @@
+{
+  "repository": "hiteshchoudhary/React-native-projects",
+  "commit": "4fe66bbe38b135573d797298b1a8b038fe73df7c",
+  "ecosystem": "ruby",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "ruby.runtime.eol-2.6",
+      "path": "appwriteauth11/Gemfile.lock",
+      "line": 97,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read appwriteauth11/Gemfile.lock:97 at this commit: `ruby 2.6.10p210`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.6",
+      "path": "natigationexplore09/Gemfile.lock",
+      "line": 97,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read natigationexplore09/Gemfile.lock:97 at this commit: `ruby 2.6.10p210`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.6",
+      "path": "shopping10/Gemfile.lock",
+      "line": 97,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read shopping10/Gemfile.lock:97 at this commit: `ruby 2.6.10p210`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.6",
+      "path": "spotifymusic08/Gemfile.lock",
+      "line": 97,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read spotifymusic08/Gemfile.lock:97 at this commit: `ruby 2.6.10p210`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.6",
+      "path": "tictactoe07/Gemfile.lock",
+      "line": 97,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tictactoe07/Gemfile.lock:97 at this commit: `ruby 2.6.10p210`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "Awesome01/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Awesome01/.ruby-version:1 at this commit: `2.7.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "bgChanger04/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read bgChanger04/.ruby-version:1 at this commit: `2.7.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "currencyConverter06/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read currencyConverter06/.ruby-version:1 at this commit: `2.7.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "passwordGenerator03/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read passwordGenerator03/.ruby-version:1 at this commit: `2.7.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "rollthedice05/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read rollthedice05/.ruby-version:1 at this commit: `2.7.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "styler02/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read styler02/.ruby-version:1 at this commit: `2.7.6`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

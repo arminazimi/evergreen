@@ -1,0 +1,62 @@
+{
+  "repository": "Piplin/Piplin",
+  "commit": "6edf0a0480c449b6f6fb40d1c0f458c90cef9c9a",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "npm.package.node-sass.deprecated",
+      "path": "package.json",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:36 at this commit: `\"node-sass\": \"^4.5.3\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.node-sass.eol",
+      "path": "package.json",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:36 at this commit: `\"node-sass\": \"^4.5.3\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.doctrine.cache.abandoned",
+      "path": "composer.lock",
+      "line": 438,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:438 at this commit: `\"version\": \"v1.6.2\",` for package doctrine/cache; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.fzaninotto.faker.abandoned",
+      "path": "composer.json",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.json:42 at this commit: `\"fzaninotto/faker\": \"~1.5\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.fzaninotto.faker.abandoned",
+      "path": "composer.lock",
+      "line": 4693,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:4693 at this commit: `\"version\": \"v1.7.1\",` for package fzaninotto/faker; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.swiftmailer.swiftmailer.abandoned",
+      "path": "composer.lock",
+      "line": 2883,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:2883 at this commit: `\"version\": \"v6.0.2\",` for package swiftmailer/swiftmailer; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

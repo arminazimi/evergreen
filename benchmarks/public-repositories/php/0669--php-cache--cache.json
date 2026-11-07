@@ -1,0 +1,35 @@
+{
+  "repository": "php-cache/cache",
+  "commit": "a5a67664958cd7bdb835629d856ca48042238df3",
+  "ecosystem": "php",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "php.package.doctrine.cache.abandoned",
+      "path": "composer.json",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.json:25 at this commit: `\"doctrine/cache\": \"^2.2\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.doctrine.cache.abandoned",
+      "path": "src/Adapter/Doctrine/composer.json",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Adapter/Doctrine/composer.json:28 at this commit: `\"doctrine/cache\": \"^2.2\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.doctrine.cache.abandoned",
+      "path": "src/Bridge/Doctrine/composer.json",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Bridge/Doctrine/composer.json:21 at this commit: `\"doctrine/cache\": \"^2.2\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "repository": "thenbsp/wechat",
+  "commit": "1eef58ac53f50dc886914ef260f55d0df067af6f",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "php.package.doctrine.cache.abandoned",
+      "path": "composer.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.json:16 at this commit: `\"doctrine/cache\": \"~1.6\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

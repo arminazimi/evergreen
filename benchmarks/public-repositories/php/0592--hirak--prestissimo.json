@@ -1,0 +1,17 @@
+{
+  "repository": "hirak/prestissimo",
+  "commit": "93abf7e1ace008f6fb69c28c26b483203c0662a7",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "composer.json",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.json:14 at this commit: `\"php\": \"^5.3.2 || ^7.0\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

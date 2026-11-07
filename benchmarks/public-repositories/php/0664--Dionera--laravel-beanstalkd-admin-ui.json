@@ -1,0 +1,35 @@
+{
+  "repository": "Dionera/laravel-beanstalkd-admin-ui",
+  "commit": "664780b99bb69922bb3d55edaf1b6ae2b1e59763",
+  "ecosystem": "php",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/run-tests.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/run-tests.yml:22 at this commit: `uses: actions/cache@v1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/run-tests.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/run-tests.yml:19 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.swiftmailer.swiftmailer.abandoned",
+      "path": "composer.lock",
+      "line": 1987,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:1987 at this commit: `\"version\": \"v6.3.0\",` for package swiftmailer/swiftmailer; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "repository": "hspec/hspec",
+  "commit": "96242bf996b3eccc10cfe3406c16ffcb519b422d",
+  "ecosystem": "ruby",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/api-check.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/api-check.yml:22 at this commit: `- uses: actions/cache@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "doc/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read doc/.ruby-version:1 at this commit: `2.7.7`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

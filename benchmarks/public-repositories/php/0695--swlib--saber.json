@@ -1,0 +1,17 @@
+{
+  "repository": "swlib/saber",
+  "commit": "4bfa9d8d735a659c60b23cc95b0518540a5a12f5",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/test.yml:14 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

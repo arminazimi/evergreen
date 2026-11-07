@@ -1,0 +1,44 @@
+{
+  "repository": "jadjoubran/laravel5-angular-material-starter",
+  "commit": "a4944cc003d9f406644e50f9ee71e150ff9ec8b8",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "npm.package.babel-preset-es2015.deprecated",
+      "path": "package.json",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:10 at this commit: `\"babel-preset-es2015\": \"^6.16.0\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.fzaninotto.faker.abandoned",
+      "path": "composer.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.json:16 at this commit: `\"fzaninotto/faker\": \"~1.4\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.fzaninotto.faker.abandoned",
+      "path": "composer.lock",
+      "line": 2213,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:2213 at this commit: `\"version\": \"v1.6.0\",` for package fzaninotto/faker; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.swiftmailer.swiftmailer.abandoned",
+      "path": "composer.lock",
+      "line": 1208,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:1208 at this commit: `\"version\": \"v5.4.4\",` for package swiftmailer/swiftmailer; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

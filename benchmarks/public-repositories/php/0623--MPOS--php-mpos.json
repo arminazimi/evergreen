@@ -1,0 +1,7 @@
+{
+  "repository": "MPOS/php-mpos",
+  "commit": "236cccd5d3178e99504bf2665db8bddfed6aa176",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": []
+}

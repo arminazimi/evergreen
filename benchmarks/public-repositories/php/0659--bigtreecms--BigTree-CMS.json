@@ -1,0 +1,17 @@
+{
+  "repository": "bigtreecms/BigTree-CMS",
+  "commit": "4a641e01d41121179ea3a7709fa14e2a94c36e31",
+  "ecosystem": "php",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "core/inc/lib/slug-generator/composer.json",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read core/inc/lib/slug-generator/composer.json:14 at this commit: `\"php\": \"^7.1\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

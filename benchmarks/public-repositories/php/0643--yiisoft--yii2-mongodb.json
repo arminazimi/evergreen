@@ -1,0 +1,7 @@
+{
+  "repository": "yiisoft/yii2-mongodb",
+  "commit": "36641068a3957671c6458be4075fe2f1b437238b",
+  "ecosystem": "php",
+  "selection": "targeted",
+  "expected": []
+}

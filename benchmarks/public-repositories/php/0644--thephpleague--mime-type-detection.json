@@ -1,0 +1,26 @@
+{
+  "repository": "thephpleague/mime-type-detection",
+  "commit": "508d7991475ac31509e36dc40861febcadf38591",
+  "ecosystem": "php",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/quality-assurance.yml",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/quality-assurance.yml:32 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "composer.json",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.json:31 at this commit: `\"php\": \"7.4.0\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

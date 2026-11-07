@@ -1,0 +1,7 @@
+{
+  "repository": "opauth/opauth",
+  "commit": "3f979012d0bdf2d447bb02b97f7f7d9f482c77e8",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": []
+}

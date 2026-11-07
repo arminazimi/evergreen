@@ -1,0 +1,7 @@
+{
+  "repository": "ralouphie/getallheaders",
+  "commit": "120b605dfeb996808c31b6477290a714d356e822",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": []
+}

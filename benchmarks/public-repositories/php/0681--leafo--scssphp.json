@@ -1,0 +1,17 @@
+{
+  "repository": "leafo/scssphp",
+  "commit": "b9cdea3e42c3bcb1a9faafd04ccce4e8ec860ad9",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "composer.json",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.json:24 at this commit: `\"php\": \"^5.4.0 || ^7\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

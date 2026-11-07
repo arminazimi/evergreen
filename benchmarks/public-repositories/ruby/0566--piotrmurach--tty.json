@@ -1,0 +1,17 @@
+{
+  "repository": "piotrmurach/tty",
+  "commit": "93ab5fe253272f5f7a8d7609cdd3da3c04250b61",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yml:47 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

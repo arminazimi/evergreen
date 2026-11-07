@@ -1,0 +1,17 @@
+{
+  "repository": "binarylogic/searchlogic",
+  "commit": "074c9334df5fac4041224accb40191f46814f8c5",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "ruby.runtime.eol-2.1",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .ruby-version:1 at this commit: `2.1.2`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

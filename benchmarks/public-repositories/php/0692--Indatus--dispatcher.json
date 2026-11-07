@@ -1,0 +1,17 @@
+{
+  "repository": "Indatus/dispatcher",
+  "commit": "9548ab90d0c1e9a2ff7239f28e470de4493c00ff",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "php.package.swiftmailer.swiftmailer.abandoned",
+      "path": "composer.lock",
+      "line": 854,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:854 at this commit: `\"version\": \"v5.3.0\",` for package swiftmailer/swiftmailer; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

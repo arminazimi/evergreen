@@ -1,0 +1,26 @@
+{
+  "repository": "bitExpert/phpstan-magento",
+  "commit": "a8e4866d5135bc4c62d7a649bd3e9fbaa246317c",
+  "ecosystem": "php",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yml:19 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yml:45 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

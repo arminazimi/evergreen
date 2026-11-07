@@ -1,0 +1,26 @@
+{
+  "repository": "jianyan74/rageframe2",
+  "commit": "0486026f49b46cd4871a91d80831b84ed0de98bc",
+  "ecosystem": "php",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "php.package.fzaninotto.faker.abandoned",
+      "path": "composer.lock",
+      "line": 9090,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:9090 at this commit: `\"version\": \"v1.9.1\",` for package fzaninotto/faker; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.swiftmailer.swiftmailer.abandoned",
+      "path": "composer.lock",
+      "line": 6037,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:6037 at this commit: `\"version\": \"v6.2.3\",` for package swiftmailer/swiftmailer; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

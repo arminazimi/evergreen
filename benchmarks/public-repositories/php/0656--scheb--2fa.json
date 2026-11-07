@@ -1,0 +1,35 @@
+{
+  "repository": "scheb/2fa",
+  "commit": "14e6dac330bbd82e75c03d80877072f03380f661",
+  "ecosystem": "php",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/app.yaml",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/app.yaml:35 at this commit: `uses: docker/build-push-action@v5`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/app.yaml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/app.yaml:19 at this commit: `uses: docker/login-action@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.metadata-action.node20",
+      "path": ".github/workflows/app.yaml",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/app.yaml:25 at this commit: `uses: docker/metadata-action@v5`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

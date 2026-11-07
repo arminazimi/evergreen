@@ -1,0 +1,80 @@
+{
+  "repository": "Rebolon/php-sf-flex-webpack-encore-vuejs",
+  "commit": "74a48217d176ceb2b97008f3d73b653057b14fd3",
+  "ecosystem": "php",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "npm.package.node-sass.deprecated",
+      "path": "package.json",
+      "line": 103,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:103 at this commit: `\"node-sass\": \"^4.11.0\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.node-sass.eol",
+      "path": "package.json",
+      "line": 103,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:103 at this commit: `\"node-sass\": \"^4.11.0\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.vue.eol-2",
+      "path": "package.json",
+      "line": 80,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:80 at this commit: `\"vue\": \"^2.6.8\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.doctrine.cache.abandoned",
+      "path": "composer.lock",
+      "line": 292,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:292 at this commit: `\"version\": \"1.10.2\",` for package doctrine/cache; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.sensiolabs.security-checker.abandoned",
+      "path": "composer.json",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.json:33 at this commit: `\"sensiolabs/security-checker\": \"~6.0\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.sensiolabs.security-checker.abandoned",
+      "path": "composer.lock",
+      "line": 8125,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:8125 at this commit: `\"version\": \"v6.0.3\",` for package sensiolabs/security-checker; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "composer.json",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.json:5 at this commit: `\"php\": \"^7.4\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "composer.lock",
+      "line": 8688,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:8688 at this commit: `\"php\": \"^7.4\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

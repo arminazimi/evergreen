@@ -1,0 +1,44 @@
+{
+  "repository": "oblador/react-native-shimmer",
+  "commit": "f1c379a3f33627ec255474c3b4a1730bdfbb95c3",
+  "ecosystem": "ruby",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "npm.package.babel-eslint.deprecated",
+      "path": "package.json",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:38 at this commit: `\"babel-eslint\": \"^10.0.1\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "Example/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Example/.ruby-version:1 at this commit: `2.7.5`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "Example/Gemfile.lock",
+      "line": 97,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Example/Gemfile.lock:97 at this commit: `ruby 2.7.5p203`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "Example/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Example/Gemfile:4 at this commit: `ruby '2.7.5'`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

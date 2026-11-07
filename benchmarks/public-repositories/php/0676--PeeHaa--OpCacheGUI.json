@@ -1,0 +1,26 @@
+{
+  "repository": "PeeHaa/OpCacheGUI",
+  "commit": "7de269210b596104f6cdf59f897a6a71026f0bf4",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "composer.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.json:16 at this commit: `\"php\": \"^7\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "composer.lock",
+      "line": 1467,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:1467 at this commit: `\"php\": \"^7\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

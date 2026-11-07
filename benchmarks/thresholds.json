@@ -81,8 +81,8 @@
       "minPrecision": 0.95
     },
     "php": {
-      "level": "experimental",
-      "stable": false,
+      "level": "stable",
+      "stable": true,
       "minPrecision": 0.95
     },
     "python": {
@@ -91,8 +91,8 @@
       "minPrecision": 0.95
     },
     "ruby": {
-      "level": "experimental",
-      "stable": false,
+      "level": "stable",
+      "stable": true,
       "minPrecision": 0.95
     },
     "rust": {

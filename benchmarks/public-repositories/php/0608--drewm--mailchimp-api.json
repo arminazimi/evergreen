@@ -1,0 +1,7 @@
+{
+  "repository": "drewm/mailchimp-api",
+  "commit": "62da03fa38a0d3d855486f059c1f917976d02372",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": []
+}

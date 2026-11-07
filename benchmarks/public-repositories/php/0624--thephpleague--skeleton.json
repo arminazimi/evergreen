@@ -1,0 +1,17 @@
+{
+  "repository": "thephpleague/skeleton",
+  "commit": "785635227c0c3e1ec8a59394bf78c038a1303097",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "composer.json",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.json:20 at this commit: `\"php\" : \"~7.2\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

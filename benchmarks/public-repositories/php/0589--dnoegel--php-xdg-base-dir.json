@@ -1,0 +1,7 @@
+{
+  "repository": "dnoegel/php-xdg-base-dir",
+  "commit": "12f5b94710c8f5b504432d57ce353075fc434339",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": []
+}

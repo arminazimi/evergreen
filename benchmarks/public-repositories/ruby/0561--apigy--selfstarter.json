@@ -1,0 +1,17 @@
+{
+  "repository": "apigy/selfstarter",
+  "commit": "740075f4d3f71b2b87e8ad6c9b04ef7e50eecfcb",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "ruby.runtime.eol-2.0.0",
+      "path": "Gemfile",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Gemfile:3 at this commit: `ruby '2.0.0'`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

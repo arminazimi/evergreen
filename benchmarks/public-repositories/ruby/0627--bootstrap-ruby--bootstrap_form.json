@@ -1,0 +1,17 @@
+{
+  "repository": "bootstrap-ruby/bootstrap_form",
+  "commit": "bf07f588054378805f37381a40f55faf6f181c09",
+  "ecosystem": "ruby",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "demo/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read demo/.ruby-version:1 at this commit: `ruby-3.2.7`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

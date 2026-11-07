@@ -1,0 +1,35 @@
+{
+  "repository": "Automattic/vip-go-mu-plugins",
+  "commit": "c7f91421d46614405969627ba671f33e14c9792a",
+  "ecosystem": "php",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/release-prod.yml",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release-prod.yml:42 at this commit: `echo \"::set-output name=id::${current_date}${minor_version}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "drop-ins/wp-memcached/composer.json",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read drop-ins/wp-memcached/composer.json:27 at this commit: `\"php\": \"7.4\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "prometheus/composer.json",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read prometheus/composer.json:14 at this commit: `\"php\": \"7.4\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

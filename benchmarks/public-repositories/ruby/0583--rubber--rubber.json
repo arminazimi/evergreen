@@ -1,0 +1,7 @@
+{
+  "repository": "rubber/rubber",
+  "commit": "8f68213f2057a10228a934a6fa34ed3198be8013",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "expected": []
+}

@@ -1,0 +1,89 @@
+{
+  "repository": "cretueusebiu/laravel-vue-spa",
+  "commit": "d395d99142325298e36cf0515bb6e469062c9c04",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/tests.yml",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/tests.yml:28 at this commit: `- uses: actions/cache@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/tests.yml",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/tests.yml:35 at this commit: `- uses: actions/cache@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/tests.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/tests.yml:21 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/tests.yml",
+      "line": 87,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/tests.yml:87 at this commit: `uses: actions/upload-artifact@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/tests.yml",
+      "line": 94,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/tests.yml:94 at this commit: `uses: actions/upload-artifact@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/tests.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/tests.yml:26 at this commit: `echo \"::set-output name=dir::$(composer config cache-files-dir)\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.vue.eol-2",
+      "path": "package.json",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:21 at this commit: `\"vue\": \"^2.6.14\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.doctrine.cache.abandoned",
+      "path": "composer.lock",
+      "line": 5784,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:5784 at this commit: `\"version\": \"2.1.1\",` for package doctrine/cache; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.swiftmailer.swiftmailer.abandoned",
+      "path": "composer.lock",
+      "line": 3033,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:3033 at this commit: `\"version\": \"v6.2.7\",` for package swiftmailer/swiftmailer; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

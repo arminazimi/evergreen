@@ -18,6 +18,7 @@ import { analyzeSourceUsage, findPhpDynamicReferences } from "../../source-usage
 import { parseVersLenient, versContains } from "../../vers/index.js";
 import { parseComposerJson } from "./parse-composer-json.js";
 import { parseComposerLock } from "./parse-composer-lock.js";
+import { allowedPhpLines } from "./parse-php-constraint.js";
 import { parsePhpVersion, parseToolVersions } from "./parse-php-runtime.js";
 
 /**
@@ -154,8 +155,20 @@ function reportRuntime(
   verb: string,
 ): void {
   const version = runtimeVersion(declaration.value);
-  const rule = firstMatchingRule(runtimeRules, version);
+  const rule = firstMatchingRule(runtimeRules, version) ?? endOfLifeCeiling(runtimeRules, version);
   if (rule) reportFinding(state, rule, path, declaration.line, `${path} ${verb} PHP ${version}. ${rule.summary}`);
+}
+
+/**
+ * A constraint such as `^7.3` that can only resolve to end-of-life releases: the rule of the newest line it
+ * allows. A constraint that also allows a supported or unjudged line returns nothing.
+ */
+function endOfLifeCeiling(runtimeRules: RuleList, constraint: string): RegistryV2Rule | undefined {
+  const lines = allowedPhpLines(constraint);
+  if (!lines) return undefined;
+  const rules = lines.map((line) => firstMatchingRule(runtimeRules, `${line}.0`));
+  if (rules.some((rule) => rule === undefined)) return undefined;
+  return rules[rules.length - 1];
 }
 
 /** A direct `composer.json` package: only rules that name every version of the package apply. */

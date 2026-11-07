@@ -1,0 +1,26 @@
+{
+  "repository": "louislivi/SMProxy",
+  "commit": "743baea06dcf215a742c5772393d204a31179e0d",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:3 at this commit: `ENV SMProxy_VERSION 1.3.1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "composer.json",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.json:15 at this commit: `\"php\": \"^7.0\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

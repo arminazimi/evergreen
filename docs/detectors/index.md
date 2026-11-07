@@ -17,6 +17,8 @@ Each page documents one ecosystem detector: what it reads, what it reports, and 
 | [Go](go.md) | `go.mod` and `go.work` directives and direct require | Supported |
 | [Java and Kotlin (JVM)](java.md) | `pom.xml`, Gradle, `.java-version`, `.sdkmanrc`, `.tool-versions`, Maven deps | Beta |
 | [Kubernetes APIs](kubernetes.md) | `apiVersion`/`kind` in YAML, Helm templates, kustomization | Beta |
+| [PHP](php.md) | `.php-version`, `.tool-versions`, `composer.json`, `composer.lock` | Supported |
+| [Ruby](ruby.md) | `.ruby-version`, `.tool-versions`, `Gemfile`, `Gemfile.lock` | Supported |
 | [Rust](rust.md) | `rust-toolchain(.toml)`, `Cargo.toml`, `Cargo.lock` | Supported |
 | [Scala and sbt](scala.md) | `.scala-version`, `build.sbt`, `project/build.properties` | Experimental |
 | [Serverless runtimes](serverless.md) | SAM/CloudFormation Runtime, `serverless.yml`, Terraform runtimes | Beta |

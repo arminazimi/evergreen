@@ -1,3 +1,4 @@
+import { RUBY_REQUIREMENT } from "./parse-ruby-requirement.js";
 import { MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH, PINNED_RUBY_VERSION } from "./parse-ruby-runtime.js";
 
 /**
@@ -91,6 +92,15 @@ function literal(token: Token | undefined): token is Token & { quoted: true } {
   );
 }
 
+/** The literal pin or requirement list a `ruby` directive carries, or `undefined` for any other form. */
+function rubyDirectiveValue(requirements: Token[]): string | undefined {
+  const [only] = requirements;
+  if (requirements.length === 1 && literal(only) && PINNED_RUBY_VERSION.test(only.value)) return only.value;
+  if (requirements.length === 0) return undefined;
+  const values = requirements.map((token) => (literal(token) ? token.value.trim() : ""));
+  return values.every((value) => RUBY_REQUIREMENT.test(value)) ? values.join(", ") : undefined;
+}
+
 /** Parse the supported declarations from a Gemfile without file, network, or process I/O. */
 export function parseGemfile(contents: string): GemfileDeclaration[] {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return [];
@@ -105,9 +115,8 @@ export function parseGemfile(contents: string): GemfileDeclaration[] {
     const line = index + 1;
 
     if (first.value === "ruby") {
-      if (tokens.length === 2 && literal(second) && PINNED_RUBY_VERSION.test(second.value)) {
-        declarations.push({ kind: "ruby", value: second.value, line });
-      }
+      const value = rubyDirectiveValue(tokens.slice(1));
+      if (value !== undefined) declarations.push({ kind: "ruby", value, line });
       continue;
     }
     if (first.value === "gem") {

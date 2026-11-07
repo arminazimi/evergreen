@@ -1,0 +1,17 @@
+{
+  "repository": "trogdoro/xiki",
+  "commit": "be9b5eb87fb6eac11c70adbbb602bb71895834a8",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:1 at this commit: `FROM ubuntu:16.04`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

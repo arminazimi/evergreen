@@ -2,8 +2,8 @@ import type { ManifestEcosystem } from "../schema.js";
 
 const php: ManifestEcosystem = {
   id: "php",
-  status: "experimental",
-  maturity: "experimental",
+  status: "supported",
+  maturity: "stable",
   detectorIds: ["php"],
 };
 

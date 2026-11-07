@@ -1,0 +1,17 @@
+{
+  "repository": "Herzult/SimplePHPEasyPlus",
+  "commit": "be27402d892e46c27302af6d957af485b5ee88f3",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "php.package.doctrine.cache.abandoned",
+      "path": "composer.lock",
+      "line": 84,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:84 at this commit: `\"version\": \"v1.2.0\",` for package doctrine/cache; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "repository": "guzzle/command",
+  "commit": "818954f6a4f4c2a165e1c66d12c64abff9d5671e",
+  "ecosystem": "php",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "vendor-bin/php-cs-fixer/composer.json",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read vendor-bin/php-cs-fixer/composer.json:3 at this commit: `\"php\": \"^7.4\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "vendor-bin/phpstan/composer.json",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read vendor-bin/phpstan/composer.json:3 at this commit: `\"php\": \"^7.4\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

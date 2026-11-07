@@ -1,0 +1,17 @@
+{
+  "repository": "Netflix-Skunkworks/Scumblr",
+  "commit": "66ed69a91c65527010f970a746a87557bf9b0856",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "ruby.runtime.eol-2.3",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .ruby-version:1 at this commit: `2.3.1`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

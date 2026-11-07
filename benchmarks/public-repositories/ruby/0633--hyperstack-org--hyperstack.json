@@ -1,0 +1,89 @@
+{
+  "repository": "hyperstack-org/hyperstack",
+  "commit": "52a06b26d3ab81520bd9c5667367e880dbe90e99",
+  "ecosystem": "ruby",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "ruby.runtime.eol-2.3",
+      "path": "ruby/examples/docs/home-page/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ruby/examples/docs/home-page/.ruby-version:1 at this commit: `ruby-2.3.1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.3",
+      "path": "ruby/examples/docs/home-page/Gemfile.lock",
+      "line": 367,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ruby/examples/docs/home-page/Gemfile.lock:367 at this commit: `ruby 2.3.1p112`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.3",
+      "path": "ruby/examples/docs/home-page/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ruby/examples/docs/home-page/Gemfile:4 at this commit: `ruby '2.3.1'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.5",
+      "path": "ruby/examples/tutorials/todos/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ruby/examples/tutorials/todos/.ruby-version:1 at this commit: `ruby-2.5.3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.5",
+      "path": "ruby/examples/tutorials/todos/Gemfile.lock",
+      "line": 338,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ruby/examples/tutorials/todos/Gemfile.lock:338 at this commit: `ruby 2.5.3p105`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.5",
+      "path": "ruby/examples/tutorials/todos/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ruby/examples/tutorials/todos/Gemfile:4 at this commit: `ruby '2.5.3'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "docs/specs/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docs/specs/.ruby-version:1 at this commit: `2.7.2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "docs/specs/Gemfile.lock",
+      "line": 440,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docs/specs/Gemfile.lock:440 at this commit: `ruby 2.7.2p137`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "docs/specs/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docs/specs/Gemfile:4 at this commit: `ruby '2.7.2'`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

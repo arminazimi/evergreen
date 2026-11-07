@@ -1,0 +1,179 @@
+{
+  "repository": "Terrastories/terrastories",
+  "commit": "f6f033a17bd4a4c600ffea8bc2e773d243f88f72",
+  "ecosystem": "ruby",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "e2e/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read e2e/Dockerfile:15 at this commit: `ENV INSTALL_PATH $INSTALL_PATH`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.postgres.eol-13-and-older",
+      "path": "compose.yaml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read compose.yaml:7 at this commit: `image: postgres:11`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.ruby.eol-3.2-and-older",
+      "path": "e2e/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read e2e/Dockerfile:1 at this commit: `FROM ruby:2.5.1-slim`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.ruby.eol-3.2-and-older",
+      "path": "rails/Dockerfile",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read rails/Dockerfile:11 at this commit: `FROM ruby:3.0-alpine3.16 as devcore`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.ruby.eol-3.2-and-older",
+      "path": "rails/Dockerfile",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read rails/Dockerfile:54 at this commit: `FROM ruby:3.0-alpine3.16 as prod`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "database.postgresql.end-of-life-11",
+      "path": "compose.yaml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read compose.yaml:7 at this commit: `image: postgres:11`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/on-merge-master.yml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/on-merge-master.yml:24 at this commit: `uses: docker/build-push-action@v5`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/on-release.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/on-release.yml:22 at this commit: `uses: docker/build-push-action@v5`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/on-merge-master.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/on-merge-master.yml:19 at this commit: `uses: docker/login-action@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/on-release.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/on-release.yml:17 at this commit: `uses: docker/login-action@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-buildx-action.node20",
+      "path": ".github/workflows/on-merge-master.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/on-merge-master.yml:17 at this commit: `uses: docker/setup-buildx-action@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-buildx-action.node20",
+      "path": ".github/workflows/on-release.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/on-release.yml:15 at this commit: `uses: docker/setup-buildx-action@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-qemu-action.node20",
+      "path": ".github/workflows/on-merge-master.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/on-merge-master.yml:15 at this commit: `uses: docker/setup-qemu-action@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-qemu-action.node20",
+      "path": ".github/workflows/on-release.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/on-release.yml:13 at this commit: `uses: docker/setup-qemu-action@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.5",
+      "path": "e2e/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read e2e/.ruby-version:1 at this commit: `2.5.1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.5",
+      "path": "e2e/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read e2e/Gemfile:4 at this commit: `ruby '2.5.1'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "rails/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read rails/.ruby-version:1 at this commit: `2.7.8`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.0",
+      "path": "rails/Gemfile.lock",
+      "line": 383,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read rails/Gemfile.lock:383 at this commit: `ruby 3.0.6p216`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.0",
+      "path": "rails/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read rails/Gemfile:4 at this commit: `ruby '3.0.6'`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

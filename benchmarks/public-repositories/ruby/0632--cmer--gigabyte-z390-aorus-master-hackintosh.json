@@ -1,0 +1,26 @@
+{
+  "repository": "cmer/gigabyte-z390-aorus-master-hackintosh",
+  "commit": "c79af921baf2327099ec884a297ad2f89f45563d",
+  "ecosystem": "ruby",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .ruby-version:1 at this commit: `2.7.1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "repo_scripts/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read repo_scripts/.ruby-version:1 at this commit: `2.7.1`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

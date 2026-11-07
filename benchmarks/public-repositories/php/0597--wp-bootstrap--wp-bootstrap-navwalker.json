@@ -1,0 +1,26 @@
+{
+  "repository": "wp-bootstrap/wp-bootstrap-navwalker",
+  "commit": "11791945df1eeea3c125524d594051d73e3599f4",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "composer.json",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.json:21 at this commit: `\"php\": \"^5.5 || ^7.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "composer.lock",
+      "line": 293,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:293 at this commit: `\"php\": \"^5.5 || ^7.0\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

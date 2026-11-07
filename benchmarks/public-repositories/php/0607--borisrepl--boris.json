@@ -1,0 +1,7 @@
+{
+  "repository": "borisrepl/boris",
+  "commit": "793a5f196bc47b93ed95c5dcdacee52c7b3536fc",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": []
+}

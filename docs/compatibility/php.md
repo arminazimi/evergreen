@@ -8,7 +8,7 @@ The detector's supported declarations, what it reports, what it intentionally do
 
 ## PHP detector
 
-The `php` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories in [Validation](../validation/ecosystems.md#php-corpus) cover it. Its lifecycle rules are in `registry/php.json` and ship in the [data bundle](../DATA.md).
+The `php` detector is **supported**: its level is recorded as `stable` in `benchmarks/thresholds.json`. 108 public repositories in [Validation](../validation/ecosystems.md#php-corpus) cover it. Its lifecycle rules are in `registry/php.json` and ship in the [data bundle](../DATA.md).
 
 ### Supported files and declarations
 
@@ -23,7 +23,7 @@ Files are found by walking the repository up to eight directories deep, to at mo
 
 ### What it reports
 
-- A pinned PHP release line that is past end of life, in the `.php-version`, `.tool-versions`, `composer.json` `config.platform.php`, or `composer.lock` `platform.php` line that pins it, or an exact `require.php` version that matches a rule. The bundled rules cover PHP 8.1, 8.0, and 7.4, citing the [PHP unsupported branches](https://www.php.net/eol.php) page. A requirement range such as `>=7.4` or `^8.2` is not a pin and produces no runtime finding.
+- A pinned PHP release line that is past end of life, in the `.php-version`, `.tool-versions`, `composer.json` `config.platform.php`, or `composer.lock` `platform.php` line that pins it, an exact `require.php` version that matches a rule, or a `require.php` / `config.platform.php` constraint that allows only end-of-life lines (`^7.3`, `~7.2`, `7.4.*`, `>=7.0 <7.3`). The bundled rules cover PHP 8.1, 8.0, and 7.4, citing the [PHP unsupported branches](https://www.php.net/eol.php) page. A range that also allows a supported or unlisted release, such as `>=7.4` or `^7.4 || ^8.2`, produces no runtime finding.
 - A `composer.json` package line only when a rule covers every version of that package (`vers:composer/*`). The bundled abandoned-package rules cover `swiftmailer/swiftmailer` and `zendframework/zend-stdlib`, citing Packagist and the Symfony / Laminas announcements.
 - A resolved package in `composer.lock` when a rule's `vers` contains that version. Abandoned-package rules match any resolved version of the named package.
 
@@ -33,7 +33,7 @@ Each finding names the file and line, and carries its rule's source, replacement
 
 - PHP releases and Composer packages with no rule in `registry/php.json`. A missing finding is not evidence that a version is current.
 - A `.php-version` or `.tool-versions` value of `system` or `latest`, a template, or a value that interpolates at runtime.
-- Composer `require.php` constraints that are not concrete versions (`>=7.4`, `^8.2`, `~8.1.0`, and similar ranges).
+- Composer `require.php` constraints that allow a supported or unlisted release (`>=7.4`, `^8.2`, `^7.4 || ^8.2`).
 - Extensions (`ext-*`), floating `*` package constraints, `git` / `path` repositories, and dynamic `${…}` values in `composer.json`.
 - An `abandoned` flag in `composer.lock` without a matching lifecycle rule. Composer may mark a package abandoned; Evergreen reports it only when a reviewed rule names that package.
 - Vulnerability advisories and license policy.

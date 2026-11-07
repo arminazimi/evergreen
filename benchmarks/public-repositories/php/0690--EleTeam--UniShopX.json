@@ -1,0 +1,44 @@
+{
+  "repository": "EleTeam/UniShopX",
+  "commit": "10a26416904304206a109d60baa143cb293a47d7",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.mysql.eol-8.0-and-older",
+      "path": "docker-compose.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docker-compose.yml:26 at this commit: `image: mysql:5.7`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "database.mysql.end-of-life-5.7",
+      "path": "docker-compose.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docker-compose.yml:26 at this commit: `image: mysql:5.7`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.fzaninotto.faker.abandoned",
+      "path": "composer.lock",
+      "line": 1826,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:1826 at this commit: `\"version\": \"v1.9.1\",` for package fzaninotto/faker; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.swiftmailer.swiftmailer.abandoned",
+      "path": "composer.lock",
+      "line": 466,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:466 at this commit: `\"version\": \"v6.2.3\",` for package swiftmailer/swiftmailer; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

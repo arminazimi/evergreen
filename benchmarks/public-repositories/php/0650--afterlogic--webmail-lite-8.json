@@ -1,0 +1,35 @@
+{
+  "repository": "afterlogic/webmail-lite-8",
+  "commit": "74ec3b91df8156ce5c3497c0c3432c766c6f196a",
+  "ecosystem": "php",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build-documentation.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build-documentation.yml:13 at this commit: `- uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build.yml:13 at this commit: `- uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.doctrine.cache.abandoned",
+      "path": "composer.lock",
+      "line": 2006,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:2006 at this commit: `\"version\": \"2.2.0\",` for package doctrine/cache; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

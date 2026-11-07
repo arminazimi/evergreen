@@ -1,0 +1,35 @@
+{
+  "repository": "francescomalatesta/laravel-api-boilerplate-jwt",
+  "commit": "050a5fb6621a55b391e978243364983ba634ff92",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "php.package.fzaninotto.faker.abandoned",
+      "path": "composer.json",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.json:18 at this commit: `\"fzaninotto/faker\": \"^1.4\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.fzaninotto.faker.abandoned",
+      "path": "composer.lock",
+      "line": 3642,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:3642 at this commit: `\"version\": \"v1.8.0\",` for package fzaninotto/faker; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.swiftmailer.swiftmailer.abandoned",
+      "path": "composer.lock",
+      "line": 2054,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:2054 at this commit: `\"version\": \"v6.2.0\",` for package swiftmailer/swiftmailer; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

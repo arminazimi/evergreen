@@ -1,0 +1,26 @@
+{
+  "repository": "kirschbaum-development/nova-inline-relationship",
+  "commit": "f571a78a10156213b0c10ed49ece337f06018ff9",
+  "ecosystem": "php",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yml:21 at this commit: `- uses: actions/checkout@v1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/code-style.yml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/code-style.yml:10 at this commit: `- uses: actions/checkout@v1`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

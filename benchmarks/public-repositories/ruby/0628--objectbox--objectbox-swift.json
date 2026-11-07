@@ -1,0 +1,35 @@
+{
+  "repository": "objectbox/objectbox-swift",
+  "commit": "a6af20a3babc9fa5f4a48d552b296902412d44dd",
+  "ecosystem": "ruby",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.stale.node20",
+      "path": ".github/workflows/close-no-response.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/close-no-response.yml:21 at this commit: `- uses: actions/stale@28ca1036281a5e5922ead5184a1bbf96e5fc984e # v9.0.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.0",
+      "path": "Source/Gemfile.lock",
+      "line": 136,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Source/Gemfile.lock:136 at this commit: `ruby 3.0.3p157`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "Source/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Source/.ruby-version:1 at this commit: `3.2.7`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

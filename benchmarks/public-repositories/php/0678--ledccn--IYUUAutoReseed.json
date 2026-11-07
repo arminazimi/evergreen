@@ -1,0 +1,35 @@
+{
+  "repository": "ledccn/IYUUAutoReseed",
+  "commit": "945df1a9cbf394549e07ab57b6626946677c498e",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "Dockerfile",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:3 at this commit: `FROM alpine:3.8`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "docker/AMD64/Dockerfile",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docker/AMD64/Dockerfile:3 at this commit: `FROM alpine:3.8`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "docker/Arm64v8/Dockerfile",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docker/Arm64v8/Dockerfile:5 at this commit: `ENV TZ Asia/Shanghai`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

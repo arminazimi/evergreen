@@ -1,0 +1,7 @@
+{
+  "repository": "pinguo/php-msf",
+  "commit": "2a193c53da996c260e8aace9affa12fc2b9c08a6",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": []
+}

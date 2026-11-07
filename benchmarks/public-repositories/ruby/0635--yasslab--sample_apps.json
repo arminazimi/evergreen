@@ -1,0 +1,1385 @@
+{
+  "repository": "yasslab/sample_apps",
+  "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+  "ecosystem": "ruby",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "ruby.gem.rails-8.0.scheduled-end-of-life",
+      "path": "8_0/ch01/Gemfile.lock",
+      "line": 246,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch01/Gemfile.lock:246 at this commit: `rails (8.0.5.2)`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.gem.rails-8.0.scheduled-end-of-life",
+      "path": "8_0/ch02/Gemfile.lock",
+      "line": 246,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch02/Gemfile.lock:246 at this commit: `rails (8.0.5.2)`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.gem.rails-8.0.scheduled-end-of-life",
+      "path": "8_0/ch03/Gemfile.lock",
+      "line": 246,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch03/Gemfile.lock:246 at this commit: `rails (8.0.5.2)`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.gem.rails-8.0.scheduled-end-of-life",
+      "path": "8_0/ch04/Gemfile.lock",
+      "line": 246,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch04/Gemfile.lock:246 at this commit: `rails (8.0.5.2)`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.gem.rails-8.0.scheduled-end-of-life",
+      "path": "8_0/ch05/Gemfile.lock",
+      "line": 252,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch05/Gemfile.lock:252 at this commit: `rails (8.0.5.2)`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.gem.rails-8.0.scheduled-end-of-life",
+      "path": "8_0/ch06/Gemfile.lock",
+      "line": 253,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch06/Gemfile.lock:253 at this commit: `rails (8.0.5.2)`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.gem.rails-8.0.scheduled-end-of-life",
+      "path": "8_0/ch07/Gemfile.lock",
+      "line": 253,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch07/Gemfile.lock:253 at this commit: `rails (8.0.5.2)`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.gem.rails-8.0.scheduled-end-of-life",
+      "path": "8_0/ch08/Gemfile.lock",
+      "line": 253,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch08/Gemfile.lock:253 at this commit: `rails (8.0.5.2)`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.gem.rails-8.0.scheduled-end-of-life",
+      "path": "8_0/ch09/Gemfile.lock",
+      "line": 253,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch09/Gemfile.lock:253 at this commit: `rails (8.0.5.2)`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.gem.rails-8.0.scheduled-end-of-life",
+      "path": "8_0/ch10/Gemfile.lock",
+      "line": 257,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch10/Gemfile.lock:257 at this commit: `rails (8.0.5.2)`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.gem.rails-8.0.scheduled-end-of-life",
+      "path": "8_0/ch11/Gemfile.lock",
+      "line": 272,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch11/Gemfile.lock:272 at this commit: `rails (8.0.5.2)`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.gem.rails-8.0.scheduled-end-of-life",
+      "path": "8_0/ch12/Gemfile.lock",
+      "line": 272,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch12/Gemfile.lock:272 at this commit: `rails (8.0.5.2)`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.gem.rails-8.0.scheduled-end-of-life",
+      "path": "8_0/ch13/Gemfile.lock",
+      "line": 282,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch13/Gemfile.lock:282 at this commit: `rails (8.0.5.2)`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.gem.rails-8.0.scheduled-end-of-life",
+      "path": "8_0/ch14/Gemfile.lock",
+      "line": 282,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch14/Gemfile.lock:282 at this commit: `rails (8.0.5.2)`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.0.0",
+      "path": "4_0/ch01/Gemfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 4_0/ch01/Gemfile:2 at this commit: `ruby '2.0.0'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.0.0",
+      "path": "4_0/ch02/Gemfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 4_0/ch02/Gemfile:2 at this commit: `ruby '2.0.0'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.0.0",
+      "path": "4_0/ch04/Gemfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 4_0/ch04/Gemfile:2 at this commit: `ruby '2.0.0'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.0.0",
+      "path": "4_0/ch05/Gemfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 4_0/ch05/Gemfile:2 at this commit: `ruby '2.0.0'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.0.0",
+      "path": "4_0/ch06/Gemfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 4_0/ch06/Gemfile:2 at this commit: `ruby '2.0.0'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.0.0",
+      "path": "4_0/ch07/Gemfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 4_0/ch07/Gemfile:2 at this commit: `ruby '2.0.0'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.0.0",
+      "path": "4_0/ch08/Gemfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 4_0/ch08/Gemfile:2 at this commit: `ruby '2.0.0'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.0.0",
+      "path": "4_0/ch09/Gemfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 4_0/ch09/Gemfile:2 at this commit: `ruby '2.0.0'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.0.0",
+      "path": "4_0/ch10/Gemfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 4_0/ch10/Gemfile:2 at this commit: `ruby '2.0.0'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.0.0",
+      "path": "4_0/ch11/Gemfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 4_0/ch11/Gemfile:2 at this commit: `ruby '2.0.0'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.0.0",
+      "path": "omake/ch12_4_0/Gemfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read omake/ch12_4_0/Gemfile:2 at this commit: `ruby '2.0.0'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.0.0",
+      "path": "omake/sample_app_4_0/Gemfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read omake/sample_app_4_0/Gemfile:2 at this commit: `ruby '2.0.0'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.0.0",
+      "path": "omake/sample_app_4_1/Gemfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read omake/sample_app_4_1/Gemfile:2 at this commit: `ruby '2.0.0'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.2",
+      "path": "omake/sample_app_4_2/Gemfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read omake/sample_app_4_2/Gemfile:2 at this commit: `ruby '2.2.2'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch01/Gemfile.lock",
+      "line": 226,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch01/Gemfile.lock:226 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch01/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch01/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch02/Gemfile.lock",
+      "line": 226,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch02/Gemfile.lock:226 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch02/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch02/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch03/Gemfile.lock",
+      "line": 266,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch03/Gemfile.lock:266 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch03/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch03/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch04/Gemfile.lock",
+      "line": 266,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch04/Gemfile.lock:266 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch04/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch04/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch05/Gemfile.lock",
+      "line": 275,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch05/Gemfile.lock:275 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch05/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch05/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch06/Gemfile.lock",
+      "line": 277,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch06/Gemfile.lock:277 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch06/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch06/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch07/Gemfile.lock",
+      "line": 277,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch07/Gemfile.lock:277 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch07/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch07/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch08/Gemfile.lock",
+      "line": 277,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch08/Gemfile.lock:277 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch08/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch08/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch09/Gemfile.lock",
+      "line": 277,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch09/Gemfile.lock:277 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch09/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch09/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch10/Gemfile.lock",
+      "line": 285,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch10/Gemfile.lock:285 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch10/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch10/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch11/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch11/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch12/Gemfile.lock",
+      "line": 285,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch12/Gemfile.lock:285 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch12/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch12/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch13/Gemfile.lock",
+      "line": 314,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch13/Gemfile.lock:314 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch13/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch13/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch14/Gemfile.lock",
+      "line": 314,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch14/Gemfile.lock:314 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_0/ch14/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_0/ch14/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch01/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch01/.ruby-version:1 at this commit: `2.7.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch01/Gemfile.lock",
+      "line": 228,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch01/Gemfile.lock:228 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch01/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch01/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch02/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch02/.ruby-version:1 at this commit: `2.7.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch02/Gemfile.lock",
+      "line": 231,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch02/Gemfile.lock:231 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch02/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch02/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch03/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch03/.ruby-version:1 at this commit: `2.7.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch03/Gemfile.lock",
+      "line": 271,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch03/Gemfile.lock:271 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch03/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch03/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch04/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch04/.ruby-version:1 at this commit: `2.7.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch04/Gemfile.lock",
+      "line": 271,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch04/Gemfile.lock:271 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch04/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch04/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch05/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch05/.ruby-version:1 at this commit: `2.7.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch05/Gemfile.lock",
+      "line": 280,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch05/Gemfile.lock:280 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch05/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch05/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch06/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch06/.ruby-version:1 at this commit: `2.7.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch06/Gemfile.lock",
+      "line": 282,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch06/Gemfile.lock:282 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch06/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch06/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch07/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch07/.ruby-version:1 at this commit: `2.7.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch07/Gemfile.lock",
+      "line": 282,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch07/Gemfile.lock:282 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch07/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch07/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch08/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch08/.ruby-version:1 at this commit: `2.7.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch08/Gemfile.lock",
+      "line": 282,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch08/Gemfile.lock:282 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch08/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch08/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch09/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch09/.ruby-version:1 at this commit: `2.7.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch09/Gemfile.lock",
+      "line": 282,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch09/Gemfile.lock:282 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch09/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch09/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch10/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch10/.ruby-version:1 at this commit: `2.7.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch10/Gemfile.lock",
+      "line": 290,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch10/Gemfile.lock:290 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch10/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch10/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch11/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch11/.ruby-version:1 at this commit: `2.7.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch11/Gemfile.lock",
+      "line": 290,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch11/Gemfile.lock:290 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch11/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch11/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch12/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch12/.ruby-version:1 at this commit: `2.7.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch12/Gemfile.lock",
+      "line": 290,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch12/Gemfile.lock:290 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch12/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch12/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch13/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch13/.ruby-version:1 at this commit: `2.7.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch13/Gemfile.lock",
+      "line": 319,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch13/Gemfile.lock:319 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch13/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch13/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch14/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch14/.ruby-version:1 at this commit: `2.7.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch14/Gemfile.lock",
+      "line": 319,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch14/Gemfile.lock:319 at this commit: `ruby 2.7.6p219`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "6_1/ch14/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 6_1/ch14/Gemfile:4 at this commit: `ruby '2.7.6'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch01/Gemfile.lock",
+      "line": 416,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch01/Gemfile.lock:416 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch01/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch01/Gemfile:4 at this commit: `ruby \"3.2.11\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch02/Gemfile.lock",
+      "line": 416,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch02/Gemfile.lock:416 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch02/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch02/Gemfile:4 at this commit: `ruby \"3.2.11\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch03/Gemfile.lock",
+      "line": 416,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch03/Gemfile.lock:416 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch03/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch03/Gemfile:4 at this commit: `ruby \"3.2.11\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch04/Gemfile.lock",
+      "line": 416,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch04/Gemfile.lock:416 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch04/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch04/Gemfile:4 at this commit: `ruby \"3.2.11\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch05/Gemfile.lock",
+      "line": 423,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch05/Gemfile.lock:423 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch05/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch05/Gemfile:4 at this commit: `ruby \"3.2.11\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch06/Gemfile.lock",
+      "line": 425,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch06/Gemfile.lock:425 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch06/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch06/Gemfile:4 at this commit: `ruby \"3.2.11\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch07/Gemfile.lock",
+      "line": 425,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch07/Gemfile.lock:425 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch07/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch07/Gemfile:4 at this commit: `ruby \"3.2.11\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch08/Gemfile.lock",
+      "line": 425,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch08/Gemfile.lock:425 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch08/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch08/Gemfile:4 at this commit: `ruby \"3.2.11\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch09/Gemfile.lock",
+      "line": 425,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch09/Gemfile.lock:425 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch09/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch09/Gemfile:4 at this commit: `ruby \"3.2.11\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch10/Gemfile.lock",
+      "line": 433,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch10/Gemfile.lock:433 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch10/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch10/Gemfile:4 at this commit: `ruby \"3.2.11\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch11/Gemfile.lock",
+      "line": 433,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch11/Gemfile.lock:433 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch11/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch11/Gemfile:4 at this commit: `ruby \"3.2.11\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch12/Gemfile.lock",
+      "line": 433,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch12/Gemfile.lock:433 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch12/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch12/Gemfile:4 at this commit: `ruby \"3.2.11\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch13/Gemfile.lock",
+      "line": 467,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch13/Gemfile.lock:467 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch13/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch13/Gemfile:4 at this commit: `ruby \"3.2.11\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch14/Gemfile.lock",
+      "line": 467,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch14/Gemfile.lock:467 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "7_0/ch14/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 7_0/ch14/Gemfile:4 at this commit: `ruby \"3.2.11\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch01/Gemfile.lock",
+      "line": 454,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch01/Gemfile.lock:454 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch01/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch01/Gemfile:4 at this commit: `ruby '3.2.11'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch02/Gemfile.lock",
+      "line": 454,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch02/Gemfile.lock:454 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch02/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch02/Gemfile:4 at this commit: `ruby '3.2.11'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch03/Gemfile.lock",
+      "line": 454,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch03/Gemfile.lock:454 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch03/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch03/Gemfile:4 at this commit: `ruby '3.2.11'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch04/Gemfile.lock",
+      "line": 454,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch04/Gemfile.lock:454 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch04/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch04/Gemfile:4 at this commit: `ruby '3.2.11'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch05/Gemfile.lock",
+      "line": 461,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch05/Gemfile.lock:461 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch05/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch05/Gemfile:4 at this commit: `ruby '3.2.11'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch06/Gemfile.lock",
+      "line": 463,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch06/Gemfile.lock:463 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch06/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch06/Gemfile:4 at this commit: `ruby '3.2.11'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch07/Gemfile.lock",
+      "line": 463,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch07/Gemfile.lock:463 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch07/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch07/Gemfile:4 at this commit: `ruby '3.2.11'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch08/Gemfile.lock",
+      "line": 463,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch08/Gemfile.lock:463 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch08/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch08/Gemfile:4 at this commit: `ruby '3.2.11'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch09/Gemfile.lock",
+      "line": 463,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch09/Gemfile.lock:463 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch09/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch09/Gemfile:4 at this commit: `ruby '3.2.11'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch10/Gemfile.lock",
+      "line": 471,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch10/Gemfile.lock:471 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch10/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch10/Gemfile:4 at this commit: `ruby '3.2.11'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch11/Gemfile.lock",
+      "line": 487,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch11/Gemfile.lock:487 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch11/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch11/Gemfile:4 at this commit: `ruby '3.2.11'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch12/Gemfile.lock",
+      "line": 487,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch12/Gemfile.lock:487 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch12/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch12/Gemfile:4 at this commit: `ruby '3.2.11'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch13/Gemfile.lock",
+      "line": 502,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch13/Gemfile.lock:502 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch13/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch13/Gemfile:4 at this commit: `ruby '3.2.11'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch14/Gemfile.lock",
+      "line": 502,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch14/Gemfile.lock:502 at this commit: `ruby 3.2.11p268`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "8_0/ch14/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 8_0/ch14/Gemfile:4 at this commit: `ruby '3.2.11'`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

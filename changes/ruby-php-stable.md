@@ -1,0 +1,1 @@
+- Promote the `ruby` and `php` detectors to stable, report `require.php` and Gemfile `ruby` constraints that allow only end-of-life releases, and add 144 corpus repositories. (#1893)

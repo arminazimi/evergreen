@@ -120,6 +120,21 @@ test("a require.php constraint is not a version, and an exact platform pin is", 
   );
 });
 
+test("a require.php constraint that allows only end-of-life releases is reported at its newest line", async () => {
+  const eol = async (constraint: string) =>
+    (
+      await phpDetector.scan({
+        root: await repository({ "composer.json": `{\n  "require": {\n    "php": "${constraint}"\n  }\n}\n` }),
+      })
+    ).map((finding) => [finding.ruleId, finding.location.line]);
+  assert.deepEqual(await eol("^7.3"), [["php.runtime.eol-7.4", 3]]);
+  assert.deepEqual(await eol("~7.0"), [["php.runtime.eol-7.4", 3]]);
+  assert.deepEqual(await eol(">=7.0 <7.3"), [["php.runtime.eol-7.2", 3]]);
+  assert.deepEqual(await eol("^7.3 || ^8.0"), []);
+  assert.deepEqual(await eol("^7.4 || >=8.1"), []);
+  assert.deepEqual(await eol(">=7.0"), []);
+});
+
 test("matches the phpenv php- prefix to the runtime rule", async () => {
   const root = await repository({ ".php-version": "php-7.4.33\n" });
   const findings = await phpDetector.scan({ root });
@@ -224,14 +239,14 @@ test("a migration packet for a PHP finding names the file, steps, and verificati
   assert.ok(packet.verification.some((check) => check.command === "composer validate && vendor/bin/phpunit"));
 });
 
-test("the detector is registered and PHP is experimental in the capability manifest", () => {
+test("the detector is registered and PHP is supported and stable in the capability manifest", () => {
   assert.ok(builtInDetectors.some((detector) => detector.id === "php"));
   assert.deepEqual(
     getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "php"),
     {
       id: "php",
-      status: "experimental",
-      maturity: "experimental",
+      status: "supported",
+      maturity: "stable",
       detectorIds: ["php"],
     },
   );

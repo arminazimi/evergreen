@@ -1,0 +1,26 @@
+{
+  "repository": "reenhanced/gitreflow",
+  "commit": "f23f6a35e3242af18f12531c1656a201f7bad7d0",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/multi-ruby-tests.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/multi-ruby-tests.yml:18 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.0",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .ruby-version:1 at this commit: `3.0.0`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

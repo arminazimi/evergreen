@@ -1,0 +1,17 @@
+{
+  "repository": "edavis10/redmine",
+  "commit": "2d6f552599d0e632953372b7a942a5eaab099631",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": "Gemfile",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Gemfile:3 at this commit: `ruby '>= 2.5.0', '< 3.2.0'`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

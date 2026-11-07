@@ -1,0 +1,17 @@
+{
+  "repository": "RailsApps/rails_apps_composer",
+  "commit": "b4165ab87cebe5985bc7fa44bf4240fd1ad680f8",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "ruby.runtime.eol-2.5",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .ruby-version:1 at this commit: `ruby-2.5.0`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

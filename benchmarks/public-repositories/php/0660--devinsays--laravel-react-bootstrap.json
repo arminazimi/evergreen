@@ -1,0 +1,80 @@
+{
+  "repository": "devinsays/laravel-react-bootstrap",
+  "commit": "20d8a411f295081d066db49e038136f64dc1aa4f",
+  "ecosystem": "php",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/laravel.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/laravel.yml:15 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.babel-eslint.deprecated",
+      "path": "package.json",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:34 at this commit: `\"babel-eslint\": \"^10.1.0\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.popper.js.deprecated",
+      "path": "package.json",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:17 at this commit: `\"popper.js\": \"^1.16.1\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.fzaninotto.faker.abandoned",
+      "path": "composer.json",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.json:19 at this commit: `\"fzaninotto/faker\": \"^1.9.1\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.fzaninotto.faker.abandoned",
+      "path": "composer.lock",
+      "line": 5588,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:5588 at this commit: `\"version\": \"v1.9.2\",` for package fzaninotto/faker; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.swiftmailer.swiftmailer.abandoned",
+      "path": "composer.lock",
+      "line": 2585,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:2585 at this commit: `\"version\": \"v6.2.7\",` for package swiftmailer/swiftmailer; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "composer.json",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.json:7 at this commit: `\"php\": \"^7.4.0\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "composer.lock",
+      "line": 7688,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:7688 at this commit: `\"php\": \"^7.4.0\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

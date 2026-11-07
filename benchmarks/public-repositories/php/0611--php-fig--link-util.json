@@ -1,0 +1,17 @@
+{
+  "repository": "php-fig/link-util",
+  "commit": "10e52348a2e9ad4581f2bf3e16458f0861a88c6a",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/quality-assurance.yaml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/quality-assurance.yaml:17 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

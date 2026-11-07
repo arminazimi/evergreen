@@ -1,0 +1,17 @@
+{
+  "repository": "hamstergem/hamster",
+  "commit": "804571abcba69e12c763d68e456697e35eddcf9a",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "ruby.runtime.eol-3.0",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .ruby-version:1 at this commit: `3.0.1`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

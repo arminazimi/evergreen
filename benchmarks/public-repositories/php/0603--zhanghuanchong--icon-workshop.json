@@ -1,0 +1,98 @@
+{
+  "repository": "zhanghuanchong/icon-workshop",
+  "commit": "ff97dfe709e4dd71d5c08c16ede35d54637a0c04",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": ".node-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .node-version:1 at this commit: `11.11.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.natives.deprecated",
+      "path": "package.json",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:27 at this commit: `\"natives\": \"^1.1.6\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.popper.js.deprecated",
+      "path": "package.json",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:28 at this commit: `\"popper.js\": \"^1.12\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.vue.eol-2",
+      "path": "package.json",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:30 at this commit: `\"vue\": \"^2.5.7\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.doctrine.cache.abandoned",
+      "path": "composer.lock",
+      "line": 205,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:205 at this commit: `\"version\": \"2.1.1\",` for package doctrine/cache; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.fzaninotto.faker.abandoned",
+      "path": "composer.json",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.json:29 at this commit: `\"fzaninotto/faker\": \"^1.4\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.fzaninotto.faker.abandoned",
+      "path": "composer.lock",
+      "line": 6182,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:6182 at this commit: `\"version\": \"v1.9.2\",` for package fzaninotto/faker; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.swiftmailer.swiftmailer.abandoned",
+      "path": "composer.lock",
+      "line": 3262,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:3262 at this commit: `\"version\": \"v6.3.0\",` for package swiftmailer/swiftmailer; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "composer.json",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.json:8 at this commit: `\"php\": \"^7.3\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "composer.lock",
+      "line": 8626,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:8626 at this commit: `\"php\": \"^7.3\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

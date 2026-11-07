@@ -18,6 +18,7 @@ import { analyzeSourceUsage, findRubyDynamicReferences } from "../../source-usag
 import { parseVersLenient, versContains } from "../../vers/index.js";
 import { parseGemfile } from "./parse-gemfile.js";
 import { parseGemfileLock } from "./parse-gemfile-lock.js";
+import { allowedRubyLines } from "./parse-ruby-requirement.js";
 import { parseRubyVersion, parseToolVersions } from "./parse-ruby-runtime.js";
 
 /**
@@ -144,6 +145,18 @@ function indexRules(rules: RuleList): {
   };
 }
 
+/**
+ * A Gemfile requirement such as `>= 2.5.0, < 2.7.0` that can only resolve to end-of-life releases: the rule of
+ * the newest line it allows. A requirement that also allows a supported or unjudged line returns nothing.
+ */
+function endOfLifeCeiling(runtimeRules: RuleList, requirement: string): RegistryV2Rule | undefined {
+  const lines = allowedRubyLines(requirement.split(/\s*,\s*/));
+  if (!lines) return undefined;
+  const rules = lines.map((line) => firstMatchingRule(runtimeRules, `${line}.0`));
+  if (rules.some((rule) => rule === undefined)) return undefined;
+  return rules[rules.length - 1];
+}
+
 /** A Ruby runtime pin: the first runtime rule whose range contains it is reported with the given verb. */
 function reportRuntime(
   state: ScanState,
@@ -152,7 +165,9 @@ function reportRuntime(
   declaration: Declaration,
   verb: string,
 ): void {
-  const rule = firstMatchingRule(runtimeRules, runtimeVersion(declaration.value));
+  const rule =
+    firstMatchingRule(runtimeRules, runtimeVersion(declaration.value)) ??
+    endOfLifeCeiling(runtimeRules, declaration.value);
   if (rule)
     reportFinding(
       state,

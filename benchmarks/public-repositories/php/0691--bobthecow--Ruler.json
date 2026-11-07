@@ -1,0 +1,26 @@
+{
+  "repository": "bobthecow/Ruler",
+  "commit": "fd3f0d010fc4baa034cd3358f10d8f7eca938a32",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/php.yml",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/php.yml:36 at this commit: `uses: actions/cache@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/php.yml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/php.yml:24 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

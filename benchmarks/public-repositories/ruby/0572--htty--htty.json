@@ -1,0 +1,17 @@
+{
+  "repository": "htty/htty",
+  "commit": "8db7a36d5dffcd6eef66580f052a86bcf1f3636b",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.ruby.eol-3.2-and-older",
+      "path": "Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:1 at this commit: `FROM ruby:2-alpine`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

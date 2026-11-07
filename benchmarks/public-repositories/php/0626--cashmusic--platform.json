@@ -1,0 +1,35 @@
+{
+  "repository": "cashmusic/platform",
+  "commit": "4ebdf961d1d17850f166ab2864de7017abf169fc",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "php.package.doctrine.cache.abandoned",
+      "path": "composer.lock",
+      "line": 300,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:300 at this commit: `\"version\": \"v1.6.1\",` for package doctrine/cache; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.swiftmailer.swiftmailer.abandoned",
+      "path": "composer.json",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.json:17 at this commit: `\"swiftmailer/swiftmailer\": \"^5.4\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.package.swiftmailer.swiftmailer.abandoned",
+      "path": "composer.lock",
+      "line": 2549,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.lock:2549 at this commit: `\"version\": \"v5.4.8\",` for package swiftmailer/swiftmailer; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

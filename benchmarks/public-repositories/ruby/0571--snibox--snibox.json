@@ -1,0 +1,71 @@
+{
+  "repository": "snibox/snibox",
+  "commit": "c756dfffbf2cda8a33a66c2bc4d7da0584fcbcbe",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:16 at this commit: `ENV RAILS_ENV production`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:17 at this commit: `ENV RACK_ENV production`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:18 at this commit: `ENV NODE_ENV production`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.ruby.eol-3.2-and-older",
+      "path": "Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:1 at this commit: `FROM ruby:2.6.1-alpine3.9`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.vue.eol-2",
+      "path": "package.json",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:20 at this commit: `\"vue\": \"^2.6.10\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.6",
+      "path": "Gemfile.lock",
+      "line": 294,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Gemfile.lock:294 at this commit: `ruby 2.6.1p33`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.6",
+      "path": "Gemfile",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Gemfile:8 at this commit: `ruby '>= 2.5.0', '< 2.7.0'`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

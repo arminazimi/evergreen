@@ -8,7 +8,7 @@ The detector's supported declarations, what it reports, what it intentionally do
 
 ## Ruby detector
 
-The `ruby` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories in [Validation](../validation/ecosystems.md#ruby-corpus) cover it. Its lifecycle rules are in `registry/ruby.json` and ship in the [data bundle](../DATA.md).
+The `ruby` detector is **supported**: its level is recorded as `stable` in `benchmarks/thresholds.json`. 60 public repositories in [Validation](../validation/ecosystems.md#ruby-corpus) cover it. Its lifecycle rules are in `registry/ruby.json` and ship in the [data bundle](../DATA.md).
 
 ### Supported files and declarations
 
@@ -33,7 +33,7 @@ Each finding names the file and line, and carries its rule's source, replacement
 
 - Ruby releases and gems with no rule in `registry/ruby.json`. A missing finding is not evidence that a version is current.
 - A `.ruby-version` or `.tool-versions` value of `system` or `latest`, a template, or a value that interpolates at runtime.
-- Gemfile `ruby` directives with options or a requirement range, such as `ruby ">= 3.0"`.
+- Gemfile `ruby` directives with options, or a requirement that allows a supported or unlisted release, such as `ruby ">= 3.0"`. A requirement that allows only end-of-life lines (`ruby ">= 2.5", "< 2.7"`) is reported.
 - Dependencies declared with no version, `git` or `path` gems, `eval_gemfile`, `gemspec`, or a dynamic value (`ENV[...]`, `#{...}`, `${...}`).
 - `required_ruby_version` in a `*.gemspec`. A parser for it exists, but the detector does not read gemspec files yet, so a gemspec never produces a finding.
 - Vulnerability advisories and license policy.

@@ -1,0 +1,35 @@
+{
+  "repository": "iou90/react-native-autoheight-webview",
+  "commit": "ef4c7b161d121f7796a744d9df8a1b9c9a77ed36",
+  "ecosystem": "ruby",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "npm.package.babel-eslint.deprecated",
+      "path": "package.json",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:43 at this commit: `\"babel-eslint\": \"^10.1.0\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "demo/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read demo/.ruby-version:1 at this commit: `2.7.5`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "demo/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read demo/Gemfile:4 at this commit: `ruby '2.7.5'`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

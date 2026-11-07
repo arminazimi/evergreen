@@ -1,0 +1,26 @@
+{
+  "repository": "slimkit/plus",
+  "commit": "01c87057426d5656e4c667ea228f758dc89e7793",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "npm.package.vue.eol-2",
+      "path": "package.json",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:45 at this commit: `\"vue\": \"^2.6.14\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "composer.json",
+      "line": 148,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read composer.json:148 at this commit: `\"php\": \"7.4\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}
