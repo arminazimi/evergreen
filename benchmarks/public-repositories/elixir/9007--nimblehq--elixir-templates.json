@@ -1,0 +1,288 @@
+{
+  "repository": "nimblehq/elixir-templates",
+  "commit": "3c3ac262c404f6d3ed4379914da19d04cdaf08b3",
+  "ecosystem": "elixir",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/bump_version.yml",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 27 of .github/workflows/bump_version.yml reads `uses: actions/checkout@v3`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/bump_version.yml",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 35 of .github/workflows/bump_version.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/bump_version.yml",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 51 of .github/workflows/bump_version.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish_to_hex_pm.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 22 of .github/workflows/publish_to_hex_pm.yml reads `uses: actions/checkout@v3`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/publish_to_hex_pm.yml",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 30 of .github/workflows/publish_to_hex_pm.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/publish_to_hex_pm.yml",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 46 of .github/workflows/publish_to_hex_pm.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/reusable_mix_project.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 26 of .github/workflows/reusable_mix_project.yml reads `uses: actions/checkout@v3`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/reusable_mix_project.yml",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 34 of .github/workflows/reusable_mix_project.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/reusable_phoenix_project.yml",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 42 of .github/workflows/reusable_phoenix_project.yml reads `uses: actions/checkout@v3`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/reusable_phoenix_project.yml",
+      "line": 50,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 50 of .github/workflows/reusable_phoenix_project.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test_template.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 21 of .github/workflows/test_template.yml reads `uses: actions/checkout@v3`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/test_template.yml",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 29 of .github/workflows/test_template.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/test_template.yml",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 45 of .github/workflows/test_template.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test_template.yml",
+      "line": 73,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 73 of .github/workflows/test_template.yml reads `uses: actions/checkout@v3`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/test_template.yml",
+      "line": 81,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 81 of .github/workflows/test_template.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/test_template.yml",
+      "line": 97,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 97 of .github/workflows/test_template.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test_template.yml",
+      "line": 131,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 131 of .github/workflows/test_template.yml reads `uses: actions/checkout@v3`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/test_template.yml",
+      "line": 139,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 139 of .github/workflows/test_template.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/test_template.yml",
+      "line": 155,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 155 of .github/workflows/test_template.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/upgrade_stack.yml",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 42 of .github/workflows/upgrade_stack.yml reads `uses: actions/checkout@v3`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/upgrade_stack.yml",
+      "line": 50,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 50 of .github/workflows/upgrade_stack.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/upgrade_stack.yml",
+      "line": 66,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 66 of .github/workflows/upgrade_stack.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/verify_release_version.yml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 24 of .github/workflows/verify_release_version.yml reads `uses: actions/checkout@v3`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/verify_release_version.yml",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 32 of .github/workflows/verify_release_version.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/verify_release_version.yml",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 48 of .github/workflows/verify_release_version.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "elixir.erlang.eol-25",
+      "path": ".tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 1 of .tool-versions reads `erlang 25.2.3`. Erlang/OTP 25 is outside the three newest majors in the Erlang/OTP security policy (https://github.com/erlang/otp/security/policy). The bundled rule covers OTP 25."
+      }
+    },
+    {
+      "ruleId": "elixir.erlang.eol-25",
+      "path": ".tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 2 of .tool-versions reads `elixir 1.14.3-otp-25`. Erlang/OTP 25 is outside the three newest majors in the Erlang/OTP security policy (https://github.com/erlang/otp/security/policy). The bundled rule covers OTP 25."
+      }
+    },
+    {
+      "ruleId": "elixir.runtime.eol-1.14",
+      "path": ".tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/elixir-lang/elixir/security/policy",
+        "note": "Reviewed at this commit: line 2 of .tool-versions reads `elixir 1.14.3-otp-25`. Elixir 1.14 is outside the five most recent supported minor branches in the Elixir security policy (https://github.com/elixir-lang/elixir/security/policy). The bundled rule covers the 1.14 line."
+      }
+    }
+  ]
+}

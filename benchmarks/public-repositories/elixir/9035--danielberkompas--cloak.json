@@ -1,0 +1,7 @@
+{
+  "repository": "danielberkompas/cloak",
+  "commit": "9a3d10c351f421f5e7b208bb1021910ce3a819b0",
+  "ecosystem": "elixir",
+  "selection": "blind",
+  "expected": []
+}

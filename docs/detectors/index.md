@@ -15,7 +15,7 @@ Each page documents one ecosystem detector: what it reads, what it reports, and 
 | [Database runtimes](database.md) | Compose image tags and managed DB versions in `*.tf` | Experimental |
 | [Deno and Bun](deno.md) | Exact runtime pins in `deno.json(c)`, `bunfig.toml`, `.bun-version` | Experimental |
 | [.NET](dotnet.md) | `global.json`, project files, `Directory.Build.props`, `Directory.Packages.props`, `packages.lock.json` | Beta |
-| [Elixir and Mix](elixir.md) | `.tool-versions`, `mix.exs`, `mix.lock` | Experimental |
+| [Elixir and Mix](elixir.md) | `.tool-versions`, `mix.exs`, `mix.lock` | Supported |
 | [Go](go.md) | `go.mod` and `go.work` directives and direct require | Supported |
 | [Java and Kotlin (JVM)](java.md) | `pom.xml`, Gradle, `.java-version`, `.sdkmanrc`, `.tool-versions`, Maven deps | Beta |
 | [Kubernetes APIs](kubernetes.md) | `apiVersion`/`kind` in YAML, Helm templates, kustomization | Beta |

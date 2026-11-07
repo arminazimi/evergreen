@@ -166,14 +166,14 @@ test("a migration packet for an Elixir finding names the file, steps, and verifi
   assert.ok(packet.verification.some((check) => check.command === "elixir --version"));
 });
 
-test("the detector is registered and Elixir is experimental in the capability manifest", () => {
+test("the detector is registered and Elixir is supported in the capability manifest", () => {
   assert.ok(builtInDetectors.some((detector) => detector.id === "elixir"));
   assert.deepEqual(
     getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "elixir"),
     {
       id: "elixir",
-      status: "experimental",
-      maturity: "experimental",
+      status: "supported",
+      maturity: "stable",
       detectorIds: ["elixir"],
     },
   );

@@ -1,0 +1,48 @@
+{
+  "repository": "benvp/live_motion",
+  "commit": "a955c559555c0f86aa6e310d937676c98b1c8455",
+  "ecosystem": "elixir",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": ".gitpod.Dockerfile",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://nodejs.org/en/about/eol",
+        "note": "Reviewed at this commit: line 22 of .gitpod.Dockerfile reads `&& asdf install nodejs 16.17.1 \\`. Legacy Node.js runtime is end-of-life. Node.js end-of-life releases (https://nodejs.org/en/about/eol)."
+      }
+    },
+    {
+      "ruleId": "elixir.erlang.eol-25",
+      "path": ".tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 1 of .tool-versions reads `elixir 1.14.0-otp-25`. Erlang/OTP 25 is outside the three newest majors in the Erlang/OTP security policy (https://github.com/erlang/otp/security/policy). The bundled rule covers OTP 25."
+      }
+    },
+    {
+      "ruleId": "elixir.runtime.eol-1.14",
+      "path": ".tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/elixir-lang/elixir/security/policy",
+        "note": "Reviewed at this commit: line 1 of .tool-versions reads `elixir 1.14.0-otp-25`. Elixir 1.14 is outside the five most recent supported minor branches in the Elixir security policy (https://github.com/elixir-lang/elixir/security/policy). The bundled rule covers the 1.14 line."
+      }
+    },
+    {
+      "ruleId": "elixir.erlang.eol-25",
+      "path": ".tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 2 of .tool-versions reads `erlang 25.1`. Erlang/OTP 25 is outside the three newest majors in the Erlang/OTP security policy (https://github.com/erlang/otp/security/policy). The bundled rule covers OTP 25."
+      }
+    }
+  ]
+}

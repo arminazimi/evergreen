@@ -2,8 +2,8 @@ import type { ManifestEcosystem } from "../schema.js";
 
 const elixir: ManifestEcosystem = {
   id: "elixir",
-  status: "experimental",
-  maturity: "experimental",
+  status: "supported",
+  maturity: "stable",
   detectorIds: ["elixir"],
 };
 

@@ -1,0 +1,108 @@
+{
+  "repository": "coingaming/moon",
+  "commit": "7b2881ef1a4b8e0d0d297f92df7085e6461e4d77",
+  "ecosystem": "elixir",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build-and-test.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 17 of .github/workflows/build-and-test.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 14 of .github/workflows/release.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 17 of .github/workflows/release.yml reads `uses: docker/login-action@v3`. Unsupported docker/login-action runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 46 of .github/workflows/release.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 54 of .github/workflows/release.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 70,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 70 of .github/workflows/release.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "elixir.erlang.eol-26",
+      "path": ".tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 1 of .tool-versions reads `erlang 26.1.2`. Erlang/OTP 26 is outside the three newest majors in the Erlang/OTP security policy (https://github.com/erlang/otp/security/policy). The bundled rule covers OTP 26."
+      }
+    },
+    {
+      "ruleId": "elixir.erlang.eol-26",
+      "path": ".tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 2 of .tool-versions reads `elixir 1.15.7-otp-26`. Erlang/OTP 26 is outside the three newest majors in the Erlang/OTP security policy (https://github.com/erlang/otp/security/policy). The bundled rule covers OTP 26."
+      }
+    },
+    {
+      "ruleId": "elixir.runtime.eol-1.15",
+      "path": ".tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/elixir-lang/elixir/security/policy",
+        "note": "Reviewed at this commit: line 2 of .tool-versions reads `elixir 1.15.7-otp-26`. Elixir 1.15 is outside the five most recent supported minor branches in the Elixir security policy (https://github.com/elixir-lang/elixir/security/policy). The bundled rule covers the 1.15 line."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "Dockerfile",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://alpinelinux.org/releases/",
+        "note": "Reviewed at this commit: line 36 of Dockerfile reads `FROM alpine:3.18.2 AS app`. Alpine Linux image release lines 3.20 and older are end-of-life. Alpine Linux releases (https://alpinelinux.org/releases/)."
+      }
+    }
+  ]
+}

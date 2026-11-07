@@ -1,0 +1,88 @@
+{
+  "repository": "petalframework/petal_components",
+  "commit": "9f61e26713e886a0564f50035bf3da1d4a175366",
+  "ecosystem": "elixir",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 19 of .github/workflows/ci.yml reads `- uses: actions/checkout@v3`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 46 of .github/workflows/ci.yml reads `- uses: actions/checkout@v3`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 47 of .github/workflows/ci.yml reads `- uses: actions/setup-node@v4`. Unsupported actions/setup-node runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/ci.yml",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/nodejs/Release/blob/main/schedule.json",
+        "note": "Reviewed at this commit: line 49 of .github/workflows/ci.yml reads `node-version: \"22\"`. Node.js 22 reaches end-of-life on 2027-04-30. Node.js Release Working Group schedule (https://github.com/nodejs/Release/blob/main/schedule.json)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 69,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 69 of .github/workflows/ci.yml reads `- uses: actions/checkout@v3`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/claude-code-review.yml",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 30 of .github/workflows/claude-code-review.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/claude.yml",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 27 of .github/workflows/claude.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "elixir.erlang.eol-26",
+      "path": ".tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 1 of .tool-versions reads `erlang 26.2.1`. Erlang/OTP 26 is outside the three newest majors in the Erlang/OTP security policy (https://github.com/erlang/otp/security/policy). The bundled rule covers OTP 26."
+      }
+    }
+  ]
+}

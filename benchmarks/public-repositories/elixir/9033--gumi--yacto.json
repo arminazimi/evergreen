@@ -1,0 +1,7 @@
+{
+  "repository": "gumi/yacto",
+  "commit": "46eb1300233cf2d1c61abf3436b160a341b54077",
+  "ecosystem": "elixir",
+  "selection": "blind",
+  "expected": []
+}

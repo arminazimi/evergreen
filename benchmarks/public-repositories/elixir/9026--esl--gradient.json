@@ -1,0 +1,48 @@
+{
+  "repository": "esl/gradient",
+  "commit": "33e13fbe1ff60a49abdc638d76b77effddf3cc45",
+  "ecosystem": "elixir",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build-and-test-asdf.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 20 of .github/workflows/build-and-test-asdf.yml reads `- uses: actions/checkout@v2`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build-and-test.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 26 of .github/workflows/build-and-test.yml reads `- uses: actions/checkout@v2`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "elixir.erlang.eol-25",
+      "path": ".tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 1 of .tool-versions reads `elixir 1.13.4-otp-25`. Erlang/OTP 25 is outside the three newest majors in the Erlang/OTP security policy (https://github.com/erlang/otp/security/policy). The bundled rule covers OTP 25."
+      }
+    },
+    {
+      "ruleId": "elixir.erlang.eol-25",
+      "path": ".tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 2 of .tool-versions reads `erlang 25.0.3`. Erlang/OTP 25 is outside the three newest majors in the Erlang/OTP security policy (https://github.com/erlang/otp/security/policy). The bundled rule covers OTP 25."
+      }
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "repository": "sasa1977/elixir-in-action",
+  "commit": "4e9067ab5a98959bf5198b2b340a89af429e15c5",
+  "ecosystem": "elixir",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "elixir.erlang.eol-26",
+      "path": ".tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 1 of .tool-versions reads `erlang 26.0`. Erlang/OTP 26 is outside the three newest majors in the Erlang/OTP security policy (https://github.com/erlang/otp/security/policy). The bundled rule covers OTP 26."
+      }
+    },
+    {
+      "ruleId": "elixir.erlang.eol-26",
+      "path": ".tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 2 of .tool-versions reads `elixir 1.15.0-otp-26`. Erlang/OTP 26 is outside the three newest majors in the Erlang/OTP security policy (https://github.com/erlang/otp/security/policy). The bundled rule covers OTP 26."
+      }
+    },
+    {
+      "ruleId": "elixir.runtime.eol-1.15",
+      "path": ".tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/elixir-lang/elixir/security/policy",
+        "note": "Reviewed at this commit: line 2 of .tool-versions reads `elixir 1.15.0-otp-26`. Elixir 1.15 is outside the five most recent supported minor branches in the Elixir security policy (https://github.com/elixir-lang/elixir/security/policy). The bundled rule covers the 1.15 line."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "code_samples/ch13/todo_release/Dockerfile",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://docs.docker.com/reference/build-checks/legacy-key-value-format/",
+        "note": "Reviewed at this commit: line 32 of code_samples/ch13/todo_release/Dockerfile reads `ENV LANG en_US.UTF-8`. The Dockerfile legacy \"ENV key value\" form is deprecated. Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "code_samples/ch13/todo_release/Dockerfile",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://docs.docker.com/reference/build-checks/legacy-key-value-format/",
+        "note": "Reviewed at this commit: line 33 of code_samples/ch13/todo_release/Dockerfile reads `ENV LANGUAGE en_US:en`. The Dockerfile legacy \"ENV key value\" form is deprecated. Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "code_samples/ch13/todo_release/Dockerfile",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://docs.docker.com/reference/build-checks/legacy-key-value-format/",
+        "note": "Reviewed at this commit: line 34 of code_samples/ch13/todo_release/Dockerfile reads `ENV LC_ALL en_US.UTF-8`. The Dockerfile legacy \"ENV key value\" form is deprecated. Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/)."
+      }
+    }
+  ]
+}

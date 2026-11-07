@@ -1,0 +1,28 @@
+{
+  "repository": "DominikDolejsi/PokeAppBackend",
+  "commit": "798540ec3b90d94c565e71f301e0f9616a416887",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/actions.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 12 of .github/workflows/actions.yml reads `uses: actions/checkout@v4`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "deno.runtime.eol-1.x",
+      "path": "deno.json",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/denoland/deno/releases/tag/v2.0.0",
+        "note": "Reviewed at this commit: line 2 of deno.json reads `\"deno\": \"1.46.2\",`. Deno 1.x is end-of-life. Deno 2.0.0 Release (https://github.com/denoland/deno/releases/tag/v2.0.0)."
+      }
+    }
+  ]
+}

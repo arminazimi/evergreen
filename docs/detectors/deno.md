@@ -26,4 +26,9 @@ Rules in `registry/deno.json` use versioned, authoritative release sources:
 ## Limits
 
 - **Exact pins only**: Version ranges (e.g. `^1.0.0`, `>=1.0.0`), wildcard/floating versions (`1.x`, `1.0.*`), environment variables (`$DENO_VERSION`), and `latest` produce no finding.
+- **Files it does not read**: `.deno-version`, a `package.json` `packageManager` field, `requiredBunVersion` in `bunfig.toml`, a package `"version"` that is not one of the runtime keys above, Docker images, and CI images.
 - **Offline & Pure**: The detector reads repository files and bundled rules only. It never executes repository code, invokes external commands, or accesses the network.
+
+## Validation
+
+The detector stays **experimental**. A blind code search on 2026-11-07 found two public default-branch pins the rules cover: Bun 1.0.0 in `starlink-awaken/StrategyManager` `.bun-version`, and Deno 1.46.2 as the root `"deno"` string in `DominikDolejsi/PokeAppBackend` `deno.json`. Two repositories and two findings are below the beta minimum. The search and the narrowed-run counts are in [Validation](../VALIDATION.md#deno-and-bun-corpus).

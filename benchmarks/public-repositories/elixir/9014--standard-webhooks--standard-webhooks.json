@@ -1,0 +1,258 @@
+{
+  "repository": "standard-webhooks/standard-webhooks",
+  "commit": "ab6844147ce9cdb0d2dbf2e60d1ea85001fd2554",
+  "ecosystem": "elixir",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/csharp-lint.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 15 of .github/workflows/csharp-lint.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-dotnet.node20",
+      "path": ".github/workflows/csharp-lint.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 18 of .github/workflows/csharp-lint.yml reads `uses: actions/setup-dotnet@v4`. Unsupported actions/setup-dotnet runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": ".github/workflows/csharp-lint.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+        "note": "Reviewed at this commit: line 20 of .github/workflows/csharp-lint.yml reads `dotnet-version: 5.0.x`. .NET 5 is no longer supported. .NET and .NET Core official support policy (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/csharp-release.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 18 of .github/workflows/csharp-release.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-dotnet.node20",
+      "path": ".github/workflows/csharp-release.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 21 of .github/workflows/csharp-release.yml reads `uses: actions/setup-dotnet@v4`. Unsupported actions/setup-dotnet runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": ".github/workflows/csharp-release.yml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+        "note": "Reviewed at this commit: line 23 of .github/workflows/csharp-release.yml reads `dotnet-version: 5.0.x`. .NET 5 is no longer supported. .NET and .NET Core official support policy (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/elixir-lint.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 18 of .github/workflows/elixir-lint.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/elixir-release.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 21 of .github/workflows/elixir-release.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/go-lint.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 16 of .github/workflows/go-lint.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-go.node20",
+      "path": ".github/workflows/go-lint.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 19 of .github/workflows/go-lint.yml reads `uses: actions/setup-go@v5`. Unsupported actions/setup-go runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/java-lint.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 15 of .github/workflows/java-lint.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/java-release.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 22 of .github/workflows/java-release.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/javascript-lint.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 15 of .github/workflows/javascript-lint.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/javascript-release.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 18 of .github/workflows/javascript-release.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ruby-lint.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 15 of .github/workflows/ruby-lint.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ruby-release.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 19 of .github/workflows/ruby-release.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/rust-lint.yml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 23 of .github/workflows/rust-lint.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/rust-release.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 16 of .github/workflows/rust-release.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/rust-security.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 22 of .github/workflows/rust-security.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "libraries/csharp/StandardWebhooks.Tests/StandardWebhooks.Tests.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+        "note": "Reviewed at this commit: line 4 of libraries/csharp/StandardWebhooks.Tests/StandardWebhooks.Tests.csproj reads `<TargetFramework>net5.0</TargetFramework>`. .NET 5 is no longer supported. .NET and .NET Core official support policy (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "libraries/csharp/StandardWebhooks/StandardWebhooks.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+        "note": "Reviewed at this commit: line 4 of libraries/csharp/StandardWebhooks/StandardWebhooks.csproj reads `<TargetFrameworks>net5.0;netstandard2.0</TargetFrameworks>`. .NET 5 is no longer supported. .NET and .NET Core official support policy (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+      }
+    },
+    {
+      "ruleId": "elixir.erlang.eol-26",
+      "path": "libraries/elixir/.tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 1 of libraries/elixir/.tool-versions reads `erlang 26.1.2`. Erlang/OTP 26 is outside the three newest majors in the Erlang/OTP security policy (https://github.com/erlang/otp/security/policy). The bundled rule covers OTP 26."
+      }
+    },
+    {
+      "ruleId": "elixir.erlang.eol-26",
+      "path": "libraries/elixir/.tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 2 of libraries/elixir/.tool-versions reads `elixir 1.15.7-otp-26`. Erlang/OTP 26 is outside the three newest majors in the Erlang/OTP security policy (https://github.com/erlang/otp/security/policy). The bundled rule covers OTP 26."
+      }
+    },
+    {
+      "ruleId": "elixir.runtime.eol-1.15",
+      "path": "libraries/elixir/.tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/elixir-lang/elixir/security/policy",
+        "note": "Reviewed at this commit: line 2 of libraries/elixir/.tool-versions reads `elixir 1.15.7-otp-26`. Elixir 1.15 is outside the five most recent supported minor branches in the Elixir security policy (https://github.com/elixir-lang/elixir/security/policy). The bundled rule covers the 1.15 line."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.21",
+      "path": "libraries/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://go.dev/doc/devel/release",
+        "note": "Reviewed at this commit: line 3 of libraries/go.mod reads `go 1.21.0`. Go 1.21 is no longer supported. Go release history and support policy (https://go.dev/doc/devel/release)."
+      }
+    }
+  ]
+}

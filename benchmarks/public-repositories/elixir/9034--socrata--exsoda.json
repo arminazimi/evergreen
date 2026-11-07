@@ -1,0 +1,7 @@
+{
+  "repository": "socrata/exsoda",
+  "commit": "d836a36d173c92196ac9dbce78d67fd1c903c29f",
+  "ecosystem": "elixir",
+  "selection": "blind",
+  "expected": []
+}

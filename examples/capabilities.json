@@ -25,7 +25,7 @@
     { "id": "dart", "status": "experimental", "maturity": "experimental", "detectorIds": ["dart"] },
     { "id": "deno", "status": "experimental", "maturity": "experimental", "detectorIds": ["deno"] },
     { "id": "dotnet", "status": "supported", "maturity": "stable", "detectorIds": ["dotnet"] },
-    { "id": "elixir", "status": "experimental", "maturity": "experimental", "detectorIds": ["elixir"] },
+    { "id": "elixir", "status": "supported", "maturity": "stable", "detectorIds": ["elixir"] },
     { "id": "github-actions", "status": "supported", "maturity": "stable", "detectorIds": ["github-actions"] },
     { "id": "go", "status": "supported", "maturity": "stable", "detectorIds": ["go"] },
     { "id": "java", "status": "supported", "maturity": "stable", "detectorIds": ["java"] },

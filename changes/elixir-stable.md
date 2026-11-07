@@ -1,0 +1,1 @@
+- Promote the Elixir and Mix detector to stable. The Deno and Bun detector stays experimental: a blind code search found two public exact end-of-life pins, below the beta minimum. (#1895)

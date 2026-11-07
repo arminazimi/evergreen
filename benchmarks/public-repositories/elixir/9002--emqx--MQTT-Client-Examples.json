@@ -1,0 +1,128 @@
+{
+  "repository": "emqx/MQTT-Client-Examples",
+  "commit": "b9378547037bdb851f6e5648976573398546dcb5",
+  "ecosystem": "elixir",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "mqtt-client-Android-Kotlin/app/build.gradle",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://developer.android.com/google/play/requirements/target-sdk",
+        "note": "Reviewed at this commit: line 13 of mqtt-client-Android-Kotlin/app/build.gradle reads `targetSdk 34`. Google Play requires targetSdk 35+ for existing phone and tablet apps. Meet Google Play's target API level requirement (https://developer.android.com/google/play/requirements/target-sdk)."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "mqtt-client-C-nng/CMakeLists.txt",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://cmake.org/cmake/help/latest/release/4.0.html",
+        "note": "Reviewed at this commit: line 7 of mqtt-client-C-nng/CMakeLists.txt reads `cmake_minimum_required (VERSION 2.8.12)`. CMake policy versions older than 3.5 are removed. CMake 4.0 release notes (compatibility older than 3.5 removed) (https://cmake.org/cmake/help/latest/release/4.0.html)."
+      }
+    },
+    {
+      "ruleId": "elixir.erlang.eol-25",
+      "path": "mqtt-client-Elixir/.tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 1 of mqtt-client-Elixir/.tool-versions reads `elixir 1.14.3-otp-25`. Erlang/OTP 25 is outside the three newest majors in the Erlang/OTP security policy (https://github.com/erlang/otp/security/policy). The bundled rule covers OTP 25."
+      }
+    },
+    {
+      "ruleId": "elixir.runtime.eol-1.14",
+      "path": "mqtt-client-Elixir/.tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/elixir-lang/elixir/security/policy",
+        "note": "Reviewed at this commit: line 1 of mqtt-client-Elixir/.tool-versions reads `elixir 1.14.3-otp-25`. Elixir 1.14 is outside the five most recent supported minor branches in the Elixir security policy (https://github.com/elixir-lang/elixir/security/policy). The bundled rule covers the 1.14 line."
+      }
+    },
+    {
+      "ruleId": "elixir.erlang.eol-25",
+      "path": "mqtt-client-Elixir/.tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 2 of mqtt-client-Elixir/.tool-versions reads `erlang 25.2.3`. Erlang/OTP 25 is outside the three newest majors in the Erlang/OTP security policy (https://github.com/erlang/otp/security/policy). The bundled rule covers OTP 25."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.25",
+      "path": "mqtt-client-Go/file-transfer/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://go.dev/doc/devel/release",
+        "note": "Reviewed at this commit: line 3 of mqtt-client-Go/file-transfer/go.mod reads `go 1.25.0`. Go 1.25 is no longer supported. Go release history and support policy (https://go.dev/doc/devel/release)."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.25",
+      "path": "mqtt-client-Go/one_way-tls/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://go.dev/doc/devel/release",
+        "note": "Reviewed at this commit: line 3 of mqtt-client-Go/one_way-tls/go.mod reads `go 1.25.0`. Go 1.25 is no longer supported. Go release history and support policy (https://go.dev/doc/devel/release)."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.25",
+      "path": "mqtt-client-Go/pubsub/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://go.dev/doc/devel/release",
+        "note": "Reviewed at this commit: line 3 of mqtt-client-Go/pubsub/go.mod reads `go 1.25.0`. Go 1.25 is no longer supported. Go release history and support policy (https://go.dev/doc/devel/release)."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.25",
+      "path": "mqtt-client-Go/two_way-tls/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://go.dev/doc/devel/release",
+        "note": "Reviewed at this commit: line 3 of mqtt-client-Go/two_way-tls/go.mod reads `go 1.25.0`. Go 1.25 is no longer supported. Go release history and support policy (https://go.dev/doc/devel/release)."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "mqtt-client-React-Native/RNMQTTDemo/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://www.ruby-lang.org/en/downloads/branches/",
+        "note": "Reviewed at this commit: line 1 of mqtt-client-React-Native/RNMQTTDemo/.ruby-version reads `2.7.4`. Ruby 2.7 is end-of-life. Ruby maintenance branches (https://www.ruby-lang.org/en/downloads/branches/)."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "mqtt-client-React-Native/RNMQTTDemo/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://www.ruby-lang.org/en/downloads/branches/",
+        "note": "Reviewed at this commit: line 4 of mqtt-client-React-Native/RNMQTTDemo/Gemfile reads `ruby '2.7.4'`. Ruby 2.7 is end-of-life. Ruby maintenance branches (https://www.ruby-lang.org/en/downloads/branches/)."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "mqtt-client-React-Native/RNMQTTDemo/Gemfile.lock",
+      "line": 97,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://www.ruby-lang.org/en/downloads/branches/",
+        "note": "Reviewed at this commit: line 97 of mqtt-client-React-Native/RNMQTTDemo/Gemfile.lock reads `ruby 2.7.4p191`. Ruby 2.7 is end-of-life. Ruby maintenance branches (https://www.ruby-lang.org/en/downloads/branches/)."
+      }
+    }
+  ]
+}

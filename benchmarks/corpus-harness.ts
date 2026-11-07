@@ -25,6 +25,8 @@ export type CorpusEcosystem =
   | "rust"
   | "scala"
   | "dotnet"
+  | "deno"
+  | "elixir"
   | "swift";
 
 export interface CorpusRepositoryEntry {

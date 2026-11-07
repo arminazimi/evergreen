@@ -1,6 +1,6 @@
 # Elixir and Mix
 
-The `elixir` detector reports Elixir and Erlang/OTP releases that no longer receive security updates, and Hex packages that Hex marks retired, as declared in `.tool-versions`, `mix.exs`, and `mix.lock`. It is **experimental**: it is not yet held to the precision floor that stable detectors are (see [Decision 0013](../decisions/0013-detector-maturity.md)). Its lifecycle rules are in `registry/elixir.json` and ship with the package (see [Lifecycle data](../DATA.md)).
+The `elixir` detector reports Elixir and Erlang/OTP releases that no longer receive security updates, and Hex packages that Hex marks retired, as declared in `.tool-versions`, `mix.exs`, and `mix.lock`. It is **supported**: it is scored on the [public corpus](../VALIDATION.md) and held to the corpus precision and recall floors (see [Decision 0013](../decisions/0013-detector-maturity.md)). Its lifecycle rules are in `registry/elixir.json` and ship with the package (see [Lifecycle data](../DATA.md)).
 
 ## What it reads
 
@@ -28,7 +28,9 @@ Each finding carries its rule's source, replacement, migration steps, and verifi
 
 ## What it intentionally does not judge
 
-- `elixir:` ranges in `mix.exs`, as described above: `~> 1.14` is not a pin.
+- `elixir:` ranges in `mix.exs`, as described above: `~> 1.14` is not a pin. A public code search on 2026-11-07 for `filename:mix.exs "elixir:" "1.14"` and `"1.15"` returned ranges, not exact pins.
+- Docker and CI pins. `FROM elixir:1.14.3-alpine`, `FROM hexpm/elixir:…`, `ARG ELIXIR="1.15.4"`, an `erlef/setup-beam` matrix `elixir:` value, and a `.travis.yml` `elixir:` key are not read. Several corpus repositories contain those lines beside a judged `.tool-versions` pin; the image and workflow lines stay unjudged.
+- Erlang/OTP builds with four numeric components (`25.3.2.5`) and Elixir release candidates (`1.17.0-rc.1-otp-27`). The pin must be an exact `major.minor` or `major.minor.patch`, optionally with one `-otp-N` suffix.
 - `system`, `latest`, empty values, and interpolated strings.
 - Git, path, and in_umbrella Mix dependencies.
 - Vulnerability advisories, license policy, and whether a newer version of a package exists.
@@ -40,3 +42,7 @@ Each finding carries its rule's source, replacement, migration steps, and verifi
 - `mix.exs` is read line by line, not as an Elixir AST. A dep or `elixir:` value that spans lines, or uses a non-string constraint, is not matched.
 - `mix.lock` reads Hex entries only. Git and path lock entries produce no finding.
 - Monorepos are scanned file by file; findings in umbrella children are reported like any other.
+
+## Validation
+
+The corpus holds 36 pinned Elixir repositories, all selected blind on 2026-11-07: 32 with reviewed Elixir or Erlang findings and four with none (`sasa1977/soul_of_erlang_and_elixir`, `gumi/yacto`, `socrata/exsoda`, and `danielberkompas/cloak`). The 73 expected Elixir and Erlang findings were reviewed by reading each pinned line against the Elixir and Erlang/OTP security policies. The selection rule, the Docker and CI boundary, and the narrowed-run counts are in [Validation](../VALIDATION.md#elixir-and-mix-corpus).

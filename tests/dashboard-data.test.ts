@@ -42,11 +42,12 @@ test("every detector in thresholds.json has a row, with the configured level nex
     assert.deepEqual(detector.evidence, evidence);
     assert.equal(detector.earnedLevel, earnedLevel(evidence));
   }
-  // After #1900 every detector's configured level matches the evidence it earns. Gaps remain
-  // allowed in principle (grandfathered Supported, or an under-promoted beta); none are open today.
+  // After #1900 every detector's configured level matches the evidence it earns, except Android.
+  // The Elixir corpus records one `targetSdk 34` finding, which brings Android to the beta evidence
+  // minimum. Promoting Android is a separate change; the gap is an under-promoted beta, which stays visible.
   assert.deepEqual(
     data.detectors.filter((detector) => detector.level !== detector.earnedLevel).map((detector) => detector.id),
-    [],
+    ["android"],
   );
 });
 
@@ -98,9 +99,12 @@ test("the evidence counts agree with the reviewed corpus", () => {
   // The pinned Go, Java, and Rust workflows add 36 command findings in seven repositories (#2447).
   // The Java and Scala stable corpus (#1896), Swift/.NET (#1900), and C/C++/Shell (#1897)
   // promotions together raise cross-detector evidence counted here.
+  // The Elixir stable corpus and the two Deno/Bun pins add 139 GitHub Actions findings in 24 new
+  // repositories, 4 .NET findings in one repository, 3 Ruby findings in one repository, and 1 C/C++
+  // finding in one repository.
   assert.deepEqual(counts(evidence["github-actions"]!), {
-    repositoriesWithFindings: 381,
-    expectedFindings: 2444,
+    repositoriesWithFindings: 405,
+    expectedFindings: 2583,
     zeroFindingRepositories: 4,
   });
   assert.deepEqual(counts(evidence["npm"]!), {
@@ -109,8 +113,8 @@ test("the evidence counts agree with the reviewed corpus", () => {
     zeroFindingRepositories: 18,
   });
   assert.deepEqual(counts(evidence["dotnet"]!), {
-    repositoriesWithFindings: 64,
-    expectedFindings: 586,
+    repositoriesWithFindings: 65,
+    expectedFindings: 590,
     zeroFindingRepositories: 9,
   });
   assert.deepEqual(counts(evidence["php"]!), {
@@ -119,8 +123,8 @@ test("the evidence counts agree with the reviewed corpus", () => {
     zeroFindingRepositories: 53,
   });
   assert.deepEqual(counts(evidence["ruby"]!), {
-    repositoriesWithFindings: 59,
-    expectedFindings: 272,
+    repositoriesWithFindings: 60,
+    expectedFindings: 275,
     zeroFindingRepositories: 23,
   });
   assert.deepEqual(counts(evidence["swift"]!), {
@@ -129,8 +133,8 @@ test("the evidence counts agree with the reviewed corpus", () => {
     zeroFindingRepositories: 15,
   });
   assert.deepEqual(counts(evidence["cpp"]!), {
-    repositoriesWithFindings: 21,
-    expectedFindings: 247,
+    repositoriesWithFindings: 22,
+    expectedFindings: 248,
     zeroFindingRepositories: 4,
   });
   assert.deepEqual(counts(evidence["ci-images"]!), {
@@ -167,6 +171,16 @@ test("the evidence counts agree with the reviewed corpus", () => {
     repositoriesWithFindings: 51,
     expectedFindings: 77,
     zeroFindingRepositories: 12,
+  });
+  assert.deepEqual(counts(evidence["elixir"]!), {
+    repositoriesWithFindings: 32,
+    expectedFindings: 73,
+    zeroFindingRepositories: 4,
+  });
+  assert.deepEqual(counts(evidence["deno"]!), {
+    repositoriesWithFindings: 2,
+    expectedFindings: 2,
+    zeroFindingRepositories: 0,
   });
 });
 

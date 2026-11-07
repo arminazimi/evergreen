@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Promote the Elixir and Mix detector to stable. The Deno and Bun detector stays experimental: a blind code search found two public exact end-of-life pins, below the beta minimum. (#1895)
 - Promote the `scala` and `java` detectors to stable, wire a `scala` public corpus ecosystem, and add 88 corpus repositories (8 Java, 80 Scala) with independent maintainer-review ground truth. (#1896)
 - Promote the C/C++ and Shell/PowerShell detectors to stable after growing their reviewed corpora to the Supported evidence gates. (#1897)
 - Replay the last data releases on pinned repositories (`npm run replay:data`, workflow `data-replay`) and fail when a finding changes for a reason no added, removed, or edited rule explains. (#2171)

@@ -1,0 +1,48 @@
+{
+  "repository": "dvcrn/chatgpt-ui",
+  "commit": "8aaf0cd2e14395f44a95a1ab58f4d2339b9f7c44",
+  "ecosystem": "elixir",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "elixir.erlang.eol-26",
+      "path": ".tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 1 of .tool-versions reads `elixir 1.15.6-otp-26`. Erlang/OTP 26 is outside the three newest majors in the Erlang/OTP security policy (https://github.com/erlang/otp/security/policy). The bundled rule covers OTP 26."
+      }
+    },
+    {
+      "ruleId": "elixir.runtime.eol-1.15",
+      "path": ".tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/elixir-lang/elixir/security/policy",
+        "note": "Reviewed at this commit: line 1 of .tool-versions reads `elixir 1.15.6-otp-26`. Elixir 1.15 is outside the five most recent supported minor branches in the Elixir security policy (https://github.com/elixir-lang/elixir/security/policy). The bundled rule covers the 1.15 line."
+      }
+    },
+    {
+      "ruleId": "elixir.erlang.eol-26",
+      "path": ".tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 2 of .tool-versions reads `erlang 26.2.1`. Erlang/OTP 26 is outside the three newest majors in the Erlang/OTP security policy (https://github.com/erlang/otp/security/policy). The bundled rule covers OTP 26."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "Dockerfile",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://alpinelinux.org/releases/",
+        "note": "Reviewed at this commit: line 24 of Dockerfile reads `FROM alpine:3.17 AS app`. Alpine Linux image release lines 3.20 and older are end-of-life. Alpine Linux releases (https://alpinelinux.org/releases/)."
+      }
+    }
+  ]
+}

@@ -118,6 +118,55 @@ Ground truth: every finding in these repositories, from every detector, was read
 
 Across the 78 Rust corpus entries, 36 have expected Rust findings, 28 have no findings at all, and 53 of the 78 were selected blind (68%). A narrowed run of both ecosystems on 2026-11-01 reported 61 expected Rust findings, 61 true positives, no false positives, and no false negatives. The full run the same day reported all 63 Rust findings the corpus expects across every ecosystem, with no false positives and no false negatives.
 
+## Deno and Bun corpus
+
+Issue #1895 pinned two blind repositories, one Bun and one Deno. That is the whole eligible set from the rule below. `starlink-awaken/StrategyManager` pins Bun `1.0.0` in `.bun-version`. `DominikDolejsi/PokeAppBackend` pins Deno `1.46.2` as the root `"deno"` string in `deno.json`. Both also use `actions/checkout@v4`, recorded for the GitHub Actions detector.
+
+Two repositories and two expected Deno or Bun findings are below the beta minimum (8 repositories with findings and 15 findings) and the stable minimum (20 and 60). The `deno` detector stays experimental, and so does the Bun capability, which uses the same detector. No zero-finding Deno entry was added: current `.bun-version` pins in the searched pages sit next to other ecosystems' manifests, so an empty `expected` list was not available from that walk.
+
+Every finding in these two repositories was read at its pinned line and recorded with a `maintainer-review` note. Deno dates come from the [Deno 2.0.0 release](https://github.com/denoland/deno/releases/tag/v2.0.0), Bun dates from the [Bun 1.1.0 release](https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0). A narrowed run on 2026-11-07 reported 2 true positives, no false positives, and no false negatives for the `deno` detector.
+
+## Deno and Bun blind selection
+
+The blind rule, fixed on 2026-11-07 before Evergreen ran on these additions.
+
+Bun: for each of `1.0.0` through `1.0.36`, and `0.5.7`, `0.6.0`, `0.7.0`, `0.7.3`, `0.8.0`, `0.8.1`, GitHub code search `filename:.bun-version <version>`. Keep a repository when the path ends in `.bun-version` (not `.bun-version.json`) and the first non-comment line is that exact pin. `1.0.0` returned 4 hits: this repository's gallery and fixtures, `xsyetopz/versionlens-redux` (a `.bun-version.json` catalog, not a pin the detector reads), and `starlink-awaken/StrategyManager`. Every other searched 1.0 patch and 0.x version returned 0.
+
+Deno: for each of `1.46.3`, `1.46.2`, `1.46.1`, `1.45.5`, `1.44.4`, `1.43.6`, `1.42.4`, `1.41.3`, `1.40.5`, `1.39.4`, `1.38.5`, `1.37.2`, `1.36.4`, `1.34.3`, `1.32.1`, `1.30.0`, `1.28.0`, `1.20.6`, and `1.11.5`, code search `filename:deno.json "deno": "<version>"`. Keep a hit only when that string is a runtime pin, not a version catalog, an npm specifier, a `$schema` URL, or a CVE record. The same text matches an `engines.deno` pin. The only eligible pin was `DominikDolejsi/PokeAppBackend` at `1.46.2`. The repeating non-pins were `so1ve/js-toolchain-overlay` `versions/deno.json` and `imranur-rahman/update-metrics` `data/libraries/project/CARGO_deno.json`.
+
+Not judged, and not counted as misses: `.deno-version` (63 indexed files; the detector does not read it), `"deno": ">=…"` ranges, `devDependencies.deno`, `requiredBunVersion`, a package `version` in `bunfig.toml`, and Docker or CI images.
+
+Skip forks, archived repositories, repositories already in the corpus, `arminazimi/evergreen`, and repositories larger than 50,000 KB. Pin the default-branch commit. The queries return different results on another day, so the pinned list above, not a re-run, is the record.
+
+## Elixir and Mix corpus
+
+Issue #1895 added 36 Elixir entries, every one of them blind. Thirty-two have expected Elixir or Erlang findings and four have none: `sasa1977/soul_of_erlang_and_elixir` (Elixir 1.17.2, OTP 27), `gumi/yacto` (Elixir 1.17.2, OTP 27.0.1), `socrata/exsoda` (Elixir 1.17.3, OTP 27.3), and `danielberkompas/cloak` (Elixir 1.19.5, OTP 28.4).
+
+The finding repositories, in the order the rule below kept them, are `smpallen99/coherence`, `elixir-crawly/crawly`, `emqx/MQTT-Client-Examples`, `bitcrowd/chromic_pdf`, `peek-travel/cocktail`, `supabase/libcluster_postgres`, `TheAlgorithms/Elixir`, `nimblehq/elixir-templates`, `implicitly-awesome/exop`, `benvp/live_motion`, `AccessOwl/open_owl`, `davydog187/timescale`, `sasa1977/elixir-in-action`, `sasa1977/boundary`, `standard-webhooks/standard-webhooks`, `coingaming/moon`, `danielberkompas/elasticsearch-elixir`, `revelrylabs/text_chunker_ex`, `fredwu/opq`, `acalejos/merquery`, `crertel/graphmath`, `navinpeiris/geoip`, `dvcrn/chatgpt-ui`, `commanded/commanded-ecto-projections`, `aviacommerce/avia`, `Hubs-Foundation/reticulum`, `esl/gradient`, `revelrylabs/ecto_soft_delete`, `elixir-desktop/desktop`, `fredwu/crawler`, `petalframework/petal_components`, and `sasa1977/con_cache`.
+
+Every finding in these repositories, from every detector, was read at its pinned line and recorded with a `maintainer-review` note naming the path and line. Elixir dates come from the [Elixir security policy](https://github.com/elixir-lang/elixir/security/policy), OTP dates from the [Erlang/OTP security policy](https://github.com/erlang/otp/security/policy), and the other detectors' facts from their own vendor sources. Nothing in these entries is taken from Evergreen's output.
+
+The files the detector reads are present across the set: every finding comes from a `.tool-versions` pin, and nearly every repository also has a `mix.exs` and a `mix.lock`. Exact `elixir: "1.14.x"` pins in `mix.exs` were not in the first pages of code search (the hits were `~> 1.14` ranges, which the detector does not judge). `filename:mix.exs fennec`, `filename:mix.lock fennec`, and `fennec language:Elixir` on 2026-11-07 returned no public consumer of the retired Hex package outside this repository's fixtures.
+
+Docker and CI pins are in the corpus and are not judged. Examples read at the pinned commit: `dvcrn/chatgpt-ui` `FROM elixir:1.14.3-alpine`, `sasa1977/elixir-in-action` `ARG ELIXIR="1.15.4"`, `coingaming/moon` `FROM heathmont/elixir-ci:1.15.6-otp-26-alpine`, `petalframework/petal_components` `FROM hexpm/elixir:1.17.2-erlang-26.2.1-debian-bookworm-20260610-slim`, and `erlef/setup-beam` matrices in `revelrylabs/text_chunker_ex` and `Hubs-Foundation/reticulum`. `socrata/exsoda` names Elixir in `.travis.yml` and is a zero-finding repository.
+
+Across the 36 entries, 32 have expected Elixir or Erlang findings (73 of them), four have none, and all 36 were selected blind. A narrowed run of `node dist/benchmarks/public-repositories.js --offline --ecosystem elixir` on 2026-11-07 reported 73 true positives, no false positives, and no false negatives for the `elixir` detector (precision 1, recall 1).
+
+## Elixir and Mix blind selection
+
+The blind rule, fixed on 2026-11-07 before Evergreen ran on these additions: GitHub code search (`gh api search/code`, 100 results per page) in this order.
+
+1. `filename:.tool-versions "elixir 1.14"` — keep the first 12 eligible repositories whose file has at least one covered pin.
+2. `filename:.tool-versions "elixir 1.15"` — the first 12 not already kept.
+3. `filename:.tool-versions "erlang 25"` — the first 4 not already kept.
+4. `filename:.tool-versions "erlang 26"` — the first 4 not already kept.
+
+Zero-finding repositories: `filename:.tool-versions "elixir 1.17"`, `"elixir 1.18"`, or `"elixir 1.19"`. Keep a repository only when the file names elixir and erlang and no other tool, contains neither Elixir 1.14 or 1.15 nor OTP 25 or 26 (including an `-otp-25` or `-otp-26` suffix), and the default-branch tree has no Dockerfile, Containerfile, Compose file, `.github/workflows` file, `package.json`, `go.mod`, `Cargo.toml`, `pyproject.toml`, `Gemfile`, `composer.json`, `pom.xml`, `build.gradle`, `requirements.txt`, or `*.csproj`. Take four.
+
+Skip forks, archived repositories, repositories already in the corpus, `arminazimi/evergreen`, paths that are not `.tool-versions`, paths under `deps`, `_build`, or `node_modules`, and repositories whose GitHub disk usage is over 50,000 KB. Pin each at its default-branch commit on that date. Search totals that day: Elixir 1.14 was 425, Elixir 1.15 was 343, OTP 25 was 471, OTP 26 was 746, Elixir 1.17 was 378, Elixir 1.18 was 630, and Elixir 1.19 was 462. The queries return different results on another day, so the pinned list above, not a re-run, is the record.
+
+Covered pins were classified by an independent reading of the `.tool-versions` lines (exact `major.minor` or `major.minor.patch`, plus one `-otp-N` suffix), not by an Evergreen scan. A four-component OTP version such as `25.3.2.5` is not an exact pin and was not counted.
+
 ## The 300-repository corpus
 
 Moved to [Validation corpus: The 300-repository corpus](validation/corpus.md#the-300-repository-corpus).
@@ -227,7 +276,7 @@ Measured on 557 pinned repositories at commit `dcc9f320` on 2026-11-06. Regenera
 | database | Experimental | 20 | 0 | 0 | 1.000 | 1.000 |
 | deno | Experimental | 0 | 0 | 0 | n/a | n/a |
 | dotnet | Supported | 304 | 0 | 0 | 1.000 | 1.000 |
-| elixir | Experimental | 0 | 0 | 0 | n/a | n/a |
+| elixir | Supported | 0 | 0 | 0 | n/a | n/a |
 | github-actions | Supported | 1262 | 0 | 0 | 1.000 | 1.000 |
 | go | Supported | 111 | 0 | 0 | 1.000 | 1.000 |
 | java | Supported | 61 | 0 | 0 | 1.000 | 1.000 |

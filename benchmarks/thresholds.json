@@ -46,8 +46,8 @@
       "minPrecision": 0.95
     },
     "elixir": {
-      "level": "experimental",
-      "stable": false,
+      "level": "stable",
+      "stable": true,
       "minPrecision": 0.95
     },
     "go": {

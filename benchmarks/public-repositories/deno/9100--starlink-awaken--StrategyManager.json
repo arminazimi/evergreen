@@ -1,0 +1,38 @@
+{
+  "repository": "starlink-awaken/StrategyManager",
+  "commit": "94bcd3e5639df17626362d1dc6efba8a1aa9a47e",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "deno.bun.runtime.eol-1.0",
+      "path": ".bun-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0",
+        "note": "Reviewed at this commit: line 1 of .bun-version reads `1.0.0`. Bun 1.0.x is end-of-life. Bun 1.1.0 Release (https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 19 of .github/workflows/test.yml reads `uses: actions/checkout@v4`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test.yml",
+      "line": 72,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 72 of .github/workflows/test.yml reads `uses: actions/checkout@v4`. Unsupported actions/checkout runtime. Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    }
+  ]
+}
