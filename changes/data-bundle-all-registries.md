@@ -1,0 +1,1 @@
+- Ship the deno, elixir, php, and scala registries in the signed data bundle so pinned-data scans work for every built-in detector.

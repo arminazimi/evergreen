@@ -1,3 +1,5 @@
+import { EvergreenError } from "../../src/evergreen-error.js";
+
 export interface ScaffoldNames {
   /** The detector id: lowercase letters, digits, and single hyphens. */
   id: string;
@@ -23,9 +25,9 @@ export interface RuleScaffoldNames {
   ecosystem: string;
 }
 
-export class ScaffoldError extends Error {
+export class ScaffoldError extends EvergreenError {
   constructor(message: string) {
-    super(message);
+    super("scaffold-failed", message);
     this.name = "ScaffoldError";
   }
 }

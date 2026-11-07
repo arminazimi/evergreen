@@ -199,9 +199,6 @@ const isRegistryOrShaMap = (value: unknown): boolean => {
 };
 
 /** A registry with no rules, standing in for a file a release did not have yet (its rules then count as added). */
-/** Registries detectors read that the data bundle does not carry yet; the replay installs them itself. */
-const UNBUNDLED_ECOSYSTEMS = ["deno", "elixir", "php", "scala"] as const;
-
 const emptyFile = (path: string): unknown =>
   path === SHA_MAP_PATH
     ? { schemaVersion: "evergreen.github-actions-shas.v1", actions: {} }
@@ -231,7 +228,7 @@ function normalizeRelease(files: ReleaseFiles): ReleaseFiles {
         }
       : value;
   }
-  for (const ecosystem of [...BUNDLED_ECOSYSTEMS, ...UNBUNDLED_ECOSYSTEMS])
+  for (const ecosystem of BUNDLED_ECOSYSTEMS)
     result[`registry/${ecosystem}.json`] ??= emptyFile(`registry/${ecosystem}.json`);
   result[SHA_MAP_PATH] ??= emptyFile(SHA_MAP_PATH);
   return result;
@@ -265,8 +262,8 @@ export async function loadReleases(count: number): Promise<Release[]> {
 /**
  * Writes `release` as a bundle into a data cache directory and returns the version to pin. The bundle is built
  * with the real builder, so the replay reads data through the same path as a pinned user does; only the
- * signature check is replaced, because replayed data was not signed for this run. Registries the builder does
- * not ship yet (deno, elixir, php, scala) are added so every detector has its data.
+ * signature check is replaced, because replayed data was not signed for this run. A registry the release has but
+ * the builder no longer ships is added so every detector still has its data.
  */
 async function installRelease(cache: string, release: Release, revision: number): Promise<string> {
   const root = await mkdtemp(join(tmpdir(), "evergreen-replay-data-"));

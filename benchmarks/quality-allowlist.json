@@ -204,14 +204,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/glance.ts",
-      "function": "renderGlance",
-      "lines": 70,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/mcp-http.ts",
       "function": "createLookupGuard",
       "lines": 55,
@@ -292,32 +284,7 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     }
   ],
-  "complexity": [
-    {
-      "file": "src/glance.ts",
-      "function": "renderGlance",
-      "complexity": 24,
-      "owner": "#2273",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/guard.ts",
-      "function": "splitNpmSpec",
-      "complexity": 19,
-      "owner": "#2273",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/init-personal.ts",
-      "function": "initPersonal",
-      "complexity": 19,
-      "owner": "#2273",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    }
-  ],
+  "complexity": [],
   "asUnknownAs": [],
   "nonNull": [],
   "boundaries": [],

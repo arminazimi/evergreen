@@ -177,6 +177,16 @@ test("the command creates the skeleton from a checkout, and explains itself else
   assert.equal(again.code, 2);
   assert.match(again.stderr, /Nothing was written/);
 
+  const rejected = await run(["new-detector", "Bad_Id", "--json"], checkout);
+  assert.equal(rejected.code, 2);
+  const document = JSON.parse(rejected.stdout) as {
+    schemaVersion: string;
+    error: { code: string; reason: string };
+  };
+  assert.equal(document.schemaVersion, "evergreen.error.v1");
+  assert.equal(document.error.code, "usage");
+  assert.equal(document.error.reason, "scaffold-failed");
+
   const outside = await mkdtemp(join(tmpdir(), "evergreen-outside-"));
   roots.push(outside);
   assert.match((await run(["new-detector", "tiny-lang"], outside)).stderr, /checkout of the Evergreen repository/);

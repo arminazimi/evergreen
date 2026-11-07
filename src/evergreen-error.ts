@@ -20,6 +20,7 @@ export const ERROR_CODES = {
   "invalid-config": "usage",
   "invalid-data-version": "usage",
   "unknown-command": "usage",
+  "scaffold-failed": "usage",
   "finding-not-found": "data",
   "finding-not-observed": "data",
   "data-unavailable": "data",

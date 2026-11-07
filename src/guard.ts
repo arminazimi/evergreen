@@ -242,31 +242,45 @@ function checkableVersion(version: string | undefined): string | undefined {
   return range === null ? undefined : semver.minVersion(range)?.version;
 }
 
-function splitNpmSpec(spec: string): { name: string; version?: string } | undefined {
-  if (spec === "" || spec.startsWith(".") || spec.startsWith("/") || spec.startsWith("~")) return undefined;
+/** Whether the argument names a registry package rather than a path, URL, VCS spec, or alias. */
+function isRegistrySpec(spec: string): boolean {
+  if (spec === "" || spec.startsWith(".") || spec.startsWith("/") || spec.startsWith("~")) return false;
   // file:, git:, https:, workspace:, npm: aliases and similar non-registry specs are left to npm.
-  if (/^[A-Za-z][A-Za-z0-9+.-]*:/.test(spec)) return undefined;
+  return !/^[A-Za-z][A-Za-z0-9+.-]*:/.test(spec);
+}
 
-  let name: string;
-  let version: string | undefined;
-  if (spec.startsWith("@")) {
-    const slash = spec.indexOf("/");
-    if (slash <= 1) return undefined;
-    const at = spec.indexOf("@", slash + 1);
-    name = at === -1 ? spec : spec.slice(0, at);
-    version = at === -1 ? undefined : spec.slice(at + 1);
-  } else {
-    const at = spec.indexOf("@");
-    name = at === -1 ? spec : spec.slice(0, at);
-    version = at === -1 ? undefined : spec.slice(at + 1);
-  }
-  if (!npmName.test(name)) return undefined;
-  if (
-    version !== undefined &&
-    (version === "" || version.includes("/") || version.startsWith("npm:") || !npmVersion.test(version))
-  )
-    return undefined;
-  return { name, ...(version === undefined ? {} : { version }) };
+interface NpmSpec {
+  name: string;
+  version?: string;
+}
+
+/** Splits `@scope/name` or `@scope/name@version`; a scoped name without a slash is not a package. */
+function splitScopedSpec(spec: string): NpmSpec | undefined {
+  const slash = spec.indexOf("/");
+  if (slash <= 1) return undefined;
+  const at = spec.indexOf("@", slash + 1);
+  return at === -1 ? { name: spec } : { name: spec.slice(0, at), version: spec.slice(at + 1) };
+}
+
+/** Splits `name` or `name@version`. */
+function splitUnscopedSpec(spec: string): NpmSpec {
+  const at = spec.indexOf("@");
+  return at === -1 ? { name: spec } : { name: spec.slice(0, at), version: spec.slice(at + 1) };
+}
+
+/** Whether an optional version is a range npm can resolve to a checkable release. */
+function isNpmVersion(version: string | undefined): boolean {
+  if (version === undefined) return true;
+  if (version === "" || version.includes("/") || version.startsWith("npm:")) return false;
+  return npmVersion.test(version);
+}
+
+function splitNpmSpec(spec: string): NpmSpec | undefined {
+  if (!isRegistrySpec(spec)) return undefined;
+  const parsed = spec.startsWith("@") ? splitScopedSpec(spec) : splitUnscopedSpec(spec);
+  if (parsed === undefined) return undefined;
+  if (!npmName.test(parsed.name) || !isNpmVersion(parsed.version)) return undefined;
+  return parsed;
 }
 
 /** Resolves one npm install argument, or undefined when it is not a registry package spec. */

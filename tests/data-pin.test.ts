@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { existsSync } from "node:fs";
 import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -17,6 +18,7 @@ import {
 } from "../src/data-source.js";
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine/index.js";
+import { restoreFixtureNames } from "../src/fixture-names.js";
 import { renderDataStatusText, dataStatusFrom } from "../src/data-status.js";
 import { runCli } from "./cli-runner.js";
 
@@ -113,6 +115,26 @@ test("a pinned version decides what a scan finds, so CI results do not drift", a
   assert.deepEqual(await scanWith(), ["npm.package.junpkg.pin-test"], "latest download");
   assert.deepEqual(await scanWith("2999.01.01"), ["npm.package.janpkg.pin-test"], "pinned to the older version");
   assert.deepEqual(await scanWith("bundled"), [], "pinned to the data shipped with the release");
+});
+
+test("every built-in detector scans its fixture with pinned data", async () => {
+  const bundle = await buildDataBundle({
+    root: resolve("."),
+    createdAt: "2999-01-01T00:00:00Z",
+    minimumEvergreenVersion: "0.1.0",
+  });
+  const cache = await scratch("cache");
+  await store(cache, bundle);
+  configureActiveData({ cacheDirectory: cache, pinnedVersion: bundle.manifest.version, ...accepting });
+
+  for (const detector of builtInDetectors) {
+    const source = resolve("tests/fixtures", detector.id);
+    if (!existsSync(source)) continue;
+    const root = await scratch(`fixture-${detector.id}`);
+    await cp(source, root, { recursive: true });
+    await restoreFixtureNames(root);
+    await assert.doesNotReject(scanRepository(root, [detector]), `${detector.id} cannot scan with pinned data`);
+  }
 });
 
 test("pinning bundled data ignores a newer download", async () => {

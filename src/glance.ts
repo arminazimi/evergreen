@@ -166,51 +166,59 @@ function wrapValue(value: string, width: number, indent: string): string[] {
   return lines.map((line, index) => (index === 0 ? line : `${indent}${line}`));
 }
 
-/**
- * The one-screen card: the mark on the left in the brand green, the facts on the right. Under
- * `GLANCE_MARK_MIN_COLUMNS` the mark is dropped and the facts keep the full width. With `color`
- * the mark and the severity blocks carry ANSI color; without it the output is plain text.
- */
-export function renderGlance(facts: GlanceFacts, options: { columns?: number; color?: boolean } = {}): string {
-  const columns = Math.max(options.columns ?? DEFAULT_COLUMNS, GLANCE_MARK_MIN_COLUMNS - 1);
-  const color = options.color === true;
-  const showMark = columns >= GLANCE_MARK_MIN_COLUMNS;
-  const factWidth = columns - (showMark ? GLANCE_MARK_COLUMNS + MARK_GAP_COLUMNS : 0);
+/** One ecosystem, tagged with its maturity when the manifest records one. */
+function ecosystemLabel(ecosystem: GlanceEcosystem): string {
+  return ecosystem.maturity === undefined ? ecosystem.id : `${ecosystem.id} ${ecosystem.maturity}`;
+}
 
+/** The findings fact, or one fact per severity with its block bar and count. */
+function findingFacts(findings: GlanceFacts["findings"]): Fact[] {
+  if (findings.total === 0) return [{ label: "findings", value: "All clear.", color: ANSI.green }];
+  const facts: Fact[] = [{ label: "findings", value: String(findings.total) }];
+  for (const severity of DISPLAY_SEVERITIES) {
+    const count = findings.bySeverity[severity];
+    if (count === 0) continue;
+    facts.push({
+      label: "",
+      value: `${severity}  ${"█".repeat(Math.min(count, 10))} ${count}`,
+      color: SEVERITY_COLOR[severity],
+    });
+  }
+  return facts;
+}
+
+function deadlineFact(label: string, deadline: GlanceDeadline | undefined): Fact | undefined {
+  return deadline === undefined ? undefined : { label, value: `${deadline.date}  ${deadline.title}` };
+}
+
+function dataFact(data: GlanceFacts["data"]): Fact | undefined {
+  if (data === undefined) return undefined;
+  const age = `${data.ageDays} day${data.ageDays === 1 ? "" : "s"} old`;
+  return { label: "data", value: `v${data.version} · ${age}${data.stale ? " · stale" : ""}` };
+}
+
+/** Every row of the card, in display order, from the facts alone. */
+function glanceFactList(facts: GlanceFacts): Fact[] {
   const factList: Fact[] = [{ label: "repo", value: facts.repository }];
   if (facts.ecosystems.length > 0) {
-    factList.push({
-      label: "ecosystems",
-      value: facts.ecosystems
-        .map((ecosystem) => (ecosystem.maturity === undefined ? ecosystem.id : `${ecosystem.id} ${ecosystem.maturity}`))
-        .join(" · "),
-    });
+    factList.push({ label: "ecosystems", value: facts.ecosystems.map(ecosystemLabel).join(" · ") });
   }
-  if (facts.findings.total === 0) {
-    factList.push({ label: "findings", value: "All clear.", color: ANSI.green });
-  } else {
-    factList.push({ label: "findings", value: String(facts.findings.total) });
-    for (const severity of DISPLAY_SEVERITIES) {
-      const count = facts.findings.bySeverity[severity];
-      if (count === 0) continue;
-      factList.push({
-        label: "",
-        value: `${severity}  ${"█".repeat(Math.min(count, 10))} ${count}`,
-        color: SEVERITY_COLOR[severity],
-      });
-    }
+  factList.push(...findingFacts(facts.findings));
+  const deadlines: readonly (readonly [string, GlanceDeadline | undefined])[] = [
+    ["next", facts.nextDeadline],
+    ["ended", facts.oldestEnded],
+  ];
+  for (const [label, deadline] of deadlines) {
+    const fact = deadlineFact(label, deadline);
+    if (fact !== undefined) factList.push(fact);
   }
-  if (facts.nextDeadline !== undefined)
-    factList.push({ label: "next", value: `${facts.nextDeadline.date}  ${facts.nextDeadline.title}` });
-  if (facts.oldestEnded !== undefined)
-    factList.push({ label: "ended", value: `${facts.oldestEnded.date}  ${facts.oldestEnded.title}` });
-  if (facts.data !== undefined) {
-    factList.push({
-      label: "data",
-      value: `v${facts.data.version} · ${facts.data.ageDays} day${facts.data.ageDays === 1 ? "" : "s"} old${facts.data.stale ? " · stale" : ""}`,
-    });
-  }
+  const data = dataFact(facts.data);
+  if (data !== undefined) factList.push(data);
+  return factList;
+}
 
+/** Wraps and pads every fact into its column, coloring short colored facts on their single line. */
+function renderFactLines(factList: readonly Fact[], factWidth: number, color: boolean): string[] {
   const labelWidth = Math.max(...factList.map((fact) => fact.label.length));
   const indent = " ".repeat(labelWidth + 2);
   const factLines: string[] = [];
@@ -224,20 +232,33 @@ export function renderGlance(facts: GlanceFacts, options: { columns?: number; co
       factLines[last] = `${fact.color}${factLines[last]}${ANSI.reset}`;
     }
   }
+  return factLines;
+}
 
+/** The mark column for one line: the mark, blank padding beside the facts, or nothing when the mark is off. */
+function markColumn(index: number, showMark: boolean, color: boolean): string {
+  const mark = showMark ? GLANCE_MARK[index] : undefined;
+  if (mark === undefined) return showMark ? " ".repeat(MARK_CHARS) : "";
+  if (color) return `${ANSI.green}${mark}${ANSI.reset}${" ".repeat(MARK_CHARS - mark.length)}`;
+  return mark.padEnd(MARK_CHARS);
+}
+
+/**
+ * The one-screen card: the mark on the left in the brand green, the facts on the right. Under
+ * `GLANCE_MARK_MIN_COLUMNS` the mark is dropped and the facts keep the full width. With `color`
+ * the mark and the severity blocks carry ANSI color; without it the output is plain text.
+ */
+export function renderGlance(facts: GlanceFacts, options: { columns?: number; color?: boolean } = {}): string {
+  const columns = Math.max(options.columns ?? DEFAULT_COLUMNS, GLANCE_MARK_MIN_COLUMNS - 1);
+  const color = options.color === true;
+  const showMark = columns >= GLANCE_MARK_MIN_COLUMNS;
+  const factWidth = columns - (showMark ? GLANCE_MARK_COLUMNS + MARK_GAP_COLUMNS : 0);
+  const factLines = renderFactLines(glanceFactList(facts), factWidth, color);
   const height = Math.max(showMark ? GLANCE_MARK.length : 0, factLines.length);
+
   const lines: string[] = [];
   for (let index = 0; index < height; index += 1) {
-    const mark = showMark ? GLANCE_MARK[index] : undefined;
-    const left =
-      mark === undefined
-        ? showMark
-          ? " ".repeat(MARK_CHARS)
-          : ""
-        : color
-          ? `${ANSI.green}${mark}${ANSI.reset}${" ".repeat(MARK_CHARS - mark.length)}`
-          : mark.padEnd(MARK_CHARS);
-    lines.push(`${left}${factLines[index] ?? ""}`.trimEnd());
+    lines.push(`${markColumn(index, showMark, color)}${factLines[index] ?? ""}`.trimEnd());
   }
   return lines.join("\n");
 }

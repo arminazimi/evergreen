@@ -267,6 +267,17 @@ test("npm specs become purls with checkable versions, and non-registry arguments
   assert.equal(parseNpmPackage("./local"), undefined);
 });
 
+test("non-registry and malformed npm specs are forwarded unchecked", () => {
+  for (const spec of ["", "~/local", "@pkg", "@scope/pkg@", "pkg@1.0.0/2", "pkg@npm:other@1.0.0", "not a name"]) {
+    assert.equal(parseNpmPackage(spec), undefined, spec);
+  }
+  assert.deepEqual(parseNpmPackage("@scope/pkg@1.2.3"), {
+    purl: "pkg:npm/%40scope/pkg",
+    version: "1.2.3",
+    spec: "@scope/pkg@1.2.3",
+  });
+});
+
 test("versions with shell metacharacters are forwarded unchecked", () => {
   for (const spec of [
     "pkg@1.0.0;touch pwned",

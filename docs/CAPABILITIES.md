@@ -140,6 +140,7 @@ Each failure also carries one stable reason code, written as `error.reason` in t
 | `invalid-config` | `usage` | The repository configuration file cannot be read or is invalid. |
 | `invalid-data-version` | `usage` | `--data-version` is not a data version. |
 | `unknown-command` | `usage` | The command name is not one Evergreen has. |
+| `scaffold-failed` | `usage` | `new-rule` or `new-detector` could not create its files: an invalid id, a taken name, an existing file, or no contributor checkout. |
 | `finding-not-found` | `data` | A finding ID matches no finding in the scan. |
 | `finding-not-observed` | `data` | A finding ID was not observed earlier in this MCP session. |
 | `data-unavailable` | `data` | A pinned data version or bundle is not available or does not verify. |
