@@ -60,6 +60,14 @@ test("it writes the config and hook, sets the global hooks path, and is safe to 
   assert.equal((await initPersonal({ gate: "low", env, confirm: yes })).change, "updated");
 });
 
+test("an existing unmanaged pre-push hook is left alone", async () => {
+  const { env, hooks, config } = await machine();
+  await mkdir(hooks, { recursive: true });
+  await writeFile(join(hooks, "pre-push"), "#!/bin/sh\necho mine\n");
+  await assert.rejects(initPersonal({ gate: "high", env, confirm: yes }), /not managed by Evergreen/);
+  await assert.rejects(stat(config));
+});
+
 test("a different global hooks path is left alone", async () => {
   const { env } = await machine();
   spawnSync("git", ["config", "--global", "core.hooksPath", "/somewhere/else"], { env });
