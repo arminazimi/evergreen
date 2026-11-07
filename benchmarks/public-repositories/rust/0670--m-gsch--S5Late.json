@@ -1,0 +1,7 @@
+{
+  "repository": "m-gsch/S5Late",
+  "commit": "1b53690c82304571a26c922111c60f8713f306c8",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

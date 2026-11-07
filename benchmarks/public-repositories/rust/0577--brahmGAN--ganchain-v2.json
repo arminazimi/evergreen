@@ -1,0 +1,26 @@
+{
+  "repository": "brahmGAN/ganchain-v2",
+  "commit": "b2964caca7ac4a51ade6763236b751f4cb388f63",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "frontier/template/Dockerfile",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 31 of frontier/template/Dockerfile reads `ENV PROFILE ${PROFILE}`. The Dockerfile legacy \"ENV key value\" form is deprecated. Docker's LegacyKeyValueFormat build check flags the space-separated ENV form and recommends writing each assignment as key=value. Source: https://docs.docker.com/reference/build-checks/legacy-key-value-format/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "scripts/dockerfiles/selendra/selendra_builder.Dockerfile",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 10 of scripts/dockerfiles/selendra/selendra_builder.Dockerfile reads `FROM docker.io/library/ubuntu:20.04`. Ubuntu image release lines 20.04 and older are past standard support end-of-life. These Ubuntu releases no longer receive standard security updates from the vendor. Source: https://ubuntu.com/about/release-cycle. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

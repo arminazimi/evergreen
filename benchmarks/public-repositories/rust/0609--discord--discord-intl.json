@@ -1,0 +1,638 @@
+{
+  "repository": "discord/discord-intl",
+  "commit": "69d08f0ecf7461534ee2bece19bcf3720689b55d",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": ".github/docker/linux.Dockerfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 4 of .github/docker/linux.Dockerfile reads `FROM node:20.6.1-bookworm-slim`. Node.js image release lines 21 and older are end-of-life. These Node.js release lines no longer receive security or bug fixes, so images tagged with them are built on an unsupported runtime. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": ".github/docker/linux.Dockerfile",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 20 of .github/docker/linux.Dockerfile reads `ENV CARGO_HOME = \"./.cache/cargo-home\"`. The Dockerfile legacy \"ENV key value\" form is deprecated. Docker's LegacyKeyValueFormat build check flags the space-separated ENV form and recommends writing each assignment as key=value. Source: https://docs.docker.com/reference/build-checks/legacy-key-value-format/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "crates/discord_intl_flat_json_parser/npm/darwin-arm64/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/darwin-arm64/package.json reads `\"node\": \">= 10\"`. Node.js 18 is end-of-life. Node.js 18 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "crates/discord_intl_flat_json_parser/npm/darwin-arm64/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/darwin-arm64/package.json reads `\"node\": \">= 10\"`. Node.js 19 is end-of-life. Node.js 19 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "crates/discord_intl_flat_json_parser/npm/darwin-arm64/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/darwin-arm64/package.json reads `\"node\": \">= 10\"`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "crates/discord_intl_flat_json_parser/npm/darwin-arm64/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/darwin-arm64/package.json reads `\"node\": \">= 10\"`. Legacy Node.js runtime is end-of-life. This Node.js release line is end-of-life and no longer receives security or bug fixes. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "crates/discord_intl_flat_json_parser/npm/darwin-x64/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/darwin-x64/package.json reads `\"node\": \">= 10\"`. Node.js 18 is end-of-life. Node.js 18 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "crates/discord_intl_flat_json_parser/npm/darwin-x64/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/darwin-x64/package.json reads `\"node\": \">= 10\"`. Node.js 19 is end-of-life. Node.js 19 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "crates/discord_intl_flat_json_parser/npm/darwin-x64/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/darwin-x64/package.json reads `\"node\": \">= 10\"`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "crates/discord_intl_flat_json_parser/npm/darwin-x64/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/darwin-x64/package.json reads `\"node\": \">= 10\"`. Legacy Node.js runtime is end-of-life. This Node.js release line is end-of-life and no longer receives security or bug fixes. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "crates/discord_intl_flat_json_parser/npm/linux-arm64-gnu/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/linux-arm64-gnu/package.json reads `\"node\": \">= 10\"`. Node.js 18 is end-of-life. Node.js 18 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "crates/discord_intl_flat_json_parser/npm/linux-arm64-gnu/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/linux-arm64-gnu/package.json reads `\"node\": \">= 10\"`. Node.js 19 is end-of-life. Node.js 19 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "crates/discord_intl_flat_json_parser/npm/linux-arm64-gnu/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/linux-arm64-gnu/package.json reads `\"node\": \">= 10\"`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "crates/discord_intl_flat_json_parser/npm/linux-arm64-gnu/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/linux-arm64-gnu/package.json reads `\"node\": \">= 10\"`. Legacy Node.js runtime is end-of-life. This Node.js release line is end-of-life and no longer receives security or bug fixes. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "crates/discord_intl_flat_json_parser/npm/linux-x64-gnu/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/linux-x64-gnu/package.json reads `\"node\": \">= 10\"`. Node.js 18 is end-of-life. Node.js 18 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "crates/discord_intl_flat_json_parser/npm/linux-x64-gnu/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/linux-x64-gnu/package.json reads `\"node\": \">= 10\"`. Node.js 19 is end-of-life. Node.js 19 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "crates/discord_intl_flat_json_parser/npm/linux-x64-gnu/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/linux-x64-gnu/package.json reads `\"node\": \">= 10\"`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "crates/discord_intl_flat_json_parser/npm/linux-x64-gnu/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/linux-x64-gnu/package.json reads `\"node\": \">= 10\"`. Legacy Node.js runtime is end-of-life. This Node.js release line is end-of-life and no longer receives security or bug fixes. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "crates/discord_intl_flat_json_parser/npm/win32-arm64-msvc/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/win32-arm64-msvc/package.json reads `\"node\": \">= 10\"`. Node.js 18 is end-of-life. Node.js 18 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "crates/discord_intl_flat_json_parser/npm/win32-arm64-msvc/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/win32-arm64-msvc/package.json reads `\"node\": \">= 10\"`. Node.js 19 is end-of-life. Node.js 19 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "crates/discord_intl_flat_json_parser/npm/win32-arm64-msvc/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/win32-arm64-msvc/package.json reads `\"node\": \">= 10\"`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "crates/discord_intl_flat_json_parser/npm/win32-arm64-msvc/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/win32-arm64-msvc/package.json reads `\"node\": \">= 10\"`. Legacy Node.js runtime is end-of-life. This Node.js release line is end-of-life and no longer receives security or bug fixes. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "crates/discord_intl_flat_json_parser/npm/win32-x64-msvc/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/win32-x64-msvc/package.json reads `\"node\": \">= 10\"`. Node.js 18 is end-of-life. Node.js 18 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "crates/discord_intl_flat_json_parser/npm/win32-x64-msvc/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/win32-x64-msvc/package.json reads `\"node\": \">= 10\"`. Node.js 19 is end-of-life. Node.js 19 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "crates/discord_intl_flat_json_parser/npm/win32-x64-msvc/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/win32-x64-msvc/package.json reads `\"node\": \">= 10\"`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "crates/discord_intl_flat_json_parser/npm/win32-x64-msvc/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_flat_json_parser/npm/win32-x64-msvc/package.json reads `\"node\": \">= 10\"`. Legacy Node.js runtime is end-of-life. This Node.js release line is end-of-life and no longer receives security or bug fixes. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "crates/discord_intl_flat_json_parser/package.json",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 33 of crates/discord_intl_flat_json_parser/package.json reads `\"node\": \">= 10\"`. Node.js 18 is end-of-life. Node.js 18 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "crates/discord_intl_flat_json_parser/package.json",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 33 of crates/discord_intl_flat_json_parser/package.json reads `\"node\": \">= 10\"`. Node.js 19 is end-of-life. Node.js 19 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "crates/discord_intl_flat_json_parser/package.json",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 33 of crates/discord_intl_flat_json_parser/package.json reads `\"node\": \">= 10\"`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "crates/discord_intl_flat_json_parser/package.json",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 33 of crates/discord_intl_flat_json_parser/package.json reads `\"node\": \">= 10\"`. Legacy Node.js runtime is end-of-life. This Node.js release line is end-of-life and no longer receives security or bug fixes. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "crates/discord_intl_message_database/npm/darwin-arm64/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/darwin-arm64/package.json reads `\"node\": \">= 10\"`. Node.js 18 is end-of-life. Node.js 18 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "crates/discord_intl_message_database/npm/darwin-arm64/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/darwin-arm64/package.json reads `\"node\": \">= 10\"`. Node.js 19 is end-of-life. Node.js 19 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "crates/discord_intl_message_database/npm/darwin-arm64/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/darwin-arm64/package.json reads `\"node\": \">= 10\"`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "crates/discord_intl_message_database/npm/darwin-arm64/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/darwin-arm64/package.json reads `\"node\": \">= 10\"`. Legacy Node.js runtime is end-of-life. This Node.js release line is end-of-life and no longer receives security or bug fixes. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "crates/discord_intl_message_database/npm/darwin-x64/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/darwin-x64/package.json reads `\"node\": \">= 10\"`. Node.js 18 is end-of-life. Node.js 18 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "crates/discord_intl_message_database/npm/darwin-x64/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/darwin-x64/package.json reads `\"node\": \">= 10\"`. Node.js 19 is end-of-life. Node.js 19 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "crates/discord_intl_message_database/npm/darwin-x64/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/darwin-x64/package.json reads `\"node\": \">= 10\"`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "crates/discord_intl_message_database/npm/darwin-x64/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/darwin-x64/package.json reads `\"node\": \">= 10\"`. Legacy Node.js runtime is end-of-life. This Node.js release line is end-of-life and no longer receives security or bug fixes. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "crates/discord_intl_message_database/npm/linux-arm64-gnu/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/linux-arm64-gnu/package.json reads `\"node\": \">= 10\"`. Node.js 18 is end-of-life. Node.js 18 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "crates/discord_intl_message_database/npm/linux-arm64-gnu/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/linux-arm64-gnu/package.json reads `\"node\": \">= 10\"`. Node.js 19 is end-of-life. Node.js 19 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "crates/discord_intl_message_database/npm/linux-arm64-gnu/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/linux-arm64-gnu/package.json reads `\"node\": \">= 10\"`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "crates/discord_intl_message_database/npm/linux-arm64-gnu/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/linux-arm64-gnu/package.json reads `\"node\": \">= 10\"`. Legacy Node.js runtime is end-of-life. This Node.js release line is end-of-life and no longer receives security or bug fixes. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "crates/discord_intl_message_database/npm/linux-arm64-musl/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/linux-arm64-musl/package.json reads `\"node\": \">= 10\"`. Node.js 18 is end-of-life. Node.js 18 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "crates/discord_intl_message_database/npm/linux-arm64-musl/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/linux-arm64-musl/package.json reads `\"node\": \">= 10\"`. Node.js 19 is end-of-life. Node.js 19 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "crates/discord_intl_message_database/npm/linux-arm64-musl/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/linux-arm64-musl/package.json reads `\"node\": \">= 10\"`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "crates/discord_intl_message_database/npm/linux-arm64-musl/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/linux-arm64-musl/package.json reads `\"node\": \">= 10\"`. Legacy Node.js runtime is end-of-life. This Node.js release line is end-of-life and no longer receives security or bug fixes. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "crates/discord_intl_message_database/npm/linux-x64-gnu/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/linux-x64-gnu/package.json reads `\"node\": \">= 10\"`. Node.js 18 is end-of-life. Node.js 18 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "crates/discord_intl_message_database/npm/linux-x64-gnu/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/linux-x64-gnu/package.json reads `\"node\": \">= 10\"`. Node.js 19 is end-of-life. Node.js 19 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "crates/discord_intl_message_database/npm/linux-x64-gnu/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/linux-x64-gnu/package.json reads `\"node\": \">= 10\"`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "crates/discord_intl_message_database/npm/linux-x64-gnu/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/linux-x64-gnu/package.json reads `\"node\": \">= 10\"`. Legacy Node.js runtime is end-of-life. This Node.js release line is end-of-life and no longer receives security or bug fixes. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "crates/discord_intl_message_database/npm/linux-x64-musl/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/linux-x64-musl/package.json reads `\"node\": \">= 10\"`. Node.js 18 is end-of-life. Node.js 18 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "crates/discord_intl_message_database/npm/linux-x64-musl/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/linux-x64-musl/package.json reads `\"node\": \">= 10\"`. Node.js 19 is end-of-life. Node.js 19 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "crates/discord_intl_message_database/npm/linux-x64-musl/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/linux-x64-musl/package.json reads `\"node\": \">= 10\"`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "crates/discord_intl_message_database/npm/linux-x64-musl/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/linux-x64-musl/package.json reads `\"node\": \">= 10\"`. Legacy Node.js runtime is end-of-life. This Node.js release line is end-of-life and no longer receives security or bug fixes. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "crates/discord_intl_message_database/npm/win32-arm64-msvc/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/win32-arm64-msvc/package.json reads `\"node\": \">= 10\"`. Node.js 18 is end-of-life. Node.js 18 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "crates/discord_intl_message_database/npm/win32-arm64-msvc/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/win32-arm64-msvc/package.json reads `\"node\": \">= 10\"`. Node.js 19 is end-of-life. Node.js 19 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "crates/discord_intl_message_database/npm/win32-arm64-msvc/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/win32-arm64-msvc/package.json reads `\"node\": \">= 10\"`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "crates/discord_intl_message_database/npm/win32-arm64-msvc/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/win32-arm64-msvc/package.json reads `\"node\": \">= 10\"`. Legacy Node.js runtime is end-of-life. This Node.js release line is end-of-life and no longer receives security or bug fixes. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "crates/discord_intl_message_database/npm/win32-ia32-msvc/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/win32-ia32-msvc/package.json reads `\"node\": \">= 10\"`. Node.js 18 is end-of-life. Node.js 18 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "crates/discord_intl_message_database/npm/win32-ia32-msvc/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/win32-ia32-msvc/package.json reads `\"node\": \">= 10\"`. Node.js 19 is end-of-life. Node.js 19 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "crates/discord_intl_message_database/npm/win32-ia32-msvc/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/win32-ia32-msvc/package.json reads `\"node\": \">= 10\"`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "crates/discord_intl_message_database/npm/win32-ia32-msvc/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/win32-ia32-msvc/package.json reads `\"node\": \">= 10\"`. Legacy Node.js runtime is end-of-life. This Node.js release line is end-of-life and no longer receives security or bug fixes. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "crates/discord_intl_message_database/npm/win32-x64-msvc/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/win32-x64-msvc/package.json reads `\"node\": \">= 10\"`. Node.js 18 is end-of-life. Node.js 18 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "crates/discord_intl_message_database/npm/win32-x64-msvc/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/win32-x64-msvc/package.json reads `\"node\": \">= 10\"`. Node.js 19 is end-of-life. Node.js 19 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "crates/discord_intl_message_database/npm/win32-x64-msvc/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/win32-x64-msvc/package.json reads `\"node\": \">= 10\"`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "crates/discord_intl_message_database/npm/win32-x64-msvc/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of crates/discord_intl_message_database/npm/win32-x64-msvc/package.json reads `\"node\": \">= 10\"`. Legacy Node.js runtime is end-of-life. This Node.js release line is end-of-life and no longer receives security or bug fixes. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "crates/discord_intl_message_database/package.json",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 38 of crates/discord_intl_message_database/package.json reads `\"node\": \">= 10\"`. Node.js 18 is end-of-life. Node.js 18 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "crates/discord_intl_message_database/package.json",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 38 of crates/discord_intl_message_database/package.json reads `\"node\": \">= 10\"`. Node.js 19 is end-of-life. Node.js 19 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "crates/discord_intl_message_database/package.json",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 38 of crates/discord_intl_message_database/package.json reads `\"node\": \">= 10\"`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "crates/discord_intl_message_database/package.json",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 38 of crates/discord_intl_message_database/package.json reads `\"node\": \">= 10\"`. Legacy Node.js runtime is end-of-life. This Node.js release line is end-of-life and no longer receives security or bug fixes. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

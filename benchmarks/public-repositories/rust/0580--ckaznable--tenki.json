@@ -1,0 +1,7 @@
+{
+  "repository": "ckaznable/tenki",
+  "commit": "5ec909b5cb134ea88998e6c54ecc3a25ff4882ab",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

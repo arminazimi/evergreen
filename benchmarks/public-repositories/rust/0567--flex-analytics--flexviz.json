@@ -1,0 +1,17 @@
+{
+  "repository": "flex-analytics/flexviz",
+  "commit": "b8fe166eba7fbd39de8bb298ee924a29d5baedcf",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "pyproject.toml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 12 of pyproject.toml reads `requires-python = \">=3.10\"`. Python 3.10 and older are end-of-life. These Python release lines no longer receive security or bug fixes from the Python core team. Source: https://devguide.python.org/versions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

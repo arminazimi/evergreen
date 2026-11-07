@@ -1,0 +1,7 @@
+{
+  "repository": "edera-dev/sprout",
+  "commit": "45e8dcf597a17181d323250ff96b3f42e96d990b",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

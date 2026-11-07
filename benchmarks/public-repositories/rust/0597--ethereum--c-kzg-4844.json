@@ -1,0 +1,35 @@
+{
+  "repository": "ethereum/c-kzg-4844",
+  "commit": "a751e2d92abcd63b01d1400789789f5ea289a8b0",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/nodejs-tests.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 21 of .github/workflows/nodejs-tests.yml reads `- 22`. Node.js 22 reaches end-of-life on 2027-04-30. Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, according to the Node.js Release Working Group schedule. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "bindings/node.js/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of bindings/node.js/Dockerfile reads `FROM node:16-alpine`. Node.js image release lines 21 and older are end-of-life. These Node.js release lines no longer receive security or bug fixes, so images tagged with them are built on an unsupported runtime. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of go.mod reads `go 1.19`. Go 1.20 and older are no longer supported. The Go release policy supports a major release until two newer major releases exist. Go 1.20 support ended when Go 1.22 was released, and every older release lost support before that. Source: https://go.dev/doc/devel/release. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

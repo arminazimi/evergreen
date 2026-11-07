@@ -1,0 +1,7 @@
+{
+  "repository": "gianndev/ParvaOS",
+  "commit": "37e689509f9cb2b76359c6ce8932a3041108cc26",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "asimov-modules/asimov-template-module",
+  "commit": "e1efc722133adfef3a3224d66d6be3fe6a38c11f",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

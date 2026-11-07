@@ -1,0 +1,242 @@
+{
+  "repository": "limebit/medmodels",
+  "commit": "8d3ab318cadc71d2e09343725a328006d230bf00",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/coverage.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 13 of .github/workflows/coverage.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-uv.node20",
+      "path": ".github/workflows/coverage.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 22 of .github/workflows/coverage.yml reads `uses: astral-sh/setup-uv@v5`. Unsupported astral-sh/setup-uv runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/create-epic-branch.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 14 of .github/workflows/create-epic-branch.yml reads `uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/formatting.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 11 of .github/workflows/formatting.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-uv.node20",
+      "path": ".github/workflows/formatting.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 22 of .github/workflows/formatting.yml reads `uses: astral-sh/setup-uv@v5`. Unsupported astral-sh/setup-uv runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/linting.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 11 of .github/workflows/linting.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-uv.node20",
+      "path": ".github/workflows/linting.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 22 of .github/workflows/linting.yml reads `uses: astral-sh/setup-uv@v5`. Unsupported astral-sh/setup-uv runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.github-script.node20",
+      "path": ".github/workflows/pr-comment.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of .github/workflows/pr-comment.yml reads `uses: actions/github-script@v7`. Unsupported actions/github-script runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 24 of .github/workflows/publish.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 26 of .github/workflows/publish.yml reads `- uses: actions/setup-python@v5`. Unsupported actions/setup-python runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/publish.yml",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 39 of .github/workflows/publish.yml reads `uses: actions/upload-artifact@v4`. Retired actions/upload-artifact release. This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 50,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 50 of .github/workflows/publish.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 52 of .github/workflows/publish.yml reads `- uses: actions/setup-python@v5`. Unsupported actions/setup-python runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/publish.yml",
+      "line": 65,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 65 of .github/workflows/publish.yml reads `uses: actions/upload-artifact@v4`. Retired actions/upload-artifact release. This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 76,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 76 of .github/workflows/publish.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 78,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 78 of .github/workflows/publish.yml reads `- uses: actions/setup-python@v5`. Unsupported actions/setup-python runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/publish.yml",
+      "line": 91,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 91 of .github/workflows/publish.yml reads `uses: actions/upload-artifact@v4`. Retired actions/upload-artifact release. This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 102,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 102 of .github/workflows/publish.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 104,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 104 of .github/workflows/publish.yml reads `- uses: actions/setup-python@v5`. Unsupported actions/setup-python runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/publish.yml",
+      "line": 116,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 116 of .github/workflows/publish.yml reads `uses: actions/upload-artifact@v4`. Retired actions/upload-artifact release. This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 124,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 124 of .github/workflows/publish.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/publish.yml",
+      "line": 133,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 133 of .github/workflows/publish.yml reads `uses: actions/upload-artifact@v4`. Retired actions/upload-artifact release. This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/publish.yml",
+      "line": 143,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 143 of .github/workflows/publish.yml reads `- uses: actions/download-artifact@v4`. Retired actions/download-artifact release. This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/testing.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of .github/workflows/testing.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-uv.node20",
+      "path": ".github/workflows/testing.yml",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 25 of .github/workflows/testing.yml reads `uses: astral-sh/setup-uv@v5`. Unsupported astral-sh/setup-uv runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "pyproject.toml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 6 of pyproject.toml reads `requires-python = \">=3.10\"`. Python 3.10 and older are end-of-life. These Python release lines no longer receive security or bug fixes from the Python core team. Source: https://devguide.python.org/versions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

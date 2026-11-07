@@ -1,0 +1,7 @@
+{
+  "repository": "ingonyama-zk/icicle-snark",
+  "commit": "bf00385db19087a8a3f6d754b43b006254b1b465",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

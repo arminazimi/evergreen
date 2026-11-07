@@ -1,0 +1,7 @@
+{
+  "repository": "bifrost-platform/bifrost-relayer.rs",
+  "commit": "35e61ed4daf788d85da4ef5e6f9c7bbe173eca39",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

@@ -1,0 +1,98 @@
+{
+  "repository": "rlane/oort3",
+  "commit": "05a0528dfc185838b3186ccd8d1a9d92b241d16e",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/check.yml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 10 of .github/workflows/check.yml reads `- uses: actions/checkout@v3`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/check.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 22 of .github/workflows/check.yml reads `- uses: actions/checkout@v3`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "rust.toolchain.end-of-support-1.98-and-older",
+      "path": "rust-toolchain.toml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 2 of rust-toolchain.toml reads `channel = \"1.96.0\"`. Rust 1.98 and older are no longer supported. The Rust project only provides support and security updates for the most recent stable release, so a release line is unsupported once the next stable release ships. Rust 1.99 was released on 2026-10-01. Source: https://www.rust-lang.org/policies/security. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "services/backend/Dockerfile",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 24 of services/backend/Dockerfile reads `ENV PORT 8080`. The Dockerfile legacy \"ENV key value\" form is deprecated. Docker's LegacyKeyValueFormat build check flags the space-separated ENV form and recommends writing each assignment as key=value. Source: https://docs.docker.com/reference/build-checks/legacy-key-value-format/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "services/backend/Dockerfile",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 25 of services/backend/Dockerfile reads `ENV RUST_LOG none,oort_backend_service=info`. The Dockerfile legacy \"ENV key value\" form is deprecated. Docker's LegacyKeyValueFormat build check flags the space-separated ENV form and recommends writing each assignment as key=value. Source: https://docs.docker.com/reference/build-checks/legacy-key-value-format/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "services/compiler/Dockerfile",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 34 of services/compiler/Dockerfile reads `ENV PORT 8080`. The Dockerfile legacy \"ENV key value\" form is deprecated. Docker's LegacyKeyValueFormat build check flags the space-separated ENV form and recommends writing each assignment as key=value. Source: https://docs.docker.com/reference/build-checks/legacy-key-value-format/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "services/compiler/Dockerfile",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 35 of services/compiler/Dockerfile reads `ENV RUST_LOG info`. The Dockerfile legacy \"ENV key value\" form is deprecated. Docker's LegacyKeyValueFormat build check flags the space-separated ENV form and recommends writing each assignment as key=value. Source: https://docs.docker.com/reference/build-checks/legacy-key-value-format/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "rust.crate.tempdir.unmaintained",
+      "path": "shared/builtin_ai/Cargo.toml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 22 of shared/builtin_ai/Cargo.toml reads `tempdir = \"0.3.7\"`. tempdir is no longer maintained. The tempdir crate has been deprecated and its functionality merged into tempfile. Source: https://rustsec.org/advisories/RUSTSEC-2018-0017.html. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "rust.crate.tempdir.unmaintained",
+      "path": "shared/compiler/Cargo.toml",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 9 of shared/compiler/Cargo.toml reads `tempdir = \"0.3.7\"`. tempdir is no longer maintained. The tempdir crate has been deprecated and its functionality merged into tempfile. Source: https://rustsec.org/advisories/RUSTSEC-2018-0017.html. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "rust.crate.tempdir.unmaintained",
+      "path": "tools/Cargo.toml",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 40 of tools/Cargo.toml reads `tempdir = \"0.3.7\"`. tempdir is no longer maintained. The tempdir crate has been deprecated and its functionality merged into tempfile. Source: https://rustsec.org/advisories/RUSTSEC-2018-0017.html. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

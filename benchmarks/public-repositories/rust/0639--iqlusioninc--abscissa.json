@@ -1,0 +1,7 @@
+{
+  "repository": "iqlusioninc/abscissa",
+  "commit": "721fb340417578c00b3838098bb7990b7bd0f400",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

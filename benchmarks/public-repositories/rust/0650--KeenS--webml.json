@@ -1,0 +1,17 @@
+{
+  "repository": "KeenS/webml",
+  "commit": "8927678b009febd3c015c3085989636e9d9c7cb7",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/deploy_online_compiler.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of .github/workflows/deploy_online_compiler.yml reads `uses: actions/checkout@v2`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

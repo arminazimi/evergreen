@@ -1,0 +1,44 @@
+{
+  "repository": "daisy-embassy/daisy-embassy",
+  "commit": "537f521da7c09299649a3039d45b8a9ae6d09c4c",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 17 of .github/workflows/ci.yml reads `- uses: actions/checkout@v3`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 29 of .github/workflows/ci.yml reads `- uses: actions/checkout@v3`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "rust.toolchain.end-of-support-1.98-and-older",
+      "path": "examples/faust/simple-gain/rust-toolchain.toml",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of examples/faust/simple-gain/rust-toolchain.toml reads `channel = \"1.92.0\"`. Rust 1.98 and older are no longer supported. The Rust project only provides support and security updates for the most recent stable release, so a release line is unsupported once the next stable release ships. Rust 1.99 was released on 2026-10-01. Source: https://www.rust-lang.org/policies/security. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "rust.toolchain.end-of-support-1.98-and-older",
+      "path": "rust-toolchain",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of rust-toolchain reads `channel = \"1.92.0\"`. Rust 1.98 and older are no longer supported. The Rust project only provides support and security updates for the most recent stable release, so a release line is unsupported once the next stable release ships. Rust 1.99 was released on 2026-10-01. Source: https://www.rust-lang.org/policies/security. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "cunarist/rinf",
+  "commit": "da30454e5bfeb89d6e273d29bb0c09458818d36d",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

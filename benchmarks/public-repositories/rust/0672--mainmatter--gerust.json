@@ -1,0 +1,7 @@
+{
+  "repository": "mainmatter/gerust",
+  "commit": "a94d756661deb5e7bb7304f27c54cff44d01bddb",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

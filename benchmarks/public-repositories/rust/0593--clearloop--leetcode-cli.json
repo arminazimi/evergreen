@@ -1,0 +1,7 @@
+{
+  "repository": "clearloop/leetcode-cli",
+  "commit": "fba4448961b779ebb3ba6d3b45dccc4d11deea1b",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

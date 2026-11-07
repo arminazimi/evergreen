@@ -1,0 +1,7 @@
+{
+  "repository": "8go/matrix-commander-rs",
+  "commit": "9f3a44cdcf36664b206936de28d2e598af1f7c13",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

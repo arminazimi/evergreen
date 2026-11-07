@@ -1,0 +1,7 @@
+{
+  "repository": "hbeberman/fathomable",
+  "commit": "63d9709f7afa06e481990ce60c522ad8862e94f0",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

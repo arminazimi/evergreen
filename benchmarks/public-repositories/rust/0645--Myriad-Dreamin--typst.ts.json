@@ -1,0 +1,791 @@
+{
+  "repository": "Myriad-Dreamin/typst.ts",
+  "commit": "52dd6cfb986208bcb8a88cd13a6070b9ba3aad13",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/announce.yml",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 25 of .github/workflows/announce.yml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/announce.yml",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 36 of .github/workflows/announce.yml reads `uses: actions/setup-node@v4`. Unsupported actions/setup-node runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/announce.yml",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 38 of .github/workflows/announce.yml reads `node-version: 22`. Node.js 22 reaches end-of-life on 2027-04-30. Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, according to the Node.js Release Working Group schedule. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/announce.yml",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 48 of .github/workflows/announce.yml reads `uses: actions/upload-artifact@v4`. Retired actions/upload-artifact release. This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/announce.yml",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 53 of .github/workflows/announce.yml reads `uses: actions/upload-artifact@v4`. Retired actions/upload-artifact release. This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/announce.yml",
+      "line": 58,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 58 of .github/workflows/announce.yml reads `uses: actions/upload-artifact@v4`. Retired actions/upload-artifact release. This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 24 of .github/workflows/ci.yaml reads `uses: actions/checkout@v3`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 28 of .github/workflows/ci.yaml reads `uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 34 of .github/workflows/ci.yaml reads `uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/ci.yaml",
+      "line": 84,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 84 of .github/workflows/ci.yaml reads `uses: actions/upload-artifact@v4`. Retired actions/upload-artifact release. This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/ci.yaml",
+      "line": 97,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 97 of .github/workflows/ci.yaml reads `uses: actions/upload-artifact@v4`. Retired actions/upload-artifact release. This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 123,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 123 of .github/workflows/ci.yaml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/docker.yaml",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 29 of .github/workflows/docker.yaml reads `uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-buildx-action.node20",
+      "path": ".github/workflows/docker.yaml",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 34 of .github/workflows/docker.yaml reads `uses: docker/setup-buildx-action@v2.5.0`. Unsupported docker/setup-buildx-action runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/docker.yaml",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 39 of .github/workflows/docker.yaml reads `uses: docker/login-action@v2.1.0`. Unsupported docker/login-action runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.metadata-action.node20",
+      "path": ".github/workflows/docker.yaml",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 47 of .github/workflows/docker.yaml reads `uses: docker/metadata-action@v4.3.0`. Unsupported docker/metadata-action runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/docker.yaml",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 54 of .github/workflows/docker.yaml reads `uses: docker/build-push-action@v4.0.0`. Unsupported docker/build-push-action runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/gh_pages.yml",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 31 of .github/workflows/gh_pages.yml reads `uses: actions/checkout@v3`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/gh_pages.yml",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 41 of .github/workflows/gh_pages.yml reads `uses: actions/setup-node@v3`. Unsupported actions/setup-node runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/gh_pages.yml",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 43 of .github/workflows/gh_pages.yml reads `node-version: 22.x`. Node.js 22 reaches end-of-life on 2027-04-30. Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, according to the Node.js Release Working Group schedule. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.configure-pages.node20",
+      "path": ".github/workflows/gh_pages.yml",
+      "line": 86,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 86 of .github/workflows/gh_pages.yml reads `uses: actions/configure-pages@v5`. Unsupported actions/configure-pages runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.deploy-pages.node20",
+      "path": ".github/workflows/gh_pages.yml",
+      "line": 94,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 94 of .github/workflows/gh_pages.yml reads `uses: actions/deploy-pages@v4`. Unsupported actions/deploy-pages runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-crates.yaml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 19 of .github/workflows/release-crates.yaml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 76,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 76 of .github/workflows/release-node.yaml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 80,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 80 of .github/workflows/release-node.yaml reads `uses: actions/setup-node@v4`. Unsupported actions/setup-node runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 83,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 83 of .github/workflows/release-node.yaml reads `node-version: 22`. Node.js 22 reaches end-of-life on 2027-04-30. Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, according to the Node.js Release Working Group schedule. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 89,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 89 of .github/workflows/release-node.yaml reads `uses: actions/cache@v4`. Unsupported actions/cache runtime. This release uses a retired JavaScript runtime or cache service. Version 5 moved the action to Node.js 24. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 120,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 120 of .github/workflows/release-node.yaml reads `uses: actions/upload-artifact@v4`. Retired actions/upload-artifact release. This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 195,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 195 of .github/workflows/release-node.yaml reads `- '20'`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 196,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 196 of .github/workflows/release-node.yaml reads `- '22'`. Node.js 22 reaches end-of-life on 2027-04-30. Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, according to the Node.js Release Working Group schedule. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 199,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 199 of .github/workflows/release-node.yaml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 203,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 203 of .github/workflows/release-node.yaml reads `uses: actions/setup-node@v4`. Unsupported actions/setup-node runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 211,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 211 of .github/workflows/release-node.yaml reads `uses: actions/download-artifact@v4`. Retired actions/download-artifact release. This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 228,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 228 of .github/workflows/release-node.yaml reads `- '20'`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 229,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 229 of .github/workflows/release-node.yaml reads `- '22'`. Node.js 22 reaches end-of-life on 2027-04-30. Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, according to the Node.js Release Working Group schedule. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 232,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 232 of .github/workflows/release-node.yaml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 236,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 236 of .github/workflows/release-node.yaml reads `uses: actions/setup-node@v4`. Unsupported actions/setup-node runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 243,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 243 of .github/workflows/release-node.yaml reads `uses: actions/download-artifact@v4`. Retired actions/download-artifact release. This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 261,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 261 of .github/workflows/release-node.yaml reads `- '20'`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 262,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 262 of .github/workflows/release-node.yaml reads `- '22'`. Node.js 22 reaches end-of-life on 2027-04-30. Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, according to the Node.js Release Working Group schedule. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 265,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 265 of .github/workflows/release-node.yaml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 269,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 269 of .github/workflows/release-node.yaml reads `uses: actions/setup-node@v4`. Unsupported actions/setup-node runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 278,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 278 of .github/workflows/release-node.yaml reads `uses: actions/download-artifact@v4`. Retired actions/download-artifact release. This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 300,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 300 of .github/workflows/release-node.yaml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 304,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 304 of .github/workflows/release-node.yaml reads `uses: actions/download-artifact@v4`. Retired actions/download-artifact release. This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-qemu-action.node20",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 317,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 317 of .github/workflows/release-node.yaml reads `uses: docker/setup-qemu-action@v3`. Unsupported docker/setup-qemu-action runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 336,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 336 of .github/workflows/release-node.yaml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 376,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 376 of .github/workflows/release-node.yaml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 380,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 380 of .github/workflows/release-node.yaml reads `uses: actions/download-artifact@v4`. Retired actions/download-artifact release. This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-qemu-action.node20",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 392,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 392 of .github/workflows/release-node.yaml reads `uses: docker/setup-qemu-action@v3`. Unsupported docker/setup-qemu-action runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 418,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 418 of .github/workflows/release-node.yaml reads `- uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 422,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 422 of .github/workflows/release-node.yaml reads `uses: actions/setup-node@v4`. Unsupported actions/setup-node runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 424,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 424 of .github/workflows/release-node.yaml reads `node-version: 22.14.0`. Node.js 22 reaches end-of-life on 2027-04-30. Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, according to the Node.js Release Working Group schedule. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 434,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 434 of .github/workflows/release-node.yaml reads `uses: actions/download-artifact@v4`. Retired actions/download-artifact release. This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/release-node.yaml",
+      "line": 455,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 455 of .github/workflows/release-node.yaml reads `uses: actions/upload-artifact@v4`. Retired actions/upload-artifact release. This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-orchestration.yml",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 30 of .github/workflows/release-orchestration.yml reads `uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-orchestration.yml",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 35 of .github/workflows/release-orchestration.yml reads `uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/release-orchestration.yml",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 51 of .github/workflows/release-orchestration.yml reads `uses: actions/setup-node@v4`. Unsupported actions/setup-node runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/release-orchestration.yml",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 53 of .github/workflows/release-orchestration.yml reads `node-version: 22.14.0`. Node.js 22 reaches end-of-life on 2027-04-30. Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, according to the Node.js Release Working Group schedule. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-orchestration.yml",
+      "line": 122,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 122 of .github/workflows/release-orchestration.yml reads `uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/release-orchestration.yml",
+      "line": 136,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 136 of .github/workflows/release-orchestration.yml reads `uses: actions/setup-node@v4`. Unsupported actions/setup-node runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/release-orchestration.yml",
+      "line": 138,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 138 of .github/workflows/release-orchestration.yml reads `node-version: 22.14.0`. Node.js 22 reaches end-of-life on 2027-04-30. Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, according to the Node.js Release Working Group schedule. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-orchestration.yml",
+      "line": 206,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 206 of .github/workflows/release-orchestration.yml reads `uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-orchestration.yml",
+      "line": 211,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 211 of .github/workflows/release-orchestration.yml reads `uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/release-orchestration.yml",
+      "line": 227,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 227 of .github/workflows/release-orchestration.yml reads `uses: actions/setup-node@v4`. Unsupported actions/setup-node runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/release-orchestration.yml",
+      "line": 229,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 229 of .github/workflows/release-orchestration.yml reads `node-version: 22.14.0`. Node.js 22 reaches end-of-life on 2027-04-30. Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, according to the Node.js Release Working Group schedule. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-orchestration.yml",
+      "line": 308,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 308 of .github/workflows/release-orchestration.yml reads `uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/release-orchestration.yml",
+      "line": 322,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 322 of .github/workflows/release-orchestration.yml reads `uses: actions/setup-node@v4`. Unsupported actions/setup-node runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/release-orchestration.yml",
+      "line": 324,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 324 of .github/workflows/release-orchestration.yml reads `node-version: 22.14.0`. Node.js 22 reaches end-of-life on 2027-04-30. Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, according to the Node.js Release Working Group schedule. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/release-orchestration.yml",
+      "line": 337,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 337 of .github/workflows/release-orchestration.yml reads `uses: actions/download-artifact@v4`. Retired actions/download-artifact release. This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-orchestration.yml",
+      "line": 386,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 386 of .github/workflows/release-orchestration.yml reads `uses: actions/checkout@v4`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "rust.crate.ansi-term.unmaintained",
+      "path": "Cargo.toml",
+      "line": 110,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 110 of Cargo.toml reads `ansi_term = \"0.12.1\"`. ansi_term is no longer maintained. The maintainer has advised that ansi_term is deprecated and will not receive any maintenance. Source: https://rustsec.org/advisories/RUSTSEC-2021-0139.html. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "Dockerfile",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 12 of Dockerfile reads `FROM debian:11`. Debian image release lines 11 and older are end-of-life. These Debian releases no longer receive LTS security updates from the vendor. Source: https://wiki.debian.org/LTS. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "npm.package.angular.core.v19.end-of-support",
+      "path": "packages/typst.angular/package.json",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 20 of packages/typst.angular/package.json reads `\"@angular/core\": \"^19.2.4\",`. @angular/core v19 is no longer supported. Angular's release schedule states that Angular versions v2 to v19 are no longer supported. v19 receives no fixes, including security fixes. Source: https://angular.dev/reference/releases. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "packages/typst.node/package.json",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 46 of packages/typst.node/package.json reads `\"node\": \">= 10\"`. Node.js 18 is end-of-life. Node.js 18 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "packages/typst.node/package.json",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 46 of packages/typst.node/package.json reads `\"node\": \">= 10\"`. Node.js 19 is end-of-life. Node.js 19 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "packages/typst.node/package.json",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 46 of packages/typst.node/package.json reads `\"node\": \">= 10\"`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "packages/typst.node/package.json",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 46 of packages/typst.node/package.json reads `\"node\": \">= 10\"`. Legacy Node.js runtime is end-of-life. This Node.js release line is end-of-life and no longer receives security or bug fixes. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "projects/hexo-renderer-typst/package.json",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 36 of projects/hexo-renderer-typst/package.json reads `\"node\": \">=12\"`. Node.js 18 is end-of-life. Node.js 18 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "projects/hexo-renderer-typst/package.json",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 36 of projects/hexo-renderer-typst/package.json reads `\"node\": \">=12\"`. Node.js 19 is end-of-life. Node.js 19 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "projects/hexo-renderer-typst/package.json",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 36 of projects/hexo-renderer-typst/package.json reads `\"node\": \">=12\"`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "projects/hexo-renderer-typst/package.json",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 36 of projects/hexo-renderer-typst/package.json reads `\"node\": \">=12\"`. Legacy Node.js runtime is end-of-life. This Node.js release line is end-of-life and no longer receives security or bug fixes. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "projects/highlighter/package.json",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 51 of projects/highlighter/package.json reads `\"node\": \">=12\"`. Node.js 18 is end-of-life. Node.js 18 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "projects/highlighter/package.json",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 51 of projects/highlighter/package.json reads `\"node\": \">=12\"`. Node.js 19 is end-of-life. Node.js 19 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "projects/highlighter/package.json",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 51 of projects/highlighter/package.json reads `\"node\": \">=12\"`. Node.js 20 is end-of-life. Node.js 20 no longer receives security or bug fixes. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "projects/highlighter/package.json",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 51 of projects/highlighter/package.json reads `\"node\": \">=12\"`. Legacy Node.js runtime is end-of-life. This Node.js release line is end-of-life and no longer receives security or bug fixes. Source: https://nodejs.org/en/about/eol. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "rust.toolchain.end-of-support-1.98-and-older",
+      "path": "rust-toolchain.toml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 2 of rust-toolchain.toml reads `channel = \"1.92.0\"`. Rust 1.98 and older are no longer supported. The Rust project only provides support and security updates for the most recent stable release, so a release line is unsupported once the next stable release ships. Rust 1.99 was released on 2026-10-01. Source: https://www.rust-lang.org/policies/security. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "crocuda/virshle",
+  "commit": "1e41e139da720d8f9e064a163318ba8934ec41c1",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

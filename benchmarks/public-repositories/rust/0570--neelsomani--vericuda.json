@@ -1,0 +1,7 @@
+{
+  "repository": "neelsomani/vericuda",
+  "commit": "9f0cdb222d37a7d6d1674b4854bc14c6385b2196",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

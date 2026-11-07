@@ -1,0 +1,7 @@
+{
+  "repository": "bitan-del/zap",
+  "commit": "d9498bb9b100cf2e411ab0982f4bfe2d0e276330",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

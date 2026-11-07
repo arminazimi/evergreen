@@ -1,0 +1,62 @@
+{
+  "repository": "obbyworld/obby",
+  "commit": "67a31887dd2fb93414461577cacc1e17b6af1453",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/workflow.yaml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 19 of .github/workflows/workflow.yaml reads `node-version: 22`. Node.js 22 reaches end-of-life on 2027-04-30. Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, according to the Node.js Release Working Group schedule. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/workflow.yaml",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 37 of .github/workflows/workflow.yaml reads `node-version: 22`. Node.js 22 reaches end-of-life on 2027-04-30. Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, according to the Node.js Release Working Group schedule. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/workflow.yaml",
+      "line": 71,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 71 of .github/workflows/workflow.yaml reads `node-version: 22`. Node.js 22 reaches end-of-life on 2027-04-30. Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, according to the Node.js Release Working Group schedule. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/workflow.yaml",
+      "line": 109,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 109 of .github/workflows/workflow.yaml reads `node-version: 22`. Node.js 22 reaches end-of-life on 2027-04-30. Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, according to the Node.js Release Working Group schedule. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/workflow.yaml",
+      "line": 147,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 147 of .github/workflows/workflow.yaml reads `node-version: 22`. Node.js 22 reaches end-of-life on 2027-04-30. Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, according to the Node.js Release Working Group schedule. Source: https://github.com/nodejs/Release/blob/main/schedule.json. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "compose.yaml",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 38 of compose.yaml reads `image: alpine:3.20`. Alpine Linux image release lines 3.20 and older are end-of-life. These Alpine Linux releases no longer receive security updates from the vendor. Source: https://alpinelinux.org/releases/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

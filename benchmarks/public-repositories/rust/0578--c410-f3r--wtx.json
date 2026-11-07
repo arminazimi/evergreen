@@ -1,0 +1,26 @@
+{
+  "repository": "c410-f3r/wtx",
+  "commit": "20d7f68d96d13cc97c5acea14911f97106e68f2e",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.configure-pages.node20",
+      "path": ".github/workflows/docs.yaml",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 33 of .github/workflows/docs.yaml reads `uses: actions/configure-pages@v5`. Unsupported actions/configure-pages runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.deploy-pages.node20",
+      "path": ".github/workflows/docs.yaml",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 40 of .github/workflows/docs.yaml reads `uses: actions/deploy-pages@v4`. Unsupported actions/deploy-pages runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

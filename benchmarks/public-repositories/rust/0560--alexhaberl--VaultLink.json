@@ -1,0 +1,7 @@
+{
+  "repository": "alexhaberl/VaultLink",
+  "commit": "fddf07eccedb7abb414c9205ab83486b23f23872",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

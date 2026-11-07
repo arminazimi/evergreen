@@ -1,0 +1,7 @@
+{
+  "repository": "Automattic/wordpress-rs",
+  "commit": "7ee25d1aafe8c20b4f3be2aedf0f442bac9dbcab",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

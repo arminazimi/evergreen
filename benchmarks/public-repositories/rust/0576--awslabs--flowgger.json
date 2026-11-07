@@ -1,0 +1,44 @@
+{
+  "repository": "awslabs/flowgger",
+  "commit": "7e6a7bb82c67c4cdc85dc2819eb620e762c0931f",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 22 of .github/workflows/ci.yml reads `uses: actions/checkout@v2`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 58,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 58 of .github/workflows/ci.yml reads `uses: actions/checkout@v2`. Unsupported actions/checkout runtime. This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Source: https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "rust.crate.tempdir.unmaintained",
+      "path": "Cargo.toml",
+      "line": 61,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 61 of Cargo.toml reads `tempdir = \"0.3\"`. tempdir is no longer maintained. The tempdir crate has been deprecated and its functionality merged into tempfile. Source: https://rustsec.org/advisories/RUSTSEC-2018-0017.html. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "docker/Dockerfile",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 12 of docker/Dockerfile reads `FROM debian:buster-slim`. Debian image release lines 11 and older are end-of-life. These Debian releases no longer receive LTS security updates from the vendor. Source: https://wiki.debian.org/LTS. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

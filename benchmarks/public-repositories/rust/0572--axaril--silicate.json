@@ -1,0 +1,7 @@
+{
+  "repository": "axaril/silicate",
+  "commit": "d12dfc5a62184e99fe24de8982dafc79fb6d447f",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

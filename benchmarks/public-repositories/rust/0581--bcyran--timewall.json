@@ -1,0 +1,44 @@
+{
+  "repository": "bcyran/timewall",
+  "commit": "c7c8a19163c871a5412c143418e9ae5b3b1e7572",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/build.yml",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 27 of .github/workflows/build.yml reads `echo ::set-output name=PKG_VERSION::${PKG_VERSION}`. Deprecated GitHub Actions ::set-output command. GitHub deprecated the ::set-output workflow command. Append to the GITHUB_OUTPUT environment file instead. Source: https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/build.yml",
+      "line": 94,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 94 of .github/workflows/build.yml reads `echo ::set-output name=PKG_ARTIFACT_NAME::${PKG_ARTIFACT_NAME}`. Deprecated GitHub Actions ::set-output command. GitHub deprecated the ::set-output workflow command. Append to the GITHUB_OUTPUT environment file instead. Source: https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/build.yml",
+      "line": 95,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 95 of .github/workflows/build.yml reads `echo ::set-output name=PKG_ARTIFACT_PATH::${PKG_ARTIFACT_PATH}`. Deprecated GitHub Actions ::set-output command. GitHub deprecated the ::set-output workflow command. Append to the GITHUB_OUTPUT environment file instead. Source: https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "rust.toolchain.end-of-support-1.98-and-older",
+      "path": "rust-toolchain.toml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 2 of rust-toolchain.toml reads `channel = \"1.93.0\"`. Rust 1.98 and older are no longer supported. The Rust project only provides support and security updates for the most recent stable release, so a release line is unsupported once the next stable release ships. Rust 1.99 was released on 2026-10-01. Source: https://www.rust-lang.org/policies/security. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

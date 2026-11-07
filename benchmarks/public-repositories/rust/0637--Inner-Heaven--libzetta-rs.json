@@ -1,0 +1,26 @@
+{
+  "repository": "Inner-Heaven/libzetta-rs",
+  "commit": "54f50ab3d6de23f946dfae4b8a8b2b2d0926598c",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+      "path": "azure-pipelines.yml",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 9 of azure-pipelines.yml reads `vmImage: ubuntu-20.04`. Azure Pipelines Ubuntu 20.04 hosted image is retired. The Ubuntu 20.04 hosted image was fully removed on 2025-04-30, per the Azure DevOps blog deprecation plan. The Microsoft-hosted agents page lists that image as retired. Source: https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "rust.crate.tempdir.unmaintained",
+      "path": "Cargo.toml",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 51 of Cargo.toml reads `tempdir = \"0.3\"`. tempdir is no longer maintained. The tempdir crate has been deprecated and its functionality merged into tempfile. Source: https://rustsec.org/advisories/RUSTSEC-2018-0017.html. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

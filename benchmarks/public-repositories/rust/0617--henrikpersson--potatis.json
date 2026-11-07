@@ -1,0 +1,26 @@
+{
+  "repository": "henrikpersson/potatis",
+  "commit": "c7ad54c42a45915497c6448208d9cadb23e1f9f6",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "nes-android/android-app/app/build.gradle",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 13 of nes-android/android-app/app/build.gradle reads `targetSdk 33`. Google Play requires targetSdk 35+ for existing phone and tablet apps. The Google Play target API level requirement page states, starting 2026-08-31: Existing apps must target Android 15 (API level 35) or higher to remain available to new users on devices running Android OS higher than your app's target API level. Apps that target Android 14 (API level 34) or lower, including Android 13 (API level 33) or lower for Wear OS, Android TV, and Android XR, and Android 12 (API level 31) or lower for Android Automotive OS, The same page says an extension to 2026-11-01 may be requested. Source: https://developer.android.com/google/play/requirements/target-sdk. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "nes-cloud/Dockerfile",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 46 of nes-cloud/Dockerfile reads `FROM debian:bullseye`. Debian image release lines 11 and older are end-of-life. These Debian releases no longer receive LTS security updates from the vendor. Source: https://wiki.debian.org/LTS. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

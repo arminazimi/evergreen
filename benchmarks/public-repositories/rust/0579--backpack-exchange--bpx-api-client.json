@@ -1,0 +1,7 @@
+{
+  "repository": "backpack-exchange/bpx-api-client",
+  "commit": "c1e31336b18dc91027451cd3caf918bfc56a994f",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

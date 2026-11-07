@@ -1,0 +1,26 @@
+{
+  "repository": "logdna/logdna-agent-v2",
+  "commit": "742464b897fc7d7cb29f11dd55e0de2bfc4d6609",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "common/test/mock-ingester/Dockerfile",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 10 of common/test/mock-ingester/Dockerfile reads `FROM ubuntu:18.04`. Ubuntu image release lines 20.04 and older are past standard support end-of-life. These Ubuntu releases no longer receive standard security updates from the vendor. Source: https://ubuntu.com/about/release-cycle. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "rust.toolchain.end-of-support-1.98-and-older",
+      "path": "rust-toolchain.toml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 2 of rust-toolchain.toml reads `channel = \"1.93.1\"`. Rust 1.98 and older are no longer supported. The Rust project only provides support and security updates for the most recent stable release, so a release line is unsupported once the next stable release ships. Rust 1.99 was released on 2026-10-01. Source: https://www.rust-lang.org/policies/security. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+      }
+    }
+  ]
+}

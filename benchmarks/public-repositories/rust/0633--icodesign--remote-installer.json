@@ -1,0 +1,7 @@
+{
+  "repository": "icodesign/remote-installer",
+  "commit": "fbeb81e8a87ca185319db0b351e3e4b3e88867d2",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

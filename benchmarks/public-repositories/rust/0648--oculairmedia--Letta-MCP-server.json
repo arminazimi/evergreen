@@ -1,0 +1,7 @@
+{
+  "repository": "oculairmedia/Letta-MCP-server",
+  "commit": "622bffadc074a1fa5cc4e0faa48deac94a8573c2",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

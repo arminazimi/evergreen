@@ -1,0 +1,7 @@
+{
+  "repository": "ltheinrich/etopa",
+  "commit": "07ff82e9a90bb312d3e5ed852eae39c12ab73693",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

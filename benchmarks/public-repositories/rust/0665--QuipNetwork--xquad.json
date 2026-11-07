@@ -1,0 +1,7 @@
+{
+  "repository": "QuipNetwork/xquad",
+  "commit": "b997b0943923bf9e2932075fb149289614dd43fd",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

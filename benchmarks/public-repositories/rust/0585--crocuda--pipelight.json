@@ -1,0 +1,7 @@
+{
+  "repository": "crocuda/pipelight",
+  "commit": "478d67baa8d1db9d4620528d2e05d6d88a51c004",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

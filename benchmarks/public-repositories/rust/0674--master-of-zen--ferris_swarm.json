@@ -1,0 +1,7 @@
+{
+  "repository": "master-of-zen/ferris_swarm",
+  "commit": "46a49e4cd1d5fc57e9093737a760381ffbcda4ec",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}
