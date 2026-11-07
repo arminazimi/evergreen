@@ -1,0 +1,312 @@
+{
+  "schemaVersion": "evergreen.agent-staleness.results.v1",
+  "scoredAt": "offline",
+  "tasks": [
+    {
+      "taskId": "dockerfile-node-app",
+      "category": "dockerfile-node",
+      "agent": "seed",
+      "arm": "hooks",
+      "findingCount": 0,
+      "ruleIds": [],
+      "hasFinding": false
+    },
+    {
+      "taskId": "gha-test-node",
+      "category": "gha-test",
+      "agent": "seed",
+      "arm": "hooks",
+      "findingCount": 0,
+      "ruleIds": [],
+      "hasFinding": false
+    },
+    {
+      "taskId": "k8s-ingress-edge",
+      "category": "k8s-ingress",
+      "agent": "seed",
+      "arm": "hooks",
+      "findingCount": 0,
+      "ruleIds": [],
+      "hasFinding": false
+    },
+    {
+      "taskId": "manifest-package-json-cli",
+      "category": "package-json",
+      "agent": "seed",
+      "arm": "hooks",
+      "findingCount": 0,
+      "ruleIds": [],
+      "hasFinding": false
+    },
+    {
+      "taskId": "node-crypto-cipher",
+      "category": "node-crypto",
+      "agent": "seed",
+      "arm": "hooks",
+      "findingCount": 0,
+      "ruleIds": [],
+      "hasFinding": false
+    },
+    {
+      "taskId": "python-dates-utcnow",
+      "category": "python-dates",
+      "agent": "seed",
+      "arm": "hooks",
+      "findingCount": 0,
+      "ruleIds": [],
+      "hasFinding": false
+    },
+    {
+      "taskId": "terraform-lambda-api",
+      "category": "terraform-lambda",
+      "agent": "seed",
+      "arm": "hooks",
+      "findingCount": 0,
+      "ruleIds": [],
+      "hasFinding": false
+    },
+    {
+      "taskId": "dockerfile-node-app",
+      "category": "dockerfile-node",
+      "agent": "seed",
+      "arm": "plain",
+      "findingCount": 1,
+      "ruleIds": ["container.node.eol-21-and-older"],
+      "hasFinding": true
+    },
+    {
+      "taskId": "gha-test-node",
+      "category": "gha-test",
+      "agent": "seed",
+      "arm": "plain",
+      "findingCount": 3,
+      "ruleIds": ["github-actions.checkout.node20", "github-actions.setup-node.node20", "nodejs.runtime.legacy"],
+      "hasFinding": true
+    },
+    {
+      "taskId": "k8s-cronjob-nightly",
+      "category": "k8s-cronjob",
+      "agent": "seed",
+      "arm": "plain",
+      "findingCount": 1,
+      "ruleIds": ["kubernetes.batch.cronjob.v1beta1.removed"],
+      "hasFinding": true
+    },
+    {
+      "taskId": "k8s-ingress-edge",
+      "category": "k8s-ingress",
+      "agent": "seed",
+      "arm": "plain",
+      "findingCount": 1,
+      "ruleIds": ["kubernetes.extensions.ingress.v1beta1.removed"],
+      "hasFinding": true
+    },
+    {
+      "taskId": "manifest-package-json-cli",
+      "category": "package-json",
+      "agent": "seed",
+      "arm": "plain",
+      "findingCount": 1,
+      "ruleIds": ["npm.package.request.deprecated"],
+      "hasFinding": true
+    },
+    {
+      "taskId": "node-crypto-cipher",
+      "category": "node-crypto",
+      "agent": "seed",
+      "arm": "plain",
+      "findingCount": 0,
+      "ruleIds": [],
+      "hasFinding": false
+    },
+    {
+      "taskId": "python-dates-utcnow",
+      "category": "python-dates",
+      "agent": "seed",
+      "arm": "plain",
+      "findingCount": 0,
+      "ruleIds": [],
+      "hasFinding": false
+    },
+    {
+      "taskId": "terraform-eks-cluster",
+      "category": "terraform-eks",
+      "agent": "seed",
+      "arm": "plain",
+      "findingCount": 1,
+      "ruleIds": ["terraform.eks.end-of-life-1.30-and-older"],
+      "hasFinding": true
+    },
+    {
+      "taskId": "terraform-lambda-api",
+      "category": "terraform-lambda",
+      "agent": "seed",
+      "arm": "plain",
+      "findingCount": 1,
+      "ruleIds": ["serverless.aws-lambda.nodejs14.x"],
+      "hasFinding": true
+    }
+  ],
+  "aggregates": [
+    {
+      "agent": "seed",
+      "arm": "hooks",
+      "category": "dockerfile-node",
+      "tasks": 1,
+      "tasksWithFinding": 0,
+      "shareWithFinding": 0,
+      "findingsPerTask": 0,
+      "ruleIds": []
+    },
+    {
+      "agent": "seed",
+      "arm": "hooks",
+      "category": "gha-test",
+      "tasks": 1,
+      "tasksWithFinding": 0,
+      "shareWithFinding": 0,
+      "findingsPerTask": 0,
+      "ruleIds": []
+    },
+    {
+      "agent": "seed",
+      "arm": "hooks",
+      "category": "k8s-ingress",
+      "tasks": 1,
+      "tasksWithFinding": 0,
+      "shareWithFinding": 0,
+      "findingsPerTask": 0,
+      "ruleIds": []
+    },
+    {
+      "agent": "seed",
+      "arm": "hooks",
+      "category": "node-crypto",
+      "tasks": 1,
+      "tasksWithFinding": 0,
+      "shareWithFinding": 0,
+      "findingsPerTask": 0,
+      "ruleIds": []
+    },
+    {
+      "agent": "seed",
+      "arm": "hooks",
+      "category": "package-json",
+      "tasks": 1,
+      "tasksWithFinding": 0,
+      "shareWithFinding": 0,
+      "findingsPerTask": 0,
+      "ruleIds": []
+    },
+    {
+      "agent": "seed",
+      "arm": "hooks",
+      "category": "python-dates",
+      "tasks": 1,
+      "tasksWithFinding": 0,
+      "shareWithFinding": 0,
+      "findingsPerTask": 0,
+      "ruleIds": []
+    },
+    {
+      "agent": "seed",
+      "arm": "hooks",
+      "category": "terraform-lambda",
+      "tasks": 1,
+      "tasksWithFinding": 0,
+      "shareWithFinding": 0,
+      "findingsPerTask": 0,
+      "ruleIds": []
+    },
+    {
+      "agent": "seed",
+      "arm": "plain",
+      "category": "dockerfile-node",
+      "tasks": 1,
+      "tasksWithFinding": 1,
+      "shareWithFinding": 1,
+      "findingsPerTask": 1,
+      "ruleIds": ["container.node.eol-21-and-older"]
+    },
+    {
+      "agent": "seed",
+      "arm": "plain",
+      "category": "gha-test",
+      "tasks": 1,
+      "tasksWithFinding": 1,
+      "shareWithFinding": 1,
+      "findingsPerTask": 3,
+      "ruleIds": ["github-actions.checkout.node20", "github-actions.setup-node.node20", "nodejs.runtime.legacy"]
+    },
+    {
+      "agent": "seed",
+      "arm": "plain",
+      "category": "k8s-cronjob",
+      "tasks": 1,
+      "tasksWithFinding": 1,
+      "shareWithFinding": 1,
+      "findingsPerTask": 1,
+      "ruleIds": ["kubernetes.batch.cronjob.v1beta1.removed"]
+    },
+    {
+      "agent": "seed",
+      "arm": "plain",
+      "category": "k8s-ingress",
+      "tasks": 1,
+      "tasksWithFinding": 1,
+      "shareWithFinding": 1,
+      "findingsPerTask": 1,
+      "ruleIds": ["kubernetes.extensions.ingress.v1beta1.removed"]
+    },
+    {
+      "agent": "seed",
+      "arm": "plain",
+      "category": "node-crypto",
+      "tasks": 1,
+      "tasksWithFinding": 0,
+      "shareWithFinding": 0,
+      "findingsPerTask": 0,
+      "ruleIds": []
+    },
+    {
+      "agent": "seed",
+      "arm": "plain",
+      "category": "package-json",
+      "tasks": 1,
+      "tasksWithFinding": 1,
+      "shareWithFinding": 1,
+      "findingsPerTask": 1,
+      "ruleIds": ["npm.package.request.deprecated"]
+    },
+    {
+      "agent": "seed",
+      "arm": "plain",
+      "category": "python-dates",
+      "tasks": 1,
+      "tasksWithFinding": 0,
+      "shareWithFinding": 0,
+      "findingsPerTask": 0,
+      "ruleIds": []
+    },
+    {
+      "agent": "seed",
+      "arm": "plain",
+      "category": "terraform-eks",
+      "tasks": 1,
+      "tasksWithFinding": 1,
+      "shareWithFinding": 1,
+      "findingsPerTask": 1,
+      "ruleIds": ["terraform.eks.end-of-life-1.30-and-older"]
+    },
+    {
+      "agent": "seed",
+      "arm": "plain",
+      "category": "terraform-lambda",
+      "tasks": 1,
+      "tasksWithFinding": 1,
+      "shareWithFinding": 1,
+      "findingsPerTask": 1,
+      "ruleIds": ["serverless.aws-lambda.nodejs14.x"]
+    }
+  ]
+}

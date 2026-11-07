@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "evergreen.agent-staleness.run.v1",
+  "seed": true,
+  "agent": "seed",
+  "agentVersion": "hand-written",
+  "arm": "plain",
+  "taskId": "node-crypto-cipher",
+  "category": "node-crypto",
+  "target": "src/secret.js",
+  "date": "2026-11-07",
+  "note": "Hand-written seed data for offline scoring tests; not a real agent run."
+}

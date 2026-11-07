@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "evergreen.agent-staleness.run.v1",
+  "seed": true,
+  "agent": "seed",
+  "agentVersion": "hand-written",
+  "arm": "hooks",
+  "taskId": "terraform-lambda-api",
+  "category": "terraform-lambda",
+  "target": "main.tf",
+  "date": "2026-11-07",
+  "note": "Hand-written seed data for offline scoring tests; not a real agent run."
+}

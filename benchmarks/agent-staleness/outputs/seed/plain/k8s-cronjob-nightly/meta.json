@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "evergreen.agent-staleness.run.v1",
+  "seed": true,
+  "agent": "seed",
+  "agentVersion": "hand-written",
+  "arm": "plain",
+  "taskId": "k8s-cronjob-nightly",
+  "category": "k8s-cronjob",
+  "target": "deploy/cronjob.yaml",
+  "date": "2026-11-07",
+  "note": "Hand-written seed data for offline scoring tests; not a real agent run."
+}

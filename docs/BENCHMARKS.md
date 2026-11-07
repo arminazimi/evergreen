@@ -121,6 +121,65 @@ console.log(JSON.stringify(rateByCondition(scoreMigrationRun(task, result).condi
 - Tests: [`tests/agent-migration-tasks.test.ts`](../tests/agent-migration-tasks.test.ts), [`tests/agent-migrations-run.test.ts`](../tests/agent-migrations-run.test.ts), [`tests/agent-migrations-score.test.ts`](../tests/agent-migrations-score.test.ts)
 - Plan-arm timings and guardrail outcomes use a separate proof page; see [#1534](https://github.com/arminazimi/evergreen/issues/1534).
 
+## Agent staleness benchmark
+
+The agent staleness benchmark measures how often coding agents write end-of-life or deprecated choices when they produce common project files — Dockerfiles, GitHub Actions workflows, Kubernetes manifests, package manifests, Terraform modules, and small Python or Node helpers — and whether Evergreen's agent hook changes that rate.
+
+Each task is a version-free prompt that names only the file to write. The harness runs every task twice in a fresh temporary directory: once with no Evergreen setup (`plain`), and once after `evergreen init --agents` plus `init --hooks-for <host>` when the host supports it (`hooks`). The produced file is saved under `outputs/<agent>/<arm>/<task>/` with a `meta.json` that records the agent version and date. Scoring is offline: `score.ts` scans each output directory with `scanRepository` and reports, per agent, arm, and category, the share of tasks with at least one finding, findings per task, and the rule ids seen.
+
+### Run metadata
+
+| Field                              | Value         |
+| ---------------------------------- | ------------- |
+| Page published                     | 2026-11-07    |
+| Benchmark implementation           | this section  |
+| Measured run                       | none recorded |
+| Agents and model versions measured | none recorded |
+
+A measured run needs installed agent CLIs (`claude -p`, `codex exec`, `gemini -p`, or equivalent) and network access. It is maintainer-only: after the first real run (at least three agents, both arms) the committed outputs and this table are updated. Until then the repository ships hand-written **seed** outputs under `outputs/seed/` so scoring stays tested in `npm run check`.
+
+### Limits
+
+- Prompt wording affects what agents write; the task set is fixed and version-free so runs stay comparable, but it is not a census of every prompt an engineer might type.
+- Agent and model versions drift. Publish the version string from `meta.json` with every measured row; do not compare rows across unstated versions.
+- The `hooks` arm only installs host configuration Evergreen knows how to write today (`claude-code` and `codex` for `--hooks-for`). Hosts without a hook adapter still get `init --agents`.
+- Scoring judges the files the agent left on disk. It never executes repository code, never calls an agent, and never uses the network.
+
+### Reproduction
+
+```bash
+npm ci
+npm run build --silent
+
+# Offline score of committed outputs (also covered by unit tests):
+npm run bench:staleness:score
+npm run bench:staleness:score -- --write
+
+# Maintainer agent run (network + agent CLIs; not part of npm run check):
+npm run bench:staleness:run -- --list
+npm run bench:staleness:run -- --agent claude-code
+npm run bench:staleness:run -- --agent codex --task dockerfile-node-app --arm plain
+```
+
+### Results
+
+There are no measured agent rows yet. The seed aggregate from `npm run bench:staleness:score` (hand-written outputs, not a model) is:
+
+| Agent | Arm   | Tasks with finding / tasks | Share  |
+| ----- | ----- | -------------------------: | -----: |
+| seed  | plain |                        7 / 9 | 0.7778 |
+| seed  | hooks |                        0 / 7 | 0.0000 |
+
+Per-category seed rows and rule ids are in [`benchmarks/agent-staleness/results.json`](../benchmarks/agent-staleness/results.json). Replace this table when the maintainer commits the first three-agent run.
+
+### Artefacts
+
+- Task definitions: [`benchmarks/agent-staleness/tasks.json`](../benchmarks/agent-staleness/tasks.json)
+- Harness (network): [`benchmarks/agent-staleness/run.ts`](../benchmarks/agent-staleness/run.ts)
+- Offline scorer: [`benchmarks/agent-staleness/score.ts`](../benchmarks/agent-staleness/score.ts)
+- Seed outputs: [`benchmarks/agent-staleness/outputs/seed/`](../benchmarks/agent-staleness/outputs/seed/)
+- Tests: [`tests/agent-staleness-score.test.ts`](../tests/agent-staleness-score.test.ts)
+
 ## Source usage analysis
 
 Run `npm run benchmark:usage` to generate 200 TypeScript files in a temporary repository and scan them as one batch. Every file contains one aliased package import, one real method call, one comment lookalike, and one string lookalike.

@@ -1,0 +1,1 @@
+- Add the offline agent-staleness benchmark: task set, runner, scorer, and seed outputs that measure how often agents write end-of-life or deprecated files with and without Evergreen hooks.

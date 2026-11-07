@@ -1,0 +1,281 @@
+{
+  "schemaVersion": "evergreen.agent-staleness.v1",
+  "tasks": [
+    {
+      "id": "dockerfile-node-app",
+      "category": "dockerfile-node",
+      "target": "Dockerfile",
+      "prompt": "Write a Dockerfile for a small Node.js HTTP API that installs dependencies and starts the server. Put only the Dockerfile at the path named in the task."
+    },
+    {
+      "id": "dockerfile-node-worker",
+      "category": "dockerfile-node",
+      "target": "Dockerfile",
+      "prompt": "Write a multi-stage Dockerfile for a Node.js background worker that compiles TypeScript then runs the built JavaScript. Put only the Dockerfile at the path named in the task."
+    },
+    {
+      "id": "dockerfile-node-alpine",
+      "category": "dockerfile-node",
+      "target": "Dockerfile",
+      "prompt": "Write a minimal Alpine-based Dockerfile for a Node.js CLI tool that copies package files, installs production dependencies, and sets an entrypoint. Put only the Dockerfile at the path named in the task."
+    },
+    {
+      "id": "dockerfile-node-monorepo",
+      "category": "dockerfile-node",
+      "target": "Dockerfile",
+      "prompt": "Write a Dockerfile that builds one package from an npm workspaces monorepo and runs that package's start script. Put only the Dockerfile at the path named in the task."
+    },
+    {
+      "id": "dockerfile-python-api",
+      "category": "dockerfile-python",
+      "target": "Dockerfile",
+      "prompt": "Write a Dockerfile for a FastAPI service that installs requirements and runs uvicorn. Put only the Dockerfile at the path named in the task."
+    },
+    {
+      "id": "dockerfile-python-batch",
+      "category": "dockerfile-python",
+      "target": "Dockerfile",
+      "prompt": "Write a Dockerfile for a Python batch job that copies a script and its requirements and runs the script as the container command. Put only the Dockerfile at the path named in the task."
+    },
+    {
+      "id": "dockerfile-python-poetry",
+      "category": "dockerfile-python",
+      "target": "Dockerfile",
+      "prompt": "Write a Dockerfile that installs a Poetry-managed Python app into a virtualenv and runs the packaged console script. Put only the Dockerfile at the path named in the task."
+    },
+    {
+      "id": "dockerfile-go-service",
+      "category": "dockerfile-go",
+      "target": "Dockerfile",
+      "prompt": "Write a multi-stage Dockerfile that builds a Go HTTP service statically and copies the binary into a scratch or distroless runtime image. Put only the Dockerfile at the path named in the task."
+    },
+    {
+      "id": "dockerfile-go-cli",
+      "category": "dockerfile-go",
+      "target": "Dockerfile",
+      "prompt": "Write a Dockerfile that builds a Go CLI with CGO disabled and ships only the resulting binary. Put only the Dockerfile at the path named in the task."
+    },
+    {
+      "id": "dockerfile-java-spring",
+      "category": "dockerfile-java",
+      "target": "Dockerfile",
+      "prompt": "Write a multi-stage Dockerfile that builds a Spring Boot JAR with Maven and runs it on a JRE image. Put only the Dockerfile at the path named in the task."
+    },
+    {
+      "id": "dockerfile-java-gradle",
+      "category": "dockerfile-java",
+      "target": "Dockerfile",
+      "prompt": "Write a Dockerfile that builds a Gradle Java application and runs the fat JAR. Put only the Dockerfile at the path named in the task."
+    },
+    {
+      "id": "gha-test-node",
+      "category": "gha-test",
+      "target": ".github/workflows/test.yml",
+      "prompt": "Write a GitHub Actions workflow that checks out the repository, sets up Node.js, installs dependencies, and runs the test script on pull requests. Put only the workflow file at the path named in the task."
+    },
+    {
+      "id": "gha-test-python",
+      "category": "gha-test",
+      "target": ".github/workflows/test.yml",
+      "prompt": "Write a GitHub Actions workflow that checks out the repository, sets up Python, installs pytest, and runs the test suite on every push. Put only the workflow file at the path named in the task."
+    },
+    {
+      "id": "gha-test-matrix",
+      "category": "gha-test",
+      "target": ".github/workflows/test.yml",
+      "prompt": "Write a GitHub Actions workflow with a matrix that runs unit tests across several Node.js release lines. Put only the workflow file at the path named in the task."
+    },
+    {
+      "id": "gha-release-npm",
+      "category": "gha-release",
+      "target": ".github/workflows/release.yml",
+      "prompt": "Write a GitHub Actions release workflow that publishes an npm package when a version tag is pushed, using repository secrets for the token. Put only the workflow file at the path named in the task."
+    },
+    {
+      "id": "gha-release-go",
+      "category": "gha-release",
+      "target": ".github/workflows/release.yml",
+      "prompt": "Write a GitHub Actions release workflow that builds Go binaries for linux and darwin and uploads them as release assets. Put only the workflow file at the path named in the task."
+    },
+    {
+      "id": "gha-docker-build",
+      "category": "gha-docker",
+      "target": ".github/workflows/docker.yml",
+      "prompt": "Write a GitHub Actions workflow that builds a Docker image with Buildx and pushes it to GHCR on main. Put only the workflow file at the path named in the task."
+    },
+    {
+      "id": "gha-docker-compose",
+      "category": "gha-docker",
+      "target": ".github/workflows/docker.yml",
+      "prompt": "Write a GitHub Actions workflow that builds and starts a docker-compose stack, then runs an integration smoke test against it. Put only the workflow file at the path named in the task."
+    },
+    {
+      "id": "k8s-deployment-web",
+      "category": "k8s-deployment",
+      "target": "deploy/web.yaml",
+      "prompt": "Write a Kubernetes Deployment and Service for a web app that exposes HTTP on port 8080 with three replicas. Put only the manifest at the path named in the task."
+    },
+    {
+      "id": "k8s-deployment-worker",
+      "category": "k8s-deployment",
+      "target": "deploy/worker.yaml",
+      "prompt": "Write a Kubernetes Deployment for a queue worker with resource requests, a readiness probe that checks a local HTTP path, and a single container. Put only the manifest at the path named in the task."
+    },
+    {
+      "id": "k8s-deployment-canary",
+      "category": "k8s-deployment",
+      "target": "deploy/canary.yaml",
+      "prompt": "Write a Kubernetes Deployment for a canary rollout with two replicas and distinct labels from the stable Deployment. Put only the manifest at the path named in the task."
+    },
+    {
+      "id": "k8s-ingress-edge",
+      "category": "k8s-ingress",
+      "target": "deploy/ingress.yaml",
+      "prompt": "Write a Kubernetes Ingress that routes host api.example.com to a Service named web on port 80 with TLS termination. Put only the manifest at the path named in the task."
+    },
+    {
+      "id": "k8s-ingress-path",
+      "category": "k8s-ingress",
+      "target": "deploy/ingress.yaml",
+      "prompt": "Write a Kubernetes Ingress with path-based routing that sends /api to one Service and / to another. Put only the manifest at the path named in the task."
+    },
+    {
+      "id": "k8s-cronjob-nightly",
+      "category": "k8s-cronjob",
+      "target": "deploy/cronjob.yaml",
+      "prompt": "Write a Kubernetes CronJob that runs a cleanup container every night and does not restart failed Jobs. Put only the manifest at the path named in the task."
+    },
+    {
+      "id": "k8s-cronjob-report",
+      "category": "k8s-cronjob",
+      "target": "deploy/cronjob.yaml",
+      "prompt": "Write a Kubernetes CronJob that generates a weekly report container Job with a successful-job history limit of three. Put only the manifest at the path named in the task."
+    },
+    {
+      "id": "manifest-package-json-lib",
+      "category": "package-json",
+      "target": "package.json",
+      "prompt": "Create a package.json for a small TypeScript library that builds with tsc, tests with node:test, and will be published to npm. Put only the package.json at the path named in the task."
+    },
+    {
+      "id": "manifest-package-json-cli",
+      "category": "package-json",
+      "target": "package.json",
+      "prompt": "Create a package.json for a Node.js CLI that depends on a popular HTTP client and commander-style argument parsing, with a bin entry. Put only the package.json at the path named in the task."
+    },
+    {
+      "id": "manifest-package-json-web",
+      "category": "package-json",
+      "target": "package.json",
+      "prompt": "Create a package.json for an Express-style web app with scripts for start, test, and lint. Put only the package.json at the path named in the task."
+    },
+    {
+      "id": "manifest-pyproject-app",
+      "category": "pyproject",
+      "target": "pyproject.toml",
+      "prompt": "Create a pyproject.toml for a Poetry-managed Python application with pytest and black as development dependencies. Put only the pyproject.toml at the path named in the task."
+    },
+    {
+      "id": "manifest-pyproject-lib",
+      "category": "pyproject",
+      "target": "pyproject.toml",
+      "prompt": "Create a pyproject.toml for a setuptools-built Python library that supports modern Python and declares classifiers. Put only the pyproject.toml at the path named in the task."
+    },
+    {
+      "id": "manifest-go-mod-service",
+      "category": "go-mod",
+      "target": "go.mod",
+      "prompt": "Create a go.mod for a small HTTP service module that will use the standard library only for now. Put only the go.mod at the path named in the task."
+    },
+    {
+      "id": "manifest-go-mod-cli",
+      "category": "go-mod",
+      "target": "go.mod",
+      "prompt": "Create a go.mod for a CLI tool module named example.com/tools/greet with no require block yet. Put only the go.mod at the path named in the task."
+    },
+    {
+      "id": "terraform-lambda-api",
+      "category": "terraform-lambda",
+      "target": "main.tf",
+      "prompt": "Write a Terraform file that defines an aws_lambda_function for a Node.js API handler with an IAM role reference and an archive filename. Put only the Terraform file at the path named in the task."
+    },
+    {
+      "id": "terraform-lambda-python",
+      "category": "terraform-lambda",
+      "target": "main.tf",
+      "prompt": "Write a Terraform file that defines an aws_lambda_function for a Python worker with memory size and timeout set. Put only the Terraform file at the path named in the task."
+    },
+    {
+      "id": "terraform-rds-postgres",
+      "category": "terraform-rds",
+      "target": "main.tf",
+      "prompt": "Write a Terraform file that defines an aws_db_instance for PostgreSQL with storage, instance class, and publicly accessible disabled. Put only the Terraform file at the path named in the task."
+    },
+    {
+      "id": "terraform-rds-mysql",
+      "category": "terraform-rds",
+      "target": "main.tf",
+      "prompt": "Write a Terraform file that defines an aws_db_instance for MySQL with a parameter group and backup retention. Put only the Terraform file at the path named in the task."
+    },
+    {
+      "id": "terraform-eks-cluster",
+      "category": "terraform-eks",
+      "target": "main.tf",
+      "prompt": "Write a Terraform file that defines an aws_eks_cluster with a role ARN and VPC subnet IDs. Put only the Terraform file at the path named in the task."
+    },
+    {
+      "id": "terraform-eks-node-group",
+      "category": "terraform-eks",
+      "target": "main.tf",
+      "prompt": "Write a Terraform file that defines an aws_eks_node_group attached to an existing cluster with scaling config. Put only the Terraform file at the path named in the task."
+    },
+    {
+      "id": "python-dates-utcnow",
+      "category": "python-dates",
+      "target": "app/timeutil.py",
+      "prompt": "Write a Python module with helpers that return the current UTC time and convert a UNIX timestamp to a UTC datetime for logging. Put only the module at the path named in the task."
+    },
+    {
+      "id": "python-dates-schedule",
+      "category": "python-dates",
+      "target": "app/schedule.py",
+      "prompt": "Write a Python module that computes how many seconds remain until midnight UTC using the standard library datetime APIs. Put only the module at the path named in the task."
+    },
+    {
+      "id": "python-filesystem-paths",
+      "category": "python-filesystem",
+      "target": "app/paths.py",
+      "prompt": "Write a Python module that joins config directory paths and lists JSON files under a data directory using the standard library. Put only the module at the path named in the task."
+    },
+    {
+      "id": "python-crypto-hash",
+      "category": "python-crypto",
+      "target": "app/crypto_util.py",
+      "prompt": "Write a Python module that hashes passwords with a standard-library digest and compares digests in a helper used by tests. Put only the module at the path named in the task."
+    },
+    {
+      "id": "node-dates-format",
+      "category": "node-dates",
+      "target": "src/dates.js",
+      "prompt": "Write a Node.js module that formats the current UTC timestamp as an ISO string and parses ISO strings back into Date objects. Put only the module at the path named in the task."
+    },
+    {
+      "id": "node-filesystem-read",
+      "category": "node-filesystem",
+      "target": "src/files.js",
+      "prompt": "Write a Node.js module that reads a UTF-8 text file synchronously and returns its lines as an array. Put only the module at the path named in the task."
+    },
+    {
+      "id": "node-crypto-cipher",
+      "category": "node-crypto",
+      "target": "src/secret.js",
+      "prompt": "Write a Node.js module that encrypts and decrypts a short UTF-8 string with the crypto module for a local demo tool. Put only the module at the path named in the task."
+    },
+    {
+      "id": "node-crypto-buffer",
+      "category": "node-crypto",
+      "target": "src/buffer_util.js",
+      "prompt": "Write a Node.js module that creates a Buffer from a hex string and another from a UTF-8 string for binary helpers. Put only the module at the path named in the task."
+    }
+  ]
+}
