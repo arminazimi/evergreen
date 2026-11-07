@@ -73,7 +73,7 @@
       "path": "examples/codemods/dockerfile-legacy/before.Dockerfile"
     },
     {
-      "fingerprint": "2a4135fb7215448202469eb9f540b8666efc3dc75ca72c4a09f36793a8aa5bb9",
+      "fingerprint": "daa4772383f6a1fde676b771f40c06b3fd942b63aea3a7ccea2180c00f36de11",
       "ruleId": "container.mysql.eol-8.0-and-older",
       "path": "examples/gallery/database/compose.yaml"
     },
