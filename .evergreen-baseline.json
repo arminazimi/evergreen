@@ -636,6 +636,46 @@
       "fingerprint": "6541fcf6287bd868b009caf8746e1bbeb3e02665d24640e076265c304d886b02",
       "ruleId": "terraform.syntax.interpolation-only",
       "path": "examples/codemods/terraform-legacy/before.tf"
+    },
+    {
+      "fingerprint": "a43f7d59c1271beaad54ec0920c6eb06faabd696f346700148f92ed1871bf51d",
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "benchmarks/agent-staleness/outputs/seed/plain/dockerfile-node-app/Dockerfile",
+      "owner": "benchmarks",
+      "reason": "Intentional agent-staleness seed fixture for offline scoring tests.",
+      "expires": "2027-11-07"
+    },
+    {
+      "fingerprint": "155be41f36c9af836523706d3ce934f9e03876103078d5c306afb31dbec15dd4",
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "benchmarks/agent-staleness/outputs/seed/plain/k8s-cronjob-nightly/deploy/cronjob.yaml",
+      "owner": "benchmarks",
+      "reason": "Intentional agent-staleness seed fixture for offline scoring tests.",
+      "expires": "2027-11-07"
+    },
+    {
+      "fingerprint": "4b148af2bce3d89f3c2ae066b3fc17ca72361d6cc4709e089641d0a50e33aa11",
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "benchmarks/agent-staleness/outputs/seed/plain/k8s-ingress-edge/deploy/ingress.yaml",
+      "owner": "benchmarks",
+      "reason": "Intentional agent-staleness seed fixture for offline scoring tests.",
+      "expires": "2027-11-07"
+    },
+    {
+      "fingerprint": "6c574f050c6897112a6d3f27397dadaa8cc9f04e092e2cde901440c4743f56b0",
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "benchmarks/agent-staleness/outputs/seed/plain/terraform-lambda-api/main.tf",
+      "owner": "benchmarks",
+      "reason": "Intentional agent-staleness seed fixture for offline scoring tests.",
+      "expires": "2027-11-07"
+    },
+    {
+      "fingerprint": "c60116c2f5d4c260e3d11ba2b73fe7fe2604b7951bd095f22537862de59386d2",
+      "ruleId": "terraform.eks.end-of-life-1.30-and-older",
+      "path": "benchmarks/agent-staleness/outputs/seed/plain/terraform-eks-cluster/main.tf",
+      "owner": "benchmarks",
+      "reason": "Intentional agent-staleness seed fixture for offline scoring tests.",
+      "expires": "2027-11-07"
     }
   ],
   "history": [
