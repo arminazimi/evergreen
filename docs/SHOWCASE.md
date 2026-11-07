@@ -44,6 +44,16 @@ Prints a one-screen summary of the repository's lifecycle state, laid out like `
 
 Under 80 terminal columns the mark is dropped and the facts keep the full width. `--json` prints the facts alone as an `evergreen.glance.v1` document, so a script or a dashboard can reuse them. `docs/demos/glance.tape` records the card with [VHS](https://github.com/charmbracelet/vhs); regenerate the GIF with `vhs docs/demos/glance.tape`.
 
+## Watch board
+
+```bash
+evergreen watch --board
+```
+
+Ranks every project registered with `evergreen watch` by lifecycle risk. Each row is the rank, the project name, findings by severity as small colored bars, the next deadline, and a trend arrow against the previous board (▲ worse, ▼ better, ● same). Ranking uses the same severity weights as the HTML treemap (critical 8, high 4, medium 2, low 1, info 0.5), then the earliest deadline, then the project name.
+
+The board re-scans like `watch run`, stores a per-project summary in the watch state file, and leaves the digest history alone. An older state file without summaries shows ● for every project. `--json` prints the ranked rows as an `evergreen.watch-board.v1` document. On a terminal the severity bars are colored; `NO_COLOR` or a pipe turns that off. `docs/demos/watch-board.tape` records the table with [VHS](https://github.com/charmbracelet/vhs); regenerate the GIF with `vhs docs/demos/watch-board.tape`.
+
 ## Year in review
 
 ```bash

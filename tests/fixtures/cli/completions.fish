@@ -141,6 +141,7 @@ complete -c evergreen -n '__fish_seen_subcommand_from usage' -l json
 complete -c evergreen -n '__fish_seen_subcommand_from data' -l json
 complete -c evergreen -n '__fish_seen_subcommand_from data' -l data-version
 complete -c evergreen -n '__fish_seen_subcommand_from watch' -l weekly
+complete -c evergreen -n '__fish_seen_subcommand_from watch' -l board
 complete -c evergreen -n '__fish_seen_subcommand_from watch' -l json
 complete -c evergreen -n '__fish_seen_subcommand_from init' -l agents
 complete -c evergreen -n '__fish_seen_subcommand_from init' -l hooks

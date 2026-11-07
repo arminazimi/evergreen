@@ -16,7 +16,7 @@ _evergreen() {
   case "$words[2]" in
     completions) compadd bash zsh fish ;;
     data) compadd status update --json --data-version ;;
-    watch) compadd add remove run list --weekly --json ;;
+    watch) compadd add remove run list --weekly --board --json ;;
         scan) _arguments '--demo' '--json' '--format' '--baseline' '--baseline-warn-days' '--on-expired' '--today' '--write-status' '--interactive' '--fail-on' '--all' '--by-owner' '--data-version' '--only' '--exclude' '*:path:_files' ;;
         baseline) _arguments '--output' '--data-version' '*:path:_files' ;;
         forecast) _arguments '--months' '--as-of' '--today' '--svg' '--animate' '--timeline' '--json' '--format' '--data-version' '*:path:_files' ;;

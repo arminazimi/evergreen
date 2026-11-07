@@ -17,7 +17,7 @@ _evergreen() {
   case "$command" in
     completions) opts="bash zsh fish" ;;
     data) opts="status update --json --data-version" ;;
-    watch) opts="add remove run list --weekly --json" ;;
+    watch) opts="add remove run list --weekly --board --json" ;;
     scan) opts="--demo --json --format --baseline --baseline-warn-days --on-expired --today --write-status --interactive --fail-on --all --by-owner --data-version --only --exclude" ;;
     baseline) opts="--output --data-version" ;;
     forecast) opts="--months --as-of --today --svg --animate --timeline --json --format --data-version" ;;
@@ -44,7 +44,7 @@ _evergreen() {
     usage) opts="--file --json" ;;
     mcp) opts="" ;;
     data) opts="--json --data-version" ;;
-    watch) opts="--weekly --json" ;;
+    watch) opts="--weekly --board --json" ;;
     init) opts="--agents --hooks --personal --hooks-for --file --fail-on --yes --dry-run" ;;
     setup) opts="--yes --dry-run" ;;
     new-detector) opts="--ecosystem" ;;

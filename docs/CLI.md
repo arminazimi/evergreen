@@ -410,14 +410,16 @@ Prints an enriched CycloneDX or SPDX 2.3 document; the format is detected from t
 evergreen watch add|remove <path>
 evergreen watch list [--json]
 evergreen watch [run] [--weekly] [--json]
+evergreen watch --board [--json]
 ```
 
-`add` and `remove` maintain the list of watched projects, `list` prints it, and `run` (the default subcommand) re-scans them and prints only what changed.
+`add` and `remove` maintain the list of watched projects, `list` prints it, and `run` (the default subcommand) re-scans them and prints only what changed. `--board` re-scans the same list and prints a ranked risk table: rank, project, findings by severity as small bars, the next deadline, and a trend arrow against the previous board (▲ worse, ▼ better, ● same). Older state files without summaries show ● for every project.
 
 | Flag | What it does |
 | --- | --- |
 | `--weekly` | With `run`, build a weekly digest instead of the usual since-last-run changes. |
-| `--json` | Print `list` or the digest as JSON. |
+| `--board` | Rank every watched project by severity-weighted findings, with trend arrows since the last board. |
+| `--json` | Print `list`, the digest, or the board as JSON. |
 
 ## Setup and authoring
 

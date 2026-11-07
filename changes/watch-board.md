@@ -1,0 +1,1 @@
+- Add `evergreen watch --board`, a ranked lifecycle-risk table across watched projects with severity bars and trend arrows.

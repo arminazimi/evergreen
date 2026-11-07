@@ -2,11 +2,13 @@ import process from "node:process";
 import { resolve } from "node:path";
 
 import { builtInDetectors } from "../detectors/index.js";
+import { renderWatchBoardText, runWatchBoard } from "../watch-board.js";
 import { addWatched, listWatched, removeWatched, renderWatchText, runWatch } from "../watch.js";
 import { afterGates } from "./runtime.js";
 import type { CliCommand, CommandContext } from "./types.js";
 
-const USAGE_TEXT = "Usage: evergreen watch add|remove <path> | list [--json] | [run] [--weekly] [--json]";
+const USAGE_TEXT =
+  "Usage: evergreen watch add|remove <path> | list [--json] | [run] [--weekly] [--json] | --board [--json]";
 
 /**
  * A failure the watch command reports as a parse error. A programming error (a `TypeError`, or anything that is not an
@@ -50,6 +52,14 @@ async function runDigest(operands: string[], json: boolean, ctx: CommandContext)
   return 0;
 }
 
+/** `--board`: ranked lifecycle-risk table across watched projects, with trend arrows. */
+async function runBoard(json: boolean): Promise<number> {
+  const board = await runWatchBoard(builtInDetectors);
+  const color = Boolean(process.stdout.isTTY) && !process.env.NO_COLOR;
+  process.stdout.write(`${json ? JSON.stringify(board, null, 2) : renderWatchBoardText(board, { color })}\n`);
+  return 0;
+}
+
 /** One row per `watch` subcommand, including the bare `run` the parser defaults to. */
 // A Map, not an object: a plain object answers for inherited names such as `constructor` and `toString`.
 const SUBCOMMANDS: ReadonlyMap<string, (operands: string[], json: boolean, ctx: CommandContext) => Promise<number>> =
@@ -63,24 +73,31 @@ const SUBCOMMANDS: ReadonlyMap<string, (operands: string[], json: boolean, ctx: 
 /** `watch`: keeps a list of projects and prints only the findings that are new since the last digest. */
 export const command: CliCommand = {
   name: "watch",
-  flags: ["--weekly", "--json"],
+  flags: ["--weekly", "--board", "--json"],
   example: "evergreen watch add ~/code/my-app",
   usage: [
     "  evergreen watch add|remove <path>   # register a project for the digest",
     "  evergreen watch [run] [--weekly] [--json]   # re-scan registered projects, print only what changed",
     "  evergreen watch list [--json]",
+    "  evergreen watch --board [--json]   # ranked risk board across watched projects, with trend arrows",
   ],
   usageSlots: [46, 47, 48],
-  completion: { subcommands: ["add", "remove", "run", "list"], extraWords: ["--weekly", "--json"] },
+  completion: { subcommands: ["add", "remove", "run", "list"], extraWords: ["--weekly", "--board", "--json"] },
   run(args, ctx) {
     return afterGates("watch", args, ctx, async (state) => {
       const rest = args.filter(
-        (argument, index) => argument !== "--json" && argument !== "--format" && args[index - 1] !== "--format",
+        (argument, index) =>
+          argument !== "--json" && argument !== "--board" && argument !== "--format" && args[index - 1] !== "--format",
       );
-      const [subcommand = "run", ...operands] = rest;
-      const action = SUBCOMMANDS.get(subcommand);
-      if (!action) return ctx.fail("usage", USAGE_TEXT);
       try {
+        if (args.includes("--board")) {
+          const extras = rest.filter((argument) => argument !== "run");
+          if (extras.length > 0 || args.includes("--weekly")) return ctx.fail("usage", USAGE_TEXT);
+          return await runBoard(state.json);
+        }
+        const [subcommand = "run", ...operands] = rest;
+        const action = SUBCOMMANDS.get(subcommand);
+        if (!action) return ctx.fail("usage", USAGE_TEXT);
         return await action(operands, state.json, ctx);
       } catch (error) {
         return reportOrRethrow(error, ctx);

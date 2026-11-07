@@ -32,7 +32,7 @@ interface Run {
   readonly failures: Array<{ kind: FailureClass; message: string }>;
 }
 
-const USAGE = "Usage: evergreen watch add|remove <path> | list [--json] | [run] [--weekly] [--json]";
+const USAGE = "Usage: evergreen watch add|remove <path> | list [--json] | [run] [--weekly] [--json] | --board [--json]";
 
 /**
  * Runs the shipping `watch` handler in this process against one home directory, so a test can follow a
@@ -210,11 +210,36 @@ test("a runtime error becomes a parse failure, and a programming error propagate
 
 test("watch answers a usage error for a subcommand it does not know and a flag it does not take", async () => {
   const home = await machine();
-  for (const args of [["browse"], ["run", "--monthly"], ["add", "path", "--weekly"]]) {
+  for (const args of [
+    ["browse"],
+    ["run", "--monthly"],
+    ["add", "path", "--weekly"],
+    ["--board", "--weekly"],
+    ["list", "--board"],
+  ]) {
     const run = await watchIn(home, ...args);
     assert.equal(run.code, 2, args.join(" "));
     assert.deepEqual(run.failures, [{ kind: "usage", message: USAGE }], args.join(" "));
   }
+});
+
+test("watch --board ranks registered projects as JSON", async () => {
+  const home = await machine();
+  const project = await machine();
+  await watchIn(home, "add", project);
+
+  const board = await watchIn(home, "--board", "--json");
+  assert.equal(board.code, 0, board.failures[0]?.message);
+  const document = JSON.parse(board.stdout) as {
+    schemaVersion: string;
+    projects: number;
+    rows: Array<{ rank: number; project: string; trend: string }>;
+  };
+  assert.equal(document.schemaVersion, "evergreen.watch-board.v1");
+  assert.equal(document.projects, 1);
+  assert.equal(document.rows.length, 1);
+  assert.equal(document.rows[0]?.project, project);
+  assert.equal(document.rows[0]?.trend, "same");
 });
 
 test("a watch list that is not readable fails as a parse error instead of crashing", async () => {
