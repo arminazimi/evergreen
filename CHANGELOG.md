@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add `evergreen fix --show`, which plays the fixes as a before-and-after view: removed lines in red, added lines in green, refusals in dim text, and a final `12 → 3 findings` count computed on a temporary copy so the repository is never written in dry-run mode. (#1849)
+
 ## 0.7.3 - 2026-11-06
 
 - Add the Elixir and Erlang/OTP drift collectors: read `.elixir-version`, `.tool-versions`, `mix.exs` floors, `elixir` and `hexpm/elixir` images in Dockerfiles and CI, and the `erlef/setup-beam` inputs, reporting Elixir and Erlang/OTP as separate runtimes. (#1846)
