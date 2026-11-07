@@ -5,8 +5,8 @@ layout: doc
 permalink: "/rules/python.package.django-nose.maintenance-only.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.django-nose.maintenance-only.html"
 image: "/assets/og/python.package.django-nose.maintenance-only.svg"
-review_date: "2026-10-14"
-last_modified_at: "2026-10-14"
+review_date: "2026-11-07"
+last_modified_at: "2026-11-07"
 json_twin: "/rules/python.package.django-nose.maintenance-only.json"
 ---
 
@@ -33,14 +33,14 @@ The package states that it is in maintenance mode and recommends pytest or Djang
 | Affected versions | `vers:pypi/*` |
 | Date from the source | The source gives no day |
 | Replacement | pytest-django or Django unittest |
-| Evidence last seen | 2026-10-14 |
-| Reviewed | 2026-10-14 by arminazimi |
-| Review due | 2027-10-14 (365 days after the last review) |
+| Evidence last seen | 2026-11-07 |
+| Reviewed | 2026-11-07 by arminazimi |
+| Review due | 2027-11-07 (365 days after the last review) |
 | Rule ID | `python.package.django-nose.maintenance-only` |
 
 ## Sources
 
-- [django-nose project notice](https://pypi.org/project/django-nose/) (accessed 2026-10-16)
+- [django-nose project notice](https://pypi.org/project/django-nose/) (accessed 2026-11-07)
 
 ## Migration
 
@@ -94,7 +94,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
       "headline": "django-nose is maintenance-only — dates, impact, migration",
       "description": "The package states that it is in maintenance mode and recommends pytest or Django unittest for new projects.",
       "inLanguage": "en",
-      "dateModified": "2026-10-14",
+      "dateModified": "2026-11-07",
       "keywords": [
         "deprecated",
         "python",

@@ -17,23 +17,23 @@
         {
           "title": "Microsoft-hosted agents for Azure Pipelines",
           "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted",
-          "accessedAt": "2026-10-21"
+          "accessedAt": "2026-11-07"
         },
         {
           "title": "Upcoming Updates for Azure Pipelines Agents Images",
           "url": "https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/",
-          "accessedAt": "2026-10-21"
+          "accessedAt": "2026-11-07"
         }
       ],
       "provenance": {
-        "observedAt": "2026-10-21",
-        "reviewedAt": "2026-10-21",
+        "observedAt": "2026-11-07",
+        "reviewedAt": "2026-11-07",
         "reviewer": "arminazimi"
       },
       "migration": {
         "constraints": [
           "Change only Microsoft-hosted pool.vmImage labels. This retirement does not apply to self-hosted agents, Managed DevOps Pools, or VM scale sets.",
-          "The macOS 13 notice names macos-14, macos-15, or macos-latest. macos-14 has its own scheduled removal on 2026-11-02, so prefer macos-15 or macos-latest when the workload allows it."
+          "The macOS 13 notice names macos-14, macos-15, or macos-latest. macos-14 has its own scheduled removal on 2026-11-23, so prefer macos-15 or macos-latest when the workload allows it."
         ],
         "steps": [
           {
@@ -63,27 +63,27 @@
       "purl": "pkg:generic/azure-pipelines/macos-image",
       "vers": "vers:intdot/14",
       "event": "scheduled-end-of-life",
-      "title": "Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal",
-      "summary": "The macOS 14 Sonoma hosted image deprecation starts on 2026-07-06 and its scheduled removal is 2026-11-02, per Microsoft's hosted image deprecation schedule.",
+      "title": "Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal on 2026-11-23",
+      "summary": "The macOS 14 Sonoma hosted image deprecation started on 2026-07-06 and its scheduled removal moved to 2026-11-23 (from 2026-11-02), per Microsoft's hosted image deprecation schedule. Brownouts run through 2026-11-20.",
       "severity": "low",
       "replacement": "macos-latest or macos-15",
-      "deadline": "2026-11-02",
+      "deadline": "2026-11-23",
       "sources": [
         {
           "title": "Microsoft-hosted image deprecation schedule",
           "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule",
-          "accessedAt": "2026-10-18"
+          "accessedAt": "2026-11-07"
         }
       ],
       "provenance": {
-        "observedAt": "2026-10-18",
-        "reviewedAt": "2026-10-18",
+        "observedAt": "2026-11-07",
+        "reviewedAt": "2026-11-07",
         "reviewer": "arminazimi"
       },
       "migration": {
         "constraints": [
           "Change only Microsoft-hosted pool.vmImage labels. The macOS 14 schedule does not apply to self-hosted macOS 14 agents.",
-          "Move off macos-14 before the scheduled removal on 2026-11-02. The notice names macos-latest or macos-15."
+          "Move off macos-14 before the scheduled removal on 2026-11-23. The notice names macos-latest or macos-15."
         ],
         "steps": [
           {

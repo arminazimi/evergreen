@@ -616,29 +616,28 @@
       "ecosystem": "serverless",
       "purl": "pkg:generic/aws-lambda-runtime/python3.10",
       "vers": "vers:semver/*",
-      "event": "scheduled-end-of-life",
-      "title": "AWS Lambda Python 3.10 runtime reaches end of life on 2026-10-31",
-      "summary": "The AWS Lambda runtimes table lists python3.10 as supported with a projected deprecation date of 2026-10-31. After that date AWS no longer applies security or other updates to that managed runtime.",
-      "severity": "low",
+      "event": "end-of-life",
+      "title": "AWS Lambda Python 3.10 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists python3.10 under Deprecated runtimes with deprecation date 2026-10-31. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
       "replacement": "python3.14 or python3.13",
       "deadline": "2026-10-31",
       "sources": [
         {
           "title": "AWS Lambda runtimes",
           "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html",
-          "accessedAt": "2026-10-30"
+          "accessedAt": "2026-11-07"
         }
       ],
       "provenance": {
-        "observedAt": "2026-10-30",
-        "reviewedAt": "2026-10-30",
+        "observedAt": "2026-11-07",
+        "reviewedAt": "2026-11-07",
         "reviewer": "arminazimi"
       },
       "migration": {
         "constraints": [
           "Keep provider.runtime, Globals.Function.Runtime, per-function Runtime, and Terraform aws_lambda_function.runtime on one AWS Lambda runtime identifier that AWS still supports.",
-          "Raising the managed runtime can require Python language and dependency changes; confirm handlers and native modules run on the replacement before deploying.",
-          "This runtime is still supported today; the rule is a warning ahead of the announced date, so plan the move before it."
+          "Raising the managed runtime can require Python language and dependency changes; confirm handlers and native modules run on the replacement before deploying."
         ],
         "steps": [
           {

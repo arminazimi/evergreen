@@ -75,7 +75,7 @@ The [`kubernetes`](../detectors/kubernetes.md) detector. See [Detectors](../DETE
 - [Kubernetes 1.31 is end-of-life](kubernetes.release.end-of-life-1.31.html)
 - [Kubernetes 1.32 is end-of-life](kubernetes.release.end-of-life-1.32.html)
 - [Kubernetes 1.33 is end-of-life](kubernetes.release.end-of-life-1.33.html)
-- [Kubernetes 1.34 reaches end-of-life on 2026-10-27](kubernetes.release.end-of-life-1.34.html)
+- [Kubernetes 1.34 is end-of-life](kubernetes.release.end-of-life-1.34.html)
 - [Kubernetes 1.35 reaches end-of-life on 2027-02-28](kubernetes.release.end-of-life-1.35.html)
 
 ### Same ecosystem

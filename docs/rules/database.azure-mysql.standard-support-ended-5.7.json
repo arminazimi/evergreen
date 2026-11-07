@@ -7,29 +7,29 @@
   "event": "end-of-support",
   "severity": "high",
   "title": "Azure Database for MySQL 5.7 is past standard support",
-  "summary": "The Azure Database for MySQL version support policy lists 2026-09-30 as the standard support end date for MySQL 5.7. Azure moves the server to paid Extended Support on 2026-10-01; the MySQL community retired 5.7 on 2023-10-31.",
+  "summary": "The Azure Database for MySQL version support policy lists 2026-09-30 as the standard support end date for MySQL 5.7. Azure moves the server to paid Extended Support on 2026-10-01; the MySQL community retired 5.7 on 2023-10-31. The mysql.com lifecycle page refuses automated requests (HTTP 403), so the community date is taken from the endoflife.date record for MySQL.",
   "replacement": "MySQL 8.0 or later",
   "deadline": "2026-09-30",
   "sources": [
     {
       "title": "Azure Database for MySQL version support policy",
-      "url": "https://learn.microsoft.com/azure/mysql/flexible-server/concepts-supported-versions",
-      "accessedAt": "2026-10-26"
+      "url": "https://learn.microsoft.com/en-us/azure/mysql/concepts-version-policy",
+      "accessedAt": "2026-11-07"
     },
     {
       "title": "MySQL supported platforms and lifecycle",
       "url": "https://www.mysql.com/support/supportedplatforms/database.html",
-      "accessedAt": "2026-10-26"
+      "accessedAt": "2026-11-07"
     },
     {
       "title": "endoflife.date: MySQL",
       "url": "https://endoflife.date/mysql",
-      "accessedAt": "2026-10-26"
+      "accessedAt": "2026-11-07"
     }
   ],
   "provenance": {
-    "observedAt": "2026-10-26",
-    "reviewedAt": "2026-10-26",
+    "observedAt": "2026-11-07",
+    "reviewedAt": "2026-11-07",
     "reviewer": "arminazimi"
   },
   "migration": {

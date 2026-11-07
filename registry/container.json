@@ -358,7 +358,7 @@
       "vers": "vers:semver/<8.1.0",
       "event": "end-of-life",
       "title": "MySQL image release lines 8.0 and older are past end-of-life",
-      "summary": "Oracle lists MySQL 8.0 and 5.7 as covered only by Sustaining Support, which means no new fixes.",
+      "summary": "Oracle lists MySQL 8.0 and 5.7 as covered only by Sustaining Support, which means no new fixes. The mysql.com end-of-life notice refuses automated requests (HTTP 403), so it can only be reviewed by hand.",
       "severity": "high",
       "replacement": "A mysql image on a supported release such as the 8.4 LTS line",
       "deadline": "2026-04-21",
@@ -366,12 +366,12 @@
         {
           "title": "MySQL end-of-life notice",
           "url": "https://www.mysql.com/support/eol-notice.html",
-          "accessedAt": "2026-10-16"
+          "accessedAt": "2026-11-07"
         }
       ],
       "provenance": {
-        "observedAt": "2026-10-16",
-        "reviewedAt": "2026-10-16",
+        "observedAt": "2026-11-07",
+        "reviewedAt": "2026-11-07",
         "reviewer": "arminazimi"
       },
       "migration": {
@@ -1402,22 +1402,22 @@
       "ecosystem": "container",
       "purl": "pkg:docker/library/alpine",
       "vers": "vers:semver/>=3.21.0|<3.22.0",
-      "event": "scheduled-end-of-life",
-      "title": "Alpine Linux image release line 3.21 reaches end-of-life on 2026-11-01",
-      "summary": "Alpine Linux 3.21 is scheduled to stop receiving security updates on 2026-11-01.",
-      "severity": "low",
+      "event": "end-of-life",
+      "title": "Alpine Linux image release line 3.21 is end-of-life",
+      "summary": "Alpine Linux 3.21 no longer receives security updates; its release branch ended on 2026-11-01.",
+      "severity": "high",
       "replacement": "An alpine image on a later supported release line",
       "deadline": "2026-11-01",
       "sources": [
         {
           "title": "Alpine Linux releases",
           "url": "https://alpinelinux.org/releases/",
-          "accessedAt": "2026-10-26"
+          "accessedAt": "2026-11-07"
         }
       ],
       "provenance": {
-        "observedAt": "2026-10-26",
-        "reviewedAt": "2026-10-26",
+        "observedAt": "2026-11-07",
+        "reviewedAt": "2026-11-07",
         "reviewer": "arminazimi"
       },
       "migration": {

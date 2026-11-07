@@ -6,26 +6,26 @@
   "affectedVersions": "vers:intdot/14",
   "event": "scheduled-end-of-life",
   "severity": "low",
-  "title": "Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal",
-  "summary": "The macOS 14 Sonoma hosted image deprecation starts on 2026-07-06 and its scheduled removal is 2026-11-02, per Microsoft's hosted image deprecation schedule.",
+  "title": "Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal on 2026-11-23",
+  "summary": "The macOS 14 Sonoma hosted image deprecation started on 2026-07-06 and its scheduled removal moved to 2026-11-23 (from 2026-11-02), per Microsoft's hosted image deprecation schedule. Brownouts run through 2026-11-20.",
   "replacement": "macos-latest or macos-15",
-  "deadline": "2026-11-02",
+  "deadline": "2026-11-23",
   "sources": [
     {
       "title": "Microsoft-hosted image deprecation schedule",
       "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule",
-      "accessedAt": "2026-10-18"
+      "accessedAt": "2026-11-07"
     }
   ],
   "provenance": {
-    "observedAt": "2026-10-18",
-    "reviewedAt": "2026-10-18",
+    "observedAt": "2026-11-07",
+    "reviewedAt": "2026-11-07",
     "reviewer": "arminazimi"
   },
   "migration": {
     "constraints": [
       "Change only Microsoft-hosted pool.vmImage labels. The macOS 14 schedule does not apply to self-hosted macOS 14 agents.",
-      "Move off macos-14 before the scheduled removal on 2026-11-02. The notice names macos-latest or macos-15."
+      "Move off macos-14 before the scheduled removal on 2026-11-23. The notice names macos-latest or macos-15."
     ],
     "steps": [
       {

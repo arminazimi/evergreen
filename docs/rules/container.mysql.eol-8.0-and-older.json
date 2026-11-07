@@ -7,19 +7,19 @@
   "event": "end-of-life",
   "severity": "high",
   "title": "MySQL image release lines 8.0 and older are past end-of-life",
-  "summary": "Oracle lists MySQL 8.0 and 5.7 as covered only by Sustaining Support, which means no new fixes.",
+  "summary": "Oracle lists MySQL 8.0 and 5.7 as covered only by Sustaining Support, which means no new fixes. The mysql.com end-of-life notice refuses automated requests (HTTP 403), so it can only be reviewed by hand.",
   "replacement": "A mysql image on a supported release such as the 8.4 LTS line",
   "deadline": "2026-04-21",
   "sources": [
     {
       "title": "MySQL end-of-life notice",
       "url": "https://www.mysql.com/support/eol-notice.html",
-      "accessedAt": "2026-10-16"
+      "accessedAt": "2026-11-07"
     }
   ],
   "provenance": {
-    "observedAt": "2026-10-16",
-    "reviewedAt": "2026-10-16",
+    "observedAt": "2026-11-07",
+    "reviewedAt": "2026-11-07",
     "reviewer": "arminazimi"
   },
   "migration": {

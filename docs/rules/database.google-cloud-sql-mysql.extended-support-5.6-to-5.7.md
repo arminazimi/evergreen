@@ -5,8 +5,8 @@ layout: doc
 permalink: "/rules/database.google-cloud-sql-mysql.extended-support-5.6-to-5.7.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.google-cloud-sql-mysql.extended-support-5.6-to-5.7.html"
 image: "/assets/og/database.google-cloud-sql-mysql.extended-support-5.6-to-5.7.svg"
-review_date: "2026-10-26"
-last_modified_at: "2026-10-26"
+review_date: "2026-11-07"
+last_modified_at: "2026-11-07"
 json_twin: "/rules/database.google-cloud-sql-mysql.extended-support-5.6-to-5.7.json"
 ---
 
@@ -20,7 +20,7 @@ Check a version:
 evergreen check pkg:generic/google-cloud-sql-mysql
 ```
 
-The Cloud SQL for MySQL version policy lists MySQL 5.6 and 5.7 with extended support starting 2025-02-01 and deprecation on 2028-02-01. Oracle no longer supports those release series, and Cloud SQL charges for extended support.
+The Cloud SQL for MySQL version policy lists MySQL 5.6 and 5.7 with extended support starting 2025-02-01 and deprecation on 2028-02-01. Oracle no longer supports those release series, and Cloud SQL charges for extended support. The mysql.com lifecycle page refuses automated requests (HTTP 403), so the upstream dates are taken from the endoflife.date record for MySQL.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
 
@@ -33,16 +33,16 @@ The Cloud SQL for MySQL version policy lists MySQL 5.6 and 5.7 with extended sup
 | Affected versions | `vers:semver/>=5.6.0\|<5.8.0` |
 | Date from the source | 2025-02-01 |
 | Replacement | MySQL 8.0 or later |
-| Evidence last seen | 2026-10-26 |
-| Reviewed | 2026-10-26 by arminazimi |
-| Review due | 2027-01-24 (90 days after the last review) |
+| Evidence last seen | 2026-11-07 |
+| Reviewed | 2026-11-07 by arminazimi |
+| Review due | 2027-02-05 (90 days after the last review) |
 | Rule ID | `database.google-cloud-sql-mysql.extended-support-5.6-to-5.7` |
 
 ## Sources
 
-- [Cloud SQL for MySQL database versions and version policies](https://cloud.google.com/sql/docs/mysql/db-versions) (accessed 2026-10-26)
-- [MySQL supported platforms and lifecycle](https://www.mysql.com/support/supportedplatforms/database.html) (accessed 2026-10-26)
-- [endoflife.date: MySQL](https://endoflife.date/mysql) (accessed 2026-10-26)
+- [Cloud SQL for MySQL database versions and version policies](https://cloud.google.com/sql/docs/mysql/db-versions) (accessed 2026-11-07)
+- [MySQL supported platforms and lifecycle](https://www.mysql.com/support/supportedplatforms/database.html) (accessed 2026-11-07)
+- [endoflife.date: MySQL](https://endoflife.date/mysql) (accessed 2026-11-07)
 
 ## Migration
 
@@ -100,7 +100,7 @@ This page is generated from [`registry/database.json`](https://github.com/armina
       "headline": "Cloud SQL for MySQL 5.6 and 5.7 are in extended support — dates, impact, migration",
       "description": "The Cloud SQL for MySQL version policy lists MySQL 5.6 and 5.7 with extended support starting 2025-02-01 and deprecation on 2028-02-01.",
       "inLanguage": "en",
-      "dateModified": "2026-10-26",
+      "dateModified": "2026-11-07",
       "keywords": [
         "end-of-support",
         "database",

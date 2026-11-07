@@ -1,255 +1,1765 @@
 {
   "schemaVersion": "evergreen.source-lock.v1",
   "sources": {
+    "https://access.redhat.com/product-life-cycles": {
+      "finalUrl": "https://access.redhat.com/product-life-cycles",
+      "title": "Product Life Cycles | Red Hat Customer Portal",
+      "checkedAt": "2026-11-07"
+    },
     "https://adoptium.net/support/": {
       "finalUrl": "https://adoptium.net/support/",
       "title": "Temurin™ Support | Adoptium",
-      "checkedAt": "2026-10-17"
+      "checkedAt": "2026-11-07"
+    },
+    "https://alpinelinux.org/releases/": {
+      "finalUrl": "https://alpinelinux.org/releases/",
+      "title": "Alpine release branches | Alpine Linux",
+      "checkedAt": "2026-11-07"
+    },
+    "https://angular.dev/reference/releases": {
+      "finalUrl": "https://angular.dev/reference/releases",
+      "title": "Versioning and releases • Angular",
+      "checkedAt": "2026-11-07"
+    },
+    "https://angular.dev/update-guide": {
+      "finalUrl": "https://angular.dev/update-guide",
+      "title": "Update guide • Angular",
+      "checkedAt": "2026-11-07"
+    },
+    "https://azure.github.io/azure-sdk/policies_support.html": {
+      "finalUrl": "https://azure.github.io/azure-sdk/policies_support.html",
+      "title": "Policies: Support | Azure SDKs",
+      "checkedAt": "2026-11-07"
+    },
+    "https://cloud.google.com/appengine/docs/standard/lifecycle/support-schedule": {
+      "finalUrl": "https://docs.cloud.google.com/appengine/docs/standard/lifecycle/support-schedule",
+      "title": "Runtime support schedule &nbsp;|&nbsp; App Engine standard environment &nbsp;|&nbsp; Google Cloud Documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://cloud.google.com/functions/docs/runtime-support": {
+      "finalUrl": "https://docs.cloud.google.com/functions/docs/runtime-support",
+      "title": "Runtime support &nbsp;|&nbsp; Cloud Run functions &nbsp;|&nbsp; Google Cloud Documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://cloud.google.com/kubernetes-engine/docs/release-schedule": {
+      "finalUrl": "https://docs.cloud.google.com/kubernetes-engine/docs/release-schedule",
+      "title": "GKE release schedule &nbsp;|&nbsp; Google Kubernetes Engine (GKE) &nbsp;|&nbsp; Google Cloud Documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://cloud.google.com/kubernetes-engine/versioning": {
+      "finalUrl": "https://docs.cloud.google.com/kubernetes-engine/versioning",
+      "title": "GKE versioning and support &nbsp;|&nbsp; Google Kubernetes Engine (GKE) &nbsp;|&nbsp; Google Cloud Documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://cloud.google.com/sql/docs/mysql/db-versions": {
+      "finalUrl": "https://docs.cloud.google.com/sql/docs/mysql/db-versions",
+      "title": "Database versions and version policies &nbsp;|&nbsp; Cloud SQL for MySQL &nbsp;|&nbsp; Google Cloud Documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://cloud.google.com/sql/docs/postgres/db-versions": {
+      "finalUrl": "https://docs.cloud.google.com/sql/docs/postgres/db-versions",
+      "title": "Database versions and version policies &nbsp;|&nbsp; Cloud SQL for PostgreSQL &nbsp;|&nbsp; Google Cloud Documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html": {
+      "finalUrl": "https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html",
+      "title": "cmake_minimum_required &mdash; CMake 4.5.0-rc3 Documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://cmake.org/cmake/help/latest/generator/Visual%20Studio%2012%202013.html": {
+      "finalUrl": "https://cmake.org/cmake/help/latest/generator/Visual%20Studio%2012%202013.html",
+      "title": "Visual Studio 12 2013 &mdash; CMake 4.5.0-rc3 Documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://cmake.org/cmake/help/latest/module/CMakeFindFrameworks.html": {
+      "finalUrl": "https://cmake.org/cmake/help/latest/module/CMakeFindFrameworks.html",
+      "title": "CMakeFindFrameworks &mdash; CMake 4.5.0-rc3 Documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://cmake.org/cmake/help/latest/module/FindGDAL.html": {
+      "finalUrl": "https://cmake.org/cmake/help/latest/module/FindGDAL.html",
+      "title": "FindGDAL &mdash; CMake 4.5.0-rc3 Documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://cmake.org/cmake/help/latest/release/3.31.html": {
+      "finalUrl": "https://cmake.org/cmake/help/latest/release/3.31.html",
+      "title": "CMake 3.31 Release Notes &mdash; CMake 4.5.0-rc3 Documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://cmake.org/cmake/help/latest/release/4.0.html": {
+      "finalUrl": "https://cmake.org/cmake/help/latest/release/4.0.html",
+      "title": "CMake 4.0 Release Notes &mdash; CMake 4.5.0-rc3 Documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://dart.dev/changelog": {
+      "finalUrl": "https://dart.dev/changelog",
+      "title": "Dart changelog",
+      "checkedAt": "2026-11-07"
+    },
+    "https://dart.dev/security": {
+      "finalUrl": "https://dart.dev/security",
+      "title": "Security",
+      "checkedAt": "2026-11-07"
+    },
+    "https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/": {
+      "finalUrl": "https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/",
+      "title": "Upcoming Updates for Azure Pipelines Agents Images - Azure DevOps Blog",
+      "checkedAt": "2026-11-07"
+    },
+    "https://developer.android.com/google/play/billing/deprecation-faq": {
+      "finalUrl": "https://developer.android.com/google/play/billing/deprecation-faq",
+      "title": "Google Play Billing Library version deprecation &nbsp;|&nbsp; Android Developers",
+      "checkedAt": "2026-11-07"
+    },
+    "https://developer.android.com/google/play/requirements/target-sdk": {
+      "finalUrl": "https://developer.android.com/google/play/requirements/target-sdk",
+      "title": "Meet Google Play&#39;s target API level requirement &nbsp;|&nbsp; Other Play guides &nbsp;|&nbsp; Android Developers",
+      "checkedAt": "2026-11-07"
+    },
+    "https://developer.apple.com/news/upcoming-requirements/?id=04282026a": {
+      "finalUrl": "https://developer.apple.com/news/upcoming-requirements/?id=04282026a",
+      "title": "SDK minimum requirements - Upcoming Requirements - Apple Developer",
+      "checkedAt": "2026-11-07"
+    },
+    "https://developer.apple.com/news/upcoming-requirements/?id=04292024a": {
+      "finalUrl": "https://developer.apple.com/news/upcoming-requirements/?id=04292024a",
+      "title": "Xcode 15 - Upcoming Requirements - Apple Developer",
+      "checkedAt": "2026-11-07"
+    },
+    "https://developer.apple.com/news/upcoming-requirements/?id=0992026a": {
+      "finalUrl": "https://developer.apple.com/news/upcoming-requirements/?id=0992026a",
+      "title": "iOS and iPadOS minimum system requirements - Upcoming Requirements - Apple Developer",
+      "checkedAt": "2026-11-07"
+    },
+    "https://developer.hashicorp.com/terraform/language/functions/tolist": {
+      "finalUrl": "https://developer.hashicorp.com/terraform/language/functions/tolist",
+      "title": "tolist - Functions - Configuration Language | Terraform | HashiCorp Developer",
+      "checkedAt": "2026-11-07"
+    },
+    "https://developer.hashicorp.com/terraform/language/functions/tomap": {
+      "finalUrl": "https://developer.hashicorp.com/terraform/language/functions/tomap",
+      "title": "tomap - Functions - Configuration Language | Terraform | HashiCorp Developer",
+      "checkedAt": "2026-11-07"
+    },
+    "https://developer.hashicorp.com/terraform/language/v1.1.x/upgrade-guides/0-12": {
+      "finalUrl": "https://developer.hashicorp.com/terraform/language/v1.1.x/upgrade-guides/0-12",
+      "title": "Upgrading to Terraform 0.12 | Terraform | HashiCorp Developer",
+      "checkedAt": "2026-11-07"
+    },
+    "https://developer.hashicorp.com/terraform/language/v1.1.x/upgrade-guides/0-15": {
+      "finalUrl": "https://developer.hashicorp.com/terraform/language/v1.1.x/upgrade-guides/0-15",
+      "title": "Upgrading to Terraform v0.15 | Terraform | HashiCorp Developer",
+      "checkedAt": "2026-11-07"
     },
     "https://devguide.python.org/versions/": {
       "finalUrl": "https://devguide.python.org/versions/",
       "title": "Status of Python versions",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
+    },
+    "https://doc.traefik.io/traefik/deprecation/releases": {
+      "finalUrl": "https://doc.traefik.io/traefik/deprecation/releases/",
+      "title": "Releases - Traefik",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.aws.amazon.com/AL2/latest/relnotes/relnotes-al2.html": {
+      "finalUrl": "https://docs.aws.amazon.com/AL2/latest/relnotes/relnotes-al2.html",
+      "title": "Amazon Linux 2 release notes - Amazon Linux 2",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/engine-versions.html": {
+      "finalUrl": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/engine-versions.html",
+      "title": "Engine versions and upgrading in ElastiCache - Amazon ElastiCache",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/extended-support.html": {
+      "finalUrl": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/extended-support.html",
+      "title": "ElastiCache Extended Support - Amazon ElastiCache",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraMySQLReleaseNotes/AuroraMySQL.release-calendars.html": {
+      "finalUrl": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraMySQLReleaseNotes/AuroraMySQL.release-calendars.html",
+      "title": "Release calendars for Amazon Aurora MySQL - Amazon Aurora",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraPostgreSQLReleaseNotes/aurorapostgresql-release-calendar.html": {
+      "finalUrl": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraPostgreSQLReleaseNotes/aurorapostgresql-release-calendar.html",
+      "title": "Release calendars for Aurora PostgreSQL - Amazon Aurora",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html": {
+      "finalUrl": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html",
+      "title": "Amazon RDS Extended Support with Amazon Aurora - Amazon Aurora",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-release-calendar.html": {
+      "finalUrl": "https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-release-calendar.html",
+      "title": "Release calendars for Amazon RDS for PostgreSQL - Amazon Relational Database Service",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html": {
+      "finalUrl": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html",
+      "title": "Amazon RDS Extended Support with Amazon RDS - Amazon Relational Database Service",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Concepts.VersionMgmt.html": {
+      "finalUrl": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Concepts.VersionMgmt.html",
+      "title": "MySQL on Amazon RDS versions - Amazon Relational Database Service",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html": {
+      "finalUrl": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html",
+      "title": "Understand the Kubernetes version lifecycle on EKS - Amazon EKS",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html": {
+      "finalUrl": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html",
+      "title": "Lambda Event Function runtimes - AWS Lambda",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.aws.amazon.com/linux/al2023/ug/release-cadence.html": {
+      "finalUrl": "https://docs.aws.amazon.com/linux/al2023/ug/release-cadence.html",
+      "title": "Release cadence - Amazon Linux 2023",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.couchdb.org/en/stable/cve/index.html": {
+      "finalUrl": "https://docs.couchdb.org/en/stable/cve/index.html",
+      "title": "2. Security Issues / CVEs &mdash; Apache CouchDB® 3.5 Documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.djangoproject.com/en/1.10/releases/1.10.8/": {
+      "finalUrl": "https://docs.djangoproject.com/en/1.10/releases/1.10.8/",
+      "title": "Django 1.10.8 release notes | Django documentation | Django",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.djangoproject.com/en/1.11/releases/1.11.29/": {
+      "finalUrl": "https://docs.djangoproject.com/en/1.11/releases/1.11.29/",
+      "title": "Django 1.11.29 release notes | Django documentation | Django",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.djangoproject.com/en/1.8/releases/1.8.19/": {
+      "finalUrl": "https://docs.djangoproject.com/en/1.8/releases/1.8.19/",
+      "title": "Django 1.8.19 release notes | Django documentation | Django",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.djangoproject.com/en/1.9/releases/1.9.13/": {
+      "finalUrl": "https://docs.djangoproject.com/en/1.9/releases/1.9.13/",
+      "title": "Django 1.9.13 release notes | Django documentation | Django",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.djangoproject.com/en/2.0/releases/2.0.13/": {
+      "finalUrl": "https://docs.djangoproject.com/en/2.0/releases/2.0.13/",
+      "title": "Django 2.0.13 release notes | Django documentation | Django",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.djangoproject.com/en/2.1/releases/2.1.15/": {
+      "finalUrl": "https://docs.djangoproject.com/en/2.1/releases/2.1.15/",
+      "title": "Django 2.1.15 release notes | Django documentation | Django",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.djangoproject.com/en/2.2/releases/2.2.28/": {
+      "finalUrl": "https://docs.djangoproject.com/en/2.2/releases/2.2.28/",
+      "title": "Django 2.2.28 release notes | Django documentation | Django",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.djangoproject.com/en/3.0/releases/3.0.14/": {
+      "finalUrl": "https://docs.djangoproject.com/en/3.0/releases/3.0.14/",
+      "title": "Django 3.0.14 release notes | Django documentation | Django",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.djangoproject.com/en/3.1/releases/3.1.14/": {
+      "finalUrl": "https://docs.djangoproject.com/en/3.1/releases/3.1.14/",
+      "title": "Django 3.1.14 release notes | Django documentation | Django",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.djangoproject.com/en/3.2/releases/3.2.25/": {
+      "finalUrl": "https://docs.djangoproject.com/en/3.2/releases/3.2.25/",
+      "title": "Django 3.2.25 release notes | Django documentation | Django",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.djangoproject.com/en/4.0/releases/4.0.10/": {
+      "finalUrl": "https://docs.djangoproject.com/en/4.0/releases/4.0.10/",
+      "title": "Django 4.0.10 release notes | Django documentation | Django",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.djangoproject.com/en/4.1/releases/4.1.13/": {
+      "finalUrl": "https://docs.djangoproject.com/en/4.1/releases/4.1.13/",
+      "title": "Django 4.1.13 release notes | Django documentation | Django",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.djangoproject.com/en/4.2/releases/4.2.30/": {
+      "finalUrl": "https://docs.djangoproject.com/en/4.2/releases/4.2.30/",
+      "title": "Django 4.2.30 release notes | Django documentation | Django",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.djangoproject.com/en/5.0/releases/5.0.14/": {
+      "finalUrl": "https://docs.djangoproject.com/en/5.0/releases/5.0.14/",
+      "title": "Django 5.0.14 release notes | Django documentation | Django",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.djangoproject.com/en/5.1/releases/5.1.15/": {
+      "finalUrl": "https://docs.djangoproject.com/en/5.1/releases/5.1.15/",
+      "title": "Django 5.1.15 release notes | Django documentation | Django",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/": {
+      "finalUrl": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/",
+      "title": "How to upgrade Django to a newer version | Django documentation | Django",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.docker.com/reference/build-checks/legacy-key-value-format/": {
+      "finalUrl": "https://docs.docker.com/reference/build-checks/legacy-key-value-format/",
+      "title": "LegacyKeyValueFormat | Docker Docs",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.docker.com/reference/build-checks/maintainer-deprecated/": {
+      "finalUrl": "https://docs.docker.com/reference/build-checks/maintainer-deprecated/",
+      "title": "MaintainerDeprecated | Docker Docs",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.docker.com/reference/dockerfile/#env": {
+      "finalUrl": "https://docs.docker.com/reference/dockerfile/",
+      "title": "Dockerfile reference | Docker Docs",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.docker.com/reference/dockerfile/#maintainer-deprecated": {
+      "finalUrl": "https://docs.docker.com/reference/dockerfile/",
+      "title": "Dockerfile reference | Docker Docs",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.python.org/3.11/library/imp.html": {
+      "finalUrl": "https://docs.python.org/3.11/library/imp.html",
+      "title": "imp — Access the import internals &#8212; Python 3.11.18 documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.python.org/3/deprecations/pending-removal-in-3.14.html": {
+      "finalUrl": "https://docs.python.org/3/deprecations/pending-removal-in-3.14.html",
+      "title": "Pending removal in Python 3.14 &#8212; Python 3.15.2 documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.python.org/3/deprecations/pending-removal-in-3.15.html": {
+      "finalUrl": "https://docs.python.org/3/deprecations/pending-removal-in-3.15.html",
+      "title": "Pending removal in Python 3.15 &#8212; Python 3.15.2 documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.python.org/3/deprecations/pending-removal-in-3.16.html": {
+      "finalUrl": "https://docs.python.org/3/deprecations/pending-removal-in-3.16.html",
+      "title": "Pending removal in Python 3.16 &#8212; Python 3.15.2 documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.python.org/3/deprecations/pending-removal-in-3.17.html": {
+      "finalUrl": "https://docs.python.org/3/deprecations/pending-removal-in-3.17.html",
+      "title": "Pending removal in Python 3.17 &#8212; Python 3.15.2 documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.python.org/3/library/datetime.html": {
+      "finalUrl": "https://docs.python.org/3/library/datetime.html",
+      "title": "datetime — Basic date and time types &#8212; Python 3.15.2 documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.python.org/3/whatsnew/3.11.html": {
+      "finalUrl": "https://docs.python.org/3/whatsnew/3.11.html",
+      "title": "What’s New In Python 3.11 &#8212; Python 3.15.2 documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.python.org/3/whatsnew/3.12.html": {
+      "finalUrl": "https://docs.python.org/3/whatsnew/3.12.html",
+      "title": "What’s New In Python 3.12 &#8212; Python 3.15.2 documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.python.org/3/whatsnew/3.13.html": {
+      "finalUrl": "https://docs.python.org/3/whatsnew/3.13.html",
+      "title": "What’s New In Python 3.13 &#8212; Python 3.15.2 documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://docs.python.org/3/whatsnew/3.9.html": {
+      "finalUrl": "https://docs.python.org/3/whatsnew/3.9.html",
+      "title": "What’s New In Python 3.9 &#8212; Python 3.15.2 documentation",
+      "checkedAt": "2026-11-07"
+    },
+    "https://documentation.suse.com/sles/15-SP6/html/SLES-all/cha-upgrade-background.html": {
+      "finalUrl": "https://documentation.suse.com/sles/15-SP6/html/SLES-all/cha-upgrade-background.html",
+      "title": "Lifecycle and support | Upgrade Guide | SLES 15 SP6",
+      "checkedAt": "2026-11-07"
+    },
+    "https://dotnet.microsoft.com/platform/support/policy/dotnet-core": {
+      "finalUrl": "https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core",
+      "title": ".NET and .NET Core official support policy | .NET",
+      "checkedAt": "2026-11-07"
+    },
+    "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json": {
+      "finalUrl": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://endoflife.date/mysql": {
+      "finalUrl": "https://endoflife.date/mysql",
+      "title": "MySQL | endoflife.date",
+      "checkedAt": "2026-11-07"
+    },
+    "https://endoflife.date/postgresql": {
+      "finalUrl": "https://endoflife.date/postgresql",
+      "title": "PostgreSQL | endoflife.date",
+      "checkedAt": "2026-11-07"
+    },
+    "https://endoflife.date/redis": {
+      "finalUrl": "https://endoflife.date/redis",
+      "title": "Redis | endoflife.date",
+      "checkedAt": "2026-11-07"
+    },
+    "https://endoflife.date/terraform": {
+      "finalUrl": "https://endoflife.date/terraform",
+      "title": "Hashicorp Terraform | endoflife.date",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.blog/changelog/2020-11-09-github-actions-removing-set-env-and-add-path-commands-on-november-16/": {
+      "finalUrl": "https://github.blog/changelog/2020-11-09-github-actions-removing-set-env-and-add-path-commands-on-november-16/",
+      "title": "GitHub Actions: Removing set-env and add-path commands on November 16 - GitHub Changelog",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/": {
+      "finalUrl": "https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/",
+      "title": "GitHub Actions: Deprecating save-state and set-output commands - GitHub Changelog",
+      "checkedAt": "2026-11-07"
     },
     "https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/": {
       "finalUrl": "https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/",
       "title": "Deprecation notice: v3 of the artifact actions - GitHub Changelog",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/": {
       "finalUrl": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
       "title": "Node 20 is no longer available in GitHub Actions - GitHub Changelog",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/actions/cache#whats-new": {
       "finalUrl": "https://github.com/actions/cache",
       "title": "GitHub - actions/cache: Cache dependencies and build outputs in GitHub Actions · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/actions/checkout#checkout-v5": {
       "finalUrl": "https://github.com/actions/checkout",
       "title": "GitHub - actions/checkout: Action for checking out a repo · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/actions/configure-pages/releases/tag/v6.0.0": {
       "finalUrl": "https://github.com/actions/configure-pages/releases/tag/v6.0.0",
       "title": "Release v6.0.0 · actions/configure-pages · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/actions/create-github-app-token/releases/tag/v3.0.0": {
       "finalUrl": "https://github.com/actions/create-github-app-token/releases/tag/v3.0.0",
       "title": "Release v3.0.0 · actions/create-github-app-token · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/actions/deploy-pages/releases/tag/v5.0.0": {
       "finalUrl": "https://github.com/actions/deploy-pages/releases/tag/v5.0.0",
       "title": "Release v5.0.0 · actions/deploy-pages · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/actions/first-interaction/releases/tag/v3.0.0": {
       "finalUrl": "https://github.com/actions/first-interaction/releases/tag/v3.0.0",
       "title": "Release v3.0.0 · actions/first-interaction · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/actions/github-script/releases/tag/v8": {
       "finalUrl": "https://github.com/actions/github-script/releases/tag/v8",
       "title": "Release v8.0.0 · actions/github-script · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/actions/labeler/releases/tag/v6.0.0": {
       "finalUrl": "https://github.com/actions/labeler/releases/tag/v6.0.0",
       "title": "Release v6.0.0 · actions/labeler · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/actions/setup-dotnet/releases/tag/v5.0.0": {
       "finalUrl": "https://github.com/actions/setup-dotnet/releases/tag/v5.0.0",
       "title": "Release v5.0.0 · actions/setup-dotnet · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/actions/setup-go/releases/tag/v6.2.0": {
       "finalUrl": "https://github.com/actions/setup-go/releases/tag/v6.2.0",
       "title": "Release v6.2.0 · actions/setup-go · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/actions/setup-java/releases/tag/v5.0.0": {
       "finalUrl": "https://github.com/actions/setup-java/releases/tag/v5.0.0",
       "title": "Release v5.0.0 · actions/setup-java · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/actions/setup-node#breaking-changes-in-v5": {
       "finalUrl": "https://github.com/actions/setup-node",
       "title": "GitHub - actions/setup-node: Set up your GitHub Actions workflow with a specific version of node.js · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/actions/setup-python/releases/tag/v6.0.0": {
       "finalUrl": "https://github.com/actions/setup-python/releases/tag/v6.0.0",
       "title": "Release v6.0.0 · actions/setup-python · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/actions/stale/releases/tag/v10.0.0": {
       "finalUrl": "https://github.com/actions/stale/releases/tag/v10.0.0",
       "title": "Release v10.0.0 · actions/stale · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/astral-sh/setup-uv/releases/tag/v7.0.0": {
       "finalUrl": "https://github.com/astral-sh/setup-uv/releases/tag/v7.0.0",
       "title": "Release v7.0.0 🌈 node24 and a lot of bugfixes · astral-sh/setup-uv · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/atlassian/react-beautiful-dnd/issues/2672": {
+      "finalUrl": "https://github.com/atlassian/react-beautiful-dnd/issues/2672",
+      "title": "react-beautiful-dnd is now deprecated · Issue #2672 · atlassian/react-beautiful-dnd · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/caddyserver/caddy/security": {
+      "finalUrl": "https://github.com/caddyserver/caddy/security",
+      "title": "Overview · caddyserver/caddy · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/ClickHouse/ClickHouse/blob/master/SECURITY.md": {
+      "finalUrl": "https://github.com/ClickHouse/ClickHouse/blob/master/SECURITY.md",
+      "title": "ClickHouse/SECURITY.md at master · ClickHouse/ClickHouse · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/dart-lang/pub/blob/master/doc/repository-spec-v2.md": {
+      "finalUrl": "https://github.com/dart-lang/pub/blob/master/doc/repository-spec-v2.md",
+      "title": "pub/doc/repository-spec-v2.md at master · dart-lang/pub · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/denoland/deno/releases/tag/v1.0.0": {
+      "finalUrl": "https://github.com/denoland/deno/releases/tag/v1.0.0",
+      "title": "Release v1.0.0 · denoland/deno · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/denoland/deno/releases/tag/v2.0.0": {
+      "finalUrl": "https://github.com/denoland/deno/releases/tag/v2.0.0",
+      "title": "Release v2.0.0 · denoland/deno · GitHub",
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/docker/bake-action/releases/tag/v7.0.0": {
       "finalUrl": "https://github.com/docker/bake-action/releases/tag/v7.0.0",
       "title": "Release v7.0.0 · docker/bake-action · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/docker/build-push-action/releases/tag/v7.0.0": {
       "finalUrl": "https://github.com/docker/build-push-action/releases/tag/v7.0.0",
       "title": "Release v7.0.0 · docker/build-push-action · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/docker/login-action/releases/tag/v4.0.0": {
       "finalUrl": "https://github.com/docker/login-action/releases/tag/v4.0.0",
       "title": "Release v4.0.0 · docker/login-action · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/docker/metadata-action/releases/tag/v6.0.0": {
       "finalUrl": "https://github.com/docker/metadata-action/releases/tag/v6.0.0",
       "title": "Release v6.0.0 · docker/metadata-action · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/docker/setup-buildx-action/releases/tag/v4.0.0": {
       "finalUrl": "https://github.com/docker/setup-buildx-action/releases/tag/v4.0.0",
       "title": "Release v4.0.0 · docker/setup-buildx-action · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/docker/setup-qemu-action/releases/tag/v4.0.0": {
       "finalUrl": "https://github.com/docker/setup-qemu-action/releases/tag/v4.0.0",
       "title": "Release v4.0.0 · docker/setup-qemu-action · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/elixir-lang/elixir/releases/tag/v1.19.0": {
+      "finalUrl": "https://github.com/elixir-lang/elixir/releases/tag/v1.19.0",
+      "title": "Release v1.19.0 · elixir-lang/elixir · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/elixir-lang/elixir/releases/tag/v1.20.0": {
+      "finalUrl": "https://github.com/elixir-lang/elixir/releases/tag/v1.20.0",
+      "title": "Release v1.20.0 · elixir-lang/elixir · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/elixir-lang/elixir/security/policy": {
+      "finalUrl": "https://github.com/elixir-lang/elixir/security/policy",
+      "title": "Security Policy · elixir-lang/elixir · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/erlang/otp/releases/tag/OTP-28.0": {
+      "finalUrl": "https://github.com/erlang/otp/releases/tag/OTP-28.0",
+      "title": "Release OTP 28.0 · erlang/otp · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/erlang/otp/releases/tag/OTP-29.0": {
+      "finalUrl": "https://github.com/erlang/otp/releases/tag/OTP-29.0",
+      "title": "Release OTP 29.0 · erlang/otp · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/erlang/otp/security/policy": {
+      "finalUrl": "https://github.com/erlang/otp/security/policy",
+      "title": "Security Policy · erlang/otp · GitHub",
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/hashicorp/setup-terraform/releases/tag/v4.0.0": {
       "finalUrl": "https://github.com/hashicorp/setup-terraform/releases/tag/v4.0.0",
       "title": "Release v4.0.0 · hashicorp/setup-terraform · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/hashicorp/terraform/releases/tag/v0.12.14": {
+      "finalUrl": "https://github.com/hashicorp/terraform/releases/tag/v0.12.14",
+      "title": "Release v0.12.14 · hashicorp/terraform · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/hashicorp/terraform/releases/tag/v1.12.0": {
+      "finalUrl": "https://github.com/hashicorp/terraform/releases/tag/v1.12.0",
+      "title": "Release v1.12.0 · hashicorp/terraform · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/hashicorp/terraform/releases/tag/v1.13.0": {
+      "finalUrl": "https://github.com/hashicorp/terraform/releases/tag/v1.13.0",
+      "title": "Release v1.13.0 · hashicorp/terraform · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/hashicorp/terraform/releases/tag/v1.14.0": {
+      "finalUrl": "https://github.com/hashicorp/terraform/releases/tag/v1.14.0",
+      "title": "Release v1.14.0 · hashicorp/terraform · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/hashicorp/terraform/releases/tag/v1.15.0": {
+      "finalUrl": "https://github.com/hashicorp/terraform/releases/tag/v1.15.0",
+      "title": "Release v1.15.0 · hashicorp/terraform · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/hashicorp/terraform/releases/tag/v1.16.0": {
+      "finalUrl": "https://github.com/hashicorp/terraform/releases/tag/v1.16.0",
+      "title": "Release v1.16.0 · hashicorp/terraform · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/hashicorp/terraform/releases/tag/v1.17.0": {
+      "finalUrl": "https://github.com/hashicorp/terraform/releases/tag/v1.17.0",
+      "title": "Release v1.17.0 · hashicorp/terraform · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/helm/community/blob/main/stable-repo-charts-new-locations.md": {
+      "finalUrl": "https://github.com/helm/community/blob/main/stable-repo-charts-new-locations.md",
+      "title": "community/stable-repo-charts-new-locations.md at main · helm/community · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/Kitware/CMake/releases/tag/v3.31.0": {
+      "finalUrl": "https://github.com/Kitware/CMake/releases/tag/v3.31.0",
+      "title": "Release v3.31.0 · Kitware/CMake · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/Kitware/CMake/releases/tag/v4.0.0": {
+      "finalUrl": "https://github.com/Kitware/CMake/releases/tag/v4.0.0",
+      "title": "Release v4.0.0 · Kitware/CMake · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/lydell/resolve-url#deprecated": {
+      "finalUrl": "https://github.com/lydell/resolve-url",
+      "title": "GitHub - lydell/resolve-url: [DEPRECATED] Like Node.js’ `path.resolve`/`url.resolve` for the browser. · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/lydell/source-map-url#deprecated": {
+      "finalUrl": "https://github.com/lydell/source-map-url",
+      "title": "GitHub - lydell/source-map-url: [DEPRECATED] Tools for working with sourceMappingURL comments. · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/nodejs/Release/blob/main/schedule.json": {
+      "finalUrl": "https://github.com/nodejs/Release/blob/main/schedule.json",
+      "title": "Release/schedule.json at main · nodejs/Release · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/oven-sh/bun/releases/tag/bun-v1.0.0": {
+      "finalUrl": "https://github.com/oven-sh/bun/releases/tag/bun-v1.0.0",
+      "title": "Release Bun v1.0 · oven-sh/bun · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0": {
+      "finalUrl": "https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0",
+      "title": "Release Bun v1.1.0 · oven-sh/bun · GitHub",
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/pycrypto/pycrypto": {
       "finalUrl": "https://github.com/pycrypto/pycrypto",
       "title": "GitHub - pycrypto/pycrypto: The Python Cryptography Toolkit · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/reactwg/react-native-releases/blob/main/docs/support.md": {
+      "finalUrl": "https://github.com/reactwg/react-native-releases/blob/main/docs/support.md",
+      "title": "react-native-releases/docs/support.md at main · reactwg/react-native-releases · GitHub",
+      "checkedAt": "2026-11-07"
+    },
+    "https://github.com/rust-lang/rust/blob/master/RELEASES.md": {
+      "finalUrl": "https://github.com/rust-lang/rust/blob/main/RELEASES.md",
+      "title": "rust/RELEASES.md at main · rust-lang/rust · GitHub",
+      "checkedAt": "2026-11-07"
     },
     "https://github.com/softprops/action-gh-release/releases/tag/v3.0.0": {
       "finalUrl": "https://github.com/softprops/action-gh-release/releases/tag/v3.0.0",
       "title": "Release v3.0.0 · softprops/action-gh-release · GitHub",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
+    },
+    "https://go.dev/doc/devel/release": {
+      "finalUrl": "https://go.dev/doc/devel/release",
+      "title": "Release History - The Go Programming Language",
+      "checkedAt": "2026-11-07"
+    },
+    "https://go.dev/doc/devel/release#policy": {
+      "finalUrl": "https://go.dev/doc/devel/release",
+      "title": "Release History - The Go Programming Language",
+      "checkedAt": "2026-11-07"
+    },
+    "https://go.dev/ref/mod#go-mod-file-module-deprecation": {
+      "finalUrl": "https://go.dev/ref/mod",
+      "title": "Go Modules Reference - The Go Programming Language",
+      "checkedAt": "2026-11-07"
+    },
+    "https://guides.rubyonrails.org/upgrading_ruby_on_rails.html": {
+      "finalUrl": "https://guides.rubyonrails.org/upgrading_ruby_on_rails.html",
+      "title": "Upgrading Ruby on Rails — Ruby on Rails Guides",
+      "checkedAt": "2026-11-07"
+    },
+    "https://helm.sh/blog/charts-repo-deprecation/": {
+      "finalUrl": "https://helm.sh/blog/charts-repo-deprecation/",
+      "title": "Helm Chart Repository Deprecation Update | Helm",
+      "checkedAt": "2026-11-07"
+    },
+    "https://hex.pm/packages/fennec": {
+      "finalUrl": "https://hex.pm/packages/fennec",
+      "title": "fennec | Hex",
+      "checkedAt": "2026-11-07"
+    },
+    "https://hex.pm/packages/mongooseice": {
+      "finalUrl": "https://hex.pm/packages/mongooseice",
+      "title": "mongooseice | Hex",
+      "checkedAt": "2026-11-07"
+    },
+    "https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/": {
+      "finalUrl": "https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/",
+      "title": "Kubernetes 1.16: Custom Resources, Overhauled Metrics, and Volume Extensions | Kubernetes",
+      "checkedAt": "2026-11-07"
     },
     "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/": {
       "finalUrl": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/",
       "title": "Kubernetes 1.22: Reaching New Peaks | Kubernetes",
-      "checkedAt": "2026-10-17"
+      "checkedAt": "2026-11-07"
     },
     "https://kubernetes.io/blog/2022/08/23/kubernetes-v1-25-release/": {
       "finalUrl": "https://kubernetes.io/blog/2022/08/23/kubernetes-v1-25-release/",
       "title": "Kubernetes v1.25: Combiner | Kubernetes",
-      "checkedAt": "2026-10-17"
+      "checkedAt": "2026-11-07"
     },
     "https://kubernetes.io/blog/2022/12/09/kubernetes-v1-26-release/": {
       "finalUrl": "https://kubernetes.io/blog/2022/12/09/kubernetes-v1-26-release/",
       "title": "Kubernetes v1.26: Electrifying | Kubernetes",
-      "checkedAt": "2026-10-17"
+      "checkedAt": "2026-11-07"
+    },
+    "https://kubernetes.io/blog/2023/04/11/kubernetes-v1-27-release/": {
+      "finalUrl": "https://kubernetes.io/blog/2023/04/11/kubernetes-v1-27-release/",
+      "title": "Kubernetes v1.27: Chill Vibes | Kubernetes",
+      "checkedAt": "2026-11-07"
+    },
+    "https://kubernetes.io/blog/2023/12/13/kubernetes-v1-29-release/": {
+      "finalUrl": "https://kubernetes.io/blog/2023/12/13/kubernetes-v1-29-release/",
+      "title": "Kubernetes v1.29: Mandala | Kubernetes",
+      "checkedAt": "2026-11-07"
+    },
+    "https://kubernetes.io/blog/2024/12/11/kubernetes-v1-32-release/": {
+      "finalUrl": "https://kubernetes.io/blog/2024/12/11/kubernetes-v1-32-release/",
+      "title": "Kubernetes v1.32: Penelope | Kubernetes",
+      "checkedAt": "2026-11-07"
     },
     "https://kubernetes.io/docs/reference/using-api/deprecation-guide/": {
       "finalUrl": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/",
       "title": "Deprecated API Migration Guide | Kubernetes",
-      "checkedAt": "2026-10-17"
+      "checkedAt": "2026-11-07"
+    },
+    "https://kubernetes.io/releases/": {
+      "finalUrl": "https://kubernetes.io/releases/",
+      "title": "Releases | Kubernetes",
+      "checkedAt": "2026-11-07"
+    },
+    "https://laravel.com/docs/11.x/upgrade": {
+      "finalUrl": "https://laravel.com/framework/docs/11.x/upgrade",
+      "title": "Upgrade Guide | Laravel 11.x - The clean stack for Artisans and agents",
+      "checkedAt": "2026-11-07"
+    },
+    "https://laravel.com/docs/12.x/upgrade": {
+      "finalUrl": "https://laravel.com/framework/docs/12.x/upgrade",
+      "title": "Upgrade Guide | Laravel 12.x - The clean stack for Artisans and agents",
+      "checkedAt": "2026-11-07"
+    },
+    "https://laravel.com/docs/13.x/upgrade": {
+      "finalUrl": "https://laravel.com/framework/docs/13.x/upgrade",
+      "title": "Upgrade Guide | Laravel 13.x - The clean stack for Artisans and agents",
+      "checkedAt": "2026-11-07"
+    },
+    "https://laravel.com/docs/releases#support-policy": {
+      "finalUrl": "https://laravel.com/framework/docs/releases",
+      "title": "Release Notes | Laravel 13.x - The clean stack for Artisans and agents",
+      "checkedAt": "2026-11-07"
+    },
+    "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted": {
+      "finalUrl": "https://learn.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops",
+      "title": "Microsoft-hosted agents for Azure Pipelines - Azure Pipelines | Microsoft Learn",
+      "checkedAt": "2026-11-07"
+    },
+    "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule": {
+      "finalUrl": "https://learn.microsoft.com/en-us/azure/devops/pipelines/agents/hosted-deprecation-schedule?view=azure-devops",
+      "title": "Microsoft-hosted image deprecations for Azure Pipelines - Azure Pipelines | Microsoft Learn",
+      "checkedAt": "2026-11-07"
+    },
+    "https://learn.microsoft.com/azure/postgresql/flexible-server/concepts-version-policy": {
+      "finalUrl": "https://learn.microsoft.com/en-us/azure/postgresql/configure-maintain/concepts-version-policy",
+      "title": "Version Policy - Azure Database for PostgreSQL | Microsoft Learn",
+      "checkedAt": "2026-11-07"
+    },
+    "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions": {
+      "finalUrl": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions",
+      "title": "Supported Kubernetes Versions in Azure Kubernetes Service (AKS) - Azure Kubernetes Service | Microsoft Learn",
+      "checkedAt": "2026-11-07"
+    },
+    "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy": {
+      "finalUrl": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy",
+      "title": "Language Runtime Support Policy - Azure App Service | Microsoft Learn",
+      "checkedAt": "2026-11-07"
+    },
+    "https://learn.microsoft.com/en-us/azure/azure-functions/functions-versions": {
+      "finalUrl": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-versions",
+      "title": "Compare Azure Functions Runtime Versions | Microsoft Learn",
+      "checkedAt": "2026-11-07"
+    },
+    "https://learn.microsoft.com/en-us/azure/mysql/concepts-version-policy": {
+      "finalUrl": "https://learn.microsoft.com/en-us/azure/mysql/concepts-version-policy",
+      "title": "Version support policy - Azure Database for MySQL | Microsoft Learn",
+      "checkedAt": "2026-11-07"
+    },
+    "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages": {
+      "finalUrl": "https://learn.microsoft.com/en-us/nuget/nuget-org/deprecate-packages",
+      "title": "Deprecating packages on nuget.org | Microsoft Learn",
+      "checkedAt": "2026-11-07"
+    },
+    "https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle": {
+      "finalUrl": "https://learn.microsoft.com/en-us/powershell/scripting/install/powershell-support-lifecycle?view=powershell-7.6",
+      "title": "PowerShell Support Lifecycle - PowerShell | Microsoft Learn",
+      "checkedAt": "2026-11-07"
+    },
+    "https://mariadb.org/about/#maintenance-policy": {
+      "finalUrl": "https://mariadb.org/about/",
+      "title": "About MariaDB Server - MariaDB.org",
+      "checkedAt": "2026-11-07"
+    },
+    "https://nextjs.org/docs/app/building-your-application/upgrading/version-14": {
+      "finalUrl": "https://nextjs.org/docs/app/guides/upgrading/version-14",
+      "title": "How to upgrade to version 14",
+      "checkedAt": "2026-11-07"
+    },
+    "https://nextjs.org/docs/app/guides/upgrading/version-15": {
+      "finalUrl": "https://nextjs.org/docs/app/guides/upgrading/version-15",
+      "title": "How to upgrade to version 15",
+      "checkedAt": "2026-11-07"
+    },
+    "https://nextjs.org/docs/app/guides/upgrading/version-16": {
+      "finalUrl": "https://nextjs.org/docs/app/guides/upgrading/version-16",
+      "title": "How to upgrade to version 16",
+      "checkedAt": "2026-11-07"
+    },
+    "https://nextjs.org/docs/pages/building-your-application/upgrading/version-13": {
+      "finalUrl": "https://nextjs.org/docs/pages/guides/upgrading/version-13",
+      "title": "How to upgrade to version 13",
+      "checkedAt": "2026-11-07"
+    },
+    "https://nextjs.org/support-policy": {
+      "finalUrl": "https://nextjs.org/support-policy",
+      "title": "Next.js Support Policy | Next.js by Vercel - The React Framework",
+      "checkedAt": "2026-11-07"
+    },
+    "https://nodejs.org/api/deprecations.html": {
+      "finalUrl": "https://nodejs.org/api/deprecations.html",
+      "title": "Deprecated APIs | Node.js v26.13.0 Documentation",
+      "checkedAt": "2026-11-07"
     },
     "https://nodejs.org/en/about/eol": {
       "finalUrl": "https://nodejs.org/en/about/eol",
       "title": "Node.js — End-Of-Life",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
+    },
+    "https://nodejs.org/en/blog/announcements/v18-release-announce": {
+      "finalUrl": "https://nodejs.org/en/blog/announcements/v18-release-announce",
+      "title": "Node.js — Node.js 18 is now available!",
+      "checkedAt": "2026-11-07"
     },
     "https://nose.readthedocs.io/en/latest/": {
       "finalUrl": "https://nose.readthedocs.io/en/latest/",
       "title": "Note to Users &#8212; nose 1.3.7 documentation",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
+    },
+    "https://osv.dev/vulnerability/GHSA-6528-wvf6-f6qg": {
+      "finalUrl": "https://osv.dev/vulnerability/GHSA-6528-wvf6-f6qg",
+      "title": "OSV - Open Source Vulnerabilities",
+      "checkedAt": "2026-11-07"
+    },
+    "https://osv.dev/vulnerability/GHSA-cq27-v7xp-c356": {
+      "finalUrl": "https://osv.dev/vulnerability/GHSA-cq27-v7xp-c356",
+      "title": "OSV - Open Source Vulnerabilities",
+      "checkedAt": "2026-11-07"
+    },
+    "https://osv.dev/vulnerability/GHSA-p8p7-x288-28g6": {
+      "finalUrl": "https://osv.dev/vulnerability/GHSA-p8p7-x288-28g6",
+      "title": "OSV - Open Source Vulnerabilities",
+      "checkedAt": "2026-11-07"
+    },
+    "https://osv.dev/vulnerability/PYSEC-2018-97": {
+      "finalUrl": "https://osv.dev/vulnerability/PYSEC-2018-97",
+      "title": "OSV - Open Source Vulnerabilities",
+      "checkedAt": "2026-11-07"
+    },
+    "https://packaging.python.org/specifications/project-status-markers/": {
+      "finalUrl": "https://packaging.python.org/en/latest/specifications/project-status-markers/",
+      "title": "Project Status Markers - Python Packaging User Guide",
+      "checkedAt": "2026-11-07"
+    },
+    "https://packagist.org/packages/doctrine/cache": {
+      "finalUrl": "https://packagist.org/packages/doctrine/cache",
+      "title": "doctrine/cache - Packagist.org",
+      "checkedAt": "2026-11-07"
+    },
+    "https://packagist.org/packages/fzaninotto/faker": {
+      "finalUrl": "https://packagist.org/packages/fzaninotto/faker",
+      "title": "fzaninotto/faker - Packagist.org",
+      "checkedAt": "2026-11-07"
+    },
+    "https://packagist.org/packages/sensiolabs/security-checker": {
+      "finalUrl": "https://packagist.org/packages/sensiolabs/security-checker",
+      "title": "sensiolabs/security-checker - Packagist.org",
+      "checkedAt": "2026-11-07"
+    },
+    "https://packagist.org/packages/swiftmailer/swiftmailer": {
+      "finalUrl": "https://packagist.org/packages/swiftmailer/swiftmailer",
+      "title": "swiftmailer/swiftmailer - Packagist.org",
+      "checkedAt": "2026-11-07"
+    },
+    "https://packagist.org/packages/zendframework/zend-stdlib": {
+      "finalUrl": "https://packagist.org/packages/zendframework/zend-stdlib",
+      "title": "zendframework/zend-stdlib - Packagist.org",
+      "checkedAt": "2026-11-07"
+    },
+    "https://peps.python.org/api/release-cycle.json": {
+      "finalUrl": "https://peps.python.org/api/release-cycle.json",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://peps.python.org/pep-0594/": {
+      "finalUrl": "https://peps.python.org/pep-0594/",
+      "title": "PEP 594 – Removing dead batteries from the standard library | peps.python.org",
+      "checkedAt": "2026-11-07"
     },
     "https://peps.python.org/pep-0596/": {
       "finalUrl": "https://peps.python.org/pep-0596/",
       "title": "PEP 596 – Python 3.9 Release Schedule | peps.python.org",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
+    },
+    "https://peps.python.org/pep-0619/": {
+      "finalUrl": "https://peps.python.org/pep-0619/",
+      "title": "PEP 619 – Python 3.10 Release Schedule | peps.python.org",
+      "checkedAt": "2026-11-07"
+    },
+    "https://peps.python.org/pep-0632/": {
+      "finalUrl": "https://peps.python.org/pep-0632/",
+      "title": "PEP 632 – Deprecate distutils module | peps.python.org",
+      "checkedAt": "2026-11-07"
+    },
+    "https://proxy.golang.org/cloud.google.com/go/pubsub/@v/v1.51.1.mod": {
+      "finalUrl": "https://proxy.golang.org/cloud.google.com/go/pubsub/@v/v1.51.1.mod",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://proxy.golang.org/github.com/cncf/udpa/go/@v/v0.0.0-20220112060539-c52dc94e7fbe.mod": {
+      "finalUrl": "https://proxy.golang.org/github.com/cncf/udpa/go/@v/v0.0.0-20220112060539-c52dc94e7fbe.mod",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://proxy.golang.org/github.com/discord/lilliput/@v/v1.5.1.mod": {
+      "finalUrl": "https://proxy.golang.org/github.com/discord/lilliput/@v/v1.5.1.mod",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://proxy.golang.org/github.com/golang/protobuf/@v/v1.5.4.mod": {
+      "finalUrl": "https://proxy.golang.org/github.com/golang/protobuf/@v/v1.5.4.mod",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://proxy.golang.org/github.com/streadway/amqp/@v/v1.1.0.mod": {
+      "finalUrl": "https://proxy.golang.org/github.com/streadway/amqp/@v/v1.1.0.mod",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://proxy.golang.org/go.opentelemetry.io/otel/exporters/zipkin/@v/v1.47.0.mod": {
+      "finalUrl": "https://proxy.golang.org/go.opentelemetry.io/otel/exporters/zipkin/@v/v1.47.0.mod",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://pub.dev/api/packages/analysis_server_client": {
+      "finalUrl": "https://pub.dev/api/packages/analysis_server_client",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://pub.dev/packages/analysis_server_client": {
+      "finalUrl": "https://pub.dev/packages/analysis_server_client",
+      "title": "analysis_server_client | Dart package",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/project/apisec-surface/": {
+      "finalUrl": "https://pypi.org/project/apisec-surface/",
+      "title": "apisec-surface · PyPI",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/project/argparse/": {
+      "finalUrl": "https://pypi.org/project/argparse/",
+      "title": "argparse · PyPI",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/project/datacommons/": {
+      "finalUrl": "https://pypi.org/project/datacommons/",
+      "title": "datacommons · PyPI",
+      "checkedAt": "2026-11-07"
     },
     "https://pypi.org/project/django-nose/": {
       "finalUrl": "https://pypi.org/project/django-nose/",
       "title": "django-nose · PyPI",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/project/enum/": {
+      "finalUrl": "https://pypi.org/project/enum/",
+      "title": "enum · PyPI",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/project/ghops/": {
+      "finalUrl": "https://pypi.org/project/ghops/",
+      "title": "ghops · PyPI",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/project/goobook/": {
+      "finalUrl": "https://pypi.org/project/goobook/",
+      "title": "goobook · PyPI",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/project/google-cloud/": {
+      "finalUrl": "https://pypi.org/project/google-cloud/",
+      "title": "google-cloud · PyPI",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/project/imagej/": {
+      "finalUrl": "https://pypi.org/project/imagej/",
+      "title": "imagej · PyPI",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/project/ipaddr/": {
+      "finalUrl": "https://pypi.org/project/ipaddr/",
+      "title": "ipaddr · PyPI",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/project/pathlib/": {
+      "finalUrl": "https://pypi.org/project/pathlib/",
+      "title": "pathlib · PyPI",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/project/poetry-version-plugin/": {
+      "finalUrl": "https://pypi.org/project/poetry-version-plugin/",
+      "title": "poetry-version-plugin · PyPI",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/project/pycodestyle/": {
+      "finalUrl": "https://pypi.org/project/pycodestyle/",
+      "title": "pycodestyle · PyPI",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/project/pyinj/": {
+      "finalUrl": "https://pypi.org/project/pyinj/",
+      "title": "pyinj · PyPI",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/project/pytest-runner/": {
+      "finalUrl": "https://pypi.org/project/pytest-runner/",
+      "title": "pytest-runner · PyPI",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/project/saroku/": {
+      "finalUrl": "https://pypi.org/project/saroku/",
+      "title": "saroku · PyPI",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/project/sklearn/": {
+      "finalUrl": "https://pypi.org/project/sklearn/",
+      "title": "sklearn · PyPI",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/project/superlinked/": {
+      "finalUrl": "https://pypi.org/project/superlinked/",
+      "title": "superlinked · PyPI",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/project/typing/": {
+      "finalUrl": "https://pypi.org/project/typing/",
+      "title": "typing · PyPI",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/project/vsscale/": {
+      "finalUrl": "https://pypi.org/project/vsscale/",
+      "title": "vsscale · PyPI",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/simple/argparse/": {
+      "finalUrl": "https://pypi.org/simple/argparse/",
+      "title": "Links for argparse",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/simple/enum/": {
+      "finalUrl": "https://pypi.org/simple/enum/",
+      "title": "Links for enum",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/simple/google-cloud/": {
+      "finalUrl": "https://pypi.org/simple/google-cloud/",
+      "title": "Links for google-cloud",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/simple/pathlib/": {
+      "finalUrl": "https://pypi.org/simple/pathlib/",
+      "title": "Links for pathlib",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/simple/pil/": {
+      "finalUrl": "https://pypi.org/simple/pil/",
+      "title": "Links for pil",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/simple/pyinj/": {
+      "finalUrl": "https://pypi.org/simple/pyinj/",
+      "title": "Links for pyinj",
+      "checkedAt": "2026-11-07"
+    },
+    "https://pypi.org/simple/typing/": {
+      "finalUrl": "https://pypi.org/simple/typing/",
+      "title": "Links for typing",
+      "checkedAt": "2026-11-07"
+    },
+    "https://react-native-community.github.io/upgrade-helper/": {
+      "finalUrl": "https://react-native-community.github.io/upgrade-helper/",
+      "title": "Upgrade React Native applications",
+      "checkedAt": "2026-11-07"
+    },
+    "https://reactnative.dev/docs/upgrading": {
+      "finalUrl": "https://reactnative.dev/docs/upgrading",
+      "title": "Upgrading to New Versions · React Native",
+      "checkedAt": "2026-11-07"
+    },
+    "https://reactnative.dev/releases/overview": {
+      "finalUrl": "https://reactnative.dev/releases/overview",
+      "title": "Releases Overview · React Native",
+      "checkedAt": "2026-11-07"
+    },
+    "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/": {
+      "finalUrl": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/",
+      "title": "Redis Open Source version management | Docs",
+      "checkedAt": "2026-11-07"
     },
     "https://registry.npmjs.org/@hapi%2fjoi/latest": {
       "finalUrl": "https://registry.npmjs.org/@hapi%2fjoi/latest",
       "title": null,
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/@humanwhocodes%2Fconfig-array/latest": {
+      "finalUrl": "https://registry.npmjs.org/@humanwhocodes%2Fconfig-array/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/@humanwhocodes%2Fobject-schema/latest": {
+      "finalUrl": "https://registry.npmjs.org/@humanwhocodes%2Fobject-schema/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/@npmcli%2Fmove-file/latest": {
+      "finalUrl": "https://registry.npmjs.org/@npmcli%2Fmove-file/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/@nuxt%2ftypes/latest": {
+      "finalUrl": "https://registry.npmjs.org/@nuxt%2ftypes/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/@nuxt%2ftypescript-build/latest": {
+      "finalUrl": "https://registry.npmjs.org/@nuxt%2ftypescript-build/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/@types%2fdiff": {
+      "finalUrl": "https://registry.npmjs.org/@types%2fdiff",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/@types%2fdotenv": {
+      "finalUrl": "https://registry.npmjs.org/@types%2fdotenv",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/@types%2femoji-regex": {
+      "finalUrl": "https://registry.npmjs.org/@types%2femoji-regex",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/@types%2fform-data": {
+      "finalUrl": "https://registry.npmjs.org/@types%2fform-data",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/@types%2fglob": {
+      "finalUrl": "https://registry.npmjs.org/@types%2fglob",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/@types%2fkoa-helmet": {
+      "finalUrl": "https://registry.npmjs.org/@types%2fkoa-helmet",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/@types%2fkoa-useragent": {
+      "finalUrl": "https://registry.npmjs.org/@types%2fkoa-useragent",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/@types%2fpako": {
+      "finalUrl": "https://registry.npmjs.org/@types%2fpako",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/@types%2freact-virtualized-auto-sizer": {
+      "finalUrl": "https://registry.npmjs.org/@types%2freact-virtualized-auto-sizer",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/@types%2freact-window": {
+      "finalUrl": "https://registry.npmjs.org/@types%2freact-window",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/@types%2frefractor": {
+      "finalUrl": "https://registry.npmjs.org/@types%2frefractor",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/@types%2fsanitize-filename": {
+      "finalUrl": "https://registry.npmjs.org/@types%2fsanitize-filename",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/@types%2fsequelize": {
+      "finalUrl": "https://registry.npmjs.org/@types%2fsequelize",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/@types%2fsocket.io-client": {
+      "finalUrl": "https://registry.npmjs.org/@types%2fsocket.io-client",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/abab/latest": {
+      "finalUrl": "https://registry.npmjs.org/abab/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/are-we-there-yet/latest": {
+      "finalUrl": "https://registry.npmjs.org/are-we-there-yet/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/babel-eslint": {
+      "finalUrl": "https://registry.npmjs.org/babel-eslint",
+      "title": null,
+      "checkedAt": "2026-11-07"
     },
     "https://registry.npmjs.org/babel-preset-es2015/latest": {
       "finalUrl": "https://registry.npmjs.org/babel-preset-es2015/latest",
       "title": null,
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://registry.npmjs.org/boom/latest": {
       "finalUrl": "https://registry.npmjs.org/boom/latest",
       "title": null,
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://registry.npmjs.org/cryptiles/latest": {
       "finalUrl": "https://registry.npmjs.org/cryptiles/latest",
       "title": null,
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/crypto-js/latest": {
+      "finalUrl": "https://registry.npmjs.org/crypto-js/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/domexception/latest": {
+      "finalUrl": "https://registry.npmjs.org/domexception/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/eslint-plugin-nuxt/latest": {
+      "finalUrl": "https://registry.npmjs.org/eslint-plugin-nuxt/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/figgy-pudding/latest": {
+      "finalUrl": "https://registry.npmjs.org/figgy-pudding/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/fstream/latest": {
+      "finalUrl": "https://registry.npmjs.org/fstream/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/gauge/latest": {
+      "finalUrl": "https://registry.npmjs.org/gauge/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
     },
     "https://registry.npmjs.org/gulp-util/latest": {
       "finalUrl": "https://registry.npmjs.org/gulp-util/latest",
       "title": null,
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://registry.npmjs.org/har-validator/latest": {
       "finalUrl": "https://registry.npmjs.org/har-validator/latest",
       "title": null,
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/i18next-parser/latest": {
+      "finalUrl": "https://registry.npmjs.org/i18next-parser/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
     },
     "https://registry.npmjs.org/inflight/latest": {
       "finalUrl": "https://registry.npmjs.org/inflight/latest",
       "title": null,
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
-    "https://registry.npmjs.org/istanbul/latest": {
-      "finalUrl": "https://registry.npmjs.org/istanbul/latest",
+    "https://registry.npmjs.org/istanbul": {
+      "finalUrl": "https://registry.npmjs.org/istanbul",
       "title": null,
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://registry.npmjs.org/jade/latest": {
       "finalUrl": "https://registry.npmjs.org/jade/latest",
       "title": null,
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
     },
     "https://registry.npmjs.org/karma-phantomjs-launcher/latest": {
       "finalUrl": "https://registry.npmjs.org/karma-phantomjs-launcher/latest",
       "title": null,
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/koa-router/latest": {
+      "finalUrl": "https://registry.npmjs.org/koa-router/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/lodash.get/latest": {
+      "finalUrl": "https://registry.npmjs.org/lodash.get/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/lodash.isequal/latest": {
+      "finalUrl": "https://registry.npmjs.org/lodash.isequal/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/natives/latest": {
+      "finalUrl": "https://registry.npmjs.org/natives/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/node-pre-gyp": {
+      "finalUrl": "https://registry.npmjs.org/node-pre-gyp",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/node-sass": {
+      "finalUrl": "https://registry.npmjs.org/node-sass",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/nomnom/latest": {
+      "finalUrl": "https://registry.npmjs.org/nomnom/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/npmlog/latest": {
+      "finalUrl": "https://registry.npmjs.org/npmlog/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/osenv/latest": {
+      "finalUrl": "https://registry.npmjs.org/osenv/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/popper.js": {
+      "finalUrl": "https://registry.npmjs.org/popper.js",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/protractor/latest": {
+      "finalUrl": "https://registry.npmjs.org/protractor/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/q/latest": {
+      "finalUrl": "https://registry.npmjs.org/q/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/querystring/latest": {
+      "finalUrl": "https://registry.npmjs.org/querystring/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/react-beautiful-dnd": {
+      "finalUrl": "https://registry.npmjs.org/react-beautiful-dnd",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/read-package-json/latest": {
+      "finalUrl": "https://registry.npmjs.org/read-package-json/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/request-promise-native/latest": {
+      "finalUrl": "https://registry.npmjs.org/request-promise-native/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/request-promise/latest": {
+      "finalUrl": "https://registry.npmjs.org/request-promise/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/resolve-url/latest": {
+      "finalUrl": "https://registry.npmjs.org/resolve-url/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/rollup-plugin-babel": {
+      "finalUrl": "https://registry.npmjs.org/rollup-plugin-babel",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/rollup-plugin-terser/latest": {
+      "finalUrl": "https://registry.npmjs.org/rollup-plugin-terser/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/sntp/latest": {
+      "finalUrl": "https://registry.npmjs.org/sntp/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/socket.io-redis": {
+      "finalUrl": "https://registry.npmjs.org/socket.io-redis",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/source-map-url/latest": {
+      "finalUrl": "https://registry.npmjs.org/source-map-url/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/sourcemap-codec/latest": {
+      "finalUrl": "https://registry.npmjs.org/sourcemap-codec/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/stable/latest": {
+      "finalUrl": "https://registry.npmjs.org/stable/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/tslint": {
+      "finalUrl": "https://registry.npmjs.org/tslint",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/uglify-es/latest": {
+      "finalUrl": "https://registry.npmjs.org/uglify-es/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/vue2-script-setup-transform/latest": {
+      "finalUrl": "https://registry.npmjs.org/vue2-script-setup-transform/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://registry.npmjs.org/w3c-hr-time/latest": {
+      "finalUrl": "https://registry.npmjs.org/w3c-hr-time/latest",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://repo.packagist.org/p2/doctrine/cache.json": {
+      "finalUrl": "https://repo.packagist.org/p2/doctrine/cache.json",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://repo.packagist.org/p2/fzaninotto/faker.json": {
+      "finalUrl": "https://repo.packagist.org/p2/fzaninotto/faker.json",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://repo.packagist.org/p2/sensiolabs/security-checker.json": {
+      "finalUrl": "https://repo.packagist.org/p2/sensiolabs/security-checker.json",
+      "title": null,
+      "checkedAt": "2026-11-07"
     },
     "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.33/mysql-connector-java-8.0.33.pom": {
       "finalUrl": "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.33/mysql-connector-java-8.0.33.pom",
       "title": null,
-      "checkedAt": "2026-10-17"
+      "checkedAt": "2026-11-07"
+    },
+    "https://repo1.maven.org/maven2/org/hibernate/hibernate-entitymanager/6.0.0.Alpha7/hibernate-entitymanager-6.0.0.Alpha7.pom": {
+      "finalUrl": "https://repo1.maven.org/maven2/org/hibernate/hibernate-entitymanager/6.0.0.Alpha7/hibernate-entitymanager-6.0.0.Alpha7.pom",
+      "title": null,
+      "checkedAt": "2026-11-07"
     },
     "https://repo1.maven.org/maven2/org/slf4j/slf4j-log4j12/2.1.0-alpha1/slf4j-log4j12-2.1.0-alpha1.pom": {
       "finalUrl": "https://repo1.maven.org/maven2/org/slf4j/slf4j-log4j12/2.1.0-alpha1/slf4j-log4j12-2.1.0-alpha1.pom",
       "title": null,
-      "checkedAt": "2026-10-17"
+      "checkedAt": "2026-11-07"
+    },
+    "https://rubygems.org/gems/json/versions/2.17.1.1": {
+      "finalUrl": "https://rubygems.org/gems/json/versions/2.17.1.1",
+      "title": "json | RubyGems.org | your community gem host",
+      "checkedAt": "2026-11-07"
+    },
+    "https://rubyonrails.org/2025/10/29/new-rails-releases-and-end-of-support-announcement": {
+      "finalUrl": "https://rubyonrails.org/2025/10/29/new-rails-releases-and-end-of-support-announcement",
+      "title": "New Rails Releases and End of Support Announcement",
+      "checkedAt": "2026-11-07"
+    },
+    "https://rubyonrails.org/maintenance": {
+      "finalUrl": "https://rubyonrails.org/maintenance",
+      "title": "Ruby on Rails Maintenance Policy",
+      "checkedAt": "2026-11-07"
+    },
+    "https://rustsec.org/advisories/RUSTSEC-2018-0017.html": {
+      "finalUrl": "https://rustsec.org/advisories/RUSTSEC-2018-0017.html",
+      "title": "RUSTSEC-2018-0017: tempdir: `tempdir` crate has been deprecated; use `tempfile` instead › RustSec Advisory Database",
+      "checkedAt": "2026-11-07"
+    },
+    "https://rustsec.org/advisories/RUSTSEC-2020-0036.html": {
+      "finalUrl": "https://rustsec.org/advisories/RUSTSEC-2020-0036.html",
+      "title": "RUSTSEC-2020-0036: failure: failure is officially deprecated/unmaintained › RustSec Advisory Database",
+      "checkedAt": "2026-11-07"
+    },
+    "https://rustsec.org/advisories/RUSTSEC-2021-0139.html": {
+      "finalUrl": "https://rustsec.org/advisories/RUSTSEC-2021-0139.html",
+      "title": "RUSTSEC-2021-0139: ansi_term: ansi_term is Unmaintained › RustSec Advisory Database",
+      "checkedAt": "2026-11-07"
+    },
+    "https://rustsec.org/advisories/RUSTSEC-2024-0375.html": {
+      "finalUrl": "https://rustsec.org/advisories/RUSTSEC-2024-0375.html",
+      "title": "RUSTSEC-2024-0375: atty: `atty` is unmaintained › RustSec Advisory Database",
+      "checkedAt": "2026-11-07"
     },
     "https://sass-lang.com/blog/node-sass-is-end-of-life/": {
       "finalUrl": "https://sass-lang.com/blog/node-sass-is-end-of-life/",
       "title": "Sass: Node Sass is end-of-life",
-      "checkedAt": "2026-10-16"
+      "checkedAt": "2026-11-07"
+    },
+    "https://scala-lang.org/development/": {
+      "finalUrl": "https://scala-lang.org/development/",
+      "title": "Scala development guarantees | The Scala Programming Language",
+      "checkedAt": "2026-11-07"
+    },
+    "https://scala-lang.org/news/3.9/": {
+      "finalUrl": "https://scala-lang.org/news/3.9/",
+      "title": "Scala 3.9 LTS released! | The Scala Programming Language",
+      "checkedAt": "2026-11-07"
+    },
+    "https://spring.io/blog/2025/06/19/spring-boot-3-3-13-available-now/": {
+      "finalUrl": "https://spring.io/blog/2025/06/19/spring-boot-3-3-13-available-now/",
+      "title": "",
+      "checkedAt": "2026-11-07"
+    },
+    "https://spring.io/blog/2025/12/18/spring-boot-3-4-13-available-now/": {
+      "finalUrl": "https://spring.io/blog/2025/12/18/spring-boot-3-4-13-available-now/",
+      "title": "",
+      "checkedAt": "2026-11-07"
+    },
+    "https://spring.io/blog/2026/06/25/spring-boot-3-5-16-available-now/": {
+      "finalUrl": "https://spring.io/blog/2026/06/25/spring-boot-3-5-16-available-now/",
+      "title": "",
+      "checkedAt": "2026-11-07"
+    },
+    "https://spring.io/projects/spring-boot#support": {
+      "finalUrl": "https://spring.io/projects/spring-boot/",
+      "title": "",
+      "checkedAt": "2026-11-07"
+    },
+    "https://support.hashicorp.com/hc/en-us/articles/360021185113": {
+      "finalUrl": "https://www.ibm.com/mysupport/s/?language=en_US",
+      "title": "IBM Support",
+      "checkedAt": "2026-11-07"
+    },
+    "https://symfony.com/blog/the-end-of-swiftmailer": {
+      "finalUrl": "https://symfony.com/blog/the-end-of-swiftmailer",
+      "title": "The end of Swiftmailer (Symfony Blog)",
+      "checkedAt": "2026-11-07"
+    },
+    "https://ubuntu.com/about/release-cycle": {
+      "finalUrl": "https://ubuntu.com/about/release-cycle",
+      "title": "Ubuntu release cycle | Ubuntu",
+      "checkedAt": "2026-11-07"
+    },
+    "https://v2.vuejs.org/lts/": {
+      "finalUrl": "https://v2.vuejs.org/lts/",
+      "title": "Vue.js",
+      "checkedAt": "2026-11-07"
+    },
+    "https://v3-migration.vuejs.org/": {
+      "finalUrl": "https://v3-migration.vuejs.org/",
+      "title": "Vue 3 Migration Guide",
+      "checkedAt": "2026-11-07"
+    },
+    "https://v3-migration.vuejs.org/breaking-changes/": {
+      "finalUrl": "https://v3-migration.vuejs.org/breaking-changes/",
+      "title": "Breaking Changes | Vue 3 Migration Guide",
+      "checkedAt": "2026-11-07"
+    },
+    "https://v3-migration.vuejs.org/breaking-changes/global-api.html": {
+      "finalUrl": "https://v3-migration.vuejs.org/breaking-changes/global-api.html",
+      "title": "Global API Application Instance | Vue 3 Migration Guide",
+      "checkedAt": "2026-11-07"
+    },
+    "https://v3-migration.vuejs.org/migration-build.html": {
+      "finalUrl": "https://v3-migration.vuejs.org/migration-build.html",
+      "title": "Migration Build | Vue 3 Migration Guide",
+      "checkedAt": "2026-11-07"
+    },
+    "https://wiki.debian.org/LTS": {
+      "finalUrl": "https://wiki.debian.org/LTS",
+      "title": "LTS - Debian Wiki",
+      "checkedAt": "2026-11-07"
+    },
+    "https://www.centos.org/centos-linux/": {
+      "finalUrl": "https://www.centos.org/centos-linux/",
+      "title": "CentOS Linux - The CentOS Project",
+      "checkedAt": "2026-11-07"
+    },
+    "https://www.debian.org/releases/": {
+      "finalUrl": "https://www.debian.org/releases/",
+      "title": "Debian -- Debian Releases",
+      "checkedAt": "2026-11-07"
+    },
+    "https://www.djangoproject.com/download/#supported-versions": {
+      "finalUrl": "https://www.djangoproject.com/download/",
+      "title": "Download Django | Django",
+      "checkedAt": "2026-11-07"
+    },
+    "https://www.drupal.org/about/core/policies/core-release-cycles/schedule": {
+      "finalUrl": "https://www.drupal.org/about/core/policies/core-release-cycles/schedule",
+      "title": "Drupal core release schedule | Core release cycles | About guide on Drupal.org",
+      "checkedAt": "2026-11-07"
+    },
+    "https://www.nuget.org/packages/Microsoft.Azure.DocumentDB": {
+      "finalUrl": "https://www.nuget.org/packages/Microsoft.Azure.DocumentDB",
+      "title": "NuGet Gallery | Microsoft.Azure.DocumentDB 2.22.0",
+      "checkedAt": "2026-11-07"
+    },
+    "https://www.nuget.org/packages/Microsoft.Azure.ServiceBus": {
+      "finalUrl": "https://www.nuget.org/packages/Microsoft.Azure.ServiceBus",
+      "title": "NuGet Gallery | Microsoft.Azure.ServiceBus 5.2.0",
+      "checkedAt": "2026-11-07"
+    },
+    "https://www.nuget.org/packages/Microsoft.Azure.Storage.Blob": {
+      "finalUrl": "https://www.nuget.org/packages/Microsoft.Azure.Storage.Blob",
+      "title": "NuGet Gallery | Microsoft.Azure.Storage.Blob 11.2.3",
+      "checkedAt": "2026-11-07"
+    },
+    "https://www.nuget.org/packages/WindowsAzure.Storage": {
+      "finalUrl": "https://www.nuget.org/packages/WindowsAzure.Storage",
+      "title": "NuGet Gallery | WindowsAzure.Storage 9.3.3",
+      "checkedAt": "2026-11-07"
     },
     "https://www.oracle.com/java/technologies/java-se-support-roadmap.html": {
       "finalUrl": "https://www.oracle.com/java/technologies/java-se-support-roadmap.html",
       "title": "Oracle Java SE Support Roadmap",
-      "checkedAt": "2026-10-17"
+      "checkedAt": "2026-11-07"
+    },
+    "https://www.php.net/eol.php": {
+      "finalUrl": "https://www.php.net/eol.php",
+      "title": "PHP: Unsupported Branches",
+      "checkedAt": "2026-11-07"
+    },
+    "https://www.php.net/releases/branches.php": {
+      "finalUrl": "https://www.php.net/releases/branches.php",
+      "title": null,
+      "checkedAt": "2026-11-07"
+    },
+    "https://www.php.net/supported-versions.php": {
+      "finalUrl": "https://www.php.net/supported-versions.php",
+      "title": "PHP: Supported Versions",
+      "checkedAt": "2026-11-07"
+    },
+    "https://www.phpmyadmin.net/downloads/": {
+      "finalUrl": "https://www.phpmyadmin.net/downloads/",
+      "title": "Downloads · phpMyAdmin",
+      "checkedAt": "2026-11-07"
+    },
+    "https://www.postgresql.org/support/versioning/": {
+      "finalUrl": "https://www.postgresql.org/support/versioning/",
+      "title": "PostgreSQL: Versioning Policy",
+      "checkedAt": "2026-11-07"
+    },
+    "https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux/rhel-7-end-of-maintenance": {
+      "finalUrl": "https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux/rhel-7-end-of-maintenance",
+      "title": "What to know for Red Hat Enterprise Linux 7 End of Maintenance",
+      "checkedAt": "2026-11-07"
+    },
+    "https://www.ruby-lang.org/en/downloads/branches/": {
+      "finalUrl": "https://www.ruby-lang.org/en/downloads/branches/",
+      "title": "Ruby Maintenance Branches | Ruby",
+      "checkedAt": "2026-11-07"
+    },
+    "https://www.rust-lang.org/policies/security": {
+      "finalUrl": "https://rust-lang.org/policies/security/",
+      "title": "Security policy - Rust Programming Language",
+      "checkedAt": "2026-11-07"
+    },
+    "https://www.scala-lang.org/blog/2024/12/16/scala-2-maintenance.html": {
+      "finalUrl": "https://www.scala-lang.org/blog/2024/12/16/scala-2-maintenance.html",
+      "title": "Scala 2 maintenance plans | The Scala Programming Language",
+      "checkedAt": "2026-11-07"
+    },
+    "https://www.scala-sbt.org/1.x/docs/Migrating-from-sbt-013x.html": {
+      "finalUrl": "https://www.scala-sbt.org/1.x/docs/Migrating-from-sbt-013x.html",
+      "title": "sbt Reference Manual — Migrating from sbt 0.13.x",
+      "checkedAt": "2026-11-07"
+    },
+    "https://www.scala-sbt.org/download/": {
+      "finalUrl": "https://www.scala-sbt.org/download/",
+      "title": "Download | sbt",
+      "checkedAt": "2026-11-07"
+    },
+    "https://www.suse.com/lifecycle/": {
+      "finalUrl": "https://www.suse.com/lifecycle/",
+      "title": "Product Support Lifecycle | SUSE",
+      "checkedAt": "2026-11-07"
+    },
+    "https://www.zendframework.com/blog/2020-01-24-laminas-launch.html": {
+      "finalUrl": "https://www.zendframework.com/blog/2020-01-24-laminas-launch.html",
+      "title": "Endings and Beginnings: Goodbye, and Please Welcome the Laminas Project! - Blog - Zend Framework",
+      "checkedAt": "2026-11-07"
+    },
+    "https://zookeeper.apache.org/releases/": {
+      "finalUrl": "https://zookeeper.apache.org/releases/",
+      "title": "Releases - Apache ZooKeeper",
+      "checkedAt": "2026-11-07"
     }
   }
 }

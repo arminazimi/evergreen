@@ -26,11 +26,13 @@ test("container registry has twenty-six image rules, two Dockerfile rules, and s
 });
 
 test("release lines fall on the right side of each range", async () => {
-  const byPurl = new Map(
-    (await rules())
-      .filter((rule) => rule.event !== "scheduled-end-of-life" && rule.purl.startsWith("pkg:docker/library/"))
-      .map((rule) => [rule.purl.split("/").pop(), rule.vers]),
-  );
+  const byPurl = new Map<string, string[]>();
+  for (const rule of (await rules()).filter(
+    (item) => item.event !== "scheduled-end-of-life" && item.purl.startsWith("pkg:docker/library/"),
+  )) {
+    const name = rule.purl.split("/").pop() ?? rule.purl;
+    byPurl.set(name, [...(byPurl.get(name) ?? []), rule.vers]);
+  }
   const cases: Array<[string, string, boolean]> = [
     ["node", "18.0.0", true],
     ["node", "20.0.0", true],
@@ -44,7 +46,8 @@ test("release lines fall on the right side of each range", async () => {
     ["debian", "12.0.0", false],
     ["alpine", "3.17.0", true],
     ["alpine", "3.20.0", true],
-    ["alpine", "3.21.0", false],
+    ["alpine", "3.21.0", true],
+    ["alpine", "3.22.0", false],
     ["postgres", "11.0.0", true],
     ["postgres", "13.0.0", true],
     ["postgres", "14.0.0", false],
@@ -55,7 +58,12 @@ test("release lines fall on the right side of each range", async () => {
     ["ruby", "3.3.0", false],
   ];
   for (const [name, version, affected] of cases) {
-    assert.equal(versContains(byPurl.get(name)!, version), affected, `${name} ${version}`);
+    const ranges = byPurl.get(name) ?? [];
+    assert.equal(
+      ranges.some((vers) => versContains(vers, version)),
+      affected,
+      `${name} ${version}`,
+    );
   }
 });
 
@@ -70,7 +78,6 @@ test("a scheduled image line is a low-severity rule for exactly that line", asyn
       ["container.ruby.eol-3.3-and-older", "vers:semver/>=3.3.0|<3.4.0", "low", "2027-03-31"],
       ["container.redis.eol-6.2-and-older", "vers:semver/>=6.2.0|<6.3.0", "low", "2027-04-01"],
       ["container.ubuntu.eol-22.04", "vers:semver/>=22.0.0|<22.10.0", "low", "2027-06-01"],
-      ["container.alpine.eol-3.21", "vers:semver/>=3.21.0|<3.22.0", "low", "2026-11-01"],
     ],
   );
   for (const [rule, version, affected] of [

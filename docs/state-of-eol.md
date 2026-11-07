@@ -330,7 +330,7 @@ Measured on the public corpus of 1390 pinned repositories (8994 expected finding
 | terraform | Terraform CLI 1.13 is no longer a supported release line | [`terraform.cli.end-of-support-1.13`](rules/terraform.cli.end-of-support-1.13.html) | end-of-support | 4 | 3 |
 | WindowsAzure.Storage | WindowsAzure.Storage is deprecated on NuGet | [`dotnet.package.windowsazure-storage.deprecated`](rules/dotnet.package.windowsazure-storage.deprecated.html) | deprecated | 4 | 4 |
 | aws-lambda-runtime/provided.al2 | AWS Lambda OS-only runtime provided.al2 runtime is end-of-life | [`serverless.aws-lambda.provided.al2`](rules/serverless.aws-lambda.provided.al2.html) | end-of-life | 3 | 2 |
-| azure-pipelines/macos-image | Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal | [`ci-images.azure-pipelines.macos-14`](rules/ci-images.azure-pipelines.macos-14.html) | scheduled-end-of-life | 3 | 3 |
+| azure-pipelines/macos-image | Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal on 2026-11-23 | [`ci-images.azure-pipelines.macos-14`](rules/ci-images.azure-pipelines.macos-14.html) | scheduled-end-of-life | 3 | 3 |
 | django | Django 4.2 LTS is end-of-life | [`python.package.django-4.2.eol`](rules/python.package.django-4.2.eol.html) | end-of-life | 3 | 3 |
 | kubernetes/extensions/ReplicaSet | ReplicaSet extensions/v1beta1 is no longer served | [`kubernetes.extensions.replicaset.v1beta1.removed`](rules/kubernetes.extensions.replicaset.v1beta1.removed.html) | removed | 3 | 2 |
 | library/mysql | MySQL image release lines 8.0 and older are past end-of-life | [`container.mysql.eol-8.0-and-older`](rules/container.mysql.eol-8.0-and-older.html) | end-of-life | 3 | 3 |

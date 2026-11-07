@@ -197,9 +197,14 @@ test("separates unreachable, blocked, and unrecorded sources", async () => {
   assert.deepEqual(failingCategories(report, ["stale", "changed", "unreachable"]), ["unreachable"]);
 });
 
-test("recognizes bot challenges only on blocking statuses", () => {
+test("recognizes bot challenges by blocking status or a challenge page title", () => {
   assert.equal(isBotChallenge(page("u", "Just a moment...", 403)), true);
   assert.equal(isBotChallenge(page("u", "Attention Required! | Cloudflare", 503)), true);
+  assert.equal(isBotChallenge(page("u", "403 Oracle Export Error", 403)), true);
+  assert.equal(isBotChallenge(page("u", "Technical Difficulties", 403)), true);
+  assert.equal(isBotChallenge(page("u", "403 Oracle Export Error", 200)), false);
+  assert.equal(isBotChallenge(page("u", "Technical Difficulties", 200)), false);
+  assert.equal(isBotChallenge(page("u", "Client Challenge", 200)), true);
   assert.equal(isBotChallenge(page("u", "Just a moment...", 200)), false);
   assert.equal(isBotChallenge(page("u", "Forbidden", 403)), false);
   assert.equal(isBotChallenge({ status: null, finalUrl: null, title: null }), false);
@@ -275,6 +280,13 @@ test("accepting an observation records reachable pages and keeps earlier entries
     [down]: lock.sources[down],
     [ok]: { finalUrl: "https://example.com/ok-new", title: "New", checkedAt: "2026-10-15" },
   });
+});
+
+test("a challenge page served with 200 never replaces the recorded title", () => {
+  const url = "https://example.com/challenged";
+  const lock = lockOf({ [url]: { finalUrl: url, title: "Real page" } });
+  const next = updatedLock(lock, new Map<string, SourceObservation>([[url, page(url, "Client Challenge")]]), NOW);
+  assert.deepEqual(next.sources, { [url]: lock.sources[url] });
 });
 
 test("renders a summary a maintainer can act on", async () => {

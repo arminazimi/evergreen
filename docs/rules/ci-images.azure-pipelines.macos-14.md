@@ -1,18 +1,18 @@
 ---
-title: "Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal — dates, impact, migration"
-description: "The macOS 14 Sonoma hosted image deprecation starts on 2026-07-06 and its scheduled removal is 2026-11-02, per Microsoft's hosted image deprecation schedule."
+title: "Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal on 2026-11-23 — dates, impact, migration"
+description: "The macOS 14 Sonoma hosted image deprecation started on 2026-07-06 and its scheduled removal moved to 2026-11-23 (from 2026-11-02), per Microsoft's hosted image deprecation schedule."
 layout: doc
 permalink: "/rules/ci-images.azure-pipelines.macos-14.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.macos-14.html"
 image: "/assets/og/ci-images.azure-pipelines.macos-14.svg"
-review_date: "2026-10-18"
-last_modified_at: "2026-10-18"
+review_date: "2026-11-07"
+last_modified_at: "2026-11-07"
 json_twin: "/rules/ci-images.azure-pipelines.macos-14.json"
 ---
 
-# Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal
+# Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal on 2026-11-23
 
-**Scheduled end of life** as of 2026-11-02. Replacement: macos-latest or macos-15. Source: [Microsoft-hosted image deprecation schedule](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule).
+**Scheduled end of life** as of 2026-11-23. Replacement: macos-latest or macos-15. Source: [Microsoft-hosted image deprecation schedule](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule).
 
 Check a version:
 
@@ -20,7 +20,7 @@ Check a version:
 evergreen check pkg:generic/azure-pipelines/macos-image
 ```
 
-The macOS 14 Sonoma hosted image deprecation starts on 2026-07-06 and its scheduled removal is 2026-11-02, per Microsoft's hosted image deprecation schedule.
+The macOS 14 Sonoma hosted image deprecation started on 2026-07-06 and its scheduled removal moved to 2026-11-23 (from 2026-11-02), per Microsoft's hosted image deprecation schedule. Brownouts run through 2026-11-20.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
 
@@ -31,23 +31,23 @@ The macOS 14 Sonoma hosted image deprecation starts on 2026-07-06 and its schedu
 | Ecosystem | `ci-images` |
 | Component | `pkg:generic/azure-pipelines/macos-image` |
 | Affected versions | `vers:intdot/14` |
-| Date from the source | 2026-11-02 |
+| Date from the source | 2026-11-23 |
 | Replacement | macos-latest or macos-15 |
-| Evidence last seen | 2026-10-18 |
-| Reviewed | 2026-10-18 by arminazimi |
-| Review due | 2027-10-18 (365 days after the last review) |
+| Evidence last seen | 2026-11-07 |
+| Reviewed | 2026-11-07 by arminazimi |
+| Review due | 2027-11-07 (365 days after the last review) |
 | Rule ID | `ci-images.azure-pipelines.macos-14` |
 
 ## Sources
 
-- [Microsoft-hosted image deprecation schedule](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule) (accessed 2026-10-18)
+- [Microsoft-hosted image deprecation schedule](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule) (accessed 2026-11-07)
 
 ## Migration
 
 **Constraints**
 
 - Change only Microsoft-hosted pool.vmImage labels. The macOS 14 schedule does not apply to self-hosted macOS 14 agents.
-- Move off macos-14 before the scheduled removal on 2026-11-02. The notice names macos-latest or macos-15.
+- Move off macos-14 before the scheduled removal on 2026-11-23. The notice names macos-latest or macos-15.
 
 **Steps**
 
@@ -88,10 +88,10 @@ This page is generated from [`registry/ci-images.json`](https://github.com/armin
       "@id": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.macos-14.html",
       "url": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.macos-14.html",
       "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.macos-14.html",
-      "headline": "Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal — dates, impact, migration",
-      "description": "The macOS 14 Sonoma hosted image deprecation starts on 2026-07-06 and its scheduled removal is 2026-11-02, per Microsoft's hosted image deprecation schedule.",
+      "headline": "Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal on 2026-11-23 — dates, impact, migration",
+      "description": "The macOS 14 Sonoma hosted image deprecation started on 2026-07-06 and its scheduled removal moved to 2026-11-23 (from 2026-11-02), per Microsoft's hosted image deprecation schedule.",
       "inLanguage": "en",
-      "dateModified": "2026-10-18",
+      "dateModified": "2026-11-07",
       "keywords": [
         "scheduled-end-of-life",
         "ci-images",
@@ -99,7 +99,7 @@ This page is generated from [`registry/ci-images.json`](https://github.com/armin
       ],
       "about": {
         "@type": "Thing",
-        "name": "Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal",
+        "name": "Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal on 2026-11-23",
         "identifier": "pkg:generic/azure-pipelines/macos-image"
       },
       "citation": [
@@ -126,7 +126,7 @@ This page is generated from [`registry/ci-images.json`](https://github.com/armin
           "name": "What is the lifecycle status of pkg:generic/azure-pipelines/macos-image?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Scheduled end of life as of 2026-11-02. Affected versions: vers:intdot/14. Source: Microsoft-hosted image deprecation schedule (https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule)."
+            "text": "Scheduled end of life as of 2026-11-23. Affected versions: vers:intdot/14. Source: Microsoft-hosted image deprecation schedule (https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule)."
           }
         },
         {

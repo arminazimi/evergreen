@@ -5,8 +5,8 @@ layout: doc
 permalink: "/rules/database.mysql.end-of-life-8.0.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.mysql.end-of-life-8.0.html"
 image: "/assets/og/database.mysql.end-of-life-8.0.svg"
-review_date: "2026-10-22"
-last_modified_at: "2026-10-22"
+review_date: "2026-11-07"
+last_modified_at: "2026-11-07"
 json_twin: "/rules/database.mysql.end-of-life-8.0.json"
 ---
 
@@ -33,15 +33,15 @@ MySQL 8.0 reached end of life on 2026-04-30 and no longer receives security or b
 | Affected versions | `vers:semver/>=8.0.0\|<8.1.0` |
 | Date from the source | 2026-04-30 |
 | Replacement | MySQL 8.4 LTS or later |
-| Evidence last seen | 2026-10-22 |
-| Reviewed | 2026-10-22 by arminazimi |
-| Review due | 2027-01-20 (90 days after the last review) |
+| Evidence last seen | 2026-11-07 |
+| Reviewed | 2026-11-07 by arminazimi |
+| Review due | 2027-02-05 (90 days after the last review) |
 | Rule ID | `database.mysql.end-of-life-8.0` |
 
 ## Sources
 
-- [MySQL supported platforms and lifecycle](https://www.mysql.com/support/supportedplatforms/database.html) (accessed 2026-10-22)
-- [endoflife.date: MySQL](https://endoflife.date/mysql) (accessed 2026-10-22)
+- [MySQL supported platforms and lifecycle](https://www.mysql.com/support/supportedplatforms/database.html) (accessed 2026-11-07)
+- [endoflife.date: MySQL](https://endoflife.date/mysql) (accessed 2026-11-07)
 
 ## Migration
 
@@ -102,7 +102,7 @@ This page is generated from [`registry/database.json`](https://github.com/armina
       "headline": "MySQL 8.0 is end-of-life — dates, impact, migration",
       "description": "MySQL 8.0 reached end of life on 2026-04-30 and no longer receives security or bug fixes from Oracle.",
       "inLanguage": "en",
-      "dateModified": "2026-10-22",
+      "dateModified": "2026-11-07",
       "keywords": [
         "end-of-life",
         "database",

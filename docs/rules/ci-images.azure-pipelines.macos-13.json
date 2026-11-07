@@ -14,23 +14,23 @@
     {
       "title": "Microsoft-hosted agents for Azure Pipelines",
       "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted",
-      "accessedAt": "2026-10-21"
+      "accessedAt": "2026-11-07"
     },
     {
       "title": "Upcoming Updates for Azure Pipelines Agents Images",
       "url": "https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/",
-      "accessedAt": "2026-10-21"
+      "accessedAt": "2026-11-07"
     }
   ],
   "provenance": {
-    "observedAt": "2026-10-21",
-    "reviewedAt": "2026-10-21",
+    "observedAt": "2026-11-07",
+    "reviewedAt": "2026-11-07",
     "reviewer": "arminazimi"
   },
   "migration": {
     "constraints": [
       "Change only Microsoft-hosted pool.vmImage labels. This retirement does not apply to self-hosted agents, Managed DevOps Pools, or VM scale sets.",
-      "The macOS 13 notice names macos-14, macos-15, or macos-latest. macos-14 has its own scheduled removal on 2026-11-02, so prefer macos-15 or macos-latest when the workload allows it."
+      "The macOS 13 notice names macos-14, macos-15, or macos-latest. macos-14 has its own scheduled removal on 2026-11-23, so prefer macos-15 or macos-latest when the workload allows it."
     ],
     "steps": [
       {

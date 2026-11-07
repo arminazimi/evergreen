@@ -14,17 +14,17 @@
     {
       "title": "MySQL supported platforms and lifecycle",
       "url": "https://www.mysql.com/support/supportedplatforms/database.html",
-      "accessedAt": "2026-10-22"
+      "accessedAt": "2026-11-07"
     },
     {
       "title": "endoflife.date: MySQL",
       "url": "https://endoflife.date/mysql",
-      "accessedAt": "2026-10-22"
+      "accessedAt": "2026-11-07"
     }
   ],
   "provenance": {
-    "observedAt": "2026-10-22",
-    "reviewedAt": "2026-10-22",
+    "observedAt": "2026-11-07",
+    "reviewedAt": "2026-11-07",
     "reviewer": "arminazimi"
   },
   "migration": {

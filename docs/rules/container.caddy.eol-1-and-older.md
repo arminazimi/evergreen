@@ -68,7 +68,7 @@ The [`container`](../detectors/container.md) detector. See [Detectors](../DETECT
 ### Same ecosystem
 
 - [Alpine Linux image release lines 3.20 and older are end-of-life](container.alpine.eol-3.20-and-older.html)
-- [Alpine Linux image release line 3.21 reaches end-of-life on 2026-11-01](container.alpine.eol-3.21.html)
+- [Alpine Linux image release line 3.21 is end-of-life](container.alpine.eol-3.21.html)
 - [ClickHouse image release lines 26.2 and older are end-of-life](container.clickhouse.eol-26.2-and-older.html)
 - [Couchbase Server image release lines 7.2 and older are end-of-life](container.couchbase.eol-7.2-and-older.html)
 - [Apache CouchDB image release lines 3.3 and older are end-of-life](container.couchdb.eol-3.3-and-older.html)

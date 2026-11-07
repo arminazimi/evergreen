@@ -7,29 +7,29 @@
   "event": "end-of-support",
   "severity": "high",
   "title": "Cloud SQL for MySQL 5.6 and 5.7 are in extended support",
-  "summary": "The Cloud SQL for MySQL version policy lists MySQL 5.6 and 5.7 with extended support starting 2025-02-01 and deprecation on 2028-02-01. Oracle no longer supports those release series, and Cloud SQL charges for extended support.",
+  "summary": "The Cloud SQL for MySQL version policy lists MySQL 5.6 and 5.7 with extended support starting 2025-02-01 and deprecation on 2028-02-01. Oracle no longer supports those release series, and Cloud SQL charges for extended support. The mysql.com lifecycle page refuses automated requests (HTTP 403), so the upstream dates are taken from the endoflife.date record for MySQL.",
   "replacement": "MySQL 8.0 or later",
   "deadline": "2025-02-01",
   "sources": [
     {
       "title": "Cloud SQL for MySQL database versions and version policies",
       "url": "https://cloud.google.com/sql/docs/mysql/db-versions",
-      "accessedAt": "2026-10-26"
+      "accessedAt": "2026-11-07"
     },
     {
       "title": "MySQL supported platforms and lifecycle",
       "url": "https://www.mysql.com/support/supportedplatforms/database.html",
-      "accessedAt": "2026-10-26"
+      "accessedAt": "2026-11-07"
     },
     {
       "title": "endoflife.date: MySQL",
       "url": "https://endoflife.date/mysql",
-      "accessedAt": "2026-10-26"
+      "accessedAt": "2026-11-07"
     }
   ],
   "provenance": {
-    "observedAt": "2026-10-26",
-    "reviewedAt": "2026-10-26",
+    "observedAt": "2026-11-07",
+    "reviewedAt": "2026-11-07",
     "reviewer": "arminazimi"
   },
   "migration": {

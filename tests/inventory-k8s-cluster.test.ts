@@ -104,11 +104,8 @@ test("each node reports its kubelet version with suffixes stripped, and an IP-na
 
   assert.equal(kubelets.get("/items/0/status/nodeInfo/kubeletVersion")?.version, "1.34.2");
   assert.equal(kubelets.get("/items/0/status/nodeInfo/kubeletVersion")?.check.status, "affected");
-  assert.equal(kubelets.get("/items/0/status/nodeInfo/kubeletVersion")?.check.severity, "low");
-  assert.equal(
-    kubelets.get("/items/0/status/nodeInfo/kubeletVersion")?.check.findings[0]!.event,
-    "scheduled-end-of-life",
-  );
+  assert.equal(kubelets.get("/items/0/status/nodeInfo/kubeletVersion")?.check.severity, "high");
+  assert.equal(kubelets.get("/items/0/status/nodeInfo/kubeletVersion")?.check.findings[0]!.event, "end-of-life");
   assert.equal(kubelets.get("/items/0/status/nodeInfo/kubeletVersion")?.check.findings[0]!.deadline, "2026-10-27");
   assert.equal(kubelets.get("/items/1/status/nodeInfo/kubeletVersion")?.version, "1.30.5");
   assert.equal(kubelets.get("/items/1/status/nodeInfo/kubeletVersion")?.check.status, "affected");

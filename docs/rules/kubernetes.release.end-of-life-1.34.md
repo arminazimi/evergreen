@@ -1,18 +1,18 @@
 ---
-title: "Kubernetes 1.34 reaches end-of-life on 2026-10-27 — dates, impact, migration"
-description: "The Kubernetes release history lists Kubernetes 1.34 as supported until its end-of-life date of 2026-10-27; after that the release no longer receives security updates or bug fixes."
+title: "Kubernetes 1.34 is end-of-life — dates, impact, migration"
+description: "The Kubernetes release history lists Kubernetes 1.34 as end-of-life on 2026-10-27; the release no longer receives security updates or bug fixes."
 layout: doc
 permalink: "/rules/kubernetes.release.end-of-life-1.34.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.release.end-of-life-1.34.html"
 image: "/assets/og/kubernetes.release.end-of-life-1.34.svg"
-review_date: "2026-11-01"
-last_modified_at: "2026-11-01"
+review_date: "2026-11-07"
+last_modified_at: "2026-11-07"
 json_twin: "/rules/kubernetes.release.end-of-life-1.34.json"
 ---
 
-# Kubernetes 1.34 reaches end-of-life on 2026-10-27
+# Kubernetes 1.34 is end-of-life
 
-**Scheduled end of life** as of 2026-10-27. Replacement: Kubernetes 1.37 or later. Source: [Kubernetes release history](https://kubernetes.io/releases/).
+**End of life** as of 2026-10-27. Replacement: Kubernetes 1.37 or later. Source: [Kubernetes release history](https://kubernetes.io/releases/).
 
 Check a version:
 
@@ -20,27 +20,27 @@ Check a version:
 evergreen check pkg:generic/kubernetes
 ```
 
-The Kubernetes release history lists Kubernetes 1.34 as supported until its end-of-life date of 2026-10-27; after that the release no longer receives security updates or bug fixes.
+The Kubernetes release history lists Kubernetes 1.34 as end-of-life on 2026-10-27; the release no longer receives security updates or bug fixes.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
 
 | | |
 | --- | --- |
-| Status | Scheduled end of life |
-| Severity | low |
+| Status | End of life |
+| Severity | high |
 | Ecosystem | `kubernetes` |
 | Component | `pkg:generic/kubernetes` |
 | Affected versions | `vers:semver/>=1.34.0\|<1.35.0` |
 | Date from the source | 2026-10-27 |
 | Replacement | Kubernetes 1.37 or later |
-| Evidence last seen | 2026-10-17 |
-| Reviewed | 2026-11-01 by arminazimi, drafted by the `kubernetes-2` importer |
-| Review due | 2027-11-01 (365 days after the last review) |
+| Evidence last seen | 2026-11-07 |
+| Reviewed | 2026-11-07 by arminazimi, drafted by the `kubernetes-2` importer |
+| Review due | 2027-11-07 (365 days after the last review) |
 | Rule ID | `kubernetes.release.end-of-life-1.34` |
 
 ## Sources
 
-- [Kubernetes release history](https://kubernetes.io/releases/) (accessed 2026-10-17)
+- [Kubernetes release history](https://kubernetes.io/releases/) (accessed 2026-11-07)
 
 ## Migration
 
@@ -103,18 +103,18 @@ This page is generated from [`registry/kubernetes.json`](https://github.com/armi
       "@id": "https://arminazimi.github.io/evergreen/rules/kubernetes.release.end-of-life-1.34.html",
       "url": "https://arminazimi.github.io/evergreen/rules/kubernetes.release.end-of-life-1.34.html",
       "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/kubernetes.release.end-of-life-1.34.html",
-      "headline": "Kubernetes 1.34 reaches end-of-life on 2026-10-27 — dates, impact, migration",
-      "description": "The Kubernetes release history lists Kubernetes 1.34 as supported until its end-of-life date of 2026-10-27; after that the release no longer receives security updates or bug fixes.",
+      "headline": "Kubernetes 1.34 is end-of-life — dates, impact, migration",
+      "description": "The Kubernetes release history lists Kubernetes 1.34 as end-of-life on 2026-10-27; the release no longer receives security updates or bug fixes.",
       "inLanguage": "en",
-      "dateModified": "2026-11-01",
+      "dateModified": "2026-11-07",
       "keywords": [
-        "scheduled-end-of-life",
+        "end-of-life",
         "kubernetes",
-        "low"
+        "high"
       ],
       "about": {
         "@type": "Thing",
-        "name": "Kubernetes 1.34 reaches end-of-life on 2026-10-27",
+        "name": "Kubernetes 1.34 is end-of-life",
         "identifier": "pkg:generic/kubernetes"
       },
       "citation": [
@@ -141,7 +141,7 @@ This page is generated from [`registry/kubernetes.json`](https://github.com/armi
           "name": "What is the lifecycle status of pkg:generic/kubernetes?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Scheduled end of life as of 2026-10-27. Affected versions: vers:semver/>=1.34.0|\u003c1.35.0. Source: Kubernetes release history (https://kubernetes.io/releases/)."
+            "text": "End of life as of 2026-10-27. Affected versions: vers:semver/>=1.34.0|\u003c1.35.0. Source: Kubernetes release history (https://kubernetes.io/releases/)."
           }
         },
         {

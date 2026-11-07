@@ -68,7 +68,7 @@ The `ci-images` detector. See [Detectors](../DETECTORS.md) and [Compatibility](.
 ### Same ecosystem
 
 - [Azure Pipelines macOS 13 Ventura hosted image is retired](ci-images.azure-pipelines.macos-13.html)
-- [Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal](ci-images.azure-pipelines.macos-14.html)
+- [Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal on 2026-11-23](ci-images.azure-pipelines.macos-14.html)
 - [Azure Pipelines Ubuntu 20.04 hosted image is retired](ci-images.azure-pipelines.ubuntu-20.04.html)
 - [Azure Pipelines Ubuntu 22.04 hosted image is scheduled for removal](ci-images.azure-pipelines.ubuntu-22.04.html)
 

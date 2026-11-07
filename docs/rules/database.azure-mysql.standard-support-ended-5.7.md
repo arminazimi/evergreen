@@ -5,14 +5,14 @@ layout: doc
 permalink: "/rules/database.azure-mysql.standard-support-ended-5.7.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.azure-mysql.standard-support-ended-5.7.html"
 image: "/assets/og/database.azure-mysql.standard-support-ended-5.7.svg"
-review_date: "2026-10-26"
-last_modified_at: "2026-10-26"
+review_date: "2026-11-07"
+last_modified_at: "2026-11-07"
 json_twin: "/rules/database.azure-mysql.standard-support-ended-5.7.json"
 ---
 
 # Azure Database for MySQL 5.7 is past standard support
 
-**End of support** as of 2026-09-30. Replacement: MySQL 8.0 or later. Source: [Azure Database for MySQL version support policy](https://learn.microsoft.com/azure/mysql/flexible-server/concepts-supported-versions).
+**End of support** as of 2026-09-30. Replacement: MySQL 8.0 or later. Source: [Azure Database for MySQL version support policy](https://learn.microsoft.com/en-us/azure/mysql/concepts-version-policy).
 
 Check a version:
 
@@ -20,7 +20,7 @@ Check a version:
 evergreen check pkg:generic/azure-database-mysql
 ```
 
-The Azure Database for MySQL version support policy lists 2026-09-30 as the standard support end date for MySQL 5.7. Azure moves the server to paid Extended Support on 2026-10-01; the MySQL community retired 5.7 on 2023-10-31.
+The Azure Database for MySQL version support policy lists 2026-09-30 as the standard support end date for MySQL 5.7. Azure moves the server to paid Extended Support on 2026-10-01; the MySQL community retired 5.7 on 2023-10-31. The mysql.com lifecycle page refuses automated requests (HTTP 403), so the community date is taken from the endoflife.date record for MySQL.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
 
@@ -33,16 +33,16 @@ The Azure Database for MySQL version support policy lists 2026-09-30 as the stan
 | Affected versions | `vers:semver/>=5.7.0\|<5.8.0` |
 | Date from the source | 2026-09-30 |
 | Replacement | MySQL 8.0 or later |
-| Evidence last seen | 2026-10-26 |
-| Reviewed | 2026-10-26 by arminazimi |
-| Review due | 2027-01-24 (90 days after the last review) |
+| Evidence last seen | 2026-11-07 |
+| Reviewed | 2026-11-07 by arminazimi |
+| Review due | 2027-02-05 (90 days after the last review) |
 | Rule ID | `database.azure-mysql.standard-support-ended-5.7` |
 
 ## Sources
 
-- [Azure Database for MySQL version support policy](https://learn.microsoft.com/azure/mysql/flexible-server/concepts-supported-versions) (accessed 2026-10-26)
-- [MySQL supported platforms and lifecycle](https://www.mysql.com/support/supportedplatforms/database.html) (accessed 2026-10-26)
-- [endoflife.date: MySQL](https://endoflife.date/mysql) (accessed 2026-10-26)
+- [Azure Database for MySQL version support policy](https://learn.microsoft.com/en-us/azure/mysql/concepts-version-policy) (accessed 2026-11-07)
+- [MySQL supported platforms and lifecycle](https://www.mysql.com/support/supportedplatforms/database.html) (accessed 2026-11-07)
+- [endoflife.date: MySQL](https://endoflife.date/mysql) (accessed 2026-11-07)
 
 ## Migration
 
@@ -100,7 +100,7 @@ This page is generated from [`registry/database.json`](https://github.com/armina
       "headline": "Azure Database for MySQL 5.7 is past standard support — dates, impact, migration",
       "description": "The Azure Database for MySQL version support policy lists 2026-09-30 as the standard support end date for MySQL 5.7.",
       "inLanguage": "en",
-      "dateModified": "2026-10-26",
+      "dateModified": "2026-11-07",
       "keywords": [
         "end-of-support",
         "database",
@@ -115,7 +115,7 @@ This page is generated from [`registry/database.json`](https://github.com/armina
         {
           "@type": "CreativeWork",
           "name": "Azure Database for MySQL version support policy",
-          "url": "https://learn.microsoft.com/azure/mysql/flexible-server/concepts-supported-versions"
+          "url": "https://learn.microsoft.com/en-us/azure/mysql/concepts-version-policy"
         },
         {
           "@type": "CreativeWork",
@@ -145,7 +145,7 @@ This page is generated from [`registry/database.json`](https://github.com/armina
           "name": "What is the lifecycle status of pkg:generic/azure-database-mysql?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "End of support as of 2026-09-30. Affected versions: vers:semver/>=5.7.0|\u003c5.8.0. Source: Azure Database for MySQL version support policy (https://learn.microsoft.com/azure/mysql/flexible-server/concepts-supported-versions)."
+            "text": "End of support as of 2026-09-30. Affected versions: vers:semver/>=5.7.0|\u003c5.8.0. Source: Azure Database for MySQL version support policy (https://learn.microsoft.com/en-us/azure/mysql/concepts-version-policy)."
           }
         },
         {

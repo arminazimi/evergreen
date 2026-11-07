@@ -13,12 +13,12 @@
     {
       "title": "django-nose project notice",
       "url": "https://pypi.org/project/django-nose/",
-      "accessedAt": "2026-10-16"
+      "accessedAt": "2026-11-07"
     }
   ],
   "provenance": {
-    "observedAt": "2026-10-14",
-    "reviewedAt": "2026-10-14",
+    "observedAt": "2026-11-07",
+    "reviewedAt": "2026-11-07",
     "reviewer": "arminazimi"
   },
   "migration": {

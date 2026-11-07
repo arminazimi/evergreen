@@ -51,18 +51,23 @@ test("drafts the five newest end-of-life lines from the real recording, using th
   ]);
 });
 
-test("the reviewed registry has adopted the drafts; the hand-written catch-all stays out of the diff", async () => {
+test("the reviewed registry adopted the drafts, with 1.34 promoted when its announced date passed", async () => {
   const registry = JSON.parse(await readFile(resolve("registry/kubernetes.json"), "utf8")) as RegistryV2;
   const drafts = await execute(kubernetesReleasesImporter, { replay: recording });
   const diff = diffDrafts(drafts, registry);
-  assert.deepEqual([diff.added, diff.changed, diff.removed, diff.duplicates], [[], [], [], []]);
+  // The recording predates 1.34's end-of-life date, so its draft still schedules it; the reviewed
+  // registry promoted it on 2026-11-07 (source-freshness issue 2501). Nothing else may drift.
+  assert.deepEqual(
+    diff.changed.map(({ id, fields }) => [id, fields.map((field) => field.field)]),
+    [["kubernetes.release.end-of-life-1.34", ["event", "title", "summary", "severity"]]],
+  );
+  assert.deepEqual([diff.added, diff.removed, diff.duplicates], [[], [], []]);
   assert.deepEqual(diff.unchanged, [
     "kubernetes.release.end-of-life-1.29",
     "kubernetes.release.end-of-life-1.30",
     "kubernetes.release.end-of-life-1.31",
     "kubernetes.release.end-of-life-1.32",
     "kubernetes.release.end-of-life-1.33",
-    "kubernetes.release.end-of-life-1.34",
     "kubernetes.release.end-of-life-1.35",
     "kubernetes.release.end-of-life-1.36",
   ]);

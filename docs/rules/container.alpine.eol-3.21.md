@@ -1,18 +1,18 @@
 ---
-title: "Alpine Linux image release line 3.21 reaches end-of-life on 2026-11-01 — dates, impact, migration"
-description: "Alpine Linux 3.21 is scheduled to stop receiving security updates on 2026-11-01."
+title: "Alpine Linux image release line 3.21 is end-of-life — dates, impact, migration"
+description: "Alpine Linux 3.21 no longer receives security updates; its release branch ended on 2026-11-01."
 layout: doc
 permalink: "/rules/container.alpine.eol-3.21.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.21.html"
 image: "/assets/og/container.alpine.eol-3.21.svg"
-review_date: "2026-10-26"
-last_modified_at: "2026-10-26"
+review_date: "2026-11-07"
+last_modified_at: "2026-11-07"
 json_twin: "/rules/container.alpine.eol-3.21.json"
 ---
 
-# Alpine Linux image release line 3.21 reaches end-of-life on 2026-11-01
+# Alpine Linux image release line 3.21 is end-of-life
 
-**Scheduled end of life** as of 2026-11-01. Replacement: An alpine image on a later supported release line. Source: [Alpine Linux releases](https://alpinelinux.org/releases/).
+**End of life** as of 2026-11-01. Replacement: An alpine image on a later supported release line. Source: [Alpine Linux releases](https://alpinelinux.org/releases/).
 
 Check a version:
 
@@ -20,27 +20,27 @@ Check a version:
 evergreen check pkg:docker/library/alpine
 ```
 
-Alpine Linux 3.21 is scheduled to stop receiving security updates on 2026-11-01.
+Alpine Linux 3.21 no longer receives security updates; its release branch ended on 2026-11-01.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
 
 | | |
 | --- | --- |
-| Status | Scheduled end of life |
-| Severity | low |
+| Status | End of life |
+| Severity | high |
 | Ecosystem | `container` |
 | Component | `pkg:docker/library/alpine` |
 | Affected versions | `vers:semver/>=3.21.0\|<3.22.0` |
 | Date from the source | 2026-11-01 |
 | Replacement | An alpine image on a later supported release line |
-| Evidence last seen | 2026-10-26 |
-| Reviewed | 2026-10-26 by arminazimi |
-| Review due | 2027-10-26 (365 days after the last review) |
+| Evidence last seen | 2026-11-07 |
+| Reviewed | 2026-11-07 by arminazimi |
+| Review due | 2027-11-07 (365 days after the last review) |
 | Rule ID | `container.alpine.eol-3.21` |
 
 ## Sources
 
-- [Alpine Linux releases](https://alpinelinux.org/releases/) (accessed 2026-10-26)
+- [Alpine Linux releases](https://alpinelinux.org/releases/) (accessed 2026-11-07)
 
 ## Migration
 
@@ -94,18 +94,18 @@ This page is generated from [`registry/container.json`](https://github.com/armin
       "@id": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.21.html",
       "url": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.21.html",
       "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.21.html",
-      "headline": "Alpine Linux image release line 3.21 reaches end-of-life on 2026-11-01 — dates, impact, migration",
-      "description": "Alpine Linux 3.21 is scheduled to stop receiving security updates on 2026-11-01.",
+      "headline": "Alpine Linux image release line 3.21 is end-of-life — dates, impact, migration",
+      "description": "Alpine Linux 3.21 no longer receives security updates; its release branch ended on 2026-11-01.",
       "inLanguage": "en",
-      "dateModified": "2026-10-26",
+      "dateModified": "2026-11-07",
       "keywords": [
-        "scheduled-end-of-life",
+        "end-of-life",
         "container",
-        "low"
+        "high"
       ],
       "about": {
         "@type": "Thing",
-        "name": "Alpine Linux image release line 3.21 reaches end-of-life on 2026-11-01",
+        "name": "Alpine Linux image release line 3.21 is end-of-life",
         "identifier": "pkg:docker/library/alpine"
       },
       "citation": [
@@ -132,7 +132,7 @@ This page is generated from [`registry/container.json`](https://github.com/armin
           "name": "What is the lifecycle status of pkg:docker/library/alpine?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Scheduled end of life as of 2026-11-01. Affected versions: vers:semver/>=3.21.0|\u003c3.22.0. Source: Alpine Linux releases (https://alpinelinux.org/releases/)."
+            "text": "End of life as of 2026-11-01. Affected versions: vers:semver/>=3.21.0|\u003c3.22.0. Source: Alpine Linux releases (https://alpinelinux.org/releases/)."
           }
         },
         {

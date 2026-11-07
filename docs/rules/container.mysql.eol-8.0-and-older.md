@@ -5,8 +5,8 @@ layout: doc
 permalink: "/rules/container.mysql.eol-8.0-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.mysql.eol-8.0-and-older.html"
 image: "/assets/og/container.mysql.eol-8.0-and-older.svg"
-review_date: "2026-10-16"
-last_modified_at: "2026-10-16"
+review_date: "2026-11-07"
+last_modified_at: "2026-11-07"
 json_twin: "/rules/container.mysql.eol-8.0-and-older.json"
 ---
 
@@ -20,7 +20,7 @@ Check a version:
 evergreen check pkg:docker/library/mysql
 ```
 
-Oracle lists MySQL 8.0 and 5.7 as covered only by Sustaining Support, which means no new fixes.
+Oracle lists MySQL 8.0 and 5.7 as covered only by Sustaining Support, which means no new fixes. The mysql.com end-of-life notice refuses automated requests (HTTP 403), so it can only be reviewed by hand.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
 
@@ -33,14 +33,14 @@ Oracle lists MySQL 8.0 and 5.7 as covered only by Sustaining Support, which mean
 | Affected versions | `vers:semver/<8.1.0` |
 | Date from the source | 2026-04-21 |
 | Replacement | A mysql image on a supported release such as the 8.4 LTS line |
-| Evidence last seen | 2026-10-16 |
-| Reviewed | 2026-10-16 by arminazimi |
-| Review due | 2027-10-16 (365 days after the last review) |
+| Evidence last seen | 2026-11-07 |
+| Reviewed | 2026-11-07 by arminazimi |
+| Review due | 2027-11-07 (365 days after the last review) |
 | Rule ID | `container.mysql.eol-8.0-and-older` |
 
 ## Sources
 
-- [MySQL end-of-life notice](https://www.mysql.com/support/eol-notice.html) (accessed 2026-10-16)
+- [MySQL end-of-life notice](https://www.mysql.com/support/eol-notice.html) (accessed 2026-11-07)
 
 ## Migration
 
@@ -68,7 +68,7 @@ The [`container`](../detectors/container.md) detector. See [Detectors](../DETECT
 ### Same ecosystem
 
 - [Alpine Linux image release lines 3.20 and older are end-of-life](container.alpine.eol-3.20-and-older.html)
-- [Alpine Linux image release line 3.21 reaches end-of-life on 2026-11-01](container.alpine.eol-3.21.html)
+- [Alpine Linux image release line 3.21 is end-of-life](container.alpine.eol-3.21.html)
 - [Caddy image release lines 1 and older are end-of-life](container.caddy.eol-1-and-older.html)
 - [ClickHouse image release lines 26.2 and older are end-of-life](container.clickhouse.eol-26.2-and-older.html)
 - [Couchbase Server image release lines 7.2 and older are end-of-life](container.couchbase.eol-7.2-and-older.html)
@@ -93,7 +93,7 @@ This page is generated from [`registry/container.json`](https://github.com/armin
       "headline": "MySQL image release lines 8.0 and older are past end-of-life — dates, impact, migration",
       "description": "Oracle lists MySQL 8.0 and 5.7 as covered only by Sustaining Support, which means no new fixes.",
       "inLanguage": "en",
-      "dateModified": "2026-10-16",
+      "dateModified": "2026-11-07",
       "keywords": [
         "end-of-life",
         "container",

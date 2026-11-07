@@ -390,17 +390,17 @@
         {
           "title": "MySQL supported platforms and lifecycle",
           "url": "https://www.mysql.com/support/supportedplatforms/database.html",
-          "accessedAt": "2026-10-22"
+          "accessedAt": "2026-11-07"
         },
         {
           "title": "endoflife.date: MySQL",
           "url": "https://endoflife.date/mysql",
-          "accessedAt": "2026-10-22"
+          "accessedAt": "2026-11-07"
         }
       ],
       "provenance": {
-        "observedAt": "2026-10-22",
-        "reviewedAt": "2026-10-22",
+        "observedAt": "2026-11-07",
+        "reviewedAt": "2026-11-07",
         "reviewer": "arminazimi"
       },
       "migration": {
@@ -466,17 +466,17 @@
         {
           "title": "MySQL supported platforms and lifecycle",
           "url": "https://www.mysql.com/support/supportedplatforms/database.html",
-          "accessedAt": "2026-10-22"
+          "accessedAt": "2026-11-07"
         },
         {
           "title": "endoflife.date: MySQL",
           "url": "https://endoflife.date/mysql",
-          "accessedAt": "2026-10-22"
+          "accessedAt": "2026-11-07"
         }
       ],
       "provenance": {
-        "observedAt": "2026-10-22",
-        "reviewedAt": "2026-10-22",
+        "observedAt": "2026-11-07",
+        "reviewedAt": "2026-11-07",
         "reviewer": "arminazimi"
       },
       "migration": {
@@ -691,30 +691,30 @@
       "vers": "vers:semver/>=5.7.0|<5.8.0",
       "event": "end-of-support",
       "title": "Azure Database for MySQL 5.7 is past standard support",
-      "summary": "The Azure Database for MySQL version support policy lists 2026-09-30 as the standard support end date for MySQL 5.7. Azure moves the server to paid Extended Support on 2026-10-01; the MySQL community retired 5.7 on 2023-10-31.",
+      "summary": "The Azure Database for MySQL version support policy lists 2026-09-30 as the standard support end date for MySQL 5.7. Azure moves the server to paid Extended Support on 2026-10-01; the MySQL community retired 5.7 on 2023-10-31. The mysql.com lifecycle page refuses automated requests (HTTP 403), so the community date is taken from the endoflife.date record for MySQL.",
       "severity": "high",
       "replacement": "MySQL 8.0 or later",
       "deadline": "2026-09-30",
       "sources": [
         {
           "title": "Azure Database for MySQL version support policy",
-          "url": "https://learn.microsoft.com/azure/mysql/flexible-server/concepts-supported-versions",
-          "accessedAt": "2026-10-26"
+          "url": "https://learn.microsoft.com/en-us/azure/mysql/concepts-version-policy",
+          "accessedAt": "2026-11-07"
         },
         {
           "title": "MySQL supported platforms and lifecycle",
           "url": "https://www.mysql.com/support/supportedplatforms/database.html",
-          "accessedAt": "2026-10-26"
+          "accessedAt": "2026-11-07"
         },
         {
           "title": "endoflife.date: MySQL",
           "url": "https://endoflife.date/mysql",
-          "accessedAt": "2026-10-26"
+          "accessedAt": "2026-11-07"
         }
       ],
       "provenance": {
-        "observedAt": "2026-10-26",
-        "reviewedAt": "2026-10-26",
+        "observedAt": "2026-11-07",
+        "reviewedAt": "2026-11-07",
         "reviewer": "arminazimi"
       },
       "migration": {
@@ -936,7 +936,7 @@
       "vers": "vers:semver/>=5.6.0|<5.8.0",
       "event": "end-of-support",
       "title": "Cloud SQL for MySQL 5.6 and 5.7 are in extended support",
-      "summary": "The Cloud SQL for MySQL version policy lists MySQL 5.6 and 5.7 with extended support starting 2025-02-01 and deprecation on 2028-02-01. Oracle no longer supports those release series, and Cloud SQL charges for extended support.",
+      "summary": "The Cloud SQL for MySQL version policy lists MySQL 5.6 and 5.7 with extended support starting 2025-02-01 and deprecation on 2028-02-01. Oracle no longer supports those release series, and Cloud SQL charges for extended support. The mysql.com lifecycle page refuses automated requests (HTTP 403), so the upstream dates are taken from the endoflife.date record for MySQL.",
       "severity": "high",
       "replacement": "MySQL 8.0 or later",
       "deadline": "2025-02-01",
@@ -944,22 +944,22 @@
         {
           "title": "Cloud SQL for MySQL database versions and version policies",
           "url": "https://cloud.google.com/sql/docs/mysql/db-versions",
-          "accessedAt": "2026-10-26"
+          "accessedAt": "2026-11-07"
         },
         {
           "title": "MySQL supported platforms and lifecycle",
           "url": "https://www.mysql.com/support/supportedplatforms/database.html",
-          "accessedAt": "2026-10-26"
+          "accessedAt": "2026-11-07"
         },
         {
           "title": "endoflife.date: MySQL",
           "url": "https://endoflife.date/mysql",
-          "accessedAt": "2026-10-26"
+          "accessedAt": "2026-11-07"
         }
       ],
       "provenance": {
-        "observedAt": "2026-10-26",
-        "reviewedAt": "2026-10-26",
+        "observedAt": "2026-11-07",
+        "reviewedAt": "2026-11-07",
         "reviewer": "arminazimi"
       },
       "migration": {

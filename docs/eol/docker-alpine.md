@@ -1,12 +1,12 @@
 ---
 title: "Is Alpine Linux end of life? — versions, dates, sources"
-description: "Some Alpine Linux releases are end of life. Alpine Linux image release lines 3.20 and older are end-of-life as of 2026-04-01."
+description: "Some Alpine Linux releases are end of life. Alpine Linux image release line 3.21 is end-of-life as of 2026-11-01."
 canonical_url: "https://arminazimi.github.io/evergreen/eol/docker-alpine.html"
 ---
 
 # Is Alpine Linux end of life?
 
-**Some Alpine Linux releases are end of life.** Alpine Linux image release lines 3.20 and older are end-of-life as of 2026-04-01. This page lists 2 reviewed lifecycle rules for `pkg:docker/library/alpine`, with the status, date, and source for each.
+**Some Alpine Linux releases are end of life.** Alpine Linux image release line 3.21 is end-of-life as of 2026-11-01. This page lists 2 reviewed lifecycle rules for `pkg:docker/library/alpine`, with the status, date, and source for each.
 
 Check a version:
 
@@ -18,8 +18,8 @@ evergreen check pkg:docker/library/alpine
 
 | Rule | Status | Date | Affected versions | Sources |
 | --- | --- | --- | --- | --- |
+| [Alpine Linux image release line 3.21 is end-of-life](../rules/container.alpine.eol-3.21.html) | End of life | 2026-11-01 | `vers:semver/>=3.21.0\|<3.22.0` | [Alpine Linux releases](https://alpinelinux.org/releases/) |
 | [Alpine Linux image release lines 3.20 and older are end-of-life](../rules/container.alpine.eol-3.20-and-older.html) | End of life | 2026-04-01 | `vers:semver/<3.21.0` | [Alpine Linux releases](https://alpinelinux.org/releases/) |
-| [Alpine Linux image release line 3.21 reaches end-of-life on 2026-11-01](../rules/container.alpine.eol-3.21.html) | Scheduled end of life | 2026-11-01 | `vers:semver/>=3.21.0\|<3.22.0` | [Alpine Linux releases](https://alpinelinux.org/releases/) |
 
 ## Data
 
@@ -37,7 +37,7 @@ This page is generated from the lifecycle registry (`registry/`), not written by
       "name": "Is Alpine Linux end of life?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Some Alpine Linux releases are end of life. Alpine Linux image release lines 3.20 and older are end-of-life as of 2026-04-01. This page lists 2 reviewed lifecycle rules for pkg:docker/library/alpine, with the status, date, and source for each."
+        "text": "Some Alpine Linux releases are end of life. Alpine Linux image release line 3.21 is end-of-life as of 2026-11-01. This page lists 2 reviewed lifecycle rules for pkg:docker/library/alpine, with the status, date, and source for each."
       }
     },
     {

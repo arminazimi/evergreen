@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
-<title id="title">Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal</title>
-<desc id="desc">Scheduled end of life. Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal. ci-images · 2026-11-02.</desc>
+<title id="title">Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal on 2026-11-23</title>
+<desc id="desc">Scheduled end of life. Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal on 2026-11-23. ci-images · 2026-11-23.</desc>
 <defs>
 <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
 <path d="M32 0H0V32" fill="none" stroke="#F3F6F4" stroke-opacity=".035"/>
@@ -26,8 +26,8 @@
 <text x="552" y="200" fill="#9AC7B6" font-size="22" font-weight="600">Scheduled end of life</text>
 <text x="552" y="250" fill="#F3F6F4" font-size="36" font-weight="700">Azure Pipelines macOS 14 Sonoma</text>
 <text x="552" y="294" fill="#F3F6F4" font-size="36" font-weight="700">hosted image is scheduled for</text>
-<text x="552" y="338" fill="#F3F6F4" font-size="36" font-weight="700">removal</text>
-<text x="552" y="410" fill="#F3F6F4" fill-opacity=".72" font-size="20">ci-images · 2026-11-02</text>
+<text x="552" y="338" fill="#F3F6F4" font-size="36" font-weight="700">removal on 2026-11-23</text>
+<text x="552" y="410" fill="#F3F6F4" fill-opacity=".72" font-size="20">ci-images · 2026-11-23</text>
 <text x="552" y="500" fill="#9AC7B6" font-size="18" font-weight="500">evergreen</text>
 </g>
 </svg>

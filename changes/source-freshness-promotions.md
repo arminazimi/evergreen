@@ -1,0 +1,1 @@
+- Promote the Kubernetes 1.34, AWS Lambda Python 3.10, and Alpine 3.21 rules to end-of-life, keep the Azure macOS 14 rule scheduled at its moved removal date of 2026-11-23, and record the blocked mysql.com sources. (#2501)

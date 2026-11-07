@@ -9,7 +9,7 @@
     {
       "ruleId": "container.alpine.eol-3.21",
       "path": "os-images.Dockerfile",
-      "severity": "low"
+      "severity": "high"
     },
     {
       "ruleId": "container.debian.eol-11-and-older",

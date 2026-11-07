@@ -5,8 +5,8 @@ layout: doc
 permalink: "/rules/ci-images.azure-pipelines.macos-13.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.macos-13.html"
 image: "/assets/og/ci-images.azure-pipelines.macos-13.svg"
-review_date: "2026-10-21"
-last_modified_at: "2026-10-21"
+review_date: "2026-11-07"
+last_modified_at: "2026-11-07"
 json_twin: "/rules/ci-images.azure-pipelines.macos-13.json"
 ---
 
@@ -33,22 +33,22 @@ The macOS 13 Ventura hosted image was retired on 2025-12-04. The Microsoft-hoste
 | Affected versions | `vers:intdot/13` |
 | Date from the source | 2025-12-04 |
 | Replacement | macos-14, macos-15, or macos-latest |
-| Evidence last seen | 2026-10-21 |
-| Reviewed | 2026-10-21 by arminazimi |
-| Review due | 2027-10-21 (365 days after the last review) |
+| Evidence last seen | 2026-11-07 |
+| Reviewed | 2026-11-07 by arminazimi |
+| Review due | 2027-11-07 (365 days after the last review) |
 | Rule ID | `ci-images.azure-pipelines.macos-13` |
 
 ## Sources
 
-- [Microsoft-hosted agents for Azure Pipelines](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted) (accessed 2026-10-21)
-- [Upcoming Updates for Azure Pipelines Agents Images](https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/) (accessed 2026-10-21)
+- [Microsoft-hosted agents for Azure Pipelines](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted) (accessed 2026-11-07)
+- [Upcoming Updates for Azure Pipelines Agents Images](https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/) (accessed 2026-11-07)
 
 ## Migration
 
 **Constraints**
 
 - Change only Microsoft-hosted pool.vmImage labels. This retirement does not apply to self-hosted agents, Managed DevOps Pools, or VM scale sets.
-- The macOS 13 notice names macos-14, macos-15, or macos-latest. macos-14 has its own scheduled removal on 2026-11-02, so prefer macos-15 or macos-latest when the workload allows it.
+- The macOS 13 notice names macos-14, macos-15, or macos-latest. macos-14 has its own scheduled removal on 2026-11-23, so prefer macos-15 or macos-latest when the workload allows it.
 
 **Steps**
 
@@ -67,7 +67,7 @@ The `ci-images` detector. See [Detectors](../DETECTORS.md) and [Compatibility](.
 
 ### Other versions of this product
 
-- [Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal](ci-images.azure-pipelines.macos-14.html)
+- [Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal on 2026-11-23](ci-images.azure-pipelines.macos-14.html)
 
 ### Same ecosystem
 
@@ -92,7 +92,7 @@ This page is generated from [`registry/ci-images.json`](https://github.com/armin
       "headline": "Azure Pipelines macOS 13 Ventura hosted image is retired — dates, impact, migration",
       "description": "The macOS 13 Ventura hosted image was retired on 2025-12-04. The Microsoft-hosted agents page states that date, and the Azure DevOps blog lists the same full retiral date.",
       "inLanguage": "en",
-      "dateModified": "2026-10-21",
+      "dateModified": "2026-11-07",
       "keywords": [
         "removed",
         "ci-images",

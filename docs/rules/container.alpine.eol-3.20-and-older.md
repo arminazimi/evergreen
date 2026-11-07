@@ -67,7 +67,7 @@ The [`container`](../detectors/container.md) detector. See [Detectors](../DETECT
 
 ### Other versions of this product
 
-- [Alpine Linux image release line 3.21 reaches end-of-life on 2026-11-01](container.alpine.eol-3.21.html)
+- [Alpine Linux image release line 3.21 is end-of-life](container.alpine.eol-3.21.html)
 
 ### Same ecosystem
 

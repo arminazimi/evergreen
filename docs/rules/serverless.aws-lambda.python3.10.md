@@ -1,18 +1,18 @@
 ---
-title: "AWS Lambda Python 3.10 runtime reaches end of life on 2026-10-31 — dates, impact, migration"
-description: "The AWS Lambda runtimes table lists python3.10 as supported with a projected deprecation date of 2026-10-31. After that date AWS no longer applies security or other updates to that managed runtime."
+title: "AWS Lambda Python 3.10 runtime is end-of-life — dates, impact, migration"
+description: "The AWS Lambda runtimes table lists python3.10 under Deprecated runtimes with deprecation date 2026-10-31. AWS no longer applies security or other updates to that managed runtime."
 layout: doc
 permalink: "/rules/serverless.aws-lambda.python3.10.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.10.html"
 image: "/assets/og/serverless.aws-lambda.python3.10.svg"
-review_date: "2026-10-30"
-last_modified_at: "2026-10-30"
+review_date: "2026-11-07"
+last_modified_at: "2026-11-07"
 json_twin: "/rules/serverless.aws-lambda.python3.10.json"
 ---
 
-# AWS Lambda Python 3.10 runtime reaches end of life on 2026-10-31
+# AWS Lambda Python 3.10 runtime is end-of-life
 
-**Scheduled end of life** as of 2026-10-31. Replacement: python3.14 or python3.13. Source: [AWS Lambda runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html).
+**End of life** as of 2026-10-31. Replacement: python3.14 or python3.13. Source: [AWS Lambda runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html).
 
 Check a version:
 
@@ -20,27 +20,27 @@ Check a version:
 evergreen check pkg:generic/aws-lambda-runtime/python3.10
 ```
 
-The AWS Lambda runtimes table lists python3.10 as supported with a projected deprecation date of 2026-10-31. After that date AWS no longer applies security or other updates to that managed runtime.
+The AWS Lambda runtimes table lists python3.10 under Deprecated runtimes with deprecation date 2026-10-31. AWS no longer applies security or other updates to that managed runtime.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
 
 | | |
 | --- | --- |
-| Status | Scheduled end of life |
-| Severity | low |
+| Status | End of life |
+| Severity | high |
 | Ecosystem | `serverless` |
 | Component | `pkg:generic/aws-lambda-runtime/python3.10` |
 | Affected versions | `vers:semver/*` |
 | Date from the source | 2026-10-31 |
 | Replacement | python3.14 or python3.13 |
-| Evidence last seen | 2026-10-30 |
-| Reviewed | 2026-10-30 by arminazimi |
-| Review due | 2027-01-28 (90 days after the last review) |
+| Evidence last seen | 2026-11-07 |
+| Reviewed | 2026-11-07 by arminazimi |
+| Review due | 2027-02-05 (90 days after the last review) |
 | Rule ID | `serverless.aws-lambda.python3.10` |
 
 ## Sources
 
-- [AWS Lambda runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) (accessed 2026-10-30)
+- [AWS Lambda runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) (accessed 2026-11-07)
 
 ## Migration
 
@@ -48,7 +48,6 @@ The AWS Lambda runtimes table lists python3.10 as supported with a projected dep
 
 - Keep provider.runtime, Globals.Function.Runtime, per-function Runtime, and Terraform aws_lambda_function.runtime on one AWS Lambda runtime identifier that AWS still supports.
 - Raising the managed runtime can require Python language and dependency changes; confirm handlers and native modules run on the replacement before deploying.
-- This runtime is still supported today; the rule is a warning ahead of the announced date, so plan the move before it.
 
 **Steps**
 
@@ -90,18 +89,18 @@ This page is generated from [`registry/serverless.json`](https://github.com/armi
       "@id": "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.10.html",
       "url": "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.10.html",
       "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.10.html",
-      "headline": "AWS Lambda Python 3.10 runtime reaches end of life on 2026-10-31 — dates, impact, migration",
-      "description": "The AWS Lambda runtimes table lists python3.10 as supported with a projected deprecation date of 2026-10-31. After that date AWS no longer applies security or other updates to that managed runtime.",
+      "headline": "AWS Lambda Python 3.10 runtime is end-of-life — dates, impact, migration",
+      "description": "The AWS Lambda runtimes table lists python3.10 under Deprecated runtimes with deprecation date 2026-10-31. AWS no longer applies security or other updates to that managed runtime.",
       "inLanguage": "en",
-      "dateModified": "2026-10-30",
+      "dateModified": "2026-11-07",
       "keywords": [
-        "scheduled-end-of-life",
+        "end-of-life",
         "serverless",
-        "low"
+        "high"
       ],
       "about": {
         "@type": "Thing",
-        "name": "AWS Lambda Python 3.10 runtime reaches end of life on 2026-10-31",
+        "name": "AWS Lambda Python 3.10 runtime is end-of-life",
         "identifier": "pkg:generic/aws-lambda-runtime/python3.10"
       },
       "citation": [
@@ -128,7 +127,7 @@ This page is generated from [`registry/serverless.json`](https://github.com/armi
           "name": "What is the lifecycle status of pkg:generic/aws-lambda-runtime/python3.10?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Scheduled end of life as of 2026-10-31. Affected versions: vers:semver/*. Source: AWS Lambda runtimes (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+            "text": "End of life as of 2026-10-31. Affected versions: vers:semver/*. Source: AWS Lambda runtimes (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
           }
         },
         {

@@ -72,8 +72,12 @@ export interface CheckInput {
   concurrency?: number;
 }
 
+/** Titles that a site uses on its bot-block page. Oracle answers automated requests with "403 Oracle Export Error" or "Technical Difficulties". */
 const BOT_CHALLENGE =
-  /just a moment|attention required|access denied|verify you are human|are you a robot|security check/i;
+  /just a moment|attention required|access denied|verify you are human|are you a robot|security check|oracle export error|technical difficulties/i;
+
+/** Fastly serves this challenge page with a 200 status, so status alone does not identify it. */
+const CHALLENGE_PAGE = /^client challenge$/i;
 
 const normalizeText = (value: string | null) => (value ?? "").replace(/\s+/g, " ").trim();
 
@@ -85,11 +89,9 @@ function normalizeUrl(value: string): string {
 }
 
 export function isBotChallenge(observation: SourceObservation): boolean {
-  return (
-    observation.status !== null &&
-    [403, 429, 503].includes(observation.status) &&
-    BOT_CHALLENGE.test(observation.title ?? "")
-  );
+  if (observation.status === null) return false;
+  if (CHALLENGE_PAGE.test(observation.title ?? "")) return true;
+  return [403, 429, 503].includes(observation.status) && BOT_CHALLENGE.test(observation.title ?? "");
 }
 
 async function inBatches<T, R>(items: readonly T[], size: number, work: (item: T) => Promise<R>): Promise<R[]> {
@@ -182,11 +184,17 @@ export async function checkSources(
   return { report, observations };
 }
 
-/** The lock after a maintainer accepts what was observed: reachable pages are recorded, failures keep their old entry. */
+/** The lock after a maintainer accepts what was observed: reachable pages are recorded, failures and challenge pages keep their old entry. */
 export function updatedLock(lock: SourceLock, observations: Map<string, SourceObservation>, now: Date): SourceLock {
   const sources: Record<string, LockEntry> = {};
   for (const [url, observation] of [...observations].sort(([a], [b]) => a.localeCompare(b))) {
-    if (observation.status !== null && observation.status >= 200 && observation.status < 300 && observation.finalUrl) {
+    if (
+      !isBotChallenge(observation) &&
+      observation.status !== null &&
+      observation.status >= 200 &&
+      observation.status < 300 &&
+      observation.finalUrl
+    ) {
       sources[url] = {
         finalUrl: observation.finalUrl,
         title: observation.title,
@@ -278,6 +286,8 @@ export async function fetchObservation(url: string, timeoutMs = 15_000): Promise
         headers: {
           "user-agent": "evergreen-source-check (+https://github.com/arminazimi/evergreen)",
           accept: "text/html,application/xhtml+xml,*/*;q=0.8",
+          // Ask for English so a localized redirect or title does not look like a moved source.
+          "accept-language": "en-US,en;q=0.9",
         },
         signal: AbortSignal.timeout(timeoutMs),
       });
