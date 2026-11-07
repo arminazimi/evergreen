@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "XiaoMi/soar",
+  "commit": "5ed8574ae59f5c9eb8a2c7d33d14747bb46c1229",
+  "ecosystem": "go",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 12,
+    "findings": [
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "go.mod",
+        "line": 3,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

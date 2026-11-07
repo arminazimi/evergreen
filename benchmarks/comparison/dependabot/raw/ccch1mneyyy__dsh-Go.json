@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "ccch1mneyyy/dsh-Go",
+  "commit": "219f2d1099976c0488d9fad718dc890a122f0c5d",
+  "ecosystem": "dart",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 12940,
+    "findings": [
+      {
+        "ruleId": "android.target-sdk.existing.default-below-35",
+        "path": "app/android/app/build.gradle.kts",
+        "line": 51,
+        "dependabot": {
+          "packageEcosystem": "gradle",
+          "directory": "/app/android/app"
+        }
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

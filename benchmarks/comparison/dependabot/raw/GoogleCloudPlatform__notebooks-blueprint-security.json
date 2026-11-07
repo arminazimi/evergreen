@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "GoogleCloudPlatform/notebooks-blueprint-security",
+  "commit": "6deb8834472fbb69948a75d111a791a29b65a010",
+  "ecosystem": "terraform",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 23,
+    "findings": [
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "main.tf",
+        "line": 195,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "main.tf",
+        "line": 196,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "main.tf",
+        "line": 197,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "outputs.tf",
+        "line": 63,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "outputs.tf",
+        "line": 64,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "outputs.tf",
+        "line": 65,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "test/setup/bq.tf",
+        "line": 147,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "test/setup/bq.tf",
+        "line": 81,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

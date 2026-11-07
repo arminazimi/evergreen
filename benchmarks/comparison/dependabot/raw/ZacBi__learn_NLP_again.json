@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "ZacBi/learn_NLP_again",
+  "commit": "3fac81c054f3b365ed50feac7a6f020ad8c7afeb",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 9,
+    "findings": [
+      {
+        "ruleId": "python.package.pytest-runner.deprecated",
+        "path": "requirements_dev.txt",
+        "line": 17,
+        "dependabot": {
+          "packageEcosystem": "pip",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "python.runtime.eol-3.9-and-older",
+        "path": "setup.py",
+        "line": 22,
+        "dependabot": null
+      },
+      {
+        "ruleId": "python.runtime.eol-3.9-and-older",
+        "path": "tox.ini",
+        "line": 2,
+        "dependabot": null
+      },
+      {
+        "ruleId": "python.runtime.eol-3.9-and-older",
+        "path": "tox.ini",
+        "line": 2,
+        "dependabot": null
+      },
+      {
+        "ruleId": "python.runtime.eol-3.9-and-older",
+        "path": "tox.ini",
+        "line": 2,
+        "dependabot": null
+      },
+      {
+        "ruleId": "python.runtime.eol-3.9-and-older",
+        "path": "tox.ini",
+        "line": 2,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

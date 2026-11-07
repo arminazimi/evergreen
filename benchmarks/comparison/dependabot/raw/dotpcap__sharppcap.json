@@ -1,0 +1,148 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "dotpcap/sharppcap",
+  "commit": "667db1721cf0f91000c584fb6f5e8ff1f8327364",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 42,
+    "findings": [
+      {
+        "ruleId": "ci-images.azure-pipelines.macos-14",
+        "path": "azure-pipelines.yml",
+        "line": 32,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/CreatingCaptureFile/CreatingCaptureFile.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/Example1.IfList/Example01.IfList.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/Example10.SendQueue/Example10.SendQueue.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/Example11.Statistics/Example11.Statistics.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/Example12.PacketManipulation/Example12.PacketManipulation.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/Example2.ArpResolve/Example02.ArpResolve.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/Example3.BasicCap/Example03.BasicCap.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/Example4.BasicCapNoCallback/Example04.BasicCapNoCallback.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/Example5.PcapFilter/Example05.PcapFilter.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/Example6.DumpTCP/Example06.DumpTCP.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/Example9.SendPacket/Example09.SendPacket.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/MultipleFiltersOnDevice/MultipleFiltersOnDevice.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/NpcapRemoteCapture/NpcapRemoteCapture.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/QueuingPacketsForBackgroundProcessing/QueuingPacketsForBackgroundProcessing.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/ReadingCaptureFile/ReadingCaptureFile.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/WakeOnLan/WakeOnLan.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Examples/WinpkFilterExample/WinpkFilterExample.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "SharpPcap/SharpPcap.csproj",
+        "line": 10,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "Test/Test.csproj",
+        "line": 11,
+        "dependabot": null
+      },
+      {
+        "ruleId": "github-actions.upload-artifact.retired",
+        "path": ".github/workflows/dotnet-core.yml",
+        "line": 39,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

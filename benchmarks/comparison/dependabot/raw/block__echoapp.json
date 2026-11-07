@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "block/echoapp",
+  "commit": "f74abb5bd83771644f7ba9781b89b133b6b89639",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 235,
+    "findings": [
+      {
+        "ruleId": "android.target-sdk.existing.default-below-35",
+        "path": "android/sample/build.gradle",
+        "line": 14,
+        "dependabot": {
+          "packageEcosystem": "gradle",
+          "directory": "/android/sample"
+        }
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

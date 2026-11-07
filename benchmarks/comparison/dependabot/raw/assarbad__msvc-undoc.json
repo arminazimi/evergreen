@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "assarbad/msvc-undoc",
+  "commit": "5423c9f0390e770b8b6c667209aacaa33970643f",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 214,
+    "findings": [
+      {
+        "ruleId": "shell.powershell.end-of-life-6",
+        "path": "tools/helpers/get-help-output.ps1",
+        "line": 13,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

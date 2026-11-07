@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "ktye/i",
+  "commit": "429fcc75e9ff8aed9f82f47269638f7fd18b68e3",
+  "ecosystem": "node-actions",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 29,
+    "findings": [
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "_/1/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "_/g/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "_/g2/parse/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "_/gw/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "_/i1/⍳/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "_/i1/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "_/i3/w/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "_/i5/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "_/i6/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "_/j/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "_/ku/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "_/listbox/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.22",
+        "path": "_/plot/go.mod",
+        "line": 3,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

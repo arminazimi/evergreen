@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "ucb-bar/chisel-tutorial",
+  "commit": "e567a5f27803425907af8ad528cccf3bb29e5d7d",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 12,
+    "findings": []
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

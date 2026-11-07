@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "foonathan/array",
+  "commit": "08e0a989a5e71fd8048602ec2d3e8a90fa906b14",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 5,
+    "findings": [
+      {
+        "ruleId": "cpp.cmake.policy-below-3.10.deprecated",
+        "path": "CMakeLists.txt",
+        "line": 5,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "CCRcmcpe/Auto-Arknights",
+  "commit": "5fb5017739495735abd91e00696be3b7f08d9732",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 59,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": "Source/Core/CV/ImageLocator.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": "Source/CLI/Auto Arknights CLI.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": "Source/CLI/global.json",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": "Source/Core/Auto Arknights Core.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": "Source/Test/Core/Test.Core.csproj",
+        "line": 4,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

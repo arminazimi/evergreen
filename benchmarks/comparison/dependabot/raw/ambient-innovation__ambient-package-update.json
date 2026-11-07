@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "ambient-innovation/ambient-package-update",
+  "commit": "39090b5b2a46e533491dd3535b4a6b31124a6d02",
+  "ecosystem": "python",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 27,
+    "findings": []
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

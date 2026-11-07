@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "matyhtf/webim",
+  "commit": "62b3f879eacfe6edf8e72a20970b01247de4ecb1",
+  "ecosystem": "php",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 103,
+    "findings": []
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

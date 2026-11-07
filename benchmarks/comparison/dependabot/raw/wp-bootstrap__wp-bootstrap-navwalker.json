@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "wp-bootstrap/wp-bootstrap-navwalker",
+  "commit": "11791945df1eeea3c125524d594051d73e3599f4",
+  "ecosystem": "php",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 37,
+    "findings": [
+      {
+        "ruleId": "php.runtime.eol-7.4",
+        "path": "composer.json",
+        "line": 21,
+        "dependabot": null
+      },
+      {
+        "ruleId": "php.runtime.eol-7.4",
+        "path": "composer.lock",
+        "line": 293,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

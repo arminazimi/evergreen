@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "iampawan/FlutterExampleApps",
+  "commit": "d60252c8728726414562c4d389bce24f80e09c26",
+  "ecosystem": "dart",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 34,
+    "findings": []
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

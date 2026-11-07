@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "cosenary/Instagram-PHP-API",
+  "commit": "6ba37197600bccd4389c7bad8dffe3379a5afc01",
+  "ecosystem": "php",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 6,
+    "findings": []
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "serverlesspub/imagemagick-aws-lambda-2",
+  "commit": "141ce4cd7543001b3f7742e51ca30ccb73c84596",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 4,
+    "findings": [
+      {
+        "ruleId": "serverless.aws-lambda.nodejs10.x",
+        "path": "example/template.yaml",
+        "line": 31,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

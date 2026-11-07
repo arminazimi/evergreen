@@ -1,0 +1,904 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "gitcoinco/grants-stack",
+  "commit": "572d3fb116354692af661339dea122cbfdd66648",
+  "ecosystem": "database",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 226,
+    "findings": [
+      {
+        "ruleId": "container.postgres.eol-13-and-older",
+        "path": "docker-compose.yml",
+        "line": 42,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "database.postgresql.end-of-life-13",
+        "path": "docker-compose.yml",
+        "line": 42,
+        "dependabot": null
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/builder.yml",
+        "line": 17,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/common.yml",
+        "line": 16,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/data-layer.yml",
+        "line": 16,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/grant-explorer.yml",
+        "line": 16,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/round-manager.yml",
+        "line": 16,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/verify-env.yml",
+        "line": 16,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.setup-node.node20",
+        "path": ".github/workflows/builder.yml",
+        "line": 25,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.setup-node.node20",
+        "path": ".github/workflows/common.yml",
+        "line": 24,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.setup-node.node20",
+        "path": ".github/workflows/data-layer.yml",
+        "line": 24,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.setup-node.node20",
+        "path": ".github/workflows/grant-explorer.yml",
+        "line": 24,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.setup-node.node20",
+        "path": ".github/workflows/round-manager.yml",
+        "line": 24,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.setup-node.node20",
+        "path": ".github/workflows/verify-env.yml",
+        "line": 24,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": ".github/workflows/builder.yml",
+        "line": 27,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": ".github/workflows/common.yml",
+        "line": 26,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": ".github/workflows/data-layer.yml",
+        "line": 26,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": ".github/workflows/grant-explorer.yml",
+        "line": 26,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": ".github/workflows/round-manager.yml",
+        "line": 26,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": ".github/workflows/verify-env.yml",
+        "line": 26,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": ".nvmrc",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": "package.json",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": "packages/builder/package.json",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": "packages/data-layer/package.json",
+        "line": 52,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": "packages/grant-explorer/package.json",
+        "line": 154,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": "packages/grant-explorer/package.json",
+        "line": 158,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": "packages/round-manager/package.json",
+        "line": 8,
+        "dependabot": null
+      },
+      {
+        "ruleId": "npm.package.abab.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 157,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/builder"
+        }
+      },
+      {
+        "ruleId": "npm.package.abab.deprecated",
+        "path": "packages/common/package.json",
+        "line": 59,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/common"
+        }
+      },
+      {
+        "ruleId": "npm.package.abab.deprecated",
+        "path": "packages/data-layer/package.json",
+        "line": 49,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/data-layer"
+        }
+      },
+      {
+        "ruleId": "npm.package.abab.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 150,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grant-explorer"
+        }
+      },
+      {
+        "ruleId": "npm.package.abab.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 87,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/round-manager"
+        }
+      },
+      {
+        "ruleId": "npm.package.abab.deprecated",
+        "path": "packages/verify-env/package.json",
+        "line": 21,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/verify-env"
+        }
+      },
+      {
+        "ruleId": "npm.package.domexception.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 157,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/builder"
+        }
+      },
+      {
+        "ruleId": "npm.package.domexception.deprecated",
+        "path": "packages/common/package.json",
+        "line": 59,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/common"
+        }
+      },
+      {
+        "ruleId": "npm.package.domexception.deprecated",
+        "path": "packages/data-layer/package.json",
+        "line": 49,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/data-layer"
+        }
+      },
+      {
+        "ruleId": "npm.package.domexception.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 150,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grant-explorer"
+        }
+      },
+      {
+        "ruleId": "npm.package.domexception.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 87,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/round-manager"
+        }
+      },
+      {
+        "ruleId": "npm.package.domexception.deprecated",
+        "path": "packages/verify-env/package.json",
+        "line": 21,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/verify-env"
+        }
+      },
+      {
+        "ruleId": "npm.package.har-validator.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 83,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grant-explorer"
+        }
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 146,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/builder"
+        }
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "packages/data-layer/package.json",
+        "line": 37,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/data-layer"
+        }
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "packages/eslint-config-gitcoin/package.json",
+        "line": 10,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/eslint-config-gitcoin"
+        }
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 73,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grant-explorer"
+        }
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 87,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/round-manager"
+        }
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 146,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/builder"
+        }
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "packages/data-layer/package.json",
+        "line": 37,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/data-layer"
+        }
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "packages/eslint-config-gitcoin/package.json",
+        "line": 10,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/eslint-config-gitcoin"
+        }
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 73,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grant-explorer"
+        }
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 87,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/round-manager"
+        }
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "package.json",
+        "line": 39,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 35,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/builder"
+        }
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/common/package.json",
+        "line": 19,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/common"
+        }
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/data-layer/package.json",
+        "line": 27,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/data-layer"
+        }
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/eslint-config-gitcoin/package.json",
+        "line": 8,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/eslint-config-gitcoin"
+        }
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 43,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grant-explorer"
+        }
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 152,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/round-manager"
+        }
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/verify-env/package.json",
+        "line": 24,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/verify-env"
+        }
+      },
+      {
+        "ruleId": "npm.package.lodash-isequal.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 47,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/builder"
+        }
+      },
+      {
+        "ruleId": "npm.package.lodash-isequal.deprecated",
+        "path": "packages/common/package.json",
+        "line": 48,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/common"
+        }
+      },
+      {
+        "ruleId": "npm.package.lodash-isequal.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 36,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grant-explorer"
+        }
+      },
+      {
+        "ruleId": "npm.package.lodash-isequal.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 64,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/round-manager"
+        }
+      },
+      {
+        "ruleId": "npm.package.q.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 29,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/builder"
+        }
+      },
+      {
+        "ruleId": "npm.package.q.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 52,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grant-explorer"
+        }
+      },
+      {
+        "ruleId": "npm.package.q.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 133,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/round-manager"
+        }
+      },
+      {
+        "ruleId": "npm.package.querystring.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 31,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/builder"
+        }
+      },
+      {
+        "ruleId": "npm.package.querystring.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 54,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grant-explorer"
+        }
+      },
+      {
+        "ruleId": "npm.package.querystring.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 135,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/round-manager"
+        }
+      },
+      {
+        "ruleId": "npm.package.react-native.0.77-to-0.84.end-of-support",
+        "path": "packages/builder/package.json",
+        "line": 35,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/builder"
+        }
+      },
+      {
+        "ruleId": "npm.package.react-native.0.77-to-0.84.end-of-support",
+        "path": "packages/common/package.json",
+        "line": 27,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/common"
+        }
+      },
+      {
+        "ruleId": "npm.package.react-native.0.77-to-0.84.end-of-support",
+        "path": "packages/grant-explorer/package.json",
+        "line": 59,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grant-explorer"
+        }
+      },
+      {
+        "ruleId": "npm.package.react-native.0.77-to-0.84.end-of-support",
+        "path": "packages/round-manager/package.json",
+        "line": 46,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/round-manager"
+        }
+      },
+      {
+        "ruleId": "npm.package.request.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 83,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grant-explorer"
+        }
+      },
+      {
+        "ruleId": "npm.package.resolve-url.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 84,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/builder"
+        }
+      },
+      {
+        "ruleId": "npm.package.resolve-url.deprecated",
+        "path": "packages/common/package.json",
+        "line": 19,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/common"
+        }
+      },
+      {
+        "ruleId": "npm.package.resolve-url.deprecated",
+        "path": "packages/data-layer/package.json",
+        "line": 42,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/data-layer"
+        }
+      },
+      {
+        "ruleId": "npm.package.resolve-url.deprecated",
+        "path": "packages/eslint-config-gitcoin/package.json",
+        "line": 8,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/eslint-config-gitcoin"
+        }
+      },
+      {
+        "ruleId": "npm.package.resolve-url.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 146,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grant-explorer"
+        }
+      },
+      {
+        "ruleId": "npm.package.resolve-url.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 151,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/round-manager"
+        }
+      },
+      {
+        "ruleId": "npm.package.rollup-plugin-terser.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 79,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/builder"
+        }
+      },
+      {
+        "ruleId": "npm.package.rollup-plugin-terser.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 38,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grant-explorer"
+        }
+      },
+      {
+        "ruleId": "npm.package.rollup-plugin-terser.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 87,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/round-manager"
+        }
+      },
+      {
+        "ruleId": "npm.package.source-map-url.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 84,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/builder"
+        }
+      },
+      {
+        "ruleId": "npm.package.source-map-url.deprecated",
+        "path": "packages/common/package.json",
+        "line": 19,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/common"
+        }
+      },
+      {
+        "ruleId": "npm.package.source-map-url.deprecated",
+        "path": "packages/data-layer/package.json",
+        "line": 42,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/data-layer"
+        }
+      },
+      {
+        "ruleId": "npm.package.source-map-url.deprecated",
+        "path": "packages/eslint-config-gitcoin/package.json",
+        "line": 8,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/eslint-config-gitcoin"
+        }
+      },
+      {
+        "ruleId": "npm.package.source-map-url.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 146,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grant-explorer"
+        }
+      },
+      {
+        "ruleId": "npm.package.source-map-url.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 151,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/round-manager"
+        }
+      },
+      {
+        "ruleId": "npm.package.sourcemap-codec.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 79,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/builder"
+        }
+      },
+      {
+        "ruleId": "npm.package.sourcemap-codec.deprecated",
+        "path": "packages/common/package.json",
+        "line": 59,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/common"
+        }
+      },
+      {
+        "ruleId": "npm.package.sourcemap-codec.deprecated",
+        "path": "packages/data-layer/package.json",
+        "line": 36,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/data-layer"
+        }
+      },
+      {
+        "ruleId": "npm.package.sourcemap-codec.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 137,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grant-explorer"
+        }
+      },
+      {
+        "ruleId": "npm.package.sourcemap-codec.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 87,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/round-manager"
+        }
+      },
+      {
+        "ruleId": "npm.package.sourcemap-codec.deprecated",
+        "path": "packages/verify-env/package.json",
+        "line": 19,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/verify-env"
+        }
+      },
+      {
+        "ruleId": "npm.package.stable.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 29,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/builder"
+        }
+      },
+      {
+        "ruleId": "npm.package.stable.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 52,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grant-explorer"
+        }
+      },
+      {
+        "ruleId": "npm.package.stable.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 133,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/round-manager"
+        }
+      },
+      {
+        "ruleId": "npm.package.w3c-hr-time.deprecated",
+        "path": "packages/builder/package.json",
+        "line": 157,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/builder"
+        }
+      },
+      {
+        "ruleId": "npm.package.w3c-hr-time.deprecated",
+        "path": "packages/common/package.json",
+        "line": 59,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/common"
+        }
+      },
+      {
+        "ruleId": "npm.package.w3c-hr-time.deprecated",
+        "path": "packages/data-layer/package.json",
+        "line": 49,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/data-layer"
+        }
+      },
+      {
+        "ruleId": "npm.package.w3c-hr-time.deprecated",
+        "path": "packages/grant-explorer/package.json",
+        "line": 150,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grant-explorer"
+        }
+      },
+      {
+        "ruleId": "npm.package.w3c-hr-time.deprecated",
+        "path": "packages/round-manager/package.json",
+        "line": 87,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/round-manager"
+        }
+      },
+      {
+        "ruleId": "npm.package.w3c-hr-time.deprecated",
+        "path": "packages/verify-env/package.json",
+        "line": 21,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/verify-env"
+        }
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

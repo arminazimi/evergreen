@@ -1,0 +1,462 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "railwayapp/nixpacks",
+  "commit": "144b4f9ab1c3943af4dfe76d3c79d91263f5b465",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 3239,
+    "findings": [
+      {
+        "ruleId": "container.debian.eol-11-and-older",
+        "path": "base/debian/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/base/debian"
+        }
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "examples/node-react-router-v7-framework/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/examples/node-react-router-v7-framework"
+        }
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "examples/node-react-router-v7-framework/Dockerfile",
+        "line": 11,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/examples/node-react-router-v7-framework"
+        }
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "examples/node-react-router-v7-framework/Dockerfile",
+        "line": 17,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/examples/node-react-router-v7-framework"
+        }
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "examples/node-react-router-v7-framework/Dockerfile",
+        "line": 6,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/examples/node-react-router-v7-framework"
+        }
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "examples/dart/pubspec.lock",
+        "line": 12,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "examples/dart/pubspec.yaml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": "examples/csharp-api/csharp-api.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": "examples/csharp-cli/csharp-cli.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": "examples/fsharp-api/fsharp-api.fsproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": "examples/fsharp-cli/fsharp-cli.fsproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": "examples/csharp-api/global.json",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "github-actions.action-gh-release.node20",
+        "path": ".github/workflows/release.yml",
+        "line": 150,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.action-gh-release.node20",
+        "path": ".github/workflows/release.yml",
+        "line": 47,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.build-push-action.node20",
+        "path": ".github/workflows/publish.yml",
+        "line": 102,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.build-push-action.node20",
+        "path": ".github/workflows/publish.yml",
+        "line": 52,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.build-push-action.node20",
+        "path": ".github/workflows/publish.yml",
+        "line": 60,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.build-push-action.node20",
+        "path": ".github/workflows/publish.yml",
+        "line": 94,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.cache.node20",
+        "path": ".github/workflows/ci.yml",
+        "line": 149,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.cache.node20",
+        "path": ".github/workflows/docs.yml",
+        "line": 34,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/ci.yml",
+        "line": 138,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/ci.yml",
+        "line": 179,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/ci.yml",
+        "line": 209,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/ci.yml",
+        "line": 25,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/ci.yml",
+        "line": 54,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/ci.yml",
+        "line": 98,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/docs.yml",
+        "line": 23,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/publish.yml",
+        "line": 29,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/release.yml",
+        "line": 106,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/release.yml",
+        "line": 32,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/update-nixpkgs-archive.yml",
+        "line": 19,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.login-action.node20",
+        "path": ".github/workflows/publish.yml",
+        "line": 41,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.login-action.node20",
+        "path": ".github/workflows/publish.yml",
+        "line": 88,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.setup-buildx-action.node20",
+        "path": ".github/workflows/publish.yml",
+        "line": 38,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.setup-qemu-action.node20",
+        "path": ".github/workflows/publish.yml",
+        "line": 34,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "examples/go-cmd/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "examples/go-custom-version/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "examples/go-gin/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "examples/go-mod/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.23",
+        "path": "examples/go-v123/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "php.package.laravel.framework-11.end-of-support",
+        "path": "examples/php-laravel-83/composer.lock",
+        "line": 1131,
+        "dependabot": {
+          "packageEcosystem": "composer",
+          "directory": "/examples/php-laravel-83"
+        }
+      },
+      {
+        "ruleId": "php.package.laravel.framework-11.end-of-support",
+        "path": "examples/php-laravel-84/composer.lock",
+        "line": 1059,
+        "dependabot": {
+          "packageEcosystem": "composer",
+          "directory": "/examples/php-laravel-84"
+        }
+      },
+      {
+        "ruleId": "ruby.runtime.eol-2.6",
+        "path": "examples/ruby-2/.ruby-version",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.1",
+        "path": "examples/ruby-execjs/Gemfile.lock",
+        "line": 11,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.1",
+        "path": "examples/ruby-local-deps/Gemfile.lock",
+        "line": 17,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.1",
+        "path": "examples/ruby-rails-api-app/.ruby-version",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.1",
+        "path": "examples/ruby-rails-api-app/Gemfile",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.1",
+        "path": "examples/ruby-rails-api-app/Gemfile.lock",
+        "line": 159,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.1",
+        "path": "examples/ruby-sinatra/Gemfile",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.1",
+        "path": "examples/ruby-sinatra/Gemfile.lock",
+        "line": 28,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.1",
+        "path": "examples/ruby-with-node/Gemfile.lock",
+        "line": 11,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.1",
+        "path": "examples/ruby/Gemfile.lock",
+        "line": 11,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.2",
+        "path": "examples/ruby-3/.ruby-version",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.2",
+        "path": "examples/ruby-rails-postgres/.ruby-version",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.2",
+        "path": "examples/ruby-rails-postgres/Gemfile",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.2",
+        "path": "examples/ruby-rails-postgres/Gemfile.lock",
+        "line": 246,
+        "dependabot": null
+      },
+      {
+        "ruleId": "rust.crate.tempdir.unmaintained",
+        "path": "Cargo.toml",
+        "line": 41,
+        "dependabot": {
+          "packageEcosystem": "cargo",
+          "directory": "/"
+        }
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "configPath": ".github/dependabot.yml",
+    "entries": [
+      {
+        "packageEcosystem": "github-actions",
+        "directory": "/",
+        "ignore": false,
+        "allow": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "Ceiridge/Chrome-Developer-Mode-Extension-Warning-Patcher",
+  "commit": "936977542ecfb025b784cd457fcbfd7dffbe5f5c",
+  "ecosystem": "dotnet",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 57,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": ".github/workflows/buildandrelease.yml",
+        "line": 44,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": "ChromeDevExtWarningPatcher/ChromeDevExtWarningPatcher.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": "ChromeDllInjector/ChromeDllInjector.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": "ChromeDllInjectorBuildZipper/ChromeDllInjectorBuildZipper.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/buildandrelease.yml",
+        "line": 11,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.setup-dotnet.node20",
+        "path": ".github/workflows/buildandrelease.yml",
+        "line": 42,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.upload-artifact.retired",
+        "path": ".github/workflows/buildandrelease.yml",
+        "line": 63,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.upload-artifact.retired",
+        "path": ".github/workflows/buildandrelease.yml",
+        "line": 68,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

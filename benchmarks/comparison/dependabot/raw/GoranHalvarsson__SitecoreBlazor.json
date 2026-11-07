@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "GoranHalvarsson/SitecoreBlazor",
+  "commit": "a67417616a0f412e6022a60873160fbe760e6984",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 58,
+    "findings": [
+      {
+        "ruleId": "ci-images.azure-pipelines.windows-2019",
+        "path": "azure-pipelines.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "Foundation/BlazorExtensions.Tests/Foundation.BlazorExtensions.Tests.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "SitecoreBlazorHosted.Electron/SitecoreBlazorHosted.Electron.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "SitecoreBlazorHosted.Server/SitecoreBlazorHosted.Server.csproj",
+        "line": 4,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

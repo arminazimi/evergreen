@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "lollipopkit/flutter_server_box",
+  "commit": "3e2db60c8645d61519762feff87a114eccaae8a8",
+  "ecosystem": "dart",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 8339,
+    "findings": [
+      {
+        "ruleId": "rust.toolchain.end-of-support-1.98-and-older",
+        "path": "crates/sbm_ffi/rust-toolchain.toml",
+        "line": 15,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "configPath": ".github/dependabot.yml",
+    "entries": [
+      {
+        "packageEcosystem": "cargo",
+        "directory": "/",
+        "ignore": true,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "npm",
+        "directory": "/monitor/frontend",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "npm",
+        "directory": "/docs",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "npm",
+        "directory": "/website",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "npm",
+        "directory": "/packages/webui",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "github-actions",
+        "directory": "/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "gitsubmodule",
+        "directory": "/",
+        "ignore": false,
+        "allow": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,276 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "standard-webhooks/standard-webhooks",
+  "commit": "ab6844147ce9cdb0d2dbf2e60d1ea85001fd2554",
+  "ecosystem": "elixir",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 274,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": ".github/workflows/csharp-lint.yml",
+        "line": 20,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": ".github/workflows/csharp-release.yml",
+        "line": 23,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": "libraries/csharp/StandardWebhooks.Tests/StandardWebhooks.Tests.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": "libraries/csharp/StandardWebhooks/StandardWebhooks.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "elixir.erlang.eol-26",
+        "path": "libraries/elixir/.tool-versions",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "elixir.erlang.eol-26",
+        "path": "libraries/elixir/.tool-versions",
+        "line": 2,
+        "dependabot": null
+      },
+      {
+        "ruleId": "elixir.runtime.eol-1.15",
+        "path": "libraries/elixir/.tool-versions",
+        "line": 2,
+        "dependabot": null
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/csharp-lint.yml",
+        "line": 15,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/csharp-release.yml",
+        "line": 18,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/elixir-lint.yml",
+        "line": 18,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/elixir-release.yml",
+        "line": 21,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/go-lint.yml",
+        "line": 16,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/java-lint.yml",
+        "line": 15,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/java-release.yml",
+        "line": 22,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/javascript-lint.yml",
+        "line": 15,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/javascript-release.yml",
+        "line": 18,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/ruby-lint.yml",
+        "line": 15,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/ruby-release.yml",
+        "line": 19,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/rust-lint.yml",
+        "line": 23,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/rust-release.yml",
+        "line": 16,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/rust-security.yml",
+        "line": 22,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.setup-dotnet.node20",
+        "path": ".github/workflows/csharp-lint.yml",
+        "line": 18,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.setup-dotnet.node20",
+        "path": ".github/workflows/csharp-release.yml",
+        "line": 21,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.setup-go.node20",
+        "path": ".github/workflows/go-lint.yml",
+        "line": 19,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.21",
+        "path": "libraries/go.mod",
+        "line": 3,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "configPath": ".github/dependabot.yml",
+    "entries": [
+      {
+        "packageEcosystem": "github-actions",
+        "directory": "/",
+        "ignore": true,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "gomod",
+        "directory": "/libraries",
+        "ignore": true,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "npm",
+        "directory": "/libraries/javascript",
+        "ignore": true,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "uv",
+        "directory": "/libraries/python",
+        "ignore": true,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "cargo",
+        "directory": "/libraries/rust",
+        "ignore": true,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "gradle",
+        "directory": "/libraries/java",
+        "ignore": true,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "composer",
+        "directory": "/libraries",
+        "ignore": true,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "nuget",
+        "directory": "/libraries/csharp",
+        "ignore": true,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "bundler",
+        "directory": "/libraries/ruby",
+        "ignore": true,
+        "allow": false
+      }
+    ]
+  }
+}

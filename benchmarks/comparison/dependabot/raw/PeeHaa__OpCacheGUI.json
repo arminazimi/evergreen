@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "PeeHaa/OpCacheGUI",
+  "commit": "7de269210b596104f6cdf59f897a6a71026f0bf4",
+  "ecosystem": "php",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 40,
+    "findings": [
+      {
+        "ruleId": "php.runtime.eol-7.4",
+        "path": "composer.json",
+        "line": 16,
+        "dependabot": null
+      },
+      {
+        "ruleId": "php.runtime.eol-7.4",
+        "path": "composer.lock",
+        "line": 1467,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

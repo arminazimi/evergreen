@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "rikimaru0345/Ceras",
+  "commit": "de8798b368ea3983e9113be9a8db51ee6e9eda26",
+  "ecosystem": "dotnet",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 28,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.1",
+        "path": "samples/BinaryDemo/BinaryDemo.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.1",
+        "path": "samples/NetworkExample/NetworkExample.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.2",
+        "path": "samples/LiveTesting/LiveTesting.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.2",
+        "path": "tests/Ceras.Test/Ceras.Test.csproj",
+        "line": 4,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

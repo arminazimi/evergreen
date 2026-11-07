@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "jborean93/PSOpenAD",
+  "commit": "c1029096127ebad4ed62623012b4d04a0bec6dd3",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 380,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/PSOpenAD.Module/PSOpenAD.Module.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/PSOpenAD/PSOpenAD.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "tests/units/PSOpenADTests/PSOpenADTests.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.2",
+        "path": "build.ps1",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.2",
+        "path": "tools/common.ps1",
+        "line": 9,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.2",
+        "path": "tools/CoverageReport.ps1",
+        "line": 2,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.2",
+        "path": "tools/InvokeBuild.ps1",
+        "line": 4,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

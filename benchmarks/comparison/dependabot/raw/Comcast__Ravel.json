@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "Comcast/Ravel",
+  "commit": "1aad45e3a1a1143e2ce972a57a9ac6f061030a13",
+  "ecosystem": "container",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 87,
+    "findings": [
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "gobgp.Dockerfile",
+        "line": 10,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "gobgp.Dockerfile",
+        "line": 8,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.maintainer",
+        "path": "gobgp.Dockerfile",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.golang.eol-1.25-and-older",
+        "path": "Base/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/Base"
+        }
+      },
+      {
+        "ruleId": "container.golang.eol-1.25-and-older",
+        "path": "cmd/iface-lister/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/cmd/iface-lister"
+        }
+      },
+      {
+        "ruleId": "container.golang.eol-1.25-and-older",
+        "path": "cmd/iface-lister/Dockerfile",
+        "line": 13,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/cmd/iface-lister"
+        }
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+        "path": "dev-setups/deployments/udp-server/udp-test.yaml",
+        "line": 1,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

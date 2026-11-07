@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "heroku/python-getting-started",
+  "commit": "561bc55e4aaf22f98c040611fd613994547b31bb",
+  "ecosystem": "python",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 12,
+    "findings": []
+  },
+  "dependabot": {
+    "run": "not-run",
+    "configPath": ".github/dependabot.yml",
+    "entries": [
+      {
+        "packageEcosystem": "pip",
+        "directory": "/",
+        "ignore": false,
+        "allow": true
+      }
+    ]
+  }
+}

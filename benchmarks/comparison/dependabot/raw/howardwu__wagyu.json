@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "howardwu/wagyu",
+  "commit": "523a1ff4412cfd1e07c9c1929a7b13581dcab1bf",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 44,
+    "findings": [
+      {
+        "ruleId": "rust.crate.failure.unmaintained",
+        "path": "bitcoin/Cargo.toml",
+        "line": 26,
+        "dependabot": {
+          "packageEcosystem": "cargo",
+          "directory": "/bitcoin"
+        }
+      },
+      {
+        "ruleId": "rust.crate.failure.unmaintained",
+        "path": "Cargo.toml",
+        "line": 49,
+        "dependabot": {
+          "packageEcosystem": "cargo",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "rust.crate.failure.unmaintained",
+        "path": "model/Cargo.toml",
+        "line": 27,
+        "dependabot": {
+          "packageEcosystem": "cargo",
+          "directory": "/model"
+        }
+      },
+      {
+        "ruleId": "rust.crate.failure.unmaintained",
+        "path": "monero/Cargo.toml",
+        "line": 31,
+        "dependabot": {
+          "packageEcosystem": "cargo",
+          "directory": "/monero"
+        }
+      },
+      {
+        "ruleId": "rust.crate.failure.unmaintained",
+        "path": "zcash/Cargo.toml",
+        "line": 52,
+        "dependabot": {
+          "packageEcosystem": "cargo",
+          "directory": "/zcash"
+        }
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

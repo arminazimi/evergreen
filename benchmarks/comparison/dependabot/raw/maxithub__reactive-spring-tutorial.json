@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "maxithub/reactive-spring-tutorial",
+  "commit": "92194cc4390a6ff6b8fb00d0b82d15d6d6009266",
+  "ecosystem": "java",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 276,
+    "findings": [
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "pom.xml",
+        "line": 18,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/"
+        }
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

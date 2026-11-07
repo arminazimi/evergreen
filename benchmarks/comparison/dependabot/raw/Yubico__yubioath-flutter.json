@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "Yubico/yubioath-flutter",
+  "commit": "b4eca6a3888bf504cb991b1898ba8542109ded4f",
+  "ecosystem": "dart",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 204,
+    "findings": []
+  },
+  "dependabot": {
+    "run": "not-run",
+    "configPath": ".github/dependabot.yml",
+    "entries": [
+      {
+        "packageEcosystem": "github-actions",
+        "directory": "/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "gradle",
+        "directory": "/android/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "gradle",
+        "directory": "/android/flutter_plugins/qrscanner_zxing/android/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pip",
+        "directory": "/helper/",
+        "ignore": true,
+        "allow": false
+      }
+    ]
+  }
+}

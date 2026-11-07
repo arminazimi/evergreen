@@ -1,0 +1,282 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "Ff00ff/mammoth",
+  "commit": "8122afe43425c135a1dd8f0cd22606fb0e0a994d",
+  "ecosystem": "node-actions",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 81,
+    "findings": [
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/automerge.yml",
+        "line": 7,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/feature.yml",
+        "line": 18,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/master.yml",
+        "line": 14,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.setup-node.node20",
+        "path": ".github/workflows/feature.yml",
+        "line": 20,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.setup-node.node20",
+        "path": ".github/workflows/master.yml",
+        "line": 15,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-18",
+        "path": "workspaces/mammoth-cli/package.json",
+        "line": 26,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-19",
+        "path": "workspaces/mammoth-cli/package.json",
+        "line": 26,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": "workspaces/mammoth-cli/package.json",
+        "line": 26,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.legacy",
+        "path": ".github/workflows/master.yml",
+        "line": 17,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.legacy",
+        "path": "workspaces/mammoth-cli/package.json",
+        "line": 26,
+        "dependabot": null
+      },
+      {
+        "ruleId": "npm.package.abab.deprecated",
+        "path": "package.json",
+        "line": 14,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.are-we-there-yet.eol",
+        "path": "workspaces/mammoth-cli/package.json",
+        "line": 13,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/workspaces/mammoth-cli"
+        }
+      },
+      {
+        "ruleId": "npm.package.domexception.deprecated",
+        "path": "package.json",
+        "line": 14,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.fstream.eol",
+        "path": "workspaces/mammoth-cli/package.json",
+        "line": 13,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/workspaces/mammoth-cli"
+        }
+      },
+      {
+        "ruleId": "npm.package.gauge.eol",
+        "path": "workspaces/mammoth-cli/package.json",
+        "line": 13,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/workspaces/mammoth-cli"
+        }
+      },
+      {
+        "ruleId": "npm.package.har-validator.deprecated",
+        "path": "workspaces/mammoth-cli/package.json",
+        "line": 13,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/workspaces/mammoth-cli"
+        }
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "package.json",
+        "line": 12,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "package.json",
+        "line": 12,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "package.json",
+        "line": 13,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "workspaces/mammoth-cli/package.json",
+        "line": 11,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/workspaces/mammoth-cli"
+        }
+      },
+      {
+        "ruleId": "npm.package.lodash-get.deprecated",
+        "path": "package.json",
+        "line": 11,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.npmcli-move-file.deprecated",
+        "path": "workspaces/mammoth-cli/package.json",
+        "line": 13,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/workspaces/mammoth-cli"
+        }
+      },
+      {
+        "ruleId": "npm.package.npmlog.eol",
+        "path": "workspaces/mammoth-cli/package.json",
+        "line": 13,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/workspaces/mammoth-cli"
+        }
+      },
+      {
+        "ruleId": "npm.package.osenv.eol",
+        "path": "workspaces/mammoth-cli/package.json",
+        "line": 13,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/workspaces/mammoth-cli"
+        }
+      },
+      {
+        "ruleId": "npm.package.request.deprecated",
+        "path": "workspaces/mammoth-cli/package.json",
+        "line": 13,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/workspaces/mammoth-cli"
+        }
+      },
+      {
+        "ruleId": "npm.package.resolve-url.deprecated",
+        "path": "package.json",
+        "line": 4,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.resolve-url.deprecated",
+        "path": "workspaces/mammoth-cli/package.json",
+        "line": 11,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/workspaces/mammoth-cli"
+        }
+      },
+      {
+        "ruleId": "npm.package.source-map-url.deprecated",
+        "path": "package.json",
+        "line": 4,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.source-map-url.deprecated",
+        "path": "workspaces/mammoth-cli/package.json",
+        "line": 11,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/workspaces/mammoth-cli"
+        }
+      },
+      {
+        "ruleId": "npm.package.w3c-hr-time.deprecated",
+        "path": "package.json",
+        "line": 14,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "configPath": ".github/dependabot.yml",
+    "entries": [
+      {
+        "packageEcosystem": "npm",
+        "directory": "/",
+        "ignore": true,
+        "allow": false
+      }
+    ]
+  }
+}

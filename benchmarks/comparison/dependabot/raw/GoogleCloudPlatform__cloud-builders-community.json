@@ -1,0 +1,547 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "GoogleCloudPlatform/cloud-builders-community",
+  "commit": "e210dd2d9b8dd1c2a11b6bcb64e47922c0b016f8",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 2452,
+    "findings": [
+      {
+        "ruleId": "container.alpine.eol-3.20-and-older",
+        "path": "alcide/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/alcide"
+        }
+      },
+      {
+        "ruleId": "container.alpine.eol-3.20-and-older",
+        "path": "envsubst/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/envsubst"
+        }
+      },
+      {
+        "ruleId": "container.alpine.eol-3.20-and-older",
+        "path": "esy/Dockerfile",
+        "line": 13,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/esy"
+        }
+      },
+      {
+        "ruleId": "container.alpine.eol-3.20-and-older",
+        "path": "kustomize/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/kustomize"
+        }
+      },
+      {
+        "ruleId": "container.alpine.eol-3.20-and-older",
+        "path": "packer/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/packer"
+        }
+      },
+      {
+        "ruleId": "container.alpine.eol-3.20-and-older",
+        "path": "terraform/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/terraform"
+        }
+      },
+      {
+        "ruleId": "container.alpine.eol-3.20-and-older",
+        "path": "vault/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/vault"
+        }
+      },
+      {
+        "ruleId": "container.alpine.eol-3.20-and-older",
+        "path": "velero/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/velero"
+        }
+      },
+      {
+        "ruleId": "container.debian.eol-11-and-older",
+        "path": "protoc/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/protoc"
+        }
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "boot/Dockerfile",
+        "line": 10,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "boot/Dockerfile",
+        "line": 11,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "boot/Dockerfile",
+        "line": 12,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "boot/Dockerfile",
+        "line": 14,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "boot/Dockerfile",
+        "line": 15,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "gcloud-sops/Dockerfile",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "jmeter/Dockerfile",
+        "line": 10,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "jmeter/Dockerfile",
+        "line": 27,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "jmeter/Dockerfile",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "jmeter/Dockerfile",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "jmeter/Dockerfile",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "jmeter/Dockerfile",
+        "line": 8,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "jmeter/Dockerfile",
+        "line": 9,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "mortar/Dockerfile",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "mortar/Dockerfile",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "sonarqube/Dockerfile",
+        "line": 24,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "sonarqube/Dockerfile",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "sonarqube/Dockerfile",
+        "line": 8,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "sonarqube/Dockerfile",
+        "line": 9,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "webdev/Dockerfile",
+        "line": 2,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "windows-builder/images/docker-windows/Dockerfile",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "yarn-puppeteer/Dockerfile",
+        "line": 19,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "yarn-puppeteer/Dockerfile",
+        "line": 20,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "yarn-puppeteer/Dockerfile",
+        "line": 21,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "yarn-puppeteer/examples/hello_world/Dockerfile",
+        "line": 11,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "yarn-puppeteer/examples/hello_world/Dockerfile",
+        "line": 15,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.maintainer",
+        "path": "flutter/Dockerfile",
+        "line": 11,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.maintainer",
+        "path": "remote-builder/Dockerfile",
+        "line": 2,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.golang.eol-1.25-and-older",
+        "path": "docker-reuse/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/docker-reuse"
+        }
+      },
+      {
+        "ruleId": "container.golang.eol-1.25-and-older",
+        "path": "docker-reuse/examples/hello-world/deployment/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/docker-reuse/examples/hello-world/deployment"
+        }
+      },
+      {
+        "ruleId": "container.golang.eol-1.25-and-older",
+        "path": "gcluster/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/gcluster"
+        }
+      },
+      {
+        "ruleId": "container.golang.eol-1.25-and-older",
+        "path": "klar/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/klar"
+        }
+      },
+      {
+        "ruleId": "container.golang.eol-1.25-and-older",
+        "path": "ko/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/ko"
+        }
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "compodoc/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/compodoc"
+        }
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "docker-reuse/examples/multistage/docker/server-modules/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/docker-reuse/examples/multistage/docker/server-modules"
+        }
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "docker-reuse/examples/multistage/docker/server/Dockerfile",
+        "line": 3,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/docker-reuse/examples/multistage/docker/server"
+        }
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "esy/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/esy"
+        }
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "npm-jasmine-node/examples/hello-world/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/npm-jasmine-node/examples/hello-world"
+        }
+      },
+      {
+        "ruleId": "container.python.eol-3.10-and-older",
+        "path": "airflow/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/airflow"
+        }
+      },
+      {
+        "ruleId": "container.python.eol-3.10-and-older",
+        "path": "dataflow-python/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/dataflow-python"
+        }
+      },
+      {
+        "ruleId": "container.python.eol-3.10-and-older",
+        "path": "dataflow-python3/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/dataflow-python3"
+        }
+      },
+      {
+        "ruleId": "container.python.eol-3.10-and-older",
+        "path": "kondunite/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/kondunite"
+        }
+      },
+      {
+        "ruleId": "container.ruby.eol-3.2-and-older",
+        "path": "fastlane/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/fastlane"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "docker-compose/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/docker-compose"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "earthly/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/earthly"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "jsonnet/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/jsonnet"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "replicated-cli/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/replicated-cli"
+        }
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "docker-reuse/examples/hello-world/app/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "pack/example/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "slackbot/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "windows-builder/builder/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+        "path": "kondunite/examples/manifests/wordpress.yaml",
+        "line": 22,
+        "dependabot": null
+      },
+      {
+        "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+        "path": "replicated-cli/examples/replicated.yaml",
+        "line": 90,
+        "dependabot": null
+      },
+      {
+        "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+        "path": "replicated-lint/examples/replicated.yaml",
+        "line": 90,
+        "dependabot": null
+      },
+      {
+        "ruleId": "scala.sbt.eol-0.13",
+        "path": "scala-sbt/examples/play2/project/build.properties",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "terraform/examples/gcs_backend/main.tf",
+        "line": 2,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "terraform/examples/gcs_backend/main.tf",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "terraform/examples/gcs_backend/main.tf",
+        "line": 9,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "terraform/examples/local_backend/main.tf",
+        "line": 2,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "terraform/examples/local_backend/main.tf",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "terraform/examples/local_backend/main.tf",
+        "line": 9,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "terragrunt/examples/gcs_backend/modules/pubsub/main.tf",
+        "line": 10,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "terragrunt/examples/gcs_backend/modules/pubsub/main.tf",
+        "line": 11,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "terragrunt/examples/gcs_backend/modules/pubsub/main.tf",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "terragrunt/examples/gcs_backend/modules/pubsub/main.tf",
+        "line": 2,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

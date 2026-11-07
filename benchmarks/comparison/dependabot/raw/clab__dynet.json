@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "clab/dynet",
+  "commit": "22b44958476731af4d1fdbc553626eca3a27e808",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 683,
+    "findings": [
+      {
+        "ruleId": "cpp.cmake.policy-below-3.5.removed",
+        "path": "CMakeLists.txt",
+        "line": 2,
+        "dependabot": null
+      },
+      {
+        "ruleId": "cpp.cmake.policy-below-3.5.removed",
+        "path": "contrib/c/CMakeLists.txt",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "cpp.cmake.policy-below-3.5.removed",
+        "path": "contrib/swig/CMakeLists.txt",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "cpp.cmake.policy-below-3.5.removed",
+        "path": "examples/CMakeLists.txt",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "cpp.cmake.policy-below-3.5.removed",
+        "path": "tutorial/CMakeLists.txt",
+        "line": 1,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

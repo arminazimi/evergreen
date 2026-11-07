@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "Themoji/ios",
+  "commit": "7e5a113716ad9e0c345da5c3bcfc4a6250d52db8",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 23,
+    "findings": [
+      {
+        "ruleId": "swift.app-store.ios-below-13",
+        "path": "Themoji.xcodeproj/project.pbxproj",
+        "line": 505,
+        "dependabot": null
+      },
+      {
+        "ruleId": "swift.app-store.ios-below-13",
+        "path": "Themoji.xcodeproj/project.pbxproj",
+        "line": 534,
+        "dependabot": null
+      },
+      {
+        "ruleId": "swift.xcode.app-store-below-15",
+        "path": ".xcode-version",
+        "line": 1,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "XistGG/UnrealXistTools",
+  "commit": "e93c3fd01a5ffb3346677e2870211d2357083f63",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 292,
+    "findings": [
+      {
+        "ruleId": "shell.powershell.end-of-life-7.0",
+        "path": "RunTests.ps1",
+        "line": 2,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

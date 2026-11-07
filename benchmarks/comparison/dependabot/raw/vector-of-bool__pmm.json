@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "vector-of-bool/pmm",
+  "commit": "3750c8e0b84c93669f9c7054b091788715c4dc10",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 48,
+    "findings": [
+      {
+        "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+        "path": "azure-pipelines.yml",
+        "line": 34,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ci-images.azure-pipelines.windows-2019",
+        "path": "azure-pipelines.yml",
+        "line": 10,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ci-images.azure-pipelines.windows-2019",
+        "path": "azure-pipelines.yml",
+        "line": 22,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.alpine.eol-3.20-and-older",
+        "path": "tests/alpine.docker/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/tests/alpine.docker"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "tests/u18.docker/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/tests/u18.docker"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "tests/u20-cm3_20.docker/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/tests/u20-cm3_20.docker"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "tests/u20.docker/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/tests/u20.docker"
+        }
+      },
+      {
+        "ruleId": "python.runtime.eol-3.10-and-older",
+        "path": "pyproject.toml",
+        "line": 9,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

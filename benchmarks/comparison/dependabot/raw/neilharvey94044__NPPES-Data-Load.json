@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "neilharvey94044/NPPES-Data-Load",
+  "commit": "a43337f5102f86d69486fae77cf74ebf9118176c",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 91,
+    "findings": [
+      {
+        "ruleId": "shell.powershell.end-of-life-7.0",
+        "path": "create-sampleFormat.ps1",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.0",
+        "path": "Create-Tables.ps1",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.0",
+        "path": "GeoCode-NPIData.ps1",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.0",
+        "path": "Get-NPIData.ps1",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.0",
+        "path": "Get-SQLCredential.ps1",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.0",
+        "path": "Load-ZipcodeGeo.ps1",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.0",
+        "path": "Process-NPIData.ps1",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.0",
+        "path": "Process-ProvLocData.ps1",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.0",
+        "path": "Process-TaxonomyCodes.ps1",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.0",
+        "path": "Put-SQLCredential.ps1",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.0",
+        "path": "Refactor-NPIData.ps1",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.0",
+        "path": "RunRefresh.ps1",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.0",
+        "path": "test_query.ps1",
+        "line": 1,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

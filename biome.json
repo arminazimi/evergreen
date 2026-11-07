@@ -24,6 +24,8 @@
       "!benchmarks/comparison/endoflife-date.snapshot.json",
       "!benchmarks/comparison/renovate/raw/**",
       "!benchmarks/comparison/renovate/renovate.json",
+      "!benchmarks/comparison/dependabot/raw/**",
+      "!benchmarks/comparison/dependabot/dependabot.json",
       "!dist/**",
       "!plugins/**"
     ]

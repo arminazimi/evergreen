@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "matryer/xbar",
+  "commit": "d624239058997c80118eaebe2e7f8331b3c765e0",
+  "ecosystem": "go",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 210,
+    "findings": [
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/deploy-xbarappcom.yaml",
+        "line": 16,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.setup-go.node20",
+        "path": ".github/workflows/deploy-xbarappcom.yaml",
+        "line": 21,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "app/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "pkg/metadata/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "pkg/plugins/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "pkg/update/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "tools/xbarmdcheck/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "xbarapp.com/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.22",
+        "path": "tools/sitegen/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "swift.app-store.ios-below-13",
+        "path": "archive/bitbar/App/Vendor/DateTools/Examples/DateToolsExample/DateToolsExample.xcodeproj/project.pbxproj",
+        "line": 735,
+        "dependabot": null
+      },
+      {
+        "ruleId": "swift.app-store.ios-below-13",
+        "path": "archive/bitbar/App/Vendor/DateTools/Examples/DateToolsExample/DateToolsExample.xcodeproj/project.pbxproj",
+        "line": 749,
+        "dependabot": null
+      },
+      {
+        "ruleId": "swift.app-store.ios-below-13",
+        "path": "archive/bitbar/App/Vendor/DateTools/Tests/DateToolsTests/DateToolsTests.xcodeproj/project.pbxproj",
+        "line": 467,
+        "dependabot": null
+      },
+      {
+        "ruleId": "swift.app-store.ios-below-13",
+        "path": "archive/bitbar/App/Vendor/DateTools/Tests/DateToolsTests/DateToolsTests.xcodeproj/project.pbxproj",
+        "line": 481,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

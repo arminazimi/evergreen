@@ -1,0 +1,196 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "aws-samples/aws-lambda-extensions",
+  "commit": "cfed93e212d6415115d6a0a8a10885cded5a2b3b",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 146,
+    "findings": [
+      {
+        "ruleId": "container.python.eol-3.10-and-older",
+        "path": "s3-logs-extension-demo-container-image/extension/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/s3-logs-extension-demo-container-image/extension"
+        }
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "csharp-example-extension/csharp-example-extension.csproj",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": "csharp-example-extension/csharp-example-extension.csproj",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "cache-extension-demo/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "go-example-adaptive-batching-extension/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "go-example-crash-uploader-extension/go.mod",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "go-example-extension/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "go-example-ipc-extension/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "go-example-lambda-runtime-api-proxy-extension/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "go-example-logs-api-extension/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "go-example-telemetry-api-extension/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "kinesis-stream-logs-extension-demo/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.20-and-older",
+        "path": "kinesisfirehose-logs-extension-demo/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs12.x",
+        "path": "cache-extension-demo/SAM/template.yaml",
+        "line": 108,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs12.x",
+        "path": "cache-extension-demo/SAM/template.yaml",
+        "line": 70,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs12.x",
+        "path": "go-example-adaptive-batching-extension/template.yaml",
+        "line": 36,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs12.x",
+        "path": "go-example-logs-api-extension/template.yaml",
+        "line": 37,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs12.x",
+        "path": "kinesis-stream-logs-extension-demo/template.yaml",
+        "line": 57,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs12.x",
+        "path": "kinesisfirehose-logs-extension-demo/template.yaml",
+        "line": 66,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs12.x",
+        "path": "nodejs-example-logs-api-extension/template.yaml",
+        "line": 32,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs16.x",
+        "path": "go-example-telemetry-api-extension/template.yaml",
+        "line": 22,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs16.x",
+        "path": "nodejs-example-telemetry-api-extension/template.yaml",
+        "line": 24,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs18.x",
+        "path": "go-example-lambda-runtime-api-proxy-extension/template.yaml",
+        "line": 24,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs22.x",
+        "path": "awsappconfig-extension-demo/template.yml",
+        "line": 27,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs22.x",
+        "path": "awsappconfig-extension-demo/template.yml",
+        "line": 52,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.provided.al2",
+        "path": "custom-runtime-extension-demo/template.yml",
+        "line": 22,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.provided.al2",
+        "path": "go-example-extension-sam-layer/template.yaml",
+        "line": 38,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.8",
+        "path": "python-example-logs-api-extension/template.yaml",
+        "line": 35,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.8",
+        "path": "s3-logs-extension-demo-zip-archive/template.yml",
+        "line": 22,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

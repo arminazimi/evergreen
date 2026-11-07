@@ -1,0 +1,108 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "BranchMetrics/android-branch-deep-linking-attribution",
+  "commit": "e12e2998cf1b4e3d87c613c49cd4ae78a003bf0a",
+  "ecosystem": "android",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 63,
+    "findings": [
+      {
+        "ruleId": "android.play-billing.version-8",
+        "path": "Branch-SDK-TestBed/build.gradle.kts",
+        "line": 16,
+        "dependabot": {
+          "packageEcosystem": "gradle",
+          "directory": "/Branch-SDK-TestBed"
+        }
+      },
+      {
+        "ruleId": "android.play-billing.version-8",
+        "path": "Branch-SDK/build.gradle.kts",
+        "line": 43,
+        "dependabot": {
+          "packageEcosystem": "gradle",
+          "directory": "/Branch-SDK"
+        }
+      },
+      {
+        "ruleId": "android.play-billing.version-8",
+        "path": "Branch-SDK/build.gradle.kts",
+        "line": 77,
+        "dependabot": {
+          "packageEcosystem": "gradle",
+          "directory": "/Branch-SDK"
+        }
+      },
+      {
+        "ruleId": "android.target-sdk.existing.default-below-35",
+        "path": "Branch-SDK-TestBed/build.gradle.kts",
+        "line": 39,
+        "dependabot": {
+          "packageEcosystem": "gradle",
+          "directory": "/Branch-SDK-TestBed"
+        }
+      },
+      {
+        "ruleId": "github-actions.upload-artifact.retired",
+        "path": ".github/workflows/sdk-l1-validation.yml",
+        "line": 89,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.upload-artifact.retired",
+        "path": ".github/workflows/unit-and-instrumented-tests-action.yml",
+        "line": 129,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.upload-artifact.retired",
+        "path": ".github/workflows/unit-and-instrumented-tests-action.yml",
+        "line": 165,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.upload-artifact.retired",
+        "path": ".github/workflows/unit-and-instrumented-tests-action.yml",
+        "line": 29,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.upload-artifact.retired",
+        "path": ".github/workflows/unit-and-instrumented-tests-action.yml",
+        "line": 66,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "configPath": ".github/dependabot.yml",
+    "entries": [
+      {
+        "packageEcosystem": "github-actions",
+        "directory": "/",
+        "ignore": false,
+        "allow": false
+      }
+    ]
+  }
+}

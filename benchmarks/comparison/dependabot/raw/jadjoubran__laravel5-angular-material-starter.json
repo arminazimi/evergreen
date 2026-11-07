@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "jadjoubran/laravel5-angular-material-starter",
+  "commit": "a4944cc003d9f406644e50f9ee71e150ff9ec8b8",
+  "ecosystem": "php",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 100,
+    "findings": [
+      {
+        "ruleId": "npm.package.babel-preset-es2015.deprecated",
+        "path": "package.json",
+        "line": 10,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "php.package.fzaninotto.faker.abandoned",
+        "path": "composer.json",
+        "line": 16,
+        "dependabot": {
+          "packageEcosystem": "composer",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "php.package.fzaninotto.faker.abandoned",
+        "path": "composer.lock",
+        "line": 2213,
+        "dependabot": {
+          "packageEcosystem": "composer",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "php.package.swiftmailer.swiftmailer.abandoned",
+        "path": "composer.lock",
+        "line": 1208,
+        "dependabot": {
+          "packageEcosystem": "composer",
+          "directory": "/"
+        }
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

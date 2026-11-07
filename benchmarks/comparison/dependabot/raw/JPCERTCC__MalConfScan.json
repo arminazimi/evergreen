@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "JPCERTCC/MalConfScan",
+  "commit": "19ec0d145535a6a4cfd37c0960114f455a8c343e",
+  "ecosystem": "python",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 20,
+    "findings": [
+      {
+        "ruleId": "python.package.pycrypto.obsolete",
+        "path": "requirements.txt",
+        "line": 2,
+        "dependabot": {
+          "packageEcosystem": "pip",
+          "directory": "/"
+        }
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

@@ -7,7 +7,9 @@ This directory holds the measured comparison with endoflife.date, run under
 2. **Data correctness:** when both sides publish a lifecycle date for the same release cycle, do they agree, and
    which side matches the date the ground-truth audit checked against the vendor?
 
-The comparison with Renovate lives in [renovate/](renovate/README.md).
+The comparison with Renovate lives in [renovate/](renovate/README.md). The comparison with Dependabot lives in
+[dependabot/](dependabot/README.md); it measures the update surface a repository's committed `dependabot.yml`
+declares, because Dependabot cannot be run against a pinned commit.
 
 The result is committed as [endoflife-date.json](endoflife-date.json) (the data) and
 [endoflife-date.md](endoflife-date.md) (the tables). Both are generated; do not edit them by hand.

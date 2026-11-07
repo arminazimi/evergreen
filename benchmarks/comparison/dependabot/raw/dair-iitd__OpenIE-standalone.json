@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "dair-iitd/OpenIE-standalone",
+  "commit": "5751d2eeec73834d7256371d1529b3ccb7d2cb66",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 120,
+    "findings": [
+      {
+        "ruleId": "scala.sbt.eol-0.13",
+        "path": "ONRE/project/build.properties",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "scala.sbt.eol-0.13",
+        "path": "srlie/project/build.properties",
+        "line": 1,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "plynx-team/plynx",
+  "commit": "4b01cdad967d6d1e96ebe24af8921b1c7c6bec1f",
+  "ecosystem": "python",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 41,
+    "findings": [
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/ui_dev/Dockerfile",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/ui_dev/Dockerfile",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/ui/Dockerfile",
+        "line": 18,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/ui/Dockerfile",
+        "line": 19,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/ui/Dockerfile",
+        "line": 31,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "docker/ui_dev/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/docker/ui_dev"
+        }
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "docker/ui/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/docker/ui"
+        }
+      },
+      {
+        "ruleId": "container.python.eol-3.10-and-older",
+        "path": "docker/backend/Dockerfile",
+        "line": 2,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/docker/backend"
+        }
+      },
+      {
+        "ruleId": "kubernetes.apps.statefulset.v1beta1.removed",
+        "path": "kubernetes/mongo-statefulset.yaml",
+        "line": 28,
+        "dependabot": null
+      },
+      {
+        "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+        "path": "kubernetes/backend-deployment.yaml",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+        "path": "kubernetes/frontend-deployment.yaml",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+        "path": "kubernetes/workers-deployment.yaml",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+        "path": "kubernetes/router.yaml",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+        "path": "kubernetes/fabric8-rbac.yaml",
+        "line": 11,
+        "dependabot": null
+      },
+      {
+        "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+        "path": "kubernetes/googlecloud_hdd.yaml",
+        "line": 14,
+        "dependabot": null
+      },
+      {
+        "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+        "path": "kubernetes/googlecloud_ssd.yaml",
+        "line": 14,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

@@ -1,0 +1,457 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "OpenFlutter/Flutter-Notebook",
+  "commit": "1eab75edb34e739f87cd7aa9f6f212549c6c8026",
+  "ecosystem": "dart",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 3367,
+    "findings": [
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/animated_container/pubspec.lock",
+        "line": 384,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/animated_container/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/animated_cross_fade/pubspec.lock",
+        "line": 384,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/animated_cross_fade/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/animated_floating_action_bar/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/animation_challenge/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/animation_demo/pubspec.lock",
+        "line": 384,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/beaytiful_search_bar_demo/pubspec.lock",
+        "line": 139,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/beaytiful_search_bar_demo/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/bloc_demo/pubspec.lock",
+        "line": 146,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/bloc_demo/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/bloc_provider_pattern/pubspec.lock",
+        "line": 188,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/bloc_provider_pattern/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/bottom_appbar_demo/pubspec.lock",
+        "line": 384,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/bottom_appbar_demo/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/chip_demo/pubspec.lock",
+        "line": 384,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/chip_demo/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/clipper_demo/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/custom_router_transition/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/draggable_demo/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/event_bus_demo/pubspec.yaml",
+        "line": 17,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/expansion_demo/pubspec.lock",
+        "line": 384,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/expansion_demo/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/flutter_auto_json_parsing/pubspec.lock",
+        "line": 510,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/flutter_bottomnavigationbar/pubspec.lock",
+        "line": 139,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/flutter_provide/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/flutter_widget_of_the_week/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/frosted_glass_style_demo/pubspec.lock",
+        "line": 146,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/frosted_glass_style_demo/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/hero_demo/pubspec.lock",
+        "line": 384,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/hero_demo/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/intro_views/pubspec.lock",
+        "line": 391,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/intro_views/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/keep_alive_demo/pubspec.lock",
+        "line": 139,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/keep_alive_demo/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/load_multi_image/pubspec.lock",
+        "line": 391,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/load_multi_image/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/navigator_example/pubspec.yaml",
+        "line": 17,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/overlay/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/pinch_zoom_image_demo/pubspec.lock",
+        "line": 433,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/pinch_zoom_image_demo/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/provider_example/pubspec.yaml",
+        "line": 17,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/redux_demo/pubspec.lock",
+        "line": 153,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/redux_demo/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/release_preview2/pubspec.lock",
+        "line": 391,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/release_preview2/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/reorderble_listview_demo/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/right_back_demo/pubspec.lock",
+        "line": 384,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/right_back_demo/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/ripple_animation/pubspec.yaml",
+        "line": 17,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/scoped_demo/pubspec.lock",
+        "line": 146,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/scoped_demo/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/slider_screen/pubspec.lock",
+        "line": 146,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/slider_screen/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/sliver_demo/pubspec.lock",
+        "line": 384,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/sliver_demo/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/spinkit_animation/pubspec.lock",
+        "line": 391,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/spinkit_animation/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/splash_screen_demo/pubspec.lock",
+        "line": 384,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/splash_screen_demo/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/swipe_to_dismiss/pubspec.lock",
+        "line": 384,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/swipe_to_dismiss/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/textfields_focus_demo/pubspec.lock",
+        "line": 384,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/textfields_focus_demo/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/tool_tips_demo/pubspec.lock",
+        "line": 384,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/tool_tips_demo/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/url_launcher_demo/pubspec.lock",
+        "line": 391,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/url_launcher_demo/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/warp_demo/pubspec.lock",
+        "line": 384,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/warp_demo/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/widget_to_image/pubspec.lock",
+        "line": 384,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/widget_to_image/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "mecury_project/example/without_splash_color/pubspec.yaml",
+        "line": 13,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

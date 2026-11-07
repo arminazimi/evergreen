@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "nmacawile/rails-chat-api",
+  "commit": "b39beefb1427ba1d4e382aed090391bfab9bb826",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 32,
+    "findings": [
+      {
+        "ruleId": "container.ruby.eol-3.2-and-older",
+        "path": "Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "container.ruby.eol-3.2-and-older",
+        "path": "Dockerfile",
+        "line": 10,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "ruby.runtime.eol-2.7",
+        "path": ".ruby-version",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ruby.runtime.eol-2.7",
+        "path": "Gemfile",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ruby.runtime.eol-2.7",
+        "path": "Gemfile.lock",
+        "line": 222,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

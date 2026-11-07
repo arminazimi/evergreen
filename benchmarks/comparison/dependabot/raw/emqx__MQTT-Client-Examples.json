@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "emqx/MQTT-Client-Examples",
+  "commit": "b9378547037bdb851f6e5648976573398546dcb5",
+  "ecosystem": "elixir",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 1144,
+    "findings": [
+      {
+        "ruleId": "android.target-sdk.existing.default-below-35",
+        "path": "mqtt-client-Android-Kotlin/app/build.gradle",
+        "line": 13,
+        "dependabot": {
+          "packageEcosystem": "gradle",
+          "directory": "/mqtt-client-Android-Kotlin/app"
+        }
+      },
+      {
+        "ruleId": "cpp.cmake.policy-below-3.5.removed",
+        "path": "mqtt-client-C-nng/CMakeLists.txt",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "elixir.erlang.eol-25",
+        "path": "mqtt-client-Elixir/.tool-versions",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "elixir.erlang.eol-25",
+        "path": "mqtt-client-Elixir/.tool-versions",
+        "line": 2,
+        "dependabot": null
+      },
+      {
+        "ruleId": "elixir.runtime.eol-1.14",
+        "path": "mqtt-client-Elixir/.tool-versions",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.25",
+        "path": "mqtt-client-Go/file-transfer/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.25",
+        "path": "mqtt-client-Go/one_way-tls/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.25",
+        "path": "mqtt-client-Go/pubsub/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.25",
+        "path": "mqtt-client-Go/two_way-tls/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ruby.runtime.eol-2.7",
+        "path": "mqtt-client-React-Native/RNMQTTDemo/.ruby-version",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ruby.runtime.eol-2.7",
+        "path": "mqtt-client-React-Native/RNMQTTDemo/Gemfile",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ruby.runtime.eol-2.7",
+        "path": "mqtt-client-React-Native/RNMQTTDemo/Gemfile.lock",
+        "line": 97,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

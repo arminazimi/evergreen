@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "ecampidoglio/Linker",
+  "commit": "960c42b6c3454f941afeb43193370bac3bb1ec69",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 14,
+    "findings": [
+      {
+        "ruleId": "ci-images.azure-pipelines.windows-2019",
+        "path": "azure-pipelines.yml",
+        "line": 2,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.0",
+        "path": "Dockerfile",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.0",
+        "path": "src/Linker/Linker.csproj",
+        "line": 8,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.0",
+        "path": "test/Linker.Tests/Linker.Tests.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "global.json",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/build.yml",
+        "line": 16,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

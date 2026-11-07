@@ -1,0 +1,283 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "jzyong/GameServer4j",
+  "commit": "a8bb3edfe065292f3f2497a9185188f03936210f",
+  "ecosystem": "java",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 249,
+    "findings": [
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docs/archive/game-cluster/Dockerfile",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "game-api/Dockerfile",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "game-gate/Dockerfile",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "game-hall/Dockerfile",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "game-manage/Dockerfile",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "game-res/archive/game-cluster/Dockerfile",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "docs/archive/game-cluster/pom.xml",
+        "line": 60,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/docs/archive/game-cluster"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "docs/archive/game-cluster/pom.xml",
+        "line": 61,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/docs/archive/game-cluster"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "docs/archive/game-engine/pom.xml",
+        "line": 84,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/docs/archive/game-engine"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "docs/archive/game-engine/pom.xml",
+        "line": 85,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/docs/archive/game-engine"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-api/pom.xml",
+        "line": 35,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/game-api"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-api/pom.xml",
+        "line": 36,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/game-api"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-gate/pom.xml",
+        "line": 33,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/game-gate"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-gate/pom.xml",
+        "line": 34,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/game-gate"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-hall/pom.xml",
+        "line": 32,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/game-hall"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-hall/pom.xml",
+        "line": 33,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/game-hall"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-manage/pom.xml",
+        "line": 101,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/game-manage"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-manage/pom.xml",
+        "line": 102,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/game-manage"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-manage/pom.xml",
+        "line": 16,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/game-manage"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-manage/pom.xml",
+        "line": 17,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/game-manage"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-message/pom.xml",
+        "line": 44,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/game-message"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-message/pom.xml",
+        "line": 45,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/game-message"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-res/archive/game-cluster/pom.xml",
+        "line": 60,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/game-res/archive/game-cluster"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-res/archive/game-cluster/pom.xml",
+        "line": 61,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/game-res/archive/game-cluster"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-res/archive/game-engine/pom.xml",
+        "line": 84,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/game-res/archive/game-engine"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "game-res/archive/game-engine/pom.xml",
+        "line": 85,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/game-res/archive/game-engine"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "pom.xml",
+        "line": 17,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "pom.xml",
+        "line": 18,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "pom.xml",
+        "line": 74,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-12-16",
+        "path": "pom.xml",
+        "line": 75,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "scala.runtime.eol-2.11",
+        "path": "docs/archive/game-db/build.sbt",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "scala.runtime.eol-2.11",
+        "path": "game-res/archive/game-db/build.sbt",
+        "line": 7,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "ossf/package-analysis",
+  "commit": "c5c45008da694036d701ba76fe9567fc8a5b9675",
+  "ecosystem": "kubernetes",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 54,
+    "findings": [
+      {
+        "ruleId": "container.python.eol-3.10-and-older",
+        "path": "sample_packages/sample_python_package/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/sample_packages/sample_python_package"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-22.04",
+        "path": "cmd/analyze/Dockerfile",
+        "line": 13,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/cmd/analyze"
+        }
+      },
+      {
+        "ruleId": "go.module.cloud.google.com.go.pubsub.deprecated",
+        "path": "go.mod",
+        "line": 6,
+        "dependabot": {
+          "packageEcosystem": "gomod",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed",
+        "path": "infra/worker/scaler.yaml",
+        "line": 1,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "configPath": ".github/dependabot.yml",
+    "entries": [
+      {
+        "packageEcosystem": "gomod",
+        "directory": "/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "gomod",
+        "directory": "/function/loader",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "github-actions",
+        "directory": "/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "npm",
+        "directory": "/internal/staticanalysis/parsing",
+        "ignore": false,
+        "allow": false
+      }
+    ]
+  }
+}

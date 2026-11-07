@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "jborean93/RemoteForge",
+  "commit": "7bc7bff52bb92a1d5d868e6c36df973bb0a394ae",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 128,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": "src/RemoteForge/RemoteForge.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": "tests/TestForge/TestForge.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": "tests/units/RemoteForgeTests.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "github-actions.action-gh-release.node20",
+        "path": ".github/workflows/publish.yml",
+        "line": 24,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/ci.yml",
+        "line": 28,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/ci.yml",
+        "line": 74,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.download-artifact.retired",
+        "path": ".github/workflows/ci.yml",
+        "line": 77,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.upload-artifact.retired",
+        "path": ".github/workflows/ci.yml",
+        "line": 103,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.upload-artifact.retired",
+        "path": ".github/workflows/ci.yml",
+        "line": 46,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.upload-artifact.retired",
+        "path": ".github/workflows/ci.yml",
+        "line": 96,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.2",
+        "path": "build.ps1",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.2",
+        "path": "tools/common.ps1",
+        "line": 9,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.2",
+        "path": "tools/InvokeBuild.ps1",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.3",
+        "path": "module/RemoteForge.psd1",
+        "line": 43,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

@@ -1,0 +1,634 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "sourcecred/sourcecred",
+  "commit": "3da222ebe44c110f265063cfa99316ed5c1fa0b3",
+  "ecosystem": "node",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 153,
+    "findings": [
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "packages/sourcecred/Dockerfile",
+        "line": 15,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "packages/sourcecred/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/packages/sourcecred"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/generate-docs.yml",
+        "line": 12,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-18",
+        "path": "packages/sourcecred/package.json",
+        "line": 146,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-19",
+        "path": "packages/sourcecred/package.json",
+        "line": 146,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": "packages/sourcecred/package.json",
+        "line": 146,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.legacy",
+        "path": "packages/sourcecred/package.json",
+        "line": 146,
+        "dependabot": null
+      },
+      {
+        "ruleId": "npm.package.abab.deprecated",
+        "path": "packages/grainIntegration-csv/package.json",
+        "line": 17,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-csv"
+        }
+      },
+      {
+        "ruleId": "npm.package.abab.deprecated",
+        "path": "packages/grainIntegration-merkle/package.json",
+        "line": 15,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-merkle"
+        }
+      },
+      {
+        "ruleId": "npm.package.abab.deprecated",
+        "path": "packages/sourcecred/package.json",
+        "line": 89,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/sourcecred"
+        }
+      },
+      {
+        "ruleId": "npm.package.are-we-there-yet.eol",
+        "path": "package.json",
+        "line": 8,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.are-we-there-yet.eol",
+        "path": "packages/grainIntegration-merkle/package.json",
+        "line": 49,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-merkle"
+        }
+      },
+      {
+        "ruleId": "npm.package.are-we-there-yet.eol",
+        "path": "packages/sourcecred/package.json",
+        "line": 21,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/sourcecred"
+        }
+      },
+      {
+        "ruleId": "npm.package.babel-eslint.deprecated",
+        "path": "packages/grainIntegration-merkle/package.json",
+        "line": 18,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-merkle"
+        }
+      },
+      {
+        "ruleId": "npm.package.babel-eslint.deprecated",
+        "path": "packages/sourcecred/package.json",
+        "line": 82,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/sourcecred"
+        }
+      },
+      {
+        "ruleId": "npm.package.crypto-js.deprecated",
+        "path": "packages/grainIntegration-merkle/package.json",
+        "line": 48,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-merkle"
+        }
+      },
+      {
+        "ruleId": "npm.package.domexception.deprecated",
+        "path": "packages/grainIntegration-csv/package.json",
+        "line": 17,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-csv"
+        }
+      },
+      {
+        "ruleId": "npm.package.domexception.deprecated",
+        "path": "packages/grainIntegration-merkle/package.json",
+        "line": 15,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-merkle"
+        }
+      },
+      {
+        "ruleId": "npm.package.domexception.deprecated",
+        "path": "packages/sourcecred/package.json",
+        "line": 89,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/sourcecred"
+        }
+      },
+      {
+        "ruleId": "npm.package.figgy-pudding.eol",
+        "path": "package.json",
+        "line": 8,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.figgy-pudding.eol",
+        "path": "packages/grainIntegration-merkle/package.json",
+        "line": 17,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-merkle"
+        }
+      },
+      {
+        "ruleId": "npm.package.figgy-pudding.eol",
+        "path": "packages/sourcecred/package.json",
+        "line": 85,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/sourcecred"
+        }
+      },
+      {
+        "ruleId": "npm.package.gauge.eol",
+        "path": "package.json",
+        "line": 8,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.gauge.eol",
+        "path": "packages/grainIntegration-merkle/package.json",
+        "line": 49,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-merkle"
+        }
+      },
+      {
+        "ruleId": "npm.package.gauge.eol",
+        "path": "packages/sourcecred/package.json",
+        "line": 21,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/sourcecred"
+        }
+      },
+      {
+        "ruleId": "npm.package.har-validator.deprecated",
+        "path": "package.json",
+        "line": 8,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.har-validator.deprecated",
+        "path": "packages/grainIntegration-csv/package.json",
+        "line": 17,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-csv"
+        }
+      },
+      {
+        "ruleId": "npm.package.har-validator.deprecated",
+        "path": "packages/grainIntegration-merkle/package.json",
+        "line": 32,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-merkle"
+        }
+      },
+      {
+        "ruleId": "npm.package.har-validator.deprecated",
+        "path": "packages/sourcecred/package.json",
+        "line": 16,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/sourcecred"
+        }
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "package.json",
+        "line": 22,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/grainIntegration-csv/package.json",
+        "line": 18,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-csv"
+        }
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/grainIntegration-merkle/package.json",
+        "line": 33,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-merkle"
+        }
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/sourcecred/package.json",
+        "line": 41,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/sourcecred"
+        }
+      },
+      {
+        "ruleId": "npm.package.lodash-get.deprecated",
+        "path": "packages/sourcecred/package.json",
+        "line": 46,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/sourcecred"
+        }
+      },
+      {
+        "ruleId": "npm.package.lodash-isequal.deprecated",
+        "path": "package.json",
+        "line": 22,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.lodash-isequal.deprecated",
+        "path": "packages/grainIntegration-merkle/package.json",
+        "line": 39,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-merkle"
+        }
+      },
+      {
+        "ruleId": "npm.package.lodash-isequal.deprecated",
+        "path": "packages/sourcecred/package.json",
+        "line": 51,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/sourcecred"
+        }
+      },
+      {
+        "ruleId": "npm.package.node-pre-gyp.deprecated",
+        "path": "packages/grainIntegration-merkle/package.json",
+        "line": 49,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-merkle"
+        }
+      },
+      {
+        "ruleId": "npm.package.npmcli-move-file.deprecated",
+        "path": "package.json",
+        "line": 8,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.npmcli-move-file.deprecated",
+        "path": "packages/grainIntegration-merkle/package.json",
+        "line": 17,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-merkle"
+        }
+      },
+      {
+        "ruleId": "npm.package.npmcli-move-file.deprecated",
+        "path": "packages/sourcecred/package.json",
+        "line": 85,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/sourcecred"
+        }
+      },
+      {
+        "ruleId": "npm.package.npmlog.eol",
+        "path": "package.json",
+        "line": 8,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.npmlog.eol",
+        "path": "packages/grainIntegration-merkle/package.json",
+        "line": 49,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-merkle"
+        }
+      },
+      {
+        "ruleId": "npm.package.npmlog.eol",
+        "path": "packages/sourcecred/package.json",
+        "line": 21,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/sourcecred"
+        }
+      },
+      {
+        "ruleId": "npm.package.osenv.eol",
+        "path": "package.json",
+        "line": 8,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.osenv.eol",
+        "path": "packages/grainIntegration-merkle/package.json",
+        "line": 49,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-merkle"
+        }
+      },
+      {
+        "ruleId": "npm.package.q.deprecated",
+        "path": "package.json",
+        "line": 22,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.querystring.deprecated",
+        "path": "packages/grainIntegration-merkle/package.json",
+        "line": 49,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-merkle"
+        }
+      },
+      {
+        "ruleId": "npm.package.querystring.deprecated",
+        "path": "packages/sourcecred/package.json",
+        "line": 109,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/sourcecred"
+        }
+      },
+      {
+        "ruleId": "npm.package.read-package-json.eol",
+        "path": "package.json",
+        "line": 8,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.request-promise-native.deprecated",
+        "path": "packages/grainIntegration-csv/package.json",
+        "line": 17,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-csv"
+        }
+      },
+      {
+        "ruleId": "npm.package.request-promise-native.deprecated",
+        "path": "packages/grainIntegration-merkle/package.json",
+        "line": 32,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-merkle"
+        }
+      },
+      {
+        "ruleId": "npm.package.request-promise-native.deprecated",
+        "path": "packages/sourcecred/package.json",
+        "line": 89,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/sourcecred"
+        }
+      },
+      {
+        "ruleId": "npm.package.request.deprecated",
+        "path": "package.json",
+        "line": 8,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.request.deprecated",
+        "path": "packages/grainIntegration-csv/package.json",
+        "line": 17,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-csv"
+        }
+      },
+      {
+        "ruleId": "npm.package.request.deprecated",
+        "path": "packages/grainIntegration-merkle/package.json",
+        "line": 32,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-merkle"
+        }
+      },
+      {
+        "ruleId": "npm.package.request.deprecated",
+        "path": "packages/sourcecred/package.json",
+        "line": 16,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/sourcecred"
+        }
+      },
+      {
+        "ruleId": "npm.package.resolve-url.deprecated",
+        "path": "package.json",
+        "line": 22,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.resolve-url.deprecated",
+        "path": "packages/grainIntegration-csv/package.json",
+        "line": 17,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-csv"
+        }
+      },
+      {
+        "ruleId": "npm.package.resolve-url.deprecated",
+        "path": "packages/grainIntegration-merkle/package.json",
+        "line": 33,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-merkle"
+        }
+      },
+      {
+        "ruleId": "npm.package.resolve-url.deprecated",
+        "path": "packages/sourcecred/package.json",
+        "line": 69,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/sourcecred"
+        }
+      },
+      {
+        "ruleId": "npm.package.source-map-url.deprecated",
+        "path": "package.json",
+        "line": 22,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.source-map-url.deprecated",
+        "path": "packages/grainIntegration-csv/package.json",
+        "line": 17,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-csv"
+        }
+      },
+      {
+        "ruleId": "npm.package.source-map-url.deprecated",
+        "path": "packages/grainIntegration-merkle/package.json",
+        "line": 33,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-merkle"
+        }
+      },
+      {
+        "ruleId": "npm.package.source-map-url.deprecated",
+        "path": "packages/sourcecred/package.json",
+        "line": 69,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/sourcecred"
+        }
+      },
+      {
+        "ruleId": "npm.package.sourcemap-codec.deprecated",
+        "path": "package.json",
+        "line": 22,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.stable.deprecated",
+        "path": "packages/grainIntegration-merkle/package.json",
+        "line": 49,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-merkle"
+        }
+      },
+      {
+        "ruleId": "npm.package.w3c-hr-time.deprecated",
+        "path": "packages/grainIntegration-csv/package.json",
+        "line": 17,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-csv"
+        }
+      },
+      {
+        "ruleId": "npm.package.w3c-hr-time.deprecated",
+        "path": "packages/grainIntegration-merkle/package.json",
+        "line": 15,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/grainIntegration-merkle"
+        }
+      },
+      {
+        "ruleId": "npm.package.w3c-hr-time.deprecated",
+        "path": "packages/sourcecred/package.json",
+        "line": 89,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/sourcecred"
+        }
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

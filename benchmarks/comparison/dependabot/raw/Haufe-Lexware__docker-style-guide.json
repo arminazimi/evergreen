@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "Haufe-Lexware/docker-style-guide",
+  "commit": "0911cac0b91452741de4c2a72a0b6c857c3c88b0",
+  "ecosystem": "container",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 7,
+    "findings": [
+      {
+        "ruleId": "container.dockerfile.maintainer",
+        "path": "Dockerfile.md",
+        "line": 72,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "examples/VSCode_RemoteDebugContainer_NodeJSEnv/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/examples/VSCode_RemoteDebugContainer_NodeJSEnv"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "Dockerfile.md",
+        "line": 203,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "Dockerfile.md",
+        "line": 56,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "Dockerfile.md",
+        "line": 71,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/"
+        }
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

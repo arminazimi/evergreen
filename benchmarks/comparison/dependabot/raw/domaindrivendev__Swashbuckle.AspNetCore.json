@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "domaindrivendev/Swashbuckle.AspNetCore",
+  "commit": "819734d42ad5bd0305b04f36aee7ec7cea01b7f1",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 367,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": ".github/workflows/build.yml",
+        "line": 86,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-9.0",
+        "path": ".github/workflows/build.yml",
+        "line": 87,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "configPath": ".github/dependabot.yml",
+    "entries": [
+      {
+        "packageEcosystem": "github-actions",
+        "directory": "/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "npm",
+        "directory": "/src/Swashbuckle.AspNetCore.ReDoc",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "npm",
+        "directory": "/src/Swashbuckle.AspNetCore.SwaggerUI",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "nuget",
+        "directory": "/",
+        "ignore": true,
+        "allow": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,180 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "dotnet/vscode-csharp",
+  "commit": "1833384d44a9b850bde1d13570a7a96d70df5d1a",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 157,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "test/omnisharp/omnisharpIntegrationTests/testAssets/BasicRazorApp2_1/BasicRazorApp2_1.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "test/omnisharp/omnisharpIntegrationTests/testAssets/singleCsproj/singleCsproj.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "test/omnisharp/omnisharpIntegrationTests/testAssets/slnFilterWithCsproj/src/app/app.csproj",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "test/omnisharp/omnisharpIntegrationTests/testAssets/slnFilterWithCsproj/test/test.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": "test/omnisharp/omnisharpIntegrationTests/testAssets/slnWithCsproj/src/app/app.csproj",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": "test/omnisharp/omnisharpIntegrationTests/testAssets/slnWithGenerator/app/app.csproj",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": "test/omnisharp/omnisharpIntegrationTests/testAssets/slnWithCsproj/test/test.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": ".devcontainer/Dockerfile",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "test/razor/razorIntegrationTests/testAssets/RazorApp/RazorApp.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/branch-snap.yml",
+        "line": 21,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/branch-snap.yml",
+        "line": 44,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/release-reusable.yml",
+        "line": 19,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.github-script.node20",
+        "path": ".github/workflows/release-comment-handler.yml",
+        "line": 128,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.github-script.node20",
+        "path": ".github/workflows/release-comment-handler.yml",
+        "line": 18,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.github-script.node20",
+        "path": ".github/workflows/release-reusable.yml",
+        "line": 24,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.setup-dotnet.node20",
+        "path": ".github/workflows/copilot-setup-steps.yml",
+        "line": 35,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.setup-node.node20",
+        "path": ".github/workflows/branch-snap.yml",
+        "line": 23,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.setup-node.node20",
+        "path": ".github/workflows/branch-snap.yml",
+        "line": 49,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.setup-node.node20",
+        "path": ".github/workflows/copilot-setup-steps.yml",
+        "line": 29,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "package.json",
+        "line": 138,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/"
+        }
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "configPath": ".github/dependabot.yml",
+    "entries": [
+      {
+        "packageEcosystem": "dotnet-sdk",
+        "directory": "/msbuild",
+        "ignore": true,
+        "allow": false
+      }
+    ]
+  }
+}

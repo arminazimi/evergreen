@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "jborean93/PSWSMan",
+  "commit": "f2aed831e1118696eb2cc1bfa0845cc834bc2c95",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 685,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/PSWSMan.Lib/PSWSMan.Lib.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/PSWSMan.Loader/PSWSMan.Loader.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/PSWSMan/PSWSMan.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "tests/units/PSWSMan.Authentication.Tests/PSWSMan.Authentication.Tests.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "tests/units/PSWSMan.Connection.Tests/PSWSMan.Connection.Tests.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "tests/units/PSWSMan.Lib.Tests/PSWSMan.Lib.Tests.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.2",
+        "path": "build.ps1",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.2",
+        "path": "tools/common.ps1",
+        "line": 10,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.2",
+        "path": "tools/CoverageReport.ps1",
+        "line": 2,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.2",
+        "path": "tools/InvokeBuild.ps1",
+        "line": 4,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

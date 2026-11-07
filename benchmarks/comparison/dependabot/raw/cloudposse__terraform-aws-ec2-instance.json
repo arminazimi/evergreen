@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "cloudposse/terraform-aws-ec2-instance",
+  "commit": "02f06189090c2d464f27ee812856ae296f320d63",
+  "ecosystem": "terraform",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 14,
+    "findings": [
+      {
+        "ruleId": "go.runtime.end-of-support-1.24",
+        "path": "test/src/go.mod",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "go.runtime.end-of-support-1.24",
+        "path": "test/src/go.mod",
+        "line": 5,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

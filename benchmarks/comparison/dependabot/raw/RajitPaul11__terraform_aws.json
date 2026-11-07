@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "RajitPaul11/terraform_aws",
+  "commit": "35f2bd314397b2aff2db48b0499cd24078811edb",
+  "ecosystem": "database",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 14,
+    "findings": [
+      {
+        "ruleId": "database.mysql.end-of-life-5.7",
+        "path": "AWS_EKS_RDS/rds.tf",
+        "line": 35,
+        "dependabot": null
+      },
+      {
+        "ruleId": "database.mysql.end-of-life-5.7",
+        "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+        "line": 190,
+        "dependabot": null
+      },
+      {
+        "ruleId": "database.mysql.end-of-life-5.7",
+        "path": "Multi-Tier-Architecture_Vpc/main.tf",
+        "line": 164,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "EC2_EBS_Attach/ebs_attach.tf",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "EC2_EBS_Attach/ebs_attach.tf",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+        "line": 167,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+        "line": 59,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+        "line": 65,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+        "line": 66,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+        "line": 84,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+        "line": 89,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+        "line": 91,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+        "line": 95,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+        "line": 97,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Multi-Tier-Architecture_Vpc/main.tf",
+        "line": 141,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Multi-Tier-Architecture_Vpc/main.tf",
+        "line": 58,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Multi-Tier-Architecture_Vpc/main.tf",
+        "line": 64,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Multi-Tier-Architecture_Vpc/main.tf",
+        "line": 65,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

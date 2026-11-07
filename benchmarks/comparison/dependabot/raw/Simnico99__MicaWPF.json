@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "Simnico99/MicaWPF",
+  "commit": "13d5924d65f78fe4139033034b7759172b35d77f",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 45,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/MicaWPF.Core/MicaWPF.Core.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/MicaWPF.DependencyInjection/MicaWPF.DependencyInjection.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/MicaWPF.Lite/MicaWPF.Lite.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/MicaWPF/MicaWPF.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-9.0",
+        "path": "src/MicaWPF.Core/MicaWPF.Core.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-9.0",
+        "path": "src/MicaWPF.DependencyInjection/MicaWPF.DependencyInjection.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-9.0",
+        "path": "src/MicaWPF.Lite/MicaWPF.Lite.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-9.0",
+        "path": "src/MicaWPF/MicaWPF.csproj",
+        "line": 4,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "configPath": ".github/dependabot.yml",
+    "entries": [
+      {
+        "packageEcosystem": "nuget",
+        "directory": "/src/MicaWPF",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "nuget",
+        "directory": "/src/MicaWPF.Core",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "nuget",
+        "directory": "/src/MicaWPF.Lite",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "nuget",
+        "directory": "/src/MicaWPF.DependencyInjection",
+        "ignore": false,
+        "allow": false
+      }
+    ]
+  }
+}

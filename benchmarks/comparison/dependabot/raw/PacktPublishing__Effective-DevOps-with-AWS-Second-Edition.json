@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "PacktPublishing/Effective-DevOps-with-AWS-Second-Edition",
+  "commit": "37555d2cdd759986a47881475a9210c88f539ffb",
+  "ecosystem": "database",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 72,
+    "findings": [
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter04/fourthproject/helloworldansiblepull.tf",
+        "line": 21,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter04/fourthproject/helloworldansiblepull.tf",
+        "line": 33,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter04/secondproject/helloworldec2.tf",
+        "line": 23,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter04/thirdproject/helloworldansible.tf",
+        "line": 21,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter04/thirdproject/helloworldansible.tf",
+        "line": 36,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter06/main.tf",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter06/main.tf",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter06/main.tf",
+        "line": 35,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter06/main.tf",
+        "line": 8,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter08/main.tf",
+        "line": 17,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter08/outputs.tf",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter08/outputs.tf",
+        "line": 2,
+        "dependabot": null
+      },
+      {
+        "ruleId": "terraform.syntax.interpolation-only",
+        "path": "Chapter08/outputs.tf",
+        "line": 3,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

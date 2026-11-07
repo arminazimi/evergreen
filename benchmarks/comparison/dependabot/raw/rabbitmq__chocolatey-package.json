@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "rabbitmq/chocolatey-package",
+  "commit": "b0a37da6883fe597c5d3bb38fefbdbb16bf1b230",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 140,
+    "findings": [
+      {
+        "ruleId": "shell.powershell.end-of-life-7.0",
+        "path": "Invoke-Validation.ps1",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.0",
+        "path": "Shared.ps1",
+        "line": 1,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

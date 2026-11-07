@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "dart-lang/sdk",
+  "commit": "f017eb8d9c74c497aea4577ea700abbe975aba2a",
+  "ecosystem": "dart",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 28059,
+    "findings": [
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "pkg/compiler/test/codesize/swarm/pubspec.yaml",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "pkg/language_versioning_2_12_test/pubspec.yaml",
+        "line": 11,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dart.sdk.end-of-support-2-and-older",
+        "path": "runtime/tools/dartfuzz/pubspec.yaml",
+        "line": 6,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "configPath": ".github/dependabot.yml",
+    "entries": [
+      {
+        "packageEcosystem": "github-actions",
+        "directory": "/",
+        "ignore": false,
+        "allow": false
+      }
+    ]
+  }
+}

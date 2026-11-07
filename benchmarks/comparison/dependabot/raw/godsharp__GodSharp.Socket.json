@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "godsharp/GodSharp.Socket",
+  "commit": "586046586ea6f9e169cb1d0a7426bc92081f1974",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 42,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.1",
+        "path": "samples/GodSharp.Socket.UdpClientSample/GodSharp.Socket.UdpClientSample.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "samples/GodSharp.Socket.TcpServerSample/GodSharp.Socket.TcpServerSample.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": "nuke/NukeBuild.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-5.0",
+        "path": "src/GodSharp.Socket/GodSharp.Socket.csproj",
+        "line": 20,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

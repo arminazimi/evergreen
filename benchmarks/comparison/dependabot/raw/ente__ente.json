@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "ente/ente",
+  "commit": "3ffa9616868b80ac05ca377dcfffc007d645962c",
+  "ecosystem": "dart",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 17711,
+    "findings": []
+  },
+  "dependabot": {
+    "run": "not-run",
+    "configPath": ".github/dependabot.yml",
+    "entries": [
+      {
+        "packageEcosystem": "npm",
+        "directory": "/web",
+        "ignore": true,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "npm",
+        "directory": "/web/apps/*",
+        "ignore": true,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "npm",
+        "directory": "/web/packages/*",
+        "ignore": true,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "npm",
+        "directory": "/web/packages/wasm/*",
+        "ignore": true,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "npm",
+        "directory": "/infra/workers",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "github-actions",
+        "directory": "/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "github-actions",
+        "directory": "/.github/actions/*",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "cargo",
+        "directory": "/rust",
+        "ignore": true,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "/mobile",
+        "ignore": false,
+        "allow": false
+      }
+    ]
+  }
+}

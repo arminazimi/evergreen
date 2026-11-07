@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "ra1028/DiffableDataSources",
+  "commit": "a457cf63456b3aeec2a3626af0230c98b0733927",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 37,
+    "findings": [
+      {
+        "ruleId": "swift.app-store.ios-below-13",
+        "path": "Examples/DiffableDataSourcesExamples.xcodeproj/project.pbxproj",
+        "line": 503,
+        "dependabot": null
+      },
+      {
+        "ruleId": "swift.app-store.ios-below-13",
+        "path": "Examples/DiffableDataSourcesExamples.xcodeproj/project.pbxproj",
+        "line": 526,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

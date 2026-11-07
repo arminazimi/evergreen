@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "mit-pdos/noria",
+  "commit": "465184ee4b57a2791d41b0f12fb8f71c45bae6b6",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 113,
+    "findings": [
+      {
+        "ruleId": "rust.crate.failure.unmaintained",
+        "path": "applications/Cargo.toml",
+        "line": 11,
+        "dependabot": {
+          "packageEcosystem": "cargo",
+          "directory": "/applications"
+        }
+      },
+      {
+        "ruleId": "rust.crate.failure.unmaintained",
+        "path": "noria/Cargo.toml",
+        "line": 22,
+        "dependabot": {
+          "packageEcosystem": "cargo",
+          "directory": "/noria"
+        }
+      },
+      {
+        "ruleId": "rust.crate.failure.unmaintained",
+        "path": "server/Cargo.toml",
+        "line": 27,
+        "dependabot": {
+          "packageEcosystem": "cargo",
+          "directory": "/server"
+        }
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

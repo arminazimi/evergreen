@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "HomeBusProjects/HomeBus",
+  "commit": "15681fbaf24f3c54b16c9526cdde983a34f96d21",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 123,
+    "findings": [
+      {
+        "ruleId": "container.debian.eol-11-and-older",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.8-builded",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/ansible/playbooks/roles/ANXS.postgresql/tests/docker/images"
+        }
+      },
+      {
+        "ruleId": "container.debian.eol-11-and-older",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.9-builded",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/ansible/playbooks/roles/ANXS.postgresql/tests/docker/images"
+        }
+      },
+      {
+        "ruleId": "container.ruby.eol-3.2-and-older",
+        "path": "Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.ubuntu.16.04-builded",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/ansible/playbooks/roles/ANXS.postgresql/tests/docker/images"
+        }
+      },
+      {
+        "ruleId": "database.redis.end-of-life-7.0",
+        "path": "docker-compose.yml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/test.yml",
+        "line": 25,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "ruby.runtime.eol-2.6",
+        "path": "deploy/.ruby-version",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.1",
+        "path": ".ruby-version",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.1",
+        "path": "Gemfile",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "ruby.runtime.eol-3.1",
+        "path": "Gemfile.lock",
+        "line": 371,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

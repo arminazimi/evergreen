@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "pawelkaczor/ddd-leaven-akka-v2",
+  "commit": "8dca13682a22e2bfdbd025df958ccb3d1fec5d3e",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 97,
+    "findings": [
+      {
+        "ruleId": "container.debian.eol-11-and-older",
+        "path": "commons/stress-test/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/commons/stress-test"
+        }
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "commons/stress-test/Dockerfile",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "commons/stress-test/Dockerfile",
+        "line": 6,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

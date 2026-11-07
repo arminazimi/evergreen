@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "PumpkinDB/PumpkinDB",
+  "commit": "f37b0b586357cafd2fd0eba8bea9072665af0b00",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 19,
+    "findings": [
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "Dockerfile",
+        "line": 31,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "rust.crate.ansi-term.unmaintained",
+        "path": "pumpkindb_term/Cargo.toml",
+        "line": 20,
+        "dependabot": {
+          "packageEcosystem": "cargo",
+          "directory": "/pumpkindb_term"
+        }
+      },
+      {
+        "ruleId": "rust.crate.tempdir.unmaintained",
+        "path": "pumpkindb_engine/Cargo.toml",
+        "line": 28,
+        "dependabot": {
+          "packageEcosystem": "cargo",
+          "directory": "/pumpkindb_engine"
+        }
+      },
+      {
+        "ruleId": "rust.crate.tempdir.unmaintained",
+        "path": "tests/doctests/Cargo.toml",
+        "line": 14,
+        "dependabot": {
+          "packageEcosystem": "cargo",
+          "directory": "/tests/doctests"
+        }
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

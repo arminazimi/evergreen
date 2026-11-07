@@ -1,0 +1,235 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "galnir/Master-Bot",
+  "commit": "cb023bee70d6d96b4692b35c4dc49051f58e9fba",
+  "ecosystem": "node-actions",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 412,
+    "findings": [
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "Dockerfile",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "Dockerfile",
+        "line": 9,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.node.eol-21-and-older",
+        "path": "Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/main.yml",
+        "line": 8,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-18",
+        "path": "apps/bot/package.json",
+        "line": 18,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-19",
+        "path": "apps/bot/package.json",
+        "line": 18,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": "apps/bot/package.json",
+        "line": 18,
+        "dependabot": null
+      },
+      {
+        "ruleId": "nodejs.runtime.eol-20",
+        "path": "package.json",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "apps/bot/package.json",
+        "line": 59,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/apps/bot"
+        }
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "apps/dashboard/package.json",
+        "line": 53,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/apps/dashboard"
+        }
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "packages/api/package.json",
+        "line": 27,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/api"
+        }
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "packages/auth/package.json",
+        "line": 26,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/auth"
+        }
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-config-array.deprecated",
+        "path": "packages/config/eslint/package.json",
+        "line": 23,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/config/eslint"
+        }
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "apps/bot/package.json",
+        "line": 59,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/apps/bot"
+        }
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "apps/dashboard/package.json",
+        "line": 53,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/apps/dashboard"
+        }
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "packages/api/package.json",
+        "line": 27,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/api"
+        }
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "packages/auth/package.json",
+        "line": 26,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/auth"
+        }
+      },
+      {
+        "ruleId": "npm.package.humanwhocodes-object-schema.deprecated",
+        "path": "packages/config/eslint/package.json",
+        "line": 23,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/config/eslint"
+        }
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "apps/bot/package.json",
+        "line": 59,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/apps/bot"
+        }
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "apps/dashboard/package.json",
+        "line": 55,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/apps/dashboard"
+        }
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/api/package.json",
+        "line": 27,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/api"
+        }
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/auth/package.json",
+        "line": 26,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/auth"
+        }
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/config/eslint/package.json",
+        "line": 11,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/config/eslint"
+        }
+      },
+      {
+        "ruleId": "npm.package.inflight.deprecated",
+        "path": "packages/config/tailwind/package.json",
+        "line": 13,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/config/tailwind"
+        }
+      },
+      {
+        "ruleId": "npm.package.next.14.support-end",
+        "path": "apps/dashboard/package.json",
+        "line": 36,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/apps/dashboard"
+        }
+      },
+      {
+        "ruleId": "npm.package.next.14.support-end",
+        "path": "packages/auth/package.json",
+        "line": 18,
+        "dependabot": {
+          "packageEcosystem": "npm",
+          "directory": "/packages/auth"
+        }
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "rockthejvm/udemy-scala-advanced",
+  "commit": "1f06e20443b8d211b78d7aae4abedee02cec3095",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 33,
+    "findings": [
+      {
+        "ruleId": "scala.runtime.eos-3.0-3.2",
+        "path": "build.sbt",
+        "line": 5,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

@@ -1,0 +1,147 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "microsoft/MSBuildSdks",
+  "commit": "eeadbd0c1d4fecbd95f5c6d4c8194726998508bc",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 44,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "samples/NoTargets/SampleNoTargets/SampleNoTargets.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "samples/Traversal/ProjectA/ProjectA.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "samples/Traversal/ProjectB/ProjectB.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/Artifacts.UnitTests/Microsoft.Build.Artifacts.UnitTests.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/Cargo.UnitTests/Microsoft.Build.Cargo.UnitTests.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/Cargo/Microsoft.Build.Cargo.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/CentralPackageVersions.UnitTests/Microsoft.Build.CentralPackageVersions.UnitTests.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/CopyOnWrite.UnitTests/Microsoft.Build.CopyOnWrite.UnitTests.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/NoTargets.UnitTests/Microsoft.Build.NoTargets.UnitTests.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/Traversal.UnitTests/Microsoft.Build.Traversal.UnitTests.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/UniversalPackages.UnitTests/Microsoft.Build.UniversalPackages.UnitTests.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-8.0",
+        "path": "src/UniversalPackages/Microsoft.Build.UniversalPackages.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-9.0",
+        "path": "src/Artifacts.UnitTests/Microsoft.Build.Artifacts.UnitTests.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-9.0",
+        "path": "src/Cargo.UnitTests/Microsoft.Build.Cargo.UnitTests.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-9.0",
+        "path": "src/Cargo/Microsoft.Build.Cargo.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-9.0",
+        "path": "src/CentralPackageVersions.UnitTests/Microsoft.Build.CentralPackageVersions.UnitTests.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-9.0",
+        "path": "src/CopyOnWrite.UnitTests/Microsoft.Build.CopyOnWrite.UnitTests.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-9.0",
+        "path": "src/NoTargets.UnitTests/Microsoft.Build.NoTargets.UnitTests.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-9.0",
+        "path": "src/Traversal.UnitTests/Microsoft.Build.Traversal.UnitTests.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-9.0",
+        "path": "src/UniversalPackages.UnitTests/Microsoft.Build.UniversalPackages.UnitTests.csproj",
+        "line": 3,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "configPath": ".github/dependabot.yml",
+    "entries": [
+      {
+        "packageEcosystem": "nuget",
+        "directory": "/",
+        "ignore": false,
+        "allow": false
+      }
+    ]
+  }
+}

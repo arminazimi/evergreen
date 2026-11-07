@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "attilaszasz/dotnet-catapult",
+  "commit": "f32e3fa8efc006d6f4bdbba2e2748fe85acc5a0e",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 135,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": "src/Core/Utilities/Caching/DaprStateStore/DaprStateStore.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": "src/DataAccess/OpenWeather.Api/OpenWeather.Api.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-7.0",
+        "path": "src/Directory.Build.props",
+        "line": 7,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

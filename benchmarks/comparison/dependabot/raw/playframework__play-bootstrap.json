@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "playframework/play-bootstrap",
+  "commit": "b59245a65d69fdd805bb8b5bfe42c0b3328bafc8",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 262,
+    "findings": [
+      {
+        "ruleId": "scala.sbt.eol-0.13",
+        "path": "core-play26/project/build.properties",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "scala.sbt.eol-0.13",
+        "path": "play26-bootstrap3/module/project/build.properties",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "scala.sbt.eol-0.13",
+        "path": "play26-bootstrap3/sample/project/build.properties",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "scala.sbt.eol-0.13",
+        "path": "play26-bootstrap4/module/project/build.properties",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "scala.sbt.eol-0.13",
+        "path": "play26-bootstrap4/sample/project/build.properties",
+        "line": 1,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

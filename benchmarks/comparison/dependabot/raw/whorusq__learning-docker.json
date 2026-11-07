@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "whorusq/learning-docker",
+  "commit": "4f39aef4501bfc4f56406e8afcba885a29242b04",
+  "ecosystem": "container",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 7,
+    "findings": [
+      {
+        "ruleId": "container.dockerfile.maintainer",
+        "path": "lamp2/Dockerfile",
+        "line": 10,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.maintainer",
+        "path": "tools/Dockerfile",
+        "line": 8,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "Dockerfile.md",
+        "line": 112,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "lamp2/Dockerfile",
+        "line": 9,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/lamp2"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "tools/Dockerfile",
+        "line": 7,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/tools"
+        }
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

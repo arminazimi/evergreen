@@ -1,0 +1,1342 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "takuya-takeuchi/DlibDotNet",
+  "commit": "19c1a91a7743eca966da5633e327875372e5ebe4",
+  "ecosystem": "dotnet",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 426,
+    "findings": [
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+        "line": 20,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+        "line": 21,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+        "line": 22,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+        "line": 23,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+        "line": 24,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+        "line": 25,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+        "line": 26,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+        "line": 27,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+        "line": 20,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+        "line": 21,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+        "line": 22,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+        "line": 23,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+        "line": 24,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+        "line": 25,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+        "line": 26,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+        "line": 27,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+        "line": 20,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+        "line": 21,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+        "line": 22,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+        "line": 23,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+        "line": 24,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+        "line": 25,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+        "line": 26,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+        "line": 27,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+        "line": 20,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+        "line": 21,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+        "line": 22,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+        "line": 23,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+        "line": 24,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+        "line": 25,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+        "line": 26,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+        "line": 27,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+        "line": 20,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+        "line": 21,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+        "line": 22,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+        "line": 23,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+        "line": 24,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+        "line": 25,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+        "line": 26,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+        "line": 27,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+        "line": 20,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+        "line": 21,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+        "line": 22,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+        "line": 23,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+        "line": 24,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+        "line": 25,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+        "line": 26,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+        "line": 27,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+        "line": 20,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+        "line": 21,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+        "line": 22,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+        "line": 23,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+        "line": 24,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+        "line": 25,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+        "line": 26,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+        "line": 27,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 11,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 12,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 14,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 15,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 27,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 53,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 54,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 55,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 56,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 64,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 65,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 66,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 8,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 87,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 9,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 92,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "line": 18,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "line": 19,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "line": 20,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "line": 21,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "line": 22,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "line": 23,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "line": 24,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+        "line": 25,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "line": 18,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "line": 19,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "line": 20,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "line": 21,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "line": 22,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "line": 23,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "line": 24,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+        "line": 25,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "line": 18,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "line": 19,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "line": 20,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "line": 21,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "line": 22,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "line": 23,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "line": 24,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+        "line": 25,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "line": 18,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "line": 19,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "line": 20,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "line": 21,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "line": 22,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "line": 23,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "line": 24,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+        "line": 25,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "line": 18,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "line": 19,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "line": 20,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "line": 21,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "line": 22,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "line": 23,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "line": 24,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+        "line": 25,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "line": 18,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "line": 19,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "line": 20,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "line": 21,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "line": 22,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "line": 23,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "line": 24,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+        "line": 25,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "line": 18,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "line": 19,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "line": 20,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "line": 21,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "line": 22,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "line": 23,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "line": 24,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+        "line": 25,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "line": 18,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "line": 19,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "line": 20,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "line": 21,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "line": 22,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "line": 23,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "line": 24,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+        "line": 25,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "line": 18,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "line": 19,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "line": 20,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "line": 21,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "line": 22,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "line": 23,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "line": 24,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+        "line": 25,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/runtime/centos/7/Dockerfile",
+        "line": 12,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/runtime/ubuntu/16/arm/Dockerfile.bak",
+        "line": 17,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/runtime/ubuntu/16/arm/Dockerfile.bak",
+        "line": 20,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/runtime/ubuntu/16/arm64/Dockerfile.bak",
+        "line": 17,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/runtime/ubuntu/16/arm64/Dockerfile.bak",
+        "line": 20,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.dockerfile.legacy-env-format",
+        "path": "docker/runtime/ubuntu/16/Dockerfile",
+        "line": 19,
+        "dependabot": null
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "docker/base/ubuntu/16/cpu/x64/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/docker/base/ubuntu/16/cpu/x64"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "docker/base/ubuntu/16/cpu/x86/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/docker/base/ubuntu/16/cpu/x86"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "docker/base/ubuntu/16/mkl/x64/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/docker/base/ubuntu/16/mkl/x64"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "docker/base/ubuntu/16/mkl/x86/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/docker/base/ubuntu/16/mkl/x86"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/docker/devel/ubuntu/16/android/28.0.3-r20-jdk8"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "docker/devel/ubuntu/16/cpu/x64/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/docker/devel/ubuntu/16/cpu/x64"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/docker/devel/ubuntu/16/cpu/x86"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "docker/devel/ubuntu/16/mkl/x64/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/docker/devel/ubuntu/16/mkl/x64"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-20.04-and-older",
+        "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+        "line": 1,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/docker/devel/ubuntu/16/mkl/x86"
+        }
+      },
+      {
+        "ruleId": "cpp.cmake.policy-below-3.5.removed",
+        "path": "examples/MultiThreadFaceDetectionCpp/CMakeLists.txt",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "cpp.cmake.policy-below-3.5.removed",
+        "path": "src/DlibDotNet.Native.Dnn/CMakeLists.txt",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "cpp.cmake.policy-below-3.5.removed",
+        "path": "src/DlibDotNet.Native/CMakeLists.txt",
+        "line": 1,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/3DPointCloud/3DPointCloud.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/3rdparty/OpenCVSharp/MatToArray2D/MatToArray2D.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/3rdparty/OpenCVSharp/MatToMatrix/MatToMatrix.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnFaceRecognition/DnnFaceRecognition.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnInception/DnnInception.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnInstanceSegmentation/DnnInstanceSegmentation.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnInstanceSegmentationTrain/DnnInstanceSegmentationTrain.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnIntroduction/DnnIntroduction.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnMetricLearning/DnnMetricLearning.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnMmod/DnnMmod.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnMmodDogHipsterizer/DnnMmodDogHipsterizer.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnMmodFaceDetection/DnnMmodFaceDetection.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnMmodFindCars/DnnMmodFindCars.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnMmodFindCars2/DnnMmodFindCars2.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnMmodTrainFindCars/DnnMmodTrainFindCars.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnSemanticSegmentation/DnnSemanticSegmentation.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnSemanticSegmentationOld/DnnSemanticSegmentationOld.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnSemanticSegmentationTrain/DnnSemanticSegmentationTrain.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/DnnSemanticSegmentationTrainOld/DnnSemanticSegmentationTrainOld.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/FaceDetection/FaceDetection.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/FaceLandmarkDetection/FaceLandmarkDetection.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/FHog/FHog.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/FHogObjectDetector/FHogObjectDetector.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/HoughTransform/HoughTransform.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/Image/Image.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/KCentroid/KCentroid.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/KKMeans/KKMeans.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/Krls/Krls.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/KrlsFilter/KrlsFilter.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/Logger/Logger.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/Logger2/Logger2.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/LoggerCustomOutput/LoggerCustomOutput.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/MaxCostAssignment/MaxCostAssignment.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/Mlp/Mlp.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/Pipe/Pipe.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/Queue/Queue.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/RandomCropper/RandomCropper.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/RunningStats/RunningStats.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/Surf/Surf.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/Svm/Svm.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/SvmC/SvmC.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/SvmPegasos/SvmPegasos.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/TrainShapePredictor/TrainShapePredictor.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/VideoTracking/VideoTracking.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "examples/WebcamFacePose/WebcamFacePose.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.0",
+        "path": "test/DlibDotNet.Native.Tests/DlibDotNet.Native.Tests.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.1",
+        "path": "test/DlibDotNet.Extensions.Tests/DlibDotNet.Extensions.Tests.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.1",
+        "path": "test/DlibDotNet.Tests/DlibDotNet.Tests.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "examples/ASP.NET/FaceDetection.Client/FaceDetection.Client.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "examples/ASP.NET/FaceDetection.Server/FaceDetection.Server.csproj",
+        "line": 4,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

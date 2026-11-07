@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "signalapp/ringrtc",
+  "commit": "84c5b2aff246392b365d73d6628529a149d6aed2",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 114,
+    "findings": [
+      {
+        "ruleId": "android.target-sdk.existing.default-below-35",
+        "path": "src/android/build.gradle",
+        "line": 29,
+        "dependabot": {
+          "packageEcosystem": "gradle",
+          "directory": "/src/android"
+        }
+      },
+      {
+        "ruleId": "container.python.eol-3.11-and-older",
+        "path": "call_sim/docker/pesq_mos/Dockerfile",
+        "line": 6,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/call_sim/docker/pesq_mos"
+        }
+      },
+      {
+        "ruleId": "container.python.eol-3.11-and-older",
+        "path": "call_sim/docker/plc_mos/Dockerfile",
+        "line": 6,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/call_sim/docker/plc_mos"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-22.04",
+        "path": "call_sim/docker/signaling_server/Dockerfile",
+        "line": 43,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/call_sim/docker/signaling_server"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-22.04",
+        "path": "call_sim/docker/signaling_server/Dockerfile",
+        "line": 6,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/call_sim/docker/signaling_server"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-22.04",
+        "path": "call_sim/docker/visqol_mos/Dockerfile",
+        "line": 46,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/call_sim/docker/visqol_mos"
+        }
+      },
+      {
+        "ruleId": "container.ubuntu.eol-22.04",
+        "path": "call_sim/docker/visqol_mos/Dockerfile",
+        "line": 6,
+        "dependabot": {
+          "packageEcosystem": "docker",
+          "directory": "/call_sim/docker/visqol_mos"
+        }
+      },
+      {
+        "ruleId": "github-actions.github-script.node20",
+        "path": ".github/workflows/slow_tests.yml",
+        "line": 54,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "rust.toolchain.end-of-support-1.98-and-older",
+        "path": "rust-toolchain",
+        "line": 1,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "Azure/azure-functions-powershell-worker",
+  "commit": "2debea0f983f5016d3c54302c749e8f7e4690544",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 2641,
+    "findings": [
+      {
+        "ruleId": "dotnet.package.windowsazure-storage.deprecated",
+        "path": "test/E2E/Azure.Functions.PowerShellWorker.E2E/Azure.Functions.PowerShellWorker.E2E/Azure.Functions.PowerShellWorker.E2E.csproj",
+        "line": 16,
+        "dependabot": {
+          "packageEcosystem": "nuget",
+          "directory": "/test/E2E/Azure.Functions.PowerShellWorker.E2E/Azure.Functions.PowerShellWorker.E2E"
+        }
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-6.0",
+        "path": "test/E2E/TestFunctionApp/extensions.csproj",
+        "line": 3,
+        "dependabot": null
+      },
+      {
+        "ruleId": "github-actions.checkout.node20",
+        "path": ".github/workflows/codeQL.yml",
+        "line": 52,
+        "dependabot": {
+          "packageEcosystem": "github-actions",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-6",
+        "path": "src/Modules/Microsoft.Azure.Functions.PowerShellWorker/Microsoft.Azure.Functions.PowerShellWorker.psd1",
+        "line": 30,
+        "dependabot": null
+      },
+      {
+        "ruleId": "shell.powershell.end-of-life-7.0",
+        "path": "build.ps1",
+        "line": 34,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "configPath": ".github/dependabot.yml",
+    "entries": [
+      {
+        "packageEcosystem": "github-actions",
+        "directory": "/",
+        "ignore": false,
+        "allow": false
+      }
+    ]
+  }
+}

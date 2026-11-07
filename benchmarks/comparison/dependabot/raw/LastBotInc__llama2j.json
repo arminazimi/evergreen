@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "LastBotInc/llama2j",
+  "commit": "51d08b4de67d26533c1be19af615c148bd3e38b5",
+  "ecosystem": "java",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 185,
+    "findings": [
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "pom.xml",
+        "line": 12,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "pom.xml",
+        "line": 13,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/"
+        }
+      },
+      {
+        "ruleId": "java.jdk.end-of-support-18-20",
+        "path": "pom.xml",
+        "line": 14,
+        "dependabot": {
+          "packageEcosystem": "maven",
+          "directory": "/"
+        }
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

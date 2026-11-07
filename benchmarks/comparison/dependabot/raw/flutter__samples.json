@@ -1,0 +1,189 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "flutter/samples",
+  "commit": "9df2cac15cc3d28a51aace018ad822387d30ac72",
+  "ecosystem": "dart",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 6520,
+    "findings": [
+      {
+        "ruleId": "swift.app-store.ios-below-13",
+        "path": "platform_view_swift/ios/Runner.xcodeproj/project.pbxproj",
+        "line": 327,
+        "dependabot": null
+      },
+      {
+        "ruleId": "swift.app-store.ios-below-13",
+        "path": "platform_view_swift/ios/Runner.xcodeproj/project.pbxproj",
+        "line": 461,
+        "dependabot": null
+      },
+      {
+        "ruleId": "swift.app-store.ios-below-13",
+        "path": "platform_view_swift/ios/Runner.xcodeproj/project.pbxproj",
+        "line": 489,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "configPath": ".github/dependabot.yaml",
+    "entries": [
+      {
+        "packageEcosystem": "github-actions",
+        "directory": "/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "npm",
+        "directory": "web_embedding/ng-flutter",
+        "ignore": true,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "add_to_app/books/flutter_module_books/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "add_to_app/multiple_flutters/multiple_flutters_module/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "add_to_app/plugin/flutter_module_using_plugin/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "add_to_app/prebuilt_module/flutter_module/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "analysis_defaults/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "android_splash_screen/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "animations/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "background_isolate_channels/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "desktop_photo_search/fluent_ui/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "desktop_photo_search/material/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "form_app/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "google_maps/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "ios_app_clip/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "material_3_demo/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "navigation_and_routing/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "platform_channels/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "platform_design/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "platform_view_swift/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "simple_sdf/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "simple_shader/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "testing_app/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "web_embedding/element_embedding_demo/",
+        "ignore": false,
+        "allow": false
+      },
+      {
+        "packageEcosystem": "pub",
+        "directory": "web_embedding/ng-flutter/flutter/",
+        "ignore": false,
+        "allow": false
+      }
+    ]
+  }
+}

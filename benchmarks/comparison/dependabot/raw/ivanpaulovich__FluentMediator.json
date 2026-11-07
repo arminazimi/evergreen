@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "ivanpaulovich/FluentMediator",
+  "commit": "6f1c0a53d332020e304b61692380636e5136eedf",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 80,
+    "findings": [
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.2",
+        "path": "samples/SimpleConsoleApp/PingPong/PingPong.csproj",
+        "line": 5,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-2.2",
+        "path": "test/UnitTests/UnitTests.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.0",
+        "path": "samples/AspNetCore/src/WebApi/WebApi.csproj",
+        "line": 4,
+        "dependabot": null
+      },
+      {
+        "ruleId": "dotnet.runtime.end-of-support-3.0",
+        "path": "samples/AspNetCore/test/UnitTests/UnitTests.csproj",
+        "line": 4,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}

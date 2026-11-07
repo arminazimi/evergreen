@@ -1,0 +1,721 @@
+{
+  "schemaVersion": "evergreen.comparison.dependabot.raw.v1",
+  "repository": "serverless/examples",
+  "commit": "71d6720f68e1f25ee02bbef7c3e843591870639a",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "continuity": false,
+  "evergreen": {
+    "version": "0.7.3",
+    "commit": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14",
+    "durationMs": 543,
+    "findings": [
+      {
+        "ruleId": "serverless.aws-lambda.dotnet10",
+        "path": "aws-dotnet-rest-api-with-dynamodb/src/DotNetServerless.Lambda/serverless.yml",
+        "line": 9,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.java25",
+        "path": "aws-java-simple-http-endpoint/serverless.yml",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs22.x",
+        "path": "mcp/custom/express-web-adapter/serverless.yml",
+        "line": 10,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs22.x",
+        "path": "mcp/custom/function-url/serverless.yml",
+        "line": 10,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs22.x",
+        "path": "mcp/custom/hono/serverless.yml",
+        "line": 10,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs22.x",
+        "path": "mcp/custom/rest-api/serverless.yml",
+        "line": 10,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-comprehensive/serverless.yml",
+        "line": 25,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-gateway/serverless.yml",
+        "line": 12,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-multi-gateway/serverless.yml",
+        "line": 12,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-bedrock-agentcore/javascript/langgraph-multi-gateway/serverless.yml",
+        "line": 16,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-bedrock-agentcore/javascript/mcp-server-lambda-tools/serverless.yml",
+        "line": 14,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-ffmpeg-layer/serverless.yml",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-multiple-runtime/serverless.yml",
+        "line": 18,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-alexa-skill/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-auth0-cognito-custom-authorizers-api/serverless.yml",
+        "line": 8,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-auth0-custom-authorizers-api/serverless.yml",
+        "line": 11,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-dynamic-image-resizer/serverless.yml",
+        "line": 10,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-dynamodb-stream-processing/serverless.yml",
+        "line": 12,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-env-variables-encrypted-in-a-file/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-env-variables/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-esm-esbuild/serverless.yml",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-express-api/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-express-dynamodb-api/serverless.yml",
+        "line": 12,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-fetch-file-and-store-in-s3/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-github-webhook-listener/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-graphql-api-with-dynamodb/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-http-api-dynamodb-local/serverless.yml",
+        "line": 23,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-http-api-dynamodb/serverless.yml",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-http-api-mongodb/serverless.yml",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-http-api-typescript-dynamodb/serverless.yml",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-http-api-typescript/serverless.yml",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-http-api/serverless.yml",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-iot-event/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-mongodb-atlas/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-puppeteer/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-recursive-function/serverless.yml",
+        "line": 10,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-rekognition-analysis-s3-image/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-rest-api-mongodb/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-rest-api-typescript-simple/serverless.yml",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-rest-api-typescript/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-rest-api-with-dynamodb-and-offline/serverless.yml",
+        "line": 24,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-rest-api-with-dynamodb/serverless.yml",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-rest-api/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-s3-file-replicator/serverless.yml",
+        "line": 16,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-scheduled-cron/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-self-managed-code-storage/serverless.yml",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-serve-dynamic-html-via-http-endpoint/serverless.yml",
+        "line": 8,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-serverless-gong/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-ses-receive-email-body/serverless.yml",
+        "line": 12,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-ses-receive-email-header/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-shared-gateway/gateway/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-shared-gateway/products/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-shared-gateway/transactions/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-shared-gateway/users/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-signed-uploads/serverless.yml",
+        "line": 15,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-simple-http-endpoint/serverless.yml",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-simple-transcribe-s3/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-single-page-app-via-cloudfront/serverless.yml",
+        "line": 10,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-sqs-worker/serverless.yml",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-stripe-integration/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-telegram-echo-bot/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-text-analysis-via-sns-post-processing/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-twilio-send-text-message/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-typescript-apollo-lambda/serverless.yml",
+        "line": 14,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-typescript-kinesis/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-typescript-nest/serverless.yml",
+        "line": 25,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-typescript-rest-api-with-dynamodb/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-typescript-sqs-standard/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-upload-to-s3-and-postprocess/serverless.yml",
+        "line": 11,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node-websockets-authorizers/serverless.yml",
+        "line": 8,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "aws-node/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "compose-multiframework/sam/template.yml",
+        "line": 14,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "compose-multiframework/traditional/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "compose-shared-services/api/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "compose-shared-services/worker/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "mcp/minimal/serverless.yml",
+        "line": 10,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "mcp/oauth-authorizer/serverless.yml",
+        "line": 13,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "mcp/oauth-cognito/serverless.yml",
+        "line": 12,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "mcp/oauth-in-module/serverless.yml",
+        "line": 15,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.nodejs24.x",
+        "path": "sandboxes/self-hosted-webhook/serverless.yml",
+        "line": 17,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.provided.al2023",
+        "path": "aws-golang-auth-examples/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.provided.al2023",
+        "path": "aws-golang-googlemap/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.provided.al2023",
+        "path": "aws-golang-http-get-post/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.provided.al2023",
+        "path": "aws-golang-rest-api-with-dynamodb/serverless.yml",
+        "line": 8,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.provided.al2023",
+        "path": "aws-golang-s3-file-replicator/serverless.yml",
+        "line": 12,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.provided.al2023",
+        "path": "aws-golang-simple-http-endpoint/serverless.yml",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.provided.al2023",
+        "path": "aws-rust-simple-http-endpoint/serverless.yml",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.13",
+        "path": "aws-python-line-echo-bot/serverless.yml",
+        "line": 11,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-bedrock-agentcore/python/langgraph-gateway/serverless.yml",
+        "line": 12,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-bedrock-agentcore/python/langgraph-multi-gateway/serverless.yml",
+        "line": 12,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-bedrock-agentcore/python/langgraph-multi-gateway/serverless.yml",
+        "line": 16,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-multiple-runtime/serverless.yml",
+        "line": 11,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-alexa-skill/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-auth0-custom-authorizers-api/serverless.yml",
+        "line": 25,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-flask-api/serverless.yml",
+        "line": 18,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-flask-dynamodb-api/serverless.yml",
+        "line": 26,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-http-api-with-dynamodb/serverless.yml",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-http-api-with-pynamodb/serverless.yml",
+        "line": 25,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-http-api/serverless.yml",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-pynamodb-s3-sigurl/serverless.yml",
+        "line": 54,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-rest-api-with-dynamodb/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-rest-api-with-pymongo/serverless.yml",
+        "line": 15,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-rest-api-with-pynamodb/serverless.yml",
+        "line": 26,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-rest-api/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-scheduled-cron/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-simple-http-endpoint/serverless.yml",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-sqs-worker/serverless.yml",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python-telegram-bot/serverless.yml",
+        "line": 11,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.python3.14",
+        "path": "aws-python/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.ruby4.0",
+        "path": "aws-ruby-cron-with-dynamodb/serverless.yml",
+        "line": 8,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.ruby4.0",
+        "path": "aws-ruby-line-bot/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.ruby4.0",
+        "path": "aws-ruby-simple-http-endpoint/serverless.yml",
+        "line": 6,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.ruby4.0",
+        "path": "aws-ruby-sinatra-dynamodb-api/serverless.yml",
+        "line": 16,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.ruby4.0",
+        "path": "aws-ruby-sqs-with-dynamodb/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.ruby4.0",
+        "path": "aws-ruby-step-functions-express/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.ruby4.0",
+        "path": "aws-ruby-step-functions-with-callback/serverless.yml",
+        "line": 8,
+        "dependabot": null
+      },
+      {
+        "ruleId": "serverless.aws-lambda.ruby4.0",
+        "path": "aws-ruby-step-functions/serverless.yml",
+        "line": 7,
+        "dependabot": null
+      }
+    ]
+  },
+  "dependabot": {
+    "run": "not-run",
+    "entries": []
+  }
+}
