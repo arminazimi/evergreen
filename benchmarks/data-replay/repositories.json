@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "evergreen.data-replay-repositories.v1",
+  "repositories": [
+    {
+      "repository": "expressjs/express",
+      "commit": "a419aa7350389a275ab45fde2e849ed1f02449ef",
+      "ecosystem": "node"
+    },
+    {
+      "repository": "sindresorhus/got",
+      "commit": "05b4476913da39a47dd8e20d29e250f28b0a6dca",
+      "ecosystem": "node"
+    },
+    {
+      "repository": "actions/toolkit",
+      "commit": "7e25f67e8fd17369aa21e6e816ac99654106e0dc",
+      "ecosystem": "node-actions"
+    },
+    {
+      "repository": "Akenon-Studio/.github",
+      "commit": "4ec1ebe0faa961d26c84406fd3c1a5ca1af00311",
+      "ecosystem": "node-actions"
+    },
+    {
+      "repository": "psf/requests",
+      "commit": "611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60",
+      "ecosystem": "python"
+    },
+    {
+      "repository": "pallets/flask",
+      "commit": "d086db856be187255b8ec61ef409357393020f32",
+      "ecosystem": "python"
+    },
+    {
+      "repository": "jesseduffield/lazygit",
+      "commit": "5e3cd6b5408218cc55e8b26df377e3912eea3c8d",
+      "ecosystem": "go"
+    },
+    {
+      "repository": "charmbracelet/bubbletea",
+      "commit": "73b6d91ac1c3854dd4af046ab5f9e51d3b3b4290",
+      "ecosystem": "go"
+    },
+    {
+      "repository": "outline/outline",
+      "commit": "879c568a2ce55b0462651fa580de7f65faae026c",
+      "ecosystem": "container"
+    },
+    {
+      "repository": "excalidraw/excalidraw",
+      "commit": "1caec99b290c75cda05385e637138998807a65ae",
+      "ecosystem": "container"
+    },
+    {
+      "repository": "kagkarlsson/db-scheduler",
+      "commit": "466ff4b458b971470b16cfaf4fb840b60d0266fa",
+      "ecosystem": "java"
+    },
+    {
+      "repository": "piomin/sample-spring-reactive",
+      "commit": "a3338559767512f932c8439d96ec0d5cd2449fbb",
+      "ecosystem": "java"
+    },
+    {
+      "repository": "sharkdp/hyperfine",
+      "commit": "769652353aacf84fb8ab691e4ec2c6435ad2ee3a",
+      "ecosystem": "rust"
+    },
+    {
+      "repository": "rustwasm/wasm-pack",
+      "commit": "62ab39cf82ec4d358c1f08f348cd0dc44768f412",
+      "ecosystem": "rust"
+    },
+    {
+      "repository": "argoproj/argocd-example-apps",
+      "commit": "8088f4c0d970abb09e250248cc97e35623447cb5",
+      "ecosystem": "kubernetes"
+    },
+    {
+      "repository": "kelseyhightower/ingress-with-static-ip",
+      "commit": "a1100ac69885e91fd89045f73dfdbe1026e5de3f",
+      "ecosystem": "kubernetes"
+    },
+    {
+      "repository": "rack/rack",
+      "commit": "a9833c8f3bd6b6d1e0ab35de00a1f1a16b5095f5",
+      "ecosystem": "ruby"
+    },
+    {
+      "repository": "Shopify/packwerk",
+      "commit": "75ce7c728fcba075eb939a7af194fc4287513a75",
+      "ecosystem": "ruby"
+    },
+    {
+      "repository": "laravel/laravel",
+      "commit": "e90c74ca717e9082d7463a2db50814fe565a3e44",
+      "ecosystem": "php"
+    },
+    {
+      "repository": "jobbyphp/jobby",
+      "commit": "a02846de7056fa648e299c9ba426e7f73a9e26cb",
+      "ecosystem": "php"
+    },
+    {
+      "repository": "ucdavis/Sloth",
+      "commit": "442c022d0d87b872209b3b810154987598c54a32",
+      "ecosystem": "dotnet"
+    },
+    {
+      "repository": "sharpjs/Sharp.BlobStorage",
+      "commit": "b0c237c81b0b7a85f4e092f774d92760c04d1793",
+      "ecosystem": "dotnet"
+    },
+    {
+      "repository": "blackbird-cloud/terraform-aws-cloudformation-stackset",
+      "commit": "1fc62541393334ec655f93058b2ff54aa1c47be0",
+      "ecosystem": "terraform"
+    },
+    {
+      "repository": "leek/terraform-aws-laravel",
+      "commit": "dbb7caf04535e8442c9b31653bb1b767c3b06afe",
+      "ecosystem": "terraform"
+    }
+  ]
+}

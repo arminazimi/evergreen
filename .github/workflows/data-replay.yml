@@ -1,0 +1,72 @@
+name: Data replay
+
+# Replays the last data releases and the working tree's registry on pinned repositories and fails when a finding
+# changes for a reason no rule change explains (benchmarks/data-replay.ts). It needs the network only to fetch the
+# pinned checkouts, so it does not run on pull requests: pull request CI stays offline and inside its runner-minute
+# budget (docs/CI.md). Run `npm run replay:data` locally before changing registry/.
+on:
+  schedule:
+    - cron: "23 5 * * 2"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "registry/**"
+      - "benchmarks/data-replay*"
+      - ".github/workflows/data-replay.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: data-replay-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  EVERGREEN_CORPUS_CACHE: ${{ github.workspace }}/.corpus-cache
+
+jobs:
+  replay:
+    name: replay past data releases
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # The data release tags are the input, so the clone needs them.
+          fetch-depth: 0
+          fetch-tags: true
+          persist-credentials: false
+      - uses: $/.github/actions/setup
+        with:
+          cache: npm
+      - name: Restore the corpus checkout cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: ${{ env.EVERGREEN_CORPUS_CACHE }}
+          key: corpus-checkouts-${{ hashFiles('benchmarks/public-repositories/**') }}
+          restore-keys: |
+            corpus-checkouts-
+      - run: npm run build --silent
+      - name: Replay the last data releases
+        shell: bash
+        run: node dist/benchmarks/data-replay.js --releases 3 --output data-replay-result.json | tee data-replay.log
+      - name: Show the result in the job summary
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "### Data replay"
+            echo '```text'
+            cat data-replay.log 2>/dev/null || echo "The replay did not finish."
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload the result
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: data-replay-result-${{ github.run_id }}
+          path: data-replay-result.json
+          if-no-files-found: ignore
+          retention-days: 14

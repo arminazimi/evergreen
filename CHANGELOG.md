@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Replay the last data releases on pinned repositories (`npm run replay:data`, workflow `data-replay`) and fail when a finding changes for a reason no added, removed, or edited rule explains. (#2171)
+
 ## 0.7.3 - 2026-11-06
 
 - Add the Elixir and Erlang/OTP drift collectors: read `.elixir-version`, `.tool-versions`, `mix.exs` floors, `elixir` and `hexpm/elixir` images in Dockerfiles and CI, and the `erlef/setup-beam` inputs, reporting Elixir and Erlang/OTP as separate runtimes. (#1846)

@@ -127,6 +127,18 @@ First result (before #1101): 15 repositories, 55 true positives, 2 false positiv
 
 After #1101: 15 repositories, 73 true positives, 3 false positives, 0 false negatives, precision 0.9605, recall 1. The 3 "false positives" are not errors: two are `engines.node` declarations in `package.json` and one is a `strategy.matrix` Node.js list (`node: [8, 10, 12]` in `reid/node-jslint`), none of which the labeller reads. Because the rule was written after the first held-out run, this repository set no longer measures generalization for `node-version`; a fresh held-out set is needed for the next rule.
 
+## Replaying data releases
+
+`npm run replay:data` proves that a data update does not cause surprises. It scans the pinned repositories in `benchmarks/data-replay/repositories.json` (each also pinned in the public corpus at the same commit) once per data release (the last three `data-v*` tags) and once with the working tree's `registry/`, all with the same Evergreen code and the same scan time. The only input that differs between two scans is the data.
+
+Every finding that appears or disappears between two consecutive releases must be explained by a rule that was added, removed, or edited between them (an edit means any field a scan reads; sources and provenance do not count), or, for `github-actions.*` findings, by a change to the SHA map. The run prints each change with its explanation and exits with status 1 when any change is unexplained. `--releases <n>` sets how many releases to replay and `--output <file>` writes the JSON report.
+
+Notes:
+
+- Releases from before the `accessedAt` requirement are brought up to the current schema for the replay (a missing `accessedAt` takes the rule's `observedAt`, and a registry the release lacked is empty, so its rules count as added). Nothing a scan reads is changed.
+- The data bundle does not yet carry the deno, elixir, php, and scala registries; the replay installs them itself so every detector has its data.
+- The `data-replay` workflow runs this on `main` when `src/` or `registry/` change, weekly, and on demand. It needs the network only to fetch the pinned checkouts and would exceed the pull-request runner-minute budget, so it does not run on pull requests: run `npm run replay:data` before changing `registry/`.
+
 ## Unreviewed expected findings
 
 Growing the corpus to 200 repositories per ecosystem means about 4,600 pins, far beyond hand labeling every finding before the first scan. The candidate finder freezes the pins ([decision 0030](../decisions/0030-corpus-selection-and-200-target.md)); a second tool scans a local checkout of each eligible pin and records what the current detectors report as **unreviewed** expected findings.
