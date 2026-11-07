@@ -10,7 +10,7 @@ const PINNED = /^[\w./-]+@[0-9a-f]{40}\s+#\s*v\d+(?:\.\d+){0,2}\s*$/;
 // The SLSA GitHub generator must be referenced by a vX.Y.Z tag (not a commit SHA): that is how it
 // identifies its own builder identity. See slsa-github-generator "Referencing the SLSA generator".
 const SLSA_GENERATOR =
-  /^slsa-framework\/slsa-github-generator\/\.github\/workflows\/generator_generic_slsa3\.yml@v\d+\.\d+\.\d+$/;
+  /^slsa-framework\/slsa-github-generator\/\.github\/workflows\/generator_(?:generic|container)_slsa3\.yml@v\d+\.\d+\.\d+$/;
 
 /** Every non-local `uses:` reference in a workflow that is not a full SHA with a trailing version comment. */
 function floatingReferences(contents: string): string[] {
@@ -59,9 +59,21 @@ test("a floating reference is caught, and a pinned or local one is not", () => {
   );
   assert.deepEqual(
     floatingReferences(
+      `    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v2.1.0\n`,
+    ),
+    [],
+  );
+  assert.deepEqual(
+    floatingReferences(
       `    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@main\n`,
     ),
     ["uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@main"],
+  );
+  assert.deepEqual(
+    floatingReferences(
+      `    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@main\n`,
+    ),
+    ["uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@main"],
   );
 });
 

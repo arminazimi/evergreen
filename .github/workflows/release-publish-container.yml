@@ -29,6 +29,9 @@ jobs:
       contents: read
       packages: write
       id-token: write
+    outputs:
+      image: ${{ steps.release.outputs.image }}
+      digest: ${{ steps.image.outputs.digest }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -52,6 +55,7 @@ jobs:
             git tag --points-at HEAD | grep -Fx "v$version"
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "image=ghcr.io/${{ github.repository }}" >> "$GITHUB_OUTPUT"
           echo "tags=ghcr.io/${{ github.repository }}:$version" >> "$GITHUB_OUTPUT"
           if [[ "$version" != *-* ]]; then
             echo "tags=ghcr.io/${{ github.repository }}:$version,ghcr.io/${{ github.repository }}:latest" >> "$GITHUB_OUTPUT"
@@ -88,3 +92,46 @@ jobs:
       - name: Record dry-run stage
         if: inputs.dry_run
         run: echo "Publish stage (container) completed in dry run; image was not pushed." >> "$GITHUB_STEP_SUMMARY"
+
+  # SLSA Build L3 provenance for the image digest, generated in an isolated builder job and pushed
+  # to the registry as an attestation. The generator must be referenced by a vX.Y.Z tag.
+  provenance:
+    needs: container
+    if: ${{ !inputs.dry_run }}
+    permissions:
+      actions: read
+      id-token: write
+      packages: write
+    # zizmor: ignore[unpinned-uses] -- the generator identifies itself by this vX.Y.Z tag, not by a commit SHA
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v2.1.0
+    with:
+      image: ${{ needs.container.outputs.image }}
+      digest: ${{ needs.container.outputs.digest }}
+      registry-username: ${{ github.actor }}
+    secrets:
+      registry-password: ${{ secrets.GITHUB_TOKEN }}
+
+  # The release fails if the provenance is missing or does not match the published digest.
+  verify:
+    needs: [container, provenance]
+    if: ${{ !inputs.dry_run }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: $/.github/actions/slsa-verifier
+      - name: Verify the image provenance
+        env:
+          IMAGE: ${{ needs.container.outputs.image }}
+          DIGEST: ${{ needs.container.outputs.digest }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          slsa-verifier verify-image "$IMAGE@$DIGEST" \
+            --source-uri "github.com/${{ github.repository }}" \
+            --source-tag "$TAG" \
+            --builder-id "https://github.com/slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@refs/tags/v2.1.0"

@@ -1,10 +1,11 @@
 name: Publish to npm
 
-# Smoke test and MCP Registry stages that follow the npm publish. release.yml calls this on a
-# version tag and on a dry-run dispatch, after its own npm-publish job: the publish itself lives
-# in release.yml because OpenSSF Scorecard only recognises a publish step in a workflow file that
-# has runs of its own (see docs/RELEASING.md). A failed later stage in the same Release run is safe
-# to re-run: successful jobs are not re-executed, so a completed publish is not repeated.
+# Smoke test, provenance verification, and MCP Registry stages that follow the npm publish.
+# release.yml calls this on a version tag and on a dry-run dispatch, after its own npm-publish job:
+# the publish itself lives in release.yml because OpenSSF Scorecard only recognises a publish step
+# in a workflow file that has runs of its own (see docs/RELEASING.md). A failed later stage in the
+# same Release run is safe to re-run: successful jobs are not re-executed, so a completed publish is
+# not repeated.
 #
 # One-time setup on npmjs.com (package -> Settings -> Trusted publisher -> GitHub Actions):
 #   organization or user: arminazimi    repository: evergreen    workflow filename: release.yml
@@ -56,6 +57,45 @@ jobs:
           mkdir -p "$RUNNER_TEMP/evergreen-smoke"
           cp "$GITHUB_WORKSPACE/tests/fixtures/smoke/package.json.fixture" "$RUNNER_TEMP/evergreen-smoke/package.json"
           node "$GITHUB_WORKSPACE/.github/scripts/smoke.mjs" "$RUNNER_TEMP/evergreen-smoke" -- npx --yes "evergreen-deprecation@$version"
+
+  # The release fails if the npm attestation is missing or does not match the published tarball.
+  # npm generates it during trusted publishing on a GitHub-hosted runner, so the builder identity
+  # is that runner rather than a SLSA generator job (Build L2; see docs/RELEASING.md).
+  verify-provenance:
+    needs: smoke
+    if: ${{ !inputs.dry_run }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: $/.github/actions/slsa-verifier
+      - name: Download the published tarball and attestations
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version="${TAG#v}"
+          curl -fsSL --retry 3 -o package.tgz "$(npm view "evergreen-deprecation@$version" dist.tarball)"
+          url="$(npm view "evergreen-deprecation@$version" --json | jq -r '.dist.attestations.url')"
+          if [ -z "$url" ] || [ "$url" = "null" ]; then
+            echo "evergreen-deprecation@$version has no npm provenance attestation." >&2
+            exit 1
+          fi
+          curl -fsSL --retry 3 -o attestations.json "$url"
+      - name: Verify the npm provenance
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version="${TAG#v}"
+          SLSA_VERIFIER_EXPERIMENTAL=1 slsa-verifier verify-npm-package package.tgz \
+            --attestations-path attestations.json \
+            --builder-id "https://github.com/actions/runner/github-hosted" \
+            --package-name evergreen-deprecation \
+            --package-version "$version" \
+            --source-uri "github.com/${{ github.repository }}"
 
   # Publishes server.json to the MCP Registry through a GitHub OIDC login, so no secret is stored and the
   # name io.github.arminazimi/evergreen is authenticated against this repository's GitHub account. It runs

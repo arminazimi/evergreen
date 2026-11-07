@@ -50,6 +50,62 @@ Two builds on one machine share every host-dependent step, so CI also compares b
 
 An installed package carries `dist/src/release-manifest.json`, generated from the packed file list at publish time. `evergreen verify` checks every listed file offline and fails on a changed one; see [CLI](CLI.md#verify). It reports the npm registry signature and provenance attestation as unchecked because those live on the registry: `npm audit signatures` verifies them when the network is available.
 
+### SLSA provenance
+
+Every release channel publishes signed build provenance, and the release chain runs
+[`slsa-verifier`](https://github.com/slsa-framework/slsa-verifier) against each channel before the run
+succeeds. A release that loses or mismatches its provenance fails instead of shipping.
+
+| Channel | Builder | SLSA Build level |
+|---|---|---|
+| Standalone binaries | [`generator_generic_slsa3.yml`](https://github.com/slsa-framework/slsa-github-generator/blob/main/.github/workflows/generator_generic_slsa3.yml) in an isolated job | 3 |
+| Container image | [`generator_container_slsa3.yml`](https://github.com/slsa-framework/slsa-github-generator/blob/main/.github/workflows/generator_container_slsa3.yml) in an isolated job | 3 |
+| npm package | npm trusted publishing on a GitHub-hosted runner | 2 |
+
+npm's attestation is signed and verifiable, but the build and the publish run in the same
+tenant-controlled job, which is Build L2. Reaching Build L3 for npm needs the retired Node.js SLSA
+builder and a long-lived npm token, which would replace trusted publishing; that trade is not made
+here. The `verify-provenance` stage of the npm publish fails the release when the attestation is
+missing or does not match the published tarball.
+
+Verify the binaries and the container image with `slsa-verifier` (v2.7.1 or newer):
+
+```bash
+# Standalone binaries and their multiple.intoto.jsonl provenance
+mkdir release
+gh release download vX.Y.Z --pattern 'multiple.intoto.jsonl' --pattern 'evergreen-*' --dir release
+find release -name '*.sigstore.json' -delete
+slsa-verifier verify-artifact release/evergreen-* \
+  --provenance-path release/multiple.intoto.jsonl \
+  --source-uri github.com/arminazimi/evergreen \
+  --source-tag vX.Y.Z \
+  --builder-id https://github.com/slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@refs/tags/v2.1.0
+
+# Container image: the provenance is stored next to the image in ghcr.io
+image=ghcr.io/arminazimi/evergreen
+digest="$(docker buildx imagetools inspect "$image:X.Y.Z" | sed -n 's/^Digest: *//p')"
+slsa-verifier verify-image "$image@$digest" \
+  --source-uri github.com/arminazimi/evergreen \
+  --source-tag vX.Y.Z \
+  --builder-id https://github.com/slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@refs/tags/v2.1.0
+```
+
+Verify the npm package against the attestation the registry serves. npm's provenance records the
+workflow ref, but `verify-npm-package` does not support `--source-tag`; it checks the repository with
+`--source-uri` and prints the source commit for comparison with `git rev-parse vX.Y.Z`:
+
+```bash
+version=X.Y.Z
+curl -Sso "evergreen-deprecation-$version.tgz" "$(npm view "evergreen-deprecation@$version" dist.tarball)"
+curl -Sso attestations.json "$(npm view "evergreen-deprecation@$version" --json | jq -r '.dist.attestations.url')"
+SLSA_VERIFIER_EXPERIMENTAL=1 slsa-verifier verify-npm-package "evergreen-deprecation-$version.tgz" \
+  --attestations-path attestations.json \
+  --builder-id https://github.com/actions/runner/github-hosted \
+  --package-name evergreen-deprecation \
+  --package-version "$version" \
+  --source-uri github.com/arminazimi/evergreen
+```
+
 ## One-time npm setup
 
 Trusted publishing needs the package to name its publisher. On npmjs.com, open the `evergreen-deprecation` package, then Settings, then Trusted Publisher, choose GitHub Actions, and enter organization or user `arminazimi`, repository `evergreen`, and workflow filename `release.yml` (leave the environment empty). npm matches the workflow that runs `npm publish`, which is `release.yml` itself. If an older trusted-publisher entry still names `publish.yml`, add `release.yml` as a second entry (a package may have more than one), publish once successfully, then delete the `publish.yml` entry. Once a release has published this way, set the package's publishing access to "Require two-factor authentication and disallow tokens" so that only this workflow can publish. To rehearse the path before a real release, set `package.json` to a pre-release version such as `X.Y.Z-rc.1` through a pull request and tag its release branch.
@@ -82,7 +138,7 @@ Trusted publishing needs the package to name its publisher. On npmjs.com, open t
 
    Tagging the merge commit on `main` does not work any more: that tree has no bundle, and the Release chain's npm stage refuses the tag with a message that says so. If the job failed, re-run it from the Actions tab; it does nothing when the branch already exists.
 
-6. **Publish to npm.** Pushing the tag in step 5 starts the *Release* workflow's one chain: the `npm-publish` job (in `release.yml` itself, so OpenSSF Scorecard sees the publish step) publishes with npm trusted publishing (no stored token, provenance attestation), then the same run continues through binaries and the signed SBOM, container, Homebrew, major tag, and smoke. It refuses a tag that does not match the version in `package.json`, a tag that is not the `release/vX.Y.Z` branch tip, or a release branch commit that changes anything besides `dist/action/`, and `prepack` runs `npm run check` again, so a broken tree or a stale bundle cannot be published. A pre-release tag such as `vX.Y.Z-rc.1` is published under the `next` tag, so `latest` does not move. After publishing, a job installs the published version on a fresh machine and runs `--help`, `capabilities`, and a scan of `tests/fixtures/smoke` (`.github/scripts/smoke.mjs`); a package that installs but does not work fails the run. If a later stage fails, re-run only the failed jobs of that Release run — successful stages (including npm publish) are left alone. Watch the run in the Actions tab, then confirm with `npm view evergreen-deprecation version` and run `npx evergreen-deprecation@X.Y.Z --help` in an empty directory. To publish by hand instead (for example if the workflow is unavailable), run `npm publish` from the tagged commit; it will have no provenance.
+6. **Publish to npm.** Pushing the tag in step 5 starts the *Release* workflow's one chain: the `npm-publish` job (in `release.yml` itself, so OpenSSF Scorecard sees the publish step) publishes with npm trusted publishing (no stored token, provenance attestation), then the same run continues through binaries and the signed SBOM, container, Homebrew, major tag, and smoke. It refuses a tag that does not match the version in `package.json`, a tag that is not the `release/vX.Y.Z` branch tip, or a release branch commit that changes anything besides `dist/action/`, and `prepack` runs `npm run check` again, so a broken tree or a stale bundle cannot be published. A pre-release tag such as `vX.Y.Z-rc.1` is published under the `next` tag, so `latest` does not move. After publishing, a job installs the published version on a fresh machine and runs `--help`, `capabilities`, and a scan of `tests/fixtures/smoke` (`.github/scripts/smoke.mjs`); a package that installs but does not work fails the run. A `verify-provenance` job then checks the npm attestation with `slsa-verifier`, so a missing or mismatched attestation fails the release. A `verify-provenance` job then checks the npm attestation with `slsa-verifier`, so a missing or mismatched attestation fails the release. If a later stage fails, re-run only the failed jobs of that Release run — successful stages (including npm publish) are left alone. Watch the run in the Actions tab, then confirm with `npm view evergreen-deprecation version` and run `npx evergreen-deprecation@X.Y.Z --help` in an empty directory. To publish by hand instead (for example if the workflow is unavailable), run `npm publish` from the tagged commit; it will have no provenance.
 7. **Publish to the MCP Registry.** The registry lists the server for MCP clients and tools that look for one. It holds only the metadata in `server.json`, which points at the npm package, so publish it **after** step 6, when `npm view evergreen-deprecation version` shows the new version (the registry checks the package on npm, so it must exist there first). This is automated: the same Release run's `publish-npm` stage runs, after `npm-publish`, the `registry` job of [`publish.yml`](../.github/workflows/publish.yml) after its npm smoke job. It refuses a tag that does not match `server.json`, skips pre-release tags, then publishes `server.json` through the `mcp-publisher` tool with a GitHub OIDC login — no stored secret, since the job's OIDC identity names this repository. The binary it downloads is pinned to release 1.8.6 and checked against the release's SHA-256; the pin is only moved after a maintainer reviews the new release first.
 
    A published registry version cannot be changed, so check that `server.json` carries the version you just released first — the workflow refuses otherwise. Then confirm it is the latest:
@@ -113,7 +169,7 @@ Each stable or pre-release tag also produces binaries that need no Node.js, for 
 
 - **What they are.** [`build-sea.mjs`](../.github/scripts/build-sea.mjs) stages exactly the files `npm pack` would publish, installs the production dependencies from `package-lock.json`, and embeds them in a Node.js [single executable application](https://nodejs.org/api/single-executable-applications.html) (built with `node --build-sea`, so the build runner uses Node.js 26). On first run, [`sea-boot.cjs`](../.github/scripts/sea-boot.cjs) unpacks the embedded package into the user's cache directory (`~/.cache/evergreen`, `~/Library/Caches/evergreen`, or `%LOCALAPPDATA%\evergreen`; `EVERGREEN_SEA_CACHE` overrides it) and runs the same CLI as the npm package. Scans still use no network.
 - **Gate.** Every binary runs `--help`, `capabilities`, and a scan of `tests/fixtures/smoke` (`.github/scripts/smoke.mjs`) before it is uploaded; on Linux and macOS this runs with `PATH=/usr/bin:/bin`, so a binary that secretly needs Node.js fails the release.
-- **What is attached.** The release gets `evergreen-<version>-<os>-<arch>` files (`.exe` on Windows), `SHA256SUMS`, a keyless Sigstore (cosign) `.sigstore.json` bundle for each of those files, and an SLSA `multiple.intoto.jsonl` provenance file. Each binary also carries a GitHub build provenance attestation: `gh attestation verify evergreen-<version>-<os>-<arch> --repo arminazimi/evergreen`, or compare `sha256sum -c SHA256SUMS`. To check a Sigstore signature by hand:
+- **What is attached.** The release gets `evergreen-<version>-<os>-<arch>` files (`.exe` on Windows), `SHA256SUMS`, a keyless Sigstore (cosign) `.sigstore.json` bundle for each of those files, and an SLSA `multiple.intoto.jsonl` provenance file. The same stage runs `slsa-verifier` against the uploaded bytes and fails the run if the provenance does not match; the public command is in [SLSA provenance](#slsa-provenance). Each binary also carries a GitHub build provenance attestation: `gh attestation verify evergreen-<version>-<os>-<arch> --repo arminazimi/evergreen`, or compare `sha256sum -c SHA256SUMS`. To check a Sigstore signature by hand:
 
   ```bash
   cosign verify-blob \

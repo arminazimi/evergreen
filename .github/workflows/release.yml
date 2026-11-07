@@ -2,6 +2,7 @@ name: Release
 
 # One release chain: verify → build → publish each channel (npm first) → binaries and SBOM → notes and smoke.
 # A version tag runs it; `dry_run` exercises every stage and publishes nothing. npm trusted publishing matches this filename.
+# Every channel's provenance is checked with slsa-verifier, so a missing or mismatched attestation fails the run.
 # See docs/RELEASING.md for the full chain and the dry_run/release_tag manual runs.
 on:
   push:

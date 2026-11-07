@@ -1,0 +1,1 @@
+- Publish SLSA Build L3 provenance for the container image and verify npm, Docker, and release provenance with `slsa-verifier`. (#2156)

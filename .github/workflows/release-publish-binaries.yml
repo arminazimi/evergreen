@@ -127,3 +127,35 @@ jobs:
       upload-assets: true
       upload-tag-name: ${{ needs.binary-release.outputs.tag }}
       provenance-name: multiple.intoto.jsonl
+
+  # The release fails if the provenance is missing or does not match the published assets.
+  verify:
+    needs: [binary-release, provenance]
+    if: ${{ !inputs.dry_run }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: $/.github/actions/slsa-verifier
+      - name: Download the release assets and provenance
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ needs.binary-release.outputs.tag }}
+        run: |
+          mkdir -p release
+          gh release download "$TAG" --pattern 'multiple.intoto.jsonl' --dir release
+          gh release download "$TAG" --pattern 'evergreen-*' --dir release
+          find release -name '*.sigstore.json' -delete
+      - name: Verify the binary provenance
+        env:
+          TAG: ${{ needs.binary-release.outputs.tag }}
+        run: |
+          slsa-verifier verify-artifact release/evergreen-* \
+            --provenance-path release/multiple.intoto.jsonl \
+            --source-uri "github.com/${{ github.repository }}" \
+            --source-tag "$TAG" \
+            --builder-id "https://github.com/slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@refs/tags/v2.1.0"
