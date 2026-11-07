@@ -22,6 +22,18 @@ On a terminal the frame redraws once per second for six seconds and stops on the
 
 The example uses `examples/gallery`, which has upcoming deadlines across container, runtime, and package rules. The gallery is committed with scanner-neutral names, so the command copies it to a temporary directory and restores the real names before scanning. `docs/demos/countdown.tape` records the animation with [VHS](https://github.com/charmbracelet/vhs); regenerate the GIF with `vhs docs/demos/countdown.tape`.
 
+## Fix before and after
+
+```bash
+evergreen fix . --show
+```
+
+Plays the deterministic fixes in the terminal. Each patch shows its file, the removed lines in red typed out first and the added lines in green after them, then the findings no fixer could repair appear in dim text with their reasons. The last line is the finding count before and the count after the patches, such as `12 → 3 findings`.
+
+Nothing is written to the repository. The "after" count comes from a scan of a temporary copy of the repository with the patches applied, and the copy is removed afterwards. With `--branch` the fixes are committed on `evergreen/fix` as usual and the view shows what was committed, with the count from the re-scan of the real repository.
+
+The play is held to six seconds: a long plan is typed faster, and if time still runs out the rest is printed at once. `--no-animation` prints the same content as static colored diffs, and piping the output prints it without color. `--show` cannot be combined with `--json`. `docs/demos/fix-show.tape` records the animation with [VHS](https://github.com/charmbracelet/vhs); regenerate the GIF with `vhs docs/demos/fix-show.tape`.
+
 ## Glance card
 
 ```bash

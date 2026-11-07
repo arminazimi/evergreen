@@ -37,7 +37,7 @@ _evergreen() {
     rollup) opts="--owners --json --html --format" ;;
     renovate-preset) opts="--data-version" ;;
     dependabot-config) opts="--data-version" ;;
-    fix) opts="--dry-run --data-version" ;;
+    fix) opts="--dry-run --show --no-animation --data-version" ;;
     check) opts="--fail-on --json --format --data-version" ;;
     check-snippet) opts="--path --json" ;;
     guard) opts="--fail-on --force --data-version" ;;

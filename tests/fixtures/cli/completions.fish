@@ -124,6 +124,8 @@ complete -c evergreen -n '__fish_seen_subcommand_from rollup' -l format
 complete -c evergreen -n '__fish_seen_subcommand_from renovate-preset' -l data-version
 complete -c evergreen -n '__fish_seen_subcommand_from dependabot-config' -l data-version
 complete -c evergreen -n '__fish_seen_subcommand_from fix' -l dry-run
+complete -c evergreen -n '__fish_seen_subcommand_from fix' -l show
+complete -c evergreen -n '__fish_seen_subcommand_from fix' -l no-animation
 complete -c evergreen -n '__fish_seen_subcommand_from fix' -l data-version
 complete -c evergreen -n '__fish_seen_subcommand_from check' -l json
 complete -c evergreen -n '__fish_seen_subcommand_from check' -l format

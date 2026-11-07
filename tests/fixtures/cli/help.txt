@@ -37,6 +37,7 @@ Usage:
   evergreen dependabot-config [path]   # print a dependabot.yml that groups updates for deprecated packages; does not write files
   evergreen fix [path] [--dry-run] [--json]   # print patches for deterministic fixes; nothing is written
   evergreen fix [path] --branch               # apply the fixes on a local evergreen/fix branch and commit; never pushes
+  evergreen fix [path] --show [--branch] [--no-animation]   # play the fixes as a before-and-after view; nothing is written without --branch
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
   evergreen check-snippet --path <path> [--json]   # check one snippet from stdin before writing it; reads no repository

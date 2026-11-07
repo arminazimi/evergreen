@@ -236,7 +236,7 @@ Prints a `dependabot.yml` that groups updates for deprecated packages. It writes
 ### `fix`
 
 ```bash
-evergreen fix [path] [--dry-run | --branch] [--json]
+evergreen fix [path] [--dry-run | --branch] [--json | --show [--no-animation]]
 ```
 
 Prints patches for deterministic fixes; nothing is written by default. Apply the printed patches with `evergreen fix | git apply`.
@@ -246,6 +246,8 @@ Prints patches for deterministic fixes; nothing is written by default. Apply the
 | `--dry-run` | Print the patches and write nothing. This is the default behaviour. |
 | `--branch` | Apply the fixes on a local `evergreen/fix` branch and commit them. It never pushes. Cannot be combined with `--dry-run` or `--json`. |
 | `--json` | Print the fix plan as JSON. |
+| `--show` | Play the fix as a before-and-after view: each patch's removed lines in red, then its added lines in green, then the findings left unchanged in dim text with their reasons, ending on `12 → 3 findings`. Without `--branch` nothing is written to the repository; the "after" count comes from scanning a temporary copy with the patches applied. With `--branch` it shows what was committed. Cannot be combined with `--json`. |
+| `--no-animation` | With `--show`, print the static view instead of typing it out. Off a terminal the static view is always used. |
 
 ### `baseline`
 

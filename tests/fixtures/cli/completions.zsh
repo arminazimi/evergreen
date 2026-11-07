@@ -36,7 +36,7 @@ _evergreen() {
         rollup) _arguments '--owners' '--json' '--html' '--format' '*:path:_files' ;;
         renovate-preset) _arguments '--data-version' '*:path:_files' ;;
         dependabot-config) _arguments '--data-version' '*:path:_files' ;;
-        fix) _arguments '--dry-run' '--data-version' '*:path:_files' ;;
+        fix) _arguments '--dry-run' '--show' '--no-animation' '--data-version' '*:path:_files' ;;
         check) _arguments '--fail-on' '--json' '--format' '--data-version' '*:path:_files' ;;
         check-snippet) _arguments '--path' '--json' '*:path:_files' ;;
         guard) _arguments '--fail-on' '--force' '--data-version' '*:path:_files' ;;
