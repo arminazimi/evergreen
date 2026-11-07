@@ -71,6 +71,7 @@ Usage:
   evergreen hook <host> [--fail-on <severity|none>]   # check the file an agent just wrote and answer in its hook protocol
   evergreen init --hooks-for claude-code|codex [path] [--dry-run]   # post-edit hook in .claude/settings.json or .codex/hooks.json
   evergreen verify [path]   # check the installed release's files against its manifest and say what it cannot check offline
+  evergreen wrapped [path] [--year <YYYY>] [--svg <file>] [--json]   # year-in-review cards: fixed, introduced, net, oldest ended, top owners, next deadline
   evergreen --debug …   # on unexpected failures, print the stack trace
   evergreen --help
   evergreen --version
@@ -116,3 +117,4 @@ Examples:
   evergreen completions zsh > ~/.zfunc/_evergreen
   evergreen hook claude-code
   evergreen verify
+  evergreen wrapped . --year 2025

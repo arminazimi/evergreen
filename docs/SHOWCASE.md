@@ -44,6 +44,18 @@ Prints a one-screen summary of the repository's lifecycle state, laid out like `
 
 Under 80 terminal columns the mark is dropped and the facts keep the full width. `--json` prints the facts alone as an `evergreen.glance.v1` document, so a script or a dashboard can reuse them. `docs/demos/glance.tape` records the card with [VHS](https://github.com/charmbracelet/vhs); regenerate the GIF with `vhs docs/demos/glance.tape`.
 
+## Year in review
+
+```bash
+evergreen wrapped . --year 2025
+```
+
+Plays a year-in-review of lifecycle findings for the repository. Each card is backed by data: findings fixed, findings introduced, net change, the longest-ended item still present, the top three CODEOWNERS owners by fixed findings (skipped when there is no CODEOWNERS file), and the next deadline in the coming year. Fixed and introduced counts match `evergreen diff <base>..<head> --json` for the same refs.
+
+The base is the last commit before 1 January of the year; when the repository has none, the command says so and compares against the first commit. For a past year the head is the last commit of that year; for the current year it is `HEAD`. Scans use git objects only, so the working tree is never modified.
+
+On a terminal the cards play one at a time within six seconds. `--no-animation` prints them all at once, and piping the output does the same. `--svg wrapped.svg` writes one 1200×630 summary card with no script and no external references. `--json` prints the `evergreen.wrapped.v1` document. `docs/demos/wrapped.tape` records the play with [VHS](https://github.com/charmbracelet/vhs); regenerate the GIF with `vhs docs/demos/wrapped.tape`.
+
 ## Mermaid support windows
 
 ```bash

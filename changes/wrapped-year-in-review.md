@@ -1,0 +1,1 @@
+- Add `evergreen wrapped`, a year-in-review of findings fixed and introduced with terminal cards and a shareable 1200×630 SVG.

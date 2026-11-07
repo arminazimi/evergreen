@@ -5,14 +5,14 @@ _evergreen() {
   prev="${COMP_WORDS[COMP_CWORD-1]}"
   command="${COMP_WORDS[1]}"
   if [ "$COMP_CWORD" -eq 1 ]; then
-    COMPREPLY=($(compgen -W "scan baseline forecast forecast countdown plan status-card glance lookup drift upgrade-check inventory badge diff drift receipt rollup renovate-preset dependabot-config fix check check-snippet guard usage mcp data watch init setup new-detector new-rule rules explain context doctor report-issue capabilities completions hook verify --help --version" -- "$cur"))
+    COMPREPLY=($(compgen -W "scan baseline forecast forecast countdown plan status-card glance lookup drift upgrade-check inventory badge diff drift receipt rollup renovate-preset dependabot-config fix check check-snippet guard usage mcp data watch init setup new-detector new-rule rules explain context doctor report-issue capabilities completions hook verify wrapped --help --version" -- "$cur"))
     return
   fi
   case "$prev" in
     --format) COMPREPLY=($(compgen -W "text json sarif rdjson compact html mermaid" -- "$cur")); return ;;
     --fail-on) COMPREPLY=($(compgen -W "info low medium high critical none" -- "$cur")); return ;;
     --on-expired) COMPREPLY=($(compgen -W "resurface fail" -- "$cur")); return ;;
-    --file|--output|--baseline|--all|--before) COMPREPLY=($(compgen -f -- "$cur")); return ;;
+    --file|--output|--baseline|--all|--before|--svg) COMPREPLY=($(compgen -f -- "$cur")); return ;;
   esac
   case "$command" in
     completions) opts="bash zsh fish" ;;
@@ -58,6 +58,7 @@ _evergreen() {
     completions) opts="" ;;
     hook) opts="--fail-on" ;;
     verify) opts="--data-version" ;;
+    wrapped) opts="--year --svg --json --no-animation" ;;
     *) opts="" ;;
   esac
   COMPREPLY=($(compgen -W "$opts" -- "$cur"))

@@ -40,6 +40,7 @@ complete -c evergreen -n __fish_use_subcommand -a capabilities
 complete -c evergreen -n __fish_use_subcommand -a completions
 complete -c evergreen -n __fish_use_subcommand -a hook
 complete -c evergreen -n __fish_use_subcommand -a verify
+complete -c evergreen -n __fish_use_subcommand -a wrapped
 complete -c evergreen -n __fish_use_subcommand -l help
 complete -c evergreen -n __fish_use_subcommand -l version
 complete -c evergreen -n '__fish_seen_subcommand_from completions' -a 'bash zsh fish'
@@ -165,3 +166,7 @@ complete -c evergreen -n '__fish_seen_subcommand_from report-issue' -l data-vers
 complete -c evergreen -n '__fish_seen_subcommand_from capabilities' -l json
 complete -c evergreen -n '__fish_seen_subcommand_from hook' -l fail-on
 complete -c evergreen -n '__fish_seen_subcommand_from verify' -l data-version
+complete -c evergreen -n '__fish_seen_subcommand_from wrapped' -l year
+complete -c evergreen -n '__fish_seen_subcommand_from wrapped' -l svg
+complete -c evergreen -n '__fish_seen_subcommand_from wrapped' -l json
+complete -c evergreen -n '__fish_seen_subcommand_from wrapped' -l no-animation

@@ -154,6 +154,24 @@ Prints a one-screen summary of the repository's lifecycle state, laid out like `
 
 Below 80 terminal columns the mark is dropped and the facts keep the full width. On a terminal the severity blocks are colored; `NO_COLOR` turns that off. [Showcase](SHOWCASE.md) shows the card and [docs/demos/glance.tape](demos/glance.tape) records it.
 
+### `wrapped`
+
+```bash
+evergreen wrapped [path] [--year <YYYY>] [--svg <file>] [--json]
+```
+
+Prints a year-in-review of lifecycle findings for a Git repository: how many were fixed, how many were introduced, the net change, the longest-ended item still present, the top three CODEOWNERS owners by fixed findings (skipped when there is no CODEOWNERS file), and the next deadline in the coming year. Fixed and introduced counts match `evergreen diff <base>..<head> --json` for the same refs. The base is the last commit before 1 January of the year (or the first commit when none exists); the head is `HEAD`, or the last commit of that year when reviewing a past year. Scans read git objects only; the working tree is never modified.
+
+| Flag | What it does |
+| --- | --- |
+| `[path]` | Repository path. Default `.`. |
+| `--year <YYYY>` | Calendar year to review. Default: the current UTC year. |
+| `--svg <file>` | Write one 1200×630 summary card to this path instead of playing the terminal cards. Cannot be combined with `--json`. |
+| `--json` | Print the `evergreen.wrapped.v1` document. |
+| `--no-animation` | Print every card at once, even on a terminal. |
+
+On a terminal the cards play one at a time within six seconds. Off a terminal, or with `--no-animation`, the same content prints as static text. When the repository has no commit before the year, the command says so and compares against the first commit. [Showcase](SHOWCASE.md) shows the cards and [docs/demos/wrapped.tape](demos/wrapped.tape) records them.
+
 ### `lookup`
 
 ```bash

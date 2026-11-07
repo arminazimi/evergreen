@@ -116,7 +116,7 @@ _evergreen() {
     --format) COMPREPLY=($(compgen -W "${formats}" -- "$cur")); return ;;
     --fail-on) COMPREPLY=($(compgen -W "${severities}" -- "$cur")); return ;;
     --on-expired) COMPREPLY=($(compgen -W "resurface fail" -- "$cur")); return ;;
-    --file|--output|--baseline|--all|--before) COMPREPLY=($(compgen -f -- "$cur")); return ;;
+    --file|--output|--baseline|--all|--before|--svg) COMPREPLY=($(compgen -f -- "$cur")); return ;;
   esac
   case "$command" in
 ${special}
@@ -154,7 +154,7 @@ _evergreen() {
     --format) compadd ${formats}; return ;;
     --fail-on) compadd ${severities}; return ;;
     --on-expired) compadd resurface fail; return ;;
-    --file|--output|--baseline|--all|--before) _files; return ;;
+    --file|--output|--baseline|--all|--before|--svg) _files; return ;;
   esac
   case "$words[2]" in
 ${special}

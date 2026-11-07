@@ -40,6 +40,7 @@ import { command as upgradeCheck } from "./upgrade-check.js";
 import { command as usage } from "./usage.js";
 import { command as verify } from "./verify.js";
 import { command as watch } from "./watch.js";
+import { command as wrapped } from "./wrapped.js";
 
 export const commands: readonly CliCommand[] = [
   badge,
@@ -82,4 +83,5 @@ export const commands: readonly CliCommand[] = [
   usage,
   verify,
   watch,
+  wrapped,
 ];
