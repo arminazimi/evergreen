@@ -194,11 +194,12 @@ report with `--break`. A full mutation run is not part of `npm run check`.
 (2649 killed or timed out, 565 survived or uncovered, 25 files). Per file, lowest first: `reporters/json.ts` 37.50%,
 `reporters/registry.ts` 48.10%, `diff.ts` 48.70%, `vers/semver.ts` 68.57%, `baseline.ts` 72.13%,
 `vers/gem.ts` 72.41%, `engine/discover.ts` 77.64%, `vers/nuget.ts` 82.73%, `engine/detect.ts` 82.81%,
-`vers/maven.ts` 83.51%, `engine/index.ts` 84.54%, `reporters/html.ts` 87.03%, `vers/pep440.ts` 87.37%. The
-reporters were re-measured after #2551 split the reporter contract. The per-file ratchet currently fails on
-`reporters/json.ts`, `reporters/registry.ts`, `diff.ts`, `baseline.ts`, and `vers/nuget.ts`; that is existing debt
-from #2551 (reporters) and the test-quality epic (#1992) (diff, baseline, nuget), not a break-threshold failure.
-The overall score is above the break, so the break check itself passes.
+`vers/maven.ts` 83.51%, `engine/index.ts` 84.54%, `reporters/html.ts` 87.03%, `vers/pep440.ts` 87.37%,
+`reporters/markdown.ts` 91.25%, `reporters/text.ts` 95.72%. The reporters were re-measured after #2551 split the
+reporter contract. The per-file ratchet currently fails on `reporters/json.ts`, `reporters/registry.ts`,
+`reporters/html.ts`, `reporters/markdown.ts`, `reporters/text.ts`, `diff.ts`, `baseline.ts`, and `vers/nuget.ts`;
+that is existing debt from #2551 (reporters) and the test-quality epic (#1992) (diff, baseline, nuget), not a
+break-threshold failure. The overall score is above the break, so the break check itself passes.
 
 **When the break was set.** #2282 ran a complete mutation job on 2026-11-07 and set `thresholds.break` to 60 from a
 measured **82.42%** overall. The 2026-11-04 score of 59.68% was below 60 because the mutation scope did not include
