@@ -1,4 +1,5 @@
-// Creates or resets the onboarding branch and opens a pull request with the proposed files.
+// Creates the onboarding branch and opens a pull request with the proposed files.
+// Never force-updates an existing evergreen/onboarding tip that we did not just create.
 
 import { ONBOARDING_BRANCH, ONBOARDING_PULL_REQUEST_TITLE } from "./pr-body.mjs";
 
@@ -33,7 +34,10 @@ export async function commitFilesAndOpenPullRequest(input) {
     parents: [baseSha],
   });
 
-  await ensureBranch(github, owner, repo, commitSha);
+  const branch = await ensureBranch(github, owner, repo, commitSha);
+  if (!branch.created) {
+    return { status: "skipped", reason: branch.reason };
+  }
 
   const pull = await github.createPullRequest(owner, repo, {
     title: ONBOARDING_PULL_REQUEST_TITLE,
@@ -44,12 +48,17 @@ export async function commitFilesAndOpenPullRequest(input) {
   return { status: "opened", pullRequestUrl: pull.html_url, number: pull.number };
 }
 
-async function ensureBranch(github, owner, repo, commitSha) {
+/**
+ * Creates `evergreen/onboarding` at `commitSha`. If the branch already exists, skips —
+ * we must not force-push over commits we did not create.
+ */
+export async function ensureBranch(github, owner, repo, commitSha) {
   try {
     await github.createRef(owner, repo, `refs/heads/${ONBOARDING_BRANCH}`, commitSha);
+    return { created: true };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     if (!message.includes("422") && !message.includes("Reference already exists")) throw error;
-    await github.updateRef(owner, repo, `heads/${ONBOARDING_BRANCH}`, commitSha);
+    return { created: false, reason: "branch-exists" };
   }
 }

@@ -6,7 +6,7 @@ The handler is **stateless**: it verifies the webhook signature, uses a short-li
 
 ## Permissions
 
-Recorded in [`manifest.json`](manifest.json). Minimal set:
+Recorded in [`manifest.json`](manifest.json). **Provisional** until the hosting and permission decision in [#1641](https://github.com/arminazimi/evergreen/issues/1641) is recorded and merged — treat this table as a working draft, not the final contract.
 
 | Permission | Access | Why |
 | --- | --- | --- |
@@ -14,7 +14,11 @@ Recorded in [`manifest.json`](manifest.json). Minimal set:
 | Pull requests | Read and write | Open the onboarding pull request |
 | Metadata | Read | Required for repository identity |
 
-Hosting and the final permission decision track issue #1641. Until that decision lands, run this as a small Node process you control; do not store the private key in the repository.
+Hosting is also undecided in #1641. Until that lands, run this as a small Node process you control; do not store the private key in the repository.
+
+## Webhook body limit
+
+`POST /webhook` reads at most **25 MiB** (`MAX_WEBHOOK_BODY_BYTES`), matching [GitHub's documented webhook payload ceiling](https://docs.github.com/en/webhooks/webhook-events-and-payloads#delivery-headers). Larger bodies get `413` before any HMAC work.
 
 ## Environment
 

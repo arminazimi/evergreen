@@ -82,7 +82,13 @@ export async function handleWebhook(input) {
   const open = input.openPullRequest ?? openOnboardingPullRequest;
   const results = [];
   for (const { owner, repo } of repos) {
-    results.push(await open({ owner, repo, github }));
+    const repository = `${owner}/${repo}`;
+    try {
+      results.push(await open({ owner, repo, github }));
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : String(error);
+      results.push({ status: "failed", repository, reason });
+    }
   }
   return { results };
 }
