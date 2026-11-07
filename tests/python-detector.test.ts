@@ -132,3 +132,23 @@ test("reports every declaration when all four runtime sources coexist", async (t
     "tox.ini",
   ]);
 });
+
+test("reports a Poetry python floor and a Poetry dependency on their own declaration lines, not on keywords or classifiers", async (t) => {
+  const findings = await scan(t, {
+    "pyproject.toml": [
+      "[tool.poetry]",
+      'name = "django-thing"',
+      'keywords = ["python", "django"]',
+      'classifiers = ["Programming Language :: Python :: 3"]',
+      "[tool.poetry.dependencies]",
+      'python = "^3.8"',
+      'Django = "^4.2"',
+      "",
+    ].join("\n"),
+    "poetry.lock": '[[package]]\nname = "django"\nversion = "4.2.11"\n',
+  });
+  const lines = new Map(findings.map((f) => [f.ruleId, f.location.line]));
+  assert.equal(lines.get("python.runtime.eol-3.9-and-older"), 6);
+  assert.equal(lines.get("python.package.django-4.2.eol"), 7);
+  assert.ok(findings.every((f) => (f.location.line ?? 0) >= 6));
+});

@@ -1,0 +1,1 @@
+- Report Poetry dependencies and the Poetry `python` floor at their own declaration lines, and detect GitHub Action `uses:` lines that end in whitespace. (#2539, #2540, #2541)

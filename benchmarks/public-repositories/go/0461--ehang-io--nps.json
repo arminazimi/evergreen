@@ -104,6 +104,15 @@
       }
     },
     {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 140,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/release.yml:140, which holds `uses: docker/login-action@v1 ` (with a trailing space); it matches the declared range of registry rule github-actions.login-action.node20, whose sources are cited in the registry. Evergreen did not report this line before the trailing-whitespace fix (#2541); it was found by the corpus rerun and confirmed by reading it. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
       "ruleId": "github-actions.build-push-action.node20",
       "path": ".github/workflows/release.yml",
       "line": 145,

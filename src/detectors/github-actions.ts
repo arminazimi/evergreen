@@ -38,7 +38,7 @@ interface ActionReference {
   line: number;
 }
 
-const USES_PATTERN = /^\s*(?:-\s*)?uses\s*:\s*["']?([^\s#"']+)["']?(\s+#.*)?$/;
+const USES_PATTERN = /^\s*(?:-\s*)?uses\s*:\s*["']?([^\s#"']+)["']?(\s+#.*)?\s*$/;
 const VERSION_PATTERN = /^v?(\d+)(?:\.\d+){0,2}$/;
 const SHA_PATTERN = /^[a-fA-F0-9]{40}$/;
 

@@ -30,6 +30,14 @@ export function lineContaining(contents: string, needle: string): number {
   return index === -1 ? 1 : index + 1;
 }
 
+/** The line that declares `key` as a TOML key (`name = ...`), else the first line mentioning it. */
+export function keyDeclarationLine(contents: string, key: string): number {
+  const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const declaration = new RegExp(`^\\s*["']?${escaped}["']?\\s*=`, "i");
+  const index = contents.split(/\r?\n/).findIndex((line) => declaration.test(line));
+  return index === -1 ? lineContaining(contents, key) : index + 1;
+}
+
 export function parseRequirement(value: string): { name: string; constraint: string } | undefined {
   const clean = value.trim();
   if (!clean || clean.startsWith("#") || clean.startsWith("-") || /^(?:git\+|https?:)/i.test(clean)) {
@@ -56,7 +64,7 @@ export function addDependency(
   target.set(name, {
     name,
     path,
-    line: explicitLine ?? lineContaining(contents, rawName),
+    line: explicitLine ?? keyDeclarationLine(contents, rawName),
     constraint,
   });
 }

@@ -10,7 +10,7 @@
       "line": 14,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: read .github/workflows/check_tests.yml:14, which holds `uses: actions/checkout@v3`; it falls under registry rule github-actions.checkout.node20. Evergreen did not report it when scanned on 2026-11-07, found by an independent grep over the pinned files and recorded as a false negative; tracked in a separate issue. Checked by AI agent (Claude Code) under maintainer direction. Outcome: confirmed."
+        "note": "Reviewed at this commit: read .github/workflows/check_tests.yml:14, which holds `uses: actions/checkout@v3 `; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
       }
     },
     {

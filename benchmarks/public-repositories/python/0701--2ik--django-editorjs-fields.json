@@ -50,12 +50,21 @@
       }
     },
     {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read pyproject.toml:54, which holds `python = \"^3.8\"`; it matches the declared range of registry rule python.runtime.eol-3.9-and-older, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
       "ruleId": "python.package.django-4.2.eol",
       "path": "pyproject.toml",
       "line": 57,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: read pyproject.toml:57, which holds `Django = \"^4.2\"`; it falls under registry rule python.package.django-4.2.eol. Evergreen did not report it when scanned on 2026-11-07, found by an independent grep over the pinned files and recorded as a false negative; tracked in a separate issue. Checked by AI agent (Claude Code) under maintainer direction. Outcome: confirmed."
+        "note": "Reviewed at this commit: read pyproject.toml:57, which holds `Django = \"^4.2\"`; it matches the declared range of registry rule python.package.django-4.2.eol, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
       }
     },
     {

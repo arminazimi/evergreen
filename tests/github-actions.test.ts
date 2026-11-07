@@ -493,3 +493,16 @@ test("an expression, a range, or an alias node-version is unclassified, never gu
     );
   }
 });
+
+test("finds an action reference that has trailing whitespace after the ref", async () => {
+  const root = await repositoryWithWorkflow(
+    "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v3 \n      - uses: actions/setup-python@v3\n",
+  );
+
+  const findings = await new GitHubActionsDetector().scan({ root });
+
+  assert.deepEqual(
+    findings.map((finding) => finding.location.line),
+    [4, 5],
+  );
+});
