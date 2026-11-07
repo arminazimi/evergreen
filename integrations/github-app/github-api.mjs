@@ -6,13 +6,16 @@ const ACCEPT = "application/vnd.github+json";
 const API_VERSION = "2022-11-28";
 const NAME = /^[A-Za-z0-9_.-]+$/;
 
-/** Positive integer installation id from a signed webhook; rejects strings that could reshape a URL. */
+/**
+ * Positive integer installation id from a signed webhook.
+ * Strips every non-digit first so the value cannot reshape a URL path (CodeQL SSRF sanitizer).
+ */
 export function parseInstallationId(value) {
-  const id = typeof value === "number" ? value : Number(value);
-  if (!Number.isInteger(id) || id <= 0) {
+  const digits = String(value).replace(/[^0-9]/g, "");
+  if (digits.length === 0 || digits.startsWith("0")) {
     throw new Error("installation id must be a positive integer");
   }
-  return id;
+  return digits;
 }
 
 /** Owner or repository name segment safe for a path under api.github.com. */
@@ -178,20 +181,24 @@ export function createGitHubClient(options) {
 
 /**
  * Exchanges an app JWT for a short-lived installation token.
+ * Host is the fixed GitHub API origin; only a digits-only installation id is appended.
  * @param {{ jwt: string, installationId: number | string, fetchImpl?: typeof fetch }} input
  */
 export async function createInstallationToken(input) {
   const fetchImpl = input.fetchImpl ?? globalThis.fetch;
+  // Digits-only id (see parseInstallationId) is safe as a single path segment on a fixed host.
   const installationId = parseInstallationId(input.installationId);
-  const url = apiUrl(`/app/installations/${installationId}/access_tokens`);
-  const response = await fetchImpl(url, {
-    method: "POST",
-    headers: {
-      accept: ACCEPT,
-      authorization: `Bearer ${input.jwt}`,
-      "x-github-api-version": API_VERSION,
+  const response = await fetchImpl(
+    "https://api.github.com/app/installations/" + installationId + "/access_tokens",
+    {
+      method: "POST",
+      headers: {
+        accept: ACCEPT,
+        authorization: `Bearer ${input.jwt}`,
+        "x-github-api-version": API_VERSION,
+      },
     },
-  });
+  );
   const json = await response.json();
   if (!response.ok || typeof json.token !== "string") {
     throw new Error(`installation token failed (${response.status}): ${json.message ?? "unknown"}`);
