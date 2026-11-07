@@ -3,6 +3,12 @@
 
 Evergreen's reusable Action scans the checked-out repository locally, emits GitHub annotations for findings, compares against an optional baseline, enforces a severity gate, and uploads the versioned JSON result.
 
+## What it looks like
+
+One comment per pull request, updated in place on every re-run, with the severity counts, the top findings, and their exact location. Each row links to the source the rule cites, so a reviewer can check the claim before changing code.
+
+![Evergreen pull request comment showing severity counts and the top lifecycle findings with file locations](assets/screenshots/pr-comment.webp)
+
 ## Pull-request workflow
 
 ```yaml
@@ -246,9 +252,7 @@ High and critical findings become error annotations, medium findings become warn
 
 ### Pull request comment
 
-Set `pr-comment: true` to get one comment on the pull request with the counts per severity and the top findings, instead of reading every annotation. The same comment is updated on each re-run. The scan itself stays offline; only posting the comment calls the GitHub API.
-
-![Evergreen pull request comment showing severity counts and the top lifecycle findings with file locations](assets/screenshots/pr-comment.webp)
+Set `pr-comment: true` to get the comment shown at the top of this page: the counts per severity and the top findings, instead of reading every annotation. The same comment is updated on each re-run. The scan itself stays offline; only posting the comment calls the GitHub API.
 
 ```yaml
 permissions:

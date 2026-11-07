@@ -247,7 +247,9 @@ See [the benchmark notes](docs/BENCHMARKS.md) for the corpus and interpretation.
 
 ## GitHub Action
 
-Evergreen can annotate pull requests, suppress accepted findings with a baseline, fail on a chosen severity, and upload the complete JSON report:
+Add one step after checkout. Evergreen annotates the pull request at the exact line, posts one summary comment with the evidence, suppresses accepted findings with a baseline, fails on the severity you choose, and uploads the complete JSON report or SARIF. Scans run locally, so repository contents never leave the runner.
+
+![Evergreen pull request comment showing severity counts and the top lifecycle findings with file locations](https://raw.githubusercontent.com/arminazimi/evergreen/main/docs/assets/screenshots/pr-comment.webp)
 
 ```yaml
 permissions:

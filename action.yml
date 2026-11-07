@@ -1,5 +1,5 @@
 name: Evergreen lifecycle intelligence
-description: Scan repositories locally for evidence-backed deprecations and lifecycle risks.
+description: Find end-of-life runtimes, deprecated packages, and retired Actions at the exact line — offline and evidence-backed.
 author: Evergreen
 
 branding:
