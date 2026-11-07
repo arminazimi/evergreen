@@ -36,6 +36,8 @@ export const command: CliCommand = {
         return ctx.fail(
           "usage",
           "new-rule is for contributors: run it from a checkout of the Evergreen repository after npm run build.",
+          "",
+          "scaffold-failed",
         );
       }
       throw error;
@@ -46,7 +48,7 @@ export const command: CliCommand = {
       );
       return 0;
     } catch (error) {
-      if (error instanceof scaffold.ScaffoldError) return ctx.fail("usage", error.message);
+      if (error instanceof scaffold.ScaffoldError) return ctx.failError(error);
       throw error;
     }
   },

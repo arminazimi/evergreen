@@ -1,0 +1,1 @@
+- Give `new-rule` and `new-detector` failures the `scaffold-failed` reason code instead of the generic `invalid-argument`. (#2535)

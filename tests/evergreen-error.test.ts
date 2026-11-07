@@ -13,6 +13,7 @@ import {
 } from "../src/evergreen-error.js";
 import { failure } from "../src/mcp/tool-support.js";
 import { PurlError } from "../src/purl.js";
+import { ScaffoldError } from "../tools/scaffold/index.js";
 
 test("every reason code belongs to a class with an exit code", () => {
   for (const code of Object.keys(ERROR_CODES) as Array<keyof typeof ERROR_CODES>) {
@@ -39,6 +40,10 @@ test("domain errors carry their reason code and class", () => {
   assert.deepEqual(classifyError(new DataPinError("x")), {
     code: "data-unavailable",
     kind: "data",
+  });
+  assert.deepEqual(classifyError(new ScaffoldError("bad scaffold")), {
+    code: "scaffold-failed",
+    kind: "usage",
   });
 });
 
