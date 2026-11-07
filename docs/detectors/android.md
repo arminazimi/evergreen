@@ -24,4 +24,4 @@ The `android` detector reports Google Play Billing Library majors past their dep
 
 ## Evidence
 
-The Android corpus holds 84 repositories: 56 selected blind (67%), and the reviewed corpus expects 86 Android findings across 41 repositories (including Android findings declared in other ecosystems' pins). 22 Android-bucket repositories have no expected finding of any detector. The selection rules and counts are in [Validation: Android corpus](../validation/ecosystems.md#android-corpus).
+The Android corpus holds 84 repositories: 56 selected blind (67%), and the reviewed corpus expects 87 Android findings across 42 repositories (including Android findings declared in other ecosystems' pins). 22 Android-bucket repositories have no expected finding of any detector. The selection rules and counts are in [Validation: Android corpus](../validation/ecosystems.md#android-corpus).

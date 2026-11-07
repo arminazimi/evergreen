@@ -42,12 +42,11 @@ test("every detector in thresholds.json has a row, with the configured level nex
     assert.deepEqual(detector.evidence, evidence);
     assert.equal(detector.earnedLevel, earnedLevel(evidence));
   }
-  // After #1900 every detector's configured level matches the evidence it earns, except Android.
-  // The Elixir corpus records one `targetSdk 34` finding, which brings Android to the beta evidence
-  // minimum. Promoting Android is a separate change; the gap is an under-promoted beta, which stays visible.
+  // After #1894 every detector's configured level matches the evidence it earns. Gaps remain
+  // allowed in principle (grandfathered Supported, or an under-promoted beta); none are open today.
   assert.deepEqual(
     data.detectors.filter((detector) => detector.level !== detector.earnedLevel).map((detector) => detector.id),
-    ["android"],
+    [],
   );
 });
 
@@ -104,8 +103,8 @@ test("the evidence counts agree with the reviewed corpus", () => {
   // finding in one repository.
   // The Dart and Android stable corpus (#1894) added 63 and 72 repositories; their workflows and nested packages add GitHub Actions, C/C++, Ruby, and shell findings recorded from a full offline scan.
   assert.deepEqual(counts(evidence["github-actions"]!), {
-    repositoriesWithFindings: 405,
-    expectedFindings: 2583,
+    repositoriesWithFindings: 467,
+    expectedFindings: 3293,
     zeroFindingRepositories: 4,
   });
   assert.deepEqual(counts(evidence["npm"]!), {
@@ -124,8 +123,8 @@ test("the evidence counts agree with the reviewed corpus", () => {
     zeroFindingRepositories: 53,
   });
   assert.deepEqual(counts(evidence["ruby"]!), {
-    repositoriesWithFindings: 60,
-    expectedFindings: 275,
+    repositoriesWithFindings: 61,
+    expectedFindings: 276,
     zeroFindingRepositories: 23,
   });
   assert.deepEqual(counts(evidence["swift"]!), {
@@ -134,8 +133,8 @@ test("the evidence counts agree with the reviewed corpus", () => {
     zeroFindingRepositories: 15,
   });
   assert.deepEqual(counts(evidence["cpp"]!), {
-    repositoriesWithFindings: 22,
-    expectedFindings: 248,
+    repositoriesWithFindings: 30,
+    expectedFindings: 276,
     zeroFindingRepositories: 4,
   });
   assert.deepEqual(counts(evidence["ci-images"]!), {
@@ -149,8 +148,8 @@ test("the evidence counts agree with the reviewed corpus", () => {
     zeroFindingRepositories: 18,
   });
   assert.deepEqual(counts(evidence["android"]!), {
-    repositoriesWithFindings: 41,
-    expectedFindings: 86,
+    repositoriesWithFindings: 42,
+    expectedFindings: 87,
     zeroFindingRepositories: 22,
   });
   assert.deepEqual(counts(evidence["terraform"]!), {

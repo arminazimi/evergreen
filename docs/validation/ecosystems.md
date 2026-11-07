@@ -160,7 +160,7 @@ Ground truth: every finding in these repositories, from every detector, was read
 
 ## Android corpus
 
-Issue #1894 promoted the `android` detector to stable. The corpus holds 84 pinned Android repositories: 56 selected blind (67%) and 28 targeted. 38 have expected Android findings (82 in total); 22 have no expected findings of any detector.
+Issue #1894 promoted the `android` detector to stable. The corpus holds 84 pinned Android repositories: 56 selected blind (67%) and 28 targeted. Across the whole corpus the detector expects 87 findings in 42 repositories (including Android findings declared in other ecosystems' pins); 22 Android-bucket repositories have no expected findings of any detector.
 
 **Blind rule (fixed 2026-11-07 before Evergreen ran on these additions):** GitHub code search for `targetSdk` in `filename:build.gradle`, then the same for `filename:build.gradle.kts`. Walk hits in returned order, one repository once across both queries. Skip forks, archives, repositories already in the corpus, and paths that are not exactly `build.gradle` / `build.gradle.kts` or under a directory with those names. Take the first 48. Pin at default-branch HEAD.
 
