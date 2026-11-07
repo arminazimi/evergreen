@@ -1,0 +1,26 @@
+{
+  "repository": "h5py/h5py",
+  "commit": "f5918a1cf81cfac6656c77083f0d255fd985f625",
+  "ecosystem": "ci-images",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-22.04",
+      "path": "azure-pipelines.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:11 at this commit: `vmImage: ubuntu-22.04` selects the 04 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-22.04",
+      "path": "azure-pipelines.yml",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:28 at this commit: `vmImage: ubuntu-22.04` selects the 04 hosted image."
+      }
+    }
+  ]
+}

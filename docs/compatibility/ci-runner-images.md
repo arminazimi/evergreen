@@ -8,7 +8,7 @@ The detector's supported declarations, what it reports, what it intentionally do
 
 ## CI runner images detector
 
-The `ci-images` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five targeted public repositories are pinned for it (see [the corpus](../validation/ecosystems.md#ci-runner-images-corpus)); precision is not enforced, and its blind share is zero. Its lifecycle rules are in `registry/ci-images.json` and ship in the [data bundle](../DATA.md). Bundled rules include the scheduled removals of the macOS 14 Sonoma and Ubuntu 22.04 hosted images, citing the [Microsoft-hosted image deprecation schedule](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule). A label is a finding only when a reviewed rule covers it. Scans read that bundled registry only.
+The `ci-images` detector is **supported**: its level is recorded as `stable` in `benchmarks/thresholds.json`. 98 public repositories are pinned for it (see [the corpus](../validation/ecosystems.md#ci-runner-images-corpus)), 67 of them selected blind (68%); precision and recall are enforced. Its lifecycle rules are in `registry/ci-images.json` and ship in the [data bundle](../DATA.md). Bundled rules include the scheduled removals of the macOS 14 Sonoma and Ubuntu 22.04 hosted images, citing the [Microsoft-hosted image deprecation schedule](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule). A label is a finding only when a reviewed rule covers it. Scans read that bundled registry only.
 
 ### Supported files and declarations
 

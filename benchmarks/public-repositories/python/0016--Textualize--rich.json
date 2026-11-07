@@ -47,7 +47,7 @@
     {
       "ruleId": "python.runtime.eol-3.9-and-older",
       "path": "pyproject.toml",
-      "line": 13,
+      "line": 30,
       "groundTruthSource": {
         "kind": "maintainer-review"
       }

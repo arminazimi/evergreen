@@ -1,0 +1,17 @@
+{
+  "repository": "BespokeSynth/BespokeSynth",
+  "commit": "8c71703b4239cf5e67106fd9ef30324896b93cac",
+  "ecosystem": "ci-images",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "ci-images.azure-pipelines.macos-14",
+      "path": "azure-pipelines.yml",
+      "line": 272,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:272 at this commit: `vmImage: 'macos-14'` selects the macos-14 hosted image."
+      }
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "repository": "dmyersturnbull/tyrannosaurus",
+  "commit": "d7df1cae6ffd470d524b4c9f7fd9963ba7c54d99",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/check.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/check.yml:13 at this commit: `uses: actions/checkout@v3` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/labels.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/labels.yml:11 at this commit: `uses: actions/checkout@v3` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/publish.yml:18 at this commit: `uses: actions/checkout@v3` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/publish.yml:20 at this commit: `uses: actions/setup-python@v4` is a `uses:` declaration of setup-python; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/publish.yml:38 at this commit: `uses: actions/checkout@v3` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/publish.yml:40 at this commit: `uses: actions/setup-python@v4` is a `uses:` declaration of setup-python; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/publish.yml:51 at this commit: `uses: docker/login-action@v2` is a `uses:` declaration of login-action; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 56,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/publish.yml:56 at this commit: `uses: docker/login-action@v2` is a `uses:` declaration of login-action; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.metadata-action.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/publish.yml:63 at this commit: `uses: docker/metadata-action@v4` is a `uses:` declaration of metadata-action; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 67,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/publish.yml:67 at this commit: `uses: docker/build-push-action@v3` is a `uses:` declaration of build-push-action; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/pull-test.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/pull-test.yml:20 at this commit: `uses: actions/checkout@v3` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/pull-test.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/pull-test.yml:22 at this commit: `uses: actions/setup-python@v4` is a `uses:` declaration of setup-python; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/push-main.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/push-main.yml:17 at this commit: `uses: actions/checkout@v3` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/push-main.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/push-main.yml:19 at this commit: `uses: actions/setup-python@v4` is a `uses:` declaration of setup-python; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:3 at this commit: `FROM python:3.10`: tag 3.10 is at or below the rule's 3.10-and-older bound."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 117,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read pyproject.toml:117 at this commit: `python                   = \"^3.9\"` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "tyrannosaurus/resources/Dockerfile.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tyrannosaurus/resources/Dockerfile.txt:3 at this commit: `FROM python:3.10`: tag 3.10 is at or below the rule's 3.10-and-older bound."
+      }
+    }
+  ]
+}

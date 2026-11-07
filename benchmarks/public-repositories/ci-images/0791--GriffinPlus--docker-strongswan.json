@@ -1,0 +1,26 @@
+{
+  "repository": "GriffinPlus/docker-strongswan",
+  "commit": "ba9691532525ed1c4b28a45497ae90a9b6156ebd",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "Dockerfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:2 at this commit: `MAINTAINER Sascha Falk <sascha@falk-online.eu>` uses the deprecated MAINTAINER instruction."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "client-route-manager/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read client-route-manager/Dockerfile:1 at this commit: `FROM alpine:3.10`: tag 3.10 is at or below the rule's 3.20-and-older bound."
+      }
+    }
+  ]
+}

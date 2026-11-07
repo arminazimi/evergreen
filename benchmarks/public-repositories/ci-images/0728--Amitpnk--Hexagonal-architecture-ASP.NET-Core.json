@@ -1,0 +1,125 @@
+{
+  "repository": "Amitpnk/Hexagonal-architecture-ASP.NET-Core",
+  "commit": "61c16728842679c7d768723685c4046d158bb78c",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build.yml:14 at this commit: `uses: actions/setup-java@v1` is a `uses:` declaration of setup-java; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build.yml:17 at this commit: `- uses: actions/checkout@v2` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build.yml:21 at this commit: `uses: actions/cache@v1` is a `uses:` declaration of cache; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build.yml:28 at this commit: `uses: actions/cache@v1` is a `uses:` declaration of cache; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "src/Generator.Domain.UnitTest/Generator.Domain.UnitTest.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Generator.Domain.UnitTest/Generator.Domain.UnitTest.csproj:4 at this commit: `<TargetFramework>net5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "src/Generator.Domain/Generator.Domain.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Generator.Domain/Generator.Domain.csproj:4 at this commit: `<TargetFramework>net5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "src/Generator.DomainApi.UnitTest/Generator.DomainApi.UnitTest.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Generator.DomainApi.UnitTest/Generator.DomainApi.UnitTest.csproj:4 at this commit: `<TargetFramework>net5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "src/Generator.DomainApi/Generator.DomainApi.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Generator.DomainApi/Generator.DomainApi.csproj:4 at this commit: `<TargetFramework>net5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "src/Generator.Persistence.Adapter.UnitTest/Generator.Persistence.Adapter.UnitTest.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Generator.Persistence.Adapter.UnitTest/Generator.Persistence.Adapter.UnitTest.csproj:4 at this commit: `<TargetFramework>net5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "src/Generator.Persistence.Adapter/Generator.Persistence.Adapter.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Generator.Persistence.Adapter/Generator.Persistence.Adapter.csproj:4 at this commit: `<TargetFramework>net5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "src/Generator.RestAdapter.UnitTest/Generator.RestAdapter.UnitTest.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Generator.RestAdapter.UnitTest/Generator.RestAdapter.UnitTest.csproj:4 at this commit: `<TargetFramework>net5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "src/Generator.RestAdapter/Generator.RestAdapter.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Generator.RestAdapter/Generator.RestAdapter.csproj:4 at this commit: `<TargetFramework>net5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "src/Generator/Generator.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Generator/Generator.csproj:4 at this commit: `<TargetFramework>net5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "dramforever/os-lectures-build",
+  "commit": "ebc455629c844c50c179609d4bd6142479256639",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": []
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "tanathos/ClippyVS",
+  "commit": "c04309cf360398ebf1a1d57caab3bffbcee6dc8b",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": []
+}

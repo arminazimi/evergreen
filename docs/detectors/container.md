@@ -1,6 +1,6 @@
 # Container base images
 
-The `container` detector reports base images whose release line has reached a vendor-published end of life. It also reads a built image's filesystem, when one is scanned, and reports the operating system and runtimes that actually ship inside it. It is **experimental**: it is scored on the [public corpus](../VALIDATION.md) but not yet held to the precision floor that stable detectors are. The reasoning is in [Decision 0007](../decisions/0007-container-detector.md).
+The `container` detector reports base images whose release line has reached a vendor-published end of life. It also reads a built image's filesystem, when one is scanned, and reports the operating system and runtimes that actually ship inside it. It is **stable**: it is scored on the [public corpus](../VALIDATION.md) and held to the precision and recall floors of decision 0013. The reasoning is in [Decision 0007](../decisions/0007-container-detector.md).
 
 ## What it reads
 
@@ -73,7 +73,7 @@ Operating-system and runtime findings reuse the existing container and runtime r
 
 ## Validation
 
-Five public repositories at pinned commits are in the corpus (four with end-of-life images, one with none). Their expected findings were reviewed by hand against the files at that commit, and where the maintainers later moved off the image the note links their commit.
+42 public repositories at pinned commits are in the corpus, 37 of them selected blind (88%): 35 have expected findings of some detector, and seven have none. Their expected findings were reviewed by hand against the files at that commit, and where the maintainers later moved off the image the note links their commit. The selection rule is in [Ecosystem corpora](../validation/ecosystems.md#container-corpus).
 
 The .NET images are checked against SharpSocks, whose `SharpSocksServer/Dockerfile` uses `mcr.microsoft.com/dotnet/runtime:5.0` and `dotnet/sdk:5.0`; both lines are expected findings in the corpus.
 

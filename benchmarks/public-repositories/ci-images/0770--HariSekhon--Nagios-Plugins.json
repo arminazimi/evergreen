@@ -1,0 +1,35 @@
+{
+  "repository": "HariSekhon/Nagios-Plugins",
+  "commit": "18b34df89768d6ee3705c50c1bbf7e548798300a",
+  "ecosystem": "ci-images",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/hbase.yaml",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/hbase.yaml:33 at this commit: `- uses: actions/checkout@v3` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/hbase.yaml",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/hbase.yaml:34 at this commit: `- uses: actions/cache@v4` is a `uses:` declaration of cache; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/hbase.yaml",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/hbase.yaml:40 at this commit: `- uses: actions/cache@v1` is a `uses:` declaration of cache; the pinned ref is in the rule's affected range."
+      }
+    }
+  ]
+}

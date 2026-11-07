@@ -1,0 +1,7 @@
+{
+  "repository": "sVathis/ebay-watchlist-calendar",
+  "commit": "10a914e5b9efd5eff811804e5ab611c3a2c01602",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": []
+}

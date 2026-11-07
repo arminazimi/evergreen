@@ -1,0 +1,35 @@
+{
+  "repository": "attilaszasz/dotnet-catapult",
+  "commit": "f32e3fa8efc006d6f4bdbba2e2748fe85acc5a0e",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "src/Core/Utilities/Caching/DaprStateStore/DaprStateStore.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Core/Utilities/Caching/DaprStateStore/DaprStateStore.csproj:4 at this commit: `<TargetFramework>net7.0</TargetFramework>` targets .NET 7.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "src/DataAccess/OpenWeather.Api/OpenWeather.Api.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/DataAccess/OpenWeather.Api/OpenWeather.Api.csproj:4 at this commit: `<TargetFramework>net7.0</TargetFramework>` targets .NET 7.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "src/Directory.Build.props",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Directory.Build.props:7 at this commit: `<TargetFramework>net7.0</TargetFramework>` targets .NET 7.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

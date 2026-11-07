@@ -1,0 +1,26 @@
+{
+  "repository": "lucdotdev/youtube_tiktok",
+  "commit": "0b54ddbb5578fb17e142c3755ce2f9f19f1bfe64",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:1 at this commit: `FROM node:14.7`: tag 14.7 is at or below the rule's 21-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile.1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.1:1 at this commit: `FROM node:14.7`: tag 14.7 is at or below the rule's 21-and-older bound."
+      }
+    }
+  ]
+}

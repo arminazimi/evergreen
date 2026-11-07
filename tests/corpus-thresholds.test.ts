@@ -48,22 +48,10 @@ test("thresholds name every shipped detector and enforce precision of at least 0
     "terraform",
   ]);
   for (const [name, threshold] of Object.entries(thresholds.detectors)) {
-    // The Android, ci-images, container, C and C++, Scala, shell, and Terraform detectors are experimental: they are scored and reported, but not enforced yet.
+    // The Android, C and C++, Scala, shell, and Terraform detectors are experimental: they are scored and reported, but not enforced yet.
     assert.equal(
       threshold.stable,
-      ![
-        "android",
-        "ci-images",
-        "container",
-        "cpp",
-        "dart",
-        "database",
-        "deno",
-        "elixir",
-        "scala",
-        "shell",
-        "terraform",
-      ].includes(name),
+      !["android", "cpp", "dart", "database", "deno", "elixir", "scala", "shell", "terraform"].includes(name),
       name,
     );
     assert.ok(threshold.minPrecision >= 0.95);

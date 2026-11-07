@@ -1,0 +1,44 @@
+{
+  "repository": "godsharp/GodSharp.Socket",
+  "commit": "586046586ea6f9e169cb1d0a7426bc92081f1974",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "nuke/NukeBuild.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nuke/NukeBuild.csproj:5 at this commit: `<TargetFramework>net5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "samples/GodSharp.Socket.TcpServerSample/GodSharp.Socket.TcpServerSample.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read samples/GodSharp.Socket.TcpServerSample/GodSharp.Socket.TcpServerSample.csproj:5 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-2.1",
+      "path": "samples/GodSharp.Socket.UdpClientSample/GodSharp.Socket.UdpClientSample.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read samples/GodSharp.Socket.UdpClientSample/GodSharp.Socket.UdpClientSample.csproj:5 at this commit: `<TargetFramework>netcoreapp2.1</TargetFramework>` targets .NET 2.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "src/GodSharp.Socket/GodSharp.Socket.csproj",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/GodSharp.Socket/GodSharp.Socket.csproj:20 at this commit: `<TargetFrameworks>net35;net40;net45;net46;net47;netstandard2.0;net5.0;</TargetFrameworks>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

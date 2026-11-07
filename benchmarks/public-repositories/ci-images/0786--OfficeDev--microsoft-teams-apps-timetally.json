@@ -1,0 +1,44 @@
+{
+  "repository": "OfficeDev/microsoft-teams-apps-timetally",
+  "commit": "ef150e141a5a1db361e287db3d650099996b5aa4",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "Source/Microsoft.Teams.Apps.Timesheet.Common/Microsoft.Teams.Apps.Timesheet.Common.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Source/Microsoft.Teams.Apps.Timesheet.Common/Microsoft.Teams.Apps.Timesheet.Common.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "Source/Microsoft.Teams.Apps.Timesheet.ReminderFunction/Microsoft.Teams.Apps.Timesheet.ReminderFunction.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Source/Microsoft.Teams.Apps.Timesheet.ReminderFunction/Microsoft.Teams.Apps.Timesheet.ReminderFunction.csproj:3 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "Source/Microsoft.Teams.Apps.Timesheet.Test/Microsoft.Teams.Apps.Timesheet.Test.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Source/Microsoft.Teams.Apps.Timesheet.Test/Microsoft.Teams.Apps.Timesheet.Test.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "Source/Microsoft.Teams.Apps.Timesheet/Microsoft.Teams.Apps.Timesheet.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Source/Microsoft.Teams.Apps.Timesheet/Microsoft.Teams.Apps.Timesheet.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

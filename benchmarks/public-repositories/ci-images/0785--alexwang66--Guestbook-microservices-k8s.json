@@ -1,0 +1,134 @@
+{
+  "repository": "alexwang66/Guestbook-microservices-k8s",
+  "commit": "e6760a98eaa49b3107578e9a4d9bfa904129fc80",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/main.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/main.yml:26 at this commit: `- uses: actions/checkout@v3` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/maven-publish.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/maven-publish.yml:19 at this commit: `- uses: actions/checkout@v3` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/maven-publish.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/maven-publish.yml:21 at this commit: `uses: actions/setup-java@v3` is a `uses:` declaration of setup-java; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "discovery-service/Dockerfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read discovery-service/Dockerfile:2 at this commit: `MAINTAINER Wang Qing <wq@jfrogchina.com>` uses the deprecated MAINTAINER instruction."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "gateway-service/Dockerfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read gateway-service/Dockerfile:2 at this commit: `MAINTAINER Wang Qing <wq@jfrogchina.com>` uses the deprecated MAINTAINER instruction."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "guestbook-service/Dockerfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read guestbook-service/Dockerfile:2 at this commit: `MAINTAINER Wang Qing <wq@jfrogchina.com>` uses the deprecated MAINTAINER instruction."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "kube-deploy/charts/guestbook/templates/ingress.yaml",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read kube-deploy/charts/guestbook/templates/ingress.yaml:4 at this commit: `apiVersion: extensions/v1beta1` uses a removed API version."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "kube-deploy/discovery.yaml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read kube-deploy/discovery.yaml:18 at this commit: `apiVersion: extensions/v1beta1` uses a removed API version."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "kube-deploy/gateway.yaml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read kube-deploy/gateway.yaml:17 at this commit: `apiVersion: extensions/v1beta1` uses a removed API version."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "kube-deploy/guestbook-prod.yaml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read kube-deploy/guestbook-prod.yaml:17 at this commit: `apiVersion: extensions/v1beta1` uses a removed API version."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "kube-deploy/guestbook-staging.yaml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read kube-deploy/guestbook-staging.yaml:17 at this commit: `apiVersion: extensions/v1beta1` uses a removed API version."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "kube-deploy/jenkins.yaml",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read kube-deploy/jenkins.yaml:28 at this commit: `apiVersion: extensions/v1beta1` uses a removed API version."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "kube-deploy/zipkin.yaml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read kube-deploy/zipkin.yaml:17 at this commit: `apiVersion: extensions/v1beta1` uses a removed API version."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "zipkin-service/Dockerfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read zipkin-service/Dockerfile:2 at this commit: `MAINTAINER Wang Qing <wq@jfrogchina.com>` uses the deprecated MAINTAINER instruction."
+      }
+    }
+  ]
+}

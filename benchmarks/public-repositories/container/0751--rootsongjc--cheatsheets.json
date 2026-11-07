@@ -1,0 +1,35 @@
+{
+  "repository": "rootsongjc/cheatsheets",
+  "commit": "644ad82e534c0d1de4bbc3f78e104ad91871b8c3",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/main.yml",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/main.yml:8 at this commit: `uses: actions/checkout@v2` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/main.yml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/main.yml:10 at this commit: `uses: actions/cache@v2` is a `uses:` declaration of cache; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.babel-eslint.deprecated",
+      "path": "package.json",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:10 at this commit: `\"babel-eslint\": \"8.0.1\",` declares the babel-eslint dependency named by the rule."
+      }
+    }
+  ]
+}

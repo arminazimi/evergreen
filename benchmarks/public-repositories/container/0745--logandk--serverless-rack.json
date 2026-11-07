@@ -1,0 +1,80 @@
+{
+  "repository": "logandk/serverless-rack",
+  "commit": "24ce0fc20d736bdd370c8e6b4f1c824338ec7a24",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/tests.yaml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/tests.yaml:15 at this commit: `- uses: actions/checkout@v4` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/tests.yaml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/tests.yaml:17 at this commit: `- uses: actions/setup-node@v4` is a `uses:` declaration of setup-node; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/tests.yaml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/tests.yaml:19 at this commit: `node-version: \"20\"` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "package.json",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:5 at this commit: `\"node\": \">=4.0\"` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "package.json",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:5 at this commit: `\"node\": \">=4.0\"` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:5 at this commit: `\"node\": \">=4.0\"` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "package.json",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:5 at this commit: `\"node\": \">=4.0\"` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "npm.package.istanbul.deprecated",
+      "path": "package.json",
+      "line": 50,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:50 at this commit: `\"istanbul\": \"^0.4.4\",` declares the istanbul dependency named by the rule."
+      }
+    }
+  ]
+}

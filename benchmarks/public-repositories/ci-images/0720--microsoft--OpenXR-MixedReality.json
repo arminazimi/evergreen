@@ -1,0 +1,7 @@
+{
+  "repository": "microsoft/OpenXR-MixedReality",
+  "commit": "65f472305206d24846701a7496befb0c104e6cb2",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": []
+}

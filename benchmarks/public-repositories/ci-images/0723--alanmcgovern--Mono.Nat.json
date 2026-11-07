@@ -1,0 +1,26 @@
+{
+  "repository": "alanmcgovern/Mono.Nat",
+  "commit": "48ef888146d15fa6f93e5f41dbbe55929dcdec54",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "Mono.Nat.Console/Mono.Nat.Console.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Mono.Nat.Console/Mono.Nat.Console.csproj:5 at this commit: `<TargetFrameworks>net6.0;net472</TargetFrameworks>` targets .NET 6.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "Mono.Nat/Mono.Nat.csproj",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Mono.Nat/Mono.Nat.csproj:8 at this commit: `<TargetFrameworks>net6.0;netstandard2.1;netstandard2.0</TargetFrameworks>` targets .NET 6.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

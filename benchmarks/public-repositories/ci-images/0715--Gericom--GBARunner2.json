@@ -1,0 +1,7 @@
+{
+  "repository": "Gericom/GBARunner2",
+  "commit": "6e4ce456597cabaaa45aac83bbd2f4c90580dca8",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": []
+}

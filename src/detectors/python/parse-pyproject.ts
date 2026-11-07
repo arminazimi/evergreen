@@ -55,6 +55,13 @@ export function collectPyprojectDependencies(
   }
 }
 
+/** The `python = "..."` key of the Poetry dependencies table, not the first line that merely mentions Python. */
+function poetryPythonLine(contents: string): number {
+  const lines = contents.split(/\r?\n/);
+  const index = lines.findIndex((line) => /^\s*python\s*=/i.test(line));
+  return index === -1 ? lineContaining(contents, "python") : index + 1;
+}
+
 export function collectPyprojectRuntime(path: string, contents: string, document: UnknownRecord): Declaration[] {
   const declarations: Declaration[] = [];
   const projectValue = asRecord(document.project)?.["requires-python"];
@@ -70,7 +77,7 @@ export function collectPyprojectRuntime(path: string, contents: string, document
   if (typeof poetryPython === "string") {
     declarations.push({
       path,
-      line: lineContaining(contents, "python"),
+      line: poetryPythonLine(contents),
       value: poetryPython,
       kind: "compatibility range",
     });

@@ -1,0 +1,53 @@
+{
+  "repository": "Foxlider/FASTER",
+  "commit": "ca7c9b51ec5c28c57bc926d9e025daca39cffcc6",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": ".github/workflows/build.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build.yml:26 at this commit: `dotnet-version: '8.0.x'` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "FASTER/FASTER - Backup.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read FASTER/FASTER - Backup.csproj:4 at this commit: `<TargetFramework>net6.0-windows</TargetFramework>` targets .NET 6.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "FASTER/FASTER.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read FASTER/FASTER.csproj:4 at this commit: `<TargetFramework>net8.0-windows</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "FASTERTests/FASTERTests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read FASTERTests/FASTERTests.csproj:3 at this commit: `<TargetFramework>net8.0-windows</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "global.json",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read global.json:4 at this commit: `\"version\": \"8.0.100\"` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

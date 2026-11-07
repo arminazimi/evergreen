@@ -1,0 +1,44 @@
+{
+  "repository": "yatli/fvim",
+  "commit": "ee4316c505072cd22ec41f62f1b3081399bf308a",
+  "ecosystem": "ci-images",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "Avalonia/fvim_avalonia.fsproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Avalonia/fvim_avalonia.fsproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+      "path": "azure-pipelines.yml",
+      "line": 76,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:76 at this commit: `vmImage: 'ubuntu-20.04'` selects the 04 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+      "path": "azure-pipelines.yml",
+      "line": 103,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:103 at this commit: `vmImage: 'ubuntu-20.04'` selects the 04 hosted image."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "fvim.fsproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read fvim.fsproj:4 at this commit: `<TargetFramework>net6.0</TargetFramework>` targets .NET 6.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

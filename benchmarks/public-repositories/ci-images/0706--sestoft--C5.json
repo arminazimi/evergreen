@@ -1,0 +1,89 @@
+{
+  "repository": "sestoft/C5",
+  "commit": "224386389d83bce81a55f9da304a95d18be15aac",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/main.yml",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/main.yml:30 at this commit: `uses: actions/checkout@v4` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-dotnet.node20",
+      "path": ".github/workflows/main.yml",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/main.yml:33 at this commit: `uses: actions/setup-dotnet@v4` is a `uses:` declaration of setup-dotnet; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": ".github/workflows/main.yml",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/main.yml:35 at this commit: `dotnet-version: 8.0.x` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/main.yml",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/main.yml:47 at this commit: `uses: actions/upload-artifact@v4` is a `uses:` declaration of upload-artifact; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/main.yml",
+      "line": 72,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/main.yml:72 at this commit: `uses: actions/download-artifact@v4` is a `uses:` declaration of download-artifact; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "C5.Tests/C5.Tests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read C5.Tests/C5.Tests.csproj:3 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "C5.UserGuideExamples/C5.UserGuideExamples.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read C5.UserGuideExamples/C5.UserGuideExamples.csproj:3 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "C5/C5.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read C5/C5.csproj:3 at this commit: `<TargetFrameworks>netstandard2.0;net6.0;net8.0</TargetFrameworks>` targets .NET 6.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "C5/C5.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read C5/C5.csproj:3 at this commit: `<TargetFrameworks>netstandard2.0;net6.0;net8.0</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

@@ -1,0 +1,3320 @@
+{
+  "repository": "WinOpsDBA/DBAinTheCloud",
+  "commit": "6fe6ba7afe2923cea62ba11b7af9bb2f1a8f8a24",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:32 at this commit: `location                 = \"${var.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:38 at this commit: `location            = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:39 at this commit: `resource_group_name = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:51 at this commit: `source_address_prefix       = \"${var.home-ip}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:53 at this commit: `resource_group_name         = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:54 at this commit: `network_security_group_name = \"${azurerm_network_security_group.nsg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 61,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:61 at this commit: `location            = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 62,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:62 at this commit: `resource_group_name = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 70,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:70 at this commit: `resource_group_name       = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 71,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:71 at this commit: `virtual_network_name      = \"${azurerm_virtual_network.vn1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 79,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:79 at this commit: `location                = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 80,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:80 at this commit: `resource_group_name     = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 89,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:89 at this commit: `location                  = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 90,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:90 at this commit: `resource_group_name       = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 91,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:91 at this commit: `network_security_group_id = \"${azurerm_network_security_group.nsg1.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 95,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:95 at this commit: `subnet_id                     = \"${azurerm_subnet.sn1.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 97,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:97 at this commit: `public_ip_address_id          = \"${azurerm_public_ip.pip1.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 104,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:104 at this commit: `location                      = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 105,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:105 at this commit: `resource_group_name           = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 106,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:106 at this commit: `network_interface_ids         = [\"${azurerm_network_interface.nic1.id}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 126,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:126 at this commit: `admin_username = \"${var.adminusername}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "01-sql-server-basic/sql-server-basic.tf",
+      "line": 127,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 01-sql-server-basic/sql-server-basic.tf:127 at this commit: `admin_password = \"${var.adminpassword}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "02-naming-and-tagging/main.tf",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 02-naming-and-tagging/main.tf:4 at this commit: `location                 = \"${var.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "02-naming-and-tagging/main.tf",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 02-naming-and-tagging/main.tf:6 at this commit: `tags = \"${merge(local.tags, map(\"FirstApply\",\"${timestamp()}\",\"LastApply\",\"${timestamp()}\"))}\"` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "02-naming-and-tagging/main.tf",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 02-naming-and-tagging/main.tf:6 at this commit: `tags = \"${merge(local.tags, map(\"FirstApply\",\"${timestamp()}\",\"LastApply\",\"${timestamp()}\"))}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "02-naming-and-tagging/output.tf",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 02-naming-and-tagging/output.tf:2 at this commit: `value = [\"${azurerm_resource_group.rg1.tags}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "02-naming-and-tagging/variable.tf",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 02-naming-and-tagging/variable.tf:33 at this commit: `tags = \"${merge(` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "02-naming-and-tagging/variable.tf",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 02-naming-and-tagging/variable.tf:35 at this commit: `map(` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/main.tf",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/main.tf:4 at this commit: `location = \"${var.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "03-sql-server-basic/main.tf",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/main.tf:6 at this commit: `tags = \"${merge(local.tags, map(\"FirstApply\", \"${timestamp()}\", \"LastApply\", \"${timestamp()}\"))}\"` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/main.tf",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/main.tf:6 at this commit: `tags = \"${merge(local.tags, map(\"FirstApply\", \"${timestamp()}\", \"LastApply\", \"${timestamp()}\"))}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/network.tf",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/network.tf:5 at this commit: `location            = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/network.tf",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/network.tf:6 at this commit: `resource_group_name = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/network.tf",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/network.tf:7 at this commit: `address_space = [\"${var.vnets[\"${var.location}\"]}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/network.tf",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/network.tf:9 at this commit: `tags = \"${local.tags}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/network.tf",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/network.tf:16 at this commit: `resource_group_name  = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/network.tf",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/network.tf:17 at this commit: `virtual_network_name = \"${azurerm_virtual_network.vn1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/network.tf",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/network.tf:18 at this commit: `address_prefix       = \"${cidrsubnet(\"${var.vnets[\"${var.location}\"]}\", \"${var.network_size}\", \"${var.network_no}\")}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/nsg.tf",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/nsg.tf:4 at this commit: `location            = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/nsg.tf",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/nsg.tf:5 at this commit: `resource_group_name = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/nsg.tf",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/nsg.tf:7 at this commit: `tags = \"${local.tags}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/nsg.tf",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/nsg.tf:19 at this commit: `source_address_prefixes     = \"${var.allowed_ips}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/nsg.tf",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/nsg.tf:21 at this commit: `resource_group_name         = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/nsg.tf",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/nsg.tf:22 at this commit: `network_security_group_name = \"${azurerm_network_security_group.nsg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/provider.tf",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/provider.tf:2 at this commit: `subscription_id = \"${var.subscription_id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/provider.tf",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/provider.tf:3 at this commit: `tenant_id       = \"${var.tenant_id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/provider.tf",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/provider.tf:4 at this commit: `client_id       = \"${var.client_id}\"     # Application ID` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/provider.tf",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/provider.tf:5 at this commit: `client_secret   = \"${var.client_secret}\" # Application secret` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/variable.tf",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/variable.tf:52 at this commit: `tags = \"${merge(` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "03-sql-server-basic/variable.tf",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/variable.tf:54 at this commit: `map(` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/vm.tf",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/vm.tf:5 at this commit: `count                   = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/vm.tf",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/vm.tf:7 at this commit: `location                = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/vm.tf",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/vm.tf:8 at this commit: `resource_group_name     = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/vm.tf",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/vm.tf:12 at this commit: `tags = \"${local.tags}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/vm.tf",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/vm.tf:18 at this commit: `count                     = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/vm.tf",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/vm.tf:20 at this commit: `location                  = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/vm.tf",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/vm.tf:21 at this commit: `resource_group_name       = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/vm.tf",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/vm.tf:22 at this commit: `network_security_group_id = \"${azurerm_network_security_group.nsg1.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/vm.tf",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/vm.tf:26 at this commit: `subnet_id                     = \"${azurerm_subnet.sn1.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/vm.tf",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/vm.tf:29 at this commit: `public_ip_address_id = \"${element(azurerm_public_ip.pip1.*.id, count.index)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/vm.tf",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/vm.tf:32 at this commit: `tags = \"${local.tags}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/vm.tf",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/vm.tf:37 at this commit: `count               = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/vm.tf",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/vm.tf:39 at this commit: `location            = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/vm.tf",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/vm.tf:40 at this commit: `resource_group_name = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/vm.tf",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/vm.tf:42 at this commit: `network_interface_ids         = [\"${element(azurerm_network_interface.nic1.*.id, count.index)}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/vm.tf",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/vm.tf:43 at this commit: `vm_size                       = \"${var.vm_size}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/vm.tf",
+      "line": 62,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/vm.tf:62 at this commit: `admin_username = \"${var.adminusername}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/vm.tf",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/vm.tf:63 at this commit: `admin_password = \"${var.adminpassword}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "03-sql-server-basic/vm.tf",
+      "line": 70,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/vm.tf:70 at this commit: `tags = \"${merge(local.tags, map(\"creation\", \"${timestamp()}\", \"update\", \"${timestamp()}\"))}\"` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "03-sql-server-basic/vm.tf",
+      "line": 70,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 03-sql-server-basic/vm.tf:70 at this commit: `tags = \"${merge(local.tags, map(\"creation\", \"${timestamp()}\", \"update\", \"${timestamp()}\"))}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/main.tf",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/main.tf:4 at this commit: `location = \"${var.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "04-sql-server-basic/main.tf",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/main.tf:6 at this commit: `tags = \"${merge(local.tags, map(\"FirstApply\", \"${timestamp()}\", \"LastApply\", \"${timestamp()}\"))}\"` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/main.tf",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/main.tf:6 at this commit: `tags = \"${merge(local.tags, map(\"FirstApply\", \"${timestamp()}\", \"LastApply\", \"${timestamp()}\"))}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/network.tf",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/network.tf:5 at this commit: `location            = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/network.tf",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/network.tf:6 at this commit: `resource_group_name = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/network.tf",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/network.tf:7 at this commit: `address_space = [\"${var.vnets[\"${var.location}\"]}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/network.tf",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/network.tf:9 at this commit: `tags = \"${local.tags}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/network.tf",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/network.tf:16 at this commit: `resource_group_name  = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/network.tf",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/network.tf:17 at this commit: `virtual_network_name = \"${azurerm_virtual_network.vn1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/network.tf",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/network.tf:18 at this commit: `address_prefix       = \"${cidrsubnet(\"${var.vnets[\"${var.location}\"]}\", \"${var.network_size}\", \"${var.network_no}\")}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/nsg.tf",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/nsg.tf:4 at this commit: `location            = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/nsg.tf",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/nsg.tf:5 at this commit: `resource_group_name = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/nsg.tf",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/nsg.tf:7 at this commit: `tags = \"${local.tags}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/nsg.tf",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/nsg.tf:19 at this commit: `source_address_prefix       = \"${var.allowed_ip}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/nsg.tf",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/nsg.tf:21 at this commit: `resource_group_name         = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/nsg.tf",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/nsg.tf:22 at this commit: `network_security_group_name = \"${azurerm_network_security_group.nsg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/provider.tf",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/provider.tf:5 at this commit: `subscription_id = \"${var.subscription_id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/provider.tf",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/provider.tf:6 at this commit: `tenant_id       = \"${var.tenant_id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/provider.tf",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/provider.tf:7 at this commit: `client_id       = \"${var.client_id}\"     # Application ID` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/provider.tf",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/provider.tf:8 at this commit: `client_secret   = \"${var.client_secret}\" # Application secret` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/variable.tf",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/variable.tf:52 at this commit: `tags = \"${merge(` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "04-sql-server-basic/variable.tf",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/variable.tf:54 at this commit: `map(` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/vm.tf",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/vm.tf:5 at this commit: `count                   = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/vm.tf",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/vm.tf:7 at this commit: `location                = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/vm.tf",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/vm.tf:8 at this commit: `resource_group_name     = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/vm.tf",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/vm.tf:12 at this commit: `tags = \"${local.tags}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/vm.tf",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/vm.tf:18 at this commit: `count                     = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/vm.tf",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/vm.tf:20 at this commit: `location                  = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/vm.tf",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/vm.tf:21 at this commit: `resource_group_name       = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/vm.tf",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/vm.tf:22 at this commit: `network_security_group_id = \"${azurerm_network_security_group.nsg1.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/vm.tf",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/vm.tf:26 at this commit: `subnet_id                     = \"${azurerm_subnet.sn1.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/vm.tf",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/vm.tf:29 at this commit: `public_ip_address_id = \"${element(azurerm_public_ip.pip1.*.id, count.index)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/vm.tf",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/vm.tf:32 at this commit: `tags = \"${local.tags}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/vm.tf",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/vm.tf:37 at this commit: `count               = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/vm.tf",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/vm.tf:39 at this commit: `location            = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/vm.tf",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/vm.tf:40 at this commit: `resource_group_name = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/vm.tf",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/vm.tf:42 at this commit: `network_interface_ids         = [\"${element(azurerm_network_interface.nic1.*.id, count.index)}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/vm.tf",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/vm.tf:43 at this commit: `vm_size                       = \"${var.vm_size}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/vm.tf",
+      "line": 62,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/vm.tf:62 at this commit: `admin_username = \"${var.adminusername}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/vm.tf",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/vm.tf:63 at this commit: `admin_password = \"${var.adminpassword}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "04-sql-server-basic/vm.tf",
+      "line": 70,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/vm.tf:70 at this commit: `tags = \"${merge(local.tags, map(\"creation\", \"${timestamp()}\", \"update\", \"${timestamp()}\"))}\"` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "04-sql-server-basic/vm.tf",
+      "line": 70,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 04-sql-server-basic/vm.tf:70 at this commit: `tags = \"${merge(local.tags, map(\"creation\", \"${timestamp()}\", \"update\", \"${timestamp()}\"))}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "06-vm-extensions/dc/main.tf",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/dc/main.tf:6 at this commit: `tags = merge(local.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/dc/network.tf",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/dc/network.tf:7 at this commit: `address_space       = [\"${var.vnets[\"${var.location}\"]}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "06-vm-extensions/dc/network.tf",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/dc/network.tf:9 at this commit: `tags = merge(local.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "06-vm-extensions/dc/nsg.tf",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/dc/nsg.tf:7 at this commit: `tags = merge(local.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/dc/output.tf",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/dc/output.tf:2 at this commit: `value = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/dc/output.tf",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/dc/output.tf:6 at this commit: `value = \"${azurerm_virtual_network.vn1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "06-vm-extensions/dc/storage.tf",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/dc/storage.tf:14 at this commit: `tags = merge(local.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/dc/variable.tf",
+      "line": 56,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/dc/variable.tf:56 at this commit: `tags = \"${merge(` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "06-vm-extensions/dc/variable.tf",
+      "line": 58,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/dc/variable.tf:58 at this commit: `map(` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "06-vm-extensions/dc/vm.tf",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/dc/vm.tf:11 at this commit: `tags = merge(local.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "06-vm-extensions/dc/vm.tf",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/dc/vm.tf:35 at this commit: `tags = merge(local.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "06-vm-extensions/dc/vm.tf",
+      "line": 78,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/dc/vm.tf:78 at this commit: `tags = merge(local.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "06-vm-extensions/dc/vm.tf",
+      "line": 108,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/dc/vm.tf:108 at this commit: `tags = merge(local.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/main.tf",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/main.tf:4 at this commit: `location = \"${var.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "06-vm-extensions/sql/main.tf",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/main.tf:6 at this commit: `tags = \"${merge(local.tags, map(\"FirstApply\", \"${timestamp()}\", \"LastApply\", \"${timestamp()}\"))}\"` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/main.tf",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/main.tf:6 at this commit: `tags = \"${merge(local.tags, map(\"FirstApply\", \"${timestamp()}\", \"LastApply\", \"${timestamp()}\"))}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/network.tf",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/network.tf:3 at this commit: `resource_group_name  = \"${var.vn_rg_name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/network.tf",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/network.tf:4 at this commit: `virtual_network_name = \"${var.vn_name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/network.tf",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/network.tf:5 at this commit: `address_prefix       = \"${cidrsubnet(\"${var.vnets[\"${var.location}\"]}\", \"${var.network_size}\", \"${var.network_no}\")}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/nsg.tf",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/nsg.tf:4 at this commit: `location            = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/nsg.tf",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/nsg.tf:5 at this commit: `resource_group_name = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/nsg.tf",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/nsg.tf:7 at this commit: `tags = \"${local.tags}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/nsg.tf",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/nsg.tf:19 at this commit: `source_address_prefix       = \"${var.allowed_ip}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/nsg.tf",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/nsg.tf:21 at this commit: `resource_group_name         = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/nsg.tf",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/nsg.tf:22 at this commit: `network_security_group_name = \"${azurerm_network_security_group.nsg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/provider.tf",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/provider.tf:5 at this commit: `subscription_id = \"${var.subscription_id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/provider.tf",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/provider.tf:6 at this commit: `tenant_id       = \"${var.tenant_id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/provider.tf",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/provider.tf:7 at this commit: `client_id       = \"${var.client_id}\"     # Application ID` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/provider.tf",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/provider.tf:8 at this commit: `client_secret   = \"${var.client_secret}\" # Application secret` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "06-vm-extensions/sql/storage.tf",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/storage.tf:14 at this commit: `tags = merge(local.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/variable.tf",
+      "line": 62,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/variable.tf:62 at this commit: `tags = \"${merge(` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "06-vm-extensions/sql/variable.tf",
+      "line": 64,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/variable.tf:64 at this commit: `map(` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:5 at this commit: `count                   = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:7 at this commit: `location                = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:8 at this commit: `resource_group_name     = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:12 at this commit: `tags = \"${local.tags}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:18 at this commit: `count                     = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:20 at this commit: `location                  = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:21 at this commit: `resource_group_name       = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:22 at this commit: `network_security_group_id = \"${azurerm_network_security_group.nsg1.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:23 at this commit: `dns_servers               = [\"${var.dns_servers}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:27 at this commit: `subnet_id                     = \"${azurerm_subnet.sn1.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:30 at this commit: `public_ip_address_id = \"${element(azurerm_public_ip.pip1.*.id, count.index)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:33 at this commit: `tags = \"${local.tags}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:38 at this commit: `count               = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:40 at this commit: `location            = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:41 at this commit: `resource_group_name = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:43 at this commit: `network_interface_ids         = [\"${element(azurerm_network_interface.nic1.*.id, count.index)}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:44 at this commit: `vm_size                       = \"${var.vm_size}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:63 at this commit: `admin_username = \"${var.adminusername}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 64,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:64 at this commit: `admin_password = \"${var.adminpassword}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 71,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:71 at this commit: `tags = \"${merge(local.tags, map(\"creation\", \"${timestamp()}\", \"update\", \"${timestamp()}\"))}\"` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 71,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:71 at this commit: `tags = \"${merge(local.tags, map(\"creation\", \"${timestamp()}\", \"update\", \"${timestamp()}\"))}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 82,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:82 at this commit: `count                = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 84,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:84 at this commit: `location             = \"${var.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 85,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:85 at this commit: `resource_group_name  = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 111,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:111 at this commit: `count                      = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 113,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:113 at this commit: `location                   = \"${var.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 114,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:114 at this commit: `resource_group_name        = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 145,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:145 at this commit: `count                = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 147,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:147 at this commit: `location             = \"${var.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "06-vm-extensions/sql/vm.tf",
+      "line": 148,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 06-vm-extensions/sql/vm.tf:148 at this commit: `resource_group_name  = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "07-vsts-agent/main.tf",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/main.tf:6 at this commit: `tags = merge(local.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/main.tf",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/main.tf:16 at this commit: `prefix                    = \"${local.prefix}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/main.tf",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/main.tf:19 at this commit: `tags                      = \"${local.tags}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/main.tf",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/main.tf:20 at this commit: `subnet_id                 = \"${azurerm_subnet.sn1.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/main.tf",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/main.tf:21 at this commit: `network_security_group_id = \"${azurerm_network_security_group.nsg1.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/main.tf",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/main.tf:22 at this commit: `vm_size                   = \"${var.vm_size_dc}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/main.tf",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/main.tf:23 at this commit: `adminusername             = \"${var.adminusername}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/main.tf",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/main.tf:24 at this commit: `adminpassword             = \"${var.adminpassword}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/main.tf",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/main.tf:25 at this commit: `servicepassword           = \"${var.servicepassword}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/main.tf",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/main.tf:26 at this commit: `storage_name              = \"${azurerm_storage_account.sa1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/main.tf",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/main.tf:33 at this commit: `prefix                    = \"${local.prefix}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/main.tf",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/main.tf:36 at this commit: `tags                      = \"${local.tags}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/main.tf",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/main.tf:37 at this commit: `subnet_id                 = \"${azurerm_subnet.sn2.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/main.tf",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/main.tf:38 at this commit: `network_security_group_id = \"${azurerm_network_security_group.nsg1.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/main.tf",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/main.tf:39 at this commit: `vm_size                   = \"${var.vm_size_ado}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/main.tf",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/main.tf:40 at this commit: `adminusername             = \"${var.adminusername}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/main.tf",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/main.tf:41 at this commit: `adminpassword             = \"${var.adminpassword}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/main.tf",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/main.tf:42 at this commit: `servicepassword           = \"${var.servicepassword}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/main.tf",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/main.tf:43 at this commit: `ado_token                 = \"${var.ado_token}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/main.tf",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/main.tf:44 at this commit: `storage_name              = \"${azurerm_storage_account.sa1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/main.tf",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/main.tf:45 at this commit: `dc_ip                     = \"${var.ip_address_dc}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/modules/vm-ado/vm.tf:5 at this commit: `count                   = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/modules/vm-ado/vm.tf:12 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/modules/vm-ado/vm.tf:22 at this commit: `count               = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/modules/vm-ado/vm.tf:26 at this commit: `dns_servers         = [\"${var.dc_ip}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/modules/vm-ado/vm.tf:32 at this commit: `public_ip_address_id          = \"${element(azurerm_public_ip.pip1.*.id, count.index)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/modules/vm-ado/vm.tf:35 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/modules/vm-ado/vm.tf:44 at this commit: `count                         = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/modules/vm-ado/vm.tf:48 at this commit: `network_interface_ids         = [\"${element(azurerm_network_interface.nic1.*.id, count.index)}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+      "line": 76,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/modules/vm-ado/vm.tf:76 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+      "line": 87,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/modules/vm-ado/vm.tf:87 at this commit: `count                = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+      "line": 110,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/modules/vm-ado/vm.tf:110 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+      "line": 120,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/modules/vm-ado/vm.tf:120 at this commit: `count                      = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+      "line": 122,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/modules/vm-ado/vm.tf:122 at this commit: `virtual_machine_id         = \"${element(azurerm_virtual_machine.vm1.*.id, count.index)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+      "line": 141,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/modules/vm-ado/vm.tf:141 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+      "line": 150,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/modules/vm-ado/vm.tf:150 at this commit: `count                     = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/modules/vm-ado/vm.tf",
+      "line": 151,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/modules/vm-ado/vm.tf:151 at this commit: `network_interface_id      = \"${element(azurerm_network_interface.nic1.*.id, count.index)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "07-vsts-agent/modules/vm-dc/vm.tf",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/modules/vm-dc/vm.tf:11 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "07-vsts-agent/modules/vm-dc/vm.tf",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/modules/vm-dc/vm.tf:33 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "07-vsts-agent/modules/vm-dc/vm.tf",
+      "line": 73,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/modules/vm-dc/vm.tf:73 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "07-vsts-agent/modules/vm-dc/vm.tf",
+      "line": 103,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/modules/vm-dc/vm.tf:103 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/network.tf",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/network.tf:7 at this commit: `address_space       = [\"${var.vnets[\"${var.location}\"]}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "07-vsts-agent/network.tf",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/network.tf:9 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "07-vsts-agent/nsg.tf",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/nsg.tf:7 at this commit: `tags = merge(local.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/storage.tf",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/storage.tf:12 at this commit: `virtual_network_subnet_ids = [\"${azurerm_subnet.sn1.id}\", \"${azurerm_subnet.sn2.id}\", \"${azurerm_subnet.sn3.id}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/storage.tf",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/storage.tf:12 at this commit: `virtual_network_subnet_ids = [\"${azurerm_subnet.sn1.id}\", \"${azurerm_subnet.sn2.id}\", \"${azurerm_subnet.sn3.id}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/storage.tf",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/storage.tf:12 at this commit: `virtual_network_subnet_ids = [\"${azurerm_subnet.sn1.id}\", \"${azurerm_subnet.sn2.id}\", \"${azurerm_subnet.sn3.id}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "07-vsts-agent/storage.tf",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/storage.tf:15 at this commit: `tags = merge(local.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/variable.tf",
+      "line": 68,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/variable.tf:68 at this commit: `tags = \"${merge(` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "07-vsts-agent/variable.tf",
+      "line": 70,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/variable.tf:70 at this commit: `map(` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/variable.tf",
+      "line": 79,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/variable.tf:79 at this commit: `sn1_address_prefix = \"${cidrsubnet(var.vnets[var.location], var.network_size, var.network_no_dc)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/variable.tf",
+      "line": 80,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/variable.tf:80 at this commit: `sn2_address_prefix = \"${cidrsubnet(var.vnets[var.location], var.network_size, var.network_no_ado)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "07-vsts-agent/variable.tf",
+      "line": 81,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 07-vsts-agent/variable.tf:81 at this commit: `sn3_address_prefix = \"${cidrsubnet(var.vnets[var.location], var.network_size, var.network_no_sql)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "08-sql-server/main.tf",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:6 at this commit: `tags = merge(local.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:16 at this commit: `prefix                    = \"${local.prefix}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:19 at this commit: `tags                      = \"${local.tags}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:20 at this commit: `subnet_id                 = \"${azurerm_subnet.sn1.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:21 at this commit: `network_security_group_id = \"${azurerm_network_security_group.nsg1.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:22 at this commit: `vm_size                   = \"${var.vm_size_dc}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:23 at this commit: `adminusername             = \"${var.adminusername}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:24 at this commit: `adminpassword             = \"${var.adminpassword}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:25 at this commit: `servicepassword           = \"${var.servicepassword}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:26 at this commit: `storage_name              = \"${azurerm_storage_account.sa1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:27 at this commit: `ip_address_dc             = cidrhost(\"${azurerm_subnet.sn1.address_prefixes.0}\", 4)` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:33 at this commit: `prefix                    = \"${local.prefix}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:36 at this commit: `tags                      = \"${local.tags}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:37 at this commit: `subnet_id                 = \"${azurerm_subnet.sn2.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:38 at this commit: `network_security_group_id = \"${azurerm_network_security_group.nsg1.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:39 at this commit: `vm_size                   = \"${var.vm_size_ado}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:40 at this commit: `adminusername             = \"${var.adminusername}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:41 at this commit: `adminpassword             = \"${var.adminpassword}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:42 at this commit: `servicepassword           = \"${var.servicepassword}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:43 at this commit: `ado_token                 = \"${var.ado_token}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:44 at this commit: `storage_name              = \"${azurerm_storage_account.sa1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:45 at this commit: `dc_ip                     = \"${module.vm-dc.dc_ip}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:52 at this commit: `prefix                    = \"${local.prefix}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 55,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:55 at this commit: `tags                      = \"${local.tags}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 56,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:56 at this commit: `subnet_id                 = \"${azurerm_subnet.sn3.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:57 at this commit: `network_security_group_id = \"${azurerm_network_security_group.nsg1.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 58,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:58 at this commit: `vm_size                   = \"${var.vm_size_sql}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:59 at this commit: `adminusername             = \"${var.adminusername}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 60,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:60 at this commit: `adminpassword             = \"${var.adminpassword}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 61,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:61 at this commit: `servicepassword           = \"${var.servicepassword}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 62,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:62 at this commit: `storage_name              = \"${azurerm_storage_account.sa1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/main.tf",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/main.tf:63 at this commit: `dc_ip                     = \"${module.vm-dc.dc_ip}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-ado/vm.tf",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-ado/vm.tf:5 at this commit: `count                   = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "08-sql-server/modules/vm-ado/vm.tf",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-ado/vm.tf:12 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-ado/vm.tf",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-ado/vm.tf:22 at this commit: `count               = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-ado/vm.tf",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-ado/vm.tf:27 at this commit: `dns_servers = [\"${var.dc_ip}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-ado/vm.tf",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-ado/vm.tf:36 at this commit: `public_ip_address_id = \"${element(azurerm_public_ip.pip1.*.id, count.index)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "08-sql-server/modules/vm-ado/vm.tf",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-ado/vm.tf:39 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-ado/vm.tf",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-ado/vm.tf:48 at this commit: `count               = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-ado/vm.tf",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-ado/vm.tf:53 at this commit: `network_interface_ids         = [\"${element(azurerm_network_interface.nic1.*.id, count.index)}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "08-sql-server/modules/vm-ado/vm.tf",
+      "line": 84,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-ado/vm.tf:84 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-ado/vm.tf",
+      "line": 93,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-ado/vm.tf:93 at this commit: `count                = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-ado/vm.tf",
+      "line": 98,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-ado/vm.tf:98 at this commit: `virtual_machine_id         = \"${element(azurerm_virtual_machine.vm1.*.id, count.index)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "08-sql-server/modules/vm-ado/vm.tf",
+      "line": 119,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-ado/vm.tf:119 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-ado/vm.tf",
+      "line": 128,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-ado/vm.tf:128 at this commit: `count = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-ado/vm.tf",
+      "line": 132,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-ado/vm.tf:132 at this commit: `virtual_machine_id         = \"${element(azurerm_virtual_machine.vm1.*.id, count.index)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "08-sql-server/modules/vm-ado/vm.tf",
+      "line": 153,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-ado/vm.tf:153 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-ado/vm.tf",
+      "line": 162,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-ado/vm.tf:162 at this commit: `count                = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-ado/vm.tf",
+      "line": 163,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-ado/vm.tf:163 at this commit: `network_interface_id = \"${element(azurerm_network_interface.nic1.*.id, count.index)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-dc/output.tf",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-dc/output.tf:2 at this commit: `value = \"${azurerm_network_interface.nic1.private_ip_address}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "08-sql-server/modules/vm-dc/vm.tf",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-dc/vm.tf:11 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "08-sql-server/modules/vm-dc/vm.tf",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-dc/vm.tf:33 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "08-sql-server/modules/vm-dc/vm.tf",
+      "line": 73,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-dc/vm.tf:73 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "08-sql-server/modules/vm-dc/vm.tf",
+      "line": 103,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-dc/vm.tf:103 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-sql/vm.tf",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-sql/vm.tf:5 at this commit: `count                   = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "08-sql-server/modules/vm-sql/vm.tf",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-sql/vm.tf:12 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-sql/vm.tf",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-sql/vm.tf:22 at this commit: `count               = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-sql/vm.tf",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-sql/vm.tf:27 at this commit: `dns_servers = [\"${var.dc_ip}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-sql/vm.tf",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-sql/vm.tf:36 at this commit: `public_ip_address_id = \"${element(azurerm_public_ip.pip1.*.id, count.index)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "08-sql-server/modules/vm-sql/vm.tf",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-sql/vm.tf:39 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-sql/vm.tf",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-sql/vm.tf:48 at this commit: `count               = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-sql/vm.tf",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-sql/vm.tf:53 at this commit: `network_interface_ids         = [\"${element(azurerm_network_interface.nic1.*.id, count.index)}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "08-sql-server/modules/vm-sql/vm.tf",
+      "line": 88,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-sql/vm.tf:88 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-sql/vm.tf",
+      "line": 97,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-sql/vm.tf:97 at this commit: `count = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-sql/vm.tf",
+      "line": 102,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-sql/vm.tf:102 at this commit: `virtual_machine_id   = \"${element(azurerm_virtual_machine.vm1.*.id, count.index)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "08-sql-server/modules/vm-sql/vm.tf",
+      "line": 123,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-sql/vm.tf:123 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-sql/vm.tf",
+      "line": 132,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-sql/vm.tf:132 at this commit: `count = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-sql/vm.tf",
+      "line": 136,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-sql/vm.tf:136 at this commit: `virtual_machine_id = \"${element(azurerm_virtual_machine.vm1.*.id, count.index)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "08-sql-server/modules/vm-sql/vm.tf",
+      "line": 157,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-sql/vm.tf:157 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-sql/vm.tf",
+      "line": 166,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-sql/vm.tf:166 at this commit: `count                      = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-sql/vm.tf",
+      "line": 168,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-sql/vm.tf:168 at this commit: `virtual_machine_id         = \"${element(azurerm_virtual_machine.vm1.*.id, count.index)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-sql/vm.tf",
+      "line": 198,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-sql/vm.tf:198 at this commit: `count                = \"${var.server_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/modules/vm-sql/vm.tf",
+      "line": 199,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/modules/vm-sql/vm.tf:199 at this commit: `network_interface_id = \"${element(azurerm_network_interface.nic1.*.id, count.index)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/network.tf",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/network.tf:7 at this commit: `address_space       = [\"${var.vnets[\"${var.location}\"]}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "08-sql-server/network.tf",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/network.tf:9 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "08-sql-server/nsg.tf",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/nsg.tf:7 at this commit: `tags = merge(local.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/storage.tf",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/storage.tf:12 at this commit: `virtual_network_subnet_ids = [\"${azurerm_subnet.sn1.id}\", \"${azurerm_subnet.sn2.id}\", \"${azurerm_subnet.sn3.id}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/storage.tf",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/storage.tf:12 at this commit: `virtual_network_subnet_ids = [\"${azurerm_subnet.sn1.id}\", \"${azurerm_subnet.sn2.id}\", \"${azurerm_subnet.sn3.id}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/storage.tf",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/storage.tf:12 at this commit: `virtual_network_subnet_ids = [\"${azurerm_subnet.sn1.id}\", \"${azurerm_subnet.sn2.id}\", \"${azurerm_subnet.sn3.id}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "08-sql-server/storage.tf",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/storage.tf:15 at this commit: `tags = merge(local.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/variable.tf",
+      "line": 68,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/variable.tf:68 at this commit: `tags = \"${merge(` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "08-sql-server/variable.tf",
+      "line": 70,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/variable.tf:70 at this commit: `map(` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/variable.tf",
+      "line": 79,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/variable.tf:79 at this commit: `sn1_address_prefix = \"${cidrsubnet(var.vnets[var.location], var.network_size, var.network_no_dc)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/variable.tf",
+      "line": 80,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/variable.tf:80 at this commit: `sn2_address_prefix = \"${cidrsubnet(var.vnets[var.location], var.network_size, var.network_no_ado)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "08-sql-server/variable.tf",
+      "line": 81,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 08-sql-server/variable.tf:81 at this commit: `sn3_address_prefix = \"${cidrsubnet(var.vnets[var.location], var.network_size, var.network_no_sql)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "09-sql-server-tests/infrastructure/main.tf",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 09-sql-server-tests/infrastructure/main.tf:6 at this commit: `tags = merge(local.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "09-sql-server-tests/infrastructure/modules/vm-ado/vm.tf",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 09-sql-server-tests/infrastructure/modules/vm-ado/vm.tf:11 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "09-sql-server-tests/infrastructure/modules/vm-ado/vm.tf",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 09-sql-server-tests/infrastructure/modules/vm-ado/vm.tf:34 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "09-sql-server-tests/infrastructure/modules/vm-ado/vm.tf",
+      "line": 76,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 09-sql-server-tests/infrastructure/modules/vm-ado/vm.tf:76 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "09-sql-server-tests/infrastructure/modules/vm-ado/vm.tf",
+      "line": 108,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 09-sql-server-tests/infrastructure/modules/vm-ado/vm.tf:108 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "09-sql-server-tests/infrastructure/modules/vm-ado/vm.tf",
+      "line": 139,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 09-sql-server-tests/infrastructure/modules/vm-ado/vm.tf:139 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "09-sql-server-tests/infrastructure/modules/vm-dc/vm.tf",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 09-sql-server-tests/infrastructure/modules/vm-dc/vm.tf:11 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "09-sql-server-tests/infrastructure/modules/vm-dc/vm.tf",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 09-sql-server-tests/infrastructure/modules/vm-dc/vm.tf:33 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "09-sql-server-tests/infrastructure/modules/vm-dc/vm.tf",
+      "line": 74,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 09-sql-server-tests/infrastructure/modules/vm-dc/vm.tf:74 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "09-sql-server-tests/infrastructure/modules/vm-dc/vm.tf",
+      "line": 104,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 09-sql-server-tests/infrastructure/modules/vm-dc/vm.tf:104 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "09-sql-server-tests/infrastructure/modules/vm-sql/vm.tf",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 09-sql-server-tests/infrastructure/modules/vm-sql/vm.tf:11 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "09-sql-server-tests/infrastructure/modules/vm-sql/vm.tf",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 09-sql-server-tests/infrastructure/modules/vm-sql/vm.tf:34 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "09-sql-server-tests/infrastructure/modules/vm-sql/vm.tf",
+      "line": 80,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 09-sql-server-tests/infrastructure/modules/vm-sql/vm.tf:80 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "09-sql-server-tests/infrastructure/modules/vm-sql/vm.tf",
+      "line": 112,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 09-sql-server-tests/infrastructure/modules/vm-sql/vm.tf:112 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "09-sql-server-tests/infrastructure/modules/vm-sql/vm.tf",
+      "line": 143,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 09-sql-server-tests/infrastructure/modules/vm-sql/vm.tf:143 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "09-sql-server-tests/infrastructure/network.tf",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 09-sql-server-tests/infrastructure/network.tf:9 at this commit: `tags = merge(var.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "09-sql-server-tests/infrastructure/nsg.tf",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 09-sql-server-tests/infrastructure/nsg.tf:7 at this commit: `tags = merge(local.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "09-sql-server-tests/infrastructure/storage.tf",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 09-sql-server-tests/infrastructure/storage.tf:19 at this commit: `tags = merge(local.tags, map(\"FirstApply\", timestamp(), \"LastApply\", timestamp()))` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.function.list-map",
+      "path": "09-sql-server-tests/infrastructure/variable.tf",
+      "line": 70,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 09-sql-server-tests/infrastructure/variable.tf:70 at this commit: `map(` calls the deprecated list()/map() function."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:32 at this commit: `subscription_id = \"${var.subscription_id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:33 at this commit: `client_id       = \"${var.client_id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:34 at this commit: `client_secret   = \"${var.client_secret}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:35 at this commit: `tenant_id       = \"${var.tenant_id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:42 at this commit: `location = \"${var.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:48 at this commit: `location            = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:49 at this commit: `resource_group_name = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 62,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:62 at this commit: `source_address_prefixes     = \"${var.allowed-ips}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 64,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:64 at this commit: `resource_group_name         = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 65,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:65 at this commit: `network_security_group_name = \"${azurerm_network_security_group.nsg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 72,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:72 at this commit: `location            = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 73,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:73 at this commit: `resource_group_name = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 81,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:81 at this commit: `resource_group_name  = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 82,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:82 at this commit: `virtual_network_name = \"${azurerm_virtual_network.vn1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 91,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:91 at this commit: `location                = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 92,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:92 at this commit: `resource_group_name     = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 101,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:101 at this commit: `location                  = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 102,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:102 at this commit: `resource_group_name       = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 103,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:103 at this commit: `network_security_group_id = \"${azurerm_network_security_group.nsg1.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 107,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:107 at this commit: `subnet_id                     = \"${azurerm_subnet.sn1.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 109,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:109 at this commit: `public_ip_address_id          = \"${azurerm_public_ip.pip1.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 117,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:117 at this commit: `resource_group_name = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 118,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:118 at this commit: `location                 = \"${var.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 125,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:125 at this commit: `ip_rules                   =  \"${var.allowed-ips}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 126,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:126 at this commit: `virtual_network_subnet_ids = [\"${azurerm_subnet.sn1.id}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 132,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:132 at this commit: `storage_account_name  = \"${azurerm_storage_account.sa1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 138,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:138 at this commit: `resource_group_name    = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 139,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:139 at this commit: `storage_account_name   = \"${azurerm_storage_account.sa1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 140,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:140 at this commit: `storage_container_name = \"${azurerm_storage_container.scripts.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 148,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:148 at this commit: `location                      = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 149,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:149 at this commit: `resource_group_name           = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 150,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:150 at this commit: `network_interface_ids         = [\"${azurerm_network_interface.nic1.id}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 170,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:170 at this commit: `admin_username = \"${var.adminusername}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 171,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:171 at this commit: `admin_password = \"${var.adminpassword}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 181,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:181 at this commit: `location             = \"${azurerm_resource_group.rg1.location}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 182,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:182 at this commit: `resource_group_name  = \"${azurerm_resource_group.rg1.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "workbench/workbench.tf",
+      "line": 183,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workbench/workbench.tf:183 at this commit: `virtual_machine_name = \"${azurerm_virtual_machine.vm1.name}\"` is an interpolation-only expression."
+      }
+    }
+  ]
+}

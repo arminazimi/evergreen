@@ -1,0 +1,125 @@
+{
+  "repository": "laradock/php-fpm",
+  "commit": "89cb7a60818c3a317a34c290a46cf7e48ad5a0d1",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/dockerimage.yml",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dockerimage.yml:25 at this commit: `uses: actions/checkout@v4` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.metadata-action.node20",
+      "path": ".github/workflows/dockerimage.yml",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dockerimage.yml:29 at this commit: `uses: docker/metadata-action@v5` is a `uses:` declaration of metadata-action; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-qemu-action.node20",
+      "path": ".github/workflows/dockerimage.yml",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dockerimage.yml:42 at this commit: `uses: docker/setup-qemu-action@v3` is a `uses:` declaration of setup-qemu-action; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-buildx-action.node20",
+      "path": ".github/workflows/dockerimage.yml",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dockerimage.yml:45 at this commit: `uses: docker/setup-buildx-action@v3` is a `uses:` declaration of setup-buildx-action; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/dockerimage.yml",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dockerimage.yml:49 at this commit: `uses: docker/login-action@v2` is a `uses:` declaration of login-action; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/dockerimage.yml",
+      "line": 55,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dockerimage.yml:55 at this commit: `uses: docker/build-push-action@v5` is a `uses:` declaration of build-push-action; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/dockerimage_without_arm.yml",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dockerimage_without_arm.yml:25 at this commit: `uses: actions/checkout@v4` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.metadata-action.node20",
+      "path": ".github/workflows/dockerimage_without_arm.yml",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dockerimage_without_arm.yml:29 at this commit: `uses: docker/metadata-action@v5` is a `uses:` declaration of metadata-action; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-qemu-action.node20",
+      "path": ".github/workflows/dockerimage_without_arm.yml",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dockerimage_without_arm.yml:42 at this commit: `uses: docker/setup-qemu-action@v3` is a `uses:` declaration of setup-qemu-action; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-buildx-action.node20",
+      "path": ".github/workflows/dockerimage_without_arm.yml",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dockerimage_without_arm.yml:45 at this commit: `uses: docker/setup-buildx-action@v3` is a `uses:` declaration of setup-buildx-action; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/dockerimage_without_arm.yml",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dockerimage_without_arm.yml:49 at this commit: `uses: docker/login-action@v2` is a `uses:` declaration of login-action; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/dockerimage_without_arm.yml",
+      "line": 55,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dockerimage_without_arm.yml:55 at this commit: `uses: docker/build-push-action@v5` is a `uses:` declaration of build-push-action; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/keepalive.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/keepalive.yml:21 at this commit: `- uses: actions/checkout@v4` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    }
+  ]
+}

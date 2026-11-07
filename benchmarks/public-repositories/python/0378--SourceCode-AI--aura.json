@@ -16,10 +16,10 @@
     {
       "ruleId": "python.runtime.eol-3.10-and-older",
       "path": "pyproject.toml",
-      "line": 4,
+      "line": 39,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Read pyproject.toml:4 at this commit: `description = \"Security auditing and static analysis for python\"`; the declaration matches the rule's affected range."
+        "note": "Read pyproject.toml:39 at this commit: `python = \"^3.10\"`; the declaration matches the rule's affected range."
       }
     }
   ]

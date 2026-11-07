@@ -1,0 +1,7 @@
+{
+  "repository": "atar-axis/xpadneo",
+  "commit": "39625746fff63c997eeb53fe3a6fc1a3de08702e",
+  "ecosystem": "ci-images",
+  "selection": "targeted",
+  "expected": []
+}

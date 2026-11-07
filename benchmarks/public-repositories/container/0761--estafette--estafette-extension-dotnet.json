@@ -1,0 +1,17 @@
+{
+  "repository": "estafette/estafette-extension-dotnet",
+  "commit": "f59bf2474023c42f0d8bb31eff5d8683c5b09f88",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read go.mod:3 at this commit: `go 1.20` declares a runtime version the rule judges."
+      }
+    }
+  ]
+}

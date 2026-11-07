@@ -1,0 +1,17 @@
+{
+  "repository": "laradock/workspace",
+  "commit": "5b18f3404a0362f7d60b258e6878a2c25b81a1af",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/keepalive.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/keepalive.yml:21 at this commit: `- uses: actions/checkout@v4` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    }
+  ]
+}

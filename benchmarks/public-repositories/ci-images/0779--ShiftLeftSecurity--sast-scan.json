@@ -1,0 +1,188 @@
+{
+  "repository": "ShiftLeftSecurity/sast-scan",
+  "commit": "ae74004b82a41e800c6bc0b6ed05d48da9b8fc6f",
+  "ecosystem": "ci-images",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/app-release.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/app-release.yml:12 at this commit: `- uses: actions/checkout@v2` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/appimage.yml",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/appimage.yml:9 at this commit: `- uses: actions/checkout@v2` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/appimage.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/appimage.yml:15 at this commit: `- uses: actions/upload-artifact@v2` is a `uses:` declaration of upload-artifact; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/dockertests.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dockertests.yml:12 at this commit: `- uses: actions/checkout@v1` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/dockertests.yml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dockertests.yml:24 at this commit: `- uses: actions/upload-artifact@v1` is a `uses:` declaration of upload-artifact; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/pythonapp.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/pythonapp.yml:13 at this commit: `- uses: actions/checkout@v1` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/pythonapp.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/pythonapp.yml:15 at this commit: `uses: actions/setup-python@v1` is a `uses:` declaration of setup-python; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/shiftleft-analysis.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/shiftleft-analysis.yml:14 at this commit: `- uses: actions/checkout@v1` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/shiftleft-analysis.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/shiftleft-analysis.yml:16 at this commit: `uses: actions/cache@v2` is a `uses:` declaration of cache; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-22.04",
+      "path": "Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:1 at this commit: `FROM ubuntu:jammy as scan-base`: tag 22.04 is at or below the rule's 22.04 bound."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-22.04",
+      "path": "Dockerfile",
+      "line": 58,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:58 at this commit: `FROM ubuntu:jammy as sast-scan-tools`: tag 22.04 is at or below the rule's 22.04 bound."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-22.04",
+      "path": "azure-pipelines.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:11 at this commit: `vmImage: 'ubuntu-22.04'` selects the 04 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-22.04",
+      "path": "azure-pipelines.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:22 at this commit: `vmImage: 'ubuntu-22.04'` selects the 04 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-22.04",
+      "path": "azure-pipelines.yml",
+      "line": 80,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:80 at this commit: `vmImage: 'ubuntu-22.04'` selects the 04 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-22.04",
+      "path": "azure-pipelines.yml",
+      "line": 113,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:113 at this commit: `vmImage: 'ubuntu-22.04'` selects the 04 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-22.04",
+      "path": "azure-pipelines.yml",
+      "line": 172,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:172 at this commit: `vmImage: 'ubuntu-22.04'` selects the 04 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-22.04",
+      "path": "azure-pipelines.yml",
+      "line": 231,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:231 at this commit: `vmImage: 'ubuntu-22.04'` selects the 04 hosted image."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-22.04",
+      "path": "builder.Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read builder.Dockerfile:1 at this commit: `FROM ubuntu:22.04`: tag 22.04 is at or below the rule's 22.04 bound."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-22.04",
+      "path": "builder_aarch64.Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read builder_aarch64.Dockerfile:1 at this commit: `FROM ubuntu:22.04`: tag 22.04 is at or below the rule's 22.04 bound."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "contrib/google-cloud/store-api/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read contrib/google-cloud/store-api/Dockerfile:1 at this commit: `FROM python:3.9`: tag 3.9 is at or below the rule's 3.10-and-older bound."
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "tedsluis/docker-dump1090",
+  "commit": "e14a996852b6d84071f264a963f4495535652430",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": []
+}

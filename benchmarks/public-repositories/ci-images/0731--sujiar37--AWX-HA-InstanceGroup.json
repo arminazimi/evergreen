@@ -1,0 +1,7 @@
+{
+  "repository": "sujiar37/AWX-HA-InstanceGroup",
+  "commit": "290e6998c0ce5ced52de7ca3914c67beba947496",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": []
+}

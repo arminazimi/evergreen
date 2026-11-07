@@ -1,0 +1,7 @@
+{
+  "repository": "Softeq/mapbox-xamarin",
+  "commit": "5590f6983ea583130a9cc6efb75551f20971112e",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": []
+}

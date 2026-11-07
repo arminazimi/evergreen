@@ -97,10 +97,10 @@
     {
       "ruleId": "python.runtime.eol-3.9-and-older",
       "path": "pyproject.toml",
-      "line": 13,
+      "line": 24,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Read pyproject.toml:13 at this commit: `# Trove classifiers - https://packaging.python.org/specifications/core-metadata/#metadata-classifier`; the declaration matches the rule's affected range."
+        "note": "Read pyproject.toml:24 at this commit: `python = \"^3.7\"`; the declaration matches the rule's affected range."
       }
     },
     {

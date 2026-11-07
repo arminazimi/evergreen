@@ -1,0 +1,17 @@
+{
+  "repository": "NVIDIA-Genomics-Research/AtacWorks",
+  "commit": "7081a3a786042f5c380ab6396d694c97b826e38e",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "setup.py",
+      "line": 82,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read setup.py:82 at this commit: `python_requires='>=3.5',` declares a runtime version the rule judges."
+      }
+    }
+  ]
+}

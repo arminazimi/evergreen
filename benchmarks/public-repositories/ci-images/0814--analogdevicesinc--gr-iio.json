@@ -1,0 +1,26 @@
+{
+  "repository": "analogdevicesinc/gr-iio",
+  "commit": "c89d543cd320df852bb76cd376c2dc3f52532dc0",
+  "ecosystem": "ci-images",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "CMakeLists.txt",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read CMakeLists.txt:24 at this commit: `cmake_minimum_required(VERSION 2.6)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+      "path": "azure-pipelines.yml",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:8 at this commit: `vmImage: 'ubuntu-20.04'` selects the 04 hosted image."
+      }
+    }
+  ]
+}

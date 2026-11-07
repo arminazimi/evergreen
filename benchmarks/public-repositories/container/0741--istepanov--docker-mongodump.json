@@ -1,0 +1,7 @@
+{
+  "repository": "istepanov/docker-mongodump",
+  "commit": "b18532207e42f91771e86f99d9ac97a4de0b953d",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": []
+}

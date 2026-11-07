@@ -1,0 +1,7 @@
+{
+  "repository": "analogdevicesinc/EVAL-ADICUP360",
+  "commit": "7d76cf79a72e9e6f28345b37f9476a1da2c2d930",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": []
+}

@@ -1,0 +1,62 @@
+{
+  "repository": "aerospike/aerospike-dev-notebooks.docker",
+  "commit": "1a07437bbd3b95d6d3badf92b1dbf21c5938dadf",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:11 at this commit: `ENV AEROSPIKE_VERSION 5.6.0.9` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:12 at this commit: `ENV AEROSPIKE_SHA256 d5734f5d1560caa71ad476de1fb8ffec7ef33884747582ec4670726467c93a6a` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:13 at this commit: `ENV LOGFILE /var/log/aerospike/aerospike.log` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:17 at this commit: `ENV USER ${NB_USER}` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:18 at this commit: `ENV NB_UID ${NB_UID}` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:19 at this commit: `ENV HOME /home/${NB_USER}` uses the legacy space-separated ENV form."
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "jbochi/bullock",
+  "commit": "51b8f170948c7c3c3af180182412e069eb987364",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": []
+}

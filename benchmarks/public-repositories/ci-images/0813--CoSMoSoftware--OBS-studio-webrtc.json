@@ -1,0 +1,107 @@
+{
+  "repository": "CoSMoSoftware/OBS-studio-webrtc",
+  "commit": "e670e8693f7bd601c26257ef67d2dec5760bc042",
+  "ecosystem": "ci-images",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "ci-images.azure-pipelines.windows-2019",
+      "path": "azure-pipelines.yml",
+      "line": 88,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:88 at this commit: `vmImage: 'windows-2019'` selects the windows-2019 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+      "path": "azure-pipelines.yml",
+      "line": 117,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:117 at this commit: `vmImage: 'ubuntu-20.04'` selects the 04 hosted image."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "deps/blake2/CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read deps/blake2/CMakeLists.txt:1 at this commit: `cmake_minimum_required(VERSION 3.2)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "deps/jansson/CMakeLists.txt",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read deps/jansson/CMakeLists.txt:49 at this commit: `cmake_minimum_required (VERSION 2.8)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "deps/libcaption/CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read deps/libcaption/CMakeLists.txt:1 at this commit: `cmake_minimum_required(VERSION 2.8)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "deps/libff/CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read deps/libff/CMakeLists.txt:1 at this commit: `cmake_minimum_required (VERSION 2.8.11)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "deps/lzma/CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read deps/lzma/CMakeLists.txt:1 at this commit: `cmake_minimum_required(VERSION 3.2)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "deps/obs-scripting/CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read deps/obs-scripting/CMakeLists.txt:1 at this commit: `cmake_minimum_required(VERSION 2.8)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "deps/obs-scripting/obslua/CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read deps/obs-scripting/obslua/CMakeLists.txt:1 at this commit: `cmake_minimum_required(VERSION 2.8)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "deps/obs-scripting/obspython/CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read deps/obs-scripting/obspython/CMakeLists.txt:1 at this commit: `cmake_minimum_required(VERSION 2.8)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.10.deprecated",
+      "path": "plugins/win-dshow/virtualcam-module/CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read plugins/win-dshow/virtualcam-module/CMakeLists.txt:1 at this commit: `cmake_minimum_required(VERSION 3.5)` declares a minimum policy version below 3.10."
+      }
+    }
+  ]
+}

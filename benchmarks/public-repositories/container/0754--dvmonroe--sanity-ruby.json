@@ -1,0 +1,26 @@
+{
+  "repository": "dvmonroe/sanity-ruby",
+  "commit": "76100a8d56ed97fb7e445fb70df25078859a2422",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yml:11 at this commit: `- uses: actions/checkout@v2` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yml:24 at this commit: `- uses: actions/checkout@v2` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    }
+  ]
+}

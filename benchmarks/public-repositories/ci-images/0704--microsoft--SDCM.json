@@ -1,0 +1,7 @@
+{
+  "repository": "microsoft/SDCM",
+  "commit": "939279a9f75f0c752aad39ad0ef12080ee832e81",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": []
+}

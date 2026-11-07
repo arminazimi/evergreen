@@ -1,0 +1,62 @@
+{
+  "repository": "ecampidoglio/Linker",
+  "commit": "960c42b6c3454f941afeb43193370bac3bb1ec69",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build.yml:16 at this commit: `uses: actions/checkout@v1` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.0",
+      "path": "Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:1 at this commit: `FROM mcr.microsoft.com/dotnet/core/aspnet:3.0` targets .NET 3.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.windows-2019",
+      "path": "azure-pipelines.yml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:2 at this commit: `vmImage: 'windows-2019'` selects the windows-2019 hosted image."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "global.json",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read global.json:3 at this commit: `\"version\": \"3.1.100\",` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.0",
+      "path": "src/Linker/Linker.csproj",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Linker/Linker.csproj:8 at this commit: `<TargetFramework>netcoreapp3.0</TargetFramework>` targets .NET 3.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.0",
+      "path": "test/Linker.Tests/Linker.Tests.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read test/Linker.Tests/Linker.Tests.csproj:4 at this commit: `<TargetFramework>netcoreapp3.0</TargetFramework>` targets .NET 3.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

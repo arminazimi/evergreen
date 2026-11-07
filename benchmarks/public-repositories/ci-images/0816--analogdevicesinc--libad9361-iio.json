@@ -1,0 +1,26 @@
+{
+  "repository": "analogdevicesinc/libad9361-iio",
+  "commit": "7d8e7cadd07636cafb7a87d6bcdcc4dd4fcca9b3",
+  "ecosystem": "ci-images",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/copyright-license-check.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/copyright-license-check.yml:21 at this commit: `- uses: actions/checkout@v4` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.windows-2019",
+      "path": "azure-pipelines.yml",
+      "line": 290,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:290 at this commit: `vmImage: 'windows-2019'` selects the windows-2019 hosted image."
+      }
+    }
+  ]
+}

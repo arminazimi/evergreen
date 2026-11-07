@@ -1,0 +1,53 @@
+{
+  "repository": "StirlingLabs/Assimp.Net",
+  "commit": "cb0cb55192dd7b97f526d4d17f69ed44c232242c",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "AssimpNet.Tests/AssimpNet.Tests.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read AssimpNet.Tests/AssimpNet.Tests.csproj:4 at this commit: `<TargetFrameworks>net6.0;net7.0;netstandard2.1</TargetFrameworks>` targets .NET 6.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "AssimpNet.Tests/AssimpNet.Tests.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read AssimpNet.Tests/AssimpNet.Tests.csproj:4 at this commit: `<TargetFrameworks>net6.0;net7.0;netstandard2.1</TargetFrameworks>` targets .NET 7.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "AssimpNet/AssimpNet.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read AssimpNet/AssimpNet.csproj:4 at this commit: `<TargetFrameworks>net6.0;net7.0;netstandard2.1</TargetFrameworks>` targets .NET 6.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "AssimpNet/AssimpNet.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read AssimpNet/AssimpNet.csproj:4 at this commit: `<TargetFrameworks>net6.0;net7.0;netstandard2.1</TargetFrameworks>` targets .NET 7.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "global.json",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read global.json:3 at this commit: `\"version\": \"7.0.0\",` targets .NET 7.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

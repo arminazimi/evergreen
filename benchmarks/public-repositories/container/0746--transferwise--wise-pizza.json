@@ -1,0 +1,35 @@
+{
+  "repository": "transferwise/wise-pizza",
+  "commit": "22a3d2cd0e49fff3020089f269a0ea085cd74b9d",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/test.yml:21 at this commit: `uses: actions/checkout@v2` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/test.yml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/test.yml:24 at this commit: `uses: actions/setup-python@v2` is a `uses:` declaration of setup-python; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.txt:3 at this commit: `FROM python:3.9-slim`: tag 3.9-slim is at or below the rule's 3.10-and-older bound."
+      }
+    }
+  ]
+}

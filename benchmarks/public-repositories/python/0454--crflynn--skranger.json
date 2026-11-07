@@ -88,10 +88,10 @@
     {
       "ruleId": "python.runtime.eol-3.9-and-older",
       "path": "pyproject.toml",
-      "line": 4,
+      "line": 30,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Read pyproject.toml:4 at this commit: `description = \"Python bindings for C++ ranger random forests\"`; the declaration matches the rule's affected range."
+        "note": "Read pyproject.toml:30 at this commit: `python = \"^3.8.0\"`; the declaration matches the rule's affected range."
       }
     }
   ]

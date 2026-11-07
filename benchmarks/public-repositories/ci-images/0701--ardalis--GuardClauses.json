@@ -1,0 +1,35 @@
+{
+  "repository": "ardalis/GuardClauses",
+  "commit": "61dde6c9d3e1715286bd100144a9edff1ad0664c",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": ".github/workflows/publish.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/publish.yml:20 at this commit: `dotnet-version: 6.0.x` targets .NET 6.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/GuardClauses/GuardClauses.csproj",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/GuardClauses/GuardClauses.csproj:6 at this commit: `<TargetFrameworks>net8.0;netstandard2.1;netstandard2.0</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "test/GuardClauses.UnitTests/GuardClauses.UnitTests.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read test/GuardClauses.UnitTests/GuardClauses.UnitTests.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

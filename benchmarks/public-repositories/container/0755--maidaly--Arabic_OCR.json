@@ -1,0 +1,17 @@
+{
+  "repository": "maidaly/Arabic_OCR",
+  "commit": "d1692cffdb022070302e3eb107a274935731acc0",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.txt:1 at this commit: `FROM python:3.7`: tag 3.7 is at or below the rule's 3.10-and-older bound."
+      }
+    }
+  ]
+}

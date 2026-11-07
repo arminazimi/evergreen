@@ -1,0 +1,134 @@
+{
+  "repository": "psfinaki/CheckYourCzech",
+  "commit": "bbe4669a7f2f36aab2923b813e3ec3e2f42be5d0",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "ci-images.azure-pipelines.windows-2019",
+      "path": "azure-pipelines.yml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:23 at this commit: `vmImage: 'windows-2019'` selects the windows-2019 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.windows-2019",
+      "path": "azure-pipelines.yml",
+      "line": 99,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:99 at this commit: `vmImage: 'windows-2019'` selects the windows-2019 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.windows-2019",
+      "path": "azure-pipelines.yml",
+      "line": 155,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:155 at this commit: `vmImage: 'windows-2019'` selects the windows-2019 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.windows-2019",
+      "path": "azure-pipelines.yml",
+      "line": 177,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:177 at this commit: `vmImage: 'windows-2019'` selects the windows-2019 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.windows-2019",
+      "path": "azure-pipelines.yml",
+      "line": 205,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:205 at this commit: `vmImage: 'windows-2019'` selects the windows-2019 hosted image."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "deployment/Deployment/Deployment.fsproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read deployment/Deployment/Deployment.fsproj:5 at this commit: `<TargetFramework>net5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "npm.package.node-sass.deprecated",
+      "path": "package.json",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:36 at this commit: `\"node-sass\": \"^5.0.0\",` declares the node-sass dependency named by the rule."
+      }
+    },
+    {
+      "ruleId": "npm.package.node-sass.eol",
+      "path": "package.json",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:36 at this commit: `\"node-sass\": \"^5.0.0\",` declares the node-sass dependency named by the rule."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "src/Scraper/Scraper.fsproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Scraper/Scraper.fsproj:5 at this commit: `<TargetFramework>net5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "src/Server/Server.fsproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Server/Server.fsproj:5 at this commit: `<TargetFramework>net5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "tests/Client.UiTests/Client.UiTests.fsproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/Client.UiTests/Client.UiTests.fsproj:4 at this commit: `<TargetFramework>net5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "tests/Core.IntegrationTests/Core.IntegrationTests.fsproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/Core.IntegrationTests/Core.IntegrationTests.fsproj:4 at this commit: `<TargetFramework>net5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "tests/Core.Tests/Core.Tests.fsproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/Core.Tests/Core.Tests.fsproj:4 at this commit: `<TargetFramework>net5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "tests/WikiParsing.Tests/WikiParsing.Tests.fsproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/WikiParsing.Tests/WikiParsing.Tests.fsproj:4 at this commit: `<TargetFramework>net5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

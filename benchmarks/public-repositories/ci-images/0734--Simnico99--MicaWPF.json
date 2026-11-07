@@ -1,0 +1,80 @@
+{
+  "repository": "Simnico99/MicaWPF",
+  "commit": "13d5924d65f78fe4139033034b7759172b35d77f",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/MicaWPF.Core/MicaWPF.Core.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/MicaWPF.Core/MicaWPF.Core.csproj:4 at this commit: `<TargetFrameworks>net461;net47;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/MicaWPF.Core/MicaWPF.Core.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/MicaWPF.Core/MicaWPF.Core.csproj:4 at this commit: `<TargetFrameworks>net461;net47;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>` targets .NET 9.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/MicaWPF.DependencyInjection/MicaWPF.DependencyInjection.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/MicaWPF.DependencyInjection/MicaWPF.DependencyInjection.csproj:4 at this commit: `<TargetFrameworks>net461;net47;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/MicaWPF.DependencyInjection/MicaWPF.DependencyInjection.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/MicaWPF.DependencyInjection/MicaWPF.DependencyInjection.csproj:4 at this commit: `<TargetFrameworks>net461;net47;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>` targets .NET 9.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/MicaWPF.Lite/MicaWPF.Lite.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/MicaWPF.Lite/MicaWPF.Lite.csproj:4 at this commit: `<TargetFrameworks>net461;net47;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/MicaWPF.Lite/MicaWPF.Lite.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/MicaWPF.Lite/MicaWPF.Lite.csproj:4 at this commit: `<TargetFrameworks>net461;net47;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>` targets .NET 9.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/MicaWPF/MicaWPF.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/MicaWPF/MicaWPF.csproj:4 at this commit: `<TargetFrameworks>net461;net47;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/MicaWPF/MicaWPF.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/MicaWPF/MicaWPF.csproj:4 at this commit: `<TargetFrameworks>net461;net47;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>` targets .NET 9.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

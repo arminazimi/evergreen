@@ -1,0 +1,197 @@
+{
+  "repository": "dotpcap/sharppcap",
+  "commit": "667db1721cf0f91000c584fb6f5e8ff1f8327364",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/dotnet-core.yml",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dotnet-core.yml:39 at this commit: `- uses: actions/upload-artifact@v6` is a `uses:` declaration of upload-artifact; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "Examples/CreatingCaptureFile/CreatingCaptureFile.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Examples/CreatingCaptureFile/CreatingCaptureFile.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "Examples/Example1.IfList/Example01.IfList.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Examples/Example1.IfList/Example01.IfList.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "Examples/Example10.SendQueue/Example10.SendQueue.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Examples/Example10.SendQueue/Example10.SendQueue.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "Examples/Example11.Statistics/Example11.Statistics.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Examples/Example11.Statistics/Example11.Statistics.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "Examples/Example12.PacketManipulation/Example12.PacketManipulation.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Examples/Example12.PacketManipulation/Example12.PacketManipulation.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "Examples/Example2.ArpResolve/Example02.ArpResolve.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Examples/Example2.ArpResolve/Example02.ArpResolve.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "Examples/Example3.BasicCap/Example03.BasicCap.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Examples/Example3.BasicCap/Example03.BasicCap.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "Examples/Example4.BasicCapNoCallback/Example04.BasicCapNoCallback.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Examples/Example4.BasicCapNoCallback/Example04.BasicCapNoCallback.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "Examples/Example5.PcapFilter/Example05.PcapFilter.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Examples/Example5.PcapFilter/Example05.PcapFilter.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "Examples/Example6.DumpTCP/Example06.DumpTCP.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Examples/Example6.DumpTCP/Example06.DumpTCP.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "Examples/Example9.SendPacket/Example09.SendPacket.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Examples/Example9.SendPacket/Example09.SendPacket.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "Examples/MultipleFiltersOnDevice/MultipleFiltersOnDevice.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Examples/MultipleFiltersOnDevice/MultipleFiltersOnDevice.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "Examples/NpcapRemoteCapture/NpcapRemoteCapture.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Examples/NpcapRemoteCapture/NpcapRemoteCapture.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "Examples/QueuingPacketsForBackgroundProcessing/QueuingPacketsForBackgroundProcessing.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Examples/QueuingPacketsForBackgroundProcessing/QueuingPacketsForBackgroundProcessing.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "Examples/ReadingCaptureFile/ReadingCaptureFile.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Examples/ReadingCaptureFile/ReadingCaptureFile.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "Examples/WakeOnLan/WakeOnLan.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Examples/WakeOnLan/WakeOnLan.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "Examples/WinpkFilterExample/WinpkFilterExample.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Examples/WinpkFilterExample/WinpkFilterExample.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "SharpPcap/SharpPcap.csproj",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read SharpPcap/SharpPcap.csproj:10 at this commit: `<TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "Test/Test.csproj",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Test/Test.csproj:11 at this commit: `<TargetFrameworks>net8.0</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.macos-14",
+      "path": "azure-pipelines.yml",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:32 at this commit: `vmImage: macOS-14` selects the macos-14 hosted image."
+      }
+    }
+  ]
+}

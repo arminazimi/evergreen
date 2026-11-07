@@ -25,10 +25,10 @@
     {
       "ruleId": "python.runtime.eol-3.9-and-older",
       "path": "pyproject.toml",
-      "line": 4,
+      "line": 8,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Read pyproject.toml:4 at this commit: `description = \"High-performance Async REST API, in Python. FastAPI + GINO + Arq + Uvicorn (w/ Redis and PostgreSQL).\"`; the declaration matches the rule's affected range."
+        "note": "Read pyproject.toml:8 at this commit: `python = \"^3.8\"`; the declaration matches the rule's affected range."
       }
     }
   ]

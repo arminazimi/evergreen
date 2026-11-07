@@ -1,0 +1,62 @@
+{
+  "repository": "ZacBi/learn_NLP_again",
+  "commit": "3fac81c054f3b365ed50feac7a6f020ad8c7afeb",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.package.pytest-runner.deprecated",
+      "path": "requirements_dev.txt",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read requirements_dev.txt:17 at this commit: `pytest-runner==5.2` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "setup.py",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read setup.py:22 at this commit: `python_requires='>=3.5',` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "tox.ini",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tox.ini:2 at this commit: `envlist = py35, py36, py37, py38, flake8` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "tox.ini",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tox.ini:2 at this commit: `envlist = py35, py36, py37, py38, flake8` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "tox.ini",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tox.ini:2 at this commit: `envlist = py35, py36, py37, py38, flake8` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "tox.ini",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tox.ini:2 at this commit: `envlist = py35, py36, py37, py38, flake8` declares a runtime version the rule judges."
+      }
+    }
+  ]
+}

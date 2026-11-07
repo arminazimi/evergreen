@@ -2,8 +2,8 @@ import type { ManifestEcosystem } from "../schema.js";
 
 const ciImages: ManifestEcosystem = {
   id: "ci-images",
-  status: "experimental",
-  maturity: "experimental",
+  status: "supported",
+  maturity: "stable",
   detectorIds: ["ci-images"],
 };
 

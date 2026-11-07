@@ -1,0 +1,53 @@
+{
+  "repository": "CCRcmcpe/Auto-Arknights",
+  "commit": "5fb5017739495735abd91e00696be3b7f08d9732",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "Source/CLI/Auto Arknights CLI.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Source/CLI/Auto Arknights CLI.csproj:4 at this commit: `<TargetFramework>net6.0</TargetFramework>` targets .NET 6.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "Source/CLI/global.json",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Source/CLI/global.json:3 at this commit: `\"version\": \"6.0.101\",` targets .NET 6.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "Source/Core/Auto Arknights Core.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Source/Core/Auto Arknights Core.csproj:4 at this commit: `<TargetFramework>net6.0</TargetFramework>` targets .NET 6.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "Source/Core/CV/ImageLocator.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Source/Core/CV/ImageLocator.csproj:4 at this commit: `<TargetFramework>net5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "Source/Test/Core/Test.Core.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Source/Test/Core/Test.Core.csproj:4 at this commit: `<TargetFramework>net6.0-windows</TargetFramework>` targets .NET 6.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

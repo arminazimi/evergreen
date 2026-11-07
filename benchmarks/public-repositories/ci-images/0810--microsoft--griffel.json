@@ -1,0 +1,7 @@
+{
+  "repository": "microsoft/griffel",
+  "commit": "8a7b9d5a1f446302195f608af8888b53c9849fd4",
+  "ecosystem": "ci-images",
+  "selection": "targeted",
+  "expected": []
+}

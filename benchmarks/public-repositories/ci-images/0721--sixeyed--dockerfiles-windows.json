@@ -1,0 +1,629 @@
+{
+  "repository": "sixeyed/dockerfiles-windows",
+  "commit": "83ff302133e79a43c0efbed1c3d8669a3340e987",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "aspnet/windowsservercore/1809/Dockerfile",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aspnet/windowsservercore/1809/Dockerfile:28 at this commit: `ENV ROSLYN_COMPILER_LOCATION c:\\\\RoslynCompilers\\\\tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-2.0",
+      "path": "aspnetcore-sample/HelloWorld/HelloWorld.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aspnetcore-sample/HelloWorld/HelloWorld.csproj:3 at this commit: `<TargetFramework>netcoreapp2.0</TargetFramework>` targets .NET 2.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/init.tf",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/init.tf:6 at this commit: `location = \"${var.region}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/init.tf",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/init.tf:7 at this commit: `name     = \"${var.resource_group}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/init.tf",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/init.tf:13 at this commit: `location            = \"${var.region}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/init.tf",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/init.tf:14 at this commit: `name                = \"${var.storage_account}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/init.tf",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/init.tf:15 at this commit: `resource_group_name = \"${azurerm_resource_group.global.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/init.tf",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/init.tf:21 at this commit: `resource_group_name   = \"${azurerm_resource_group.global.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/init.tf",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/init.tf:22 at this commit: `storage_account_name  = \"${azurerm_storage_account.global.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/init.tf",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/init.tf:28 at this commit: `resource_group_name    = \"${azurerm_resource_group.global.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/init.tf",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/init.tf:29 at this commit: `storage_account_name   = \"${azurerm_storage_account.global.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/init.tf",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/init.tf:30 at this commit: `storage_container_name = \"${azurerm_storage_container.global.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/init.tf",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/init.tf:31 at this commit: `source_uri = \"${var.image_vhd_uri}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:5 at this commit: `location = \"${var.region}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:6 at this commit: `resource_group_name = \"${azurerm_resource_group.global.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:11 at this commit: `resource_group_name = \"${azurerm_resource_group.global.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:12 at this commit: `virtual_network_name = \"${azurerm_virtual_network.windows.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:17 at this commit: `count                        = \"${var.vm_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:19 at this commit: `location = \"${var.region}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:20 at this commit: `resource_group_name = \"${azurerm_resource_group.global.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:24 at this commit: `subnet_id = \"${azurerm_subnet.windows.id}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:25 at this commit: `public_ip_address_id          = \"${element(azurerm_public_ip.windows.*.id, count.index)}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:31 at this commit: `count                        = \"${var.vm_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:34 at this commit: `location                     = \"${var.region}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:37 at this commit: `resource_group_name          = \"${azurerm_resource_group.global.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:42 at this commit: `count                 = \"${var.vm_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:44 at this commit: `resource_group_name   = \"${azurerm_resource_group.global.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:45 at this commit: `storage_account_name  = \"${azurerm_storage_account.global.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:49 at this commit: `count                        = \"${var.vm_count}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:51 at this commit: `location = \"${var.region}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:52 at this commit: `resource_group_name = \"${azurerm_resource_group.global.name}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:53 at this commit: `network_interface_ids = [\"${element(azurerm_network_interface.windows.*.id, count.index)}\"]` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:54 at this commit: `vm_size = \"${var.vm_size}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 67,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:67 at this commit: `admin_username = \"${var.usernames[count.index]}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "azure-vm-provisioner/scripts/windows.tf",
+      "line": 68,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-vm-provisioner/scripts/windows.tf:68 at this commit: `admin_password = \"${var.passwords[count.index]}\"` is an interpolation-only expression."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "docker-cli/windowsservercore/ltsc2019/Dockerfile",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docker-cli/windowsservercore/ltsc2019/Dockerfile:27 at this commit: `ENV DOCKER_PATH ${DOCKER_PATH}` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "dotnet-framework-3.5-runtime/windowsservercore/1809/Dockerfile",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read dotnet-framework-3.5-runtime/windowsservercore/1809/Dockerfile:33 at this commit: `ENV COMPLUS_NGenProtectedProcess_FeatureEnabled 0` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "dotnet-framework-runtime/windowsservercore/1809/Dockerfile",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read dotnet-framework-runtime/windowsservercore/1809/Dockerfile:3 at this commit: `ENV COMPLUS_NGenProtectedProcess_FeatureEnabled 0` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "dotnet-framework-sdk/windowsservercore/1809-ignore/Dockerfile",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read dotnet-framework-sdk/windowsservercore/1809-ignore/Dockerfile:5 at this commit: `ENV COMPLUS_NGenProtectedProcess_FeatureEnabled 0` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "dotnet-framework-sdk/windowsservercore/1809-ignore/Dockerfile.old",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read dotnet-framework-sdk/windowsservercore/1809-ignore/Dockerfile.old:10 at this commit: `ENV NUGET_VERSION 4.4.1` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "dotnet-framework-sdk/windowsservercore/1809-ignore/Dockerfile.old",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read dotnet-framework-sdk/windowsservercore/1809-ignore/Dockerfile.old:36 at this commit: `ENV ROSLYN_COMPILER_LOCATION \"C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\BuildTools\\MSBuild\\15.0\\Bin\\Roslyn\"` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "golang/Dockerfile",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read golang/Dockerfile:10 at this commit: `ENV GO_VERSION 1.4.3` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "httpd/Dockerfile",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read httpd/Dockerfile:5 at this commit: `ENV HTTPD_VERSION 2.4.23` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "nginx/windowsservercore/ltsc2016/Dockerfile",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nginx/windowsservercore/ltsc2016/Dockerfile:16 at this commit: `ENV NGINX_VERSION ${NGINX_VERSION}` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "nginx/windowsservercore/ltsc2019/Dockerfile",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nginx/windowsservercore/ltsc2019/Dockerfile:16 at this commit: `ENV NGINX_VERSION ${NGINX_VERSION}` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "openjdk/nanoserver/1809/Dockerfile",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read openjdk/nanoserver/1809/Dockerfile:38 at this commit: `ENV JAVA_HOME ${JAVA_HOME}` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "openjdk/nanoserver/1809/Dockerfile",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read openjdk/nanoserver/1809/Dockerfile:39 at this commit: `ENV JAVA_VERSION ${JAVA_VERSION}` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "openjdk/nanoserver/1809/Dockerfile",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read openjdk/nanoserver/1809/Dockerfile:40 at this commit: `ENV JAVA_OJDKBUILD_VERSION ${JAVA_OJDKBUILD_VERSION}` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "openjdk/nanoserver/sac2016/Dockerfile",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read openjdk/nanoserver/sac2016/Dockerfile:21 at this commit: `ENV JAVA_HOME C:\\\\ojdkbuild` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "openjdk/nanoserver/sac2016/Dockerfile",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read openjdk/nanoserver/sac2016/Dockerfile:28 at this commit: `ENV JAVA_VERSION 10.0.2` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "openjdk/nanoserver/sac2016/Dockerfile",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read openjdk/nanoserver/sac2016/Dockerfile:29 at this commit: `ENV JAVA_OJDKBUILD_VERSION 10.0.2-1` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "openjdk/nanoserver/sac2016/Dockerfile",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read openjdk/nanoserver/sac2016/Dockerfile:30 at this commit: `ENV JAVA_OJDKBUILD_ZIP java-10-openjdk-10.0.2-1.b13.ojdkbuild.windows.x86_64.zip` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "openjdk/nanoserver/sac2016/Dockerfile",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read openjdk/nanoserver/sac2016/Dockerfile:31 at this commit: `ENV JAVA_OJDKBUILD_SHA256 39801db76f04b9f1491b0d0a64258535f14e319a3cd08d3e161b18a6af7a842d` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "openjdk/windowsservercore/ltsc2016/Dockerfile",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read openjdk/windowsservercore/ltsc2016/Dockerfile:6 at this commit: `ENV JAVA_HOME C:\\\\ojdkbuild` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "openjdk/windowsservercore/ltsc2016/Dockerfile",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read openjdk/windowsservercore/ltsc2016/Dockerfile:13 at this commit: `ENV JAVA_VERSION 10.0.2` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "openjdk/windowsservercore/ltsc2016/Dockerfile",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read openjdk/windowsservercore/ltsc2016/Dockerfile:14 at this commit: `ENV JAVA_OJDKBUILD_VERSION 10.0.2-1` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "openjdk/windowsservercore/ltsc2016/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read openjdk/windowsservercore/ltsc2016/Dockerfile:15 at this commit: `ENV JAVA_OJDKBUILD_ZIP java-10-openjdk-10.0.2-1.b13.ojdkbuild.windows.x86_64.zip` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "openjdk/windowsservercore/ltsc2016/Dockerfile",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read openjdk/windowsservercore/ltsc2016/Dockerfile:16 at this commit: `ENV JAVA_OJDKBUILD_SHA256 39801db76f04b9f1491b0d0a64258535f14e319a3cd08d3e161b18a6af7a842d` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "openjdk/windowsservercore/ltsc2019/Dockerfile",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read openjdk/windowsservercore/ltsc2019/Dockerfile:38 at this commit: `ENV JAVA_HOME ${JAVA_HOME}` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "openjdk/windowsservercore/ltsc2019/Dockerfile",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read openjdk/windowsservercore/ltsc2019/Dockerfile:39 at this commit: `ENV JAVA_VERSION ${JAVA_VERSION}` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "openjdk/windowsservercore/ltsc2019/Dockerfile",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read openjdk/windowsservercore/ltsc2019/Dockerfile:40 at this commit: `ENV JAVA_OJDKBUILD_VERSION ${JAVA_OJDKBUILD_VERSION}` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "rabbitmq/Dockerfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read rabbitmq/Dockerfile:4 at this commit: `ENV erlang_download_url \"http://erlang.org/download/otp_win64_19.3.exe\"` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "rabbitmq/Dockerfile",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read rabbitmq/Dockerfile:7 at this commit: `ENV ERLANG_HOME c:\\\\erlang` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "rabbitmq/Dockerfile",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read rabbitmq/Dockerfile:10 at this commit: `ENV rabbitmq_version \"3.6.9\"` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "rabbitmq/Dockerfile",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read rabbitmq/Dockerfile:13 at this commit: `ENV rabbit_download_url \"https://www.rabbitmq.com/releases/rabbitmq-server/v3.6.9/rabbitmq-server-windows-$rabbitmq_version.zip\"` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "rabbitmq/Dockerfile",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read rabbitmq/Dockerfile:35 at this commit: `ENV RABBITMQ_CONFIG_FILE \"c:\\rabbitmq\"` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.0",
+      "path": "whoami-dotnet/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read whoami-dotnet/Dockerfile:1 at this commit: `FROM mcr.microsoft.com/dotnet/core/sdk:3.0.100 as builder` targets .NET 3.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.0",
+      "path": "whoami-dotnet/Dockerfile",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read whoami-dotnet/Dockerfile:11 at this commit: `FROM  mcr.microsoft.com/dotnet/core/aspnet:3.0` targets .NET 3.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.0",
+      "path": "whoami-dotnet/src/whoami/whoami.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read whoami-dotnet/src/whoami/whoami.csproj:4 at this commit: `<TargetFramework>netcoreapp3.0</TargetFramework>` targets .NET 3.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "gaelcolas/Sampler",
+  "commit": "6a6aa03518461069ba38dd170d5c83e9528a3f0c",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": []
+}

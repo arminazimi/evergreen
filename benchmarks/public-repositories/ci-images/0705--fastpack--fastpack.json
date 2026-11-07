@@ -1,0 +1,26 @@
+{
+  "repository": "fastpack/fastpack",
+  "commit": "173e0a412474baefd1f0f22597274730a74f475d",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "linux-build/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read linux-build/Dockerfile:1 at this commit: `FROM alpine:3.8`: tag 3.8 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "linux-build/Dockerfile",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read linux-build/Dockerfile:5 at this commit: `ENV GLIBC_VERSION 2.28-r0` uses the legacy space-separated ENV form."
+      }
+    }
+  ]
+}

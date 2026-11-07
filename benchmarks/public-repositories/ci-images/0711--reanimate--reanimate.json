@@ -1,0 +1,62 @@
+{
+  "repository": "reanimate/reanimate",
+  "commit": "583ee9f426bb96ac15996772a6fd7ccf0caf08a7",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/gh-pages.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/gh-pages.yml:12 at this commit: `- uses: actions/checkout@v3` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/gh-pages.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/gh-pages.yml:22 at this commit: `uses: actions/cache@v3.0.11` is a `uses:` declaration of cache; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/haskell.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/haskell.yml:15 at this commit: `- uses: actions/checkout@v3` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/haskell.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/haskell.yml:22 at this commit: `uses: actions/cache@v3.0.11` is a `uses:` declaration of cache; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/playground.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/playground.yml:13 at this commit: `- uses: actions/checkout@v3` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/playground.yml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/playground.yml:23 at this commit: `uses: actions/cache@v3.0.11` is a `uses:` declaration of cache; the pinned ref is in the rule's affected range."
+      }
+    }
+  ]
+}

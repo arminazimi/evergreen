@@ -1,0 +1,80 @@
+{
+  "repository": "dotnet/performance",
+  "commit": "1a4cd2d5c01e84d5499ddd402e188e19dd4fa54b",
+  "ecosystem": "ci-images",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/markdownlint.yml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/markdownlint.yml:23 at this commit: `node-version: '20'` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-2.0",
+      "path": "src/benchmarks/other/docker/docker-harness.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/benchmarks/other/docker/docker-harness.csproj:4 at this commit: `<TargetFramework>netcoreapp2.0</TargetFramework>` targets .NET 2.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/harness/BenchmarkDotNet.Extensions/BenchmarkDotNet.Extensions.csproj",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/harness/BenchmarkDotNet.Extensions/BenchmarkDotNet.Extensions.csproj:8 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "src/scenarios/staticwinformstemplate/src/staticwinformstemplate.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/scenarios/staticwinformstemplate/src/staticwinformstemplate.csproj:5 at this commit: `<TargetFramework>net7.0-windows</TargetFramework>` targets .NET 7.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.package.windowsazure-storage.deprecated",
+      "path": "src/scenarios/weblarge3.0/src/ClassLib023/ClassLib023.csproj",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/scenarios/weblarge3.0/src/ClassLib023/ClassLib023.csproj:9 at this commit: `<PackageReference Include=\"WindowsAzure.Storage\" Version=\"8.5.0\" />` references the deprecated package."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.0",
+      "path": "src/scenarios/weblarge3.0/src/mvc/mvc.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/scenarios/weblarge3.0/src/mvc/mvc.csproj:4 at this commit: `<TargetFramework>netcoreapp3.0</TargetFramework>` targets .NET 3.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "src/scenarios/windowsformslarge/src/WinformsNetCorePerfApp1.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/scenarios/windowsformslarge/src/WinformsNetCorePerfApp1.csproj:5 at this commit: `<TargetFramework>net7.0-windows</TargetFramework>` targets .NET 7.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "src/scenarios/wpfsfc/src/wpfsfc.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/scenarios/wpfsfc/src/wpfsfc.csproj:5 at this commit: `<TargetFramework>net7.0-windows</TargetFramework>` targets .NET 7.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

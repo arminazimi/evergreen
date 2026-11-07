@@ -1,0 +1,44 @@
+{
+  "repository": "ivanpaulovich/FluentMediator",
+  "commit": "6f1c0a53d332020e304b61692380636e5136eedf",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.0",
+      "path": "samples/AspNetCore/src/WebApi/WebApi.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read samples/AspNetCore/src/WebApi/WebApi.csproj:4 at this commit: `<TargetFramework>netcoreapp3.0</TargetFramework>` targets .NET 3.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.0",
+      "path": "samples/AspNetCore/test/UnitTests/UnitTests.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read samples/AspNetCore/test/UnitTests/UnitTests.csproj:4 at this commit: `<TargetFramework>netcoreapp3.0</TargetFramework>` targets .NET 3.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-2.2",
+      "path": "samples/SimpleConsoleApp/PingPong/PingPong.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read samples/SimpleConsoleApp/PingPong/PingPong.csproj:5 at this commit: `<TargetFramework>netcoreapp2.2</TargetFramework>` targets .NET 2.2, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-2.2",
+      "path": "test/UnitTests/UnitTests.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read test/UnitTests/UnitTests.csproj:4 at this commit: `<TargetFramework>netcoreapp2.2</TargetFramework>` targets .NET 2.2, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

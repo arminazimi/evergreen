@@ -1,0 +1,35 @@
+{
+  "repository": "hexawyz/NetUnicodeInfo",
+  "commit": "c2ab5227094d8f934b34fe6d3186c7f1e2be5e74",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "System.Unicode.Build.DatabaseGenerator/System.Unicode.Build.DatabaseGenerator.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read System.Unicode.Build.DatabaseGenerator/System.Unicode.Build.DatabaseGenerator.csproj:5 at this commit: `<TargetFramework>net7.0</TargetFramework>` targets .NET 7.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "System.Unicode.Tests/System.Unicode.Tests.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read System.Unicode.Tests/System.Unicode.Tests.csproj:4 at this commit: `<TargetFramework>net7.0</TargetFramework>` targets .NET 7.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "System.Unicode/System.Unicode.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read System.Unicode/System.Unicode.csproj:4 at this commit: `<TargetFrameworks>net5.0;netstandard2.1;netstandard2.0;netstandard1.1;net45</TargetFrameworks>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

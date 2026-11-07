@@ -1,0 +1,26 @@
+{
+  "repository": "HariSekhon/DevOps-Python-tools",
+  "commit": "32ffee202073282e7b7006102e692c453e98b01c",
+  "ecosystem": "ci-images",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/codeql-analysis.yml",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/codeql-analysis.yml:34 at this commit: `uses: actions/checkout@v2` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.google-cloud-functions.python37",
+      "path": "gcp_cloud_function_sql_export/serverless.yml",
+      "line": 55,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read gcp_cloud_function_sql_export/serverless.yml:55 at this commit: `runtime: python37` declares a runtime version the rule judges."
+      }
+    }
+  ]
+}

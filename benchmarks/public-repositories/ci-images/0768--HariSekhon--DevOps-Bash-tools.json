@@ -1,0 +1,7 @@
+{
+  "repository": "HariSekhon/DevOps-Bash-tools",
+  "commit": "780154f5a9acb5a23fbfa9db44c0db5c51353abd",
+  "ecosystem": "ci-images",
+  "selection": "targeted",
+  "expected": []
+}

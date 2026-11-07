@@ -1,0 +1,170 @@
+{
+  "repository": "chrishenry/deltanyc-heatseek",
+  "commit": "258e225efa89e46e92e9676864f8c07976b4ccf2",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile.luigi-import-worker",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.luigi-import-worker:1 at this commit: `FROM python:2.7`: tag 2.7 is at or below the rule's 3.10-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "Dockerfile.luigi-import-worker",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.luigi-import-worker:3 at this commit: `MAINTAINER Chris Henry <henry.christopher@gmail.com>` uses the deprecated MAINTAINER instruction."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile.luigi-import-worker",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.luigi-import-worker:5 at this commit: `ENV PYTHONUNBUFFERED 1` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile.luigid",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.luigid:1 at this commit: `FROM python:2.7`: tag 2.7 is at or below the rule's 3.10-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "Dockerfile.luigid",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.luigid:3 at this commit: `MAINTAINER Chris Henry <henry.christopher@gmail.com>` uses the deprecated MAINTAINER instruction."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile.luigid",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.luigid:5 at this commit: `ENV PYTHONUNBUFFERED 1` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile.nb",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.nb:1 at this commit: `FROM python:2.7`: tag 2.7 is at or below the rule's 3.10-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "Dockerfile.nb",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.nb:3 at this commit: `MAINTAINER Chris Henry <henry.christopher@gmail.com>` uses the deprecated MAINTAINER instruction."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile.nb",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.nb:5 at this commit: `ENV PYTHONUNBUFFERED 1` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile.nb",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.nb:28 at this commit: `ENV SHELL /bin/bash` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile.nb",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.nb:29 at this commit: `ENV NB_USER root` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile.nb",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.nb:30 at this commit: `ENV LC_ALL en_US.UTF-8` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile.nb",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.nb:31 at this commit: `ENV LANG en_US.UTF-8` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile.nb",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.nb:32 at this commit: `ENV LANGUAGE en_US.UTF-8` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.ruby.eol-3.2-and-older",
+      "path": "angular-rails-app/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read angular-rails-app/Dockerfile:1 at this commit: `FROM ruby:2.3.3`: tag 2.3.3 is at or below the rule's 3.2-and-older bound."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.3",
+      "path": "angular-rails-app/Gemfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read angular-rails-app/Gemfile:2 at this commit: `ruby '2.3.3'` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.3",
+      "path": "angular-rails-app/Gemfile.lock",
+      "line": 306,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read angular-rails-app/Gemfile.lock:306 at this commit: `ruby 2.3.3p222` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "infra/main.tf",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read infra/main.tf:16 at this commit: `user_data          = \"${file(\"user-data.yml\")}\"` is an interpolation-only expression."
+      }
+    }
+  ]
+}

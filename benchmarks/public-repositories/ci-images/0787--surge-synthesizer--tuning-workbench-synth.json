@@ -1,0 +1,7 @@
+{
+  "repository": "surge-synthesizer/tuning-workbench-synth",
+  "commit": "ddf9cef1afc65e6065117a273ba8e06c753f0fd7",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": []
+}

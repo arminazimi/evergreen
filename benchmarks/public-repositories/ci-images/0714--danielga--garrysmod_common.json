@@ -1,0 +1,7 @@
+{
+  "repository": "danielga/garrysmod_common",
+  "commit": "f77a18d86f780a59ea30e4237016b05b790d4b70",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": []
+}

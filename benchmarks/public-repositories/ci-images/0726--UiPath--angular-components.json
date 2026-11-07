@@ -1,0 +1,53 @@
+{
+  "repository": "UiPath/angular-components",
+  "commit": "9be8fd024c8665553ad59c3cae3ae327359de811",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/publish.yml:15 at this commit: `uses: actions/setup-node@7c12f8017d5436eb855f1ed4399f037a36fbd9e8  # v2.5.2` is a `uses:` declaration of setup-node; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": ".github/workflows/publish.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/publish.yml:17 at this commit: `node-version: '16.18.0'` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/publish.yml:20 at this commit: `uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e  # v2.8.0` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.angular.core.v18-and-older.end-of-support",
+      "path": "package.json",
+      "line": 77,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:77 at this commit: `\"@angular/core\": \"15.2.9\",` declares the angular dependency named by the rule."
+      }
+    },
+    {
+      "ruleId": "npm.package.protractor.deprecated",
+      "path": "package.json",
+      "line": 156,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:156 at this commit: `\"protractor\": \"~7.0.0\",` declares the protractor dependency named by the rule."
+      }
+    }
+  ]
+}

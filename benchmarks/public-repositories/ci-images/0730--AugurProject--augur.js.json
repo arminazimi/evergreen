@@ -1,0 +1,80 @@
+{
+  "repository": "AugurProject/augur.js",
+  "commit": "5d1efd1c5e6b2d262ac41a4f58a9fa9691a25abf",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": ".nvmrc",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .nvmrc:1 at this commit: `10.12.0` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:5 at this commit: `FROM node:8 AS builder`: tag 8 is at or below the rule's 21-and-older bound."
+      }
+    },
+    {
+      "ruleId": "npm.package.babel-preset-es2015.deprecated",
+      "path": "package.json",
+      "line": 85,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:85 at this commit: `\"babel-preset-es2015\": \"6.24.1\",` declares the babel-preset-es2015 dependency named by the rule."
+      }
+    },
+    {
+      "ruleId": "npm.package.istanbul.deprecated",
+      "path": "package.json",
+      "line": 96,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:96 at this commit: `\"istanbul\": \"0.4.5\",` declares the istanbul dependency named by the rule."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "package.json",
+      "line": 106,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:106 at this commit: `\"node\": \">= 8.0.0\"` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "package.json",
+      "line": 106,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:106 at this commit: `\"node\": \">= 8.0.0\"` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 106,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:106 at this commit: `\"node\": \">= 8.0.0\"` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "package.json",
+      "line": 106,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:106 at this commit: `\"node\": \">= 8.0.0\"` declares a runtime version the rule judges."
+      }
+    }
+  ]
+}

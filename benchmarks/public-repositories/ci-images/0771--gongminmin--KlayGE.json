@@ -1,0 +1,7 @@
+{
+  "repository": "gongminmin/KlayGE",
+  "commit": "8a17214dba735ab1a9a2e8f2d28b71bd04465429",
+  "ecosystem": "ci-images",
+  "selection": "targeted",
+  "expected": []
+}

@@ -1,0 +1,80 @@
+{
+  "repository": "vector-of-bool/pmm",
+  "commit": "3750c8e0b84c93669f9c7054b091788715c4dc10",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "ci-images.azure-pipelines.windows-2019",
+      "path": "azure-pipelines.yml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:10 at this commit: `vmImage: windows-2019` selects the windows-2019 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.windows-2019",
+      "path": "azure-pipelines.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:22 at this commit: `vmImage: windows-2019` selects the windows-2019 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+      "path": "azure-pipelines.yml",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:34 at this commit: `vmImage: ubuntu-20.04` selects the 04 hosted image."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "pyproject.toml",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read pyproject.toml:9 at this commit: `python = \"^3.10\"` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "tests/alpine.docker/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/alpine.docker/Dockerfile:1 at this commit: `FROM alpine:3.14`: tag 3.14 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "tests/u18.docker/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/u18.docker/Dockerfile:1 at this commit: `FROM ubuntu:18.04`: tag 18.04 is at or below the rule's 20.04-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "tests/u20-cm3_20.docker/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/u20-cm3_20.docker/Dockerfile:1 at this commit: `FROM ubuntu:20.04`: tag 20.04 is at or below the rule's 20.04-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "tests/u20.docker/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/u20.docker/Dockerfile:1 at this commit: `FROM ubuntu:20.04`: tag 20.04 is at or below the rule's 20.04-and-older bound."
+      }
+    }
+  ]
+}

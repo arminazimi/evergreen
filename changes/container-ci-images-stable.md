@@ -1,0 +1,1 @@
+- Promote the `container` and `ci-images` detectors to stable and add 116 corpus repositories, and report a Poetry `python` constraint at its own line in `pyproject.toml` instead of the first line that mentions Python. (#1898)

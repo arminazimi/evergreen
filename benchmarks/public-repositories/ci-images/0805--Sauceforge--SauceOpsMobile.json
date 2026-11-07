@@ -1,0 +1,7 @@
+{
+  "repository": "Sauceforge/SauceOpsMobile",
+  "commit": "13a67d1adeea03ac8fbc679f486b7eec71389152",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": []
+}

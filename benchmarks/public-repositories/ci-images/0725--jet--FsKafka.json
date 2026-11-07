@@ -1,0 +1,26 @@
+{
+  "repository": "jet/FsKafka",
+  "commit": "347f2bb679cb1c7a06ad556c068795642abed0e5",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "global.json",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read global.json:3 at this commit: `\"version\": \"8.0.100\",` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "tests/FsKafka.Integration/FsKafka.Integration.fsproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/FsKafka.Integration/FsKafka.Integration.fsproj:4 at this commit: `<TargetFrameworks>net8.0;net10.0</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

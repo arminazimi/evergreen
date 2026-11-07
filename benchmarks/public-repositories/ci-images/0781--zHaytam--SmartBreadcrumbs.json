@@ -1,0 +1,35 @@
+{
+  "repository": "zHaytam/SmartBreadcrumbs",
+  "commit": "ba32d8293481b765cfe206a23e09fb86bd8abc82",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.0",
+      "path": "examples/RazorPagesAndMvc/RazorPagesAndMvc.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read examples/RazorPagesAndMvc/RazorPagesAndMvc.csproj:4 at this commit: `<TargetFramework>netcoreapp3.0</TargetFramework>` targets .NET 3.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.0",
+      "path": "src/SmartBreadcrumbs.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/SmartBreadcrumbs.csproj:4 at this commit: `<TargetFramework>netcoreapp3.0</TargetFramework>` targets .NET 3.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.0",
+      "path": "tests/SmartBreadcrumbs.UnitTests/SmartBreadcrumbs.UnitTests.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/SmartBreadcrumbs.UnitTests/SmartBreadcrumbs.UnitTests.csproj:4 at this commit: `<TargetFramework>netcoreapp3.0</TargetFramework>` targets .NET 3.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

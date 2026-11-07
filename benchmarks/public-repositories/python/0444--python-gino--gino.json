@@ -214,10 +214,10 @@
     {
       "ruleId": "python.runtime.eol-3.9-and-older",
       "path": "pyproject.toml",
-      "line": 4,
+      "line": 26,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Read pyproject.toml:4 at this commit: `description = \"GINO Is Not ORM - a Python asyncio ORM on SQLAlchemy core.\"`; the declaration matches the rule's affected range."
+        "note": "Read pyproject.toml:26 at this commit: `python = \"^3.6\"`; the declaration matches the rule's affected range."
       }
     }
   ]

@@ -1,0 +1,188 @@
+{
+  "repository": "microsoft/MSBuildSdks",
+  "commit": "eeadbd0c1d4fecbd95f5c6d4c8194726998508bc",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "samples/NoTargets/SampleNoTargets/SampleNoTargets.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read samples/NoTargets/SampleNoTargets/SampleNoTargets.csproj:3 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "samples/Traversal/ProjectA/ProjectA.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read samples/Traversal/ProjectA/ProjectA.csproj:3 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "samples/Traversal/ProjectB/ProjectB.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read samples/Traversal/ProjectB/ProjectB.csproj:3 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Artifacts.UnitTests/Microsoft.Build.Artifacts.UnitTests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Artifacts.UnitTests/Microsoft.Build.Artifacts.UnitTests.csproj:3 at this commit: `<TargetFrameworks>net472;net8.0;net9.0;net10.0</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Artifacts.UnitTests/Microsoft.Build.Artifacts.UnitTests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Artifacts.UnitTests/Microsoft.Build.Artifacts.UnitTests.csproj:3 at this commit: `<TargetFrameworks>net472;net8.0;net9.0;net10.0</TargetFrameworks>` targets .NET 9.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Cargo.UnitTests/Microsoft.Build.Cargo.UnitTests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Cargo.UnitTests/Microsoft.Build.Cargo.UnitTests.csproj:3 at this commit: `<TargetFrameworks>net472;net8.0;net9.0;net10.0</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Cargo.UnitTests/Microsoft.Build.Cargo.UnitTests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Cargo.UnitTests/Microsoft.Build.Cargo.UnitTests.csproj:3 at this commit: `<TargetFrameworks>net472;net8.0;net9.0;net10.0</TargetFrameworks>` targets .NET 9.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Cargo/Microsoft.Build.Cargo.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Cargo/Microsoft.Build.Cargo.csproj:5 at this commit: `<TargetFrameworks>net472;net8.0;net9.0</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Cargo/Microsoft.Build.Cargo.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Cargo/Microsoft.Build.Cargo.csproj:5 at this commit: `<TargetFrameworks>net472;net8.0;net9.0</TargetFrameworks>` targets .NET 9.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/CentralPackageVersions.UnitTests/Microsoft.Build.CentralPackageVersions.UnitTests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/CentralPackageVersions.UnitTests/Microsoft.Build.CentralPackageVersions.UnitTests.csproj:3 at this commit: `<TargetFrameworks>net472;net8.0;net9.0;net10.0</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/CentralPackageVersions.UnitTests/Microsoft.Build.CentralPackageVersions.UnitTests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/CentralPackageVersions.UnitTests/Microsoft.Build.CentralPackageVersions.UnitTests.csproj:3 at this commit: `<TargetFrameworks>net472;net8.0;net9.0;net10.0</TargetFrameworks>` targets .NET 9.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/CopyOnWrite.UnitTests/Microsoft.Build.CopyOnWrite.UnitTests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/CopyOnWrite.UnitTests/Microsoft.Build.CopyOnWrite.UnitTests.csproj:3 at this commit: `<TargetFrameworks>net472;net8.0;net9.0;net10.0</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/CopyOnWrite.UnitTests/Microsoft.Build.CopyOnWrite.UnitTests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/CopyOnWrite.UnitTests/Microsoft.Build.CopyOnWrite.UnitTests.csproj:3 at this commit: `<TargetFrameworks>net472;net8.0;net9.0;net10.0</TargetFrameworks>` targets .NET 9.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/NoTargets.UnitTests/Microsoft.Build.NoTargets.UnitTests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NoTargets.UnitTests/Microsoft.Build.NoTargets.UnitTests.csproj:3 at this commit: `<TargetFrameworks>net472;net8.0;net9.0;net10.0</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/NoTargets.UnitTests/Microsoft.Build.NoTargets.UnitTests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NoTargets.UnitTests/Microsoft.Build.NoTargets.UnitTests.csproj:3 at this commit: `<TargetFrameworks>net472;net8.0;net9.0;net10.0</TargetFrameworks>` targets .NET 9.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Traversal.UnitTests/Microsoft.Build.Traversal.UnitTests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Traversal.UnitTests/Microsoft.Build.Traversal.UnitTests.csproj:3 at this commit: `<TargetFrameworks>net472;net8.0;net9.0;net10.0</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Traversal.UnitTests/Microsoft.Build.Traversal.UnitTests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Traversal.UnitTests/Microsoft.Build.Traversal.UnitTests.csproj:3 at this commit: `<TargetFrameworks>net472;net8.0;net9.0;net10.0</TargetFrameworks>` targets .NET 9.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/UniversalPackages.UnitTests/Microsoft.Build.UniversalPackages.UnitTests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/UniversalPackages.UnitTests/Microsoft.Build.UniversalPackages.UnitTests.csproj:3 at this commit: `<TargetFrameworks>net472;net8.0;net9.0;net10.0</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/UniversalPackages.UnitTests/Microsoft.Build.UniversalPackages.UnitTests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/UniversalPackages.UnitTests/Microsoft.Build.UniversalPackages.UnitTests.csproj:3 at this commit: `<TargetFrameworks>net472;net8.0;net9.0;net10.0</TargetFrameworks>` targets .NET 9.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/UniversalPackages/Microsoft.Build.UniversalPackages.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/UniversalPackages/Microsoft.Build.UniversalPackages.csproj:5 at this commit: `<TargetFrameworks>net8.0;net472</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

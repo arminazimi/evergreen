@@ -1,0 +1,44 @@
+{
+  "repository": "s7anley/redis-sentinel-docker",
+  "commit": "86eefbb80fb64feb3267feed718aa5240e1ef415",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.redis.eol-6.0-and-older",
+      "path": "Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:1 at this commit: `FROM redis:4.0.10-alpine`: tag 4.0.10-alpine is at or below the rule's 6.0-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "Dockerfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:2 at this commit: `MAINTAINER Ján Koščo (@s7anley)` uses the deprecated MAINTAINER instruction."
+      }
+    },
+    {
+      "ruleId": "container.redis.eol-6.0-and-older",
+      "path": "docker-compose.yml",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docker-compose.yml:5 at this commit: `image: redis:4.0.10-alpine`: tag 4.0.10-alpine is at or below the rule's 6.0-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.redis.eol-6.0-and-older",
+      "path": "docker-compose.yml",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docker-compose.yml:8 at this commit: `image: redis:4.0.10-alpine`: tag 4.0.10-alpine is at or below the rule's 6.0-and-older bound."
+      }
+    }
+  ]
+}

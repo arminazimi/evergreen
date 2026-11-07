@@ -1,0 +1,44 @@
+{
+  "repository": "GoranHalvarsson/SitecoreBlazor",
+  "commit": "a67417616a0f412e6022a60873160fbe760e6984",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "Foundation/BlazorExtensions.Tests/Foundation.BlazorExtensions.Tests.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Foundation/BlazorExtensions.Tests/Foundation.BlazorExtensions.Tests.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "SitecoreBlazorHosted.Electron/SitecoreBlazorHosted.Electron.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read SitecoreBlazorHosted.Electron/SitecoreBlazorHosted.Electron.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "SitecoreBlazorHosted.Server/SitecoreBlazorHosted.Server.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read SitecoreBlazorHosted.Server/SitecoreBlazorHosted.Server.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.windows-2019",
+      "path": "azure-pipelines.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:7 at this commit: `vmImage: 'windows-2019'` selects the windows-2019 hosted image."
+      }
+    }
+  ]
+}

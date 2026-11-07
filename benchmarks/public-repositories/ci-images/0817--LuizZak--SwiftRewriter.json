@@ -1,0 +1,35 @@
+{
+  "repository": "LuizZak/SwiftRewriter",
+  "commit": "523c70dcdf9ab24e0754c49b6925eb86a62a001c",
+  "ecosystem": "ci-images",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": ".python-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .python-version:1 at this commit: `3.10.0` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .ruby-version:1 at this commit: `2.7.1` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+      "path": "azure-pipelines.yml",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:31 at this commit: `vmImage: ubuntu-20.04` selects the 04 hosted image."
+      }
+    }
+  ]
+}

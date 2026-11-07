@@ -1,0 +1,206 @@
+{
+  "repository": "shahedc/NetLearnerApp",
+  "commit": "88a6784662a5a4d68268dc72cfd8a4245f0e1b22",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "experimental/DocMaker/DocMaker.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read experimental/DocMaker/DocMaker.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "experimental/NetLearner.DotNet5/NetLearner.DotNet5/NetLearner.DotNet5.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read experimental/NetLearner.DotNet5/NetLearner.DotNet5/NetLearner.DotNet5.csproj:4 at this commit: `<TargetFramework>netcoreapp5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "experimental/NetLearner.DotNet5/NetLearner.DotNet5Api/NetLearner.DotNet5Api.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read experimental/NetLearner.DotNet5/NetLearner.DotNet5Api/NetLearner.DotNet5Api.csproj:4 at this commit: `<TargetFramework>netcoreapp5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "experimental/NetLearner.DotNet5/NetLearner.DotNet5Blazor/NetLearner.DotNet5Blazor.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read experimental/NetLearner.DotNet5/NetLearner.DotNet5Blazor/NetLearner.DotNet5Blazor.csproj:4 at this commit: `<TargetFramework>netcoreapp5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "experimental/NetLearner.DotNet5/NetLearner.DotNet5Mvc/NetLearner.DotNet5Mvc.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read experimental/NetLearner.DotNet5/NetLearner.DotNet5Mvc/NetLearner.DotNet5Mvc.csproj:4 at this commit: `<TargetFramework>netcoreapp5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "experimental/NetLearner.DotNet5/NetLearner.DotNet5Pages/NetLearner.DotNet5Pages.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read experimental/NetLearner.DotNet5/NetLearner.DotNet5Pages/NetLearner.DotNet5Pages.csproj:4 at this commit: `<TargetFramework>netcoreapp5.0</TargetFramework>` targets .NET 5.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "experimental/NetLearner.OrgAuth/OrgAuth.Blazor/OrgAuth.Blazor.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read experimental/NetLearner.OrgAuth/OrgAuth.Blazor/OrgAuth.Blazor.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "experimental/NetLearner.OrgAuth/OrgAuth.Mvc/OrgAuth.Mvc.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read experimental/NetLearner.OrgAuth/OrgAuth.Mvc/OrgAuth.Mvc.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "experimental/NetLearner.OrgAuth/OrgAuth.Pages/OrgAuth.Pages.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read experimental/NetLearner.OrgAuth/OrgAuth.Pages/OrgAuth.Pages.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "experimental/NetLearner.SignalRPoll/NetLearner.SignalRPoll.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read experimental/NetLearner.SignalRPoll/NetLearner.SignalRPoll.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "experimental/TagHelperAuthoring/TagHelperAuthoring.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read experimental/TagHelperAuthoring/TagHelperAuthoring.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/NetLearner.Api/NetLearner.Api.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NetLearner.Api/NetLearner.Api.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/NetLearner.Blazor.Tests/NetLearner.Blazor.Tests.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NetLearner.Blazor.Tests/NetLearner.Blazor.Tests.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/NetLearner.Blazor/NetLearner.Blazor.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NetLearner.Blazor/NetLearner.Blazor.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/NetLearner.EmptySample/NetLearner.EmptySample.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NetLearner.EmptySample/NetLearner.EmptySample.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/NetLearner.Mvc.Tests/NetLearner.Mvc.Tests.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NetLearner.Mvc.Tests/NetLearner.Mvc.Tests.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/NetLearner.Mvc/NetLearner.Mvc.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NetLearner.Mvc/NetLearner.Mvc.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/NetLearner.Pages.Tests/NetLearner.Pages.Tests.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NetLearner.Pages.Tests/NetLearner.Pages.Tests.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/NetLearner.Pages/NetLearner.Pages.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NetLearner.Pages/NetLearner.Pages.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/NetLearner.Portal/NetLearner.Portal.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NetLearner.Portal/NetLearner.Portal.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/NetLearner.SharedLib.Tests/NetLearner.SharedLib.Tests.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NetLearner.SharedLib.Tests/NetLearner.SharedLib.Tests.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/NetLearnerApp/NetLearnerApp.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NetLearnerApp/NetLearnerApp.csproj:5 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

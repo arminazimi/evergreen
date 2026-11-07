@@ -1,0 +1,71 @@
+{
+  "repository": "botchagalupe/DockerDo",
+  "commit": "b3cfe2e4f49c9557589e3639c3c2a8a11b42d34c",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "Dockerfile.md",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.md:11 at this commit: `FROM ubuntu:14.04`: tag 14.04 is at or below the rule's 20.04-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "Dockerfile.md",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.md:47 at this commit: `FROM ubuntu:14.04`: tag 14.04 is at or below the rule's 20.04-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "Dockerfile.md",
+      "line": 67,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.md:67 at this commit: `FROM ubuntu:14.04`: tag 14.04 is at or below the rule's 20.04-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "Dockerfile.md",
+      "line": 113,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.md:113 at this commit: `FROM ubuntu:14.04`: tag 14.04 is at or below the rule's 20.04-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "Dockerfile.md",
+      "line": 149,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.md:149 at this commit: `FROM ubuntu:14.04`: tag 14.04 is at or below the rule's 20.04-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "Dockerfile.md",
+      "line": 151,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.md:151 at this commit: `MAINTAINER John Willis  <john@socketplane.io>` uses the deprecated MAINTAINER instruction."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile.md",
+      "line": 152,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.md:152 at this commit: `ENV REFRESHED_AT 2016-04-20` uses the legacy space-separated ENV form."
+      }
+    }
+  ]
+}

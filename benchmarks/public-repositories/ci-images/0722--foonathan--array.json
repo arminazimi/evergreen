@@ -1,0 +1,17 @@
+{
+  "repository": "foonathan/array",
+  "commit": "08e0a989a5e71fd8048602ec2d3e8a90fa906b14",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "cpp.cmake.policy-below-3.10.deprecated",
+      "path": "CMakeLists.txt",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read CMakeLists.txt:5 at this commit: `cmake_minimum_required(VERSION 3.8)` declares a minimum policy version below 3.10."
+      }
+    }
+  ]
+}

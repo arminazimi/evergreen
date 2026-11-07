@@ -1,0 +1,26 @@
+{
+  "repository": "EducationalTestingService/skll",
+  "commit": "b350eb00ffa43f8dfcc672a373d1d3a1946230cd",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "pyproject.toml",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read pyproject.toml:8 at this commit: `requires-python = \">= 3.10\"` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "runtime.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read runtime.txt:1 at this commit: `python-3.10` declares a runtime version the rule judges."
+      }
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "repository": "accelerated-text/accelerated-text",
+  "commit": "25fe892b54cce00579e17b01876558ca45fbbbe0",
+  "ecosystem": "ci-images",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/repo-traffic.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/repo-traffic.yml:16 at this commit: `- uses: actions/checkout@v2` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+      "path": "azure-pipelines.yml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:10 at this commit: `vmImage: 'ubuntu-20.04'` selects the 04 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+      "path": "azure-pipelines.yml",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:27 at this commit: `vmImage: 'ubuntu-20.04'` selects the 04 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+      "path": "azure-pipelines.yml",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:51 at this commit: `vmImage: 'ubuntu-20.04'` selects the 04 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+      "path": "azure-pipelines.yml",
+      "line": 82,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:82 at this commit: `vmImage: 'ubuntu-20.04'` selects the 04 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+      "path": "azure-pipelines.yml",
+      "line": 112,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:112 at this commit: `vmImage: 'ubuntu-20.04'` selects the 04 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+      "path": "azure-pipelines.yml",
+      "line": 141,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:141 at this commit: `vmImage: 'ubuntu-20.04'` selects the 04 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+      "path": "azure-pipelines.yml",
+      "line": 170,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:170 at this commit: `vmImage: 'ubuntu-20.04'` selects the 04 hosted image."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "core/gf/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read core/gf/Dockerfile:1 at this commit: `FROM ubuntu:20.04`: tag 20.04 is at or below the rule's 20.04-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "front-end/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read front-end/Dockerfile:1 at this commit: `FROM node:11-slim`: tag 11-slim is at or below the rule's 21-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "front-end/Dockerfile.builder",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read front-end/Dockerfile.builder:1 at this commit: `FROM node:11-slim as builder`: tag 11-slim is at or below the rule's 21-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "front-end/Dockerfile.tests",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read front-end/Dockerfile.tests:1 at this commit: `FROM node:11-slim`: tag 11-slim is at or below the rule's 21-and-older bound."
+      }
+    }
+  ]
+}

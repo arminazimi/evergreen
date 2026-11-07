@@ -1,0 +1,62 @@
+{
+  "repository": "imbushuo/EnergyStar",
+  "commit": "18872289ac4de7d22208f1fc5b156abaa904dff8",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/dotnet.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dotnet.yml:11 at this commit: `- uses: actions/checkout@v3` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-dotnet.node20",
+      "path": ".github/workflows/dotnet.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dotnet.yml:13 at this commit: `uses: actions/setup-dotnet@v2` is a `uses:` declaration of setup-dotnet; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": ".github/workflows/dotnet.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dotnet.yml:15 at this commit: `dotnet-version: 6.0.x` targets .NET 6.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/dotnet.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dotnet.yml:26 at this commit: `- uses: actions/upload-artifact@v3` is a `uses:` declaration of upload-artifact; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/dotnet.yml",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dotnet.yml:30 at this commit: `- uses: actions/upload-artifact@v3` is a `uses:` declaration of upload-artifact; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "EnergyStar/EnergyStar.csproj",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read EnergyStar/EnergyStar.csproj:6 at this commit: `<TargetFramework>net6.0</TargetFramework>` targets .NET 6.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

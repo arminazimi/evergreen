@@ -1,0 +1,44 @@
+{
+  "repository": "DigitalRuby/ExchangeSharp",
+  "commit": "7aebe46b6485ec2ab7679645e8f86c57c28e5d14",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "examples/ExchangeSharpWinForms/ExchangeSharpWinForms.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read examples/ExchangeSharpWinForms/ExchangeSharpWinForms.csproj:5 at this commit: `<TargetFramework>net9.0-windows</TargetFramework>` targets .NET 9.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/ExchangeSharp.Forms/ExchangeSharp.Forms.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/ExchangeSharp.Forms/ExchangeSharp.Forms.csproj:4 at this commit: `<TargetFramework>net9.0-windows</TargetFramework>` targets .NET 9.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/ExchangeSharpConsole/ExchangeSharpConsole.csproj",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/ExchangeSharpConsole/ExchangeSharpConsole.csproj:6 at this commit: `<TargetFramework>net9.0</TargetFramework>` targets .NET 9.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "tests/ExchangeSharpTests/ExchangeSharpTests.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/ExchangeSharpTests/ExchangeSharpTests.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

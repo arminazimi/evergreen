@@ -1,0 +1,53 @@
+{
+  "repository": "Haufe-Lexware/docker-style-guide",
+  "commit": "0911cac0b91452741de4c2a72a0b6c857c3c88b0",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "Dockerfile.md",
+      "line": 56,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.md:56 at this commit: `FROM ubuntu:14.04.1`: tag 14.04.1 is at or below the rule's 20.04-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "Dockerfile.md",
+      "line": 71,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.md:71 at this commit: `FROM ubuntu:14.04.1`: tag 14.04.1 is at or below the rule's 20.04-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "Dockerfile.md",
+      "line": 72,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.md:72 at this commit: `MAINTAINER ...` uses the deprecated MAINTAINER instruction."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "Dockerfile.md",
+      "line": 203,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.md:203 at this commit: `FROM ubuntu:14.04.1`: tag 14.04.1 is at or below the rule's 20.04-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "examples/VSCode_RemoteDebugContainer_NodeJSEnv/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read examples/VSCode_RemoteDebugContainer_NodeJSEnv/Dockerfile:1 at this commit: `FROM node:4.2.3`: tag 4.2.3 is at or below the rule's 21-and-older bound."
+      }
+    }
+  ]
+}

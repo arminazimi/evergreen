@@ -1,0 +1,44 @@
+{
+  "repository": "edyan/php-fpm",
+  "commit": "b1178dce5dcd00ceb91e5fecfa1534ec59083751",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build-docker-image.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build-docker-image.yml:18 at this commit: `uses: actions/checkout@v3` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/build-docker-image.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build-docker-image.yml:21 at this commit: `uses: docker/login-action@v2` is a `uses:` declaration of login-action; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/build-docker-image.yml",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build-docker-image.yml:28 at this commit: `uses: docker/login-action@v2` is a `uses:` declaration of login-action; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.metadata-action.node20",
+      "path": ".github/workflows/build-docker-image.yml",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build-docker-image.yml:35 at this commit: `uses: docker/metadata-action@v4` is a `uses:` declaration of metadata-action; the pinned ref is in the rule's affected range."
+      }
+    }
+  ]
+}

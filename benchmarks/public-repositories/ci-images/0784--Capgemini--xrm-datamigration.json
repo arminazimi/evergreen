@@ -1,0 +1,7 @@
+{
+  "repository": "Capgemini/xrm-datamigration",
+  "commit": "7f06fd1456e1da79de24083e20a29fdc88e61b77",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": []
+}

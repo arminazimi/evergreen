@@ -1,0 +1,53 @@
+{
+  "repository": "whorusq/learning-docker",
+  "commit": "4f39aef4501bfc4f56406e8afcba885a29242b04",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "Dockerfile.md",
+      "line": 112,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.md:112 at this commit: `FROM ubuntu:16.04`: tag 16.04 is at or below the rule's 20.04-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "lamp2/Dockerfile",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read lamp2/Dockerfile:9 at this commit: `FROM ubuntu:16.04`: tag 16.04 is at or below the rule's 20.04-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "lamp2/Dockerfile",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read lamp2/Dockerfile:10 at this commit: `MAINTAINER whoru.S.Q <whoru.sun@gmail.com>` uses the deprecated MAINTAINER instruction."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "tools/Dockerfile",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tools/Dockerfile:7 at this commit: `FROM ubuntu:16.04`: tag 16.04 is at or below the rule's 20.04-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "tools/Dockerfile",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tools/Dockerfile:8 at this commit: `MAINTAINER whoru.S.Q <whoru.sun@gmail.com>` uses the deprecated MAINTAINER instruction."
+      }
+    }
+  ]
+}

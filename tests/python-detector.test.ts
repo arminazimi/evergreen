@@ -24,6 +24,12 @@ for (const [path, contents, line, severity] of [
   ["setup.py", 'from setuptools import setup\nsetup(name="app", python_requires=">=3.9,<4")\n', 2, "medium"],
   ["setup.py", 'import setuptools\nsetuptools.setup(\n    python_requires=">=3.9,<4",\n)\n', 3, "medium"],
   ["tox.ini", "[tox]\nenvlist = py39\n", 2, "high"],
+  [
+    "pyproject.toml",
+    '[tool.poetry]\ndescription = "A modern Python project"\n\n[tool.poetry.dependencies]\npython = "^3.9"\n',
+    5,
+    "medium",
+  ],
 ] as const) {
   test(`reports an end-of-life interpreter in ${path} at line ${line} (${contents.trim()})`, async (t) => {
     const findings = await scan(t, { [path]: contents });

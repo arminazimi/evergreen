@@ -1,0 +1,80 @@
+{
+  "repository": "Comcast/Ravel",
+  "commit": "1aad45e3a1a1143e2ce972a57a9ac6f061030a13",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "Base/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Base/Dockerfile:1 at this commit: `FROM golang:1.20-alpine`: tag 1.20-alpine is at or below the rule's 1.25-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "cmd/iface-lister/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cmd/iface-lister/Dockerfile:1 at this commit: `FROM golang:1.13-alpine`: tag 1.13-alpine is at or below the rule's 1.25-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "cmd/iface-lister/Dockerfile",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cmd/iface-lister/Dockerfile:13 at this commit: `FROM golang:1.13-alpine`: tag 1.13-alpine is at or below the rule's 1.25-and-older bound."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "dev-setups/deployments/udp-server/udp-test.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read dev-setups/deployments/udp-server/udp-test.yaml:1 at this commit: `apiVersion: extensions/v1beta1` uses a removed API version."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read go.mod:3 at this commit: `go 1.15` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "gobgp.Dockerfile",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read gobgp.Dockerfile:3 at this commit: `MAINTAINER FUJITA Tomonori <fujita.tomonori@gmail.com>` uses the deprecated MAINTAINER instruction."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "gobgp.Dockerfile",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read gobgp.Dockerfile:8 at this commit: `ENV HOME /root` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "gobgp.Dockerfile",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read gobgp.Dockerfile:10 at this commit: `ENV GO111MODULE on` uses the legacy space-separated ENV form."
+      }
+    }
+  ]
+}

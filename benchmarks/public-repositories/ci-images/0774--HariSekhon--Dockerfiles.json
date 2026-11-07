@@ -1,0 +1,4643 @@
+{
+  "repository": "HariSekhon/Dockerfiles",
+  "commit": "b38ac95de8be22e481385ae220ea2949fe24ba51",
+  "ecosystem": "ci-images",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "alluxio/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read alluxio/Dockerfile:15 at this commit: `FROM alpine:3.12`: tag 3.12 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "alluxio/Dockerfile",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read alluxio/Dockerfile:19 at this commit: `ENV PATH $PATH:/alluxio/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "alpine-dev/Dockerfile",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read alpine-dev/Dockerfile:29 at this commit: `ENV PATH $PATH:$GRADLE_HOME/bin:$GROOVY_HOME/bin:$JYTHON_HOME/bin:$MAVEN_HOME/bin:$SBT_HOME/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "alpine-github/Dockerfile",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read alpine-github/Dockerfile:25 at this commit: `ENV PATH /bin:$PATH:/github/nagios-plugins:/github/devops-perl-tools:/github/devops-python-tools:/github/bash-tools:/github/spotify` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "alpine-java/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read alpine-java/Dockerfile:15 at this commit: `FROM alpine:3.12`: tag 3.12 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "apache-drill/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read apache-drill/Dockerfile:15 at this commit: `FROM alpine:3.12`: tag 3.12 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "apache-drill/Dockerfile",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read apache-drill/Dockerfile:33 at this commit: `ENV PATH $PATH:/apache-drill/bin:/zookeeper/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "appveyor-debian/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read appveyor-debian/Dockerfile:15 at this commit: `FROM debian:9`: tag 9 is at or below the rule's 11-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "appveyor-ubuntu/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read appveyor-ubuntu/Dockerfile:15 at this commit: `FROM ubuntu:18.04`: tag 18.04 is at or below the rule's 20.04-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "aws-eb-cli/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-eb-cli/Dockerfile:15 at this commit: `FROM alpine:3.12`: tag 3.12 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "aws-eb-cli/Dockerfile",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-eb-cli/Dockerfile:23 at this commit: `ENV PATH $PATH:/home/aws/.local/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "backstage/Dockerfile",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read backstage/Dockerfile:26 at this commit: `FROM node:14-buster-slim AS packages`: tag 14-buster-slim is at or below the rule's 21-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "backstage/Dockerfile",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read backstage/Dockerfile:53 at this commit: `FROM node:14-buster-slim AS build`: tag 14-buster-slim is at or below the rule's 21-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "backstage/Dockerfile",
+      "line": 69,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read backstage/Dockerfile:69 at this commit: `FROM node:14-buster-slim`: tag 14-buster-slim is at or below the rule's 21-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "cassandra-dev/Dockerfile",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cassandra-dev/Dockerfile:27 at this commit: `ENV PATH $PATH:/cassandra/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "centos-dev/Dockerfile",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read centos-dev/Dockerfile:25 at this commit: `ENV PATH $PATH:$GRADLE_HOME/bin:$JYTHON_HOME/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "centos-github/Dockerfile",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read centos-github/Dockerfile:24 at this commit: `ENV PATH /bin:$PATH:/github/nagios-plugins:/github/devops-perl-tools:/github/devops-python-tools:/github/bash-tools:/github/spotify` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "circleci-runner/Dockerfile",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read circleci-runner/Dockerfile:25 at this commit: `ENV DEBIAN_FRONTEND noninteractive` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "collectd/Dockerfile",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read collectd/Dockerfile:23 at this commit: `ENV PATH $PATH:/NAME/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "consul-dev/Dockerfile",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read consul-dev/Dockerfile:27 at this commit: `ENV PATH $PATH:/` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "consul/Dockerfile",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read consul/Dockerfile:21 at this commit: `FROM debian:11`: tag 11 is at or below the rule's 11-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "consul/Dockerfile",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read consul/Dockerfile:25 at this commit: `ENV PATH $PATH:/` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "debian-dev/Dockerfile",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read debian-dev/Dockerfile:23 at this commit: `ENV DEBIAN_FRONTEND noninteractive` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "debian-dev/Dockerfile",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read debian-dev/Dockerfile:27 at this commit: `ENV PATH $PATH:$GRADLE_HOME/bin:$JYTHON_HOME/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "debian-github/Dockerfile",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read debian-github/Dockerfile:23 at this commit: `ENV DEBIAN_FRONTEND noninteractive` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "debian-github/Dockerfile",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read debian-github/Dockerfile:37 at this commit: `ENV PATH $PATH:/github/nagios-plugins:/github/devops-perl-tools:/github/devops-python-tools:/github/bash-tools:/github/spotify` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "debian-java/Dockerfile",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read debian-java/Dockerfile:17 at this commit: `FROM debian:stretch`: tag 9 is at or below the rule's 11-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "debian-java/Dockerfile",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read debian-java/Dockerfile:25 at this commit: `ENV DEBIAN_FRONTEND noninteractive` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:15 at this commit: `FROM alpine:3.20`: tag 3.20 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:24 at this commit: `ENV PATH $PATH:/github/bash-tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:27 at this commit: `ENV PATH $PATH:/github/bash-tools/ai` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:28 at this commit: `ENV PATH $PATH:/github/bash-tools/appveyor` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:29 at this commit: `ENV PATH $PATH:/github/bash-tools/aws` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:30 at this commit: `ENV PATH $PATH:/github/bash-tools/azure_devops` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:31 at this commit: `ENV PATH $PATH:/github/bash-tools/bigdata` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:32 at this commit: `ENV PATH $PATH:/github/bash-tools/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:33 at this commit: `ENV PATH $PATH:/github/bash-tools/bitbucket` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:34 at this commit: `ENV PATH $PATH:/github/bash-tools/buildkite` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:35 at this commit: `ENV PATH $PATH:/github/bash-tools/checks` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:36 at this commit: `ENV PATH $PATH:/github/bash-tools/cicd` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:37 at this commit: `ENV PATH $PATH:/github/bash-tools/circleci` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:38 at this commit: `ENV PATH $PATH:/github/bash-tools/cloudflare` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:39 at this commit: `ENV PATH $PATH:/github/bash-tools/data` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:40 at this commit: `ENV PATH $PATH:/github/bash-tools/docker` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:41 at this commit: `ENV PATH $PATH:/github/bash-tools/drone` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:42 at this commit: `ENV PATH $PATH:/github/bash-tools/gcp` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:43 at this commit: `ENV PATH $PATH:/github/bash-tools/git` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:44 at this commit: `ENV PATH $PATH:/github/bash-tools/github` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:45 at this commit: `ENV PATH $PATH:/github/bash-tools/gitlab` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:46 at this commit: `ENV PATH $PATH:/github/bash-tools/install` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:47 at this commit: `ENV PATH $PATH:/github/bash-tools/ipaas` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:48 at this commit: `ENV PATH $PATH:/github/bash-tools/java` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:49 at this commit: `ENV PATH $PATH:/github/bash-tools/jenkins` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 50,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:50 at this commit: `ENV PATH $PATH:/github/bash-tools/kafka` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:51 at this commit: `ENV PATH $PATH:/github/bash-tools/kubernetes` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:52 at this commit: `ENV PATH $PATH:/github/bash-tools/media` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:53 at this commit: `ENV PATH $PATH:/github/bash-tools/monitoring` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:54 at this commit: `ENV PATH $PATH:/github/bash-tools/mysql` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 55,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:55 at this commit: `ENV PATH $PATH:/github/bash-tools/packages` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 56,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:56 at this commit: `ENV PATH $PATH:/github/bash-tools/perl` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:57 at this commit: `ENV PATH $PATH:/github/bash-tools/pingdom` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 58,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:58 at this commit: `ENV PATH $PATH:/github/bash-tools/postgres` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:59 at this commit: `ENV PATH $PATH:/github/bash-tools/python` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 60,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:60 at this commit: `ENV PATH $PATH:/github/bash-tools/scripts` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 61,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:61 at this commit: `ENV PATH $PATH:/github/bash-tools/search` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 62,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:62 at this commit: `ENV PATH $PATH:/github/bash-tools/setup` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:63 at this commit: `ENV PATH $PATH:/github/bash-tools/spotify` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-alpine/Dockerfile",
+      "line": 64,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-alpine/Dockerfile:64 at this commit: `ENV PATH $PATH:/github/bash-tools/terraform` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:24 at this commit: `ENV PATH $PATH:/github/bash-tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:27 at this commit: `ENV PATH $PATH:/github/bash-tools/ai` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:28 at this commit: `ENV PATH $PATH:/github/bash-tools/appveyor` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:29 at this commit: `ENV PATH $PATH:/github/bash-tools/aws` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:30 at this commit: `ENV PATH $PATH:/github/bash-tools/azure_devops` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:31 at this commit: `ENV PATH $PATH:/github/bash-tools/bigdata` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:32 at this commit: `ENV PATH $PATH:/github/bash-tools/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:33 at this commit: `ENV PATH $PATH:/github/bash-tools/bitbucket` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:34 at this commit: `ENV PATH $PATH:/github/bash-tools/buildkite` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:35 at this commit: `ENV PATH $PATH:/github/bash-tools/checks` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:36 at this commit: `ENV PATH $PATH:/github/bash-tools/cicd` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:37 at this commit: `ENV PATH $PATH:/github/bash-tools/circleci` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:38 at this commit: `ENV PATH $PATH:/github/bash-tools/cloudflare` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:39 at this commit: `ENV PATH $PATH:/github/bash-tools/data` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:40 at this commit: `ENV PATH $PATH:/github/bash-tools/docker` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:41 at this commit: `ENV PATH $PATH:/github/bash-tools/drone` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:42 at this commit: `ENV PATH $PATH:/github/bash-tools/gcp` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:43 at this commit: `ENV PATH $PATH:/github/bash-tools/git` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:44 at this commit: `ENV PATH $PATH:/github/bash-tools/github` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:45 at this commit: `ENV PATH $PATH:/github/bash-tools/gitlab` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:46 at this commit: `ENV PATH $PATH:/github/bash-tools/install` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:47 at this commit: `ENV PATH $PATH:/github/bash-tools/ipaas` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:48 at this commit: `ENV PATH $PATH:/github/bash-tools/java` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:49 at this commit: `ENV PATH $PATH:/github/bash-tools/jenkins` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 50,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:50 at this commit: `ENV PATH $PATH:/github/bash-tools/kafka` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:51 at this commit: `ENV PATH $PATH:/github/bash-tools/kubernetes` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:52 at this commit: `ENV PATH $PATH:/github/bash-tools/media` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:53 at this commit: `ENV PATH $PATH:/github/bash-tools/monitoring` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:54 at this commit: `ENV PATH $PATH:/github/bash-tools/mysql` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 55,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:55 at this commit: `ENV PATH $PATH:/github/bash-tools/packages` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 56,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:56 at this commit: `ENV PATH $PATH:/github/bash-tools/perl` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:57 at this commit: `ENV PATH $PATH:/github/bash-tools/pingdom` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 58,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:58 at this commit: `ENV PATH $PATH:/github/bash-tools/postgres` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:59 at this commit: `ENV PATH $PATH:/github/bash-tools/python` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 60,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:60 at this commit: `ENV PATH $PATH:/github/bash-tools/scripts` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 61,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:61 at this commit: `ENV PATH $PATH:/github/bash-tools/search` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 62,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:62 at this commit: `ENV PATH $PATH:/github/bash-tools/setup` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:63 at this commit: `ENV PATH $PATH:/github/bash-tools/spotify` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-centos/Dockerfile",
+      "line": 64,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-centos/Dockerfile:64 at this commit: `ENV PATH $PATH:/github/bash-tools/terraform` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:15 at this commit: `FROM debian:11`: tag 11 is at or below the rule's 11-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:24 at this commit: `ENV PATH $PATH:/github/bash-tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:27 at this commit: `ENV PATH $PATH:/github/bash-tools/ai` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:28 at this commit: `ENV PATH $PATH:/github/bash-tools/appveyor` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:29 at this commit: `ENV PATH $PATH:/github/bash-tools/aws` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:30 at this commit: `ENV PATH $PATH:/github/bash-tools/azure_devops` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:31 at this commit: `ENV PATH $PATH:/github/bash-tools/bigdata` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:32 at this commit: `ENV PATH $PATH:/github/bash-tools/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:33 at this commit: `ENV PATH $PATH:/github/bash-tools/bitbucket` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:34 at this commit: `ENV PATH $PATH:/github/bash-tools/buildkite` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:35 at this commit: `ENV PATH $PATH:/github/bash-tools/checks` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:36 at this commit: `ENV PATH $PATH:/github/bash-tools/cicd` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:37 at this commit: `ENV PATH $PATH:/github/bash-tools/circleci` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:38 at this commit: `ENV PATH $PATH:/github/bash-tools/cloudflare` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:39 at this commit: `ENV PATH $PATH:/github/bash-tools/data` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:40 at this commit: `ENV PATH $PATH:/github/bash-tools/docker` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:41 at this commit: `ENV PATH $PATH:/github/bash-tools/drone` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:42 at this commit: `ENV PATH $PATH:/github/bash-tools/gcp` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:43 at this commit: `ENV PATH $PATH:/github/bash-tools/git` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:44 at this commit: `ENV PATH $PATH:/github/bash-tools/github` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:45 at this commit: `ENV PATH $PATH:/github/bash-tools/gitlab` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:46 at this commit: `ENV PATH $PATH:/github/bash-tools/install` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:47 at this commit: `ENV PATH $PATH:/github/bash-tools/ipaas` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:48 at this commit: `ENV PATH $PATH:/github/bash-tools/java` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:49 at this commit: `ENV PATH $PATH:/github/bash-tools/jenkins` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 50,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:50 at this commit: `ENV PATH $PATH:/github/bash-tools/kafka` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:51 at this commit: `ENV PATH $PATH:/github/bash-tools/kubernetes` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:52 at this commit: `ENV PATH $PATH:/github/bash-tools/media` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:53 at this commit: `ENV PATH $PATH:/github/bash-tools/monitoring` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:54 at this commit: `ENV PATH $PATH:/github/bash-tools/mysql` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 55,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:55 at this commit: `ENV PATH $PATH:/github/bash-tools/packages` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 56,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:56 at this commit: `ENV PATH $PATH:/github/bash-tools/perl` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:57 at this commit: `ENV PATH $PATH:/github/bash-tools/pingdom` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 58,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:58 at this commit: `ENV PATH $PATH:/github/bash-tools/postgres` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:59 at this commit: `ENV PATH $PATH:/github/bash-tools/python` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 60,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:60 at this commit: `ENV PATH $PATH:/github/bash-tools/scripts` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 61,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:61 at this commit: `ENV PATH $PATH:/github/bash-tools/search` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 62,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:62 at this commit: `ENV PATH $PATH:/github/bash-tools/setup` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:63 at this commit: `ENV PATH $PATH:/github/bash-tools/spotify` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-debian/Dockerfile",
+      "line": 64,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-debian/Dockerfile:64 at this commit: `ENV PATH $PATH:/github/bash-tools/terraform` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:26 at this commit: `ENV PATH $PATH:/github/bash-tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:29 at this commit: `ENV PATH $PATH:/github/bash-tools/ai` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:30 at this commit: `ENV PATH $PATH:/github/bash-tools/appveyor` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:31 at this commit: `ENV PATH $PATH:/github/bash-tools/aws` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:32 at this commit: `ENV PATH $PATH:/github/bash-tools/azure_devops` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:33 at this commit: `ENV PATH $PATH:/github/bash-tools/bigdata` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:34 at this commit: `ENV PATH $PATH:/github/bash-tools/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:35 at this commit: `ENV PATH $PATH:/github/bash-tools/bitbucket` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:36 at this commit: `ENV PATH $PATH:/github/bash-tools/buildkite` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:37 at this commit: `ENV PATH $PATH:/github/bash-tools/checks` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:38 at this commit: `ENV PATH $PATH:/github/bash-tools/cicd` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:39 at this commit: `ENV PATH $PATH:/github/bash-tools/circleci` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:40 at this commit: `ENV PATH $PATH:/github/bash-tools/cloudflare` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:41 at this commit: `ENV PATH $PATH:/github/bash-tools/data` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:42 at this commit: `ENV PATH $PATH:/github/bash-tools/docker` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:43 at this commit: `ENV PATH $PATH:/github/bash-tools/drone` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:44 at this commit: `ENV PATH $PATH:/github/bash-tools/gcp` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:45 at this commit: `ENV PATH $PATH:/github/bash-tools/git` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:46 at this commit: `ENV PATH $PATH:/github/bash-tools/github` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:47 at this commit: `ENV PATH $PATH:/github/bash-tools/gitlab` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:48 at this commit: `ENV PATH $PATH:/github/bash-tools/install` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:49 at this commit: `ENV PATH $PATH:/github/bash-tools/ipaas` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 50,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:50 at this commit: `ENV PATH $PATH:/github/bash-tools/java` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:51 at this commit: `ENV PATH $PATH:/github/bash-tools/jenkins` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:52 at this commit: `ENV PATH $PATH:/github/bash-tools/kafka` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:53 at this commit: `ENV PATH $PATH:/github/bash-tools/kubernetes` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:54 at this commit: `ENV PATH $PATH:/github/bash-tools/media` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 55,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:55 at this commit: `ENV PATH $PATH:/github/bash-tools/monitoring` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 56,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:56 at this commit: `ENV PATH $PATH:/github/bash-tools/mysql` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:57 at this commit: `ENV PATH $PATH:/github/bash-tools/packages` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 58,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:58 at this commit: `ENV PATH $PATH:/github/bash-tools/perl` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:59 at this commit: `ENV PATH $PATH:/github/bash-tools/pingdom` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 60,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:60 at this commit: `ENV PATH $PATH:/github/bash-tools/postgres` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 61,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:61 at this commit: `ENV PATH $PATH:/github/bash-tools/python` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 62,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:62 at this commit: `ENV PATH $PATH:/github/bash-tools/scripts` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:63 at this commit: `ENV PATH $PATH:/github/bash-tools/search` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 64,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:64 at this commit: `ENV PATH $PATH:/github/bash-tools/setup` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 65,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:65 at this commit: `ENV PATH $PATH:/github/bash-tools/spotify` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-fedora/Dockerfile",
+      "line": 66,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-fedora/Dockerfile:66 at this commit: `ENV PATH $PATH:/github/bash-tools/terraform` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-22.04",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:15 at this commit: `FROM ubuntu:22.04`: tag 22.04 is at or below the rule's 22.04 bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:24 at this commit: `ENV PATH $PATH:/github/bash-tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:27 at this commit: `ENV PATH $PATH:/github/bash-tools/ai` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:28 at this commit: `ENV PATH $PATH:/github/bash-tools/appveyor` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:29 at this commit: `ENV PATH $PATH:/github/bash-tools/aws` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:30 at this commit: `ENV PATH $PATH:/github/bash-tools/azure_devops` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:31 at this commit: `ENV PATH $PATH:/github/bash-tools/bigdata` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:32 at this commit: `ENV PATH $PATH:/github/bash-tools/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:33 at this commit: `ENV PATH $PATH:/github/bash-tools/bitbucket` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:34 at this commit: `ENV PATH $PATH:/github/bash-tools/buildkite` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:35 at this commit: `ENV PATH $PATH:/github/bash-tools/checks` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:36 at this commit: `ENV PATH $PATH:/github/bash-tools/cicd` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:37 at this commit: `ENV PATH $PATH:/github/bash-tools/circleci` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:38 at this commit: `ENV PATH $PATH:/github/bash-tools/cloudflare` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:39 at this commit: `ENV PATH $PATH:/github/bash-tools/data` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:40 at this commit: `ENV PATH $PATH:/github/bash-tools/docker` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:41 at this commit: `ENV PATH $PATH:/github/bash-tools/drone` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:42 at this commit: `ENV PATH $PATH:/github/bash-tools/gcp` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:43 at this commit: `ENV PATH $PATH:/github/bash-tools/git` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:44 at this commit: `ENV PATH $PATH:/github/bash-tools/github` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:45 at this commit: `ENV PATH $PATH:/github/bash-tools/gitlab` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:46 at this commit: `ENV PATH $PATH:/github/bash-tools/install` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:47 at this commit: `ENV PATH $PATH:/github/bash-tools/ipaas` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:48 at this commit: `ENV PATH $PATH:/github/bash-tools/java` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:49 at this commit: `ENV PATH $PATH:/github/bash-tools/jenkins` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 50,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:50 at this commit: `ENV PATH $PATH:/github/bash-tools/kafka` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:51 at this commit: `ENV PATH $PATH:/github/bash-tools/kubernetes` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:52 at this commit: `ENV PATH $PATH:/github/bash-tools/media` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:53 at this commit: `ENV PATH $PATH:/github/bash-tools/monitoring` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:54 at this commit: `ENV PATH $PATH:/github/bash-tools/mysql` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 55,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:55 at this commit: `ENV PATH $PATH:/github/bash-tools/packages` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 56,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:56 at this commit: `ENV PATH $PATH:/github/bash-tools/perl` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:57 at this commit: `ENV PATH $PATH:/github/bash-tools/pingdom` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 58,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:58 at this commit: `ENV PATH $PATH:/github/bash-tools/postgres` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:59 at this commit: `ENV PATH $PATH:/github/bash-tools/python` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 60,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:60 at this commit: `ENV PATH $PATH:/github/bash-tools/scripts` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 61,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:61 at this commit: `ENV PATH $PATH:/github/bash-tools/search` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 62,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:62 at this commit: `ENV PATH $PATH:/github/bash-tools/setup` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:63 at this commit: `ENV PATH $PATH:/github/bash-tools/spotify` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-bash-tools-ubuntu/Dockerfile",
+      "line": 64,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-bash-tools-ubuntu/Dockerfile:64 at this commit: `ENV PATH $PATH:/github/bash-tools/terraform` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "devops-golang-tools-debian/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-golang-tools-debian/Dockerfile:15 at this commit: `FROM debian:11 as builder`: tag 11 is at or below the rule's 11-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-golang-tools-debian/Dockerfile",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-golang-tools-debian/Dockerfile:24 at this commit: `ENV PATH $PATH:/github/go-tools/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "devops-golang-tools-debian/Dockerfile",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-golang-tools-debian/Dockerfile:34 at this commit: `FROM debian:11`: tag 11 is at or below the rule's 11-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-golang-tools-debian/Dockerfile",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-golang-tools-debian/Dockerfile:36 at this commit: `ENV PATH $PATH:/github/go-tools/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "devops-perl-tools-alpine/Dockerfile",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-perl-tools-alpine/Dockerfile:16 at this commit: `FROM alpine:3.12`: tag 3.12 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-perl-tools-alpine/Dockerfile",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-perl-tools-alpine/Dockerfile:25 at this commit: `ENV PATH $PATH:/github/perl-tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-perl-tools-centos/Dockerfile",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-perl-tools-centos/Dockerfile:25 at this commit: `ENV PATH $PATH:/github/perl-tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "devops-perl-tools-debian/Dockerfile",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-perl-tools-debian/Dockerfile:16 at this commit: `FROM debian:11`: tag 11 is at or below the rule's 11-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-perl-tools-debian/Dockerfile",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-perl-tools-debian/Dockerfile:27 at this commit: `ENV PATH $PATH:/github/perl-tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-perl-tools-fedora/Dockerfile",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-perl-tools-fedora/Dockerfile:27 at this commit: `ENV PATH $PATH:/github/perl-tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "devops-perl-tools-ubuntu/Dockerfile",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-perl-tools-ubuntu/Dockerfile:16 at this commit: `FROM ubuntu:20.04`: tag 20.04 is at or below the rule's 20.04-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-perl-tools-ubuntu/Dockerfile",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-perl-tools-ubuntu/Dockerfile:27 at this commit: `ENV PATH $PATH:/github/perl-tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:16 at this commit: `FROM alpine:3.20`: tag 3.20 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:28 at this commit: `ENV PATH $PATH:/github/pytools:/github/pytools/bash-tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:31 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/ai` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:32 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/appveyor` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:33 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/aws` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:34 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/azure_devops` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:35 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/bigdata` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:36 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:37 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/bitbucket` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:38 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/buildkite` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:39 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/checks` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:40 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/cicd` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:41 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/circleci` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:42 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/cloudflare` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:43 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/data` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:44 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/docker` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:45 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/drone` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:46 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/gcp` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:47 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/git` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:48 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/github` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:49 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/gitlab` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 50,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:50 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/install` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:51 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/ipaas` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:52 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/java` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:53 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/jenkins` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:54 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/kafka` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 55,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:55 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/kubernetes` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 56,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:56 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/media` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:57 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/monitoring` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 58,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:58 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/mysql` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:59 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/packages` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 60,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:60 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/perl` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 61,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:61 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/pingdom` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 62,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:62 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/postgres` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:63 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/python` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 64,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:64 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/scripts` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 65,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:65 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/search` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 66,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:66 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/setup` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 67,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:67 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/spotify` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-alpine/Dockerfile",
+      "line": 68,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-alpine/Dockerfile:68 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/terraform` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:27 at this commit: `ENV PATH $PATH:/github/pytools:/github/pytools/bash-tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:30 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/ai` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:31 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/appveyor` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:32 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/aws` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:33 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/azure_devops` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:34 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/bigdata` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:35 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:36 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/bitbucket` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:37 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/buildkite` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:38 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/checks` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:39 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/cicd` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:40 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/circleci` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:41 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/cloudflare` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:42 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/data` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:43 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/docker` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:44 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/drone` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:45 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/gcp` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:46 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/git` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:47 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/github` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:48 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/gitlab` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:49 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/install` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 50,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:50 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/ipaas` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:51 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/java` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:52 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/jenkins` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:53 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/kafka` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:54 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/kubernetes` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 55,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:55 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/media` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 56,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:56 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/monitoring` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:57 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/mysql` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 58,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:58 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/packages` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:59 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/perl` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 60,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:60 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/pingdom` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 61,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:61 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/postgres` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 62,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:62 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/python` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:63 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/scripts` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 64,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:64 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/search` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 65,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:65 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/setup` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 66,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:66 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/spotify` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-centos/Dockerfile",
+      "line": 67,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-centos/Dockerfile:67 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/terraform` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:23 at this commit: `ENV DEBIAN_FRONTEND noninteractive` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:29 at this commit: `ENV PATH $PATH:/github/pytools:/github/pytools/bash-tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:32 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/ai` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:33 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/appveyor` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:34 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/aws` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:35 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/azure_devops` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:36 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/bigdata` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:37 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:38 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/bitbucket` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:39 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/buildkite` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:40 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/checks` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:41 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/cicd` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:42 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/circleci` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:43 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/cloudflare` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:44 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/data` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:45 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/docker` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:46 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/drone` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:47 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/gcp` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:48 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/git` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:49 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/github` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 50,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:50 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/gitlab` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:51 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/install` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:52 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/ipaas` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:53 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/java` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:54 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/jenkins` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 55,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:55 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/kafka` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 56,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:56 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/kubernetes` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:57 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/media` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 58,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:58 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/monitoring` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:59 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/mysql` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 60,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:60 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/packages` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 61,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:61 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/perl` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 62,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:62 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/pingdom` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:63 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/postgres` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 64,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:64 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/python` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 65,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:65 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/scripts` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 66,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:66 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/search` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 67,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:67 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/setup` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 68,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:68 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/spotify` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-debian/Dockerfile",
+      "line": 69,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-debian/Dockerfile:69 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/terraform` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:29 at this commit: `ENV PATH $PATH:/github/pytools:/github/pytools/bash-tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:32 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/ai` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:33 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/appveyor` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:34 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/aws` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:35 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/azure_devops` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:36 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/bigdata` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:37 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:38 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/bitbucket` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:39 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/buildkite` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:40 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/checks` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:41 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/cicd` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:42 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/circleci` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:43 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/cloudflare` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:44 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/data` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:45 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/docker` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:46 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/drone` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:47 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/gcp` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:48 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/git` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:49 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/github` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 50,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:50 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/gitlab` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:51 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/install` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:52 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/ipaas` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:53 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/java` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:54 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/jenkins` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 55,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:55 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/kafka` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 56,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:56 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/kubernetes` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:57 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/media` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 58,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:58 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/monitoring` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:59 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/mysql` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 60,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:60 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/packages` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 61,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:61 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/perl` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 62,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:62 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/pingdom` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:63 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/postgres` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 64,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:64 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/python` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 65,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:65 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/scripts` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 66,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:66 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/search` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 67,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:67 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/setup` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 68,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:68 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/spotify` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-fedora/Dockerfile",
+      "line": 69,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-fedora/Dockerfile:69 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/terraform` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-22.04",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:15 at this commit: `FROM ubuntu:22.04`: tag 22.04 is at or below the rule's 22.04 bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:23 at this commit: `ENV DEBIAN_FRONTEND noninteractive` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:29 at this commit: `ENV PATH $PATH:/github/pytools:/github/pytools/bash-tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:32 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/ai` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:33 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/appveyor` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:34 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/aws` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:35 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/azure_devops` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:36 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/bigdata` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:37 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:38 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/bitbucket` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:39 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/buildkite` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:40 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/checks` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:41 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/cicd` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:42 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/circleci` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:43 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/cloudflare` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:44 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/data` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:45 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/docker` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:46 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/drone` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:47 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/gcp` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:48 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/git` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:49 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/github` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 50,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:50 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/gitlab` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:51 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/install` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:52 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/ipaas` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:53 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/java` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:54 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/jenkins` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 55,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:55 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/kafka` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 56,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:56 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/kubernetes` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:57 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/media` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 58,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:58 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/monitoring` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:59 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/mysql` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 60,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:60 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/packages` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 61,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:61 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/perl` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 62,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:62 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/pingdom` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:63 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/postgres` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 64,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:64 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/python` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 65,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:65 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/scripts` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 66,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:66 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/search` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 67,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:67 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/setup` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 68,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:68 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/spotify` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-python-tools-ubuntu/Dockerfile",
+      "line": 69,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-python-tools-ubuntu/Dockerfile:69 at this commit: `ENV PATH $PATH:/github/pytools/bash-tools/terraform` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-tools-alpine/Dockerfile",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-tools-alpine/Dockerfile:30 at this commit: `ENV PATH $PATH:/github/pytools:/github/bash-tools:/github/perl-tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-tools-centos/Dockerfile",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-tools-centos/Dockerfile:30 at this commit: `ENV PATH $PATH:/github/pytools:/github/bash-tools:/github/perl-tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-tools-debian/Dockerfile",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-tools-debian/Dockerfile:30 at this commit: `ENV PATH $PATH:/github/pytools:/github/bash-tools:/github/perl-tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-tools-fedora/Dockerfile",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-tools-fedora/Dockerfile:30 at this commit: `ENV PATH $PATH:/github/pytools:/github/bash-tools:/github/perl-tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "devops-tools-ubuntu/Dockerfile",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read devops-tools-ubuntu/Dockerfile:30 at this commit: `ENV PATH $PATH:/github/pytools:/github/bash-tools:/github/perl-tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.ruby.eol-3.2-and-older",
+      "path": "fakes3/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read fakes3/Dockerfile:15 at this commit: `FROM ruby:2.6.5-alpine`: tag 2.6.5-alpine is at or below the rule's 3.2-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "fedora-dev/Dockerfile",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read fedora-dev/Dockerfile:26 at this commit: `ENV PATH $PATH:$GRADLE_HOME/bin:$JYTHON_HOME/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "fedora-github/Dockerfile",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read fedora-github/Dockerfile:24 at this commit: `ENV PATH /bin:$PATH:/github/nagios-plugins:/github/devops-perl-tools:/github/devops-python-tools:/github/bash-tools:/github/spotify` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "git-kustomize/Dockerfile",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read git-kustomize/Dockerfile:19 at this commit: `FROM debian:10-slim`: tag 10-slim is at or below the rule's 11-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "git-kustomize/Dockerfile",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read git-kustomize/Dockerfile:27 at this commit: `ENV DEBIAN_FRONTEND noninteractive` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "github-actions-runner/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read github-actions-runner/Dockerfile:15 at this commit: `FROM ubuntu:20.04`: tag 20.04 is at or below the rule's 20.04-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "github-actions-runner/Dockerfile",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read github-actions-runner/Dockerfile:26 at this commit: `ENV PATH $PATH:/actions-runner` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "github-actions-runner/Dockerfile",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read github-actions-runner/Dockerfile:28 at this commit: `ENV DEBIAN_FRONTEND noninteractive` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "h2o/Dockerfile",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read h2o/Dockerfile:21 at this commit: `ENV PATH $PATH:/h2o/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "h2o/Dockerfile",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read h2o/Dockerfile:30 at this commit: `ENV DEBIAN_FRONTEND noninteractive` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "hadoop-dev/Dockerfile",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read hadoop-dev/Dockerfile:28 at this commit: `ENV PATH $PATH:/hadoop/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "hadoop/Dockerfile",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read hadoop/Dockerfile:28 at this commit: `ENV PATH $PATH:/hadoop/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "hbase-dev/Dockerfile",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read hbase-dev/Dockerfile:26 at this commit: `ENV PATH $PATH:/hbase/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "hbase/Dockerfile",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read hbase/Dockerfile:26 at this commit: `ENV PATH $PATH:/hbase/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "jenkins-agent-php/Dockerfile",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read jenkins-agent-php/Dockerfile:30 at this commit: `ENV DEBIAN_FRONTEND noninteractive` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "kafka/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read kafka/Dockerfile:15 at this commit: `FROM alpine:3.12`: tag 3.12 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "kafka/Dockerfile",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read kafka/Dockerfile:31 at this commit: `ENV PATH $PATH:/kafka/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "mesos/Dockerfile",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read mesos/Dockerfile:30 at this commit: `ENV DEBIAN_FRONTEND noninteractive` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "mesos/Dockerfile",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read mesos/Dockerfile:32 at this commit: `ENV PATH $PATH:/mesos/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "nagios-plugin-kafka/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nagios-plugin-kafka/Dockerfile:15 at this commit: `FROM alpine:3.12`: tag 3.12 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "nagios-plugin-kafka/Dockerfile",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nagios-plugin-kafka/Dockerfile:23 at this commit: `ENV PATH $PATH:/github/nagios-plugin-kafka` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "nagios-plugins-alpine/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nagios-plugins-alpine/Dockerfile:15 at this commit: `FROM alpine:3.12`: tag 3.12 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "nagios-plugins-alpine/Dockerfile",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nagios-plugins-alpine/Dockerfile:36 at this commit: `ENV PATH $PATH:/github/nagios-plugins` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "nagios-plugins-cassandra/Dockerfile",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nagios-plugins-cassandra/Dockerfile:23 at this commit: `ENV DEBIAN_FRONTEND noninteractive` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "nagios-plugins-cassandra/Dockerfile",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nagios-plugins-cassandra/Dockerfile:33 at this commit: `ENV PATH $PATH:/cassandra/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "nagios-plugins-centos/Dockerfile",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nagios-plugins-centos/Dockerfile:36 at this commit: `ENV PATH $PATH:/github/nagios-plugins` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "nagios-plugins-debian/Dockerfile",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nagios-plugins-debian/Dockerfile:16 at this commit: `FROM debian:11`: tag 11 is at or below the rule's 11-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "nagios-plugins-debian/Dockerfile",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nagios-plugins-debian/Dockerfile:24 at this commit: `ENV DEBIAN_FRONTEND noninteractive` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "nagios-plugins-debian/Dockerfile",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nagios-plugins-debian/Dockerfile:39 at this commit: `ENV PATH $PATH:/github/nagios-plugins` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "nagios-plugins-fedora/Dockerfile",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nagios-plugins-fedora/Dockerfile:38 at this commit: `ENV PATH $PATH:/github/nagios-plugins` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "nagios-plugins-perl/Dockerfile",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nagios-plugins-perl/Dockerfile:23 at this commit: `ENV DEBIAN_FRONTEND noninteractive` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "nagios-plugins-perl/Dockerfile",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nagios-plugins-perl/Dockerfile:38 at this commit: `ENV PATH $PATH:/github/nagios-plugins` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "nagios-plugins-python/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nagios-plugins-python/Dockerfile:15 at this commit: `FROM python:2.7-slim`: tag 2.7-slim is at or below the rule's 3.10-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "nagios-plugins-python/Dockerfile",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nagios-plugins-python/Dockerfile:23 at this commit: `ENV DEBIAN_FRONTEND noninteractive` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "nagios-plugins-python/Dockerfile",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nagios-plugins-python/Dockerfile:38 at this commit: `ENV PATH $PATH:/github/nagios-plugins` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "nagios-plugins-ubuntu/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nagios-plugins-ubuntu/Dockerfile:15 at this commit: `FROM ubuntu:20.04`: tag 20.04 is at or below the rule's 20.04-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "nagios-plugins-ubuntu/Dockerfile",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nagios-plugins-ubuntu/Dockerfile:23 at this commit: `ENV DEBIAN_FRONTEND noninteractive` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "nagios-plugins-ubuntu/Dockerfile",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nagios-plugins-ubuntu/Dockerfile:38 at this commit: `ENV PATH $PATH:/github/nagios-plugins` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "nifi/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nifi/Dockerfile:15 at this commit: `FROM alpine:3.12`: tag 3.12 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "nifi/Dockerfile",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nifi/Dockerfile:28 at this commit: `ENV PATH $PATH:/nifi/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "presto-admin/Dockerfile",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read presto-admin/Dockerfile:28 at this commit: `ENV PATH $PATH:/prestoadmin/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "presto-cli-dev/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read presto-cli-dev/Dockerfile:15 at this commit: `FROM alpine:3.12`: tag 3.12 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "presto-cli-dev/Dockerfile",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read presto-cli-dev/Dockerfile:36 at this commit: `ENV PATH $PATH:/presto/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "presto-dev/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read presto-dev/Dockerfile:15 at this commit: `FROM alpine:3.12`: tag 3.12 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "presto-dev/Dockerfile",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read presto-dev/Dockerfile:38 at this commit: `ENV PATH $PATH:/presto/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "serf/Dockerfile",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read serf/Dockerfile:17 at this commit: `FROM alpine:3.12`: tag 3.12 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "serf/Dockerfile",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read serf/Dockerfile:28 at this commit: `ENV PATH $PATH:/` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "solr/Dockerfile",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read solr/Dockerfile:16 at this commit: `FROM alpine:3.12`: tag 3.12 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "solr/Dockerfile",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read solr/Dockerfile:29 at this commit: `ENV PATH $PATH:/solr/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "solrcloud-dev/Dockerfile",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read solrcloud-dev/Dockerfile:28 at this commit: `ENV PATH $PATH:/solr/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "solrcloud/Dockerfile",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read solrcloud/Dockerfile:17 at this commit: `FROM alpine:3.12`: tag 3.12 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "solrcloud/Dockerfile",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read solrcloud/Dockerfile:30 at this commit: `ENV PATH $PATH:/solr/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "spark-apps/Dockerfile",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read spark-apps/Dockerfile:25 at this commit: `ENV PATH /bin:$PATH:/github/spark-apps` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "spark/Dockerfile",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read spark/Dockerfile:17 at this commit: `FROM alpine:3.12`: tag 3.12 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "spark/Dockerfile",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read spark/Dockerfile:31 at this commit: `ENV PATH $PATH:/spark/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "spotify-tools/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read spotify-tools/Dockerfile:15 at this commit: `FROM alpine:3.12`: tag 3.12 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "spotify-tools/Dockerfile",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read spotify-tools/Dockerfile:23 at this commit: `ENV PATH $PATH:/github/spotify-tools:/github/spotify-tools/bash-tools` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "tachyon/Dockerfile",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tachyon/Dockerfile:28 at this commit: `ENV PATH $PATH:/tachyon/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "tachyon/Dockerfile",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tachyon/Dockerfile:30 at this commit: `ENV DEBIAN_FRONTEND noninteractive` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "tcollector/Dockerfile",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tcollector/Dockerfile:26 at this commit: `ENV PATH $PATH:/tcollector:/usr/local/tcollector` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "teamcity/Dockerfile.old",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read teamcity/Dockerfile.old:18 at this commit: `ENV PATH $PATH:/opt/TeamCity/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "teamcity/kubernetes-teamcity-ingress.yaml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read teamcity/kubernetes-teamcity-ingress.yaml:21 at this commit: `apiVersion: extensions/v1beta1` uses a removed API version."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "tfenv/Dockerfile",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tfenv/Dockerfile:25 at this commit: `FROM alpine:3.12`: tag 3.12 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "tfenv/Dockerfile",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tfenv/Dockerfile:44 at this commit: `ENV PATH \"/home/$USER/.tfenv/bin:$PATH\"` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "ubuntu-dev/Dockerfile",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ubuntu-dev/Dockerfile:23 at this commit: `ENV DEBIAN_FRONTEND noninteractive` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "ubuntu-dev/Dockerfile",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ubuntu-dev/Dockerfile:27 at this commit: `ENV PATH $PATH:$JYTHON_HOME/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "ubuntu-github/Dockerfile",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ubuntu-github/Dockerfile:23 at this commit: `ENV DEBIAN_FRONTEND noninteractive` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "ubuntu-github/Dockerfile",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ubuntu-github/Dockerfile:33 at this commit: `ENV PATH $PATH:/github/nagios-plugins:/github/devops-perl-tools:/github/devops-python-tools:/github/bash-tools:/github/spotify` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "ubuntu-java/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ubuntu-java/Dockerfile:15 at this commit: `FROM ubuntu:20.04`: tag 20.04 is at or below the rule's 20.04-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "ubuntu-java/Dockerfile",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ubuntu-java/Dockerfile:23 at this commit: `ENV DEBIAN_FRONTEND noninteractive` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "zookeeper-dev/Dockerfile",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read zookeeper-dev/Dockerfile:28 at this commit: `ENV PATH $PATH:/zookeeper/bin` uses the legacy space-separated ENV form."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "zookeeper/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read zookeeper/Dockerfile:15 at this commit: `FROM alpine:3.12`: tag 3.12 is at or below the rule's 3.20-and-older bound."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "zookeeper/Dockerfile",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read zookeeper/Dockerfile:28 at this commit: `ENV PATH $PATH:/zookeeper/bin` uses the legacy space-separated ENV form."
+      }
+    }
+  ]
+}

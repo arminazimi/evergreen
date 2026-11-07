@@ -1,0 +1,7 @@
+{
+  "repository": "microsoft/MeshGraphormer",
+  "commit": "27f7cdb33d2ce9e77969352e71a4e84eb5d9a522",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": []
+}

@@ -1,0 +1,1853 @@
+{
+  "repository": "McMartin/FRUT",
+  "commit": "0b31a99ca9028649456ca9395edd3aa58f241b40",
+  "ecosystem": "ci-images",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "Jucer2CMake/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Jucer2CMake/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "ci/AllJuceProjects/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ci/AllJuceProjects/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "cmake/tools/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cmake/tools/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/AUv3Synth/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/AUv3Synth/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/AnimationAppExample/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/AnimationAppExample/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/AudioAppExample/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/AudioAppExample/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/BouncingBallWavetableDemo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/BouncingBallWavetableDemo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/ComponentTutorialExample/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/ComponentTutorialExample/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/Demo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/Demo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/HelloWorld/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/HelloWorld/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/MPETest/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/MPETest/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/MidiTest/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/MidiTest/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/NetworkGraphicsDemo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/NetworkGraphicsDemo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/OSCMonitor/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/OSCMonitor/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/OSCReceiver/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/OSCReceiver/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/OSCSender/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/OSCSender/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/OpenGLAppExample/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/OpenGLAppExample/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/PluckedStringsDemo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/PluckedStringsDemo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/PlugInSamples/Arpeggiator/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/PlugInSamples/Arpeggiator/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/PlugInSamples/GainPlugIn/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/PlugInSamples/GainPlugIn/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/PlugInSamples/MultiOutSynth/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/PlugInSamples/MultiOutSynth/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/PlugInSamples/NoiseGate/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/PlugInSamples/NoiseGate/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/PlugInSamples/Surround/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/PlugInSamples/Surround/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/SimpleFFTExample/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/SimpleFFTExample/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/audio plugin demo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/audio plugin demo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/examples/audio plugin host/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/examples/audio plugin host/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/extras/AudioPerformanceTest/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/extras/AudioPerformanceTest/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/extras/Projucer/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/extras/Projucer/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/extras/UnitTestRunner/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/extras/UnitTestRunner/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/extras/binarybuilder/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/extras/binarybuilder/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.2.0/extras/windows dll/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.2.0/extras/windows dll/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/AUv3Synth/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/AUv3Synth/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/AnimationAppExample/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/AnimationAppExample/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/AudioAppExample/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/AudioAppExample/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/BLOCKS/BlocksDrawing/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/BLOCKS/BlocksDrawing/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/BLOCKS/BlocksMonitor/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/BLOCKS/BlocksMonitor/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/BLOCKS/BlocksSynth/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/BLOCKS/BlocksSynth/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/BouncingBallWavetableDemo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/BouncingBallWavetableDemo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/ComponentTutorialExample/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/ComponentTutorialExample/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/Demo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/Demo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/HelloWorld/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/HelloWorld/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/MPETest/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/MPETest/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/MidiTest/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/MidiTest/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/NetworkGraphicsDemo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/NetworkGraphicsDemo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/OSCMonitor/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/OSCMonitor/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/OSCReceiver/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/OSCReceiver/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/OSCSender/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/OSCSender/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/OpenGLAppExample/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/OpenGLAppExample/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/PluckedStringsDemo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/PluckedStringsDemo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/PlugInSamples/Arpeggiator/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/PlugInSamples/Arpeggiator/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/PlugInSamples/GainPlugIn/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/PlugInSamples/GainPlugIn/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/PlugInSamples/MultiOutSynth/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/PlugInSamples/MultiOutSynth/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/PlugInSamples/NoiseGate/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/PlugInSamples/NoiseGate/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/PlugInSamples/Surround/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/PlugInSamples/Surround/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/SimpleFFTExample/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/SimpleFFTExample/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/audio plugin demo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/audio plugin demo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/examples/audio plugin host/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/examples/audio plugin host/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/extras/AudioPerformanceTest/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/extras/AudioPerformanceTest/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/extras/Projucer/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/extras/Projucer/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/extras/UnitTestRunner/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/extras/UnitTestRunner/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/extras/binarybuilder/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/extras/binarybuilder/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-4.3.1/extras/windows dll/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-4.3.1/extras/windows dll/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/AUv3Synth/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/AUv3Synth/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/AnimationAppExample/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/AnimationAppExample/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/AudioAppExample/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/AudioAppExample/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/BLOCKS/BlocksDrawing/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/BLOCKS/BlocksDrawing/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/BLOCKS/BlocksMonitor/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/BLOCKS/BlocksMonitor/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/BLOCKS/BlocksSynth/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/BLOCKS/BlocksSynth/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/BouncingBallWavetableDemo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/BouncingBallWavetableDemo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/ComponentTutorialExample/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/ComponentTutorialExample/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/Demo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/Demo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/HelloWorld/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/HelloWorld/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/MPETest/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/MPETest/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/MidiTest/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/MidiTest/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/NetworkGraphicsDemo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/NetworkGraphicsDemo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/OSCMonitor/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/OSCMonitor/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/OSCReceiver/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/OSCReceiver/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/OSCSender/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/OSCSender/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/OpenGLAppExample/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/OpenGLAppExample/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/PluckedStringsDemo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/PluckedStringsDemo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/PlugInSamples/Arpeggiator/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/PlugInSamples/Arpeggiator/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/PlugInSamples/GainPlugIn/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/PlugInSamples/GainPlugIn/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/PlugInSamples/InterAppAudioEffect/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/PlugInSamples/InterAppAudioEffect/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/PlugInSamples/MultiOutSynth/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/PlugInSamples/MultiOutSynth/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/PlugInSamples/NoiseGate/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/PlugInSamples/NoiseGate/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/PlugInSamples/Surround/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/PlugInSamples/Surround/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/SimpleFFTExample/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/SimpleFFTExample/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/audio plugin demo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/audio plugin demo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/examples/audio plugin host/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/examples/audio plugin host/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/extras/AudioPerformanceTest/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/extras/AudioPerformanceTest/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/extras/Projucer/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/extras/Projucer/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/extras/UnitTestRunner/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/extras/UnitTestRunner/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/extras/binarybuilder/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/extras/binarybuilder/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.0.0/extras/windows dll/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.0.0/extras/windows dll/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/AUv3Synth/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/AUv3Synth/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/AnalyticsCollection/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/AnalyticsCollection/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/AnimationAppExample/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/AnimationAppExample/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/AudioAppExample/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/AudioAppExample/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/BLOCKS/BlocksDrawing/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/BLOCKS/BlocksDrawing/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/BLOCKS/BlocksMonitor/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/BLOCKS/BlocksMonitor/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/BLOCKS/BlocksSynth/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/BLOCKS/BlocksSynth/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/BouncingBallWavetableDemo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/BouncingBallWavetableDemo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/ComponentTutorialExample/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/ComponentTutorialExample/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/DSP module plugin demo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/DSP module plugin demo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/DSPDemo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/DSPDemo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/Demo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/Demo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/HelloWorld/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/HelloWorld/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/InAppPurchase/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/InAppPurchase/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/MPETest/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/MPETest/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/MidiTest/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/MidiTest/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/NetworkGraphicsDemo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/NetworkGraphicsDemo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/OSCMonitor/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/OSCMonitor/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/OSCReceiver/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/OSCReceiver/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/OSCSender/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/OSCSender/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/OpenGLAppExample/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/OpenGLAppExample/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/PluckedStringsDemo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/PluckedStringsDemo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/PlugInSamples/Arpeggiator/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/PlugInSamples/Arpeggiator/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/PlugInSamples/GainPlugIn/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/PlugInSamples/GainPlugIn/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/PlugInSamples/InterAppAudioEffect/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/PlugInSamples/InterAppAudioEffect/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/PlugInSamples/MultiOutSynth/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/PlugInSamples/MultiOutSynth/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/PlugInSamples/NoiseGate/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/PlugInSamples/NoiseGate/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/PlugInSamples/Surround/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/PlugInSamples/Surround/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/PushNotificationsDemo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/PushNotificationsDemo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/SimpleFFTExample/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/SimpleFFTExample/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/audio plugin demo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/audio plugin demo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/examples/audio plugin host/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/examples/audio plugin host/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/extras/AudioPerformanceTest/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/extras/AudioPerformanceTest/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/extras/Projucer/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/extras/Projucer/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/extras/UnitTestRunner/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/extras/UnitTestRunner/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/extras/binarybuilder/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/extras/binarybuilder/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.2.1/extras/windows dll/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.2.1/extras/windows dll/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.3.1/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.3.1/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.3.1/examples/DemoRunner/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.3.1/examples/DemoRunner/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.3.1/extras/AudioPerformanceTest/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.3.1/extras/AudioPerformanceTest/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.3.1/extras/AudioPluginHost/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.3.1/extras/AudioPluginHost/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.3.1/extras/BinaryBuilder/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.3.1/extras/BinaryBuilder/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.3.1/extras/NetworkGraphicsDemo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.3.1/extras/NetworkGraphicsDemo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.3.1/extras/Projucer/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.3.1/extras/Projucer/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.3.1/extras/UnitTestRunner/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.3.1/extras/UnitTestRunner/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.3.1/extras/WindowsDLL/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.3.1/extras/WindowsDLL/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.4.3/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.4.3/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.4.3/examples/DemoRunner/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.4.3/examples/DemoRunner/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.4.3/extras/AudioPerformanceTest/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.4.3/extras/AudioPerformanceTest/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.4.3/extras/AudioPluginHost/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.4.3/extras/AudioPluginHost/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.4.3/extras/BinaryBuilder/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.4.3/extras/BinaryBuilder/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.4.3/extras/NetworkGraphicsDemo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.4.3/extras/NetworkGraphicsDemo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.4.3/extras/Projucer/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.4.3/extras/Projucer/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.4.3/extras/UnitTestRunner/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.4.3/extras/UnitTestRunner/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.4.3/extras/WindowsDLL/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.4.3/extras/WindowsDLL/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.4.7/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.4.7/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.4.7/examples/DemoRunner/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.4.7/examples/DemoRunner/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.4.7/extras/AudioPerformanceTest/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.4.7/extras/AudioPerformanceTest/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.4.7/extras/AudioPluginHost/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.4.7/extras/AudioPluginHost/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.4.7/extras/BinaryBuilder/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.4.7/extras/BinaryBuilder/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.4.7/extras/NetworkGraphicsDemo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.4.7/extras/NetworkGraphicsDemo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.4.7/extras/Projucer/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.4.7/extras/Projucer/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.4.7/extras/UnitTestRunner/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.4.7/extras/UnitTestRunner/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-5.4.7/extras/WindowsDLL/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-5.4.7/extras/WindowsDLL/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-6.0.5/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-6.0.5/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-6.0.5/examples/DemoRunner/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-6.0.5/examples/DemoRunner/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-6.0.5/extras/AudioPerformanceTest/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-6.0.5/extras/AudioPerformanceTest/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-6.0.5/extras/AudioPluginHost/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-6.0.5/extras/AudioPluginHost/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-6.0.5/extras/BinaryBuilder/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-6.0.5/extras/BinaryBuilder/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-6.0.5/extras/NetworkGraphicsDemo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-6.0.5/extras/NetworkGraphicsDemo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-6.0.5/extras/Projucer/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-6.0.5/extras/Projucer/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-6.0.5/extras/UnitTestRunner/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-6.0.5/extras/UnitTestRunner/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-6.0.5/extras/WindowsDLL/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-6.0.5/extras/WindowsDLL/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-6.1.6/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-6.1.6/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-6.1.6/examples/DemoRunner/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-6.1.6/examples/DemoRunner/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-6.1.6/extras/AudioPerformanceTest/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-6.1.6/extras/AudioPerformanceTest/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-6.1.6/extras/AudioPluginHost/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-6.1.6/extras/AudioPluginHost/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-6.1.6/extras/BinaryBuilder/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-6.1.6/extras/BinaryBuilder/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-6.1.6/extras/NetworkGraphicsDemo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-6.1.6/extras/NetworkGraphicsDemo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-6.1.6/extras/Projucer/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-6.1.6/extras/Projucer/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-6.1.6/extras/UnitTestRunner/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-6.1.6/extras/UnitTestRunner/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-6.1.6/extras/WindowsDLL/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-6.1.6/extras/WindowsDLL/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-7.0.7/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-7.0.7/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-7.0.7/examples/DemoRunner/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-7.0.7/examples/DemoRunner/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-7.0.7/extras/AudioPerformanceTest/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-7.0.7/extras/AudioPerformanceTest/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-7.0.7/extras/AudioPluginHost/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-7.0.7/extras/AudioPluginHost/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-7.0.7/extras/BinaryBuilder/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-7.0.7/extras/BinaryBuilder/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-7.0.7/extras/NetworkGraphicsDemo/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-7.0.7/extras/NetworkGraphicsDemo/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-7.0.7/extras/Projucer/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-7.0.7/extras/Projucer/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-7.0.7/extras/UnitTestRunner/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-7.0.7/extras/UnitTestRunner/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "generated/JUCE-7.0.7/extras/WindowsDLL/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read generated/JUCE-7.0.7/extras/WindowsDLL/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "tests/issue-246/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/issue-246/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "tests/test-projects/entitlements-generation/guiapp-MacOSX/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/test-projects/entitlements-generation/guiapp-MacOSX/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "tests/test-projects/entitlements-generation/guiapp-iOS/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/test-projects/entitlements-generation/guiapp-iOS/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "tests/test-projects/entitlements-generation/plugin-MacOSX/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/test-projects/entitlements-generation/plugin-MacOSX/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "tests/test-projects/entitlements-generation/plugin-iOS/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/test-projects/entitlements-generation/plugin-iOS/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "tests/test-projects/no-modules/consoleapp420/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/test-projects/no-modules/consoleapp420/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "tests/test-projects/no-modules/consoleapp431/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/test-projects/no-modules/consoleapp431/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "tests/test-projects/no-modules/consoleapp500/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/test-projects/no-modules/consoleapp500/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "tests/test-projects/no-modules/consoleapp521/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/test-projects/no-modules/consoleapp521/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "tests/test-projects/no-modules/consoleapp531/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/test-projects/no-modules/consoleapp531/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "tests/test-projects/no-modules/consoleapp543/CMakeLists.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/test-projects/no-modules/consoleapp543/CMakeLists.txt:3 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "tests/test-projects/plist-generation/guiapp-MacOSX/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/test-projects/plist-generation/guiapp-MacOSX/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "tests/test-projects/plist-generation/guiapp-iOS/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/test-projects/plist-generation/guiapp-iOS/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "tests/test-projects/plist-generation/plugin-MacOSX/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/test-projects/plist-generation/plugin-MacOSX/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "tests/test-projects/plist-generation/plugin-iOS/CMakeLists.txt",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/test-projects/plist-generation/plugin-iOS/CMakeLists.txt:18 at this commit: `cmake_minimum_required(VERSION 3.4)` declares a minimum policy version below 3.5."
+      }
+    }
+  ]
+}

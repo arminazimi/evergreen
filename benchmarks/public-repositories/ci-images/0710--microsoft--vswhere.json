@@ -1,0 +1,7 @@
+{
+  "repository": "microsoft/vswhere",
+  "commit": "44ff88ff4dd03f718493152b9d59c6436dc5d55a",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": []
+}

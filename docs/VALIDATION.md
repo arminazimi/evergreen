@@ -192,8 +192,8 @@ Measured on 557 pinned repositories at commit `dcc9f320` on 2026-11-06. Regenera
 | Detector | Maturity | True positives | False positives | False negatives | Precision | Recall |
 | --- | --- | --- | --- | --- | --- | --- |
 | android | Experimental | 10 | 0 | 0 | 1.000 | 1.000 |
-| ci-images | Experimental | 13 | 0 | 0 | 1.000 | 1.000 |
-| container | Experimental | 368 | 0 | 0 | 1.000 | 1.000 |
+| ci-images | Supported | 13 | 0 | 0 | 1.000 | 1.000 |
+| container | Supported | 368 | 0 | 0 | 1.000 | 1.000 |
 | cpp | Experimental | 19 | 0 | 0 | 1.000 | 1.000 |
 | dart | Experimental | 8 | 0 | 0 | 1.000 | 1.000 |
 | database | Experimental | 20 | 0 | 0 | 1.000 | 1.000 |

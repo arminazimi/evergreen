@@ -1,0 +1,35 @@
+{
+  "repository": "shibayan/IISManager",
+  "commit": "c8f414f5a23981f6b96d1192565804e1a0e09bad",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "ci-images.azure-pipelines.windows-2019",
+      "path": "azure-pipelines.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:19 at this commit: `vmImage: 'windows-2019'` selects the windows-2019 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.windows-2019",
+      "path": "azure-pipelines.yml",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:34 at this commit: `vmImage: 'windows-2019'` selects the windows-2019 hosted image."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.windows-2019",
+      "path": "azure-pipelines.yml",
+      "line": 71,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:71 at this commit: `vmImage: 'windows-2019'` selects the windows-2019 hosted image."
+      }
+    }
+  ]
+}

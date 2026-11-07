@@ -164,8 +164,8 @@ A security vulnerability, data corruption, or a contract that would make a lifec
 <!-- coverage-matrix:start -->
 | Detector ecosystem | Status | Coverage |
 | --- | --- | --- |
-| CI runner images | Experimental | `pool.vmImage` in `azure-pipelines.yml` is matched against reviewed Azure hosted-image rules. GitLab `image` and `services` values are unclassified. CircleCI orbs, dynamic values, and floating aliases are unclassified; other CircleCI images are not judged. See [CI runner images](#ci-runner-images-detector). |
-| Container base images | Experimental | `FROM` lines in Dockerfiles and Containerfiles and `services.*.image` in Compose files, for Docker Hub official images with a vendor lifecycle. See [Container base images](detectors/container.md). |
+| CI runner images | Supported | `pool.vmImage` in `azure-pipelines.yml` is matched against reviewed Azure hosted-image rules. GitLab `image` and `services` values are unclassified. CircleCI orbs, dynamic values, and floating aliases are unclassified; other CircleCI images are not judged. See [CI runner images](#ci-runner-images-detector). |
+| Container base images | Supported | `FROM` lines in Dockerfiles and Containerfiles and `services.*.image` in Compose files, for Docker Hub official images with a vendor lifecycle. See [Container base images](detectors/container.md). |
 | .NET | Beta | `global.json`, project files, `Directory.Build.props`, `Directory.Packages.props`, and `packages.lock.json`, for .NET release lines past end of support and deprecated NuGet packages. See [.NET](detectors/dotnet.md). |
 | Go | Supported | `go` and `toolchain` directives in `go.mod` and `go.work`, and direct `require` entries, for Go release lines past end of support. See [Go](detectors/go.md). |
 | Java and Kotlin (JVM) | Beta | JDK declarations in `pom.xml`, Gradle build scripts, `.java-version`, `.sdkmanrc`, and `.tool-versions`, and direct Maven dependencies, for non-LTS JDK releases past end of support and moved artifacts. See [Java and Kotlin](detectors/java.md). |

@@ -1,0 +1,26 @@
+{
+  "repository": "ra1028/DiffableDataSources",
+  "commit": "a457cf63456b3aeec2a3626af0230c98b0733927",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "swift.app-store.ios-below-13",
+      "path": "Examples/DiffableDataSourcesExamples.xcodeproj/project.pbxproj",
+      "line": 503,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Examples/DiffableDataSourcesExamples.xcodeproj/project.pbxproj:503 at this commit: `IPHONEOS_DEPLOYMENT_TARGET = 12.0;` declares a runtime version the rule judges."
+      }
+    },
+    {
+      "ruleId": "swift.app-store.ios-below-13",
+      "path": "Examples/DiffableDataSourcesExamples.xcodeproj/project.pbxproj",
+      "line": 526,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Examples/DiffableDataSourcesExamples.xcodeproj/project.pbxproj:526 at this commit: `IPHONEOS_DEPLOYMENT_TARGET = 12.0;` declares a runtime version the rule judges."
+      }
+    }
+  ]
+}

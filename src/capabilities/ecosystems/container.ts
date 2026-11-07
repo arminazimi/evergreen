@@ -2,8 +2,8 @@ import type { ManifestEcosystem } from "../schema.js";
 
 const container: ManifestEcosystem = {
   id: "container",
-  status: "experimental",
-  maturity: "experimental",
+  status: "supported",
+  maturity: "stable",
   detectorIds: ["container"],
 };
 

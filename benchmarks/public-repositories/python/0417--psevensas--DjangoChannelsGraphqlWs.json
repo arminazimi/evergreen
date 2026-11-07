@@ -52,10 +52,10 @@
     {
       "ruleId": "python.runtime.eol-3.9-and-older",
       "path": "pyproject.toml",
-      "line": 22,
+      "line": 48,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Read pyproject.toml:22 at this commit: `# Python project configuration.`; the declaration matches the rule's affected range."
+        "note": "Read pyproject.toml:48 at this commit: `python = \"^3.8.0\"`; the declaration matches the rule's affected range."
       }
     },
     {

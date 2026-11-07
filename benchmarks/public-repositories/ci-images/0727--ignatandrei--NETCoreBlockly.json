@@ -1,0 +1,134 @@
+{
+  "repository": "ignatandrei/NETCoreBlockly",
+  "commit": "cfc5e1fcb1452853e95c0ad902b429372a68e2f2",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/dotnetTools.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dotnetTools.yml:20 at this commit: `- uses: actions/checkout@v2` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/master_netcoreblockly.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/master_netcoreblockly.yml:17 at this commit: `- uses: actions/checkout@v2` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-dotnet.node20",
+      "path": ".github/workflows/master_netcoreblockly.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/master_netcoreblockly.yml:20 at this commit: `uses: actions/setup-dotnet@v1` is a `uses:` declaration of setup-dotnet; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/master_netcoreblockly.yml",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/master_netcoreblockly.yml:40 at this commit: `uses: actions/upload-artifact@v2` is a `uses:` declaration of upload-artifact; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/master_netcoreblockly.yml",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/master_netcoreblockly.yml:54 at this commit: `uses: actions/download-artifact@v2` is a `uses:` declaration of download-artifact; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/NetCore2Blockly/DeploySampleSiteAzure/DeploySampleSiteAzure.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NetCore2Blockly/DeploySampleSiteAzure/DeploySampleSiteAzure.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/NetCore2Blockly/GraphQLDemo/GraphQLDemo.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NetCore2Blockly/GraphQLDemo/GraphQLDemo.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/NetCore2Blockly/NetCore2Blockly/NetCore2Blockly.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NetCore2Blockly/NetCore2Blockly/NetCore2Blockly.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/NetCore2Blockly/NetCore2BlocklyStorage.Sqlite/NetCore2BlocklyStorage.Sqlite.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NetCore2Blockly/NetCore2BlocklyStorage.Sqlite/NetCore2BlocklyStorage.Sqlite.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/NetCore2Blockly/NetCore2BlocklyUnitTests/NetCore2BlocklyUnitTests.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NetCore2Blockly/NetCore2BlocklyUnitTests/NetCore2BlocklyUnitTests.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/NetCore2Blockly/TestBlocklyHtml/Dockerfile",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NetCore2Blockly/TestBlocklyHtml/Dockerfile:3 at this commit: `FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/NetCore2Blockly/TestBlocklyHtml/Dockerfile",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NetCore2Blockly/TestBlocklyHtml/Dockerfile:7 at this commit: `FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/NetCore2Blockly/TestNetCore3/WebApplication5/WebApplication5.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NetCore2Blockly/TestNetCore3/WebApplication5/WebApplication5.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/NetCore2Blockly/TestNetCorePackage/TestNetCorePackage.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/NetCore2Blockly/TestNetCorePackage/TestNetCorePackage.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "repository": "Azure/AppConfiguration-DotnetProvider",
+  "commit": "1fd01ba6fbc23e833cf117e1396e6aa701cd64b3",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "examples/ConfigStoreDemo/ConfigStoreDemo.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read examples/ConfigStoreDemo/ConfigStoreDemo.csproj:5 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "examples/ConsoleAppWithFailOver/ConsoleAppWithFailOver.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read examples/ConsoleAppWithFailOver/ConsoleAppWithFailOver.csproj:5 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "examples/ConsoleApplication/ConsoleApplication.csproj",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read examples/ConsoleApplication/ConsoleApplication.csproj:6 at this commit: `<TargetFramework>net8.0</TargetFramework>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Microsoft.Azure.AppConfiguration.AspNetCore/Microsoft.Azure.AppConfiguration.AspNetCore.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Microsoft.Azure.AppConfiguration.AspNetCore/Microsoft.Azure.AppConfiguration.AspNetCore.csproj:5 at this commit: `<TargetFrameworks>net8.0;net9.0</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Microsoft.Azure.AppConfiguration.AspNetCore/Microsoft.Azure.AppConfiguration.AspNetCore.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Microsoft.Azure.AppConfiguration.AspNetCore/Microsoft.Azure.AppConfiguration.AspNetCore.csproj:5 at this commit: `<TargetFrameworks>net8.0;net9.0</TargetFrameworks>` targets .NET 9.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Microsoft.Azure.AppConfiguration.Functions.Worker/Microsoft.Azure.AppConfiguration.Functions.Worker.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Microsoft.Azure.AppConfiguration.Functions.Worker/Microsoft.Azure.AppConfiguration.Functions.Worker.csproj:5 at this commit: `<TargetFrameworks>net8.0;net9.0</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Microsoft.Azure.AppConfiguration.Functions.Worker/Microsoft.Azure.AppConfiguration.Functions.Worker.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Microsoft.Azure.AppConfiguration.Functions.Worker/Microsoft.Azure.AppConfiguration.Functions.Worker.csproj:5 at this commit: `<TargetFrameworks>net8.0;net9.0</TargetFrameworks>` targets .NET 9.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "tests/Tests.AzureAppConfiguration.AspNetCore/Tests.AzureAppConfiguration.AspNetCore.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/Tests.AzureAppConfiguration.AspNetCore/Tests.AzureAppConfiguration.AspNetCore.csproj:4 at this commit: `<TargetFrameworks>net8.0;net9.0</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "tests/Tests.AzureAppConfiguration.AspNetCore/Tests.AzureAppConfiguration.AspNetCore.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/Tests.AzureAppConfiguration.AspNetCore/Tests.AzureAppConfiguration.AspNetCore.csproj:4 at this commit: `<TargetFrameworks>net8.0;net9.0</TargetFrameworks>` targets .NET 9.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "tests/Tests.AzureAppConfiguration.Functions.Worker/Tests.AzureAppConfiguration.Functions.Worker.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/Tests.AzureAppConfiguration.Functions.Worker/Tests.AzureAppConfiguration.Functions.Worker.csproj:4 at this commit: `<TargetFrameworks>net8.0;net9.0</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "tests/Tests.AzureAppConfiguration.Functions.Worker/Tests.AzureAppConfiguration.Functions.Worker.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/Tests.AzureAppConfiguration.Functions.Worker/Tests.AzureAppConfiguration.Functions.Worker.csproj:4 at this commit: `<TargetFrameworks>net8.0;net9.0</TargetFrameworks>` targets .NET 9.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "tests/Tests.AzureAppConfiguration/Tests.AzureAppConfiguration.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/Tests.AzureAppConfiguration/Tests.AzureAppConfiguration.csproj:4 at this commit: `<TargetFrameworks>net48;net8.0;net9.0</TargetFrameworks>` targets .NET 8.0, which Microsoft no longer supports."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "tests/Tests.AzureAppConfiguration/Tests.AzureAppConfiguration.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/Tests.AzureAppConfiguration/Tests.AzureAppConfiguration.csproj:4 at this commit: `<TargetFrameworks>net48;net8.0;net9.0</TargetFrameworks>` targets .NET 9.0, which Microsoft no longer supports."
+      }
+    }
+  ]
+}

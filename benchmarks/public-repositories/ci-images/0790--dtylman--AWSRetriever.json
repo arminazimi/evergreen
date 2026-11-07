@@ -1,0 +1,35 @@
+{
+  "repository": "dtylman/AWSRetriever",
+  "commit": "764284774457731d6f0cf1b9dd40b2781bdea3ca",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/dotnet.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dotnet.yml:16 at this commit: `uses: actions/checkout@v2` is a `uses:` declaration of checkout; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-dotnet.node20",
+      "path": ".github/workflows/dotnet.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dotnet.yml:20 at this commit: `uses: actions/setup-dotnet@v1` is a `uses:` declaration of setup-dotnet; the pinned ref is in the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": ".github/workflows/dotnet.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dotnet.yml:22 at this commit: `dotnet-version:  3.1.101` targets .NET 3.1, which Microsoft no longer supports."
+      }
+    }
+  ]
+}
