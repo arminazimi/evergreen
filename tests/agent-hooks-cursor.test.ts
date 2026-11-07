@@ -201,9 +201,60 @@ test("the init command writes the hook and rule and honors --dry-run", async () 
     /npx --no-install evergreen-deprecation hook cursor/,
   );
 
+  const again = spawnSync(process.execPath, [cli, "init", "--hooks-for", "cursor", root], { encoding: "utf8" });
+  assert.equal(again.status, 0, again.stderr);
+  assert.match(again.stdout, /\.cursor\/hooks\.json already has the current Evergreen post-edit hook/);
+  assert.match(again.stdout, /\.cursor\/rules\/evergreen\.mdc already has the current Evergreen section/);
+
   const unknown = spawnSync(process.execPath, [cli, "init", "--hooks-for", "gitlab", root], { encoding: "utf8" });
   assert.equal(unknown.status, 2);
   assert.match(unknown.stderr, /--hooks-for needs a host: claude-code, codex, or cursor/);
+});
+
+test("the init command merges hooks and prints added and updated rule results", async () => {
+  const { SECTION_BEGIN, SECTION_END } = await import("../src/agent-instructions.js");
+  const cli = resolve("dist/src/cli.js");
+
+  const addRoot = await repository({
+    [CURSOR_HOOKS_FILE]: await fixture("hooks-with-existing.json"),
+    [CURSOR_RULES_FILE]: "---\ndescription: local\nalwaysApply: true\n---\n\n# Local notes\n",
+  });
+  const addDry = spawnSync(process.execPath, [cli, "init", "--hooks-for", "cursor", addRoot, "--dry-run"], {
+    encoding: "utf8",
+  });
+  assert.equal(addDry.status, 0, addDry.stderr);
+  assert.match(addDry.stdout, /Would update \.cursor\/hooks\.json:/);
+  assert.match(addDry.stdout, /Would add the Evergreen section to \.cursor\/rules\/evergreen\.mdc:/);
+  const added = spawnSync(process.execPath, [cli, "init", "--hooks-for", "cursor", addRoot], { encoding: "utf8" });
+  assert.equal(added.status, 0, added.stderr);
+  assert.match(added.stdout, /Updated \.cursor\/hooks\.json; Cursor now runs Evergreen afterFileEdit/);
+  assert.match(added.stdout, /Added the Evergreen section to \.cursor\/rules\/evergreen\.mdc/);
+  assert.match(await readFile(join(addRoot, CURSOR_RULES_FILE), "utf8"), /# Local notes/);
+
+  const updateRoot = await repository({
+    [CURSOR_HOOKS_FILE]: JSON.stringify(
+      {
+        version: 1,
+        hooks: { afterFileEdit: [{ command: "npx --no-install evergreen-deprecation hook cursor", timeout: 60 }] },
+      },
+      null,
+      2,
+    ),
+    [CURSOR_RULES_FILE]: `---\ndescription: stale\nalwaysApply: true\n---\n\n${SECTION_BEGIN}\nAn old section.\n${SECTION_END}\n`,
+  });
+  const updateDry = spawnSync(process.execPath, [cli, "init", "--hooks-for", "cursor", updateRoot, "--dry-run"], {
+    encoding: "utf8",
+  });
+  assert.equal(updateDry.status, 0, updateDry.stderr);
+  assert.match(updateDry.stdout, /\.cursor\/hooks\.json already has the current Evergreen post-edit hook/);
+  assert.match(updateDry.stdout, /Would update \.cursor\/rules\/evergreen\.mdc:/);
+  const updated = spawnSync(process.execPath, [cli, "init", "--hooks-for", "cursor", updateRoot], {
+    encoding: "utf8",
+  });
+  assert.equal(updated.status, 0, updated.stderr);
+  assert.match(updated.stdout, /\.cursor\/hooks\.json already has the current Evergreen post-edit hook/);
+  assert.match(updated.stdout, /Updated the Evergreen section in \.cursor\/rules\/evergreen\.mdc/);
+  assert.match(await readFile(join(updateRoot, CURSOR_RULES_FILE), "utf8"), /check_dependency/);
 });
 
 test("end to end: writing FROM node:16 audits on stderr with exit 0 (Cursor cannot feed the agent)", async () => {
