@@ -1,18 +1,40 @@
 // Thin GitHub REST client for installation tokens. Inject `fetch` in tests; production uses global fetch.
+// Requests always target https://api.github.com so a webhook field cannot redirect the client (SSRF).
 
-const API = "https://api.github.com";
+const API_ORIGIN = "https://api.github.com";
 const ACCEPT = "application/vnd.github+json";
 const API_VERSION = "2022-11-28";
+const NAME = /^[A-Za-z0-9_.-]+$/;
+
+/** Positive integer installation id from a signed webhook; rejects strings that could reshape a URL. */
+export function parseInstallationId(value) {
+  const id = typeof value === "number" ? value : Number(value);
+  if (!Number.isInteger(id) || id <= 0) {
+    throw new Error("installation id must be a positive integer");
+  }
+  return id;
+}
+
+/** Owner or repository name segment safe for a path under api.github.com. */
+export function assertRepoName(value, label) {
+  if (typeof value !== "string" || !NAME.test(value)) {
+    throw new Error(`invalid ${label}`);
+  }
+  return value;
+}
+
+function apiUrl(pathname) {
+  return new URL(pathname, API_ORIGIN);
+}
 
 /**
- * @param {{ token: string, fetchImpl?: typeof fetch, apiBase?: string }} options
+ * @param {{ token: string, fetchImpl?: typeof fetch }} options
  */
 export function createGitHubClient(options) {
   const fetchImpl = options.fetchImpl ?? globalThis.fetch;
-  const apiBase = options.apiBase ?? API;
 
-  async function request(method, path, body) {
-    const response = await fetchImpl(`${apiBase}${path}`, {
+  async function request(method, pathname, body) {
+    const response = await fetchImpl(apiUrl(pathname), {
       method,
       headers: {
         accept: ACCEPT,
@@ -27,14 +49,17 @@ export function createGitHubClient(options) {
     const json = text.length === 0 ? undefined : JSON.parse(text);
     if (!response.ok) {
       const message = json?.message ?? text.slice(0, 200);
-      throw new Error(`GitHub ${method} ${path} failed (${response.status}): ${message}`);
+      throw new Error(`GitHub ${method} ${pathname} failed (${response.status}): ${message}`);
     }
     return { status: response.status, json };
   }
 
   return {
     async getRepository(owner, repo) {
-      const { json } = await request("GET", `/repos/${owner}/${repo}`);
+      const { json } = await request(
+        "GET",
+        `/repos/${assertRepoName(owner, "owner")}/${assertRepoName(repo, "repo")}`,
+      );
       return json;
     },
 
@@ -44,7 +69,10 @@ export function createGitHubClient(options) {
         .map((segment) => encodeURIComponent(segment))
         .join("/");
       const query = ref === undefined ? "" : `?ref=${encodeURIComponent(ref)}`;
-      const { status, json } = await request("GET", `/repos/${owner}/${repo}/contents/${encoded}${query}`);
+      const { status, json } = await request(
+        "GET",
+        `/repos/${assertRepoName(owner, "owner")}/${assertRepoName(repo, "repo")}/contents/${encoded}${query}`,
+      );
       if (status === 404 || json === undefined || json.type !== "file" || typeof json.content !== "string") {
         return undefined;
       }
@@ -52,68 +80,97 @@ export function createGitHubClient(options) {
     },
 
     async getRefSha(owner, repo, ref) {
-      const { json } = await request("GET", `/repos/${owner}/${repo}/git/ref/${ref}`);
+      const { json } = await request(
+        "GET",
+        `/repos/${assertRepoName(owner, "owner")}/${assertRepoName(repo, "repo")}/git/ref/${ref}`,
+      );
       return json.object.sha;
     },
 
     async getCommit(owner, repo, sha) {
-      const { json } = await request("GET", `/repos/${owner}/${repo}/git/commits/${sha}`);
+      const { json } = await request(
+        "GET",
+        `/repos/${assertRepoName(owner, "owner")}/${assertRepoName(repo, "repo")}/git/commits/${sha}`,
+      );
       return json;
     },
 
     async createBlob(owner, repo, content) {
-      const { json } = await request("POST", `/repos/${owner}/${repo}/git/blobs`, {
-        content: Buffer.from(content, "utf8").toString("base64"),
-        encoding: "base64",
-      });
+      const { json } = await request(
+        "POST",
+        `/repos/${assertRepoName(owner, "owner")}/${assertRepoName(repo, "repo")}/git/blobs`,
+        {
+          content: Buffer.from(content, "utf8").toString("base64"),
+          encoding: "base64",
+        },
+      );
       return json.sha;
     },
 
     async createTree(owner, repo, baseTree, entries) {
-      const { json } = await request("POST", `/repos/${owner}/${repo}/git/trees`, {
-        base_tree: baseTree,
-        tree: entries.map((entry) => ({
-          path: entry.path,
-          mode: "100644",
-          type: "blob",
-          sha: entry.sha,
-        })),
-      });
+      const { json } = await request(
+        "POST",
+        `/repos/${assertRepoName(owner, "owner")}/${assertRepoName(repo, "repo")}/git/trees`,
+        {
+          base_tree: baseTree,
+          tree: entries.map((entry) => ({
+            path: entry.path,
+            mode: "100644",
+            type: "blob",
+            sha: entry.sha,
+          })),
+        },
+      );
       return json.sha;
     },
 
     async createCommit(owner, repo, { message, tree, parents }) {
-      const { json } = await request("POST", `/repos/${owner}/${repo}/git/commits`, {
-        message,
-        tree,
-        parents,
-      });
+      const { json } = await request(
+        "POST",
+        `/repos/${assertRepoName(owner, "owner")}/${assertRepoName(repo, "repo")}/git/commits`,
+        {
+          message,
+          tree,
+          parents,
+        },
+      );
       return json.sha;
     },
 
     async createRef(owner, repo, ref, sha) {
-      await request("POST", `/repos/${owner}/${repo}/git/refs`, { ref, sha });
+      await request("POST", `/repos/${assertRepoName(owner, "owner")}/${assertRepoName(repo, "repo")}/git/refs`, {
+        ref,
+        sha,
+      });
     },
 
     async updateRef(owner, repo, ref, sha) {
-      await request("PATCH", `/repos/${owner}/${repo}/git/refs/${ref}`, { sha, force: true });
+      await request(
+        "PATCH",
+        `/repos/${assertRepoName(owner, "owner")}/${assertRepoName(repo, "repo")}/git/refs/${ref}`,
+        { sha, force: true },
+      );
     },
 
     async listOpenPulls(owner, repo, head) {
       const { json } = await request(
         "GET",
-        `/repos/${owner}/${repo}/pulls?state=open&head=${encodeURIComponent(head)}`,
+        `/repos/${assertRepoName(owner, "owner")}/${assertRepoName(repo, "repo")}/pulls?state=open&head=${encodeURIComponent(head)}`,
       );
       return Array.isArray(json) ? json : [];
     },
 
     async createPullRequest(owner, repo, { title, body, head, base }) {
-      const { json } = await request("POST", `/repos/${owner}/${repo}/pulls`, {
-        title,
-        body,
-        head,
-        base,
-      });
+      const { json } = await request(
+        "POST",
+        `/repos/${assertRepoName(owner, "owner")}/${assertRepoName(repo, "repo")}/pulls`,
+        {
+          title,
+          body,
+          head,
+          base,
+        },
+      );
       return json;
     },
   };
@@ -121,12 +178,13 @@ export function createGitHubClient(options) {
 
 /**
  * Exchanges an app JWT for a short-lived installation token.
- * @param {{ jwt: string, installationId: number | string, fetchImpl?: typeof fetch, apiBase?: string }} input
+ * @param {{ jwt: string, installationId: number | string, fetchImpl?: typeof fetch }} input
  */
 export async function createInstallationToken(input) {
   const fetchImpl = input.fetchImpl ?? globalThis.fetch;
-  const apiBase = input.apiBase ?? API;
-  const response = await fetchImpl(`${apiBase}/app/installations/${input.installationId}/access_tokens`, {
+  const installationId = parseInstallationId(input.installationId);
+  const url = apiUrl(`/app/installations/${installationId}/access_tokens`);
+  const response = await fetchImpl(url, {
     method: "POST",
     headers: {
       accept: ACCEPT,

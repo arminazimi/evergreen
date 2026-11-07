@@ -58,9 +58,10 @@ async function handleRequest(request, response, config) {
       response.end("unauthorized");
       return;
     }
-    const message = error instanceof Error ? error.message : String(error);
+    const detail = error instanceof Error ? error.message : String(error);
+    process.stderr.write(`evergreen onboarding webhook error: ${detail}\n`);
     response.writeHead(500, { "content-type": "text/plain" });
-    response.end(message);
+    response.end("internal error");
   }
 }
 

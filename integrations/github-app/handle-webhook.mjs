@@ -1,7 +1,12 @@
 // Installation webhook handler: verify signature, then open one onboarding PR per selected repo.
 
 import { createAppJwt } from "./app-jwt.mjs";
-import { createGitHubClient, createInstallationToken } from "./github-api.mjs";
+import {
+  assertRepoName,
+  createGitHubClient,
+  createInstallationToken,
+  parseInstallationId,
+} from "./github-api.mjs";
 import { openOnboardingPullRequest } from "./open-onboarding-pr.mjs";
 import { verifySignature } from "./verify-signature.mjs";
 
@@ -34,7 +39,11 @@ function normalizeRepos(list) {
   for (const entry of list) {
     if (typeof entry?.full_name !== "string" || !entry.full_name.includes("/")) continue;
     const [owner, repo] = entry.full_name.split("/");
-    if (owner && repo) out.push({ owner, repo });
+    try {
+      out.push({ owner: assertRepoName(owner, "owner"), repo: assertRepoName(repo, "repo") });
+    } catch {
+      // Skip malformed names so a bad entry cannot reshape API paths.
+    }
   }
   return out;
 }
@@ -48,7 +57,6 @@ function normalizeRepos(list) {
  *   appId: string | number,
  *   privateKeyPem: string,
  *   fetchImpl?: typeof fetch,
- *   apiBase?: string,
  *   openPullRequest?: typeof openOnboardingPullRequest,
  * }} input
  */
@@ -60,22 +68,16 @@ export async function handleWebhook(input) {
   const repos = repositoriesFromPayload(input.eventName, payload);
   if (repos.length === 0) return { results: [] };
 
-  const installationId = payload.installation?.id;
-  if (installationId === undefined || installationId === null) {
-    throw new Error("installation id missing from webhook payload");
-  }
-
+  const installationId = parseInstallationId(payload.installation?.id);
   const jwt = createAppJwt({ appId: input.appId, privateKeyPem: input.privateKeyPem });
   const token = await createInstallationToken({
     jwt,
     installationId,
     fetchImpl: input.fetchImpl,
-    apiBase: input.apiBase,
   });
   const github = createGitHubClient({
     token,
     fetchImpl: input.fetchImpl,
-    apiBase: input.apiBase,
   });
   const open = input.openPullRequest ?? openOnboardingPullRequest;
   const results = [];
