@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "evergreen.comparison.reproduce.v1",
+  "method": "docs/COMPARISON_METHOD.md",
+  "command": "npm run comparison:reproduce",
+  "node": ">=22",
+  "comparisons": [
+    {
+      "name": "renovate",
+      "pins": {
+        "renovate": "44.164.10",
+        "evergreen": "0.7.3",
+        "commits": "8dd8580a304d93336fdaf0b344b276e5928410e3"
+      },
+      "inputs": {
+        "rawRecords": 740
+      },
+      "known": {
+        "blind": {
+          "repositories": 735,
+          "outcomes": {
+            "agree": 1085,
+            "evergreen-only": 1095,
+            "renovate-only": 232,
+            "inconclusive": 5
+          }
+        },
+        "targeted": {
+          "repositories": 5,
+          "outcomes": {
+            "agree": 67,
+            "evergreen-only": 38,
+            "renovate-only": 19,
+            "inconclusive": 0
+          }
+        }
+      },
+      "files": [
+        {
+          "path": "benchmarks/comparison/renovate/renovate.json",
+          "sha256": "236e221533634ea4b6c97176bb11c72781d36729c99a50247798186e600502ec"
+        },
+        {
+          "path": "benchmarks/comparison/renovate/renovate.md",
+          "sha256": "02c999ed3d2303c674c13bec0eef30f32153978cdaae32ecc7bfd09ba6816682"
+        }
+      ]
+    },
+    {
+      "name": "dependabot",
+      "pins": {
+        "dependabot": "not-run",
+        "evergreen": "0.7.3",
+        "commits": "7cdd0e5f7541ba9828452df5ec9dbb22fb18ae14"
+      },
+      "inputs": {
+        "rawRecords": 996
+      },
+      "known": {
+        "blind": {
+          "repositories": 991,
+          "outcomes": {
+            "covered": 265,
+            "uncovered": 3500,
+            "filtered": 32,
+            "not-comparable": 2632
+          }
+        },
+        "targeted": {
+          "repositories": 5,
+          "outcomes": {
+            "covered": 0,
+            "uncovered": 113,
+            "filtered": 16,
+            "not-comparable": 36
+          }
+        }
+      },
+      "files": [
+        {
+          "path": "benchmarks/comparison/dependabot/dependabot.json",
+          "sha256": "24f6e1e82c9a7077c4a3005e66c92362a4a5b3b7daafa48c93497cffa29c0213"
+        },
+        {
+          "path": "benchmarks/comparison/dependabot/dependabot.md",
+          "sha256": "ec8ce29ba689e2daf9b99ff9c484bbdfaec247a34687387af5ab73c61645ff2c"
+        }
+      ]
+    },
+    {
+      "name": "endoflife-date",
+      "pins": {
+        "snapshot": "2026-11-06",
+        "snapshotSha256": "0b385bf2e3cca8e8e2ad89f68bdd40af236da1fc0965b84038fe9da868683ed2"
+      },
+      "inputs": {
+        "registryRules": 752,
+        "corpusRepositories": 1512,
+        "snapshotProducts": 44,
+        "snapshotCycles": 835
+      },
+      "known": {
+        "products": 42,
+        "measured": 184,
+        "agree": 176,
+        "disagree": 8,
+        "groundTruthRules": 235,
+        "groundTruthMeasured": 88,
+        "groundTruthAgree": 81,
+        "groundTruthDisagree": 7,
+        "vendorChecked": 11
+      },
+      "files": [
+        {
+          "path": "benchmarks/comparison/endoflife-date.json",
+          "sha256": "8fcc6f3937323ecfb4e2cf029b12abcca13c81fcfff9dc66f95327b439a0735f"
+        },
+        {
+          "path": "benchmarks/comparison/endoflife-date.md",
+          "sha256": "82ec69120e1c013b6b22748e810dcb2c67d4ee8a55f7bc513d751169cc400b33"
+        }
+      ]
+    }
+  ]
+}

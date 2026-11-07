@@ -69,6 +69,22 @@ boundary matches. The excluded families are counted under the `different-support
 
 ## Reproduce
 
+One command rebuilds every table in this directory from the committed inputs and checks it against the
+committed known result ([reproduce.json](reproduce.json)). It reads only committed files: no network, no
+repository code, no clock.
+
+```bash
+npm ci
+npm run comparison:reproduce                 # verify every table and print the pins and counts
+npm run comparison:reproduce -- --record     # rewrite the tables and the known result
+```
+
+`reproduce.json` records the pinned versions, the input counts, the headline counts, and the SHA-256 of each
+generated file. It exits 1 and names every file that differs from the committed result. `--record` is for a
+maintainer who deliberately re-ran a collection step; it never runs the collectors.
+
+The endoflife.date table alone can also be rebuilt with:
+
 ```bash
 npm ci
 npm run build

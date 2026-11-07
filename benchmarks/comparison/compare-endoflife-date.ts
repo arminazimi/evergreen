@@ -67,7 +67,7 @@ function parseExpected(raw: unknown, where: string): CorpusEntry["expected"][num
 }
 
 /** Reads the pinned corpus directly: its JSON carries the ground-truth notes, which the shared type omits. */
-async function corpusEntries(root: string): Promise<CorpusEntry[]> {
+export async function corpusEntries(root: string): Promise<CorpusEntry[]> {
   const directory = resolve(root, CORPUS_DIRECTORY);
   const entries: CorpusEntry[] = [];
   for (const ecosystem of (await readdir(directory, { withFileTypes: true }))

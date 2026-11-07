@@ -1,0 +1,1 @@
+- Add `npm run comparison:reproduce` to rebuild and verify every published comparison table, with its pinned versions and known result. (#2176)

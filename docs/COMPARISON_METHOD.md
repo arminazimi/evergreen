@@ -169,7 +169,43 @@ Declared before the first run, so no run can quietly redefine a limit as a resul
 6. `npm run check` gates every run's pull request, and `npm run validate:public-repos` is not part of it
    — it needs the network, so a run records how it was executed and whether the cache was warm.
 
-## 9. Reproducing the method, not a result
+## 9. Reproducing the tables, and the method
+
+One command rebuilds every committed comparison table from the committed inputs and compares it with
+the published known result. It runs from a clean checkout with no network, no repository code, and no
+clock:
+
+```bash
+npm ci
+npm run comparison:reproduce
+```
+
+The command prints the pinned versions and the headline counts, then checks every generated file and
+the known result byte for byte. It exits 1 and names each file that differs. Refreshing any input is a
+maintainer action: collect the raw records per each comparison's README, then rewrite the tables and
+the known result with the same command:
+
+```bash
+npm run comparison:reproduce -- --record
+```
+
+The pins that produced the published tables are recorded in
+[`benchmarks/comparison/reproduce.json`](../benchmarks/comparison/reproduce.json), beside the SHA-256
+of every generated file:
+
+| Pin | Value |
+| --- | --- |
+| Node.js | `>=22` (`engines` in `package.json`) |
+| Renovate | `44.164.10`, printed per run and recorded in `renovateVersions` |
+| Dependabot | not run, as section 7 states; recorded as `dependabot: "not-run"` |
+| endoflife.date snapshot | retrieved 2026-11-06, recorded with its SHA-256 |
+| Evergreen | `0.7.3` at the commit each run recorded in `evergreenCommits` |
+
+**Amended 2026-11-08, after the first results:** sections 3 and 7 stand; this amendment adds the
+reproduction command, the known result, and the pins the finished runs used. The corpus has grown
+since sections 4 and 5 counted it, so those historical counts are unchanged and the current counts are
+the ones the known result records. No measure, score, subset, or threshold changed, and no table was
+re-scored to fit the amendment.
 
 These commands build and score Evergreen's own half. They exist in `package.json`; run them from a clean
 checkout of the commit being measured.
@@ -189,8 +225,8 @@ Results of the comparison itself are produced by
 into `benchmarks/comparison/`, packaged by
 [#2176](https://github.com/arminazimi/evergreen/issues/2176), and published with the losses in
 [#2177](https://github.com/arminazimi/evergreen/issues/2177). [#2176](https://github.com/arminazimi/evergreen/issues/2176)
-also owns later edits to this page: when one command exists that reproduces a published table, it is
-recorded here.
+also owns later edits to this page: the one command above reproduces the published tables, and its known
+result carries the pins.
 
 ## 10. Where the comparison claims are already made
 

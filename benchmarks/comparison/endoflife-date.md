@@ -5,15 +5,15 @@
 This page applies the protocol in [the comparison method](../docs/COMPARISON_METHOD.md) to the endoflife.date product data. It compares product coverage and the lifecycle dates both sides publish, using the pinned corpus as the sample. Results are published as they are, including where Evergreen loses.
 
 * Snapshot: 2026-11-06, 44 products with 835 release cycles.
-* Evergreen: 743 registry rules across 415 product families.
-* Ground truth: 557 repositories, 3174 expected findings, 197 distinct rules.
+* Evergreen: 752 registry rules across 415 product families.
+* Ground truth: 1512 repositories, 9774 expected findings, 235 distinct rules.
 
 ## Product coverage
 
 | Measure | Value |
 | --- | ---: |
 | endoflife.date products in the snapshot | 489 |
-| Evergreen registry rules | 743 |
+| Evergreen registry rules | 752 |
 | Evergreen product families (distinct purls) | 415 |
 | Families mapped to an endoflife.date product | 103 |
 | endoflife.date products with at least one Evergreen rule | 42 |
@@ -28,7 +28,7 @@ The coverage gap runs both ways: endoflife.date is broader across products, whil
 | `api-retirement` | 44 | 52 | pkg:generic/helm-repository/incubator, pkg:generic/helm-repository/stable, pkg:generic/kubernetes/admissionregistration.k8s.io/MutatingWebhookConfiguration, pkg:generic/kubernetes/admissionregistration.k8s.io/ValidatingWebhookConfiguration, pkg:generic/kubernetes/apiextensions.k8s.io/CustomResourceDefinition |
 | `github-actions` | 29 | 29 | pkg:generic/github-actions/add-path, pkg:generic/github-actions/save-state, pkg:generic/github-actions/set-env, pkg:generic/github-actions/set-output, pkg:github/actions/cache |
 | `different-support-model` | 4 | 23 | pkg:generic/azure-aks, pkg:generic/azure-kubernetes-service, pkg:generic/google-gke, pkg:generic/google-kubernetes-engine |
-| `no-product` | 5 | 14 | pkg:generic/dart, pkg:generic/google-cloud-sql-mysql, pkg:generic/google-cloud-sql-postgresql, pkg:generic/java, pkg:generic/sbt |
+| `no-product` | 5 | 23 | pkg:generic/dart, pkg:generic/google-cloud-sql-mysql, pkg:generic/google-cloud-sql-postgresql, pkg:generic/java, pkg:generic/sbt |
 | `store-policy` | 2 | 6 | pkg:generic/android/targetSdk, pkg:maven/com.android.billingclient/billing |
 | `ci-image-retirement` | 3 | 5 | pkg:generic/azure-pipelines/macos-image, pkg:generic/azure-pipelines/ubuntu-image, pkg:generic/azure-pipelines/windows-image |
 | `toolchain-policy` | 4 | 5 | pkg:generic/cmake, pkg:generic/cmake-generator/visual-studio-12-2013, pkg:generic/cmake-module/cmake-find-frameworks, pkg:generic/cmake-module/find-gdal |
@@ -89,17 +89,17 @@ A cycle is measured only when endoflife.date publishes an end date for every cyc
 
 | Sample | Measured | Agree | Disagree | Agreement |
 | --- | ---: | ---: | ---: | ---: |
-| All 743 registry rules | 184 | 176 | 8 | 95.7% |
-| Ground-truth set (197 distinct rules) | 73 | 69 | 4 | 94.5% |
+| All 752 registry rules | 184 | 176 | 8 | 95.7% |
+| Ground-truth set (235 distinct rules) | 88 | 81 | 7 | 92.0% |
 
 | Bucket | All registry rules | Ground-truth set |
 | --- | ---: | ---: |
-| Not a mapped product | 402 | 118 |
-| Not a lifecycle event | 142 | 1 |
+| Not a mapped product | 411 | 138 |
+| Not a lifecycle event | 142 | 2 |
 | No snapshot entry | 0 | 0 |
 | No release cycle in range | 2 | 0 |
-| No date in the Evergreen rule | 9 | 2 |
-| No end date in endoflife.date | 4 | 3 |
+| No date in the Evergreen rule | 9 | 3 |
+| No end date in endoflife.date | 4 | 4 |
 
 ## Where the data differs
 
@@ -110,9 +110,9 @@ A disagreement is a date difference, not a verdict. Both sides' sources are link
 | container.mysql.eol-8.0-and-older | mysql / 3.23, 4.0, 4.1, 5.0, 5.1, 5.5, 5.6, 5.7, 8.0 | 2026-04-21 | 2026-04-30 | -9 | yes |
 | container.ruby.eol-3.2-and-older | ruby / 1.9.3, 2.0.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 3.0, 3.1, 3.2 | 2026-04-01 | 2026-03-31 | 1 | yes |
 | container.traefik.eol-3.6-and-older | traefik / 1.7, 2.0, 2.1, 2.10, 2.11, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6 | 2026-08-16 | 2026-09-07 | -22 | no |
-| elixir.erlang.eol-25 | erlang / 25 | 2025-05-21 | 2025-05-17 | 4 | no |
-| elixir.erlang.eol-26 | erlang / 26 | 2026-05-13 | 2026-05-26 | -13 | no |
-| ruby.runtime.eol-2.5 | ruby / 2.5 | 2021-04-05 | 2021-03-31 | 5 | no |
+| elixir.erlang.eol-25 | erlang / 25 | 2025-05-21 | 2025-05-17 | 4 | yes |
+| elixir.erlang.eol-26 | erlang / 26 | 2026-05-13 | 2026-05-26 | -13 | yes |
+| ruby.runtime.eol-2.5 | ruby / 2.5 | 2021-04-05 | 2021-03-31 | 5 | yes |
 | ruby.runtime.eol-2.6 | ruby / 2.6 | 2022-04-12 | 2022-03-31 | 12 | yes |
 | ruby.runtime.eol-3.2 | ruby / 3.2 | 2026-04-01 | 2026-03-31 | 1 | yes |
 
@@ -120,13 +120,15 @@ A disagreement is a date difference, not a verdict. Both sides' sources are link
 
 - [Evergreen rule](https://github.com/arminazimi/evergreen/blob/main/docs/rules/container.mysql.eol-8.0-and-older.md) · [endoflife.date](https://endoflife.date/mysql)
 - [nestjsx/crud docker-compose.yml:21](https://github.com/nestjsx/crud/blob/d6d3c4ebd844d543ab71b494d424660c448a9d42/docker-compose.yml#L21)
+- [weltraumpirat/hexagonal_ddd docker/docker-compose.yml:4](https://github.com/weltraumpirat/hexagonal_ddd/blob/a1bbdc5da7406f047269d270969ed9750bb92fa8/docker/docker-compose.yml#L4)
+- [axe-api/axe-api packages/integrations/composes/docker-compose.mysql57.yml:5](https://github.com/axe-api/axe-api/blob/81deacdf696dfe3fc022cb9ce85c0bf0013c2f8a/packages/integrations/composes/docker-compose.mysql57.yml#L5)
 
 ### container.ruby.eol-3.2-and-older
 
 - [Evergreen rule](https://github.com/arminazimi/evergreen/blob/main/docs/rules/container.ruby.eol-3.2-and-older.md) · [endoflife.date](https://endoflife.date/ruby)
+- [HariSekhon/Dockerfiles fakes3/Dockerfile:15](https://github.com/HariSekhon/Dockerfiles/blob/b38ac95de8be22e481385ae220ea2949fe24ba51/fakes3/Dockerfile#L15)
+- [chrishenry/deltanyc-heatseek angular-rails-app/Dockerfile:1](https://github.com/chrishenry/deltanyc-heatseek/blob/258e225efa89e46e92e9676864f8c07976b4ccf2/angular-rails-app/Dockerfile#L1)
 - [mislav/hub Dockerfile:1](https://github.com/mislav/hub/blob/5c547ed804368763064e51f3990851e267e88edd/Dockerfile#L1)
-- [HomeBusProjects/HomeBus Dockerfile:1](https://github.com/HomeBusProjects/HomeBus/blob/15681fbaf24f3c54b16c9526cdde983a34f96d21/Dockerfile#L1)
-- [nmacawile/rails-chat-api Dockerfile:1](https://github.com/nmacawile/rails-chat-api/blob/b39beefb1427ba1d4e382aed090391bfab9bb826/Dockerfile#L1)
 
 ### container.traefik.eol-3.6-and-older
 
@@ -136,29 +138,37 @@ A disagreement is a date difference, not a verdict. Both sides' sources are link
 ### elixir.erlang.eol-25
 
 - [Evergreen rule](https://github.com/arminazimi/evergreen/blob/main/docs/rules/elixir.erlang.eol-25.md) · [endoflife.date](https://endoflife.date/erlang)
-- No pinned corpus repository exercises this rule; it is outside the ground-truth sample.
+- [smpallen99/coherence .tool-versions:2](https://github.com/smpallen99/coherence/blob/ede75598de6b01ce896d6ec67f0aeac6047ddbd9/.tool-versions#L2)
+- [emqx/MQTT-Client-Examples mqtt-client-Elixir/.tool-versions:1](https://github.com/emqx/MQTT-Client-Examples/blob/b9378547037bdb851f6e5648976573398546dcb5/mqtt-client-Elixir/.tool-versions#L1)
+- [emqx/MQTT-Client-Examples mqtt-client-Elixir/.tool-versions:2](https://github.com/emqx/MQTT-Client-Examples/blob/b9378547037bdb851f6e5648976573398546dcb5/mqtt-client-Elixir/.tool-versions#L2)
 
 ### elixir.erlang.eol-26
 
 - [Evergreen rule](https://github.com/arminazimi/evergreen/blob/main/docs/rules/elixir.erlang.eol-26.md) · [endoflife.date](https://endoflife.date/erlang)
-- No pinned corpus repository exercises this rule; it is outside the ground-truth sample.
+- [sasa1977/elixir-in-action .tool-versions:1](https://github.com/sasa1977/elixir-in-action/blob/4e9067ab5a98959bf5198b2b340a89af429e15c5/.tool-versions#L1)
+- [sasa1977/elixir-in-action .tool-versions:2](https://github.com/sasa1977/elixir-in-action/blob/4e9067ab5a98959bf5198b2b340a89af429e15c5/.tool-versions#L2)
+- [sasa1977/boundary .tool-versions:1](https://github.com/sasa1977/boundary/blob/f53ad7d88068a8019842974191c5c5039a0902f6/.tool-versions#L1)
 
 ### ruby.runtime.eol-2.5
 
 - [Evergreen rule](https://github.com/arminazimi/evergreen/blob/main/docs/rules/ruby.runtime.eol-2.5.md) · [endoflife.date](https://endoflife.date/ruby)
-- No pinned corpus repository exercises this rule; it is outside the ground-truth sample.
+- [ryanto/acts_as_votable .ruby-version:1](https://github.com/ryanto/acts_as_votable/blob/5ac261bac166bce37d046527f9b26425da4dc5b2/.ruby-version#L1)
+- [RailsApps/rails_apps_composer .ruby-version:1](https://github.com/RailsApps/rails_apps_composer/blob/b4165ab87cebe5985bc7fa44bf4240fd1ad680f8/.ruby-version#L1)
+- [hyperstack-org/hyperstack ruby/examples/tutorials/todos/.ruby-version:1](https://github.com/hyperstack-org/hyperstack/blob/52a06b26d3ab81520bd9c5667367e880dbe90e99/ruby/examples/tutorials/todos/.ruby-version#L1)
 
 ### ruby.runtime.eol-2.6
 
 - [Evergreen rule](https://github.com/arminazimi/evergreen/blob/main/docs/rules/ruby.runtime.eol-2.6.md) · [endoflife.date](https://endoflife.date/ruby)
+- [alabsi91/reanimated-color-picker ExampleLatest/Gemfile.lock:114](https://github.com/alabsi91/reanimated-color-picker/blob/bae423b0319422bc357f1f11f8188c1b8130b28c/ExampleLatest/Gemfile.lock#L114)
+- [alabsi91/reanimated-color-picker ExampleOldArch/Gemfile.lock:117](https://github.com/alabsi91/reanimated-color-picker/blob/bae423b0319422bc357f1f11f8188c1b8130b28c/ExampleOldArch/Gemfile.lock#L117)
 - [HomeBusProjects/HomeBus deploy/.ruby-version:1](https://github.com/HomeBusProjects/HomeBus/blob/15681fbaf24f3c54b16c9526cdde983a34f96d21/deploy/.ruby-version#L1)
 
 ### ruby.runtime.eol-3.2
 
 - [Evergreen rule](https://github.com/arminazimi/evergreen/blob/main/docs/rules/ruby.runtime.eol-3.2.md) · [endoflife.date](https://endoflife.date/ruby)
-- [thoughtbot/suspenders .ruby-version:1](https://github.com/thoughtbot/suspenders/blob/484729486cc986af84ab43b1ffd20793ded7537a/.ruby-version#L1)
-- [puma/puma benchmarks/local/sinatra/Gemfile:4](https://github.com/puma/puma/blob/d53529399bc250915374eebe3ae54dd9fd9a6cb0/benchmarks/local/sinatra/Gemfile#L4)
-- [micahflee/TM-SGNL-iOS .ruby-version:1](https://github.com/micahflee/TM-SGNL-iOS/blob/dde0620dafe32c0a10d93aee2a19b406a5aeb015/.ruby-version#L1)
+- [imaNNeo/fl_chart example/.ruby-version:1](https://github.com/imaNNeo/fl_chart/blob/ecada9478275e987dbac53c2d16b4fb3f2bcb78e/example/.ruby-version#L1)
+- [azirbel/npoint .ruby-version:1](https://github.com/azirbel/npoint/blob/f6c8c20f213a6f3e210ee935427e010d9d642cad/.ruby-version#L1)
+- [azirbel/npoint Gemfile:3](https://github.com/azirbel/npoint/blob/f6c8c20f213a6f3e210ee935427e010d9d642cad/Gemfile#L3)
 
 ## Vendor-checked correctness
 
@@ -184,9 +194,16 @@ A disagreement is a date difference, not a verdict. Both sides' sources are link
 
 ## Reproduce
 
+One command rebuilds every comparison table and checks it against the committed known result:
+
 ```bash
 npm ci
-npm run build
+npm run comparison:reproduce
+```
+
+This page alone can be rebuilt and checked with:
+
+```bash
 node dist/benchmarks/comparison/compare-endoflife-date.js          # rewrite this page and endoflife-date.json
 node dist/benchmarks/comparison/compare-endoflife-date.js --check  # exit 1 when either file is stale
 ```

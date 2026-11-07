@@ -14,11 +14,11 @@
     "cycles": 835
   },
   "evergreen": {
-    "registryRules": 743,
+    "registryRules": 752,
     "productFamilies": 415,
-    "groundTruthRepositories": 557,
-    "groundTruthRecords": 3174,
-    "groundTruthRules": 197
+    "groundTruthRepositories": 1512,
+    "groundTruthRecords": 9774,
+    "groundTruthRules": 235
   },
   "coverage": {
     "endoflifeProducts": 489,
@@ -471,7 +471,7 @@
       "zentyal",
       "zerto"
     ],
-    "evergreenRules": 743,
+    "evergreenRules": 752,
     "evergreenProductFamilies": 415,
     "sharedProducts": [
       "alpine-linux",
@@ -587,7 +587,7 @@
         "code": "no-product",
         "description": "endoflife.date publishes no product with a release cycle for this purl.",
         "families": 5,
-        "rules": 14,
+        "rules": 23,
         "examples": [
           "pkg:generic/dart",
           "pkg:generic/google-cloud-sql-mysql",
@@ -661,11 +661,11 @@
   },
   "agreement": {
     "all": {
-      "rules": 743,
+      "rules": 752,
       "measured": 184,
       "agree": 176,
       "disagree": 8,
-      "notComparable": 402,
+      "notComparable": 411,
       "notLifecycleEvent": 142,
       "noSnapshot": 0,
       "noCycle": 2,
@@ -673,16 +673,16 @@
       "noEndoflifeDate": 4
     },
     "groundTruth": {
-      "rules": 197,
-      "measured": 73,
-      "agree": 69,
-      "disagree": 4,
-      "notComparable": 118,
-      "notLifecycleEvent": 1,
+      "rules": 235,
+      "measured": 88,
+      "agree": 81,
+      "disagree": 7,
+      "notComparable": 138,
+      "notLifecycleEvent": 2,
       "noSnapshot": 0,
       "noCycle": 0,
-      "noRuleDate": 2,
-      "noEndoflifeDate": 3
+      "noRuleDate": 3,
+      "noEndoflifeDate": 4
     }
   },
   "correctness": {
@@ -1198,6 +1198,27 @@
           "path": "docker-compose.yml",
           "line": 21,
           "url": "https://github.com/nestjsx/crud/blob/d6d3c4ebd844d543ab71b494d424660c448a9d42/docker-compose.yml#L21"
+        },
+        {
+          "repository": "weltraumpirat/hexagonal_ddd",
+          "commit": "a1bbdc5da7406f047269d270969ed9750bb92fa8",
+          "path": "docker/docker-compose.yml",
+          "line": 4,
+          "url": "https://github.com/weltraumpirat/hexagonal_ddd/blob/a1bbdc5da7406f047269d270969ed9750bb92fa8/docker/docker-compose.yml#L4"
+        },
+        {
+          "repository": "axe-api/axe-api",
+          "commit": "81deacdf696dfe3fc022cb9ce85c0bf0013c2f8a",
+          "path": "packages/integrations/composes/docker-compose.mysql57.yml",
+          "line": 5,
+          "url": "https://github.com/axe-api/axe-api/blob/81deacdf696dfe3fc022cb9ce85c0bf0013c2f8a/packages/integrations/composes/docker-compose.mysql57.yml#L5"
+        },
+        {
+          "repository": "EleTeam/UniShopX",
+          "commit": "10a26416904304206a109d60baa143cb293a47d7",
+          "path": "docker-compose.yml",
+          "line": 26,
+          "url": "https://github.com/EleTeam/UniShopX/blob/10a26416904304206a109d60baa143cb293a47d7/docker-compose.yml#L26"
         }
       ],
       "sources": {
@@ -1229,6 +1250,20 @@
       "inGroundTruth": true,
       "references": [
         {
+          "repository": "HariSekhon/Dockerfiles",
+          "commit": "b38ac95de8be22e481385ae220ea2949fe24ba51",
+          "path": "fakes3/Dockerfile",
+          "line": 15,
+          "url": "https://github.com/HariSekhon/Dockerfiles/blob/b38ac95de8be22e481385ae220ea2949fe24ba51/fakes3/Dockerfile#L15"
+        },
+        {
+          "repository": "chrishenry/deltanyc-heatseek",
+          "commit": "258e225efa89e46e92e9676864f8c07976b4ccf2",
+          "path": "angular-rails-app/Dockerfile",
+          "line": 1,
+          "url": "https://github.com/chrishenry/deltanyc-heatseek/blob/258e225efa89e46e92e9676864f8c07976b4ccf2/angular-rails-app/Dockerfile#L1"
+        },
+        {
           "repository": "mislav/hub",
           "commit": "5c547ed804368763064e51f3990851e267e88edd",
           "path": "Dockerfile",
@@ -1255,6 +1290,48 @@
           "path": "Dockerfile",
           "line": 10,
           "url": "https://github.com/nmacawile/rails-chat-api/blob/b39beefb1427ba1d4e382aed090391bfab9bb826/Dockerfile#L10"
+        },
+        {
+          "repository": "snibox/snibox",
+          "commit": "c756dfffbf2cda8a33a66c2bc4d7da0584fcbcbe",
+          "path": "Dockerfile",
+          "line": 1,
+          "url": "https://github.com/snibox/snibox/blob/c756dfffbf2cda8a33a66c2bc4d7da0584fcbcbe/Dockerfile#L1"
+        },
+        {
+          "repository": "htty/htty",
+          "commit": "8db7a36d5dffcd6eef66580f052a86bcf1f3636b",
+          "path": "Dockerfile",
+          "line": 1,
+          "url": "https://github.com/htty/htty/blob/8db7a36d5dffcd6eef66580f052a86bcf1f3636b/Dockerfile#L1"
+        },
+        {
+          "repository": "Terrastories/terrastories",
+          "commit": "f6f033a17bd4a4c600ffea8bc2e773d243f88f72",
+          "path": "e2e/Dockerfile",
+          "line": 1,
+          "url": "https://github.com/Terrastories/terrastories/blob/f6f033a17bd4a4c600ffea8bc2e773d243f88f72/e2e/Dockerfile#L1"
+        },
+        {
+          "repository": "Terrastories/terrastories",
+          "commit": "f6f033a17bd4a4c600ffea8bc2e773d243f88f72",
+          "path": "rails/Dockerfile",
+          "line": 11,
+          "url": "https://github.com/Terrastories/terrastories/blob/f6f033a17bd4a4c600ffea8bc2e773d243f88f72/rails/Dockerfile#L11"
+        },
+        {
+          "repository": "Terrastories/terrastories",
+          "commit": "f6f033a17bd4a4c600ffea8bc2e773d243f88f72",
+          "path": "rails/Dockerfile",
+          "line": 54,
+          "url": "https://github.com/Terrastories/terrastories/blob/f6f033a17bd4a4c600ffea8bc2e773d243f88f72/rails/Dockerfile#L54"
+        },
+        {
+          "repository": "GoogleCloudPlatform/cloud-builders-community",
+          "commit": "e210dd2d9b8dd1c2a11b6bcb64e47922c0b016f8",
+          "path": "fastlane/Dockerfile",
+          "line": 1,
+          "url": "https://github.com/GoogleCloudPlatform/cloud-builders-community/blob/e210dd2d9b8dd1c2a11b6bcb64e47922c0b016f8/fastlane/Dockerfile#L1"
         }
       ],
       "sources": {
@@ -1308,8 +1385,191 @@
       "evergreenDate": "2025-05-21",
       "endoflifeDate": "2025-05-17",
       "differenceDays": 4,
-      "inGroundTruth": false,
-      "references": [],
+      "inGroundTruth": true,
+      "references": [
+        {
+          "repository": "smpallen99/coherence",
+          "commit": "ede75598de6b01ce896d6ec67f0aeac6047ddbd9",
+          "path": ".tool-versions",
+          "line": 2,
+          "url": "https://github.com/smpallen99/coherence/blob/ede75598de6b01ce896d6ec67f0aeac6047ddbd9/.tool-versions#L2"
+        },
+        {
+          "repository": "emqx/MQTT-Client-Examples",
+          "commit": "b9378547037bdb851f6e5648976573398546dcb5",
+          "path": "mqtt-client-Elixir/.tool-versions",
+          "line": 1,
+          "url": "https://github.com/emqx/MQTT-Client-Examples/blob/b9378547037bdb851f6e5648976573398546dcb5/mqtt-client-Elixir/.tool-versions#L1"
+        },
+        {
+          "repository": "emqx/MQTT-Client-Examples",
+          "commit": "b9378547037bdb851f6e5648976573398546dcb5",
+          "path": "mqtt-client-Elixir/.tool-versions",
+          "line": 2,
+          "url": "https://github.com/emqx/MQTT-Client-Examples/blob/b9378547037bdb851f6e5648976573398546dcb5/mqtt-client-Elixir/.tool-versions#L2"
+        },
+        {
+          "repository": "bitcrowd/chromic_pdf",
+          "commit": "0e87984bc07b9e32fb20bf42eedc864d36d30b4c",
+          "path": ".tool-versions",
+          "line": 3,
+          "url": "https://github.com/bitcrowd/chromic_pdf/blob/0e87984bc07b9e32fb20bf42eedc864d36d30b4c/.tool-versions#L3"
+        },
+        {
+          "repository": "peek-travel/cocktail",
+          "commit": "80b7c9372e30d97ca6bee3f036fc0d9cf8b81ffc",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/peek-travel/cocktail/blob/80b7c9372e30d97ca6bee3f036fc0d9cf8b81ffc/.tool-versions#L1"
+        },
+        {
+          "repository": "peek-travel/cocktail",
+          "commit": "80b7c9372e30d97ca6bee3f036fc0d9cf8b81ffc",
+          "path": ".tool-versions",
+          "line": 2,
+          "url": "https://github.com/peek-travel/cocktail/blob/80b7c9372e30d97ca6bee3f036fc0d9cf8b81ffc/.tool-versions#L2"
+        },
+        {
+          "repository": "supabase/libcluster_postgres",
+          "commit": "01f0e03f7238f90713c55a8964f1cdea645f713e",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/supabase/libcluster_postgres/blob/01f0e03f7238f90713c55a8964f1cdea645f713e/.tool-versions#L1"
+        },
+        {
+          "repository": "supabase/libcluster_postgres",
+          "commit": "01f0e03f7238f90713c55a8964f1cdea645f713e",
+          "path": ".tool-versions",
+          "line": 2,
+          "url": "https://github.com/supabase/libcluster_postgres/blob/01f0e03f7238f90713c55a8964f1cdea645f713e/.tool-versions#L2"
+        },
+        {
+          "repository": "TheAlgorithms/Elixir",
+          "commit": "6212e7e905ec2d2687e7f6e9e4b07b7fabb40f19",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/TheAlgorithms/Elixir/blob/6212e7e905ec2d2687e7f6e9e4b07b7fabb40f19/.tool-versions#L1"
+        },
+        {
+          "repository": "TheAlgorithms/Elixir",
+          "commit": "6212e7e905ec2d2687e7f6e9e4b07b7fabb40f19",
+          "path": ".tool-versions",
+          "line": 2,
+          "url": "https://github.com/TheAlgorithms/Elixir/blob/6212e7e905ec2d2687e7f6e9e4b07b7fabb40f19/.tool-versions#L2"
+        },
+        {
+          "repository": "nimblehq/elixir-templates",
+          "commit": "3c3ac262c404f6d3ed4379914da19d04cdaf08b3",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/nimblehq/elixir-templates/blob/3c3ac262c404f6d3ed4379914da19d04cdaf08b3/.tool-versions#L1"
+        },
+        {
+          "repository": "nimblehq/elixir-templates",
+          "commit": "3c3ac262c404f6d3ed4379914da19d04cdaf08b3",
+          "path": ".tool-versions",
+          "line": 2,
+          "url": "https://github.com/nimblehq/elixir-templates/blob/3c3ac262c404f6d3ed4379914da19d04cdaf08b3/.tool-versions#L2"
+        },
+        {
+          "repository": "implicitly-awesome/exop",
+          "commit": "e4f16357f4aaf3b7cdd802836daba5c7bb56aaab",
+          "path": ".tool-versions",
+          "line": 2,
+          "url": "https://github.com/implicitly-awesome/exop/blob/e4f16357f4aaf3b7cdd802836daba5c7bb56aaab/.tool-versions#L2"
+        },
+        {
+          "repository": "benvp/live_motion",
+          "commit": "a955c559555c0f86aa6e310d937676c98b1c8455",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/benvp/live_motion/blob/a955c559555c0f86aa6e310d937676c98b1c8455/.tool-versions#L1"
+        },
+        {
+          "repository": "benvp/live_motion",
+          "commit": "a955c559555c0f86aa6e310d937676c98b1c8455",
+          "path": ".tool-versions",
+          "line": 2,
+          "url": "https://github.com/benvp/live_motion/blob/a955c559555c0f86aa6e310d937676c98b1c8455/.tool-versions#L2"
+        },
+        {
+          "repository": "davydog187/timescale",
+          "commit": "b06c008258db189db266de6bc38378502678a342",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/davydog187/timescale/blob/b06c008258db189db266de6bc38378502678a342/.tool-versions#L1"
+        },
+        {
+          "repository": "davydog187/timescale",
+          "commit": "b06c008258db189db266de6bc38378502678a342",
+          "path": ".tool-versions",
+          "line": 2,
+          "url": "https://github.com/davydog187/timescale/blob/b06c008258db189db266de6bc38378502678a342/.tool-versions#L2"
+        },
+        {
+          "repository": "revelrylabs/text_chunker_ex",
+          "commit": "e1781097d47a1dc741f441f3b89f7f12705995c0",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/revelrylabs/text_chunker_ex/blob/e1781097d47a1dc741f441f3b89f7f12705995c0/.tool-versions#L1"
+        },
+        {
+          "repository": "revelrylabs/text_chunker_ex",
+          "commit": "e1781097d47a1dc741f441f3b89f7f12705995c0",
+          "path": ".tool-versions",
+          "line": 2,
+          "url": "https://github.com/revelrylabs/text_chunker_ex/blob/e1781097d47a1dc741f441f3b89f7f12705995c0/.tool-versions#L2"
+        },
+        {
+          "repository": "commanded/commanded-ecto-projections",
+          "commit": "34e7660e2f195f44bb6e1b1948fb9f09502f8355",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/commanded/commanded-ecto-projections/blob/34e7660e2f195f44bb6e1b1948fb9f09502f8355/.tool-versions#L1"
+        },
+        {
+          "repository": "aviacommerce/avia",
+          "commit": "8eb0c6707886ef404194a1cef47600c020604967",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/aviacommerce/avia/blob/8eb0c6707886ef404194a1cef47600c020604967/.tool-versions#L1"
+        },
+        {
+          "repository": "aviacommerce/avia",
+          "commit": "8eb0c6707886ef404194a1cef47600c020604967",
+          "path": ".tool-versions",
+          "line": 3,
+          "url": "https://github.com/aviacommerce/avia/blob/8eb0c6707886ef404194a1cef47600c020604967/.tool-versions#L3"
+        },
+        {
+          "repository": "Hubs-Foundation/reticulum",
+          "commit": "10364b17b50a6801ebceaf760188182e753860ec",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/Hubs-Foundation/reticulum/blob/10364b17b50a6801ebceaf760188182e753860ec/.tool-versions#L1"
+        },
+        {
+          "repository": "esl/gradient",
+          "commit": "33e13fbe1ff60a49abdc638d76b77effddf3cc45",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/esl/gradient/blob/33e13fbe1ff60a49abdc638d76b77effddf3cc45/.tool-versions#L1"
+        },
+        {
+          "repository": "esl/gradient",
+          "commit": "33e13fbe1ff60a49abdc638d76b77effddf3cc45",
+          "path": ".tool-versions",
+          "line": 2,
+          "url": "https://github.com/esl/gradient/blob/33e13fbe1ff60a49abdc638d76b77effddf3cc45/.tool-versions#L2"
+        },
+        {
+          "repository": "revelrylabs/ecto_soft_delete",
+          "commit": "03395d3f66b7844e12d1b4be5518fe868f0a868d",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/revelrylabs/ecto_soft_delete/blob/03395d3f66b7844e12d1b4be5518fe868f0a868d/.tool-versions#L1"
+        }
+      ],
       "sources": {
         "evergreen": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/elixir.erlang.eol-25.md",
         "endoflife": "https://endoflife.date/erlang"
@@ -1325,8 +1585,170 @@
       "evergreenDate": "2026-05-13",
       "endoflifeDate": "2026-05-26",
       "differenceDays": -13,
-      "inGroundTruth": false,
-      "references": [],
+      "inGroundTruth": true,
+      "references": [
+        {
+          "repository": "sasa1977/elixir-in-action",
+          "commit": "4e9067ab5a98959bf5198b2b340a89af429e15c5",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/sasa1977/elixir-in-action/blob/4e9067ab5a98959bf5198b2b340a89af429e15c5/.tool-versions#L1"
+        },
+        {
+          "repository": "sasa1977/elixir-in-action",
+          "commit": "4e9067ab5a98959bf5198b2b340a89af429e15c5",
+          "path": ".tool-versions",
+          "line": 2,
+          "url": "https://github.com/sasa1977/elixir-in-action/blob/4e9067ab5a98959bf5198b2b340a89af429e15c5/.tool-versions#L2"
+        },
+        {
+          "repository": "sasa1977/boundary",
+          "commit": "f53ad7d88068a8019842974191c5c5039a0902f6",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/sasa1977/boundary/blob/f53ad7d88068a8019842974191c5c5039a0902f6/.tool-versions#L1"
+        },
+        {
+          "repository": "sasa1977/boundary",
+          "commit": "f53ad7d88068a8019842974191c5c5039a0902f6",
+          "path": ".tool-versions",
+          "line": 2,
+          "url": "https://github.com/sasa1977/boundary/blob/f53ad7d88068a8019842974191c5c5039a0902f6/.tool-versions#L2"
+        },
+        {
+          "repository": "standard-webhooks/standard-webhooks",
+          "commit": "ab6844147ce9cdb0d2dbf2e60d1ea85001fd2554",
+          "path": "libraries/elixir/.tool-versions",
+          "line": 1,
+          "url": "https://github.com/standard-webhooks/standard-webhooks/blob/ab6844147ce9cdb0d2dbf2e60d1ea85001fd2554/libraries/elixir/.tool-versions#L1"
+        },
+        {
+          "repository": "standard-webhooks/standard-webhooks",
+          "commit": "ab6844147ce9cdb0d2dbf2e60d1ea85001fd2554",
+          "path": "libraries/elixir/.tool-versions",
+          "line": 2,
+          "url": "https://github.com/standard-webhooks/standard-webhooks/blob/ab6844147ce9cdb0d2dbf2e60d1ea85001fd2554/libraries/elixir/.tool-versions#L2"
+        },
+        {
+          "repository": "coingaming/moon",
+          "commit": "7b2881ef1a4b8e0d0d297f92df7085e6461e4d77",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/coingaming/moon/blob/7b2881ef1a4b8e0d0d297f92df7085e6461e4d77/.tool-versions#L1"
+        },
+        {
+          "repository": "coingaming/moon",
+          "commit": "7b2881ef1a4b8e0d0d297f92df7085e6461e4d77",
+          "path": ".tool-versions",
+          "line": 2,
+          "url": "https://github.com/coingaming/moon/blob/7b2881ef1a4b8e0d0d297f92df7085e6461e4d77/.tool-versions#L2"
+        },
+        {
+          "repository": "danielberkompas/elasticsearch-elixir",
+          "commit": "fba3359904cf13a03a799f9a2e4efd2f7a5ee0e1",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/danielberkompas/elasticsearch-elixir/blob/fba3359904cf13a03a799f9a2e4efd2f7a5ee0e1/.tool-versions#L1"
+        },
+        {
+          "repository": "danielberkompas/elasticsearch-elixir",
+          "commit": "fba3359904cf13a03a799f9a2e4efd2f7a5ee0e1",
+          "path": ".tool-versions",
+          "line": 2,
+          "url": "https://github.com/danielberkompas/elasticsearch-elixir/blob/fba3359904cf13a03a799f9a2e4efd2f7a5ee0e1/.tool-versions#L2"
+        },
+        {
+          "repository": "fredwu/opq",
+          "commit": "86c8ad4376b962f288d72b9dacc21951838326a1",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/fredwu/opq/blob/86c8ad4376b962f288d72b9dacc21951838326a1/.tool-versions#L1"
+        },
+        {
+          "repository": "crertel/graphmath",
+          "commit": "c94613367bb963a2cdcff4299b31ff9f36476d53",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/crertel/graphmath/blob/c94613367bb963a2cdcff4299b31ff9f36476d53/.tool-versions#L1"
+        },
+        {
+          "repository": "crertel/graphmath",
+          "commit": "c94613367bb963a2cdcff4299b31ff9f36476d53",
+          "path": ".tool-versions",
+          "line": 2,
+          "url": "https://github.com/crertel/graphmath/blob/c94613367bb963a2cdcff4299b31ff9f36476d53/.tool-versions#L2"
+        },
+        {
+          "repository": "navinpeiris/geoip",
+          "commit": "444b82a2c88566348fc563a7b1c40087961c6e93",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/navinpeiris/geoip/blob/444b82a2c88566348fc563a7b1c40087961c6e93/.tool-versions#L1"
+        },
+        {
+          "repository": "navinpeiris/geoip",
+          "commit": "444b82a2c88566348fc563a7b1c40087961c6e93",
+          "path": ".tool-versions",
+          "line": 2,
+          "url": "https://github.com/navinpeiris/geoip/blob/444b82a2c88566348fc563a7b1c40087961c6e93/.tool-versions#L2"
+        },
+        {
+          "repository": "dvcrn/chatgpt-ui",
+          "commit": "8aaf0cd2e14395f44a95a1ab58f4d2339b9f7c44",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/dvcrn/chatgpt-ui/blob/8aaf0cd2e14395f44a95a1ab58f4d2339b9f7c44/.tool-versions#L1"
+        },
+        {
+          "repository": "dvcrn/chatgpt-ui",
+          "commit": "8aaf0cd2e14395f44a95a1ab58f4d2339b9f7c44",
+          "path": ".tool-versions",
+          "line": 2,
+          "url": "https://github.com/dvcrn/chatgpt-ui/blob/8aaf0cd2e14395f44a95a1ab58f4d2339b9f7c44/.tool-versions#L2"
+        },
+        {
+          "repository": "elixir-desktop/desktop",
+          "commit": "f736ff479e415f1da0cc36de7d1e26e8e3b5b976",
+          "path": ".tool-versions",
+          "line": 2,
+          "url": "https://github.com/elixir-desktop/desktop/blob/f736ff479e415f1da0cc36de7d1e26e8e3b5b976/.tool-versions#L2"
+        },
+        {
+          "repository": "fredwu/crawler",
+          "commit": "4f44d337d7d7d056c12ef14915f770c149c69218",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/fredwu/crawler/blob/4f44d337d7d7d056c12ef14915f770c149c69218/.tool-versions#L1"
+        },
+        {
+          "repository": "fredwu/crawler",
+          "commit": "4f44d337d7d7d056c12ef14915f770c149c69218",
+          "path": ".tool-versions",
+          "line": 2,
+          "url": "https://github.com/fredwu/crawler/blob/4f44d337d7d7d056c12ef14915f770c149c69218/.tool-versions#L2"
+        },
+        {
+          "repository": "petalframework/petal_components",
+          "commit": "9f61e26713e886a0564f50035bf3da1d4a175366",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/petalframework/petal_components/blob/9f61e26713e886a0564f50035bf3da1d4a175366/.tool-versions#L1"
+        },
+        {
+          "repository": "sasa1977/con_cache",
+          "commit": "6cb17c945d0c12964df85531e9f30a5964c7c01f",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/sasa1977/con_cache/blob/6cb17c945d0c12964df85531e9f30a5964c7c01f/.tool-versions#L1"
+        },
+        {
+          "repository": "sasa1977/con_cache",
+          "commit": "6cb17c945d0c12964df85531e9f30a5964c7c01f",
+          "path": ".tool-versions",
+          "line": 2,
+          "url": "https://github.com/sasa1977/con_cache/blob/6cb17c945d0c12964df85531e9f30a5964c7c01f/.tool-versions#L2"
+        }
+      ],
       "sources": {
         "evergreen": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/elixir.erlang.eol-26.md",
         "endoflife": "https://endoflife.date/erlang"
@@ -1342,8 +1764,79 @@
       "evergreenDate": "2021-04-05",
       "endoflifeDate": "2021-03-31",
       "differenceDays": 5,
-      "inGroundTruth": false,
-      "references": [],
+      "inGroundTruth": true,
+      "references": [
+        {
+          "repository": "ryanto/acts_as_votable",
+          "commit": "5ac261bac166bce37d046527f9b26425da4dc5b2",
+          "path": ".ruby-version",
+          "line": 1,
+          "url": "https://github.com/ryanto/acts_as_votable/blob/5ac261bac166bce37d046527f9b26425da4dc5b2/.ruby-version#L1"
+        },
+        {
+          "repository": "RailsApps/rails_apps_composer",
+          "commit": "b4165ab87cebe5985bc7fa44bf4240fd1ad680f8",
+          "path": ".ruby-version",
+          "line": 1,
+          "url": "https://github.com/RailsApps/rails_apps_composer/blob/b4165ab87cebe5985bc7fa44bf4240fd1ad680f8/.ruby-version#L1"
+        },
+        {
+          "repository": "hyperstack-org/hyperstack",
+          "commit": "52a06b26d3ab81520bd9c5667367e880dbe90e99",
+          "path": "ruby/examples/tutorials/todos/.ruby-version",
+          "line": 1,
+          "url": "https://github.com/hyperstack-org/hyperstack/blob/52a06b26d3ab81520bd9c5667367e880dbe90e99/ruby/examples/tutorials/todos/.ruby-version#L1"
+        },
+        {
+          "repository": "hyperstack-org/hyperstack",
+          "commit": "52a06b26d3ab81520bd9c5667367e880dbe90e99",
+          "path": "ruby/examples/tutorials/todos/Gemfile.lock",
+          "line": 338,
+          "url": "https://github.com/hyperstack-org/hyperstack/blob/52a06b26d3ab81520bd9c5667367e880dbe90e99/ruby/examples/tutorials/todos/Gemfile.lock#L338"
+        },
+        {
+          "repository": "hyperstack-org/hyperstack",
+          "commit": "52a06b26d3ab81520bd9c5667367e880dbe90e99",
+          "path": "ruby/examples/tutorials/todos/Gemfile",
+          "line": 4,
+          "url": "https://github.com/hyperstack-org/hyperstack/blob/52a06b26d3ab81520bd9c5667367e880dbe90e99/ruby/examples/tutorials/todos/Gemfile#L4"
+        },
+        {
+          "repository": "Terrastories/terrastories",
+          "commit": "f6f033a17bd4a4c600ffea8bc2e773d243f88f72",
+          "path": "e2e/.ruby-version",
+          "line": 1,
+          "url": "https://github.com/Terrastories/terrastories/blob/f6f033a17bd4a4c600ffea8bc2e773d243f88f72/e2e/.ruby-version#L1"
+        },
+        {
+          "repository": "Terrastories/terrastories",
+          "commit": "f6f033a17bd4a4c600ffea8bc2e773d243f88f72",
+          "path": "e2e/Gemfile",
+          "line": 4,
+          "url": "https://github.com/Terrastories/terrastories/blob/f6f033a17bd4a4c600ffea8bc2e773d243f88f72/e2e/Gemfile#L4"
+        },
+        {
+          "repository": "n8chur/AdvancediOS",
+          "commit": "1bcf78bac211c5b29af699a8c98b9b190791cbd7",
+          "path": ".ruby-version",
+          "line": 1,
+          "url": "https://github.com/n8chur/AdvancediOS/blob/1bcf78bac211c5b29af699a8c98b9b190791cbd7/.ruby-version#L1"
+        },
+        {
+          "repository": "n8chur/AdvancediOS",
+          "commit": "1bcf78bac211c5b29af699a8c98b9b190791cbd7",
+          "path": "Gemfile.lock",
+          "line": 159,
+          "url": "https://github.com/n8chur/AdvancediOS/blob/1bcf78bac211c5b29af699a8c98b9b190791cbd7/Gemfile.lock#L159"
+        },
+        {
+          "repository": "crsantos/stravaapiclient-swift",
+          "commit": "2a9c8d7864c082f076d516f04588f9aa5a9fa6cb",
+          "path": "Gemfile.lock",
+          "line": 263,
+          "url": "https://github.com/crsantos/stravaapiclient-swift/blob/2a9c8d7864c082f076d516f04588f9aa5a9fa6cb/Gemfile.lock#L263"
+        }
+      ],
       "sources": {
         "evergreen": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/ruby.runtime.eol-2.5.md",
         "endoflife": "https://endoflife.date/ruby"
@@ -1362,11 +1855,102 @@
       "inGroundTruth": true,
       "references": [
         {
+          "repository": "alabsi91/reanimated-color-picker",
+          "commit": "bae423b0319422bc357f1f11f8188c1b8130b28c",
+          "path": "ExampleLatest/Gemfile.lock",
+          "line": 114,
+          "url": "https://github.com/alabsi91/reanimated-color-picker/blob/bae423b0319422bc357f1f11f8188c1b8130b28c/ExampleLatest/Gemfile.lock#L114"
+        },
+        {
+          "repository": "alabsi91/reanimated-color-picker",
+          "commit": "bae423b0319422bc357f1f11f8188c1b8130b28c",
+          "path": "ExampleOldArch/Gemfile.lock",
+          "line": 117,
+          "url": "https://github.com/alabsi91/reanimated-color-picker/blob/bae423b0319422bc357f1f11f8188c1b8130b28c/ExampleOldArch/Gemfile.lock#L117"
+        },
+        {
           "repository": "HomeBusProjects/HomeBus",
           "commit": "15681fbaf24f3c54b16c9526cdde983a34f96d21",
           "path": "deploy/.ruby-version",
           "line": 1,
           "url": "https://github.com/HomeBusProjects/HomeBus/blob/15681fbaf24f3c54b16c9526cdde983a34f96d21/deploy/.ruby-version#L1"
+        },
+        {
+          "repository": "snibox/snibox",
+          "commit": "c756dfffbf2cda8a33a66c2bc4d7da0584fcbcbe",
+          "path": "Gemfile.lock",
+          "line": 294,
+          "url": "https://github.com/snibox/snibox/blob/c756dfffbf2cda8a33a66c2bc4d7da0584fcbcbe/Gemfile.lock#L294"
+        },
+        {
+          "repository": "snibox/snibox",
+          "commit": "c756dfffbf2cda8a33a66c2bc4d7da0584fcbcbe",
+          "path": "Gemfile",
+          "line": 8,
+          "url": "https://github.com/snibox/snibox/blob/c756dfffbf2cda8a33a66c2bc4d7da0584fcbcbe/Gemfile#L8"
+        },
+        {
+          "repository": "hiteshchoudhary/React-native-projects",
+          "commit": "4fe66bbe38b135573d797298b1a8b038fe73df7c",
+          "path": "appwriteauth11/Gemfile.lock",
+          "line": 97,
+          "url": "https://github.com/hiteshchoudhary/React-native-projects/blob/4fe66bbe38b135573d797298b1a8b038fe73df7c/appwriteauth11/Gemfile.lock#L97"
+        },
+        {
+          "repository": "hiteshchoudhary/React-native-projects",
+          "commit": "4fe66bbe38b135573d797298b1a8b038fe73df7c",
+          "path": "natigationexplore09/Gemfile.lock",
+          "line": 97,
+          "url": "https://github.com/hiteshchoudhary/React-native-projects/blob/4fe66bbe38b135573d797298b1a8b038fe73df7c/natigationexplore09/Gemfile.lock#L97"
+        },
+        {
+          "repository": "hiteshchoudhary/React-native-projects",
+          "commit": "4fe66bbe38b135573d797298b1a8b038fe73df7c",
+          "path": "shopping10/Gemfile.lock",
+          "line": 97,
+          "url": "https://github.com/hiteshchoudhary/React-native-projects/blob/4fe66bbe38b135573d797298b1a8b038fe73df7c/shopping10/Gemfile.lock#L97"
+        },
+        {
+          "repository": "hiteshchoudhary/React-native-projects",
+          "commit": "4fe66bbe38b135573d797298b1a8b038fe73df7c",
+          "path": "spotifymusic08/Gemfile.lock",
+          "line": 97,
+          "url": "https://github.com/hiteshchoudhary/React-native-projects/blob/4fe66bbe38b135573d797298b1a8b038fe73df7c/spotifymusic08/Gemfile.lock#L97"
+        },
+        {
+          "repository": "hiteshchoudhary/React-native-projects",
+          "commit": "4fe66bbe38b135573d797298b1a8b038fe73df7c",
+          "path": "tictactoe07/Gemfile.lock",
+          "line": 97,
+          "url": "https://github.com/hiteshchoudhary/React-native-projects/blob/4fe66bbe38b135573d797298b1a8b038fe73df7c/tictactoe07/Gemfile.lock#L97"
+        },
+        {
+          "repository": "railwayapp/nixpacks",
+          "commit": "144b4f9ab1c3943af4dfe76d3c79d91263f5b465",
+          "path": "examples/ruby-2/.ruby-version",
+          "line": 1,
+          "url": "https://github.com/railwayapp/nixpacks/blob/144b4f9ab1c3943af4dfe76d3c79d91263f5b465/examples/ruby-2/.ruby-version#L1"
+        },
+        {
+          "repository": "crsantos/stravaapiclient-swift",
+          "commit": "2a9c8d7864c082f076d516f04588f9aa5a9fa6cb",
+          "path": ".ruby-version",
+          "line": 1,
+          "url": "https://github.com/crsantos/stravaapiclient-swift/blob/2a9c8d7864c082f076d516f04588f9aa5a9fa6cb/.ruby-version#L1"
+        },
+        {
+          "repository": "crsantos/stravaapiclient-swift",
+          "commit": "2a9c8d7864c082f076d516f04588f9aa5a9fa6cb",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/crsantos/stravaapiclient-swift/blob/2a9c8d7864c082f076d516f04588f9aa5a9fa6cb/.tool-versions#L1"
+        },
+        {
+          "repository": "Arime9/XCFramework-Sample",
+          "commit": "6784f12b1959bf95f688c6b24df20ede30854578",
+          "path": ".ruby-version",
+          "line": 1,
+          "url": "https://github.com/Arime9/XCFramework-Sample/blob/6784f12b1959bf95f688c6b24df20ede30854578/.ruby-version#L1"
         }
       ],
       "sources": {
@@ -1387,6 +1971,34 @@
       "inGroundTruth": true,
       "references": [
         {
+          "repository": "imaNNeo/fl_chart",
+          "commit": "ecada9478275e987dbac53c2d16b4fb3f2bcb78e",
+          "path": "example/.ruby-version",
+          "line": 1,
+          "url": "https://github.com/imaNNeo/fl_chart/blob/ecada9478275e987dbac53c2d16b4fb3f2bcb78e/example/.ruby-version#L1"
+        },
+        {
+          "repository": "azirbel/npoint",
+          "commit": "f6c8c20f213a6f3e210ee935427e010d9d642cad",
+          "path": ".ruby-version",
+          "line": 1,
+          "url": "https://github.com/azirbel/npoint/blob/f6c8c20f213a6f3e210ee935427e010d9d642cad/.ruby-version#L1"
+        },
+        {
+          "repository": "azirbel/npoint",
+          "commit": "f6c8c20f213a6f3e210ee935427e010d9d642cad",
+          "path": "Gemfile",
+          "line": 3,
+          "url": "https://github.com/azirbel/npoint/blob/f6c8c20f213a6f3e210ee935427e010d9d642cad/Gemfile#L3"
+        },
+        {
+          "repository": "azirbel/npoint",
+          "commit": "f6c8c20f213a6f3e210ee935427e010d9d642cad",
+          "path": "Gemfile.lock",
+          "line": 438,
+          "url": "https://github.com/azirbel/npoint/blob/f6c8c20f213a6f3e210ee935427e010d9d642cad/Gemfile.lock#L438"
+        },
+        {
           "repository": "thoughtbot/suspenders",
           "commit": "484729486cc986af84ab43b1ffd20793ded7537a",
           "path": ".ruby-version",
@@ -1399,6 +2011,440 @@
           "path": "benchmarks/local/sinatra/Gemfile",
           "line": 4,
           "url": "https://github.com/puma/puma/blob/d53529399bc250915374eebe3ae54dd9fd9a6cb0/benchmarks/local/sinatra/Gemfile#L4"
+        },
+        {
+          "repository": "bootstrap-ruby/bootstrap_form",
+          "commit": "bf07f588054378805f37381a40f55faf6f181c09",
+          "path": "demo/.ruby-version",
+          "line": 1,
+          "url": "https://github.com/bootstrap-ruby/bootstrap_form/blob/bf07f588054378805f37381a40f55faf6f181c09/demo/.ruby-version#L1"
+        },
+        {
+          "repository": "objectbox/objectbox-swift",
+          "commit": "a6af20a3babc9fa5f4a48d552b296902412d44dd",
+          "path": "Source/.ruby-version",
+          "line": 1,
+          "url": "https://github.com/objectbox/objectbox-swift/blob/a6af20a3babc9fa5f4a48d552b296902412d44dd/Source/.ruby-version#L1"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch01/Gemfile.lock",
+          "line": 416,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch01/Gemfile.lock#L416"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch01/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch01/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch02/Gemfile.lock",
+          "line": 416,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch02/Gemfile.lock#L416"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch02/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch02/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch03/Gemfile.lock",
+          "line": 416,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch03/Gemfile.lock#L416"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch03/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch03/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch04/Gemfile.lock",
+          "line": 416,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch04/Gemfile.lock#L416"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch04/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch04/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch05/Gemfile.lock",
+          "line": 423,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch05/Gemfile.lock#L423"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch05/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch05/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch06/Gemfile.lock",
+          "line": 425,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch06/Gemfile.lock#L425"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch06/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch06/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch07/Gemfile.lock",
+          "line": 425,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch07/Gemfile.lock#L425"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch07/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch07/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch08/Gemfile.lock",
+          "line": 425,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch08/Gemfile.lock#L425"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch08/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch08/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch09/Gemfile.lock",
+          "line": 425,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch09/Gemfile.lock#L425"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch09/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch09/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch10/Gemfile.lock",
+          "line": 433,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch10/Gemfile.lock#L433"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch10/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch10/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch11/Gemfile.lock",
+          "line": 433,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch11/Gemfile.lock#L433"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch11/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch11/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch12/Gemfile.lock",
+          "line": 433,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch12/Gemfile.lock#L433"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch12/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch12/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch13/Gemfile.lock",
+          "line": 467,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch13/Gemfile.lock#L467"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch13/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch13/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch14/Gemfile.lock",
+          "line": 467,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch14/Gemfile.lock#L467"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "7_0/ch14/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/7_0/ch14/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch01/Gemfile.lock",
+          "line": 454,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch01/Gemfile.lock#L454"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch01/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch01/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch02/Gemfile.lock",
+          "line": 454,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch02/Gemfile.lock#L454"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch02/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch02/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch03/Gemfile.lock",
+          "line": 454,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch03/Gemfile.lock#L454"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch03/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch03/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch04/Gemfile.lock",
+          "line": 454,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch04/Gemfile.lock#L454"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch04/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch04/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch05/Gemfile.lock",
+          "line": 461,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch05/Gemfile.lock#L461"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch05/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch05/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch06/Gemfile.lock",
+          "line": 463,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch06/Gemfile.lock#L463"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch06/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch06/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch07/Gemfile.lock",
+          "line": 463,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch07/Gemfile.lock#L463"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch07/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch07/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch08/Gemfile.lock",
+          "line": 463,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch08/Gemfile.lock#L463"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch08/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch08/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch09/Gemfile.lock",
+          "line": 463,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch09/Gemfile.lock#L463"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch09/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch09/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch10/Gemfile.lock",
+          "line": 471,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch10/Gemfile.lock#L471"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch10/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch10/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch11/Gemfile.lock",
+          "line": 487,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch11/Gemfile.lock#L487"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch11/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch11/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch12/Gemfile.lock",
+          "line": 487,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch12/Gemfile.lock#L487"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch12/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch12/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch13/Gemfile.lock",
+          "line": 502,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch13/Gemfile.lock#L502"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch13/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch13/Gemfile#L4"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch14/Gemfile.lock",
+          "line": 502,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch14/Gemfile.lock#L502"
+        },
+        {
+          "repository": "yasslab/sample_apps",
+          "commit": "857807bbcec4bf7dc3ae76c2b864800673a01d5f",
+          "path": "8_0/ch14/Gemfile",
+          "line": 4,
+          "url": "https://github.com/yasslab/sample_apps/blob/857807bbcec4bf7dc3ae76c2b864800673a01d5f/8_0/ch14/Gemfile#L4"
+        },
+        {
+          "repository": "railwayapp/nixpacks",
+          "commit": "144b4f9ab1c3943af4dfe76d3c79d91263f5b465",
+          "path": "examples/ruby-3/.ruby-version",
+          "line": 1,
+          "url": "https://github.com/railwayapp/nixpacks/blob/144b4f9ab1c3943af4dfe76d3c79d91263f5b465/examples/ruby-3/.ruby-version#L1"
+        },
+        {
+          "repository": "railwayapp/nixpacks",
+          "commit": "144b4f9ab1c3943af4dfe76d3c79d91263f5b465",
+          "path": "examples/ruby-rails-postgres/.ruby-version",
+          "line": 1,
+          "url": "https://github.com/railwayapp/nixpacks/blob/144b4f9ab1c3943af4dfe76d3c79d91263f5b465/examples/ruby-rails-postgres/.ruby-version#L1"
+        },
+        {
+          "repository": "railwayapp/nixpacks",
+          "commit": "144b4f9ab1c3943af4dfe76d3c79d91263f5b465",
+          "path": "examples/ruby-rails-postgres/Gemfile",
+          "line": 4,
+          "url": "https://github.com/railwayapp/nixpacks/blob/144b4f9ab1c3943af4dfe76d3c79d91263f5b465/examples/ruby-rails-postgres/Gemfile#L4"
+        },
+        {
+          "repository": "railwayapp/nixpacks",
+          "commit": "144b4f9ab1c3943af4dfe76d3c79d91263f5b465",
+          "path": "examples/ruby-rails-postgres/Gemfile.lock",
+          "line": 246,
+          "url": "https://github.com/railwayapp/nixpacks/blob/144b4f9ab1c3943af4dfe76d3c79d91263f5b465/examples/ruby-rails-postgres/Gemfile.lock#L246"
         },
         {
           "repository": "micahflee/TM-SGNL-iOS",
@@ -1420,6 +2466,48 @@
           "path": ".ruby-version",
           "line": 1,
           "url": "https://github.com/palak-ios-play/SecureChat-iOS/blob/2e53db22e39f959744c68f5c425e8fc69e01cc02/.ruby-version#L1"
+        },
+        {
+          "repository": "tiktok/sparkling",
+          "commit": "0939eb4f04d391cd78a9e472788bdf876a15b802",
+          "path": "Gemfile.lock",
+          "line": 116,
+          "url": "https://github.com/tiktok/sparkling/blob/0939eb4f04d391cd78a9e472788bdf876a15b802/Gemfile.lock#L116"
+        },
+        {
+          "repository": "tiktok/sparkling",
+          "commit": "0939eb4f04d391cd78a9e472788bdf876a15b802",
+          "path": "packages/playground/ios/Gemfile.lock",
+          "line": 115,
+          "url": "https://github.com/tiktok/sparkling/blob/0939eb4f04d391cd78a9e472788bdf876a15b802/packages/playground/ios/Gemfile.lock#L115"
+        },
+        {
+          "repository": "tiktok/sparkling",
+          "commit": "0939eb4f04d391cd78a9e472788bdf876a15b802",
+          "path": "template/sparkling-app-template/ios/Gemfile.lock",
+          "line": 119,
+          "url": "https://github.com/tiktok/sparkling/blob/0939eb4f04d391cd78a9e472788bdf876a15b802/template/sparkling-app-template/ios/Gemfile.lock#L119"
+        },
+        {
+          "repository": "tuist/SwiftyRipgrep",
+          "commit": "80617b53a0eace7a5f46f651727c29fd2acc1d1b",
+          "path": ".tool-versions",
+          "line": 1,
+          "url": "https://github.com/tuist/SwiftyRipgrep/blob/80617b53a0eace7a5f46f651727c29fd2acc1d1b/.tool-versions#L1"
+        },
+        {
+          "repository": "jihoonahn/DaySquare",
+          "commit": "1fb51aafb5609693d1b21c105a5d75fa02001bd5",
+          "path": ".ruby-version",
+          "line": 1,
+          "url": "https://github.com/jihoonahn/DaySquare/blob/1fb51aafb5609693d1b21c105a5d75fa02001bd5/.ruby-version#L1"
+        },
+        {
+          "repository": "binishmaharjan/Hamro-Sahakarya",
+          "commit": "d51052e31cec01474c8b18fe7af14ba28a078de1",
+          "path": ".ruby-version",
+          "line": 1,
+          "url": "https://github.com/binishmaharjan/Hamro-Sahakarya/blob/d51052e31cec01474c8b18fe7af14ba28a078de1/.ruby-version#L1"
         }
       ],
       "sources": {
