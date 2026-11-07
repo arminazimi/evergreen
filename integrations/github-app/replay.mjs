@@ -132,8 +132,9 @@ export async function replayInstallationWebhook(options = {}) {
   return { result, opened: replay.getOpened(), installationTokenCalls };
 }
 
-async function main() {
-  const { result, opened } = await replayInstallationWebhook();
+/** CLI entry used by `node integrations/github-app/replay.mjs` and by tests. */
+export async function runReplayCli(replay = replayInstallationWebhook) {
+  const { result, opened } = await replay();
   const first = result.results[0];
   if (first?.status !== "opened") {
     process.stderr.write(`replay failed: expected opened, got ${JSON.stringify(first)}\n`);
@@ -174,5 +175,5 @@ async function main() {
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  await main();
+  await runReplayCli();
 }

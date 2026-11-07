@@ -101,6 +101,8 @@ export const COVERAGE_EXCLUDES: readonly string[] = [
   "dist/benchmarks/**",
   "dist/action/**",
   "dist/src/usage/vendor/**",
+  // CLI entry for the onboarding app; covered by dedicated tests, not the package coverage floor.
+  "integrations/github-app/replay.mjs",
 ];
 
 /** Whether this process should collect coverage, from the environment or an explicit option. */

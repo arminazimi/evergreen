@@ -86,7 +86,7 @@
     "test": "npm run build --silent && node tools/run-tests.mjs",
     "test:fuzz": "npm run build --silent && node --test dist/tests/fuzz/parsers.test.js",
     "test:mutation": "stryker run",
-    "test:coverage": "npm run build --silent && node --test --experimental-test-coverage --test-coverage-exclude=\"dist/tests/**\" --test-coverage-exclude=\"dist/benchmarks/**\" --test-coverage-exclude=\"dist/action/**\" --test-coverage-exclude=\"dist/src/usage/vendor/**\" --test-coverage-lines=93 --test-coverage-branches=87 --test-coverage-functions=93 --test-reporter=spec --test-reporter=lcov --test-reporter-destination=stdout --test-reporter-destination=lcov.info \"dist/tests/**/*.test.js\"",
+    "test:coverage": "npm run build --silent && node --test --experimental-test-coverage --test-coverage-exclude=\"dist/tests/**\" --test-coverage-exclude=\"dist/benchmarks/**\" --test-coverage-exclude=\"dist/action/**\" --test-coverage-exclude=\"dist/src/usage/vendor/**\" --test-coverage-exclude=\"integrations/github-app/replay.mjs\" --test-coverage-lines=93 --test-coverage-branches=87 --test-coverage-functions=93 --test-reporter=spec --test-reporter=lcov --test-reporter-destination=stdout --test-reporter-destination=lcov.info \"dist/tests/**/*.test.js\"",
     "format": "biome format --write .",
     "format:check": "biome format .",
     "check:dead-code": "knip --no-progress",
