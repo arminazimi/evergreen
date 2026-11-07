@@ -1,0 +1,9 @@
+{
+  "conversation_id": "conv-test",
+  "generation_id": "gen-test",
+  "hook_event_name": "afterFileEdit",
+  "cursor_version": "2.1.0",
+  "workspace_roots": ["/Users/dev/app"],
+  "file_path": "/Users/dev/app/Dockerfile",
+  "edits": [{ "old_string": "FROM node:22", "new_string": "FROM node:16" }]
+}

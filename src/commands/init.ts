@@ -3,8 +3,8 @@ import process from "node:process";
 import { AgentFileError } from "../agent-instructions.js";
 import type { Severity } from "../domain.js";
 import { severityValues } from "../domain.js";
-import { initAgents, initClaudeHooks, initCodexHooks } from "../init-agents.js";
-import type { AgentFileName } from "../init-agents.js";
+import { initAgents, initClaudeHooks, initCodexHooks, initCursorHooks } from "../init-agents.js";
+import type { AgentFileName, InitClaudeHooksResult, InitCursorHooksResult } from "../init-agents.js";
 import { initHooks } from "../init-hooks.js";
 import type { InitHooksResult } from "../init-hooks.js";
 import { initPersonal } from "../init-personal.js";
@@ -23,7 +23,7 @@ export const command: CliCommand = {
     "  evergreen init --agents [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]",
     "  evergreen init --hooks [path] [--fail-on <severity>] [--dry-run]   # git pre-push hook; combine with --agents",
     "  evergreen init --personal [--fail-on <severity>] [--yes] [--dry-run]   # global config and pre-push hook for every repository",
-    "  evergreen init --hooks-for claude-code|codex [path] [--dry-run]   # post-edit hook in .claude/settings.json or .codex/hooks.json",
+    "  evergreen init --hooks-for claude-code|codex|cursor [path] [--dry-run]   # post-edit hook for Claude Code, Codex, or Cursor",
   ],
   usageSlots: [49, 50, 51, 52, 53],
   run(args, ctx) {
@@ -47,7 +47,8 @@ async function confirmOnTerminal(summary: string, defaultYes = false): Promise<b
 }
 
 const initUsage =
-  "Usage: evergreen init [agent] [--agents] [--hooks] [--personal] [--hooks-for claude-code|codex] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]\n";
+  "Usage: evergreen init [agent] [--agents] [--hooks] [--personal] [--hooks-for claude-code|codex|cursor] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]\n";
+const hooksForHosts = "claude-code, codex, or cursor";
 const agentUsage = "Usage: evergreen init agent [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]\n";
 
 /** The `init` flags that choose what to set up, and the operands and values they take. */
@@ -148,8 +149,13 @@ type InitValues = ReturnType<typeof initValueOptions>;
 
 /** Flag combinations that cannot mean one thing, in the order `init` refuses them. */
 function initCombinationProblem(flags: InitFlags, ctx: CommandContext): number | undefined {
-  if (flags.hooksForIndex !== -1 && flags.hooksFor !== "claude-code" && flags.hooksFor !== "codex")
-    return ctx.fail("usage", "--hooks-for needs a host: claude-code or codex.", initUsage);
+  if (
+    flags.hooksForIndex !== -1 &&
+    flags.hooksFor !== "claude-code" &&
+    flags.hooksFor !== "codex" &&
+    flags.hooksFor !== "cursor"
+  )
+    return ctx.fail("usage", `--hooks-for needs a host: ${hooksForHosts}.`, initUsage);
   if (flags.personal && (flags.agents || flags.hooks || flags.hooksFor))
     return ctx.fail("usage", "--personal cannot be combined with --agents, --hooks, or --hooks-for.", initUsage);
   return undefined;
@@ -297,7 +303,7 @@ async function applyInit(options: InitOptions, ctx: CommandContext): Promise<num
         options.dryRun,
         options.gate,
       );
-    if (options.hooksFor === "claude-code" || options.hooksFor === "codex")
+    if (options.hooksFor === "claude-code" || options.hooksFor === "codex" || options.hooksFor === "cursor")
       await applyHooksFor(options.hooksFor, options.root, options.dryRun);
     return 0;
   } catch (error) {
@@ -313,10 +319,8 @@ async function runInit(args: string[], ctx: CommandContext): Promise<number> {
   return applyInit(options, ctx);
 }
 
-/** Runs the host's post-edit hook setup and prints its result; one shape for every `--hooks-for` host. */
-async function applyHooksFor(hooksFor: string, root: string, dryRun: boolean): Promise<void> {
-  const codex = hooksFor === "codex";
-  const result = codex ? await initCodexHooks({ root, dryRun }) : await initClaudeHooks({ root, dryRun });
+/** Prints one host hooks-file result the same way for Claude Code and Codex. */
+function printHooksFileResult(result: InitClaudeHooksResult, dryRun: boolean, done: string): void {
   if (result.change === "unchanged") {
     process.stdout.write(`${result.file} already has the current Evergreen post-edit hook; nothing to change.\n`);
     return;
@@ -326,10 +330,47 @@ async function applyHooksFor(hooksFor: string, root: string, dryRun: boolean): P
     process.stdout.write(`Would ${verb} ${result.file}:\n\n${result.diff}\n`);
     return;
   }
-  const done = codex
-    ? "Codex now runs Evergreen after apply_patch."
-    : "Claude Code now runs Evergreen after Write, Edit, and MultiEdit.";
   process.stdout.write(`${result.change === "created" ? "Created" : "Updated"} ${result.file}; ${done}\n`);
+}
+
+/** Prints the Cursor rule result that accompanies the hooks-file merge. */
+function printCursorRuleResult(result: InitCursorHooksResult["rule"], dryRun: boolean): void {
+  if (result.change === "unchanged") {
+    process.stdout.write(`${result.file} already has the current Evergreen section; nothing to change.\n`);
+    return;
+  }
+  if (dryRun) {
+    const verb =
+      result.change === "created" ? "create" : result.change === "added" ? "add the Evergreen section to" : "update";
+    process.stdout.write(`Would ${verb} ${result.file}:\n\n${result.diff}\n`);
+    return;
+  }
+  if (result.change === "created") process.stdout.write(`Created ${result.file}.\n`);
+  else if (result.change === "added") process.stdout.write(`Added the Evergreen section to ${result.file}.\n`);
+  else process.stdout.write(`Updated the Evergreen section in ${result.file}.\n`);
+}
+
+/** Runs the host's post-edit hook setup and prints its result; one shape for every `--hooks-for` host. */
+async function applyHooksFor(hooksFor: string, root: string, dryRun: boolean): Promise<void> {
+  if (hooksFor === "cursor") {
+    const result = await initCursorHooks({ root, dryRun });
+    printHooksFileResult(
+      result.hooks,
+      dryRun,
+      "Cursor now runs Evergreen afterFileEdit (audit log only; the agent reads .cursor/rules/evergreen.mdc).",
+    );
+    printCursorRuleResult(result.rule, dryRun);
+    return;
+  }
+  const codex = hooksFor === "codex";
+  const result = codex ? await initCodexHooks({ root, dryRun }) : await initClaudeHooks({ root, dryRun });
+  printHooksFileResult(
+    result,
+    dryRun,
+    codex
+      ? "Codex now runs Evergreen after apply_patch."
+      : "Claude Code now runs Evergreen after Write, Edit, and MultiEdit.",
+  );
 }
 
 /**

@@ -32,6 +32,11 @@
       "count": 1
     }
   },
+  "src/agent-hooks/cursor.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
   "src/agent-hooks/command.ts": {
     "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 3

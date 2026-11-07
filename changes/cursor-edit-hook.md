@@ -1,0 +1,1 @@
+- Add the Cursor edit hook: `evergreen hook cursor` audits lifecycle findings after `afterFileEdit`, and `init --hooks-for cursor` merges the hook into `.cursor/hooks.json` while keeping `.cursor/rules/evergreen.mdc`.

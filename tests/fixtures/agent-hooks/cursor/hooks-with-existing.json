@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "description": "Optional lifecycle hooks for this workspace.",
+  "hooks": {
+    "beforeSubmitPrompt": [{ "command": "echo prompt" }],
+    "afterFileEdit": [{ "command": "echo already formatting", "timeout": 5 }]
+  }
+}

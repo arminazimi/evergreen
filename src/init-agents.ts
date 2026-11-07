@@ -255,6 +255,104 @@ export async function initCodexHooks(options: InitCodexHooksOptions): Promise<In
   return { file: CODEX_HOOKS_FILE, change, written: true, diff };
 }
 
+export const CURSOR_HOOKS_FILE = ".cursor/hooks.json";
+export const CURSOR_RULES_FILE = ".cursor/rules/evergreen.mdc";
+/** The same launcher as the other hosts: the project's own package first, the global `evergreen` bin as fallback. */
+export const CURSOR_HOOK_COMMAND = "npx --no-install evergreen-deprecation hook cursor";
+/** Front matter Cursor requires on a newly created project rule (matches `setup.ts`). */
+export const CURSOR_RULE_PREFIX =
+  "---\ndescription: Check a dependency with Evergreen before adding it\nalwaysApply: true\n---\n\n";
+
+export type InitCursorHooksOptions = InitClaudeHooksOptions;
+
+export interface InitCursorHooksResult {
+  hooks: InitClaudeHooksResult;
+  rule: InitAgentsResult;
+}
+
+/** Recognizes the Cursor hook this command wrote, however its launcher is spelled. */
+const EVERGREEN_CURSOR_HOOK_COMMAND = /\bevergreen(?:-deprecation)?\b.*\bhook\s+cursor\b/;
+
+function hasEvergreenAfterFileEdit(entries: readonly unknown[]): boolean {
+  return entries.some(
+    (entry) =>
+      isRecord(entry) && typeof entry.command === "string" && EVERGREEN_CURSOR_HOOK_COMMAND.test(entry.command),
+  );
+}
+
+/**
+ * Merges the `afterFileEdit` entry into a parsed Cursor hooks document, keeping every existing key and hook.
+ * Cursor's project file is `.cursor/hooks.json` with top-level `version` and a flat command list per event
+ * (<https://cursor.com/docs/hooks>, checked 2026-11-07).
+ */
+export function withCursorAfterFileEdit(document: unknown): {
+  document: Record<string, unknown>;
+  change: "added" | "unchanged";
+} {
+  if (!isRecord(document))
+    throw new AgentFileError(`${CURSOR_HOOKS_FILE} does not hold a JSON object, so it was not changed.`);
+  const hooksValue = document.hooks;
+  if (hooksValue !== undefined && !isRecord(hooksValue)) {
+    throw new AgentFileError(`${CURSOR_HOOKS_FILE} has a "hooks" value that is not an object, so it was not changed.`);
+  }
+  const events: Record<string, unknown> = hooksValue === undefined ? {} : hooksValue;
+  const afterValue = events.afterFileEdit;
+  if (afterValue !== undefined && !Array.isArray(afterValue)) {
+    throw new AgentFileError(
+      `${CURSOR_HOOKS_FILE} has a "hooks.afterFileEdit" value that is not an array, so it was not changed.`,
+    );
+  }
+  const afterFileEdit: unknown[] = afterValue === undefined ? [] : afterValue.map((entry: unknown) => entry);
+  if (hasEvergreenAfterFileEdit(afterFileEdit)) return { document: structuredClone(document), change: "unchanged" };
+  const entry = { command: CURSOR_HOOK_COMMAND, timeout: 60 };
+  return {
+    document: {
+      ...structuredClone(document),
+      version: typeof document.version === "number" ? document.version : 1,
+      hooks: { ...events, afterFileEdit: [...afterFileEdit, entry] },
+    },
+    change: "added",
+  };
+}
+
+/**
+ * Writes or merges the Cursor post-edit hook into `.cursor/hooks.json` and keeps `.cursor/rules/evergreen.mdc`.
+ * Cursor's `afterFileEdit` cannot return text to the agent, so the always-applied rule is the instruction path;
+ * the hook itself only audits to stderr. The home directory is never touched.
+ */
+export async function initCursorHooks(options: InitCursorHooksOptions): Promise<InitCursorHooksResult> {
+  const root = resolve(options.root);
+  const info = await lstat(root).catch(() => undefined);
+  if (!info?.isDirectory()) throw new AgentFileError(`${root} is not a directory.`);
+  const path = join(root, CURSOR_HOOKS_FILE);
+  await assertInside(root, path);
+  const before = await read(path);
+  let parsed: unknown = {};
+  if (before !== undefined) {
+    try {
+      parsed = JSON.parse(before);
+    } catch {
+      throw new AgentFileError(`${CURSOR_HOOKS_FILE} is not valid JSON, so it was not changed.`);
+    }
+  }
+  const update = withCursorAfterFileEdit(parsed);
+  const text = `${JSON.stringify(update.document, null, 2)}\n`;
+  const change = before === undefined ? "created" : update.change === "unchanged" ? "unchanged" : "updated";
+  const diff = change === "unchanged" ? "" : renderDiff(CURSOR_HOOKS_FILE, before ?? "", text);
+  let written = false;
+  if (change !== "unchanged" && !options.dryRun) {
+    await mkdir(dirname(path), { recursive: true });
+    await writeFile(path, text);
+    written = true;
+  }
+  const hooks: InitClaudeHooksResult = { file: CURSOR_HOOKS_FILE, change, written, diff };
+  const rule = await updateAgentFile(root, CURSOR_RULES_FILE, {
+    createPrefix: CURSOR_RULE_PREFIX,
+    ...(options.dryRun === undefined ? {} : { dryRun: options.dryRun }),
+  });
+  return { hooks, rule };
+}
+
 export async function initAgents(options: InitAgentsOptions): Promise<InitAgentsResult> {
   const root = resolve(options.root);
   const info = await lstat(root).catch(() => undefined);

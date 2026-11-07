@@ -1,0 +1,6 @@
+{
+  "hook_event_name": "afterFileEdit",
+  "workspace_roots": ["/Users/dev/app"],
+  "file_path": "packages/app/Dockerfile",
+  "edits": [{ "old_string": "", "new_string": "FROM node:16\n" }]
+}

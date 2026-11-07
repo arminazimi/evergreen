@@ -1,0 +1,5 @@
+{
+  "hook_event_name": "sessionStart",
+  "workspace_roots": ["/Users/dev/app"],
+  "session_id": "session-test"
+}
