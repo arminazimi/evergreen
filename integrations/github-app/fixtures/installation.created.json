@@ -1,0 +1,23 @@
+{
+  "action": "created",
+  "installation": {
+    "id": 1,
+    "account": {
+      "login": "acme",
+      "id": 1,
+      "type": "Organization"
+    }
+  },
+  "repositories": [
+    {
+      "id": 100,
+      "name": "demo",
+      "full_name": "acme/demo",
+      "private": false
+    }
+  ],
+  "sender": {
+    "login": "acme-admin",
+    "id": 2
+  }
+}
