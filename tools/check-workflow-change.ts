@@ -28,7 +28,7 @@ export const BUDGET_LABEL = "Budget effect:";
 /** A job without `timeout-minutes` is charged the pull-request lane's wall-clock budget. */
 export const DEFAULT_JOB_TIMEOUT_MINUTES = 25;
 /** Worst-case runner minutes a pull request may consume across every workflow it triggers. */
-export const PULL_REQUEST_RUNNER_MINUTE_BUDGET = 325;
+export const PULL_REQUEST_RUNNER_MINUTE_BUDGET = 350;
 
 export interface WorkflowSource {
   /** Repository-relative path with forward slashes. */

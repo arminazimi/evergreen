@@ -3,8 +3,9 @@ name: Mutation
 # The command test runner re-runs the focused test suite for every mutant, so the full
 # scope is split across a matrix of jobs and each job caps its own runtime. Incremental
 # mode turns a repeat run into a check of the files that changed since the cached run,
-# and the nightly schedule keeps that cache warm. Mutation testing is too slow to gate
-# pull requests on, so it runs on a schedule and on demand.
+# and the nightly schedule keeps that cache warm. A full run is too slow to gate pull
+# requests on, so it runs on a schedule and on demand; mutation-pr.yml mutates only the lines a
+# pull request changes.
 
 on:
   schedule:

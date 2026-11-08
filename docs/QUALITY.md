@@ -177,6 +177,14 @@ score. The overall `thresholds.break` is 60. A shard covers only one slice of th
 run with `stryker.shard.config.mjs`, which disables the break, and the `report` job applies the break to the merged
 report with `--break`. A full mutation run is not part of `npm run check`.
 
+**On pull requests.** `mutation-pr.yml` runs Stryker on the lines a pull request changes, not on whole files:
+`tools/mutation-changed.ts select` turns `git diff` against the base into `file:start-end` entries for the files
+inside the mutation scope, and `check` fails the job when the score of those lines is under `thresholds.break`,
+listing every surviving mutant with its file, line, and mutator in the log and the job summary. A pull request that
+touches no mutated file skips the run. The run has a 20-minute limit; when it is hit, the job warns and passes,
+because an unfinished run judges nothing. Older debt in an untouched part of a file does not block the pull
+request: the nightly per-file ratchet owns that.
+
 **Current.** Measured 2026-11-07 from a complete `workflow_dispatch` run on `main` (`b01aea5b`): overall **82.42%**
 (2649 killed or timed out, 565 survived or uncovered, 25 files). Per file, lowest first: `reporters/json.ts` 37.50%,
 `reporters/registry.ts` 48.10%, `diff.ts` 48.70%, `vers/semver.ts` 68.57%, `baseline.ts` 72.13%,

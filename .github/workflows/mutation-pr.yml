@@ -1,0 +1,91 @@
+name: Mutation (changed lines)
+
+# Mutation testing on the lines a pull request changes, so a weak test fails while it is being written.
+# The nightly mutation.yml run keeps the per-file ratchet; this run mutates only the changed hunks of files
+# in the mutation scope (stryker.config.json), so it finishes in minutes. The run has a time limit: when it
+# is hit, the job warns and passes, because an unfinished run proves nothing about the tests.
+
+on:
+  pull_request:
+    paths:
+      - "src/**"
+      - "tools/mutation-changed.ts"
+      - "stryker.config.json"
+      - "stryker.shard.config.mjs"
+      - ".github/workflows/mutation-pr.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mutation-pr-${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  changed:
+    name: mutation (changed lines)
+    runs-on: ubuntu-latest
+    # Job cap; the step below stops Stryker earlier so the job can still report.
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: $/.github/actions/setup
+        with:
+          cache: npm
+      - run: npm run build --silent
+      - name: Select the changed lines in the mutation scope
+        id: select
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$BASE_SHA"
+          MUTATE=$(node dist/tools/mutation-changed.js select --base "$BASE_SHA")
+          echo "mutate=$MUTATE" >> "$GITHUB_OUTPUT"
+          if [ -z "$MUTATE" ]; then
+            echo "No changed line is inside the mutation scope; nothing to mutate." | tee -a "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Mutating: $MUTATE"
+          fi
+      - name: Run mutation testing on the changed lines
+        id: run
+        if: steps.select.outputs.mutate != ''
+        env:
+          MUTATE: ${{ steps.select.outputs.mutate }}
+          # Stryker is stopped after this long; the job cap above leaves room to report.
+          TIME_LIMIT: 20m
+        run: |
+          set -euo pipefail
+          set +e
+          # Not incremental: the run is already limited to the changed hunks. The shard config has no
+          # break threshold; the check step below applies it to the score of the changed lines.
+          timeout --signal=INT --kill-after=60s "$TIME_LIMIT" \
+            npm run test:mutation -- stryker.shard.config.mjs \
+              --mutate "$MUTATE" \
+              --incremental false
+          status=$?
+          set -e
+          if [ "$status" -eq 124 ] || [ "$status" -eq 137 ]; then
+            echo "timed_out=true" >> "$GITHUB_OUTPUT"
+            echo "::warning title=Mutation run hit its time limit::Stopped after $TIME_LIMIT. Narrow the change or run the nightly mutation workflow on this branch."
+            echo "The mutation run stopped at its $TIME_LIMIT limit before finishing, so no score was judged." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          exit "$status"
+      - name: Judge the changed lines
+        if: steps.select.outputs.mutate != '' && steps.run.outputs.timed_out != 'true'
+        run: |
+          set -euo pipefail
+          # The threshold is thresholds.break from stryker.config.json.
+          node dist/tools/mutation-changed.js check --report artifacts/mutation-report.json --summary "$GITHUB_STEP_SUMMARY"
+      - name: Upload the mutation report
+        if: always() && hashFiles('artifacts/mutation-report.json') != ''
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: mutation-report-changed
+          path: artifacts
+          if-no-files-found: warn
+          retention-days: 14

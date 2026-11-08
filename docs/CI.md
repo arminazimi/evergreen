@@ -39,12 +39,12 @@ Contributor-facing note: [CONTRIBUTING.md](../CONTRIBUTING.md#quality-standards)
 A job's `timeout-minutes` must fit its lane. Raising a lane budget, or moving work between lanes,
 updates this page in the same change as the workflow edit.
 
-## Runner-minute budget (325)
+## Runner-minute budget (350)
 
 Wall-clock time is not the only cost. A pull request also spends **runner minutes**: for each job,
 its `timeout-minutes` times the number of jobs its matrix expands to, summed over every workflow
-that can start on `pull_request`. The budget is **325 runner minutes**, the ceiling measured on
-2026-11-04. [`ci.yml`](../.github/workflows/ci.yml) is the largest part: four `check` shards at
+that can start on `pull_request`. The budget is **350 runner minutes**: the 325-minute ceiling measured on
+2026-11-04 plus the 25-minute `mutation-pr.yml` job that mutation-tests the changed lines (#2104). [`ci.yml`](../.github/workflows/ci.yml) is the largest part: four `check` shards at
 20 minutes each, `coverage`, the Windows cross-OS run, `docs`, and the small jobs.
 
 `npm run check` runs [`tools/check-workflow-change.ts`](../tools/check-workflow-change.ts), which
@@ -87,7 +87,7 @@ Do not raise it to make a single change pass.
 - Decision-record presence when `schemas/`, `src/sdk.ts`, or `src/mcp.ts` change
   ([`decisions.yml`](../.github/workflows/decisions.yml)).
 - Rules lint when registry files change ([`rules.yml`](../.github/workflows/rules.yml)).
-- The [runner-minute budget](#runner-minute-budget-325) on every `npm run check`, plus the
+- The [runner-minute budget](#runner-minute-budget-350) on every `npm run check`, plus the
   workflow-change note when `.github/workflows/` changes
   ([`tools/check-workflow-change.ts`](../tools/check-workflow-change.ts)).
 
@@ -656,6 +656,6 @@ Checked with `gh run list --workflow <file> --limit 1` against `arminazimi/everg
   [Workflow inventory](#workflow-inventory) table in the same pull request.
 - **Workflow changes.** A pull request that edits `.github/workflows/` fills in the
   [pull request template](../.github/pull_request_template.md) section and keeps the
-  [runner-minute ceiling](#runner-minute-budget-325) at or below the budget.
+  [runner-minute ceiling](#runner-minute-budget-350) at or below the budget.
 - **Shared setup.** Checkout-independent Node install and cache move into one composite action in
   #2026; lanes above stay the same.
