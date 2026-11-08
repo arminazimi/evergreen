@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { join } from "node:path";
 
-import { defaultCacheDirectory } from "./data-source.js";
+import { defaultScanCacheDirectory, detectorManifestFile, scanManifestFile } from "./cache-paths.js";
 import type { Finding, UnclassifiedReference } from "./domain.js";
 import type { ScanFileSystem } from "./file-system.js";
 import { nodeFileSystem } from "./node-file-system.js";
@@ -62,11 +62,7 @@ export function computeCacheKey(input: ScanCacheKeyInput): string {
     .digest("hex");
 }
 
-/** Where per-file scan cache data lives: `EVERGREEN_CACHE_DIR`, else `scan-cache` inside Evergreen's cache directory. */
-export function defaultScanCacheDirectory(env: NodeJS.ProcessEnv = process.env): string {
-  if (env.EVERGREEN_CACHE_DIR) return env.EVERGREEN_CACHE_DIR;
-  return join(defaultCacheDirectory(env), "scan-cache");
-}
+export { defaultScanCacheDirectory };
 
 export class ScanCache {
   readonly directory: string;
@@ -86,13 +82,11 @@ export class ScanCache {
   }
 
   private manifestPath(root: string, detectorId: string): string {
-    const rootHash = createHash("sha256").update(root).digest("hex");
-    return join(this.directory, "manifests", rootHash, `${detectorId}.json`);
+    return detectorManifestFile(this.directory, root, detectorId);
   }
 
   private scanManifestPath(root: string): string {
-    const rootHash = createHash("sha256").update(root).digest("hex");
-    return join(this.directory, "scans", `${rootHash}.json`);
+    return scanManifestFile(this.directory, root);
   }
 
   async get(input: ScanCacheKeyInput): Promise<ScanCacheEntry | undefined> {

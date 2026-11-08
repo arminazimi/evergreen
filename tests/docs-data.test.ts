@@ -23,7 +23,7 @@ test("docs/DATA.md quotes the signer policy the verifier enforces", () => {
 
 test("docs/DATA.md documents the real commands, options, variables, and thresholds", async () => {
   const help = renderHelp(commands);
-  const implementation = `${help}\n${await read("src/commands/data.ts")}\n${await read("src/commands/runtime.ts")}`;
+  const implementation = `${help}\n${await read("src/commands/data.ts")}\n${await read("src/commands/runtime.ts")}\n${await read("src/cache-paths.ts")}`;
   for (const text of ["data status", "data update", "--data-version"]) {
     assert.ok(docs.includes(text), `docs mention ${text}`);
     assert.ok(

@@ -39,6 +39,7 @@ complete -c evergreen -n __fish_use_subcommand -a report-issue
 complete -c evergreen -n __fish_use_subcommand -a capabilities
 complete -c evergreen -n __fish_use_subcommand -a completions
 complete -c evergreen -n __fish_use_subcommand -a hook
+complete -c evergreen -n __fish_use_subcommand -a prompt
 complete -c evergreen -n __fish_use_subcommand -a timelapse
 complete -c evergreen -n __fish_use_subcommand -a verify
 complete -c evergreen -n __fish_use_subcommand -a wrapped
@@ -167,6 +168,8 @@ complete -c evergreen -n '__fish_seen_subcommand_from report-issue' -l output
 complete -c evergreen -n '__fish_seen_subcommand_from report-issue' -l data-version
 complete -c evergreen -n '__fish_seen_subcommand_from capabilities' -l json
 complete -c evergreen -n '__fish_seen_subcommand_from hook' -l fail-on
+complete -c evergreen -n '__fish_seen_subcommand_from prompt' -l format
+complete -c evergreen -n '__fish_seen_subcommand_from prompt' -l symbol
 complete -c evergreen -n '__fish_seen_subcommand_from timelapse' -l from
 complete -c evergreen -n '__fish_seen_subcommand_from timelapse' -l to
 complete -c evergreen -n '__fish_seen_subcommand_from timelapse' -l svg

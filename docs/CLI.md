@@ -154,6 +154,22 @@ Prints a one-screen summary of the repository's lifecycle state, laid out like `
 
 Below 80 terminal columns the mark is dropped and the facts keep the full width. On a terminal the severity blocks are colored; `NO_COLOR` turns that off. [Showcase](SHOWCASE.md) shows the card and [docs/demos/glance.tape](demos/glance.tape) records it.
 
+### `prompt`
+
+```bash
+evergreen prompt [path] [--format <text|json>] [--symbol <s>]
+```
+
+Prints a short shell prompt segment such as `⏳2` when the repository has lifecycle findings, and nothing otherwise. It reads only the scan cache that `scan` and `watch` write, so it never scans, starts a process, or uses the network, and it exits `0`. A missing or stale cache prints nothing. The count is the high and critical findings when there are any, otherwise all findings.
+
+| Flag | What it does |
+| --- | --- |
+| `[path]` | Directory to look at. Default `.`. |
+| `--format <text\|json>` | Print the segment (default) or an `evergreen.prompt.v1` document. |
+| `--symbol <s>` | Symbol before the count. Default `⏳`; `--symbol EOL:` gives ASCII. |
+
+[Prompt guide](PROMPT.md) has copy-paste snippets for Starship, oh-my-zsh, Powerlevel10k, fish, and bash.
+
 ### `wrapped`
 
 ```bash

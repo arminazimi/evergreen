@@ -29,6 +29,8 @@ if (nodeProblem) {
   // Answered before the command table loads: `cli-main` pulls in every detector, so `--version` would pay for a scan.
   const { VERSION } = await import("./version.js");
   process.stdout.write(`${VERSION}\n`);
+} else if (await runPromptFastPath(args)) {
+  // `prompt` runs on every shell prompt, so it is answered before the command table and every detector load.
 } else {
   const { run } = await import("./cli-main.js");
   process.exitCode = await run(rawArgs);
@@ -38,4 +40,14 @@ if (nodeProblem) {
 function isVersionRequest(args: readonly string[]): boolean {
   if (args.includes("--help") || args.includes("-h")) return false;
   return args.includes("--version") || args.includes("-v");
+}
+
+/** Runs `evergreen prompt` with only its own module loaded. Returns false when the arguments need the full CLI. */
+async function runPromptFastPath(args: readonly string[]): Promise<boolean> {
+  if (args[0] !== "prompt" || args.includes("--help") || args.includes("-h")) return false;
+  const { parsePromptArguments, runPrompt } = await import("./prompt-segment.js");
+  const parsed = parsePromptArguments(args.slice(1));
+  if (typeof parsed === "string") return false;
+  process.exitCode = runPrompt(parsed);
+  return true;
 }

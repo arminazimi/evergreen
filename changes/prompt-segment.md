@@ -1,0 +1,1 @@
+- Add `evergreen prompt`, a shell prompt segment such as `⏳2` read from the scan cache only, with snippets for Starship, oh-my-zsh, Powerlevel10k, fish, and bash in `docs/PROMPT.md`. (#1857)

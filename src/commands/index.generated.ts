@@ -27,6 +27,7 @@ import { command as mcp } from "./mcp.js";
 import { command as newDetector } from "./new-detector.js";
 import { command as newRule } from "./new-rule.js";
 import { command as plan } from "./plan.js";
+import { command as prompt } from "./prompt.js";
 import { command as receipt } from "./receipt.js";
 import { command as renovatePreset } from "./renovate-preset.js";
 import { command as reportIssue } from "./report-issue.js";
@@ -71,6 +72,7 @@ export const commands: readonly CliCommand[] = [
   newDetector,
   newRule,
   plan,
+  prompt,
   receipt,
   renovatePreset,
   reportIssue,

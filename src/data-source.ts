@@ -1,5 +1,4 @@
 import { readFile } from "node:fs/promises";
-import { homedir } from "node:os";
 import { join } from "node:path";
 
 import semver from "semver";
@@ -13,6 +12,7 @@ import {
 import type { DataBundle } from "./data-bundle.js";
 import { DataSignatureError, verifyArtifactSignature } from "./data-signature.js";
 import type { SignerPolicy, VerifiedSigner } from "./data-signature.js";
+import { defaultCacheDirectory } from "./cache-paths.js";
 import { findPackageFile } from "./package-files.js";
 import { VERSION } from "./version.js";
 import { EvergreenError } from "./evergreen-error.js";
@@ -74,17 +74,7 @@ export const BUNDLE_FILE = "bundle.json";
 export const SIGNATURE_FILE = "bundle.json.sigstore.json";
 export const ACTIVE_FILE = "active.json";
 
-/** Where downloaded data lives: `EVERGREEN_DATA_DIR`, else the platform's cache directory. */
-export function defaultCacheDirectory(
-  env: NodeJS.ProcessEnv = process.env,
-  platform: NodeJS.Platform = process.platform,
-  home: string = homedir(),
-): string {
-  if (env.EVERGREEN_DATA_DIR) return env.EVERGREEN_DATA_DIR;
-  if (platform === "darwin") return join(home, "Library", "Caches", "evergreen");
-  if (platform === "win32") return join(env.LOCALAPPDATA ?? join(home, "AppData", "Local"), "evergreen", "Cache");
-  return join(env.XDG_CACHE_HOME ?? join(home, ".cache"), "evergreen");
-}
+export { defaultCacheDirectory };
 
 export const cachedBundleDirectory = (cache: string, version: string): string => join(cache, "data", version);
 

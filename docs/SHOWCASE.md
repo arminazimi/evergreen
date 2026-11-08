@@ -44,6 +44,16 @@ Prints a one-screen summary of the repository's lifecycle state, laid out like `
 
 Under 80 terminal columns the mark is dropped and the facts keep the full width. `--json` prints the facts alone as an `evergreen.glance.v1` document, so a script or a dashboard can reuse them. `docs/demos/glance.tape` records the card with [VHS](https://github.com/charmbracelet/vhs); regenerate the GIF with `vhs docs/demos/glance.tape`.
 
+## Shell prompt segment
+
+```bash
+evergreen prompt
+```
+
+Prints a short segment such as `⏳2` when the repository you are in has lifecycle findings, and nothing otherwise, so it can sit in your shell prompt. It reads only the scan cache that `evergreen scan` and `evergreen watch` leave behind: it never scans, starts a process, or uses the network, and a missing or stale cache prints nothing. The count is the high and critical findings when there are any, otherwise all findings; `--symbol EOL:` gives ASCII.
+
+[docs/PROMPT.md](PROMPT.md) has snippets for Starship, oh-my-zsh, Powerlevel10k, fish, and bash. `docs/demos/prompt.tape` records it with [VHS](https://github.com/charmbracelet/vhs); regenerate the GIF with `vhs docs/demos/prompt.tape`.
+
 ## Watch board
 
 ```bash
