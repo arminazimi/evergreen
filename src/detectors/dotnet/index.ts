@@ -8,6 +8,7 @@ import { analyzeSourceUsage } from "../../source-usage.js";
 import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
+import { ruleFinding } from "../../rule-finding.js";
 import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
 import { parseVersLenient, versContains } from "../../vers/index.js";
 import { parseGlobalJson } from "./parse-global-json.js";
@@ -306,18 +307,7 @@ export class DotnetDetector implements Detector {
     const report: Report = (rule, path, line, summary) => {
       const id = `${rule.id}:${path}:${line}`;
       if (findings.has(id)) return;
-      findings.set(id, {
-        id,
-        ruleId: rule.id,
-        title: rule.title,
-        summary,
-        severity: rule.severity,
-        location: { path, line },
-        ...(rule.replacement ? { replacement: rule.replacement } : {}),
-        ...(rule.deadline ? { deadline: rule.deadline } : {}),
-        ...(rule.migration ? { migration: rule.migration } : {}),
-        sources: rule.sources,
-      });
+      findings.set(id, ruleFinding(rule, path, line, summary));
     };
     const judgeRuntime: RuntimeJudge = (version, path, line, text) => {
       const rule = runtimeRules.find((item) => contains(item, version));

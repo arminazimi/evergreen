@@ -579,6 +579,87 @@ function reportGateFailure(outcome: RunOutcome): void {
   process.exitCode = 1;
 }
 
+interface PreparedRun {
+  ctx: RunContext;
+  proposeBaselinePath: string | undefined;
+}
+
+/** Reads the workflow inputs and event into the context one run works from. */
+async function prepareRun(env: Env, root: string, workspace: string): Promise<PreparedRun> {
+  const { inputMode, inputAnnotations } = readModeInputs(env);
+  const pathPatterns = parsePathsInput(env.INPUT_PATHS ?? "");
+  const event = await readEvent(env.GITHUB_EVENT_PATH);
+  const diff = inputMode === "diff" ? resolveDiffMode(event) : undefined;
+  const suggestFixes = env["INPUT_SUGGEST-FIXES"] === "true";
+  const fork = isForkPullRequest(event);
+  noticeIgnoredInputs({
+    inputMode,
+    pathPatterns,
+    suggestFixes,
+    diff,
+    fork,
+    inputAnnotations,
+    baseline: env.INPUT_BASELINE,
+  });
+  const scanPaths =
+    pathPatterns.length > 0 && inputMode !== "diff"
+      ? await resolveScanPaths(resolve(workspace, root), pathPatterns)
+      : undefined;
+
+  const proposeBaselinePath = await baselineProposalPath(env, workspace, root, diff);
+  if (proposeBaselinePath !== undefined) {
+    console.log(
+      `::notice title=Evergreen proposed a baseline::${proposeBaselinePath} does not exist yet, so this first run on ${ONBOARDING_BRANCH} proposes it in the pull request comment and does not enforce the severity gate.`,
+    );
+  }
+  const ctx: RunContext = {
+    env,
+    workspace,
+    root,
+    scanPaths,
+    event,
+    diff,
+    fork,
+    suggestFixes,
+    inputAnnotations,
+    proposeBaseline: proposeBaselinePath !== undefined,
+    reportPaths: resolveReportPaths(env, workspace),
+  };
+  return { ctx, proposeBaselinePath };
+}
+
+/** Publishes everything one finished run reports, then fails the step when the gate failed. */
+async function reportOutcome(
+  outcome: GitHubActionOutcome,
+  ctx: RunContext,
+  proposeBaselinePath: string | undefined,
+): Promise<void> {
+  const proposal = proposeBaselinePath === undefined ? undefined : proposedBaselineFor(outcome, proposeBaselinePath);
+  for (const annotation of outcome.annotations) console.log(annotationCommand(annotation));
+  warnAboutSuppressions(outcome);
+  await publishOutputs(outcome);
+  const unannotated = unannotatedNote(outcome);
+  await writeSummary(
+    outcome.result.findings,
+    outcome.gateFailed,
+    outcome.gate,
+    outcome.result.data,
+    outcome.expiredFailure,
+    outcome.result.suppressions,
+    outcome.diff,
+    outcome.packages,
+    unannotated,
+    proposal ? { path: proposal.path, count: proposal.baseline.findings.length } : undefined,
+  );
+  await postComment(outcome, ctx.event, unannotated, proposal);
+  await postFixSuggestions(outcome, ctx.event);
+  await publishFixes(outcome.result);
+  await updateTrackingIssue(outcome);
+  warnAboutStaleData(outcome);
+  console.log(runSummary(outcome, ctx.diff, ctx.scanPaths?.length, proposal));
+  reportGateFailure(outcome);
+}
+
 async function main(): Promise<void> {
   try {
     const env: Env = process.env;
@@ -586,76 +667,14 @@ async function main(): Promise<void> {
     const root = env.INPUT_PATH || workspace;
     if (await answerCommentRun(env, root)) return;
 
-    const { inputMode, inputAnnotations } = readModeInputs(env);
-    const pathPatterns = parsePathsInput(env.INPUT_PATHS ?? "");
-    const event = await readEvent(env.GITHUB_EVENT_PATH);
-    const diff = inputMode === "diff" ? resolveDiffMode(event) : undefined;
-    const suggestFixes = env["INPUT_SUGGEST-FIXES"] === "true";
-    const fork = isForkPullRequest(event);
-    noticeIgnoredInputs({
-      inputMode,
-      pathPatterns,
-      suggestFixes,
-      diff,
-      fork,
-      inputAnnotations,
-      baseline: env.INPUT_BASELINE,
-    });
-    const scanPaths =
-      pathPatterns.length > 0 && inputMode !== "diff"
-        ? await resolveScanPaths(resolve(workspace, root), pathPatterns)
-        : undefined;
-
-    const proposeBaselinePath = await baselineProposalPath(env, workspace, root, diff);
-    if (proposeBaselinePath !== undefined) {
-      console.log(
-        `::notice title=Evergreen proposed a baseline::${proposeBaselinePath} does not exist yet, so this first run on ${ONBOARDING_BRANCH} proposes it in the pull request comment and does not enforce the severity gate.`,
-      );
-    }
-    const ctx: RunContext = {
-      env,
-      workspace,
-      root,
-      scanPaths,
-      event,
-      diff,
-      fork,
-      suggestFixes,
-      inputAnnotations,
-      proposeBaseline: proposeBaselinePath !== undefined,
-      reportPaths: resolveReportPaths(env, workspace),
-    };
+    const { ctx, proposeBaselinePath } = await prepareRun(env, root, workspace);
     const outcome = await runGitHubAction({
-      root: scanPaths ? resolve(workspace, root) : root,
+      root: ctx.scanPaths ? resolve(workspace, root) : root,
       reportPath: ctx.reportPaths.reportPath,
       ...scanOptionsFor(ctx),
       ...policyOptionsFor(ctx),
     });
-    const proposal = proposeBaselinePath === undefined ? undefined : proposedBaselineFor(outcome, proposeBaselinePath);
-
-    for (const annotation of outcome.annotations) console.log(annotationCommand(annotation));
-    warnAboutSuppressions(outcome);
-    await publishOutputs(outcome);
-    const unannotated = unannotatedNote(outcome);
-    await writeSummary(
-      outcome.result.findings,
-      outcome.gateFailed,
-      outcome.gate,
-      outcome.result.data,
-      outcome.expiredFailure,
-      outcome.result.suppressions,
-      outcome.diff,
-      outcome.packages,
-      unannotated,
-      proposal ? { path: proposal.path, count: proposal.baseline.findings.length } : undefined,
-    );
-    await postComment(outcome, event, unannotated, proposal);
-    await postFixSuggestions(outcome, event);
-    await publishFixes(outcome.result);
-    await updateTrackingIssue(outcome);
-    warnAboutStaleData(outcome);
-    console.log(runSummary(outcome, diff, scanPaths?.length, proposal));
-    reportGateFailure(outcome);
+    await reportOutcome(outcome, ctx, proposeBaselinePath);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     console.log(`::error title=Evergreen failed::${commandValue(message)}`);

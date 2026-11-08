@@ -32,14 +32,14 @@
       "count": 1
     }
   },
-  "src/agent-hooks/cursor.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 1
-    }
-  },
   "src/agent-hooks/command.ts": {
     "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 3
+    }
+  },
+  "src/agent-hooks/cursor.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
     }
   },
   "src/baseline.ts": {
@@ -181,7 +181,7 @@
       "count": 6
     },
     "@typescript-eslint/require-await": {
-      "count": 2
+      "count": 1
     }
   },
   "src/data-update.ts": {
@@ -509,11 +509,6 @@
     },
     "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 6
-    }
-  },
-  "src/report-issue.ts": {
-    "no-useless-assignment": {
-      "count": 2
     }
   },
   "src/reporters/junit.ts": {

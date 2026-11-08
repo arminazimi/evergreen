@@ -42,68 +42,73 @@ function tryPushLibrary(
 }
 
 /** Parse a Gradle version catalog without file, network, or process I/O. */
+/** First pass: every [versions] entry, so refs resolve even when [libraries] comes first. */
+function collectVersions(rawLines: readonly string[]): Map<string, string> {
+  // Map alias (normalized to lower-case) → version string
+  const versions = new Map<string, string>();
+  let section = "";
+  for (const rawLine of rawLines) {
+    const line = rawLine.length > MAXIMUM_LINE_LENGTH ? "" : rawLine;
+    const sectionMatch = /^\s*\[([^\]]+)\]\s*$/.exec(line);
+    if (sectionMatch) {
+      section = required(sectionMatch[1], "section name").trim().toLowerCase();
+      continue;
+    }
+    if (section === "versions") {
+      const versionMatch = /^\s*([A-Za-z0-9_-]+)\s*=\s*"([^"]+)"\s*$/.exec(line);
+      if (versionMatch) {
+        versions.set(required(versionMatch[1], "version alias").toLowerCase(), required(versionMatch[2], "version"));
+      }
+    }
+  }
+  return versions;
+}
+
+/** Second pass: the [libraries] entries with their versions resolved. */
+function collectLibraries(rawLines: readonly string[], versions: ReadonlyMap<string, string>): DependencyDeclaration[] {
+  const found: DependencyDeclaration[] = [];
+  let section = "";
+  let lineNumber = 0;
+  for (const rawLine of rawLines) {
+    lineNumber++;
+    const line = rawLine.length > MAXIMUM_LINE_LENGTH ? "" : rawLine;
+
+    const sectionMatch = /^\s*\[([^\]]+)\]\s*$/.exec(line);
+    if (sectionMatch) {
+      section = required(sectionMatch[1], "section name").trim().toLowerCase();
+      continue;
+    }
+
+    if (section !== "libraries") continue;
+
+    // Skip blank lines and comments
+    if (/^\s*(?:#.*)?$/.test(line)) continue;
+
+    // Inline table with a literal version:
+    //   alias = { group = "...", name = "...", version = "..." }
+    const libInlineMatch =
+      /^\s*[A-Za-z0-9_-]+\s*=\s*\{[^}]*\bgroup\s*=\s*"([^"]+)"[^}]*\bname\s*=\s*"([^"]+)"[^}]*\bversion\s*=\s*"([^"]+)"[^}]*\}/.exec(
+        line,
+      );
+    if (tryPushLibrary(found, libInlineMatch, lineNumber, (version) => version)) continue;
+
+    // Inline table with a version.ref:
+    //   alias = { group = "...", name = "...", version.ref = "..." }
+    const libRefMatch =
+      /^\s*[A-Za-z0-9_-]+\s*=\s*\{[^}]*\bgroup\s*=\s*"([^"]+)"[^}]*\bname\s*=\s*"([^"]+)"[^}]*\bversion\.ref\s*=\s*"([^"]+)"[^}]*\}/.exec(
+        line,
+      );
+    tryPushLibrary(found, libRefMatch, lineNumber, (ref) => versions.get(ref.toLowerCase()));
+  }
+  return found;
+}
+
 export function parseCatalog(contents: string): DependencyDeclaration[] {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return [];
 
   try {
     const rawLines = contents.split(/\r?\n/);
-    // Map alias (normalized to lower-case) → version string
-    const versions = new Map<string, string>();
-    const found: DependencyDeclaration[] = [];
-
-    // First pass: collect all [versions] entries so refs can be resolved when
-    // [libraries] appears after [versions] (the standard order).
-    let section = "";
-    for (const rawLine of rawLines) {
-      const line = rawLine.length > MAXIMUM_LINE_LENGTH ? "" : rawLine;
-      const sectionMatch = /^\s*\[([^\]]+)\]\s*$/.exec(line);
-      if (sectionMatch) {
-        section = required(sectionMatch[1], "section name").trim().toLowerCase();
-        continue;
-      }
-      if (section === "versions") {
-        const versionMatch = /^\s*([A-Za-z0-9_-]+)\s*=\s*"([^"]+)"\s*$/.exec(line);
-        if (versionMatch) {
-          versions.set(required(versionMatch[1], "version alias").toLowerCase(), required(versionMatch[2], "version"));
-        }
-      }
-    }
-
-    // Second pass: collect [libraries] entries with resolved versions.
-    section = "";
-    let lineNumber = 0;
-    for (const rawLine of rawLines) {
-      lineNumber++;
-      const line = rawLine.length > MAXIMUM_LINE_LENGTH ? "" : rawLine;
-
-      const sectionMatch = /^\s*\[([^\]]+)\]\s*$/.exec(line);
-      if (sectionMatch) {
-        section = required(sectionMatch[1], "section name").trim().toLowerCase();
-        continue;
-      }
-
-      if (section !== "libraries") continue;
-
-      // Skip blank lines and comments
-      if (/^\s*(?:#.*)?$/.test(line)) continue;
-
-      // Inline table with a literal version:
-      //   alias = { group = "...", name = "...", version = "..." }
-      const libInlineMatch =
-        /^\s*[A-Za-z0-9_-]+\s*=\s*\{[^}]*\bgroup\s*=\s*"([^"]+)"[^}]*\bname\s*=\s*"([^"]+)"[^}]*\bversion\s*=\s*"([^"]+)"[^}]*\}/.exec(
-          line,
-        );
-      if (tryPushLibrary(found, libInlineMatch, lineNumber, (version) => version)) continue;
-
-      // Inline table with a version.ref:
-      //   alias = { group = "...", name = "...", version.ref = "..." }
-      const libRefMatch =
-        /^\s*[A-Za-z0-9_-]+\s*=\s*\{[^}]*\bgroup\s*=\s*"([^"]+)"[^}]*\bname\s*=\s*"([^"]+)"[^}]*\bversion\.ref\s*=\s*"([^"]+)"[^}]*\}/.exec(
-          line,
-        );
-      tryPushLibrary(found, libRefMatch, lineNumber, (ref) => versions.get(ref.toLowerCase()));
-    }
-
+    const found = collectLibraries(rawLines, collectVersions(rawLines));
     return found.sort((left, right) => left.line - right.line);
   } catch {
     return [];

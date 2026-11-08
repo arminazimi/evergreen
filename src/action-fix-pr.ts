@@ -191,43 +191,29 @@ export function renderFixPullRequestBody(
  * the pull request. A closed pull request is reopened when fixes come back, and a merged one is not: the next
  * run opens a new pull request from the same branch.
  */
-export async function publishFixPullRequest(
-  result: ScanResult,
-  target: FixPullRequestTarget,
-): Promise<FixPullRequestOutcome> {
-  const root = target.root ?? result.root;
-  const branch = target.branch ?? FIX_PR_BRANCH;
-  const github: GitHubTarget = {
-    apiUrl: target.apiUrl ?? "https://api.github.com",
-    repository: target.repository,
-    token: target.token,
-  };
-  const patches = (await planFixReport(result)).patches;
-  if (patches.length === 0) {
-    const existing = await findPullRequest(github, branch);
-    if (existing?.state === "open") {
-      await githubRequest(github, "PATCH", `/repos/${github.repository}/pulls/${existing.number}`, { state: "closed" });
-      return {
-        status: "closed",
-        fixes: 0,
-        number: existing.number,
-        ...(existing.html_url ? { url: existing.html_url } : {}),
-      };
-    }
-    return { status: "nothing", fixes: 0 };
+/** With no fixes left, closes the open fix pull request, if any. */
+async function closeStaleFixPullRequest(github: GitHubTarget, branch: string): Promise<FixPullRequestOutcome> {
+  const existing = await findPullRequest(github, branch);
+  if (existing?.state === "open") {
+    await githubRequest(github, "PATCH", `/repos/${github.repository}/pulls/${existing.number}`, { state: "closed" });
+    return {
+      status: "closed",
+      fixes: 0,
+      number: existing.number,
+      ...(existing.html_url ? { url: existing.html_url } : {}),
+    };
   }
+  return { status: "nothing", fixes: 0 };
+}
 
-  await applyFixesOnBranch(root, branch, patches);
-  const verification = verifyFix(result, await scanRepository(root, builtInDetectors));
-  const files = [...new Set(patches.map((patch) => patch.path))].sort();
-  const body = renderFixPullRequestBody(
-    verification.resolved,
-    verification.commands,
-    files,
-    target.attribution ?? true,
-  );
-  await pushBranch(root, branch);
-
+/** Updates (or reopens) the fix pull request for the branch, or opens a new one. */
+async function upsertFixPullRequest(
+  github: GitHubTarget,
+  target: FixPullRequestTarget,
+  branch: string,
+  body: string,
+  fixes: number,
+): Promise<FixPullRequestOutcome> {
   const existing = await findPullRequest(github, branch);
   // A closed pull request is reopened, but a merged one cannot be: the next run opens a new pull request instead.
   if (existing && (existing.state === "open" || !existing.merged_at)) {
@@ -238,7 +224,7 @@ export async function publishFixPullRequest(
     });
     return {
       status: "updated",
-      fixes: verification.resolved.length,
+      fixes,
       number: existing.number,
       ...(existing.html_url ? { url: existing.html_url } : {}),
     };
@@ -252,8 +238,35 @@ export async function publishFixPullRequest(
   })) as { number: number; html_url?: string };
   return {
     status: "opened",
-    fixes: verification.resolved.length,
+    fixes,
     number: created.number,
     ...(created.html_url ? { url: created.html_url } : {}),
   };
+}
+
+export async function publishFixPullRequest(
+  result: ScanResult,
+  target: FixPullRequestTarget,
+): Promise<FixPullRequestOutcome> {
+  const root = target.root ?? result.root;
+  const branch = target.branch ?? FIX_PR_BRANCH;
+  const github: GitHubTarget = {
+    apiUrl: target.apiUrl ?? "https://api.github.com",
+    repository: target.repository,
+    token: target.token,
+  };
+  const patches = (await planFixReport(result)).patches;
+  if (patches.length === 0) return closeStaleFixPullRequest(github, branch);
+
+  await applyFixesOnBranch(root, branch, patches);
+  const verification = verifyFix(result, await scanRepository(root, builtInDetectors));
+  const files = [...new Set(patches.map((patch) => patch.path))].sort();
+  const body = renderFixPullRequestBody(
+    verification.resolved,
+    verification.commands,
+    files,
+    target.attribution ?? true,
+  );
+  await pushBranch(root, branch);
+  return upsertFixPullRequest(github, target, branch, body, verification.resolved.length);
 }

@@ -8,6 +8,7 @@ import { analyzeSourceUsage } from "../../source-usage.js";
 import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
+import { ruleFinding } from "../../rule-finding.js";
 import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
 import { versContains } from "../../vers/index.js";
 import { parseGoMod } from "./parse-go-mod.js";
@@ -91,32 +92,9 @@ export class GoDetector implements Detector {
     const allRules = await this.loadRules();
     const runtimeRules = allRules.filter((rule) => rule.purl === RUNTIME_PURL);
     const moduleRules = allRules.filter((rule) => rule.purl.startsWith("pkg:golang/"));
-    const matchedModules: Array<{ rule: RegistryV2Rule; path: string; line: number; summary: string }> = [];
+    const matchedModules: MatchedModule[] = [];
     const findings: DetectorFinding[] = [];
     const unclassified: Omit<UnclassifiedReference, "detector">[] = [];
-
-    const report = (
-      rule: RegistryV2Rule,
-      path: string,
-      line: number,
-      summary: string,
-      severity = rule.severity,
-    ): DetectorFinding => {
-      const finding: DetectorFinding = {
-        id: `${rule.id}:${path}:${line}`,
-        ruleId: rule.id,
-        title: rule.title,
-        summary,
-        severity,
-        location: { path, line },
-        ...(rule.replacement ? { replacement: rule.replacement } : {}),
-        ...(rule.deadline ? { deadline: rule.deadline } : {}),
-        ...(rule.migration ? { migration: rule.migration } : {}),
-        sources: rule.sources,
-      };
-      findings.push(finding);
-      return finding;
-    };
 
     for (const file of files) {
       let contents: string;
@@ -125,41 +103,11 @@ export class GoDetector implements Detector {
       } catch {
         continue;
       }
-      const path = relativePosix(context.root, file);
       const declarations = basename(file) === "go.work" ? parseGoWork(contents) : parseGoMod(contents);
-      for (const declaration of declarations) {
-        if (declaration.kind === "require") {
-          const rule = matchModule(moduleRules, declaration.module, declaration.value);
-          if (rule)
-            matchedModules.push({
-              rule,
-              path,
-              line: declaration.line,
-              summary: `${path} requires ${declaration.module} ${declaration.value}. ${rule.summary}`,
-            });
-          continue;
-        }
-        const version = normalizeVersion(declaration.value);
-        if (!version) {
-          unclassified.push({
-            component: "golang",
-            reference: declaration.value,
-            reason: "the version is not a Go release number",
-            location: { path, line: declaration.line },
-          });
-          continue;
-        }
-        const rule = runtimeRules.find((item) => versContains(item.vers, version));
-        if (!rule) continue;
-        const what = declaration.kind === "toolchain" ? "toolchain" : "go directive";
-        report(
-          rule,
-          path,
-          declaration.line,
-          `${path} ${what} ${declaration.value} is on Go ${version.split(".").slice(0, 2).join(".")}. ${rule.summary}`,
-          declaration.kind === "go" ? "medium" : rule.severity,
-        );
-      }
+      const result = judgeDeclarations(relativePosix(context.root, file), declarations, moduleRules, runtimeRules);
+      findings.push(...result.findings);
+      matchedModules.push(...result.matched);
+      unclassified.push(...result.unclassified);
     }
 
     // Where the repository's Go source uses each affected module, so a migration packet can list the files.
@@ -174,12 +122,64 @@ export class GoDetector implements Detector {
       ).map((analysis) => [analysis.contractId, analysis]),
     );
     for (const item of matchedModules) {
-      const finding = report(item.rule, item.path, item.line, item.summary);
+      const finding = ruleFinding(item.rule, item.path, item.line, item.summary);
+      findings.push(finding);
       const analysis = analyses.get(`${item.rule.id}:${item.path}:${item.line}`);
       if (analysis) Object.assign(finding, { usages: analysis.usages, impact: analysis.impact });
     }
     return { findings, unclassified };
   }
+}
+
+interface MatchedModule {
+  rule: RegistryV2Rule;
+  path: string;
+  line: number;
+  summary: string;
+}
+
+/** Judges one go.mod or go.work file's declarations against the module and runtime rules. */
+function judgeDeclarations(
+  path: string,
+  declarations: ReturnType<typeof parseGoMod>,
+  moduleRules: readonly RegistryV2Rule[],
+  runtimeRules: readonly RegistryV2Rule[],
+): { findings: DetectorFinding[]; matched: MatchedModule[]; unclassified: Omit<UnclassifiedReference, "detector">[] } {
+  const findings: DetectorFinding[] = [];
+  const matched: MatchedModule[] = [];
+  const unclassified: Omit<UnclassifiedReference, "detector">[] = [];
+  for (const declaration of declarations) {
+    if (declaration.kind === "require") {
+      const rule = matchModule(moduleRules, declaration.module, declaration.value);
+      if (rule)
+        matched.push({
+          rule,
+          path,
+          line: declaration.line,
+          summary: `${path} requires ${declaration.module} ${declaration.value}. ${rule.summary}`,
+        });
+      continue;
+    }
+    const version = normalizeVersion(declaration.value);
+    if (!version) {
+      unclassified.push({
+        component: "golang",
+        reference: declaration.value,
+        reason: "the version is not a Go release number",
+        location: { path, line: declaration.line },
+      });
+      continue;
+    }
+    const rule = runtimeRules.find((item) => versContains(item.vers, version));
+    if (!rule) continue;
+    const what = declaration.kind === "toolchain" ? "toolchain" : "go directive";
+    const summary = `${path} ${what} ${declaration.value} is on Go ${version.split(".").slice(0, 2).join(".")}. ${rule.summary}`;
+    findings.push({
+      ...ruleFinding(rule, path, declaration.line, summary),
+      severity: declaration.kind === "go" ? "medium" : rule.severity,
+    });
+  }
+  return { findings, matched, unclassified };
 }
 
 /** The rule for a direct module at a version, if one covers it. `v1.2.3+incompatible` is compared as 1.2.3. */

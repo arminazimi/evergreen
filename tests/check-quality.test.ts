@@ -6,6 +6,7 @@ import {
   ALLOWLIST_SCHEMA,
   MAX_EXPIRY,
   TARGETS,
+  allowlistDebtFindings,
   compareAllowlists,
   compareTargets,
   countLines,
@@ -664,4 +665,15 @@ test("the committed allowlist parses and holds for the repository as it is", asy
   const repository = await readRepository(ROOT, TODAY);
   assert.deepEqual(repository.allowlistProblems, []);
   assert.deepEqual(evaluateQuality(repository), []);
+});
+
+test("the committed allowlist is empty, and the gate rejects any entry in any section", async () => {
+  const repository = await readRepository(ROOT, TODAY);
+  assert.deepEqual(allowlistDebtFindings(repository.allowlist), []);
+  const { allowlist } = parseAllowlist({
+    schemaVersion: ALLOWLIST_SCHEMA,
+    functionLength: [{ file: "src/a.ts", function: "run", lines: 60, ...DEBT }],
+    audit: [{ advisory: "GHSA-mod", package: "x", ...DEBT }],
+  });
+  assert.equal(allowlistDebtFindings(allowlist).length, 2);
 });

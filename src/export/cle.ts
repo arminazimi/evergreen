@@ -23,6 +23,54 @@ export interface CleDocument {
   definitions?: { support: Array<{ id: string; description: string }> };
 }
 
+/** The CLE document for one component: its rules as events, newest first. */
+function cleDocument(identifier: string, group: RegistryV2Rule[]): CleDocument {
+  group.sort((a, b) =>
+    a.provenance.observedAt < b.provenance.observedAt
+      ? -1
+      : a.provenance.observedAt > b.provenance.observedAt
+        ? 1
+        : a.id < b.id
+          ? -1
+          : a.id > b.id
+            ? 1
+            : 0,
+  );
+  const events = group
+    .map(
+      (rule, index): CleEvent => ({
+        id: index + 1,
+        type: rule.event === "end-of-support" ? "endOfSupport" : "endOfLife",
+        effective: `${rule.deadline}T00:00:00Z`,
+        published: `${rule.provenance.observedAt}T00:00:00Z`,
+        versions: [{ range: rule.vers }],
+        ...(rule.event === "end-of-support" ? { supportId: "evergreen" } : {}),
+      }),
+    )
+    .reverse();
+  return {
+    $schema: CLE_SCHEMA,
+    identifier,
+    updatedAt: `${group
+      .map((rule) => rule.provenance.reviewedAt)
+      .sort()
+      .at(-1)}T00:00:00Z`,
+    events,
+    ...(events.some((event) => event.supportId)
+      ? {
+          definitions: {
+            support: [
+              {
+                id: "evergreen",
+                description: "Support covered by the Evergreen end-of-support rules for this component.",
+              },
+            ],
+          },
+        }
+      : {}),
+  };
+}
+
 /**
  * A deterministic CLE snapshot per component, rather than aliases for unrelated PURLs.
  * Only dated, component-level support/life events have a faithful CLE equivalent:
@@ -48,52 +96,7 @@ export function exportCle(rules: readonly RegistryV2Rule[]): { documents: CleDoc
     groups.set(rule.purl, group);
   }
   const grouped = [...groups.entries()].sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
-  const documents = grouped.map(([identifier, group]): CleDocument => {
-    group.sort((a, b) =>
-      a.provenance.observedAt < b.provenance.observedAt
-        ? -1
-        : a.provenance.observedAt > b.provenance.observedAt
-          ? 1
-          : a.id < b.id
-            ? -1
-            : a.id > b.id
-              ? 1
-              : 0,
-    );
-    const events = group
-      .map(
-        (rule, index): CleEvent => ({
-          id: index + 1,
-          type: rule.event === "end-of-support" ? "endOfSupport" : "endOfLife",
-          effective: `${rule.deadline}T00:00:00Z`,
-          published: `${rule.provenance.observedAt}T00:00:00Z`,
-          versions: [{ range: rule.vers }],
-          ...(rule.event === "end-of-support" ? { supportId: "evergreen" } : {}),
-        }),
-      )
-      .reverse();
-    return {
-      $schema: CLE_SCHEMA,
-      identifier,
-      updatedAt: `${group
-        .map((rule) => rule.provenance.reviewedAt)
-        .sort()
-        .at(-1)}T00:00:00Z`,
-      events,
-      ...(events.some((event) => event.supportId)
-        ? {
-            definitions: {
-              support: [
-                {
-                  id: "evergreen",
-                  description: "Support covered by the Evergreen end-of-support rules for this component.",
-                },
-              ],
-            },
-          }
-        : {}),
-    };
-  });
+  const documents = grouped.map(([identifier, group]) => cleDocument(identifier, group));
   return { documents, skipped };
 }
 

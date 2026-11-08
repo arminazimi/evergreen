@@ -194,6 +194,36 @@ function renderChanges(
   return lines;
 }
 
+function datedTable(dated: readonly DatedTrackingFinding[], options: TrackingIssueOptions): string[] {
+  if (dated.length === 0) return [];
+  const lines = ["| End of life | Severity | Finding | Location | Replacement |", "|---|---|---|---|---|"];
+  for (const finding of dated) {
+    const deadline = `${finding.deadline}${finding.deadline < options.today ? " (past)" : ""}`;
+    lines.push(
+      `| ${deadline} | ${finding.severity} | ${cell(finding.title)} | ${locationLabel(finding, options, true)} | ${finding.replacement ? cell(finding.replacement) : "—"} |`,
+    );
+  }
+  lines.push("");
+  return lines;
+}
+
+function undatedTable(undated: readonly TrackingFinding[], options: TrackingIssueOptions): string[] {
+  if (undated.length === 0) return [];
+  const lines = [
+    "## Findings without an end-of-life date",
+    "",
+    "| Severity | Finding | Location | Replacement |",
+    "|---|---|---|---|",
+  ];
+  for (const finding of undated) {
+    lines.push(
+      `| ${finding.severity} | ${cell(finding.title)} | ${locationLabel(finding, options, true)} | ${finding.replacement ? cell(finding.replacement) : "—"} |`,
+    );
+  }
+  lines.push("");
+  return lines;
+}
+
 function renderFindings(
   findings: readonly TrackingFinding[],
   options: TrackingIssueOptions,
@@ -223,31 +253,7 @@ function renderFindings(
     "",
   ];
 
-  if (dated.length > 0) {
-    lines.push("| End of life | Severity | Finding | Location | Replacement |", "|---|---|---|---|---|");
-    for (const finding of dated) {
-      const deadline = `${finding.deadline}${finding.deadline < options.today ? " (past)" : ""}`;
-      lines.push(
-        `| ${deadline} | ${finding.severity} | ${cell(finding.title)} | ${locationLabel(finding, options, true)} | ${finding.replacement ? cell(finding.replacement) : "—"} |`,
-      );
-    }
-    lines.push("");
-  }
-
-  if (undated.length > 0) {
-    lines.push(
-      "## Findings without an end-of-life date",
-      "",
-      "| Severity | Finding | Location | Replacement |",
-      "|---|---|---|---|",
-    );
-    for (const finding of undated) {
-      lines.push(
-        `| ${finding.severity} | ${cell(finding.title)} | ${locationLabel(finding, options, true)} | ${finding.replacement ? cell(finding.replacement) : "—"} |`,
-      );
-    }
-    lines.push("");
-  }
+  lines.push(...datedTable(dated, options), ...undatedTable(undated, options));
 
   const hidden = findings.length - visible.length;
   if (hidden > 0)

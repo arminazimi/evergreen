@@ -7,6 +7,7 @@ import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
 import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
+import { ruleFinding, sortFindings } from "../../rule-finding.js";
 import { parseVersLenient, versContains } from "../../vers/index.js";
 import { parseBuildProperties } from "./parse-build-properties.js";
 import { parseBuildSbt } from "./parse-build-sbt.js";
@@ -125,18 +126,7 @@ export class ScalaDetector implements Detector {
 
     const findings: DetectorFinding[] = [];
     const report = (rule: RegistryV2Rule, path: string, line: number, summary: string): void => {
-      findings.push({
-        id: `${rule.id}:${path}:${line}`,
-        ruleId: rule.id,
-        title: rule.title,
-        summary,
-        severity: rule.severity,
-        location: { path, line },
-        ...(rule.replacement ? { replacement: rule.replacement } : {}),
-        ...(rule.deadline ? { deadline: rule.deadline } : {}),
-        ...(rule.migration ? { migration: rule.migration } : {}),
-        sources: rule.sources,
-      });
+      findings.push(ruleFinding(rule, path, line, summary));
     };
 
     for (const file of files) {
@@ -168,10 +158,7 @@ export class ScalaDetector implements Detector {
       }
     }
 
-    findings.sort((left, right) => {
-      if (left.location.path !== right.location.path) return left.location.path < right.location.path ? -1 : 1;
-      return (left.location.line ?? 0) - (right.location.line ?? 0) || left.id.localeCompare(right.id);
-    });
+    sortFindings(findings);
     return { findings, unclassified: [] };
   }
 }

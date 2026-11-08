@@ -56,6 +56,49 @@ const order = (left: ForecastEvent, right: ForecastEvent) =>
 /** A registry rule with the dated end of life the forecast places on the calendar. */
 type DatedRule = RegistryV2Rule & { deadline: string };
 
+function findingRefs(findings: readonly Finding[]): ForecastEvent["findings"] {
+  return findings.map((finding) => ({
+    id: finding.id,
+    path: finding.location.path,
+    ...(finding.location.line === undefined ? {} : { line: finding.location.line }),
+  }));
+}
+
+/** Events for findings whose rule is not in the loaded registries but carries its own deadline. */
+function unlistedRuleEvents(
+  findingsByRule: ReadonlyMap<string, Finding[]>,
+  known: ReadonlySet<string>,
+  inWindow: (date: string | undefined) => date is string,
+  refs: (ruleId: string) => ForecastEvent["findings"],
+): ForecastEvent[] {
+  const events: ForecastEvent[] = [];
+  for (const [ruleId, findings] of findingsByRule) {
+    const first = required(findings[0], "finding for the rule");
+    if (known.has(ruleId) || !inWindow(first.deadline)) continue;
+    events.push({
+      date: first.deadline,
+      ruleId,
+      ecosystem: first.detector,
+      title: first.title,
+      severity: first.severity,
+      source: first.sources[0]?.url ?? "",
+      findings: refs(ruleId),
+    });
+  }
+  return events;
+}
+
+function groupByMonth(events: readonly ForecastEvent[]): ForecastMonth[] {
+  const groups: ForecastMonth[] = [];
+  for (const event of events) {
+    const month = event.date.slice(0, 7);
+    const last = groups[groups.length - 1];
+    if (last?.month === month) last.events.push(event);
+    else groups.push({ month, events: [event] });
+  }
+  return groups;
+}
+
 /**
  * Lists what reaches a dated end of life between `today` and `months` later. Only events that carry a date are
  * listed; nothing is estimated. Reads no clock: the caller passes the day, so output is deterministic.
@@ -74,12 +117,7 @@ export function buildForecast(
   const findingsByRule = new Map<string, Finding[]>();
   for (const finding of result.findings)
     findingsByRule.set(finding.ruleId, [...(findingsByRule.get(finding.ruleId) ?? []), finding]);
-  const refs = (ruleId: string) =>
-    (findingsByRule.get(ruleId) ?? []).map((finding) => ({
-      id: finding.id,
-      path: finding.location.path,
-      ...(finding.location.line === undefined ? {} : { line: finding.location.line }),
-    }));
+  const refs = (ruleId: string) => findingRefs(findingsByRule.get(ruleId) ?? []);
 
   const events: ForecastEvent[] = rules
     .filter((rule): rule is DatedRule => inWindow(rule.deadline))
@@ -92,29 +130,10 @@ export function buildForecast(
       source: rule.sources[0]?.url ?? "",
       findings: refs(rule.id),
     }));
-  const known = new Set(rules.map((rule) => rule.id));
-  for (const [ruleId, findings] of findingsByRule) {
-    const first = required(findings[0], "finding for the rule");
-    if (known.has(ruleId) || !inWindow(first.deadline)) continue;
-    events.push({
-      date: first.deadline,
-      ruleId,
-      ecosystem: first.detector,
-      title: first.title,
-      severity: first.severity,
-      source: first.sources[0]?.url ?? "",
-      findings: refs(ruleId),
-    });
-  }
+  events.push(...unlistedRuleEvents(findingsByRule, new Set(rules.map((rule) => rule.id)), inWindow, refs));
   events.sort(order);
 
-  const groups: ForecastMonth[] = [];
-  for (const event of events) {
-    const month = event.date.slice(0, 7);
-    const last = groups[groups.length - 1];
-    if (last?.month === month) last.events.push(event);
-    else groups.push({ month, events: [event] });
-  }
+  const groups = groupByMonth(events);
   return {
     schemaVersion: "evergreen.forecast.v1",
     root: result.root,

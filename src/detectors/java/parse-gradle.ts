@@ -155,6 +155,22 @@ function compatibilityLiteral(value: string): string | undefined {
   return /^[0-9]+(?:\.[0-9]+)?$/.test(value) ? value : undefined;
 }
 
+/** Maps a character offset in `code` to its 1-based line number. */
+function lineLocator(code: string): (offset: number) => number {
+  const lineStarts = [0];
+  for (let index = code.indexOf("\n"); index >= 0; index = code.indexOf("\n", index + 1)) lineStarts.push(index + 1);
+  return (offset) => {
+    let low = 0;
+    let high = lineStarts.length - 1;
+    while (low < high) {
+      const mid = (low + high + 1) >> 1;
+      if (required(lineStarts[mid], "line start") <= offset) low = mid;
+      else high = mid - 1;
+    }
+    return low + 1;
+  };
+}
+
 /** Parse a Gradle build script without file, network, or process I/O. */
 export function parseGradle(contents: string): GradleDeclaration[] {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return [];
@@ -167,18 +183,7 @@ export function parseGradle(contents: string): GradleDeclaration[] {
       .split("\n")
       .map((line) => (line.length > MAXIMUM_LINE_LENGTH ? " ".repeat(line.length) : line))
       .join("\n");
-    const lineStarts = [0];
-    for (let index = code.indexOf("\n"); index >= 0; index = code.indexOf("\n", index + 1)) lineStarts.push(index + 1);
-    const lineAt = (offset: number): number => {
-      let low = 0;
-      let high = lineStarts.length - 1;
-      while (low < high) {
-        const mid = (low + high + 1) >> 1;
-        if (required(lineStarts[mid], "line start") <= offset) low = mid;
-        else high = mid - 1;
-      }
-      return low + 1;
-    };
+    const lineAt = lineLocator(code);
     const insideString = (offset: number) => scanned.strings.some(([start, end]) => offset > start && offset < end);
 
     const found: GradleDeclaration[] = [];

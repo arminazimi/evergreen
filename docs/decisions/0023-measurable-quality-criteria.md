@@ -1,6 +1,6 @@
 # 0023 — Define reference quality as measurable, enforced criteria
 
-Status: proposed — maintainer acceptance is pending.
+Status: accepted
 
 ## Problem
 
@@ -21,7 +21,7 @@ end date. The rules below record that.
 
 1. **Nine criteria define reference quality**: file size, function size, complexity, type safety, boundaries,
    coverage, mutation score, docs, and security. [QUALITY.md](../QUALITY.md) holds each target, the check that enforces
-   it, the current number, and the allowlist entries that hold existing debt.
+   it, the current number, and the check that keeps the allowlist empty.
 2. **Every criterion is enforced by a failing check.** The check runs in `npm run check` (the gate CI runs) or
    in a named CI job that a pull request cannot merge past. "Measured but not enforced" is not allowed. Where a
    rule cannot be checked mechanically, QUALITY.md says so and the rule stays a review rule. Mutation score is
@@ -29,11 +29,9 @@ end date. The rules below record that.
    request, inside the v0.8.0 phase.
 3. **Zero new debt.** A change may not add a file, function, or count worse than its target. There is no soft
    threshold for new code: it fails.
-4. **Existing debt lives only in an allowlist**, `benchmarks/quality-allowlist.json`. Each entry names one file,
-   function, rule, or advisory; carries its current value as a **ceiling**; a reason; an owner issue; and an
-   `expires` date of **2027-01-26**, the end of the v0.8.0 phase in [ROADMAP.md](../ROADMAP.md). The check fails
-   once an entry passes its date. Entries may be removed or tightened, never added, raised, or extended to make
-   a change pass.
+4. **There is no debt.** The allowlist, `benchmarks/quality-allowlist.json`, is empty in every section and
+   `npm run check:quality` fails on any entry. A change meets a target by fixing the code, never by adding an
+   entry, raising a ceiling, or extending a date.
 5. **Targets are set from existing tools and published practice, not invented numbers.**
    - File size: median 300 lines or fewer; a file over 800 needs an entry; none over 1,000 without one.
    - Function size: 50 lines per function, measured from its first line through its closing brace with the
@@ -61,8 +59,8 @@ end date. The rules below record that.
    and task templates name it, and the opt-in pre-push hook runs `npm run check:rules` when a push touches
    sources, tooling, or the allowlist.
 8. **This record and the document change together.** Raising a target, adding an allowlist entry, or moving a
-   target to enforced changes both files. The status stays `proposed` until the maintainer accepts the targets;
-   acceptance does not renumber this record.
+   target to enforced changes both files. The status is `accepted`; the allowlist is empty, so the
+   only change left to make there is none.
 
 ## Why
 
@@ -72,9 +70,8 @@ end date. The rules below record that.
   ceiling that can only shrink stops growth now and gives the cleanup a date, without blocking unrelated work.
 - **The numbers follow the tools.** ESLint's and Stryker's defaults keep the targets defensible before the
   project has its own baseline. The stricter values are stated as targets, not as measurements.
-- **The facts are visible.** At adoption, 191 functions exceed 15, `src/source-usage.ts` exceeds the 1,000-line
-  ceiling, one adapter imports a detector, Scorecard is 4.8, and the docs site checks are report-only. Each is in
-  the allowlist with an owner and an expiry, not hidden.
+- **The facts are visible.** At adoption the code carried debt that was written down with an owner and an expiry
+  rather than hidden. It has all been paid off (#2283), and the empty allowlist is now enforced.
 
 ## Consequences
 
@@ -86,6 +83,6 @@ end date. The rules below record that.
   one-point check still applies to changed files.
 - The Scorecard floor workflow fails until the published score reaches 6.0. That failure is the alert this record
   asks for, and it stays until the score moves.
-- The allowlist expires on 2027-01-26. After that date the checks fail until each entry is fixed or the maintainer
-  decides, in a reviewed change, on a new date and owner.
+- The allowlist is empty and `npm run check:quality` rejects any entry, so the expiry date no longer matters: there
+  is no debt left to expire.
 - No runtime behavior, scan output, registry data, or public API changes. Scans stay offline.

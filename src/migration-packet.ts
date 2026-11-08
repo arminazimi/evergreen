@@ -332,6 +332,47 @@ function constraintsFor(finding: Finding, pinned: PinnedRuntimes): string[] {
   ];
 }
 
+/** The steps between review and verification: the rule's own migration steps, or a generic pair. */
+function migrationSteps(finding: Finding, paths: string[], usagePaths: string[]): MigrationStep[] {
+  const primary: SourceLocation = finding.location;
+  if (finding.migration) {
+    return finding.migration.steps.map(
+      (step): MigrationStep => ({
+        ...step,
+        paths:
+          step.targets === "declaration"
+            ? [primary.path]
+            : step.targets === "usages"
+              ? usagePaths.length > 0
+                ? usagePaths
+                : [primary.path]
+              : paths,
+      }),
+    );
+  }
+  const steps: MigrationStep[] = [
+    {
+      id: "update-declaration",
+      title: "Update the deprecated declaration",
+      instructions: finding.replacement
+        ? `Replace the deprecated declaration with ${finding.replacement}.`
+        : "Remove or update the deprecated declaration using the cited ecosystem guidance.",
+      targets: "declaration",
+      paths: [primary.path],
+    },
+  ];
+  if (finding.usages?.length) {
+    steps.push({
+      id: "migrate-usages",
+      title: "Migrate affected usages",
+      instructions: "Update the listed imports, calls, and configuration keys while preserving behavior.",
+      targets: "usages",
+      paths: usagePaths,
+    });
+  }
+  return steps;
+}
+
 function stepsFor(finding: Finding, paths: string[]): MigrationStep[] {
   const primary: SourceLocation = finding.location;
   const usagePaths = [...new Set((finding.usages ?? []).map((usage) => usage.location.path))].sort((left, right) =>
@@ -346,42 +387,7 @@ function stepsFor(finding: Finding, paths: string[]): MigrationStep[] {
       paths: [primary.path],
     },
   ];
-  if (finding.migration) {
-    steps.push(
-      ...finding.migration.steps.map(
-        (step): MigrationStep => ({
-          ...step,
-          paths:
-            step.targets === "declaration"
-              ? [primary.path]
-              : step.targets === "usages"
-                ? usagePaths.length > 0
-                  ? usagePaths
-                  : [primary.path]
-                : paths,
-        }),
-      ),
-    );
-  } else {
-    steps.push({
-      id: "update-declaration",
-      title: "Update the deprecated declaration",
-      instructions: finding.replacement
-        ? `Replace the deprecated declaration with ${finding.replacement}.`
-        : "Remove or update the deprecated declaration using the cited ecosystem guidance.",
-      targets: "declaration",
-      paths: [primary.path],
-    });
-    if (finding.usages?.length) {
-      steps.push({
-        id: "migrate-usages",
-        title: "Migrate affected usages",
-        instructions: "Update the listed imports, calls, and configuration keys while preserving behavior.",
-        targets: "usages",
-        paths: usagePaths,
-      });
-    }
-  }
+  steps.push(...migrationSteps(finding, paths, usagePaths));
   steps.push({
     id: "verify-migration",
     title: "Verify the migration",

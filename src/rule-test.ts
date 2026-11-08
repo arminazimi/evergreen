@@ -196,6 +196,23 @@ function describe(observations: readonly FixtureObservation[]): string[] {
   return observations.map((observation) => `${observation.path}:${observation.line} ${observation.label}`);
 }
 
+/** Judges what a fixture produced: a match fixture must find something, a clean one nothing. */
+function fixtureOutcome(
+  kind: "match" | "clean",
+  directory: string,
+  ruleId: string,
+  findings: FixtureOutcome["findings"],
+  usages: FixtureOutcome["usages"],
+): FixtureOutcome {
+  const observed = findings.length > 0 || usages.length > 0;
+  const passed = kind === "match" ? observed : !observed;
+  const problem =
+    kind === "match"
+      ? `expected at least one finding for "${ruleId}"; got none.`
+      : `expected no findings for "${ruleId}"; got ${findings.length + usages.length}.`;
+  return { kind, directory, passed, findings, usages, ...(passed ? {} : { problem }) };
+}
+
 /**
  * Runs the rule against both fixtures. A fixture observes a rule when the detectors report it there, or -- for a
  * rule that declares usage matchers -- when the usage analysis finds one.
@@ -226,28 +243,7 @@ export async function testRule(ruleId: string, options: RuleTestOptions = {}): P
       continue;
     }
     const { findings, usages } = await observeFixture(fixture, ruleId, found.rule);
-    const observed = findings.length > 0 || usages.length > 0;
-    if (kind === "match") {
-      fixtures.push({
-        kind,
-        directory: shown,
-        passed: observed,
-        findings,
-        usages,
-        ...(observed ? {} : { problem: `expected at least one finding for "${ruleId}"; got none.` }),
-      });
-    } else {
-      fixtures.push({
-        kind,
-        directory: shown,
-        passed: !observed,
-        findings,
-        usages,
-        ...(observed
-          ? { problem: `expected no findings for "${ruleId}"; got ${findings.length + usages.length}.` }
-          : {}),
-      });
-    }
+    fixtures.push(fixtureOutcome(kind, shown, ruleId, findings, usages));
   }
 
   return {

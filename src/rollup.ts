@@ -91,17 +91,63 @@ function sortedGroups(
     .sort((left, right) => right.findings - left.findings || left.name.localeCompare(right.name));
 }
 
+interface RepoAccumulator {
+  owner?: string;
+  findings: number;
+  severities: SeverityCounts;
+  deadlines: Set<string>;
+}
+
+function repositorySummaries(repoMap: ReadonlyMap<string, RepoAccumulator>): RollupRepository[] {
+  return [...repoMap.entries()]
+    .map(([name, repo]) => {
+      const deadlines = [...repo.deadlines].sort();
+      return {
+        name,
+        ...(repo.owner ? { owner: repo.owner } : {}),
+        findings: repo.findings,
+        severities: repo.severities,
+        ...(deadlines.length > 0 ? { nearestDeadline: deadlines[0] } : {}),
+        deadlines,
+      };
+    })
+    .sort((left, right) => right.findings - left.findings || left.name.localeCompare(right.name));
+}
+
+function deadlineSummaries(
+  deadlineMap: ReadonlyMap<string, { findings: number; repositories: Set<string> }>,
+): RollupDeadline[] {
+  return [...deadlineMap.entries()]
+    .map(([deadline, entry]) => ({
+      deadline,
+      findings: entry.findings,
+      repositories: [...entry.repositories].sort(),
+    }))
+    .sort((left, right) => left.deadline.localeCompare(right.deadline));
+}
+
+/** The accumulator for the input's repository, created on first sight; a later input can supply a missing owner. */
+function repositoryFor(repoMap: Map<string, RepoAccumulator>, input: RollupInput): RepoAccumulator {
+  let repo = repoMap.get(input.repository);
+  if (!repo) {
+    repo = {
+      ...(input.owner !== undefined ? { owner: input.owner } : {}),
+      findings: 0,
+      severities: emptyCounts(),
+      deadlines: new Set<string>(),
+    };
+    repoMap.set(input.repository, repo);
+  } else if (repo.owner === undefined && input.owner !== undefined) {
+    repo.owner = input.owner;
+  }
+  return repo;
+}
+
 /** Merges reports into one summary. The result does not depend on the order of `inputs`. */
 export function rollup(inputs: readonly RollupInput[]): RollupResult {
   const severities = emptyCounts();
   const products = new Map<string, { findings: number; repositories: Set<string>; severities: SeverityCounts }>();
   const owners = new Map<string, { findings: number; repositories: Set<string>; severities: SeverityCounts }>();
-  interface RepoAccumulator {
-    owner?: string;
-    findings: number;
-    severities: SeverityCounts;
-    deadlines: Set<string>;
-  }
   const repoMap = new Map<string, RepoAccumulator>();
   const deadlineMap = new Map<string, { findings: number; repositories: Set<string> }>();
 
@@ -115,18 +161,7 @@ export function rollup(inputs: readonly RollupInput[]): RollupResult {
 
   let findings = 0;
   for (const input of inputs) {
-    let repo = repoMap.get(input.repository);
-    if (!repo) {
-      repo = {
-        ...(input.owner !== undefined ? { owner: input.owner } : {}),
-        findings: 0,
-        severities: emptyCounts(),
-        deadlines: new Set<string>(),
-      };
-      repoMap.set(input.repository, repo);
-    } else if (repo.owner === undefined && input.owner !== undefined) {
-      repo.owner = input.owner;
-    }
+    const repo = repositoryFor(repoMap, input);
 
     for (const finding of input.report.findings) {
       findings += 1;
@@ -145,28 +180,6 @@ export function rollup(inputs: readonly RollupInput[]): RollupResult {
     }
   }
 
-  const byRepository: RollupRepository[] = [...repoMap.entries()]
-    .map(([name, repo]) => {
-      const deadlines = [...repo.deadlines].sort();
-      return {
-        name,
-        ...(repo.owner ? { owner: repo.owner } : {}),
-        findings: repo.findings,
-        severities: repo.severities,
-        ...(deadlines.length > 0 ? { nearestDeadline: deadlines[0] } : {}),
-        deadlines,
-      };
-    })
-    .sort((left, right) => right.findings - left.findings || left.name.localeCompare(right.name));
-
-  const deadlines: RollupDeadline[] = [...deadlineMap.entries()]
-    .map(([deadline, entry]) => ({
-      deadline,
-      findings: entry.findings,
-      repositories: [...entry.repositories].sort(),
-    }))
-    .sort((left, right) => left.deadline.localeCompare(right.deadline));
-
   return {
     schemaVersion: "evergreen.rollup.v1",
     repositories: repoMap.size,
@@ -174,8 +187,8 @@ export function rollup(inputs: readonly RollupInput[]): RollupResult {
     severities,
     byProduct: sortedGroups(products),
     byOwner: sortedGroups(owners),
-    byRepository,
-    deadlines,
+    byRepository: repositorySummaries(repoMap),
+    deadlines: deadlineSummaries(deadlineMap),
   };
 }
 
@@ -276,14 +289,8 @@ function severityBadges(severities: SeverityCounts): string {
   return parts.length > 0 ? parts.join("") : `<span class="badge clean">clean</span>`;
 }
 
-/**
- * Renders rollup results as a self-contained static HTML page for GitHub Pages: inline styles,
- * no external requests, no scripts (CSP enforces this), and deterministic layout.
- */
-export function renderRollupHtml(result: RollupResult): string {
-  const data = JSON.stringify(result, null, 2).replace(/</g, "\\u003c");
-
-  const repoRows = result.byRepository.map((repo) => {
+function repositoryRows(result: RollupResult): string[] {
+  return result.byRepository.map((repo) => {
     const owner = repo.owner ? escapeHtml(repo.owner) : `<span class="meta">${UNOWNED}</span>`;
     const deadline = repo.nearestDeadline
       ? `<time datetime="${escapeHtml(repo.nearestDeadline)}">${escapeHtml(repo.nearestDeadline)}</time>`
@@ -298,8 +305,10 @@ export function renderRollupHtml(result: RollupResult): string {
       "</tr>",
     ].join("\n");
   });
+}
 
-  const deadlineRows = result.deadlines.map((dl) => {
+function deadlineTableRows(result: RollupResult): string[] {
+  return result.deadlines.map((dl) => {
     const repos = dl.repositories.map((r) => `<code>${escapeHtml(r)}</code>`).join(", ");
     return [
       "<tr>",
@@ -309,8 +318,10 @@ export function renderRollupHtml(result: RollupResult): string {
       "</tr>",
     ].join("\n");
   });
+}
 
-  const productRows = result.byProduct.map((group) => {
+function productTableRows(result: RollupResult): string[] {
+  return result.byProduct.map((group) => {
     const repos = group.repositories.map((r) => `<code>${escapeHtml(r)}</code>`).join(", ");
     return [
       "<tr>",
@@ -321,8 +332,10 @@ export function renderRollupHtml(result: RollupResult): string {
       "</tr>",
     ].join("\n");
   });
+}
 
-  const ownerRows = result.byOwner.map((group) => {
+function ownerTableRows(result: RollupResult): string[] {
+  return result.byOwner.map((group) => {
     const repos = group.repositories.map((r) => `<code>${escapeHtml(r)}</code>`).join(", ");
     return [
       "<tr>",
@@ -333,6 +346,33 @@ export function renderRollupHtml(result: RollupResult): string {
       "</tr>",
     ].join("\n");
   });
+}
+
+/** A headed table, or nothing when there are no rows. */
+function tableSection(heading: string, columns: readonly string[], rows: readonly string[]): string[] {
+  if (rows.length === 0) return [];
+  return [
+    `<h2>${heading}</h2>`,
+    "<table>",
+    `<thead><tr>${columns.map((column) => `<th>${column}</th>`).join("")}</tr></thead>`,
+    "<tbody>",
+    ...rows,
+    "</tbody>",
+    "</table>",
+  ];
+}
+
+/**
+ * Renders rollup results as a self-contained static HTML page for GitHub Pages: inline styles,
+ * no external requests, no scripts (CSP enforces this), and deterministic layout.
+ */
+export function renderRollupHtml(result: RollupResult): string {
+  const data = JSON.stringify(result, null, 2).replace(/</g, "\\u003c");
+
+  const repoRows = repositoryRows(result);
+  const deadlineRows = deadlineTableRows(result);
+  const productRows = productTableRows(result);
+  const ownerRows = ownerTableRows(result);
 
   const sections: string[] = [
     "<!doctype html>",
@@ -363,41 +403,11 @@ export function renderRollupHtml(result: RollupResult): string {
     "</table>",
   ];
 
-  if (deadlineRows.length > 0) {
-    sections.push(
-      "<h2>Upcoming deadlines</h2>",
-      "<table>",
-      "<thead><tr><th>Deadline</th><th>Findings</th><th>Affected repositories</th></tr></thead>",
-      "<tbody>",
-      ...deadlineRows,
-      "</tbody>",
-      "</table>",
-    );
-  }
-
-  if (productRows.length > 0) {
-    sections.push(
-      "<h2>By product</h2>",
-      "<table>",
-      "<thead><tr><th>Product</th><th>Findings</th><th>Repositories</th><th>Severities</th></tr></thead>",
-      "<tbody>",
-      ...productRows,
-      "</tbody>",
-      "</table>",
-    );
-  }
-
-  if (ownerRows.length > 0) {
-    sections.push(
-      "<h2>By owner</h2>",
-      "<table>",
-      "<thead><tr><th>Owner</th><th>Findings</th><th>Repositories</th><th>Severities</th></tr></thead>",
-      "<tbody>",
-      ...ownerRows,
-      "</tbody>",
-      "</table>",
-    );
-  }
+  sections.push(
+    ...tableSection("Upcoming deadlines", ["Deadline", "Findings", "Affected repositories"], deadlineRows),
+    ...tableSection("By product", ["Product", "Findings", "Repositories", "Severities"], productRows),
+    ...tableSection("By owner", ["Owner", "Findings", "Repositories", "Severities"], ownerRows),
+  );
 
   sections.push(`<script type="application/json" id="evergreen-rollup">${data}</script>`, "</body>", "</html>");
 

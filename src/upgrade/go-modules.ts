@@ -109,6 +109,69 @@ function matchesRule(rule: RegistryV2Rule, version: string): boolean {
   }
 }
 
+type GoVersion = NonNullable<ReturnType<typeof normalizeGoVersion>>;
+type LocatedDeclaration = { path: string; declaration: ReturnType<typeof parseGoMod>[number] };
+
+/** A blocker for each `go` directive whose minimum is above the target. */
+function goDirectiveIssues(
+  goDirectives: readonly LocatedDeclaration[],
+  target: UpgradeTarget,
+  targetVersion: GoVersion,
+): UpgradeIssue[] {
+  const issues: UpgradeIssue[] = [];
+  for (const { path, declaration } of goDirectives) {
+    if (declaration.kind !== "go") continue;
+    const minimum = normalizeGoVersion(declaration.value);
+    if (minimum === undefined) continue;
+    if (compareGoVersions(targetVersion, minimum) >= 0) continue;
+    issues.push({
+      analyzer: ANALYZER_ID,
+      level: "blocker",
+      subject: `go@${declaration.value}`,
+      path,
+      line: declaration.line,
+      reason: `The target Go ${target.version} is below the minimum Go ${declaration.value} declared by ${path}.`,
+      evidence: { kind: "manifest", value: declaration.value },
+    });
+  }
+  return issues;
+}
+
+/** Blockers from the vendored modules' own `go` lines, or an unknown when vendoring leaves no such evidence. */
+async function vendorIssues(root: string, target: UpgradeTarget, targetVersion: GoVersion): Promise<UpgradeIssue[]> {
+  const issues: UpgradeIssue[] = [];
+  // `go mod vendor` records each dependency's own `go` version; without vendoring, that evidence is absent.
+  const modulesText = await readOptional(join(root, VENDOR_MODULES));
+  const vendored = modulesText === undefined ? [] : parseVendorModules(modulesText);
+  for (const module of vendored) {
+    const go = goRequirementBelowTarget(module, targetVersion);
+    if (go === undefined) continue;
+    issues.push({
+      analyzer: ANALYZER_ID,
+      level: "blocker",
+      subject: `${module.module}@${module.version}`,
+      path: VENDOR_MODULES,
+      line: go.line,
+      reason: `The target Go ${target.version} is below Go ${go.value}, which ${module.module}@${module.version} declares in ${VENDOR_MODULES}.`,
+      evidence: { kind: "lockfile", value: go.text },
+    });
+  }
+  if (vendored.every((module) => module.go === undefined)) {
+    issues.push({
+      analyzer: ANALYZER_ID,
+      level: "unknown",
+      subject: "dependencies",
+      path: VENDOR_MODULES,
+      reason: NO_VENDOR_REASON,
+      evidence: {
+        kind: "lockfile",
+        value: modulesText === undefined ? `${VENDOR_MODULES} is absent` : `${VENDOR_MODULES} records no go version`,
+      },
+    });
+  }
+  return issues;
+}
+
 export class GoModulesAnalyzer implements UpgradeAnalyzer {
   readonly id = ANALYZER_ID;
   readonly runtimes = [RUNTIME] as const;
@@ -144,51 +207,8 @@ export class GoModulesAnalyzer implements UpgradeAnalyzer {
       ...(goWork === undefined ? [] : parseGoWork(goWork).map((declaration) => ({ path: "go.work", declaration }))),
     ];
     const goDirectives = declarations.filter((entry) => entry.declaration.kind === "go");
-    for (const { path, declaration } of goDirectives) {
-      if (declaration.kind !== "go") continue;
-      const minimum = normalizeGoVersion(declaration.value);
-      if (minimum === undefined) continue;
-      if (compareGoVersions(targetVersion, minimum) >= 0) continue;
-      issues.push({
-        analyzer: ANALYZER_ID,
-        level: "blocker",
-        subject: `go@${declaration.value}`,
-        path,
-        line: declaration.line,
-        reason: `The target Go ${target.version} is below the minimum Go ${declaration.value} declared by ${path}.`,
-        evidence: { kind: "manifest", value: declaration.value },
-      });
-    }
-
-    // `go mod vendor` records each dependency's own `go` version; without vendoring, that evidence is absent.
-    const modulesText = await readOptional(join(root, VENDOR_MODULES));
-    const vendored = modulesText === undefined ? [] : parseVendorModules(modulesText);
-    for (const module of vendored) {
-      const go = goRequirementBelowTarget(module, targetVersion);
-      if (go === undefined) continue;
-      issues.push({
-        analyzer: ANALYZER_ID,
-        level: "blocker",
-        subject: `${module.module}@${module.version}`,
-        path: VENDOR_MODULES,
-        line: go.line,
-        reason: `The target Go ${target.version} is below Go ${go.value}, which ${module.module}@${module.version} declares in ${VENDOR_MODULES}.`,
-        evidence: { kind: "lockfile", value: go.text },
-      });
-    }
-    if (vendored.every((module) => module.go === undefined)) {
-      issues.push({
-        analyzer: ANALYZER_ID,
-        level: "unknown",
-        subject: "dependencies",
-        path: VENDOR_MODULES,
-        reason: NO_VENDOR_REASON,
-        evidence: {
-          kind: "lockfile",
-          value: modulesText === undefined ? `${VENDOR_MODULES} is absent` : `${VENDOR_MODULES} records no go version`,
-        },
-      });
-    }
+    issues.push(...goDirectiveIssues(goDirectives, target, targetVersion));
+    issues.push(...(await vendorIssues(root, target, targetVersion)));
 
     // The target release's own lifecycle, from the bundled Go rules.
     const targetRule = (await goRuntimeRules()).find((rule) => matchesRule(rule, targetVersion));

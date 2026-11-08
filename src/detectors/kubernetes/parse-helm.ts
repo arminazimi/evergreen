@@ -306,6 +306,29 @@ function literalValue(raw: string): string | undefined {
   return plain.length > 0 ? plain : undefined;
 }
 
+interface Candidate {
+  value: string | undefined;
+  line: number;
+}
+
+/** The declaration of a document with exactly one literal apiVersion and one literal kind. */
+function pairedDeclaration(apiVersions: readonly Candidate[], kinds: readonly Candidate[]): ApiDeclaration | undefined {
+  if (apiVersions.length !== 1 || kinds.length !== 1) return undefined;
+  const apiVersion = required(apiVersions[0], "the only apiVersion key");
+  const kind = required(kinds[0], "the only kind key");
+  const parts = apiVersion.value === undefined ? undefined : splitApiVersion(apiVersion.value);
+  if (!parts || kind.value === undefined || !isKind(kind.value)) return undefined;
+  return {
+    kind: "api",
+    value: required(apiVersion.value, "the apiVersion value"),
+    group: parts.group,
+    version: parts.version,
+    resource: kind.value,
+    line: apiVersion.line,
+    kindLine: kind.line,
+  };
+}
+
 /** Read literal `apiVersion` and `kind` pairs from a Helm template without rendering it. */
 export function parseTemplate(contents: string): ApiDeclaration[] {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return [];
@@ -317,32 +340,14 @@ export function parseTemplate(contents: string): ApiDeclaration[] {
     const guarded = guardByLine(result.actions, lines.length - 1);
     if (!guarded) return [];
 
-    interface Candidate {
-      value: string | undefined;
-      line: number;
-    }
     const declarations: ApiDeclaration[] = [];
     let documents = 1;
     let apiVersions: Candidate[] = [];
     let kinds: Candidate[] = [];
 
     const flush = (): void => {
-      if (apiVersions.length === 1 && kinds.length === 1) {
-        const apiVersion = required(apiVersions[0], "the only apiVersion key");
-        const kind = required(kinds[0], "the only kind key");
-        const parts = apiVersion.value === undefined ? undefined : splitApiVersion(apiVersion.value);
-        if (parts && kind.value !== undefined && isKind(kind.value)) {
-          declarations.push({
-            kind: "api",
-            value: required(apiVersion.value, "the apiVersion value"),
-            group: parts.group,
-            version: parts.version,
-            resource: kind.value,
-            line: apiVersion.line,
-            kindLine: kind.line,
-          });
-        }
-      }
+      const declaration = pairedDeclaration(apiVersions, kinds);
+      if (declaration) declarations.push(declaration);
       apiVersions = [];
       kinds = [];
     };

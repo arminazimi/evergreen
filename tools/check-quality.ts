@@ -17,6 +17,7 @@
 //   or over complexity 15, an explicit `any`, or a `@ts-ignore` fails.
 // - An entry is a ceiling on existing debt. It may shrink, and then its number is tightened to match,
 //   or it may be removed. It may not grow, and it may not outlive its `expires` date.
+// - The committed allowlist is empty: `npm run check:quality` rejects any entry in any section.
 // - An entry that no longer matches a violation is stale and fails until it is removed.
 //
 // The `--audit` option reads `npm audit --json` output that CI wrote; the tool itself does no network
@@ -550,6 +551,24 @@ function compareCount(check: string, location: string, current: number, ceiling:
     return { check, location, message: `${noun} is now ${current}; set this entry to ${current}` };
   }
   return null;
+}
+
+/** The debt is paid off, so the committed allowlist must stay empty: every entry in every section is a finding. */
+export function allowlistDebtFindings(allowlist: Allowlist): Finding[] {
+  const entries: Array<[string, string]> = [
+    ...allowlist.fileSize.map((entry): [string, string] => ["fileSize", entry.file]),
+    ...allowlist.functionLength.map((entry): [string, string] => ["functionLength", `${entry.file} ${entry.function}`]),
+    ...allowlist.complexity.map((entry): [string, string] => ["complexity", `${entry.file} ${entry.function}`]),
+    ...allowlist.asUnknownAs.map((entry): [string, string] => ["asUnknownAs", entry.file]),
+    ...allowlist.nonNull.map((entry): [string, string] => ["nonNull", entry.file]),
+    ...allowlist.boundaries.map((entry): [string, string] => ["boundaries", `${entry.file} ${entry.rule}`]),
+    ...allowlist.audit.map((entry): [string, string] => ["audit", entry.advisory]),
+  ];
+  return entries.map(([section, name]) => ({
+    check: "allowlist",
+    location: `${section}: ${JSON.stringify(name)}`,
+    message: "the allowlist must stay empty; fix the code instead of adding an entry",
+  }));
 }
 
 export function evaluateQuality(input: QualityInput): Finding[] {
@@ -1258,7 +1277,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
       if (options.report) {
         process.stdout.write(renderReport(input.allowlist));
       } else {
-        const findings = evaluateQuality(input);
+        const findings = [...allowlistDebtFindings(input.allowlist), ...evaluateQuality(input)];
         if (findings.length > 0) {
           process.stderr.write(renderFindings(findings));
           process.exitCode = 1;

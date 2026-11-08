@@ -2,8 +2,8 @@ import { readFile } from "node:fs/promises";
 import { isAbsolute, relative, resolve } from "node:path";
 
 import { renderDiff } from "../agent-instructions.js";
-import type { Finding } from "../domain.js";
-import type { Fixer, FilePatch } from "./types.js";
+import type { Finding, ScanResult } from "../domain.js";
+import type { Fixer, FilePatch, Refuse } from "./types.js";
 
 /** `actions/checkout@v5 or later`: the only replacement wording that names an exact action and major version. */
 const ACTION_REPLACEMENT = /^([a-z0-9._-]+\/[a-z0-9._/-]+)@v(\d+) or later$/i;
@@ -21,27 +21,32 @@ interface Targets {
   findings: Finding[];
 }
 
+function collectTargets(result: ScanResult, refuse: Refuse | undefined): Map<string, Targets> {
+  const targets = new Map<string, Targets>();
+  for (const finding of result.findings) {
+    if (!isActionRule(finding.ruleId) || !finding.location.path.startsWith(".github/workflows/")) continue;
+    if (finding.location.line === undefined) {
+      refuse?.(finding, "The finding names no line to rewrite.");
+      continue;
+    }
+    const edit = actionEdit(finding);
+    if (!edit) {
+      refuse?.(finding, "The rule's replacement does not name an action and a major version.");
+      continue;
+    }
+    const entry: Targets = targets.get(finding.location.path) ?? { lines: new Map(), findings: [] };
+    entry.lines.set(finding.location.line, edit);
+    entry.findings.push(finding);
+    targets.set(finding.location.path, entry);
+  }
+  return targets;
+}
+
 /** Rewrites `uses: owner/action@vN` to the major version the rule names. SHA-pinned and floating references are left alone. */
 export const githubActionsUsesFixer: Fixer = {
   id: "github-actions-uses",
   async plan(result, refuse) {
-    const targets = new Map<string, Targets>();
-    for (const finding of result.findings) {
-      if (!isActionRule(finding.ruleId) || !finding.location.path.startsWith(".github/workflows/")) continue;
-      if (finding.location.line === undefined) {
-        refuse?.(finding, "The finding names no line to rewrite.");
-        continue;
-      }
-      const edit = actionEdit(finding);
-      if (!edit) {
-        refuse?.(finding, "The rule's replacement does not name an action and a major version.");
-        continue;
-      }
-      const entry: Targets = targets.get(finding.location.path) ?? { lines: new Map(), findings: [] };
-      entry.lines.set(finding.location.line, edit);
-      entry.findings.push(finding);
-      targets.set(finding.location.path, entry);
-    }
+    const targets = collectTargets(result, refuse);
 
     const patches: FilePatch[] = [];
     for (const [path, { lines, findings }] of [...targets].sort(([a], [b]) => a.localeCompare(b))) {

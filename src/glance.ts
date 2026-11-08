@@ -85,12 +85,8 @@ export interface GlanceOptions {
   asOf: string;
 }
 
-/**
- * The facts the glance card shows, all from the scan result: ecosystems mapped to their maturity
- * through the capability manifest, findings tallied by severity, the next deadline, the oldest
- * ended item, and the lifecycle data version and age. Counts match `scan --json` by construction.
- */
-export function buildGlanceFacts(result: GlanceInput, options: GlanceOptions): GlanceFacts {
+/** The ecosystems (with maturity) behind the detectors that ran or reported, sorted by id. */
+function ecosystemsFor(result: GlanceInput): GlanceEcosystem[] {
   const manifest = getCapabilityManifest();
   const ecosystemsByDetector = new Map<string, GlanceEcosystem[]>();
   for (const ecosystem of manifest.ecosystems) {
@@ -104,11 +100,20 @@ export function buildGlanceFacts(result: GlanceInput, options: GlanceOptions): G
   }
   const detectors =
     result.coverage?.ecosystems ?? [...new Set(result.findings.map((finding) => finding.detector))].sort();
-  const ecosystems = [...new Set(detectors.flatMap((detector) => ecosystemsByDetector.get(detector) ?? []))]
+  return [...new Set(detectors.flatMap((detector) => ecosystemsByDetector.get(detector) ?? []))]
     .map((ecosystem) => JSON.stringify(ecosystem))
     .filter((value, index, all) => all.indexOf(value) === index)
     .map((value) => JSON.parse(value) as GlanceEcosystem)
     .sort((left, right) => left.id.localeCompare(right.id));
+}
+
+/**
+ * The facts the glance card shows, all from the scan result: ecosystems mapped to their maturity
+ * through the capability manifest, findings tallied by severity, the next deadline, the oldest
+ * ended item, and the lifecycle data version and age. Counts match `scan --json` by construction.
+ */
+export function buildGlanceFacts(result: GlanceInput, options: GlanceOptions): GlanceFacts {
+  const ecosystems = ecosystemsFor(result);
 
   const bySeverity = Object.fromEntries(severityValues.map((severity) => [severity, 0])) as Record<Severity, number>;
   for (const finding of result.findings) bySeverity[finding.severity] += 1;

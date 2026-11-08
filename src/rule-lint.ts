@@ -208,6 +208,44 @@ interface FileResult {
   ids: Array<{ id: string; line: number }>;
 }
 
+interface LintView {
+  shown: string;
+  text: string;
+  starts: number[];
+  rules: unknown[];
+  spans: ReturnType<typeof ruleSpans>;
+}
+
+/** Every schema problem in the document, each placed on the line of the rule and field it names. */
+function registryIssueList(value: unknown, view: LintView): RuleLintIssue[] {
+  const { shown, text, starts, rules, spans } = view;
+  const issues: RuleLintIssue[] = [];
+  for (const message of registryV2Issues(value)) {
+    const rule = RULE_MESSAGE.exec(message);
+    if (rule) {
+      const index = rules.findIndex((candidate) => isRecord(candidate) && candidate.id === rule[1]);
+      const span = spans[index] ?? { start: 0, end: text.length };
+      issues.push({
+        file: shown,
+        line: lineFor(text, starts, span, fieldOf(required(rule[2], "the field"))),
+        ruleId: required(rule[1], "the rule id"),
+        message,
+        hint: hintFor(required(rule[2], "the field")),
+      });
+      continue;
+    }
+    const indexed = INDEX_MESSAGE.exec(message);
+    const span = indexed ? spans[Number(indexed[1])] : undefined;
+    issues.push({
+      file: shown,
+      line: span ? lineAt(starts, span.start) : 1,
+      message,
+      hint: hintFor(indexed?.[2] ?? message),
+    });
+  }
+  return issues;
+}
+
 async function lintFile(file: string): Promise<FileResult> {
   const shown = displayPath(file);
   let text: string;
@@ -247,33 +285,9 @@ async function lintFile(file: string): Promise<FileResult> {
     };
   }
 
-  const issues: RuleLintIssue[] = [];
   const rules = isRecord(value) && Array.isArray(value.rules) ? value.rules : [];
   const spans = ruleSpans(text, rules);
-
-  for (const message of registryV2Issues(value)) {
-    const rule = RULE_MESSAGE.exec(message);
-    if (rule) {
-      const index = rules.findIndex((candidate) => isRecord(candidate) && candidate.id === rule[1]);
-      const span = spans[index] ?? { start: 0, end: text.length };
-      issues.push({
-        file: shown,
-        line: lineFor(text, starts, span, fieldOf(required(rule[2], "the field"))),
-        ruleId: required(rule[1], "the rule id"),
-        message,
-        hint: hintFor(required(rule[2], "the field")),
-      });
-      continue;
-    }
-    const indexed = INDEX_MESSAGE.exec(message);
-    const span = indexed ? spans[Number(indexed[1])] : undefined;
-    issues.push({
-      file: shown,
-      line: span ? lineAt(starts, span.start) : 1,
-      message,
-      hint: hintFor(indexed?.[2] ?? message),
-    });
-  }
+  const issues = registryIssueList(value, { shown, text, starts, rules, spans });
 
   const ids: FileResult["ids"] = [];
   rules.forEach((candidate, index) => {

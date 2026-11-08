@@ -9,6 +9,7 @@ import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
 import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
+import { compareByLocation, ruleFinding, sortFindings } from "../../rule-finding.js";
 import { versContains } from "../../vers/index.js";
 import { parseDatabaseCompose } from "./parse-compose.js";
 import { parseDatabaseTerraform } from "./parse-terraform.js";
@@ -129,6 +130,47 @@ function purlFor(product: string): string | undefined {
   return purl === undefined ? undefined : purlIdentity(purl);
 }
 
+type Report = (rule: RegistryV2Rule, path: string, line: number, summary: string) => void;
+
+function reportCompose(contents: string, path: string, byPurl: Map<string, RegistryV2Rule[]>, report: Report): void {
+  for (const declaration of parseDatabaseCompose(contents)) {
+    const purl = purlFor(declaration.product);
+    const rule = purl === undefined ? undefined : ruleForDeclared(byPurl.get(purl) ?? [], declaration.value);
+    if (rule)
+      report(rule, path, declaration.line, `${path} runs ${declaration.product}:${declaration.value}. ${rule.summary}`);
+  }
+}
+
+function reportTerraform(
+  contents: string,
+  path: string,
+  byPurl: Map<string, RegistryV2Rule[]>,
+  report: Report,
+  unclassified: Omit<UnclassifiedReference, "detector">[],
+): void {
+  const parsed = parseDatabaseTerraform(contents);
+  for (const declaration of parsed.unclassified) {
+    unclassified.push({
+      component: declaration.resource,
+      reference: declaration.value,
+      reason: `the ${declaration.attribute} on ${declaration.name} is not a literal string, so Evergreen does not evaluate it`,
+      location: { path, line: declaration.line },
+    });
+  }
+  for (const declaration of parsed.declarations) {
+    const purl = purlFor(declaration.product);
+    const rule = purl === undefined ? undefined : ruleForDeclared(byPurl.get(purl) ?? [], declaration.value);
+    if (rule) {
+      report(
+        rule,
+        path,
+        declaration.line,
+        `${path} sets ${declaration.resource}.${declaration.name} engine ${declaration.engine} ${declaration.value}. ${rule.summary}`,
+      );
+    }
+  }
+}
+
 export class DatabaseDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "database";
@@ -156,18 +198,7 @@ export class DatabaseDetector implements Detector {
     const findings: DetectorFinding[] = [];
     const unclassified: Omit<UnclassifiedReference, "detector">[] = [];
     const report = (rule: RegistryV2Rule, path: string, line: number, summary: string): void => {
-      findings.push({
-        id: `${rule.id}:${path}:${line}`,
-        ruleId: rule.id,
-        title: rule.title,
-        summary,
-        severity: rule.severity,
-        location: { path, line },
-        ...(rule.replacement ? { replacement: rule.replacement } : {}),
-        ...(rule.deadline ? { deadline: rule.deadline } : {}),
-        ...(rule.migration ? { migration: rule.migration } : {}),
-        sources: rule.sources,
-      });
+      findings.push(ruleFinding(rule, path, line, summary));
     };
 
     for (const file of files) {
@@ -179,51 +210,12 @@ export class DatabaseDetector implements Detector {
       }
       const path = relativePosix(context.root, file);
 
-      if (COMPOSE_NAME.test(basename(file))) {
-        for (const declaration of parseDatabaseCompose(contents)) {
-          const purl = purlFor(declaration.product);
-          const rule = purl === undefined ? undefined : ruleForDeclared(byPurl.get(purl) ?? [], declaration.value);
-          if (rule)
-            report(
-              rule,
-              path,
-              declaration.line,
-              `${path} runs ${declaration.product}:${declaration.value}. ${rule.summary}`,
-            );
-        }
-      } else {
-        const parsed = parseDatabaseTerraform(contents);
-        for (const declaration of parsed.unclassified) {
-          unclassified.push({
-            component: declaration.resource,
-            reference: declaration.value,
-            reason: `the ${declaration.attribute} on ${declaration.name} is not a literal string, so Evergreen does not evaluate it`,
-            location: { path, line: declaration.line },
-          });
-        }
-        for (const declaration of parsed.declarations) {
-          const purl = purlFor(declaration.product);
-          const rule = purl === undefined ? undefined : ruleForDeclared(byPurl.get(purl) ?? [], declaration.value);
-          if (rule) {
-            report(
-              rule,
-              path,
-              declaration.line,
-              `${path} sets ${declaration.resource}.${declaration.name} engine ${declaration.engine} ${declaration.value}. ${rule.summary}`,
-            );
-          }
-        }
-      }
+      if (COMPOSE_NAME.test(basename(file))) reportCompose(contents, path, byPurl, report);
+      else reportTerraform(contents, path, byPurl, report, unclassified);
     }
 
-    findings.sort((left, right) => {
-      if (left.location.path !== right.location.path) return left.location.path < right.location.path ? -1 : 1;
-      return (left.location.line ?? 0) - (right.location.line ?? 0) || left.id.localeCompare(right.id);
-    });
-    unclassified.sort((left, right) => {
-      if (left.location.path !== right.location.path) return left.location.path < right.location.path ? -1 : 1;
-      return (left.location.line ?? 0) - (right.location.line ?? 0) || left.reference.localeCompare(right.reference);
-    });
+    sortFindings(findings);
+    unclassified.sort((left, right) => compareByLocation(left, right) || left.reference.localeCompare(right.reference));
     return { findings, unclassified };
   }
 }

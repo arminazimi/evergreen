@@ -6,6 +6,7 @@ import { relativePosix } from "../paths.js";
 import type { DeprecationRule } from "../domain.js";
 import { loadDataFile } from "../data-source.js";
 import { DETECTOR_API_VERSION, isDeprecationRule } from "../sdk.js";
+import { ruleFinding } from "../rule-finding.js";
 import { loadRegistryRules, validateRegistryV2 } from "../registry.js";
 import type { RegistryV2Rule } from "../registry.js";
 import { versContains } from "../vers.js";
@@ -222,18 +223,14 @@ function judgeSetupDotnet(
       (item) => versContains(item.vers, version.lowest) && versContains(item.vers, version.highest),
     );
     if (rule) {
-      findings.push({
-        id: `${rule.id}:${path}:${entry.line}`,
-        ruleId: rule.id,
-        title: rule.title,
-        summary: `${path} installs .NET ${entry.value} with actions/setup-dotnet. ${rule.summary}`,
-        severity: rule.severity,
-        location,
-        ...(rule.replacement ? { replacement: rule.replacement } : {}),
-        ...(rule.deadline ? { deadline: rule.deadline } : {}),
-        ...(rule.migration ? { migration: rule.migration } : {}),
-        sources: rule.sources,
-      });
+      findings.push(
+        ruleFinding(
+          rule,
+          path,
+          entry.line,
+          `${path} installs .NET ${entry.value} with actions/setup-dotnet. ${rule.summary}`,
+        ),
+      );
     } else if (
       rules.some((item) => versContains(item.vers, version.lowest) || versContains(item.vers, version.highest))
     ) {
@@ -279,18 +276,14 @@ function judgeSetupNode(
       (item) => versContains(item.vers, version.lowest) && versContains(item.vers, version.highest),
     );
     if (rule) {
-      findings.push({
-        id: `${rule.id}:${path}:${entry.line}`,
-        ruleId: rule.id,
-        title: rule.title,
-        summary: `${path} installs Node.js ${entry.value} with actions/setup-node. ${rule.summary}`,
-        severity: rule.severity,
-        location,
-        ...(rule.replacement ? { replacement: rule.replacement } : {}),
-        ...(rule.deadline ? { deadline: rule.deadline } : {}),
-        ...(rule.migration ? { migration: rule.migration } : {}),
-        sources: rule.sources,
-      });
+      findings.push(
+        ruleFinding(
+          rule,
+          path,
+          entry.line,
+          `${path} installs Node.js ${entry.value} with actions/setup-node. ${rule.summary}`,
+        ),
+      );
     } else if (
       rules.some((item) => versContains(item.vers, version.lowest) || versContains(item.vers, version.highest))
     ) {

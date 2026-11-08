@@ -143,6 +143,11 @@ export const SHARED_FILE_ECOSYSTEMS: ReadonlyArray<{ pattern: RegExp; ecosystems
     },
     { pattern: /^src\/workspaces\.ts$/, ecosystems: ["node", "python"], reason: "workspace discovery" },
     {
+      pattern: /^src\/rule-finding\.ts$/,
+      ecosystems: ["database", "deno", "dotnet", "go", "node-actions", "scala", "shell"],
+      reason: "rule findings",
+    },
+    {
       pattern: /^src\/purl\.ts$/,
       ecosystems: ["android", "cpp", "dart", "database", "deno", "java", "shell", "swift", "terraform"],
       reason: "package URLs",

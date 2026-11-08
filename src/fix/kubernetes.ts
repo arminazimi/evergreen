@@ -3,8 +3,8 @@ import { isAbsolute, relative, resolve } from "node:path";
 
 import { renderDiff } from "../agent-instructions.js";
 import { splitApiVersion } from "../detectors/kubernetes/api-version.js";
-import type { Finding } from "../domain.js";
-import type { FilePatch, Fixer } from "./types.js";
+import type { Finding, ScanResult } from "../domain.js";
+import type { FilePatch, Fixer, Refuse } from "./types.js";
 
 /**
  * The removed `apiVersion` values the Kubernetes deprecation guide moves with no schema change,
@@ -64,27 +64,32 @@ interface Targets {
   findings: Finding[];
 }
 
+function collectTargets(result: ScanResult, refuse: Refuse | undefined): Map<string, Targets> {
+  const targets = new Map<string, Targets>();
+  for (const finding of result.findings) {
+    if (finding.detector !== "kubernetes") continue;
+    if (finding.location.line === undefined) {
+      refuse?.(finding, "The finding names no line to rewrite.");
+      continue;
+    }
+    const edit = rewriteTarget(finding);
+    if (!edit) {
+      refuse?.(finding, refusedReason(finding));
+      continue;
+    }
+    const entry: Targets = targets.get(finding.location.path) ?? { lines: new Map(), findings: [] };
+    entry.lines.set(finding.location.line, edit);
+    entry.findings.push(finding);
+    targets.set(finding.location.path, entry);
+  }
+  return targets;
+}
+
 /** Rewrites the `apiVersion` of a removed API whose schema is unchanged; every other finding is left alone. */
 export const kubernetesApiVersionFixer: Fixer = {
   id: "kubernetes",
   async plan(result, refuse) {
-    const targets = new Map<string, Targets>();
-    for (const finding of result.findings) {
-      if (finding.detector !== "kubernetes") continue;
-      if (finding.location.line === undefined) {
-        refuse?.(finding, "The finding names no line to rewrite.");
-        continue;
-      }
-      const edit = rewriteTarget(finding);
-      if (!edit) {
-        refuse?.(finding, refusedReason(finding));
-        continue;
-      }
-      const entry: Targets = targets.get(finding.location.path) ?? { lines: new Map(), findings: [] };
-      entry.lines.set(finding.location.line, edit);
-      entry.findings.push(finding);
-      targets.set(finding.location.path, entry);
-    }
+    const targets = collectTargets(result, refuse);
 
     const patches: FilePatch[] = [];
     for (const [path, { lines, findings }] of [...targets].sort(([a], [b]) => a.localeCompare(b))) {

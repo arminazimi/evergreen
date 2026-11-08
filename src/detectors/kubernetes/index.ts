@@ -169,6 +169,22 @@ interface LocatedDependency {
   dependency: ChartDependencyDeclaration;
 }
 
+/** The API declarations in one candidate file, read the way its kind requires. */
+function apiDeclarations(kind: FileKind, contents: string): ApiDeclaration[] {
+  // Every declaration needs the key; this skips the parse for the many YAML files that have none.
+  if (kind !== "kustomization" && !contents.includes("apiVersion")) return [];
+  // Chart `templates/` always use the template reader. Outside a chart, committed `helm template`
+  // output (with `# Source: …/templates/…` headers) is multi-document YAML and is read as a
+  // manifest so rendered APIs are judged. Any other file that still contains `{{` is read as a
+  // template, so a declaration guarded by a cluster check is not mistaken for a plain manifest.
+  if (kind === "kustomization")
+    return parseKustomization(contents).filter((entry): entry is ApiDeclaration => entry.kind === "api");
+  if (kind === "template") return parseTemplate(contents);
+  return looksLikeHelmTemplateOutput(contents) || !contents.includes("{{")
+    ? parseManifest(contents)
+    : parseTemplate(contents);
+}
+
 async function declarations(root: string): Promise<{
   apis: Located[];
   dependencies: LocatedDependency[];
@@ -202,21 +218,7 @@ async function declarations(root: string): Promise<{
       continue;
     }
 
-    // Every declaration needs the key; this skips the parse for the many YAML files that have none.
-    if (kind !== "kustomization" && !contents.includes("apiVersion")) continue;
-    // Chart `templates/` always use the template reader. Outside a chart, committed `helm template`
-    // output (with `# Source: …/templates/…` headers) is multi-document YAML and is read as a
-    // manifest so rendered APIs are judged. Any other file that still contains `{{` is read as a
-    // template, so a declaration guarded by a cluster check is not mistaken for a plain manifest.
-    const found =
-      kind === "kustomization"
-        ? parseKustomization(contents).filter((entry): entry is ApiDeclaration => entry.kind === "api")
-        : kind === "template"
-          ? parseTemplate(contents)
-          : looksLikeHelmTemplateOutput(contents) || !contents.includes("{{")
-            ? parseManifest(contents)
-            : parseTemplate(contents);
-    for (const declaration of found) apis.push({ path, declaration });
+    for (const declaration of apiDeclarations(kind, contents)) apis.push({ path, declaration });
   }
   return { apis, dependencies, unclassified };
 }

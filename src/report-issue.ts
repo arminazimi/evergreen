@@ -35,6 +35,26 @@ export function redactPath(path: string): string {
   return basename(path);
 }
 
+/** The redacted lines around the finding, and the number of the first one. */
+async function readExcerpt(
+  target: string,
+  finding: Finding,
+  absoluteRoot: string,
+): Promise<{ excerpt: string; firstLine: number }> {
+  try {
+    const lines = (await readFile(target, "utf8")).split(/\r?\n/);
+    const center = finding.location.line ?? 1;
+    const firstLine = Math.max(1, center - CONTEXT_LINES);
+    const excerpt = lines
+      .slice(firstLine - 1, center + CONTEXT_LINES)
+      .map((text) => redactLine(text, absoluteRoot))
+      .join("\n");
+    return { excerpt, firstLine };
+  } catch {
+    throw new ReportIssueError(`Could not read ${finding.location.path} to build the excerpt.`);
+  }
+}
+
 /**
  * Builds a Markdown body for a false-positive report: the rule, its evidence, and a few lines of the declaring file.
  * Nothing else from the repository is included, and nothing is sent anywhere; the caller decides what to do with the text.
@@ -49,19 +69,7 @@ export async function createIssueReport(root: string, finding: Finding): Promise
 
   const file = redactPath(finding.location.path);
   const line = finding.location.line;
-  let excerpt = "";
-  let firstLine = 1;
-  try {
-    const lines = (await readFile(target, "utf8")).split(/\r?\n/);
-    const center = line ?? 1;
-    firstLine = Math.max(1, center - CONTEXT_LINES);
-    excerpt = lines
-      .slice(firstLine - 1, center + CONTEXT_LINES)
-      .map((text) => redactLine(text, absoluteRoot))
-      .join("\n");
-  } catch {
-    throw new ReportIssueError(`Could not read ${finding.location.path} to build the excerpt.`);
-  }
+  const { excerpt, firstLine } = await readExcerpt(target, finding, absoluteRoot);
 
   const sources = finding.sources.map((source) => `- [${source.title}](${source.url})`).join("\n");
   return [

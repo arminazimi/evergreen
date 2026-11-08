@@ -273,14 +273,73 @@ function isExpired(entry: BaselineEntry, today: string | undefined): entry is Ba
  * Applies a baseline and also returns the suppressions that had expired, so a caller that enforces the `fail`
  * policy knows. `applyBaseline` is the same without that list. The expired list is not part of the scan result.
  */
+function indexByFingerprint(baseline: Baseline): Map<string, BaselineEntry[]> {
+  const byFingerprint = new Map<string, BaselineEntry[]>();
+  for (const entry of baseline.findings)
+    byFingerprint.set(entry.fingerprint, [...(byFingerprint.get(entry.fingerprint) ?? []), entry]);
+  return byFingerprint;
+}
+
+function expiredFrom(entry: BaselineEntry & { expires: string }, today: string | undefined): ExpiredSuppression {
+  return {
+    ruleId: entry.ruleId,
+    path: entry.path,
+    expires: entry.expires,
+    daysAgo: daysBetween(entry.expires, required(today, "reference day")),
+    ...(entry.owner ? { owner: entry.owner } : {}),
+    ...(entry.reason ? { reason: entry.reason } : {}),
+  };
+}
+
+function suppressionRef(entry: BaselineEntry & { expires: string }, extra: object): SuppressionRef {
+  return {
+    ruleId: entry.ruleId,
+    path: entry.path,
+    expires: entry.expires,
+    ...(entry.owner ? { owner: entry.owner } : {}),
+    ...(entry.reason ? { reason: entry.reason } : {}),
+    ...extra,
+  };
+}
+
+function sortExpired(expired: readonly ExpiredSuppression[]): ExpiredSuppression[] {
+  return [...new Map(expired.map((entry) => [`${entry.ruleId}:${entry.path}:${entry.expires}`, entry])).values()].sort(
+    (left, right) =>
+      right.daysAgo - left.daysAgo || left.ruleId.localeCompare(right.ruleId) || left.path.localeCompare(right.path),
+  );
+}
+
+function suppressionState(
+  hidden: number,
+  expired: readonly ExpiredSuppression[],
+  expiring: ReturnType<typeof expiringSuppressions>,
+  options: ApplyBaselineOptions,
+): SuppressionState {
+  return {
+    suppressed: hidden,
+    ...(options.today === undefined
+      ? {}
+      : { today: options.today, warnWithinDays: options.warnWithinDays ?? DEFAULT_WARN_DAYS }),
+    expiring: expiring.map((entry) =>
+      suppressionRef(entry as BaselineEntry & { expires: string }, { daysLeft: entry.daysLeft }),
+    ),
+    expired: expired.map((entry) => ({
+      ruleId: entry.ruleId,
+      path: entry.path,
+      expires: entry.expires,
+      ...(entry.owner ? { owner: entry.owner } : {}),
+      ...(entry.reason ? { reason: entry.reason } : {}),
+      daysAgo: entry.daysAgo,
+    })),
+  };
+}
+
 export function evaluateBaseline(
   result: ScanResult,
   baseline: Baseline,
   options: ApplyBaselineOptions = {},
 ): { result: ScanResult; expired: ExpiredSuppression[] } {
-  const byFingerprint = new Map<string, BaselineEntry[]>();
-  for (const entry of baseline.findings)
-    byFingerprint.set(entry.fingerprint, [...(byFingerprint.get(entry.fingerprint) ?? []), entry]);
+  const byFingerprint = indexByFingerprint(baseline);
   const matched: BaselineEntry[] = [];
   const expired: ExpiredSuppression[] = [];
   const findings = result.findings.filter((finding) => {
@@ -290,16 +349,7 @@ export function evaluateBaseline(
     const live = entries.filter((entry) => !isExpired(entry, options.today));
     if (live.length === 0) {
       for (const entry of entries) {
-        if (isExpired(entry, options.today)) {
-          expired.push({
-            ruleId: entry.ruleId,
-            path: entry.path,
-            expires: entry.expires,
-            daysAgo: daysBetween(entry.expires, required(options.today, "reference day")),
-            ...(entry.owner ? { owner: entry.owner } : {}),
-            ...(entry.reason ? { reason: entry.reason } : {}),
-          });
-        }
+        if (isExpired(entry, options.today)) expired.push(expiredFrom(entry, options.today));
       }
       return true;
     }
@@ -307,12 +357,7 @@ export function evaluateBaseline(
     return false;
   });
   const hidden = result.findings.length - findings.length;
-  const expiredSorted = [
-    ...new Map(expired.map((entry) => [`${entry.ruleId}:${entry.path}:${entry.expires}`, entry])).values(),
-  ].sort(
-    (left, right) =>
-      right.daysAgo - left.daysAgo || left.ruleId.localeCompare(right.ruleId) || left.path.localeCompare(right.path),
-  );
+  const expiredSorted = sortExpired(expired);
   const expiringEntries =
     options.today === undefined
       ? []
@@ -321,31 +366,7 @@ export function evaluateBaseline(
           options.today,
           options.warnWithinDays ?? DEFAULT_WARN_DAYS,
         );
-  const ref = (entry: BaselineEntry & { expires: string }, extra: object): SuppressionRef => ({
-    ruleId: entry.ruleId,
-    path: entry.path,
-    expires: entry.expires,
-    ...(entry.owner ? { owner: entry.owner } : {}),
-    ...(entry.reason ? { reason: entry.reason } : {}),
-    ...extra,
-  });
-  const suppressions: SuppressionState = {
-    suppressed: hidden,
-    ...(options.today === undefined
-      ? {}
-      : { today: options.today, warnWithinDays: options.warnWithinDays ?? DEFAULT_WARN_DAYS }),
-    expiring: expiringEntries.map((entry) =>
-      ref(entry as BaselineEntry & { expires: string }, { daysLeft: entry.daysLeft }),
-    ),
-    expired: expiredSorted.map((entry) => ({
-      ruleId: entry.ruleId,
-      path: entry.path,
-      expires: entry.expires,
-      ...(entry.owner ? { owner: entry.owner } : {}),
-      ...(entry.reason ? { reason: entry.reason } : {}),
-      daysAgo: entry.daysAgo,
-    })),
-  };
+  const suppressions = suppressionState(hidden, expiredSorted, expiringEntries, options);
   return {
     result: {
       ...result,

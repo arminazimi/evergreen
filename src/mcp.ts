@@ -15,16 +15,7 @@ export { MCP_OUTPUT_SCHEMA_FILES, MCP_TOOL_ANNOTATIONS, MCP_TOOL_NAMES } from ".
 export const FINDING_URI_PREFIX = "evergreen://findings/";
 const findingUri = (key: string, id: string) => `${FINDING_URI_PREFIX}${key}/${encodeURIComponent(id)}`;
 
-/** Builds the MCP server with its tools, prompts, and lifecycle-rule resources registered. */
-export function createEvergreenMcpServer(tools = new EvergreenAgentTools()): McpServer {
-  const server = new McpServer(
-    { name: "evergreen", version: VERSION },
-    {
-      instructions:
-        "Evergreen performs deterministic deprecation analysis inside the local process. Repository contents are never sent over the network. Scan before editing, create migration context, then verify the previously observed finding.",
-    },
-  );
-
+function registerRuleResource(server: McpServer): void {
   server.registerResource(
     "lifecycle-rule",
     new ResourceTemplate(`${RULE_URI_PREFIX}{id}`, {
@@ -58,7 +49,9 @@ export function createEvergreenMcpServer(tools = new EvergreenAgentTools()): Mcp
       };
     },
   );
+}
 
+function registerFindingResource(server: McpServer, tools: EvergreenAgentTools): void {
   server.registerResource(
     "observed-finding",
     new ResourceTemplate(`${FINDING_URI_PREFIX}{repository}/{id}`, {
@@ -92,7 +85,9 @@ export function createEvergreenMcpServer(tools = new EvergreenAgentTools()): Mcp
       };
     },
   );
+}
 
+function registerMigratePrompt(server: McpServer, tools: EvergreenAgentTools): void {
   server.registerPrompt(
     MIGRATE_FINDING_PROMPT,
     {
@@ -133,7 +128,21 @@ export function createEvergreenMcpServer(tools = new EvergreenAgentTools()): Mcp
       };
     },
   );
+}
 
+/** Builds the MCP server with its tools, prompts, and lifecycle-rule resources registered. */
+export function createEvergreenMcpServer(tools = new EvergreenAgentTools()): McpServer {
+  const server = new McpServer(
+    { name: "evergreen", version: VERSION },
+    {
+      instructions:
+        "Evergreen performs deterministic deprecation analysis inside the local process. Repository contents are never sent over the network. Scan before editing, create migration context, then verify the previously observed finding.",
+    },
+  );
+
+  registerRuleResource(server);
+  registerFindingResource(server, tools);
+  registerMigratePrompt(server, tools);
   registerMcpTools(server, tools);
 
   return server;

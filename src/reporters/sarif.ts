@@ -41,15 +41,9 @@ function sarifHelp(finding: Finding): { text: string; markdown: string } {
   return { text: text.join("\n\n"), markdown: markdown.join("\n\n") };
 }
 
-/**
- * Renders a scan as one SARIF 2.1.0 run. Output is deterministic: rules and results are sorted, paths are
- * repository-relative with forward slashes, and nothing machine-specific (root, time) is included. Only
- * locations and Evergreen's own rule text are written; no source content is uploaded.
- */
-export function renderSarif(result: ScanResult): string {
-  const findings = [...result.findings].sort(findingOrder);
-  const ruleIds = [...new Set(findings.map((finding) => finding.ruleId))].sort(compare);
-  const rules = ruleIds.flatMap((ruleId) => {
+/** One SARIF rule descriptor per rule id, taken from its first finding. */
+function sarifRules(findings: readonly Finding[], ruleIds: readonly string[]) {
+  return ruleIds.flatMap((ruleId) => {
     const finding = findings.find((candidate) => candidate.ruleId === ruleId);
     if (!finding) return [];
     return [
@@ -64,6 +58,37 @@ export function renderSarif(result: ScanResult): string {
       },
     ];
   });
+}
+
+/** One SARIF result for a finding. */
+function sarifResult(finding: Finding, ruleIds: readonly string[]) {
+  return {
+    ruleId: finding.ruleId,
+    ruleIndex: ruleIds.indexOf(finding.ruleId),
+    level: SARIF_LEVEL[finding.severity],
+    message: { text: finding.summary },
+    locations: [
+      {
+        physicalLocation: {
+          artifactLocation: { uri: finding.location.path, uriBaseId: "%SRCROOT%" },
+          ...(finding.location.line ? { region: { startLine: finding.location.line } } : {}),
+        },
+      },
+    ],
+    partialFingerprints: { "evergreenFindingId/v1": finding.id },
+    properties: { confidence: finding.confidence },
+  };
+}
+
+/**
+ * Renders a scan as one SARIF 2.1.0 run. Output is deterministic: rules and results are sorted, paths are
+ * repository-relative with forward slashes, and nothing machine-specific (root, time) is included. Only
+ * locations and Evergreen's own rule text are written; no source content is uploaded.
+ */
+export function renderSarif(result: ScanResult): string {
+  const findings = [...result.findings].sort(findingOrder);
+  const ruleIds = [...new Set(findings.map((finding) => finding.ruleId))].sort(compare);
+  const rules = sarifRules(findings, ruleIds);
 
   const sarif = {
     $schema: SARIF_SCHEMA,
@@ -90,22 +115,7 @@ export function renderSarif(result: ScanResult): string {
               },
             }
           : {}),
-        results: findings.map((finding) => ({
-          ruleId: finding.ruleId,
-          ruleIndex: ruleIds.indexOf(finding.ruleId),
-          level: SARIF_LEVEL[finding.severity],
-          message: { text: finding.summary },
-          locations: [
-            {
-              physicalLocation: {
-                artifactLocation: { uri: finding.location.path, uriBaseId: "%SRCROOT%" },
-                ...(finding.location.line ? { region: { startLine: finding.location.line } } : {}),
-              },
-            },
-          ],
-          partialFingerprints: { "evergreenFindingId/v1": finding.id },
-          properties: { confidence: finding.confidence },
-        })),
+        results: findings.map((finding) => sarifResult(finding, ruleIds)),
       },
     ],
   };

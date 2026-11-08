@@ -185,6 +185,42 @@ function rejection(
 
 class LookupTimeoutError extends Error {}
 
+/** Serves the request through the handler, aborting it when the deadline passes or the caller goes away. */
+async function runWithDeadline(
+  handler: LookupFetchHandler,
+  request: Request,
+  body: Uint8Array<ArrayBuffer> | undefined,
+  timeoutMs: number,
+): Promise<Response> {
+  const controller = new AbortController();
+  const abort = () => controller.abort(request.signal.reason);
+  if (request.signal.aborted) abort();
+  else request.signal.addEventListener("abort", abort, { once: true });
+
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const deadline = new Promise<never>((_resolve, rejectDeadline) => {
+    timer = setTimeout(() => {
+      controller.abort();
+      rejectDeadline(new LookupTimeoutError());
+    }, timeoutMs);
+  });
+  const pending = Promise.resolve().then(() => handler(withBody(request, body, controller.signal)));
+  pending.catch(() => undefined);
+
+  try {
+    return await Promise.race([pending, deadline]);
+  } catch (error) {
+    if (error instanceof LookupTimeoutError) {
+      return rejection("timed_out", `Request timed out after ${timeoutMs} ms.`, requestId(body));
+    }
+    controller.abort();
+    return rejection("internal_error", "Evergreen could not handle the request.", requestId(body));
+  } finally {
+    if (timer !== undefined) clearTimeout(timer);
+    request.signal.removeEventListener("abort", abort);
+  }
+}
+
 /** Wraps a fetch-shaped MCP handler with the lookup's request limits. */
 export function createLookupGuard(handler: LookupFetchHandler, options: LookupGuardOptions = {}): LookupGuard {
   const { now = Date.now } = options;
@@ -210,33 +246,7 @@ export function createLookupGuard(handler: LookupFetchHandler, options: LookupGu
         return rejection("request_too_large", `Request body exceeds the ${limits.maxBodyBytes}-byte limit.`, null);
       }
 
-      const controller = new AbortController();
-      const abort = () => controller.abort(request.signal.reason);
-      if (request.signal.aborted) abort();
-      else request.signal.addEventListener("abort", abort, { once: true });
-
-      let timer: ReturnType<typeof setTimeout> | undefined;
-      const deadline = new Promise<never>((_resolve, rejectDeadline) => {
-        timer = setTimeout(() => {
-          controller.abort();
-          rejectDeadline(new LookupTimeoutError());
-        }, limits.timeoutMs);
-      });
-      const pending = Promise.resolve().then(() => handler(withBody(request, body, controller.signal)));
-      pending.catch(() => undefined);
-
-      try {
-        return await Promise.race([pending, deadline]);
-      } catch (error) {
-        if (error instanceof LookupTimeoutError) {
-          return rejection("timed_out", `Request timed out after ${limits.timeoutMs} ms.`, requestId(body));
-        }
-        controller.abort();
-        return rejection("internal_error", "Evergreen could not handle the request.", requestId(body));
-      } finally {
-        if (timer !== undefined) clearTimeout(timer);
-        request.signal.removeEventListener("abort", abort);
-      }
+      return runWithDeadline(handler, request, body, limits.timeoutMs);
     },
     clientCount: () => buckets.size,
   };
