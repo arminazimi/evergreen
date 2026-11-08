@@ -1,0 +1,1 @@
+- Add a seeded manual-review sample of 30 to 50 corpus repositories per ecosystem, with a tool that records each reviewer's verdicts and reports precision and recall with 95% confidence intervals.
