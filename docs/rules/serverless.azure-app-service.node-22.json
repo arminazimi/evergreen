@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "serverless.azure-app-service.node-22",
   "ecosystem": "serverless",
   "purl": "pkg:generic/azure-app-service/node",

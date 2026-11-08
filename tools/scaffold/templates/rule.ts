@@ -1,7 +1,7 @@
 import type { RuleScaffoldNames } from "../names.js";
 
 /**
- * A valid `evergreen.registry.v2` rule that nothing reports in a real scan: the purl is generic, so no detector
+ * A valid `ebb.registry.v2` rule that nothing reports in a real scan: the purl is generic, so no detector
  * matches it, and only the usage matcher sees the fixture. The author replaces every placeholder with evidence.
  */
 export function ruleTemplate(names: RuleScaffoldNames, today: string): Record<string, unknown> {

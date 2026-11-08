@@ -273,7 +273,7 @@ export async function loadRulesFromBundle(bundlePath: string): Promise<RegistryV
       if (
         file &&
         typeof file === "object" &&
-        (file as { schemaVersion?: string }).schemaVersion === "evergreen.registry.v2"
+        (file as { schemaVersion?: string }).schemaVersion === "ebb.registry.v2"
       ) {
         rules.push(...validateRegistryV2(file).rules);
       }
@@ -290,7 +290,7 @@ export async function loadRules(source = "packages/ebb/registry"): Promise<Regis
     for (const name of (await readdir(source)).sort()) {
       if (!name.endsWith(".json")) continue;
       const value = JSON.parse(await readFile(join(source, name), "utf8")) as { schemaVersion?: string };
-      if (value.schemaVersion === "evergreen.registry.v2") rules.push(...validateRegistryV2(value).rules);
+      if (value.schemaVersion === "ebb.registry.v2") rules.push(...validateRegistryV2(value).rules);
     }
     return rules;
   }

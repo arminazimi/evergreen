@@ -6,7 +6,7 @@
   "required": ["schemaVersion", "root", "today", "until", "months", "groups", "affecting", "total"],
   "additionalProperties": false,
   "properties": {
-    "schemaVersion": { "const": "evergreen.forecast.v1" },
+    "schemaVersion": { "const": "ebb.forecast.v1" },
     "root": { "type": "string" },
     "today": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
     "until": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },

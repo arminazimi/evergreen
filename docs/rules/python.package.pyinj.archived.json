@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "python.package.pyinj.archived",
   "ecosystem": "python",
   "purl": "pkg:pypi/pyinj",

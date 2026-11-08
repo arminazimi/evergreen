@@ -56,7 +56,7 @@ No built-in detector reads `osv` declarations yet; the rule is data in the [life
 
 ## Data
 
-This page is generated from [`registry/osv.json`](https://github.com/arminazimi/evergreen/blob/main/registry/osv.json), rule `osv.pypi.pycrypto`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+This page is generated from [`registry/osv.json`](https://github.com/arminazimi/evergreen/blob/main/registry/osv.json), rule `osv.pypi.pycrypto`, in the `ebb.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
 
 <script type="application/ld+json">
 {

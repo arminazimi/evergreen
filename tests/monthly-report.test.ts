@@ -25,7 +25,7 @@ test("collectRuleMetrics aggregates rules from registry JSON files", async () =>
   const tempDir = await mkdtemp(join(tmpdir(), "evergreen-test-registry-"));
   try {
     const mockRegistry = {
-      schemaVersion: "evergreen.registry.v2",
+      schemaVersion: "ebb.registry.v2",
       ecosystem: "test-eco",
       rules: [
         {

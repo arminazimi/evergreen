@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "database.redis.end-of-life-7.0",
   "ecosystem": "database",
   "purl": "pkg:generic/redis",

@@ -17,7 +17,7 @@ import { REGISTRY_V2_SCHEMA_VERSION, staleRules, validateRegistryV2 } from "@vel
 import type { RegistryV2, StaleRule } from "@velella/ebb/registry";
 
 export const SOURCE_CHECK_SCHEMA = "evergreen.source-check.v1" as const;
-export const SOURCE_LOCK_SCHEMA = "evergreen.source-lock.v1" as const;
+export const SOURCE_LOCK_SCHEMA = "ebb.source-lock.v1" as const;
 
 export interface SourceObservation {
   /** HTTP status of the final response, or null when the request failed. */

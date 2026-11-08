@@ -185,10 +185,7 @@ test("the example importer turns a feed into drafts and notes what it skips", as
     ],
   );
   assert.deepEqual(result.notes, ['Skipped mystery: unknown status "sunsetting".']);
-  assert.deepEqual(
-    registryV2Issues({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: result.rules }),
-    [],
-  );
+  assert.deepEqual(registryV2Issues({ schemaVersion: "ebb.registry.v2", ecosystem: "npm", rules: result.rules }), []);
   assert.equal(result.rules[0]!["x-npm"]?.package, "acme-widget");
 });
 
@@ -243,7 +240,7 @@ test("no bundled rule is waiting for review", async () => {
       schemaVersion?: string;
       rules?: { id: string; provenance: { reviewer: string } }[];
     };
-    if (registry.schemaVersion !== "evergreen.registry.v2") continue;
+    if (registry.schemaVersion !== "ebb.registry.v2") continue;
     for (const rule of registry.rules ?? [])
       assert.notEqual(rule.provenance.reviewer, PENDING_REVIEWER, `${name}: ${rule.id}`);
   }

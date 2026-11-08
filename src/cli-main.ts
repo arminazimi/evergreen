@@ -4,7 +4,7 @@ import { commands } from "./commands/index.generated.js";
 import { bindContext, createCommandContext, fail } from "./commands/runtime.js";
 import { isCompletionShell, renderCompletions, renderHelp } from "./completions.js";
 import { unexpectedFailure } from "./errors.js";
-import { EvergreenError } from "@velella/ebb/evergreen-error";
+import { classifyError } from "./evergreen-error.js";
 import { VERSION } from "./version.js";
 
 const HELP = renderHelp(commands);
@@ -38,10 +38,10 @@ export async function run(rawArgs: readonly string[] = process.argv.slice(2)): P
   try {
     return await main(rawArgs);
   } catch (error) {
-    if (error instanceof EvergreenError && error.kind !== "internal") {
-      return fail(error.kind, error.message, "", error.code);
-    }
+    const { code, kind } = classifyError(error);
+    // Only Evergreen and Ebb errors classify as anything but internal, and both are Errors.
+    if (kind !== "internal" && error instanceof Error) return fail(kind, error.message, "", code);
     const { message, appendix } = unexpectedFailure(error, rawArgs.includes("--debug"));
-    return fail("internal", message, appendix, error instanceof EvergreenError ? error.code : "internal");
+    return fail("internal", message, appendix, code);
   }
 }

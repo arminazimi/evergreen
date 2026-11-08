@@ -64,7 +64,7 @@ test("rejects invalid versions", () => {
   }
 });
 
-test("matches the Python runtime ranges Evergreen registry rules use", () => {
+test("matches the Python runtime ranges Ebb registry rules use", () => {
   assert.equal(versContains("vers:pypi/<3.10", "3.9"), true);
   assert.equal(versContains("vers:pypi/<3.10", "3.9.18"), true);
   assert.equal(versContains("vers:pypi/<3.10", "3.10"), false);

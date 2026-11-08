@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "python.runtime.eol-3.9-and-older",
   "ecosystem": "python",
   "purl": "pkg:generic/python",

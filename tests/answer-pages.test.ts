@@ -48,7 +48,7 @@ const rule = (overrides: Partial<RegistryV2Rule> = {}): RegistryV2Rule => ({
 });
 
 const registry = (rules: RegistryV2Rule[]): RegistryV2 => ({
-  schemaVersion: "evergreen.registry.v2",
+  schemaVersion: "ebb.registry.v2",
   ecosystem: "demo",
   rules,
 });

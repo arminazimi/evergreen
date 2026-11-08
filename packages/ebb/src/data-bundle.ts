@@ -3,9 +3,9 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 import { DEFAULT_MAX_REVIEW_AGE_DAYS, validateRegistryV2 } from "./registry.js";
-import { EvergreenError } from "./evergreen-error.js";
+import { EbbError } from "./errors.js";
 
-export const DATA_BUNDLE_SCHEMA_VERSION = "evergreen.data-bundle.v1" as const;
+export const DATA_BUNDLE_SCHEMA_VERSION = "ebb.data-bundle.v1" as const;
 
 /** The registries a bundle carries, in the order they are listed. The SHA map is carried as kind "sha-map". */
 export const BUNDLED_ECOSYSTEMS = [
@@ -45,7 +45,7 @@ const SHA_MAP_PATH = "registry/github-actions-shas.json";
 export const DATA_SIGNER = {
   issuer: "https://token.actions.githubusercontent.com",
   identityPattern:
-    "^https://github\\.com/arminazimi/evergreen/\\.github/workflows/data-release\\.yml@refs/(?:tags/data-v\\d{4}\\.\\d{2}\\.\\d{2}(?:\\.\\d+)?|heads/main)$",
+    "^https://github\\.com/velella-sh/ebb/\\.github/workflows/data-release\\.yml@refs/(?:tags/data-v\\d{4}\\.\\d{2}\\.\\d{2}(?:\\.\\d+)?|heads/main)$",
 } as const;
 
 export interface DataBundleFile {
@@ -63,7 +63,7 @@ export interface DataBundleManifest {
   schemaVersion: typeof DATA_BUNDLE_SCHEMA_VERSION;
   version: string;
   createdAt: string;
-  minimumEvergreenVersion: string;
+  minimumEbbVersion: string;
   contentDigest: string;
   files: DataBundleFile[];
 }
@@ -73,7 +73,7 @@ export interface DataBundle {
   files: Record<string, Record<string, unknown>>;
 }
 
-export class DataBundleError extends EvergreenError {
+export class DataBundleError extends EbbError {
   constructor(message: string) {
     super("data-unavailable", message);
     this.name = "DataBundleError";
@@ -123,7 +123,7 @@ export interface BuildOptions {
   createdAt: string;
   /** Bundles on the same day take a revision: 2026.10.16 is revision 1, 2026.10.16.2 is revision 2. */
   revision?: number;
-  minimumEvergreenVersion: string;
+  minimumEbbVersion: string;
 }
 
 export function bundleVersion(createdAt: string, revision = 1): string {
@@ -177,7 +177,7 @@ export async function buildDataBundle(options: BuildOptions): Promise<DataBundle
       schemaVersion: DATA_BUNDLE_SCHEMA_VERSION,
       version,
       createdAt: options.createdAt,
-      minimumEvergreenVersion: options.minimumEvergreenVersion,
+      minimumEbbVersion: options.minimumEbbVersion,
       contentDigest: computeContentDigest(entries),
       files: entries,
     },
@@ -241,7 +241,7 @@ const PATH_PATTERN = /^registry\/[a-z0-9][a-z0-9-]*\.json$/;
 const MANIFEST_STRING_FIELDS: ReadonlyArray<readonly [key: string, pattern: RegExp, problem: string]> = [
   ["version", VERSION_PATTERN, "The version must look like 2026.10.16."],
   ["createdAt", CREATED_AT_PATTERN, "createdAt must be UTC like 2026-10-16T09:30:00Z."],
-  ["minimumEvergreenVersion", SEMVER_PATTERN, "minimumEvergreenVersion must be a semantic version."],
+  ["minimumEbbVersion", SEMVER_PATTERN, "minimumEbbVersion must be a semantic version."],
   ["contentDigest", /^sha256:[a-f0-9]{64}$/, "The content digest is malformed."],
 ];
 

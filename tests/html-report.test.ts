@@ -48,7 +48,7 @@ const forecastOf = (events: ForecastEvent[]): Forecast => {
   for (const event of events)
     groups.set(event.date.slice(0, 7), [...(groups.get(event.date.slice(0, 7)) ?? []), event]);
   return {
-    schemaVersion: "evergreen.forecast.v1",
+    schemaVersion: "ebb.forecast.v1",
     root: "/machine/specific/root",
     today: "2026-10-16",
     until: "2027-10-16",

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "kubernetes.discovery-k8s-io.endpointslice.v1beta1.removed",
   "ecosystem": "kubernetes",
   "purl": "pkg:generic/kubernetes/discovery.k8s.io/EndpointSlice",

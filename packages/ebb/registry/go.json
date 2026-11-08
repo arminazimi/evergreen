@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.registry.v2",
+  "schemaVersion": "ebb.registry.v2",
   "ecosystem": "go",
   "freshness": {
     "maxReviewAgeDays": 180

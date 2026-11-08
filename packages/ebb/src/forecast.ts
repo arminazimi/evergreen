@@ -37,7 +37,7 @@ export interface ForecastMonth {
 }
 
 export interface Forecast {
-  schemaVersion: "evergreen.forecast.v1";
+  schemaVersion: "ebb.forecast.v1";
   root: string;
   today: string;
   until: string;
@@ -135,7 +135,7 @@ export function buildForecast(
 
   const groups = groupByMonth(events);
   return {
-    schemaVersion: "evergreen.forecast.v1",
+    schemaVersion: "ebb.forecast.v1",
     root: result.root,
     today,
     until,

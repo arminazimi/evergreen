@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "rust.crate.tempdir.unmaintained",
   "ecosystem": "rust",
   "purl": "pkg:cargo/tempdir",

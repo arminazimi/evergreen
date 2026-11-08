@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "python.symbol.pkgutil.find-loader",
   "ecosystem": "python",
   "purl": "pkg:generic/python",

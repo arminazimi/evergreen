@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 import { renderDiff } from "../agent-instructions.js";
 import { analyzeDrift, driftCollectors } from "./index.js";
 import type { DriftCollector, DriftReport, RuntimeDrift, RuntimePin } from "./types.js";
-import { EvergreenError } from "@velella/ebb/evergreen-error";
+import { EvergreenError } from "../evergreen-error.js";
 
 const USAGE = "Usage: evergreen drift [path] [--json] [--check] [--runtime <id>] [--align <release>]";
 

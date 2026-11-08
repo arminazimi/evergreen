@@ -109,7 +109,7 @@ The id is the detector's stable identifier (lowercase letters, digits, and singl
 | --- | --- |
 | `src/detectors/<id>.ts` | The detector. It imports only the public SDK, reports nothing yet, and says in its header what to do next. |
 | `src/detectors/<id>/parse.ts` | A pure, bounded parser: contents in, `{ value, line }` declarations out. Its header lists the rules it keeps and a place to document the forms it deliberately does not read. |
-| `packages/ebb/registry/<id>.json` | An empty `evergreen.registry.v2` registry for your rules ([Lifecycle rules](RULES.md)). |
+| `packages/ebb/registry/<id>.json` | An empty `ebb.registry.v2` registry for your rules ([Lifecycle rules](RULES.md)). |
 | `tests/<id>-detector.test.ts` | The conformance suite (determinism, zero-finding, malformed input) against the generated fixtures. |
 | `tests/<id>-parse.test.ts` | The invariants every parser keeps: no throw on junk, bounded input and lines, determinism, 1-based lines. |
 | `tests/fixtures/<id>/` | A README with a table of cases, and `zero/` and `malformed/` fixtures to replace with real ones. |

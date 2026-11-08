@@ -153,7 +153,7 @@ test("drafts one form-factor rule per Play targetSdk floor from the recording", 
 
 test("recorded drafts are additions against an unrelated inline Android registry", async () => {
   const registry: RegistryV2 = {
-    schemaVersion: "evergreen.registry.v2",
+    schemaVersion: "ebb.registry.v2",
     ecosystem: "android",
     rules: [
       {

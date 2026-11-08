@@ -141,7 +141,7 @@ export function renderCountdown(rows: readonly CountdownRow[], options: Countdow
 
 /** The `--json` document: the rows exactly as the text frame counts them down. */
 export function renderCountdownJson(rows: readonly CountdownRow[], now: number): string {
-  return JSON.stringify({ schemaVersion: "evergreen.countdown.v1", asOf: new Date(now).toISOString(), rows }, null, 2);
+  return JSON.stringify({ schemaVersion: "ebb.countdown.v1", asOf: new Date(now).toISOString(), rows }, null, 2);
 }
 
 export interface CountdownIo {

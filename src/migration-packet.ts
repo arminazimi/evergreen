@@ -9,7 +9,7 @@ import type {
   SourceUsage,
   VerificationCommand,
 } from "./domain.js";
-import { EvergreenError } from "@velella/ebb/evergreen-error";
+import { EvergreenError } from "./evergreen-error.js";
 import { runtimeConflicts } from "./runtime-pin.js";
 import type { PinnedRuntimes } from "./runtime-pin.js";
 

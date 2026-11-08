@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import * as z from "zod/v4";
 
 import type { EvergreenAgentTools } from "../../agent-tools.js";
-import { EvergreenError } from "@velella/ebb/evergreen-error";
+import { EvergreenError } from "../../evergreen-error.js";
 import { checkUpgrade, parseUpgradeTarget } from "../../upgrade/index.js";
 import { failure, registerMcpTool, success } from "../tool-support.js";
 

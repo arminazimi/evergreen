@@ -34,7 +34,7 @@ test("rejects invalid versions", () => {
   assert.throws(() => validateVersVersions("vers:npm/<next"), VersError);
 });
 
-test("matches the ranges Evergreen registry rules use", () => {
+test("matches the ranges Ebb registry rules use", () => {
   assert.equal(versContains("vers:npm/*", "2.88.2"), true);
   assert.equal(versContains("vers:semver/<5.0.0", "4.2.1"), true);
   assert.equal(versContains("vers:semver/<5.0.0", "5.0.0"), false);

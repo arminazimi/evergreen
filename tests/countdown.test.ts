@@ -37,7 +37,7 @@ const event = (title: string, date: string, ruleId: string, findings = true): Fo
 });
 
 const forecastOf = (events: ForecastEvent[]): Forecast => ({
-  schemaVersion: "evergreen.forecast.v1",
+  schemaVersion: "ebb.forecast.v1",
   root: "/repo",
   today: "2026-10-25",
   until: "2028-10-25",
@@ -134,7 +134,7 @@ test("the JSON document carries the five row fields and a fixed as-of instant", 
     asOf: string;
     rows: Array<Record<string, unknown>>;
   };
-  assert.equal(parsed.schemaVersion, "evergreen.countdown.v1");
+  assert.equal(parsed.schemaVersion, "ebb.countdown.v1");
   assert.equal(parsed.asOf, "2026-10-25T00:00:00.000Z");
   assert.deepEqual(Object.keys(parsed.rows[0]!).sort(), [
     "deadline",
@@ -249,7 +249,7 @@ test("the CLI prints one plain frame off a terminal and a JSON document with --j
     schemaVersion: string;
     rows: Array<{ ruleId: string; deadline: string; remainingSeconds: number }>;
   };
-  assert.equal(parsed.schemaVersion, "evergreen.countdown.v1");
+  assert.equal(parsed.schemaVersion, "ebb.countdown.v1");
   assert.equal(parsed.rows[0]!.ruleId, "nodejs.runtime.eol-22");
   assert.equal(parsed.rows[0]!.deadline, "2027-04-30");
   assert.equal(parsed.rows[0]!.remainingSeconds, (Date.parse("2027-04-30T00:00:00Z") - now) / 1000);

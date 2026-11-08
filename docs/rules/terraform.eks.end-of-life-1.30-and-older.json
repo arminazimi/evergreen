@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "terraform.eks.end-of-life-1.30-and-older",
   "ecosystem": "terraform",
   "purl": "pkg:generic/amazon-eks",

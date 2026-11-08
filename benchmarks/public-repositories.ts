@@ -119,6 +119,7 @@ console.error(`scan limit: ${memoryMb} MB per repository, ${scanTimeoutSeconds} 
 // cache in the user's cache directory would change the findings and report false MISSING entries, so point
 // the data directory at a path that does not exist unless the caller chose one on purpose.
 process.env.EVERGREEN_DATA_DIR ??= join(tmpdir(), `evergreen-corpus-no-data-cache-${process.pid}`);
+process.env.EBB_DATA_DIR ??= process.env.EVERGREEN_DATA_DIR;
 
 const offline = process.argv.includes("--offline");
 const warmOnly = process.argv.includes("--warm");

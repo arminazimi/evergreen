@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "ruby.gem.rails-7.2.end-of-life",
   "ecosystem": "ruby",
   "purl": "pkg:gem/rails",

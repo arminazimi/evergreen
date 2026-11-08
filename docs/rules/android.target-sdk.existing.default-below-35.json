@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "android.target-sdk.existing.default-below-35",
   "ecosystem": "android",
   "purl": "pkg:generic/android/targetSdk",

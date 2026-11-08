@@ -10,7 +10,7 @@ import { required } from "./required.js";
 import { validateRegistryV2 } from "@velella/ebb/registry";
 import type { RegistryV2Rule } from "@velella/ebb/registry";
 import { parseVersLenient, versContains } from "@velella/ebb/vers";
-import { EvergreenError } from "@velella/ebb/evergreen-error";
+import { EvergreenError } from "./evergreen-error.js";
 
 export { CHECK_SCHEMA_VERSION };
 export type { CheckStatus, DependencyCheck, DependencyFinding };

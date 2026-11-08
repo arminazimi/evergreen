@@ -1,0 +1,3 @@
+# Sigstore fixtures
+
+`cosign_checksums.txt` and `cosign_checksums.txt.sigstore.json` are the checksum file and its keyless Sigstore bundle from the public sigstore/cosign v3.1.3 release (`gh release download v3.1.3 -R sigstore/cosign -p 'cosign_checksums.txt*'`). They are a real signature made by a real release workflow, small enough to keep in the repository, and let the tests exercise verification against the public-good trusted root without the network. Their signer is cosign's release identity, not Evergreen's, so the tests also use them to check that Evergreen's own signer policy refuses a valid signature from someone else.

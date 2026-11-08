@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "python.package.django-5.0.eol",
   "ecosystem": "python",
   "purl": "pkg:pypi/django",

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.source-lock.v1",
+  "schemaVersion": "ebb.source-lock.v1",
   "sources": {
     "https://access.redhat.com/product-life-cycles": {
       "finalUrl": "https://access.redhat.com/product-life-cycles",

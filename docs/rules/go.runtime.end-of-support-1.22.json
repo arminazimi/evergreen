@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "go.runtime.end-of-support-1.22",
   "ecosystem": "go",
   "purl": "pkg:generic/golang",

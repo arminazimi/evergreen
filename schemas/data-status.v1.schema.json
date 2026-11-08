@@ -7,7 +7,7 @@
   "required": ["schemaVersion", "source", "version", "createdAt", "contentDigest", "reviewedThrough", "ageDays", "ageBasis", "staleAfterDays", "stale", "signer", "cacheDirectory", "warnings"],
   "additionalProperties": false,
   "properties": {
-    "schemaVersion": { "const": "evergreen.data-status.v1" },
+    "schemaVersion": { "const": "ebb.data-status.v1" },
     "source": { "enum": ["bundled", "cache", "pinned"], "description": "bundled: shipped with this release. cache: a verified download. pinned: a specific version chosen by the user." },
     "version": { "type": "string", "minLength": 1 },
     "createdAt": { "type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$" },

@@ -48,7 +48,7 @@ Microsoft's PowerShell support lifecycle lists 7.3 (built on .NET 7.0) as retire
 
 - Raising a minimum version in `#Requires -Version` or `PowerShellVersion` stops the script or module from loading on any host that still runs PowerShell 7.3. Confirm every runner, container, and developer machine that executes it can run the target first.
 - Scripts written for Windows PowerShell 5.1 often rely on Windows-only modules and cmdlets. Test them on PowerShell 7 before dropping 5.1 support, and keep a separate minimum for modules that must still load on Windows PowerShell.
-- Update the declaration to a supported release from the replacement. Evergreen suggests these changes and never runs them.
+- Update the declaration to a supported release from the replacement. These are suggested changes; nothing applies them automatically.
 
 **Steps**
 
@@ -78,7 +78,7 @@ The `shell` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../CO
 
 ## Data
 
-This page is generated from [`registry/shell.json`](https://github.com/arminazimi/evergreen/blob/main/registry/shell.json), rule `shell.powershell.end-of-life-7.3`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+This page is generated from [`registry/shell.json`](https://github.com/arminazimi/evergreen/blob/main/registry/shell.json), rule `shell.powershell.end-of-life-7.3`, in the `ebb.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
 
 <script type="application/ld+json">
 {

@@ -23,15 +23,16 @@ export async function main(argv: string[]): Promise<void> {
     throw new Error("--created-at is required, for example 2026-10-16T09:30:00Z (the release commit's date).");
   const revision = option(argv, "--revision");
   const root = resolve(option(argv, "--root") ?? ".");
-  const packageVersion = (JSON.parse(await readFile(resolve(root, "package.json"), "utf8")) as { version: string })
+  // The registry and the code that reads a bundle are Ebb's, so the bundle names the Ebb release that can read it.
+  const ebbRoot = resolve(root, "packages/ebb");
+  const packageVersion = (JSON.parse(await readFile(resolve(ebbRoot, "package.json"), "utf8")) as { version: string })
     .version;
 
   const bundle = await buildDataBundle({
-    // The registry ships in Ebb; the minimum version comes from the Offing release that bundles it.
-    root: resolve(root, "packages/ebb"),
+    root: ebbRoot,
     createdAt,
     ...(revision ? { revision: Number(revision) } : {}),
-    minimumEvergreenVersion: option(argv, "--minimum-version") ?? packageVersion,
+    minimumEbbVersion: option(argv, "--minimum-version") ?? packageVersion,
   });
   const text = serializeDataBundle(bundle);
   const out = option(argv, "--out");

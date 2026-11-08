@@ -118,7 +118,7 @@ Each tool has an `outputSchema` (the published JSON Schema in [`schemas/`](https
 | `check_dependency` | `purl`, `version?` | `evergreen.check.v1` (`check.v1.schema.json`) | Check one package before adding it; reads no repository. |
 | `check_upgrade` | `target`, `path?` | `evergreen.upgrade.v1` (`upgrade.v1.schema.json`) | Whether the project can move to a target runtime, from lockfiles and manifests; `unknown` means no evidence was found, not that the upgrade is safe. |
 | `check_snippet` | `path`, `content` | `evergreen.check-snippet.v1` (`check-snippet.v1.schema.json`) | What Evergreen flags in one snippet before it is written, checked in an isolated temporary directory; locations are relative to the snippet. Call it before writing package manifests, Dockerfiles, CI workflows, and Kubernetes manifests. Reads no repository. |
-| `forecast_repository` | `repository_path?`, `months?`, `as_of?` | `evergreen.forecast.v1` (`forecast.v1.schema.json`) | What reaches a dated end of life in the next months, grouped by month, with the repository's findings each event affects. |
+| `forecast_repository` | `repository_path?`, `months?`, `as_of?` | `ebb.forecast.v1` (`forecast.v1.schema.json`) | What reaches a dated end of life in the next months, grouped by month, with the repository's findings each event affects. |
 | `recommend_version` | `product`, `minimumSupportDays?`, `as_of?` | `evergreen.recommend.v1` (`recommend.v1.schema.json`) | Which release line to write today (a name such as `node`, or a Package URL), from bundled lifecycle data only: the recommended line and its end date, alternatives, lines to avoid, and sources. `no-data` is not a statement that any version is safe. |
 | `plan_migrations` | `repository_path?` | `evergreen.plan.v1` (`plan.v1.schema.json`) | Migration plan: waves of independent tasks a coordinating agent can hand out. |
 
@@ -134,13 +134,13 @@ Each tool has an `outputSchema` (the published JSON Schema in [`schemas/`](https
 
 `forecast_repository` answers "what ends of life are coming, and which of them hit this repository?" It runs a fresh local scan, then lists the lifecycle events that carry an authoritative date inside a window. Each event carries its rule, source, severity, and the findings in this repository that it will affect, grouped by calendar month with the earliest first.
 
-The window starts at `as_of` (a `YYYY-MM-DD` date; today in UTC when omitted) and defaults to `months` 12, from 1 to 36. Passing `as_of` makes the result deterministic. The output is the same `evergreen.forecast.v1` document that `evergreen forecast --json` prints. Only dated events are listed, so a package with no authoritative deadline does not appear; nothing is estimated.
+The window starts at `as_of` (a `YYYY-MM-DD` date; today in UTC when omitted) and defaults to `months` 12, from 1 to 36. Passing `as_of` makes the result deterministic. The output is the same `ebb.forecast.v1` document that `evergreen forecast --json` prints. Only dated events are listed, so a package with no authoritative deadline does not appear; nothing is estimated.
 
 ### Resources
 
 | URI | Contents | Lifetime |
 | --- | --- | --- |
-| `evergreen://rules/{id}` | One lifecycle rule as `evergreen.rule.v1` (`rule.v1.schema.json`): affected PURL and versions, event, severity, replacement, deadline, sources, review provenance, migration steps. | Bundled with the release; reading one scans nothing. |
+| `evergreen://rules/{id}` | One lifecycle rule as `ebb.rule.v1` (`rule.v1.schema.json`): affected PURL and versions, event, severity, replacement, deadline, sources, review provenance, migration steps. | Bundled with the release; reading one scans nothing. |
 | `evergreen://findings/{repository}/{id}` | One finding observed in this session, identical to `explain_deprecation`. `{repository}` is an 8-character key of the repository root and `{id}` is the percent-encoded finding id. | This session only; empty until a scan, never written to disk. |
 
 `resources/list` enumerates both families. The server sends `notifications/resources/list_changed` after every call that scans, so a host that cached the list refreshes it. Rule ids autocomplete by prefix. Reading an unknown URI fails with a resource-not-found error.

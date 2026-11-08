@@ -10,7 +10,7 @@ import {
   EvergreenError,
   EXIT_CODES,
   failureClassOf,
-} from "@velella/ebb/evergreen-error";
+} from "../src/evergreen-error.js";
 import { failure } from "../src/mcp/tool-support.js";
 import { PurlError } from "@velella/ebb/purl";
 import { ScaffoldError } from "../tools/scaffold/index.js";

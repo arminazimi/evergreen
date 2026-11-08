@@ -154,7 +154,7 @@ export function parseLineVersion(contents: string): LineVersionDeclaration[] {
     ),
     "packages/ebb/registry/line-version.json": JSON.stringify(
       {
-        schemaVersion: "evergreen.registry.v2",
+        schemaVersion: "ebb.registry.v2",
         ecosystem: "line-version",
         rules: [
           {
@@ -203,7 +203,7 @@ export function parseTagList(contents: string): TagListDeclaration[] {
     "src/detectors/tag-list.ts": detectorSource("tagList", "tag-list", "tags.txt", () => '"1.0.0"'),
     "packages/ebb/registry/tag-list.json": JSON.stringify(
       {
-        schemaVersion: "evergreen.registry.v2",
+        schemaVersion: "ebb.registry.v2",
         ecosystem: "tags",
         rules: [
           {

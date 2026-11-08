@@ -298,7 +298,7 @@ export async function processCandidateIssues(
   const runner = options.runner ?? defaultGitHubRunner;
   const acknowledged = options.acknowledged ?? (await loadAcknowledged());
   const registry = options.registry ?? {
-    schemaVersion: "evergreen.registry.v2",
+    schemaVersion: "ebb.registry.v2",
     ecosystem: options.drafts.ecosystem,
     rules: [],
   };
@@ -408,7 +408,7 @@ export async function main(argv: string[], runner?: CandidateIssueRunner): Promi
     registry = validateRegistryV2(JSON.parse(await readFile(registryFile, "utf8")) as unknown);
   } else {
     registry = {
-      schemaVersion: "evergreen.registry.v2",
+      schemaVersion: "ebb.registry.v2",
       ecosystem: drafts.ecosystem,
       rules: [],
     };

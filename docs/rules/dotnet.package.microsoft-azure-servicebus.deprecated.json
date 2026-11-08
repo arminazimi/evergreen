@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "dotnet.package.microsoft-azure-servicebus.deprecated",
   "ecosystem": "dotnet",
   "purl": "pkg:nuget/Microsoft.Azure.ServiceBus",

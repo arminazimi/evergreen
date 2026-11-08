@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
   "ecosystem": "kubernetes",
   "purl": "pkg:generic/kubernetes/storage.k8s.io/StorageClass",

@@ -4,15 +4,15 @@ Status: accepted
 
 ## Decision
 
-Lifecycle data can be published and consumed separately from the Evergreen code release as a **data bundle**, one JSON document of type `evergreen.data-bundle.v1` ([schema](../../packages/ebb/schemas/data-bundle.v1.schema.json)). It holds a manifest and the files the detectors read.
+Lifecycle data can be published and consumed separately from the Evergreen code release as a **data bundle**, one JSON document of type `ebb.data-bundle.v1` ([schema](../../packages/ebb/schemas/data-bundle.v1.schema.json)). It holds a manifest and the files the detectors read.
 
 ```json
 {
   "manifest": {
-    "schemaVersion": "evergreen.data-bundle.v1",
+    "schemaVersion": "ebb.data-bundle.v1",
     "version": "2026.10.16",
     "createdAt": "2026-10-16T09:30:00Z",
-    "minimumEvergreenVersion": "0.2.0",
+    "minimumEbbVersion": "0.2.0",
     "contentDigest": "sha256:…",
     "files": [
       { "path": "registry/npm.json", "kind": "registry", "ecosystem": "npm", "schemaVersion": "evergreen.registry.v2", "rules": 23, "maxReviewAgeDays": 365, "sha256": "…", "bytes": 41234 }
@@ -30,7 +30,7 @@ Lifecycle data can be published and consumed separately from the Evergreen code 
 
 **Version.** `version` is calendar-based, `YYYY.MM.DD`, with `.N` appended (`2026.10.16.2`) for further bundles on the same day. `createdAt` is supplied to the build (the release commit's date), not read from a clock, so building the same commit twice gives the same bundle byte for byte.
 
-**Compatibility.** A consumer refuses a bundle when `schemaVersion` is not one it understands, when `minimumEvergreenVersion` is newer than itself, or when any registry's `schemaVersion` is unknown to it. Refusal is not an error for the user: the data bundled with the installed package is used instead, with a visible warning.
+**Compatibility.** A consumer refuses a bundle when `schemaVersion` is not one it understands, when `minimumEbbVersion` is newer than itself, or when any registry's `schemaVersion` is unknown to it. Refusal is not an error for the user: the data bundled with the installed package is used instead, with a visible warning.
 
 **Trust.** The bundle is signed as a single file with a keyless Sigstore signature from the repository's data-release workflow; the signature is a detached Sigstore bundle published next to it. A consumer accepts data only if the signature verifies against the workflow identity, the manifest digests match the files, and every registry validates. Verification needs no network. This record fixes the format; signing and verification are separate steps.
 

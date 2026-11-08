@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "database.azure-postgresql.standard-support-ended-11-to-13",
   "ecosystem": "database",
   "purl": "pkg:generic/azure-database-postgresql",

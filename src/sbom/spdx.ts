@@ -10,7 +10,7 @@ import { validateRegistryV2 } from "@velella/ebb/registry";
 import type { RegistryV2Rule } from "@velella/ebb/registry";
 import { required } from "../required.js";
 import "@velella/ebb/vers/index";
-import { EvergreenError } from "@velella/ebb/evergreen-error";
+import { EvergreenError } from "../evergreen-error.js";
 
 type JsonObject = Record<string, unknown>;
 

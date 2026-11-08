@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "python.package.django-nose.maintenance-only",
   "ecosystem": "python",
   "purl": "pkg:pypi/django-nose",

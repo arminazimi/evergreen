@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "container.alpine.eol-3.20-and-older",
   "ecosystem": "container",
   "purl": "pkg:docker/library/alpine",

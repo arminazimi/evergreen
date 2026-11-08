@@ -111,7 +111,7 @@ test("forecast_repository returns the object evergreen forecast --json prints, v
     const validate = await validator();
     assert.ok(validate(forecast), JSON.stringify(validate.errors));
 
-    assert.equal(forecast.schemaVersion, "evergreen.forecast.v1");
+    assert.equal(forecast.schemaVersion, "ebb.forecast.v1");
     assert.equal(forecast.root, resolve(root));
     assert.equal(forecast.today, "2026-10-29");
     assert.equal(forecast.until, "2027-10-29");

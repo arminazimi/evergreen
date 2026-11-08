@@ -2,8 +2,10 @@ import { spawnSync } from "node:child_process";
 import http from "node:http";
 import process from "node:process";
 
-import { DataUpdateError, renderDataUpdateText, updateData } from "@velella/ebb/data-update";
-import { getDataStatus, renderDataStatusText } from "@velella/ebb/data-status";
+import { DataUpdateError, updateData } from "@velella/ebb/data-update";
+import { getDataStatus } from "@velella/ebb/data-status";
+
+import { renderDataStatusText, renderDataUpdateText } from "../data-text.js";
 import { isOfflineDataUpdateFailure, offlineDataUpdate } from "../errors.js";
 import { afterGates } from "./runtime.js";
 import type { CliCommand } from "./types.js";

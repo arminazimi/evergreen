@@ -39,7 +39,7 @@ async function registryCopy(): Promise<string> {
 }
 
 const build = (root: string, extra: Partial<Parameters<typeof buildDataBundle>[0]> = {}) =>
-  buildDataBundle({ root, createdAt, minimumEvergreenVersion: "0.2.0", ...extra });
+  buildDataBundle({ root, createdAt, minimumEbbVersion: "0.2.0", ...extra });
 
 test("canonical JSON sorts keys at every level, drops whitespace, and refuses non-integers", () => {
   assert.equal(
@@ -111,7 +111,7 @@ test("the bundle lists every registry and the SHA map, and matches the published
     ],
   );
   assert.equal(bundle.manifest.version, "2026.10.16");
-  assert.equal(bundle.manifest.minimumEvergreenVersion, "0.2.0");
+  assert.equal(bundle.manifest.minimumEbbVersion, "0.2.0");
   for (const file of bundle.manifest.files.filter((item) => item.kind === "registry")) {
     const rules = (JSON.parse(await readFile(resolve("packages/ebb", file.path), "utf8")) as { rules: unknown[] }).rules
       .length;
@@ -245,7 +245,7 @@ test("dataBundleShapeProblems accepts a well-formed bundle and names each proble
       schemaVersion: DATA_BUNDLE_SCHEMA_VERSION,
       version: "2026.10.16",
       createdAt,
-      minimumEvergreenVersion: "0.8.0",
+      minimumEbbVersion: "0.8.0",
       contentDigest: digest,
       files: [entry],
     },
@@ -257,7 +257,7 @@ test("dataBundleShapeProblems accepts a well-formed bundle and names each proble
     'Unsupported bundle format "undefined".',
     "The version must look like 2026.10.16.",
     "createdAt must be UTC like 2026-10-16T09:30:00Z.",
-    "minimumEvergreenVersion must be a semantic version.",
+    "minimumEbbVersion must be a semantic version.",
     "The content digest is malformed.",
     "The manifest lists no files.",
   ]);

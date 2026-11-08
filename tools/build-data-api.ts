@@ -27,11 +27,11 @@ export const API_DIRECTORY = "docs/api/v1";
 export const PRODUCTS_DIRECTORY = `${API_DIRECTORY}/products`;
 export const TYPES_DIRECTORY = `${API_DIRECTORY}/types`;
 export const RULES_DIRECTORY = `${API_DIRECTORY}/rules`;
-export const INDEX_SCHEMA_VERSION = "evergreen.api-index.v1" as const;
-export const PRODUCT_SCHEMA_VERSION = "evergreen.api-product.v1" as const;
-export const RECENT_SCHEMA_VERSION = "evergreen.api-recent.v1" as const;
-export const TYPE_SCHEMA_VERSION = "evergreen.api-type.v1" as const;
-export const RULE_SCHEMA_VERSION = "evergreen.api-rule.v1" as const;
+export const INDEX_SCHEMA_VERSION = "ebb.api-index.v1" as const;
+export const PRODUCT_SCHEMA_VERSION = "ebb.api-product.v1" as const;
+export const RECENT_SCHEMA_VERSION = "ebb.api-recent.v1" as const;
+export const TYPE_SCHEMA_VERSION = "ebb.api-type.v1" as const;
+export const RULE_SCHEMA_VERSION = "ebb.api-rule.v1" as const;
 /** The recent-changes file carries the rules with the newest review dates, at most this many. */
 export const RECENT_LIMIT = 100;
 

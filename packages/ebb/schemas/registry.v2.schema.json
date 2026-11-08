@@ -1,13 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/arminazimi/evergreen/schemas/registry.v2.schema.json",
-  "title": "Evergreen lifecycle registry v2",
+  "$id": "https://github.com/velella-sh/ebb/schemas/registry.v2.schema.json",
+  "title": "Ebb lifecycle registry v2",
   "description": "Reviewed lifecycle rules keyed by Package URL (PURL) and version range (VERS), with provenance. See docs/decisions/0004-registry-v2.md.",
   "type": "object",
   "required": ["schemaVersion", "ecosystem", "rules"],
   "additionalProperties": false,
   "properties": {
-    "schemaVersion": { "const": "evergreen.registry.v2" },
+    "schemaVersion": { "const": "ebb.registry.v2" },
     "ecosystem": { "$ref": "#/$defs/slug" },
     "freshness": {
       "description": "How long a rule may go without review before tooling reports it as stale. Scans never fail on staleness.",

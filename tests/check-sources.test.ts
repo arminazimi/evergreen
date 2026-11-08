@@ -36,7 +36,7 @@ function registry(rules: RegistryV2Rule[], maxReviewAgeDays?: number): { name: s
   return {
     name: "npm",
     registry: {
-      schemaVersion: "evergreen.registry.v2",
+      schemaVersion: "ebb.registry.v2",
       ecosystem: "npm",
       ...(maxReviewAgeDays ? { freshness: { maxReviewAgeDays } } : {}),
       rules,
@@ -50,7 +50,7 @@ const page = (url: string, title: string | null = "Page", status = 200): SourceO
   title,
 });
 const lockOf = (entries: Record<string, { finalUrl: string; title: string | null }>): SourceLock => ({
-  schemaVersion: "evergreen.source-lock.v1",
+  schemaVersion: "ebb.source-lock.v1",
   sources: Object.fromEntries(
     Object.entries(entries).map(([url, entry]) => [url, { ...entry, checkedAt: "2026-10-01" }]),
   ),

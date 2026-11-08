@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "npm.package.read-package-json.eol",
   "ecosystem": "npm",
   "purl": "pkg:npm/read-package-json",

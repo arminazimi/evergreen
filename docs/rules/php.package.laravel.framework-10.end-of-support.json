@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "php.package.laravel.framework-10.end-of-support",
   "ecosystem": "php",
   "purl": "pkg:composer/laravel/framework",

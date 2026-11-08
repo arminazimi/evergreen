@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "cpp.cmake.policy-below-3.5.removed",
   "ecosystem": "cpp",
   "purl": "pkg:generic/cmake",

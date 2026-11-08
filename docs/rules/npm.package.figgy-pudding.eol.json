@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "npm.package.figgy-pudding.eol",
   "ecosystem": "npm",
   "purl": "pkg:npm/figgy-pudding",

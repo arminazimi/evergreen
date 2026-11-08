@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "shell.powershell.end-of-life-7.2",
   "ecosystem": "shell",
   "purl": "pkg:generic/powershell",
@@ -26,7 +26,7 @@
     "constraints": [
       "Raising a minimum version in `#Requires -Version` or `PowerShellVersion` stops the script or module from loading on any host that still runs PowerShell 7.2. Confirm every runner, container, and developer machine that executes it can run the target first.",
       "Scripts written for Windows PowerShell 5.1 often rely on Windows-only modules and cmdlets. Test them on PowerShell 7 before dropping 5.1 support, and keep a separate minimum for modules that must still load on Windows PowerShell.",
-      "Update the declaration to a supported release from the replacement. Evergreen suggests these changes and never runs them."
+      "Update the declaration to a supported release from the replacement. These are suggested changes; nothing applies them automatically."
     ],
     "steps": [
       {

@@ -36,7 +36,7 @@ export async function compileCheckout(roots: string[]): Promise<string> {
   await cp(resolve("src"), join(root, "src"), { recursive: true });
   await cp(resolve("tools", "scaffold"), join(root, "tools", "scaffold"), { recursive: true });
   await cp(resolve("packages/ebb/registry"), join(root, "packages/ebb/registry"), { recursive: true });
-  await cp(resolve("data"), join(root, "data"), { recursive: true });
+  await cp(resolve("packages/ebb/data"), join(root, "packages/ebb/data"), { recursive: true });
   await cp(resolve("schemas"), join(root, "schemas"), { recursive: true });
   await writeFile(join(root, "package.json"), await readFile(resolve("package.json"), "utf8"));
   await writeFile(join(root, "tsconfig.base.json"), await readFile(resolve("tsconfig.base.json"), "utf8"));

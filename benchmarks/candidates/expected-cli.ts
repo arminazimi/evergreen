@@ -40,6 +40,7 @@ try {
     }
     // Record the bundled lifecycle data, not a maintainer's downloaded cache, so the batch is reproducible.
     process.env.EVERGREEN_DATA_DIR ??= join(tmpdir(), `evergreen-unreviewed-no-data-cache-${process.pid}`);
+    process.env.EBB_DATA_DIR ??= process.env.EVERGREEN_DATA_DIR;
     const reviewed = await loadPublicCorpus();
     const result = await generateExpectedFindings({
       candidates: JSON.parse(await readFile(candidatesPath, "utf8")),

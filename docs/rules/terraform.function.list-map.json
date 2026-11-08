@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "terraform.function.list-map",
   "ecosystem": "terraform",
   "purl": "pkg:generic/terraform",

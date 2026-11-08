@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "android.play-billing.version-7",
   "ecosystem": "android",
   "purl": "pkg:maven/com.android.billingclient/billing",

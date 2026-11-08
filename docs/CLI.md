@@ -120,7 +120,7 @@ Prints a live countdown to every dated lifecycle deadline that affects the repos
 | --- | --- |
 | `--as-of <YYYY-MM-DD>` | Count down from 00:00 UTC on this date instead of now. |
 | `--limit <n>` | How many deadlines to show. Whole number of at least `1`; default `10`. |
-| `--json` | Print the rows in an `evergreen.countdown.v1` document, with `subject`, `deadline`, `remainingSeconds`, `ruleId`, and `location` for each. |
+| `--json` | Print the rows in an `ebb.countdown.v1` document, with `subject`, `deadline`, `remainingSeconds`, `ruleId`, and `location` for each. |
 | `--once` | Print one frame and exit. |
 | `--no-animation` | Print one static frame instead of animating on a terminal. |
 

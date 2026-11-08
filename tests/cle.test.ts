@@ -105,7 +105,7 @@ test("CLE reads every ecosystem from the supplied active data, including rules a
       paths.push(path);
       const ecosystem = path.slice("registry/".length, -".json".length);
       return {
-        schemaVersion: "evergreen.registry.v2",
+        schemaVersion: "ebb.registry.v2",
         ecosystem,
         rules:
           ecosystem === "rust" ? [{ ...rule, ecosystem, purl: "pkg:cargo/example", vers: "vers:cargo/<2.0.0" }] : [],

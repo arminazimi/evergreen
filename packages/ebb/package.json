@@ -11,10 +11,13 @@
     "vers",
     "registry"
   ],
+  "homepage": "https://github.com/velella-sh/ebb#readme",
+  "bugs": {
+    "url": "https://github.com/velella-sh/ebb/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arminazimi/evergreen.git",
-    "directory": "packages/ebb"
+    "url": "git+https://github.com/velella-sh/ebb.git"
   },
   "license": "MIT",
   "type": "module",
@@ -28,6 +31,7 @@
   },
   "files": [
     "dist/src",
+    "data",
     "registry",
     "schemas",
     "LICENSE",
@@ -48,6 +52,11 @@
     "@sigstore/protobuf-specs": "^0.5.2",
     "@sigstore/verify": "^4.1.2",
     "semver": "^7.8.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/semver": "^7.8.0",
+    "typescript": "^5.9.0"
   },
   "publishConfig": {
     "access": "public"

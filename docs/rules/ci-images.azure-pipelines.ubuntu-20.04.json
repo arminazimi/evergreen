@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "ci-images.azure-pipelines.ubuntu-20.04",
   "ecosystem": "ci-images",
   "purl": "pkg:generic/azure-pipelines/ubuntu-image",

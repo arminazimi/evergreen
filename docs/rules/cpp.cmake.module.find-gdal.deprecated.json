@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "cpp.cmake.module.find-gdal.deprecated",
   "ecosystem": "cpp",
   "purl": "pkg:generic/cmake-module/find-gdal",

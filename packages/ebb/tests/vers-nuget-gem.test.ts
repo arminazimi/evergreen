@@ -73,7 +73,7 @@ test("rejects invalid gem versions", () => {
   for (const value of ["", "latest", "1.0.", "v1"]) assert.throws(() => gem.compare(value, "1.0"), VersError, value);
 });
 
-test("matches the SDK and Ruby ranges Evergreen registry rules use", () => {
+test("matches the SDK and Ruby ranges Ebb registry rules use", () => {
   assert.equal(versContains("vers:nuget/<6.0.0", "5.0.17"), true);
   assert.equal(versContains("vers:nuget/<6.0.0", "6.0.0"), false);
   assert.equal(versContains("vers:gem/<3.1", "3.0.7"), true);

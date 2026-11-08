@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "java.maven.org.hibernate.hibernate-entitymanager.relocated",
   "ecosystem": "java",
   "purl": "pkg:maven/org.hibernate/hibernate-entitymanager",

@@ -6,14 +6,14 @@ import { join } from "node:path";
  * locate the cache without loading the data and signature code.
  */
 
-/** Where downloaded data lives: `EVERGREEN_DATA_DIR`, else the platform's cache directory. */
+/** Where downloaded data lives: `EBB_DATA_DIR`, else Ebb's folder in the platform's cache directory. */
 export function defaultCacheDirectory(
   env: NodeJS.ProcessEnv = process.env,
   platform: NodeJS.Platform = process.platform,
   home: string = homedir(),
 ): string {
-  if (env.EVERGREEN_DATA_DIR) return env.EVERGREEN_DATA_DIR;
-  if (platform === "darwin") return join(home, "Library", "Caches", "evergreen");
-  if (platform === "win32") return join(env.LOCALAPPDATA ?? join(home, "AppData", "Local"), "evergreen", "Cache");
-  return join(env.XDG_CACHE_HOME ?? join(home, ".cache"), "evergreen");
+  if (env.EBB_DATA_DIR) return env.EBB_DATA_DIR;
+  if (platform === "darwin") return join(home, "Library", "Caches", "ebb");
+  if (platform === "win32") return join(env.LOCALAPPDATA ?? join(home, "AppData", "Local"), "ebb", "Cache");
+  return join(env.XDG_CACHE_HOME ?? join(home, ".cache"), "ebb");
 }

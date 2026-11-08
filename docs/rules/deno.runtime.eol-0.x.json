@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "deno.runtime.eol-0.x",
   "ecosystem": "deno",
   "purl": "pkg:generic/deno",

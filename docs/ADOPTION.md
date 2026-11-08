@@ -210,7 +210,7 @@ Socket scans the published version, so the 0.7.1 release (2026-10-27) is the fir
 |---|---|---|
 | Unpopular package | Quality | Socket scores download counts, and a young package has few. The alert clears as adoption grows. |
 | Debug access | Supply chain risk | The vendored tree-sitter runtime (`src/usage/vendor/tree-sitter/tree-sitter.cjs`) is an Emscripten build that uses dynamic code evaluation to load its WebAssembly. It parses source files and runs nothing from the scanned repository. |
-| Environment variable access | Supply chain risk | The CLI reads proxy settings, `EVERGREEN_DATA_URL`, the state and usage-log locations, `EDITOR`, and `GITHUB_TOKEN` or `GH_TOKEN` for the opt-in commands that need them. A scan reads none of them to decide a finding. |
+| Environment variable access | Supply chain risk | The CLI reads proxy settings, `EBB_DATA_URL`, the state and usage-log locations, `EDITOR`, and `GITHUB_TOKEN` or `GH_TOKEN` for the opt-in commands that need them. A scan reads none of them to decide a finding. |
 | Filesystem access | Supply chain risk | Evergreen's job is reading a repository's manifests, lockfiles, and workflows, and it writes only the files the user asks for, such as a report or `--fix` output. |
 | URL strings | Supply chain risk | The package contains the lifecycle data and importer source URLs, and the default signed-data release URL used by `evergreen data update`. Scans use no network; only `data update` and the explicit importer commands do. |
 

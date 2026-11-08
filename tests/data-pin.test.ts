@@ -19,12 +19,13 @@ import {
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine/index.js";
 import { restoreFixtureNames } from "../src/fixture-names.js";
-import { renderDataStatusText, dataStatusFrom } from "@velella/ebb/data-status";
+import { dataStatusFrom } from "@velella/ebb/data-status";
+import { renderDataStatusText } from "../src/data-text.js";
 import { runCli } from "./cli-runner.js";
 
 const roots: string[] = [];
 const signer = {
-  identity: "https://github.com/arminazimi/evergreen/.github/workflows/data-release.yml@refs/tags/data-v2999.01.01",
+  identity: "https://github.com/velella-sh/ebb/.github/workflows/data-release.yml@refs/tags/data-v2999.01.01",
   issuer: "https://token.actions.githubusercontent.com",
 };
 const accepting = { verifySignature: () => signer };
@@ -56,7 +57,7 @@ async function bundleWithRule(createdAt: string, packageName: string): Promise<D
     "x-npm": { package: packageName },
   });
   await writeFile(join(root, "registry/npm.json"), JSON.stringify(npm));
-  return buildDataBundle({ root, createdAt, minimumEvergreenVersion: "0.1.0" });
+  return buildDataBundle({ root, createdAt, minimumEbbVersion: "0.1.0" });
 }
 
 async function store(cache: string, bundle: DataBundle, bytes?: string): Promise<void> {
@@ -121,7 +122,7 @@ test("every built-in detector scans its fixture with pinned data", async () => {
   const bundle = await buildDataBundle({
     root: resolve("packages/ebb"),
     createdAt: "2999-01-01T00:00:00Z",
-    minimumEvergreenVersion: "0.1.0",
+    minimumEbbVersion: "0.1.0",
   });
   const cache = await scratch("cache");
   await store(cache, bundle);
@@ -150,8 +151,7 @@ test("a pin that cannot be met is an error with the way out, never a quiet fallb
   await assert.rejects(
     resolveActiveData({ ...options, pinnedVersion: "2999.03.03" }),
     (error: unknown) =>
-      error instanceof DataPinError &&
-      /2999\.03\.03 is pinned but is not in .*evergreen data update --data-version 2999\.03\.03/s.test(error.message),
+      error instanceof DataPinError && error.missing && /2999\.03\.03 is pinned but is not in /.test(error.message),
   );
   for (const bad of ["latest", "../../etc", "2999.1.1", "", "2999.01.01/x"]) {
     await assert.rejects(resolveActiveData({ ...options, pinnedVersion: bad }), /is not a data version/, bad);
@@ -189,7 +189,7 @@ test("the CLI takes the pin from --data-version or EVERGREEN_DATA_VERSION, and t
   const cache = await scratch("cache");
   const project = await scratch("project");
   await writeFile(join(project, "package.json"), JSON.stringify({ name: "demo" }));
-  const env = { EVERGREEN_DATA_DIR: cache };
+  const env = { EVERGREEN_DATA_DIR: cache, EBB_DATA_DIR: cache };
 
   const missing = await cli(["scan", project, "--data-version", "2999.01.01"], env);
   assert.equal(missing.code, 3);
@@ -227,7 +227,7 @@ test("the CLI takes the pin from --data-version or EVERGREEN_DATA_VERSION, and t
 
 test("a pin applies to checks and explanations too, and an empty variable means no pin", async () => {
   const cache = await scratch("cache");
-  const env = { EVERGREEN_DATA_DIR: cache };
+  const env = { EVERGREEN_DATA_DIR: cache, EBB_DATA_DIR: cache };
   assert.equal(
     (await cli(["check", "pkg:npm/request"], { ...env, EVERGREEN_DATA_VERSION: "" })).code,
     1,

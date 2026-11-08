@@ -3,7 +3,7 @@
  * https://github.com/package-url/purl-spec
  */
 
-import { EvergreenError } from "./evergreen-error.js";
+import { EbbError } from "./errors.js";
 
 export interface PackageUrl {
   type: string;
@@ -14,7 +14,7 @@ export interface PackageUrl {
   subpath?: string;
 }
 
-export class PurlError extends EvergreenError {
+export class PurlError extends EbbError {
   constructor(message: string) {
     super("invalid-purl", message);
     this.name = "PurlError";

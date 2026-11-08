@@ -155,7 +155,7 @@ export function registryWithRule(contents: string, rule: Record<string, unknown>
     throw new ScaffoldError(`the registry is not valid JSON (${(error as Error).message})`);
   }
   if (!isRecord(parsed) || !Array.isArray(parsed.rules)) {
-    throw new ScaffoldError("the registry is not an evergreen.registry.v2 document: rules is not an array");
+    throw new ScaffoldError("the registry is not an ebb.registry.v2 document: rules is not an array");
   }
   parsed.rules.push(rule);
   return `${JSON.stringify(parsed, null, 2)}\n`;

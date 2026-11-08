@@ -61,7 +61,7 @@ const ruleDataPath = (id: string) => `/rules/${id}.json`;
 const rulePagePath = (id: string) => `/rules/${id}.html`;
 const dataUrl = (ecosystem: string) => `${REPOSITORY_URL}/blob/main/registry/${ecosystem}.json`;
 
-/** A rule as an `evergreen.rule.v1` document: the same facts the page renders, for agents that read JSON. */
+/** A rule as an `ebb.rule.v1` document: the same facts the page renders, for agents that read JSON. */
 export function renderRuleData(rule: RegistryV2Rule): string {
   return `${JSON.stringify(toRuleDocument(rule), null, 2)}\n`;
 }

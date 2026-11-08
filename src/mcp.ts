@@ -35,7 +35,7 @@ function registerRuleResource(server: McpServer): void {
     {
       title: "Lifecycle rule",
       description:
-        "One evidence-backed lifecycle rule as an evergreen.rule.v1 document: what is affected, the event, severity, replacement, deadline, sources, review provenance, and migration guidance. Reading a rule scans nothing.",
+        "One evidence-backed lifecycle rule as an ebb.rule.v1 document: what is affected, the event, severity, replacement, deadline, sources, review provenance, and migration guidance. Reading a rule scans nothing.",
       mimeType: "application/json",
     },
     async (uri, variables) => {

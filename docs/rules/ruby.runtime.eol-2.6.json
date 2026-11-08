@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "ruby.runtime.eol-2.6",
   "ecosystem": "ruby",
   "purl": "pkg:generic/ruby",

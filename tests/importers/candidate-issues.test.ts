@@ -233,7 +233,7 @@ test("processCandidateIssues opens issues through runner and supports dry-run wi
     notes: [],
   };
   const registry: RegistryV2 = {
-    schemaVersion: "evergreen.registry.v2",
+    schemaVersion: "ebb.registry.v2",
     ecosystem: "npm",
     rules: [],
   };
@@ -296,7 +296,7 @@ test("main CLI executes cleanly and prints expected summary", async () => {
     const draftsPath = join(tempDir, "drafts.json");
     const registryPath = join(tempDir, "registry.json");
     const registry: RegistryV2 = {
-      schemaVersion: "evergreen.registry.v2",
+      schemaVersion: "ebb.registry.v2",
       ecosystem: "npm",
       rules: [],
     };

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "serverless.aws-lambda.dotnetcore2.1",
   "ecosystem": "serverless",
   "purl": "pkg:generic/aws-lambda-runtime/dotnetcore2.1",

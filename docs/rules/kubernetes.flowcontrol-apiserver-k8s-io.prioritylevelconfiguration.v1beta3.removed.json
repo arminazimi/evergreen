@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "kubernetes.flowcontrol-apiserver-k8s-io.prioritylevelconfiguration.v1beta3.removed",
   "ecosystem": "kubernetes",
   "purl": "pkg:generic/kubernetes/flowcontrol.apiserver.k8s.io/PriorityLevelConfiguration",

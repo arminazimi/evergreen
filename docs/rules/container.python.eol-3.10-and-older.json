@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "container.python.eol-3.10-and-older",
   "ecosystem": "container",
   "purl": "pkg:docker/library/python",

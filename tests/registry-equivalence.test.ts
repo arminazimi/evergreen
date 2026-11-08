@@ -43,7 +43,7 @@ test("each migrated registry reads back as the v1 rules it replaced", async () =
   for (const name of snapshots) {
     const v1 = JSON.parse(await readFile(resolve("tests/fixtures/registry-v1", name), "utf8")) as { rules: unknown[] };
     const v2 = JSON.parse(await readFile(resolve("packages/ebb/registry", name), "utf8")) as RegistryV2;
-    assert.equal(v2.schemaVersion, "evergreen.registry.v2", `${name} is migrated`);
+    assert.equal(v2.schemaVersion, "ebb.registry.v2", `${name} is migrated`);
     assert.deepEqual(registryV2Issues(v2), [], name);
     const views = v2.rules.slice(0, v1.rules.length).map((rule) => {
       const view = legacyRule(rule);

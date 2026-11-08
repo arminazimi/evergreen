@@ -151,7 +151,7 @@ test("the exit-code table in docs/CAPABILITIES.md cannot drift from the code", a
   }
   assert.ok(documented.size > 0, "the table was not found");
 
-  const source = await readFile(resolve("packages/ebb/dist/src/evergreen-error.js"), "utf8");
+  const source = await readFile(resolve("dist/src/evergreen-error.js"), "utf8");
   const codes = source.match(/EXIT_CODES = \{([^}]*)\}/);
   assert.ok(codes, "EXIT_CODES was not found in the compiled CLI");
   const implemented = new Map(

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "github-actions.setup-python.node20",
   "ecosystem": "github-actions",
   "purl": "pkg:github/actions/setup-python",

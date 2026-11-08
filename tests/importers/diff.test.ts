@@ -46,7 +46,7 @@ const draftOf = (rules: RegistryV2Rule[], importer = "node-schedule"): DraftRegi
 });
 
 const registryOf = (rules: RegistryV2Rule[]): RegistryV2 => ({
-  schemaVersion: "evergreen.registry.v2",
+  schemaVersion: "ebb.registry.v2",
   ecosystem: "nodejs",
   rules,
 });
@@ -256,7 +256,7 @@ test("the command line prints the diff and signals changes through its exit code
     await writeFile(registryFile, JSON.stringify({ schemaVersion: "evergreen.nodejs-registry.v1", rules: [] }));
     await assert.rejects(
       run(process.execPath, [script, draftsFile, registryFile]),
-      /schemaVersion must be "evergreen\.registry\.v2"/,
+      /schemaVersion must be "ebb\.registry\.v2"/,
     );
   } finally {
     await rm(directory, { recursive: true, force: true });

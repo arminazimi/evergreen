@@ -84,7 +84,7 @@ test("the workflow and the verifier agree on who may sign", () => {
   assert.equal(job.env?.IDENTITY_PATTERN, DATA_SIGNER.identityPattern);
   assert.equal(job.env?.OIDC_ISSUER, DATA_SIGNER.issuer);
   const identity = new RegExp(DATA_SIGNER.identityPattern);
-  const prefix = "https://github.com/arminazimi/evergreen/.github/workflows/data-release.yml";
+  const prefix = "https://github.com/velella-sh/ebb/.github/workflows/data-release.yml";
   for (const accepted of [
     `${prefix}@refs/tags/data-v2026.10.16`,
     `${prefix}@refs/tags/data-v2026.10.16.2`,
@@ -108,7 +108,7 @@ test("the workflow and the verifier agree on who may sign", () => {
 test("it publishes the bundle, its signature, and checksums", () => {
   assert.match(
     commands,
-    /sha256sum evergreen-data-\*\.json evergreen-data-\*\.sigstore\.json release-log\.jsonl release-log\.jsonl\.sigstore\.json > SHA256SUMS/,
+    /sha256sum ebb-data-\*\.json ebb-data-\*\.sigstore\.json release-log\.jsonl release-log\.jsonl\.sigstore\.json > SHA256SUMS/,
   );
   assert.match(commands, /gh release create .* out\/\*/s);
   assert.match(commands, /--latest=false/, "a data bundle must never become the repository's Latest release");

@@ -244,7 +244,7 @@ test("a registry name or rule namespace that is already taken is refused", async
   await writeFile(
     join(checkout, "packages/ebb/registry", "legacy-rules.json"),
     JSON.stringify({
-      schemaVersion: "evergreen.registry.v2",
+      schemaVersion: "ebb.registry.v2",
       ecosystem: "legacy-rules",
       rules: [{ id: "oldstuff.package.thing.deprecated" }],
     }),

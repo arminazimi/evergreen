@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "database.mysql.end-of-life-5.7",
   "ecosystem": "database",
   "purl": "pkg:generic/mysql",

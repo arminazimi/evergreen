@@ -28,7 +28,7 @@ EVERGREEN_DATA_VERSION=bundled evergreen scan .   # use only the data shipped wi
 
 It refuses a bundle that is older than the active one (a replayed old bundle would roll your rules back), a bundle the installed release already beats, and anything that fails verification. Three bundles are kept.
 
-Downloads honor `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY` (Node.js 22.21 or newer). To use a mirror, point `EVERGREEN_DATA_URL` at its release list.
+Downloads honor `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY` (Node.js 22.21 or newer). To use a mirror, point `EBB_DATA_URL` at its release list.
 
 ### Pinning
 
@@ -36,11 +36,11 @@ Downloads honor `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY` (Node.js 22.21 or ne
 
 ### Where the data is stored
 
-`EVERGREEN_DATA_DIR` if set, otherwise `~/Library/Caches/evergreen` (macOS), `$XDG_CACHE_HOME/evergreen` or `~/.cache/evergreen` (Linux), or `%LOCALAPPDATA%\evergreen\Cache` (Windows). Inside, `data/<version>/` holds `bundle.json` and its signature `bundle.json.sigstore.json`, and `data/active.json` names the active version. Deleting the directory returns Evergreen to the bundled data.
+The data belongs to Ebb, so it lives in Ebb's cache: `EBB_DATA_DIR` if set, otherwise `~/Library/Caches/ebb` (macOS), `$XDG_CACHE_HOME/ebb` or `~/.cache/ebb` (Linux), or `%LOCALAPPDATA%\ebb\Cache` (Windows). Inside, `data/<version>/` holds `bundle.json` and its signature `bundle.json.sigstore.json`, and `data/active.json` names the active version. Deleting the directory returns Evergreen to the bundled data.
 
 ## What is in a bundle
 
-One JSON file (`evergreen.data-bundle.v1`, [schema](../packages/ebb/schemas/data-bundle.v1.schema.json), [decision record](decisions/0006-data-bundle.md)) with a manifest and the files the detectors read: the lifecycle registries (one JSON file per ecosystem under `registry/`), the GitHub Actions SHA map, and the OSV cross-reference (`registry/osv.json`). The manifest lists each file's SHA-256, size, and rule count, a content address for the whole set, the build time, and the oldest Evergreen version that can read it. Versions look like `2026.10.16`, with `.N` for a second bundle on the same day. Building the bundle is deterministic: the same registry files and build time give the same bytes.
+One JSON file (`ebb.data-bundle.v1`, [schema](../packages/ebb/schemas/data-bundle.v1.schema.json), [decision record](decisions/0006-data-bundle.md)) with a manifest and the files the detectors read: the lifecycle registries (one JSON file per ecosystem under `registry/`), the GitHub Actions SHA map, and the OSV cross-reference (`registry/osv.json`). The manifest lists each file's SHA-256, size, and rule count, a content address for the whole set, the build time, and the oldest Evergreen version that can read it. Versions look like `2026.10.16`, with `.N` for a second bundle on the same day. Building the bundle is deterministic: the same registry files and build time give the same bytes.
 
 ### OSV advisories
 
@@ -56,23 +56,23 @@ Evergreen accepts a bundle only if **all** of these hold, checked offline:
 2. The signer is the project's release workflow: issuer `https://token.actions.githubusercontent.com` and an identity matching
 
    ```text
-   ^https://github\.com/arminazimi/evergreen/\.github/workflows/data-release\.yml@refs/(?:tags/data-v\d{4}\.\d{2}\.\d{2}(?:\.\d+)?|heads/main)$
+   ^https://github\.com/velella-sh/ebb/\.github/workflows/data-release\.yml@refs/(?:tags/data-v\d{4}\.\d{2}\.\d{2}(?:\.\d+)?|heads/main)$
    ```
 
    A valid signature from any other workflow, repository, or branch is refused.
-3. The format is one Evergreen understands and its `minimumEvergreenVersion` is not newer than the installed release.
+3. The format is one Evergreen understands and its `minimumEbbVersion` is not newer than the installed release.
 4. The bundle is complete, and every file matches its digest and size, with nothing missing or extra.
 
-The certificates and log keys come from the Sigstore public-good trusted root, which ships in the npm package (`data/sigstore-trusted-root.json`) so that verification needs no network. That is also why you should keep Evergreen reasonably current: if Sigstore rotates its keys and the root in your installed release is too old, signatures made after the rotation stop verifying. Evergreen then falls back to its bundled data and tells you; it does not skip the check.
+The certificates and log keys come from the Sigstore public-good trusted root, which ships in the `@velella/ebb` package (`data/sigstore-trusted-root.json`) so that verification needs no network. That is also why you should keep Evergreen reasonably current: if Sigstore rotates its keys and the root in your installed release is too old, signatures made after the rotation stop verifying. Evergreen then falls back to its bundled data and tells you; it does not skip the check.
 
 To check a release by hand with [cosign](https://docs.sigstore.dev/):
 
 ```bash
 cosign verify-blob \
-  --bundle evergreen-data-2026.10.16.json.sigstore.json \
+  --bundle ebb-data-2026.10.16.json.sigstore.json \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com \
-  --certificate-identity-regexp '^https://github\.com/arminazimi/evergreen/\.github/workflows/data-release\.yml@refs/(?:tags/data-v\d{4}\.\d{2}\.\d{2}(?:\.\d+)?|heads/main)$' \
-  evergreen-data-2026.10.16.json
+  --certificate-identity-regexp '^https://github\.com/velella-sh/ebb/\.github/workflows/data-release\.yml@refs/(?:tags/data-v\d{4}\.\d{2}\.\d{2}(?:\.\d+)?|heads/main)$' \
+  ebb-data-2026.10.16.json
 ```
 
 ### What this does not protect against
@@ -108,11 +108,11 @@ Common causes are a damaged download (run `evergreen data update` again), a bund
 
 ## License and attribution
 
-The lifecycle dataset is licensed separately from the scanner. The data-only package `evergreen-data` — the registry JSON under `registry/` and the first-party schemas under `schemas/` — is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), which allows use and redistribution, including commercially, with attribution and an indication of changes. The package ships the license as `LICENSE` and the attribution notice as `ATTRIBUTION.md`. Everything else in this repository is [Apache-2.0](../LICENSE), and the rules bundled inside the installed scanner package remain part of that package.
+The lifecycle dataset is licensed separately from the scanner. It ships in the [`@velella/ebb`](https://github.com/velella-sh/ebb) package: the registry JSON under `registry/` and the first-party schemas under `schemas/` are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), which allows use and redistribution, including commercially, with attribution and an indication of changes. Ebb's code is MIT. The package ships the data license as `LICENSE-DATA` and the attribution notice as `ATTRIBUTION.md`. Everything in this repository is [Apache-2.0](../LICENSE).
 
 To reuse the dataset, credit it and link the license, for example:
 
-> Lifecycle data from Evergreen (`evergreen-data`), by Armin Azimi and Evergreen contributors, licensed under CC BY 4.0. https://github.com/arminazimi/evergreen
+> Lifecycle data from Ebb (`@velella/ebb`), by Armin Azimi and Ebb contributors, licensed under CC BY 4.0. https://github.com/velella-sh/ebb
 
 Every rule carries its own `sources` (title, URL, and the `accessedAt` day it was read) and `reviewedAt`, so a consumer can trace a claim back to the page that states it and the date it was retrieved. `registry/sources.lock.json` records the current title and final URL of each cited page for maintainers and stays out of the published package. The upstream facts remain subject to the terms of the pages they come from; the license covers Evergreen's selection, arrangement, normalization, and original text. Product and project names are trademarks of their owners and do not imply endorsement.
 

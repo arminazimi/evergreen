@@ -43,7 +43,7 @@ function rule(id: string, extra: Record<string, unknown> = {}, importer?: string
 
 function scenario(): { drafts: DraftRegistry; registry: RegistryV2 } {
   const registry: RegistryV2 = {
-    schemaVersion: "evergreen.registry.v2",
+    schemaVersion: "ebb.registry.v2",
     ecosystem: "nodejs",
     rules: [
       rule("nodejs.runtime.eol-18", {}, "node-schedule"),
@@ -223,7 +223,7 @@ test("a large diff stays under GitHub's limit and says how many rows it left out
     notes: [],
   };
   const body = renderPullRequestBody(
-    diffDrafts(drafts, { schemaVersion: "evergreen.registry.v2", ecosystem: "nodejs", rules: [] }),
+    diffDrafts(drafts, { schemaVersion: "ebb.registry.v2", ecosystem: "nodejs", rules: [] }),
     drafts,
   );
   assert.ok(body.length <= MAX_BODY_CHARS, `body is ${body.length} characters`);

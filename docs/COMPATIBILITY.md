@@ -81,13 +81,13 @@ Each row is a published contract. The guarantee is the machine-readable shape: i
 | Capabilities manifest | `evergreen.capabilities.v1` · [`capabilities.v1.schema.json`](../schemas/capabilities.v1.schema.json) | Manifest shape stays; new optional capability or surface entries may appear. |
 | Baseline | `evergreen.baseline.v1` · [`baseline.v1.schema.json`](../schemas/baseline.v1.schema.json) | File format stays so CI baselines written under 1.x keep loading. |
 | Config | `evergreen.config.v1` · [`config.v1.schema.json`](../schemas/config.v1.schema.json) | Documented keys keep their meaning; new optional keys may appear. |
-| Rule document | `evergreen.rule.v1` · [`rule.v1.schema.json`](../packages/ebb/schemas/rule.v1.schema.json) | Rule view shape stays for MCP resources and tooling. |
+| Rule document | `ebb.rule.v1` · [`rule.v1.schema.json`](../packages/ebb/schemas/rule.v1.schema.json) | Rule view shape stays for MCP resources and tooling. |
 | Fix plan | `evergreen.fix.v1` · [`fix.v1.schema.json`](../schemas/fix.v1.schema.json) | Plan shape stays. |
-| Data status | `evergreen.data-status.v1` · [`data-status.v1.schema.json`](../schemas/data-status.v1.schema.json) | Status shape stays. |
+| Data status | `ebb.data-status.v1` · [`data-status.v1.schema.json`](../schemas/data-status.v1.schema.json) | Status shape stays. |
 | CLI errors | `evergreen.error.v1` | `error.code` classes and exit codes stay as in [Exit codes](CAPABILITIES.md#exit-codes-and-error-codes). |
 | Detector SDK | `evergreen.detector.v1` · [`src/sdk.ts`](../src/sdk.ts) | Detectors written to this API keep loading; a `v2` API may ship in parallel. |
-| Registry file | `evergreen.registry.v2` · [`registry.v2.schema.json`](../packages/ebb/schemas/registry.v2.schema.json) | `v2` registries keep validating and loading; a `v3` may ship in parallel. |
-| Data bundle | `evergreen.data-bundle.v1` · [`data-bundle.v1.schema.json`](../packages/ebb/schemas/data-bundle.v1.schema.json) | Bundle manifest shape stays; older bundles remain accepted for the window after a successor appears. |
+| Registry file | `ebb.registry.v2` · [`registry.v2.schema.json`](../packages/ebb/schemas/registry.v2.schema.json) | `v2` registries keep validating and loading; a `v3` may ship in parallel. |
+| Data bundle | `ebb.data-bundle.v1` · [`data-bundle.v1.schema.json`](../packages/ebb/schemas/data-bundle.v1.schema.json) | Bundle manifest shape stays; older bundles remain accepted for the window after a successor appears. |
 | MCP server | Tool names, resource URIs, and input fields in [MCP](MCP.md) | Listed tools and resources keep working; new tools or optional inputs may appear. Output documents use the rows above. |
 | GitHub Action / GitLab component | Input names in [GitHub Action](GITHUB_ACTION.md) and [GitLab](GITLAB.md) | Documented inputs keep their meaning; new inputs default to current behavior. |
 | SARIF export | SARIF 2.1.0 from `scan --format sarif` | Remains valid SARIF 2.1.0; field mapping changes that would break code scanning need notice as for versioned formats. |
@@ -118,8 +118,8 @@ Evergreen reports other projects' deprecations. Its own interfaces follow the po
 | JSON Schemas in [`schemas/`](../schemas) | File name, for example `scan.v1.schema.json` | A new optional property. | A new `*.v2.schema.json` file; the `v1` file stays for the window. |
 | MCP tools, resources, and prompts | Tool and resource URIs, input field names, and the same output `schemaVersion` | A new tool, prompt, optional input, or optional output field. | A new window, then a removal or a new output version. |
 | Detector SDK ([`src/sdk.ts`](../src/sdk.ts)) | `evergreen.detector.v1` | A new optional member or a new context field. | `evergreen.detector.v2`; the engine keeps loading `v1` detectors during the window. |
-| Registry format | `evergreen.registry.v2` | A new optional rule or registry field, accepted by the validator in the same release. | `evergreen.registry.v3`; `v2` registries are still read during the window. |
-| Data bundle | `evergreen.data-bundle.v1` | A new optional manifest field. | A new bundle version; the old one is still accepted during the window. |
+| Registry format | `ebb.registry.v2` | A new optional rule or registry field, accepted by the validator in the same release. | `ebb.registry.v3`; `v2` registries are still read during the window. |
+| Data bundle | `ebb.data-bundle.v1` | A new optional manifest field. | A new bundle version; the old one is still accepted during the window. |
 | GitHub Action and GitLab component inputs | Input names | A new input whose default preserves current behavior. | The old input or behavior is deprecated for a full window, then removed. |
 
 The contract is the machine-readable part: command names, exit codes, field names, types, and schema versions. Human-readable wording, help text, warning prose, and field order may change in any release. A new optional field may appear in a `v1` document in a minor release; a required field, a rename, a removal, or a type change requires a new version. Patch releases fix behavior but do not add fields.

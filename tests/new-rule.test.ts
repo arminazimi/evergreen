@@ -28,7 +28,7 @@ const exists = (path: string) =>
     () => false,
   );
 const emptyRegistry = (ecosystem = "npm") =>
-  `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem, rules: [] }, null, 2)}\n`;
+  `${JSON.stringify({ schemaVersion: "ebb.registry.v2", ecosystem, rules: [] }, null, 2)}\n`;
 
 async function ruleCheckout(
   registries: Record<string, string> = { "packages/ebb/registry/npm.json": emptyRegistry() },
@@ -141,7 +141,7 @@ test("the scaffold keeps the rules already in the registry", async () => {
     provenance: { observedAt: "2026-10-01", reviewedAt: "2026-10-02", reviewer: "tester" },
   };
   const root = await ruleCheckout({
-    "packages/ebb/registry/npm.json": `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: [existing] }, null, 2)}\n`,
+    "packages/ebb/registry/npm.json": `${JSON.stringify({ schemaVersion: "ebb.registry.v2", ecosystem: "npm", rules: [existing] }, null, 2)}\n`,
   });
   await scaffoldRule("npm.package.sample.deprecated", { root, today: "2026-10-28" });
 
@@ -156,7 +156,7 @@ test("the scaffold keeps the rules already in the registry", async () => {
 
 test("a taken rule id, an existing fixture, or a missing registry stops the run before writing", async () => {
   const taken = await ruleCheckout({
-    "packages/ebb/registry/npm.json": `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: [{ id: "npm.package.sample.deprecated" }] }, null, 2)}\n`,
+    "packages/ebb/registry/npm.json": `${JSON.stringify({ schemaVersion: "ebb.registry.v2", ecosystem: "npm", rules: [{ id: "npm.package.sample.deprecated" }] }, null, 2)}\n`,
   });
   await assert.rejects(
     scaffoldRule("npm.package.sample.deprecated", { root: taken }),

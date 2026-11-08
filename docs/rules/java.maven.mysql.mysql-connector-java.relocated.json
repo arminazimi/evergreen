@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "java.maven.mysql.mysql-connector-java.relocated",
   "ecosystem": "java",
   "purl": "pkg:maven/mysql/mysql-connector-java",

@@ -46,7 +46,7 @@ test("Laravel fixtures cover recently retired and supported majors", async () =>
 test("Laravel rules cite the support policy and provide ordered upgrade packets", async () => {
   const laravelRules = (await committedRules()).filter((rule) => rule.purl === "pkg:composer/laravel/framework");
   validateRegistryV2({
-    schemaVersion: "evergreen.registry.v2",
+    schemaVersion: "ebb.registry.v2",
     ecosystem: "php",
     freshness: { maxReviewAgeDays: 90 },
     rules: laravelRules,

@@ -12,8 +12,9 @@ import { promisify } from "node:util";
 import { buildDataBundle, serializeDataBundle } from "@velella/ebb/data-bundle";
 import type { DataBundle } from "@velella/ebb/data-bundle";
 import { configureActiveData, resolveActiveData } from "@velella/ebb/data-source";
-import { compareBundleVersions, latestDataRelease, renderDataUpdateText, updateData } from "@velella/ebb/data-update";
-import { VERSION } from "../src/version.js";
+import { compareBundleVersions, latestDataRelease, updateData } from "@velella/ebb/data-update";
+import { renderDataUpdateText } from "../src/data-text.js";
+import { VERSION } from "@velella/ebb/version";
 import { runCli } from "./cli-runner.js";
 
 const execute = promisify(execFile);
@@ -21,7 +22,7 @@ const execute = promisify(execFile);
 const roots: string[] = [];
 const servers: http.Server[] = [];
 const signer = {
-  identity: "https://github.com/arminazimi/evergreen/.github/workflows/data-release.yml@refs/tags/data-v2999.01.01",
+  identity: "https://github.com/velella-sh/ebb/.github/workflows/data-release.yml@refs/tags/data-v2999.01.01",
   issuer: "https://token.actions.githubusercontent.com",
 };
 const accepting = { verifySignature: () => signer };
@@ -59,7 +60,7 @@ async function bundleAt(
   };
   mutate(npm);
   await writeFile(join(root, "registry/npm.json"), JSON.stringify(npm));
-  return buildDataBundle({ root, createdAt, revision, minimumEvergreenVersion: "0.1.0" });
+  return buildDataBundle({ root, createdAt, revision, minimumEbbVersion: "0.1.0" });
 }
 
 /** Gives each bundle its own content, since bundles with identical data share a content address and are not "newer". */
@@ -112,14 +113,14 @@ async function fixtureServer(): Promise<Fixture> {
         draft: release.draft ?? false,
         assets: [
           {
-            name: `evergreen-data-${release.version}.json`,
+            name: `ebb-data-${release.version}.json`,
             browser_download_url: `${origin}/download/${release.version}/bundle`,
           },
           ...(release.withoutSignature
             ? []
             : [
                 {
-                  name: `evergreen-data-${release.version}.json.sigstore.json`,
+                  name: `ebb-data-${release.version}.json.sigstore.json`,
                   browser_download_url: `${origin}/download/${release.version}/signature`,
                 },
               ]),
@@ -225,9 +226,9 @@ test("the newest data release wins, and drafts, other tags, and incomplete relea
   assert.ok(compareBundleVersions("2026.11.01", "2026.10.31.9") > 0);
   assert.equal(compareBundleVersions("2026.10.16", "2026.10.16"), 0);
   const assets = (version: string) => [
-    { name: `evergreen-data-${version}.json`, browser_download_url: `https://example.com/${version}.json` },
+    { name: `ebb-data-${version}.json`, browser_download_url: `https://example.com/${version}.json` },
     {
-      name: `evergreen-data-${version}.json.sigstore.json`,
+      name: `ebb-data-${version}.json.sigstore.json`,
       browser_download_url: `https://example.com/${version}.sig`,
     },
   ];
@@ -300,7 +301,7 @@ test("with the real signature check, an unsigned or foreign signature is refused
 
   fixture.publish({ version: bundle.manifest.version, bundle, signature: foreign });
   const result = await runCli(["data", "update"], {
-    env: { EVERGREEN_DATA_DIR: cache, EVERGREEN_DATA_URL: fixture.url },
+    env: { EVERGREEN_DATA_DIR: cache, EBB_DATA_DIR: cache, EBB_DATA_URL: fixture.url },
   });
   assert.equal(result.code, 3);
   assert.match(result.stderr, /Refusing data bundle 2999\.01\.01: The signature/);
@@ -382,7 +383,7 @@ test("network problems and bad responses give clear errors and change nothing", 
         tag_name: "data-v2999.01.01",
         assets: [
           {
-            name: "evergreen-data-2999.01.01.json",
+            name: "ebb-data-2999.01.01.json",
             browser_download_url: `${fixture.url.replace("/releases", "")}/download/2999.01.01/bundle`,
           },
         ],
@@ -426,8 +427,8 @@ test("downloads are bounded and must use https (plain http only for localhost)",
             {
               tag_name: "data-v2999.01.01",
               assets: [
-                { name: "evergreen-data-2999.01.01.json", browser_download_url: "http://evil.example/b" },
-                { name: "evergreen-data-2999.01.01.json.sigstore.json", browser_download_url: "https://example.com/s" },
+                { name: "ebb-data-2999.01.01.json", browser_download_url: "http://evil.example/b" },
+                { name: "ebb-data-2999.01.01.json.sigstore.json", browser_download_url: "https://example.com/s" },
               ],
             },
           ]),
@@ -501,7 +502,8 @@ for (const [name, withoutHelper] of [
     const env = {
       ...inherited,
       EVERGREEN_DATA_DIR: cache,
-      EVERGREEN_DATA_URL: fixture.url,
+      EBB_DATA_DIR: cache,
+      EBB_DATA_URL: fixture.url,
       HTTP_PROXY: `http://127.0.0.1:${(proxy.address() as AddressInfo).port}`,
       NO_PROXY: "",
       ...(withoutHelper ? { NODE_OPTIONS: `--require ${preload}` } : {}),

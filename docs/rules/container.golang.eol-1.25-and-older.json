@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "container.golang.eol-1.25-and-older",
   "ecosystem": "container",
   "purl": "pkg:docker/library/golang",

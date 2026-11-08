@@ -131,7 +131,7 @@ test("forecast: --svg wins over --format mermaid and the plain and JSON renders 
 
   const json = await runCli(["forecast", root, "--json", "--as-of", "2026-10-25"]);
   assert.equal(json.code, 0, json.stderr);
-  assert.equal(JSON.parse(json.stdout).schemaVersion, "evergreen.forecast.v1");
+  assert.equal(JSON.parse(json.stdout).schemaVersion, "ebb.forecast.v1");
 
   const text = await runCli(["forecast", root, "--as-of", "2026-10-25"], { env: { NO_COLOR: "1" } });
   assert.equal(text.code, 0, text.stderr);

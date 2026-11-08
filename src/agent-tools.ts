@@ -11,7 +11,7 @@ import { renderReceiptMarkdown } from "./receipt-markdown.js";
 import { readPinnedRuntimes } from "./runtime-pin.js";
 import { runScanRequest } from "./scan-request.js";
 import type { MigrationPacket } from "./migration-packet.js";
-import { EvergreenError } from "@velella/ebb/evergreen-error";
+import { EvergreenError } from "./evergreen-error.js";
 
 /** A finding reduced to what a list of deprecations shows. */
 export interface DeprecationSummary {

@@ -52,7 +52,7 @@ test("loads v1 registries exactly as before", () => {
 test("rejects other schema versions and a missing version", () => {
   assert.throws(
     () => loadRegistryRules({ ...v1, schemaVersion: "evergreen.pypi-registry.v1" }, definition),
-    /expected evergreen\.npm-registry\.v1 or evergreen\.registry\.v2/,
+    /expected evergreen\.npm-registry\.v1 or ebb\.registry\.v2/,
   );
   assert.throws(() => loadRegistryRules({ rules: [] }, definition), /Unsupported registry schema: missing/);
 });

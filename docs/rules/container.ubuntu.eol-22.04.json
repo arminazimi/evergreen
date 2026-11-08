@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "container.ubuntu.eol-22.04",
   "ecosystem": "container",
   "purl": "pkg:docker/library/ubuntu",

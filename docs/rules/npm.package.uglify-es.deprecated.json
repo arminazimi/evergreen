@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "npm.package.uglify-es.deprecated",
   "ecosystem": "npm",
   "purl": "pkg:npm/uglify-es",

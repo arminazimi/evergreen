@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "container.host-sles.eol-15-sp6-and-older",
   "ecosystem": "container",
   "purl": "pkg:generic/sles",

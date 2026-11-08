@@ -1,16 +1,19 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import { join } from "node:path";
 import { test } from "node:test";
 
 import { TrustedRoot } from "@sigstore/protobuf-specs";
 
-import { DATA_SIGNER } from "@velella/ebb/data-bundle";
-import { DataSignatureError, verifyArtifactSignature } from "@velella/ebb/data-signature";
+import { DATA_SIGNER } from "../src/data-bundle.js";
+import { DataSignatureError, verifyArtifactSignature } from "../src/data-signature.js";
 
-const artifact = await readFile(resolve("tests/fixtures/sigstore/cosign_checksums.txt"));
-const signature = await readFile(resolve("tests/fixtures/sigstore/cosign_checksums.txt.sigstore.json"), "utf8");
+// Compiled to dist/tests/, two levels below the package root.
+const packageRoot = join(import.meta.dirname, "..", "..");
+
+const artifact = await readFile(join(packageRoot, "tests/fixtures/sigstore/cosign_checksums.txt"));
+const signature = await readFile(join(packageRoot, "tests/fixtures/sigstore/cosign_checksums.txt.sigstore.json"), "utf8");
 
 // The fixture is signed by cosign's own release identity, so it stands in for "a real, valid signature".
 const cosign = {
@@ -78,8 +81,8 @@ test("a trusted root that knows none of the signing authorities refuses everythi
 });
 
 test("the bundled trusted root is the file whose hash is documented", async () => {
-  const root = await readFile(resolve("data/sigstore-trusted-root.json"));
-  const readme = await readFile(resolve("data/README.md"), "utf8");
+  const root = await readFile(join(packageRoot, "data/sigstore-trusted-root.json"));
+  const readme = await readFile(join(packageRoot, "data/README.md"), "utf8");
   assert.ok(
     readme.includes(createHash("sha256").update(root).digest("hex")),
     "data/README.md must record the trusted root's SHA-256",

@@ -7,7 +7,7 @@ import { after, test } from "node:test";
 import type { CommandContext, FailureClass } from "../src/commands/types.js";
 import { EXIT_CODES } from "../src/commands/types.js";
 import { prepare, repositoryPhase, sharedGates } from "../src/commands/runtime.js";
-import { classifyError } from "@velella/ebb/evergreen-error";
+import { classifyError } from "../src/evergreen-error.js";
 import type { Gated, Prepared } from "../src/commands/runtime.js";
 
 const roots: string[] = [];

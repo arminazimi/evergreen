@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "kubernetes.admissionregistration-k8s-io.mutatingwebhookconfiguration.v1beta1.removed",
   "ecosystem": "kubernetes",
   "purl": "pkg:generic/kubernetes/admissionregistration.k8s.io/MutatingWebhookConfiguration",

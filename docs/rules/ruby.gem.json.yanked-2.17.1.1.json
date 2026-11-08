@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "ruby.gem.json.yanked-2.17.1.1",
   "ecosystem": "ruby",
   "purl": "pkg:gem/json",

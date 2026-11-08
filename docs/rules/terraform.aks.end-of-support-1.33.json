@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "terraform.aks.end-of-support-1.33",
   "ecosystem": "terraform",
   "purl": "pkg:generic/azure-kubernetes-service",

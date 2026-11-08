@@ -1,7 +1,7 @@
 // Checks rule files before CI does: schema, date order, source URLs, duplicate ids, and replacement requirements,
 // each with the file, the line, and a fix hint.
 //
-//   evergreen rules lint [file...]
+//   rules lint [file...]
 //
 // With no file arguments it checks every registry under `registry/`, so a contributor can run it after editing one.
 

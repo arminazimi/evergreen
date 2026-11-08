@@ -134,7 +134,7 @@ test("the command exits 0 on a pass, 1 on a failure, and 2 on an unknown rule", 
   );
   const root = await fixtures({
     ...checkoutFixtures,
-    "packages/ebb/registry/npm.json": `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: [rule] }, null, 2)}\n`,
+    "packages/ebb/registry/npm.json": `${JSON.stringify({ schemaVersion: "ebb.registry.v2", ecosystem: "npm", rules: [rule] }, null, 2)}\n`,
   });
   const run = (args: string[]) => runCli(args, { cwd: root });
 

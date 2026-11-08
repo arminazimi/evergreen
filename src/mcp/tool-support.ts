@@ -2,7 +2,7 @@ import type { McpServer } from "@modelcontextprotocol/server";
 import * as z from "zod/v4";
 
 import type { EvergreenAgentTools } from "../agent-tools.js";
-import { classifyError, EXIT_CODES } from "@velella/ebb/evergreen-error";
+import { classifyError, EXIT_CODES } from "../evergreen-error.js";
 import { outputSchema } from "./output-schema.js";
 import { MCP_TOOL_ANNOTATIONS, type McpToolName } from "./tool-names.js";
 

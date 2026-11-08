@@ -1,5 +1,5 @@
 import type { EvidenceSource } from "./domain.js";
-import { EvergreenError } from "@velella/ebb/evergreen-error";
+import { EvergreenError } from "./evergreen-error.js";
 import { lookupProduct, LookupError } from "@velella/ebb/lookup";
 import type { LookupFinding } from "@velella/ebb/lookup";
 import { parseVersLenient, versionScheme } from "@velella/ebb/vers";

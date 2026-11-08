@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "elixir.package.fennec.retired",
   "ecosystem": "elixir",
   "purl": "pkg:hex/fennec",

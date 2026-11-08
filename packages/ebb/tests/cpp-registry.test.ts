@@ -1,15 +1,19 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { test } from "node:test";
 
-import { validateRegistryV2 } from "@velella/ebb/registry";
-import { versContains } from "@velella/ebb/vers/index";
+import { validateRegistryV2 } from "../src/registry.js";
+import { versContains } from "../src/vers/index.js";
+
+// Compiled to dist/tests/, two levels below the package root.
+const packageRoot = join(import.meta.dirname, "..", "..");
 
 const CMAKE_ORG = /^https:\/\/cmake\.org\/cmake\/help\/latest\//;
 const KITWARE_RELEASE = /^https:\/\/github\.com\/Kitware\/CMake\/releases\/tag\/v[\d.]+$/;
 
 async function rules() {
-  return validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/cpp.json", "utf8"))).rules;
+  return validateRegistryV2(JSON.parse(await readFile(join(packageRoot, "registry/cpp.json"), "utf8"))).rules;
 }
 
 test("the C and C++ registry has five valid rules, each citing cmake.org or a Kitware release", async () => {

@@ -1,12 +1,16 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { test } from "node:test";
 
-import { validateRegistryV2 } from "@velella/ebb/registry";
-import { versContains } from "@velella/ebb/vers";
+import { validateRegistryV2 } from "../src/registry.js";
+import { versContains } from "../src/vers.js";
+
+// Compiled to dist/tests/, two levels below the package root.
+const packageRoot = join(import.meta.dirname, "..", "..");
 
 async function rules() {
-  return validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/container.json", "utf8"))).rules;
+  return validateRegistryV2(JSON.parse(await readFile(join(packageRoot, "registry/container.json"), "utf8"))).rules;
 }
 
 test("container registry has twenty-six image rules, two Dockerfile rules, and seven host OS rules with vendor sources", async () => {

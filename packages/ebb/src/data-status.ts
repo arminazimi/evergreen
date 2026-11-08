@@ -2,7 +2,7 @@ import type { DataInfo } from "./domain.js";
 import { defaultCacheDirectory, getActiveData } from "./data-source.js";
 import type { ActiveData } from "./data-source.js";
 
-export const DATA_STATUS_SCHEMA_VERSION = "evergreen.data-status.v1" as const;
+export const DATA_STATUS_SCHEMA_VERSION = "ebb.data-status.v1" as const;
 
 /** Evidence older than this is called stale in every output. */
 export const STALE_AFTER_DAYS = 30;
@@ -10,7 +10,7 @@ export const STALE_AFTER_DAYS = 30;
 export interface DataStatus {
   schemaVersion: typeof DATA_STATUS_SCHEMA_VERSION;
   source: "bundled" | "cache" | "pinned";
-  /** The bundle version, or the Evergreen release for bundled data. */
+  /** The bundle version, or the Ebb release for bundled data. */
   version: string;
   /** When a downloaded bundle was built; null for the bundled data. */
   createdAt: string | null;
@@ -35,9 +35,6 @@ export function dataInfoFrom(data: ActiveData, now: Date = new Date()): DataInfo
   return { source, version, createdAt, reviewedThrough, ageDays, stale };
 }
 
-/** The sentence shown wherever stale data would otherwise go unnoticed. */
-export const staleDataWarning = (info: Pick<DataInfo, "ageDays">): string =>
-  `The lifecycle data is ${info.ageDays} days old (stale after ${STALE_AFTER_DAYS}). Findings may be missing recent changes; run "evergreen data update".`;
 
 export function dataStatusFrom(
   data: ActiveData,
@@ -70,20 +67,3 @@ export async function getDataStatus(now: Date = new Date()): Promise<DataStatus>
   return dataStatusFrom(await getActiveData(), now);
 }
 
-export function renderDataStatusText(status: DataStatus): string {
-  const lines = [
-    "Evergreen lifecycle data",
-    `Source: ${status.source}${status.source === "bundled" ? " (shipped with this Evergreen release)" : ""}`,
-    `Version: ${status.version}`,
-    status.createdAt ? `Built: ${status.createdAt}` : "Built: not recorded for bundled data",
-    `Evidence reviewed through: ${status.reviewedThrough}`,
-    `Age: ${status.ageDays} day${status.ageDays === 1 ? "" : "s"} since ${status.ageBasis === "createdAt" ? "the bundle was built" : "the evidence was last reviewed"}${status.stale ? ` — older than ${status.staleAfterDays} days, so it is stale` : ""}`,
-  ];
-  if (status.contentDigest) lines.push(`Content digest: ${status.contentDigest}`);
-  if (status.signer) lines.push(`Signed by: ${status.signer.identity}`, `Issuer: ${status.signer.issuer}`);
-  else lines.push("Signature: not applicable (bundled data ships inside the installed package)");
-  lines.push(`Cache directory: ${status.cacheDirectory}`);
-  for (const warning of status.warnings) lines.push("", `Warning: ${warning}`);
-  if (status.stale) lines.push("", "Update with: evergreen data update");
-  return lines.join("\n");
-}

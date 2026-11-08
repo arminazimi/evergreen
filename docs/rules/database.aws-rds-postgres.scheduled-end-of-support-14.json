@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "database.aws-rds-postgres.scheduled-end-of-support-14",
   "ecosystem": "database",
   "purl": "pkg:generic/aws-rds/postgres",

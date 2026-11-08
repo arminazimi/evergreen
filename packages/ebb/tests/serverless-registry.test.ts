@@ -1,8 +1,12 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { test } from "node:test";
 
-import { validateRegistryV2 } from "@velella/ebb/registry";
+import { validateRegistryV2 } from "../src/registry.js";
+
+// Compiled to dist/tests/, two levels below the package root.
+const packageRoot = join(import.meta.dirname, "..", "..");
 
 const AWS_RUNTIMES = "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html";
 const GOOGLE_RUNTIMES = "https://cloud.google.com/functions/docs/runtime-support";
@@ -83,7 +87,7 @@ const SOURCE_DEADLINES = {
 } as const;
 
 async function rules() {
-  return validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/serverless.json", "utf8"))).rules;
+  return validateRegistryV2(JSON.parse(await readFile(join(packageRoot, "registry/serverless.json"), "utf8"))).rules;
 }
 
 test("the serverless registry holds the curated AWS, Google Cloud, and Azure rules, each citing its vendor table", async () => {

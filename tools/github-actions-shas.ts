@@ -8,7 +8,7 @@ import { resolve } from "node:path";
 
 import { chooseTag } from "./sha-tags.js";
 
-const SCHEMA_VERSION = "evergreen.github-actions-shas.v1";
+const SCHEMA_VERSION = "ebb.github-actions-shas.v1";
 const EXACT_VERSION = /^v\d+\.\d+\.\d+$/;
 const SHA = /^[0-9a-f]{40}$/;
 

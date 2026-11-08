@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed",
   "ecosystem": "kubernetes",
   "purl": "pkg:generic/kubernetes/autoscaling/HorizontalPodAutoscaler",

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "serverless.azure-app-service.dotnet-7-0",
   "ecosystem": "serverless",
   "purl": "pkg:generic/azure-app-service/dotnet",

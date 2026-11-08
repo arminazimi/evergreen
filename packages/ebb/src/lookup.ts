@@ -7,7 +7,7 @@ import { validateRegistryV2 } from "./registry.js";
 import type { LifecycleEvent, RegistryV2Rule } from "./registry.js";
 import { versContains } from "./vers.js";
 
-export const LOOKUP_SCHEMA_VERSION = "evergreen.lookup.v1" as const;
+export const LOOKUP_SCHEMA_VERSION = "ebb.lookup.v1" as const;
 
 export class LookupError extends Error {
   constructor(message: string) {
@@ -172,7 +172,7 @@ function resolvePurl(name: string, products: readonly Product[]): Product {
   }
   const match = products.find((product) => purlIdentity(product.purl) === identity);
   if (!match)
-    throw new LookupError(`Unknown product "${name}". Evergreen has no lifecycle rules for this package URL.`);
+    throw new LookupError(`Unknown product "${name}". Ebb has no lifecycle rules for this package URL.`);
   return match;
 }
 

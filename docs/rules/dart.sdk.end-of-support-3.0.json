@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "dart.sdk.end-of-support-3.0",
   "ecosystem": "dart",
   "purl": "pkg:generic/dart",

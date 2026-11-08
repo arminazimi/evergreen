@@ -50,7 +50,7 @@ async function pinOldData(createdAt: string): Promise<string> {
   const root = await scratch("registry");
   await cp(resolve("packages/ebb/registry"), join(root, "registry"), { recursive: true });
   await writeFile(join(root, "package.json"), await readFile(resolve("package.json"), "utf8"));
-  const bundle = await buildDataBundle({ root, createdAt, minimumEvergreenVersion: "0.1.0" });
+  const bundle = await buildDataBundle({ root, createdAt, minimumEbbVersion: "0.1.0" });
   const cache = await scratch("cache");
   const directory = cachedBundleDirectory(cache, bundle.manifest.version);
   await mkdir(directory, { recursive: true });
@@ -135,7 +135,9 @@ test("SARIF records which data was used without anything that changes with the c
 
 test("the CLI and the Action carry the data information too", async () => {
   const directory = await project();
-  const scanned = await runCli(["scan", directory, "--json"], { env: { EVERGREEN_DATA_DIR: await scratch("empty") } });
+  const scanned = await runCli(["scan", directory, "--json"], {
+    env: { EVERGREEN_DATA_DIR: await scratch("empty"), EBB_DATA_DIR: await scratch("empty") },
+  });
   const json = JSON.parse(scanned.stdout) as { data: { source: string } };
   assert.equal(json.data.source, "bundled");
   const checked = await runCli(["check", "pkg:npm/express", "--json"]);

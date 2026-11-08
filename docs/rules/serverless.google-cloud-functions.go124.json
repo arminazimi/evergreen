@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "serverless.google-cloud-functions.go124",
   "ecosystem": "serverless",
   "purl": "pkg:generic/google-cloud-functions-runtime/go124",

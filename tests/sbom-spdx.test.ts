@@ -230,7 +230,7 @@ test("SPDX file enrichment reads all active registries, including ecosystems abs
         paths.push(path);
         const ecosystem = path.slice("registry/".length, -".json".length);
         return {
-          schemaVersion: "evergreen.registry.v2",
+          schemaVersion: "ebb.registry.v2",
           ecosystem,
           rules:
             ecosystem === "rust" ? [{ ...rule, ecosystem, purl: "pkg:cargo/example", vers: "vers:cargo/<2.0.0" }] : [],

@@ -288,7 +288,7 @@ test("lifecycle rules are listed and readable as resources without a scan", asyn
     assert.equal(contents.length, 1);
     assert.equal(contents[0]!.uri, "evergreen://rules/npm.package.request.deprecated");
     const rule = JSON.parse(contents[0]!.text) as Record<string, unknown>;
-    assert.equal(rule.schemaVersion, "evergreen.rule.v1");
+    assert.equal(rule.schemaVersion, "ebb.rule.v1");
     assert.equal(rule.event, "deprecated");
     assert.ok((rule.sources as unknown[]).length > 0);
     assert.ok(rule.replacement);
@@ -303,7 +303,7 @@ test("lifecycle rules are listed and readable as resources without a scan", asyn
   }
 });
 
-test("every bundled rule reads back as a valid evergreen.rule.v1 document", async () => {
+test("every bundled rule reads back as a valid ebb.rule.v1 document", async () => {
   const { Ajv2020 } = await import("ajv/dist/2020.js");
   const validate = new Ajv2020({ allErrors: true }).compile(
     JSON.parse(await readFile(resolve("packages/ebb/schemas/rule.v1.schema.json"), "utf8")) as object,

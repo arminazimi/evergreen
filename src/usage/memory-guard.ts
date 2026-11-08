@@ -1,5 +1,5 @@
 import { getHeapStatistics } from "node:v8";
-import { EvergreenError } from "@velella/ebb/evergreen-error";
+import { EvergreenError } from "../evergreen-error.js";
 
 /** Share of the V8 heap limit a scan may use before it stops with a clear error instead of crashing. */
 const heapUseLimit = 0.85;

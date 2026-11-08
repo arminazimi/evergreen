@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "database.aws-elasticache-redis.end-of-support-5",
   "ecosystem": "database",
   "purl": "pkg:generic/aws-elasticache/redis",

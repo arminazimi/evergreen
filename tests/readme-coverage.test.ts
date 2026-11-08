@@ -99,7 +99,7 @@ test("a new registry rule needs no hand edit of the README or the compatibility 
   await writeFile(join(root, "docs/coverage-descriptions.json"), await read("docs/coverage-descriptions.json"));
   await writeFile(
     join(root, "packages/ebb/registry/example.json"),
-    JSON.stringify({ schemaVersion: "evergreen.registry.v2", rules: [{ id: "example.package.deprecated" }] }),
+    JSON.stringify({ schemaVersion: "ebb.registry.v2", rules: [{ id: "example.package.deprecated" }] }),
   );
   assert.equal(await buildReadmeDocument(root), readme);
   assert.equal(await buildDocument(root), await read("docs/COMPATIBILITY.md"));

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "npm.package.natives.deprecated",
   "ecosystem": "npm",
   "purl": "pkg:npm/natives",

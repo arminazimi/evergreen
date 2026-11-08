@@ -47,7 +47,7 @@ has tested, for a server that has to work with Claude, Codex, Copilot, and other
 
 ### `@sigstore/bundle`
 
-`sigstore-bundle` turns a `.sigstore.json` file into the typed bundle the verifier accepts. `src/data-signature.ts`
+`sigstore-bundle` turns a `.sigstore.json` file into the typed bundle the verifier accepts. `packages/ebb/src/data-signature.ts`
 calls `bundleFromJSON` before every data-update signature check, so a malformed bundle fails with a signature error
 instead of reaching verification. Hand-parsing the bundle format would mean reimplementing a published
 specification and its validation rules.
@@ -55,13 +55,13 @@ specification and its validation rules.
 ### `@sigstore/protobuf-specs`
 
 `sigstore-protobuf-specs` owns the protobuf message types Sigstore uses, including `TrustedRoot`. Evergreen loads
-`data/sigstore-trusted-root.json` through `TrustedRoot.fromJSON` in `src/data-signature.ts`, which is what lets a
+`packages/ebb/data/sigstore-trusted-root.json` through `TrustedRoot.fromJSON` in `packages/ebb/src/data-signature.ts`, which is what lets a
 data update be verified offline, with no certificate fetch. Without this package the trusted root could not be
 decoded, and verification would have to go to the network.
 
 ### `@sigstore/verify`
 
-`sigstore-verify` is the verifier itself. `src/data-signature.ts` uses `toSignedEntity`, `toTrustMaterial`, and
+`sigstore-verify` is the verifier itself. `packages/ebb/src/data-signature.ts` uses `toSignedEntity`, `toTrustMaterial`, and
 `Verifier` to check the signature, the certificate chain against the bundled root, the transparency-log inclusion,
 and the certificate identity and issuer. This is the security boundary for lifecycle data: a bug here accepts a
 bundle Evergreen should reject. Reimplementing it is not a reduction in trust, it is a new place to get

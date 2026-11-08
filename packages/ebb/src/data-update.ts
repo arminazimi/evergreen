@@ -13,12 +13,12 @@ import {
   verifyDataBundle,
 } from "./data-source.js";
 import type { DataSourceOptions, VerifiedDataBundle } from "./data-source.js";
-import { EvergreenError } from "./evergreen-error.js";
+import { EbbError } from "./errors.js";
 
-export const DATA_UPDATE_SCHEMA_VERSION = "evergreen.data-update.v1" as const;
+export const DATA_UPDATE_SCHEMA_VERSION = "ebb.data-update.v1" as const;
 
-/** Where releases are listed. `EVERGREEN_DATA_URL` points this at a mirror or, in tests, a local server. */
-export const DEFAULT_RELEASES_URL = "https://api.github.com/repos/arminazimi/evergreen/releases?per_page=30";
+/** Where releases are listed. `EBB_DATA_URL` points this at a mirror or, in tests, a local server. */
+export const DEFAULT_RELEASES_URL = "https://api.github.com/repos/velella-sh/ebb/releases?per_page=30";
 
 const MAXIMUM_BUNDLE_BYTES = 20 * 1024 * 1024;
 const MAXIMUM_SIGNATURE_BYTES = 1024 * 1024;
@@ -27,7 +27,7 @@ const REQUEST_TIMEOUT_MS = 30_000;
 const KEEP_VERSIONS = 3;
 const TAG_PATTERN = /^data-v(\d{4}\.\d{2}\.\d{2}(?:\.\d+)?)$/;
 
-export class DataUpdateError extends EvergreenError {
+export class DataUpdateError extends EbbError {
   constructor(message: string) {
     super("data-update-failed", message);
     this.name = "DataUpdateError";
@@ -106,7 +106,7 @@ async function download(url: string, limit: number, what: string, request: typeo
   try {
     response = await request(url, {
       signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-      headers: { "user-agent": "evergreen-data-update", accept: "application/octet-stream, application/json" },
+      headers: { "user-agent": "ebb-data-update", accept: "application/octet-stream, application/json" },
     });
   } catch (error) {
     throw new DataUpdateError(
@@ -132,8 +132,8 @@ export function latestDataRelease(releases: Release[], only?: string): LatestRel
   for (const release of releases) {
     const version = TAG_PATTERN.exec(release.tag_name)?.[1];
     if (!version || release.draft || (only !== undefined && version !== only)) continue;
-    const bundle = release.assets?.find((asset) => asset.name === `evergreen-data-${version}.json`);
-    const signature = release.assets?.find((asset) => asset.name === `evergreen-data-${version}.json.sigstore.json`);
+    const bundle = release.assets?.find((asset) => asset.name === `ebb-data-${version}.json`);
+    const signature = release.assets?.find((asset) => asset.name === `ebb-data-${version}.json.sigstore.json`);
     if (!bundle || !signature) continue;
     if (!best || compareBundleVersions(version, best.version) > 0) {
       best = { version, bundleUrl: bundle.browser_download_url, signatureUrl: signature.browser_download_url };
@@ -296,7 +296,7 @@ async function stageBundle(directory: string, bytes: Uint8Array, signature: stri
 }
 
 /**
- * Downloads the newest signed data bundle into the user cache. This is the only place Evergreen uses the network,
+ * Downloads the newest signed data bundle into the user cache. This is the only place Ebb uses the network,
  * and it runs only when the user asks. The download is verified completely before anything is written; the cache
  * pointer changes last, atomically, so an interrupted or refused update leaves the previous data in place.
  */
@@ -304,7 +304,7 @@ export async function updateData(options: DataUpdateOptions = {}): Promise<DataU
   const request = options.fetch ?? fetch;
   if (!options.fetch && typeof http.setGlobalProxyFromEnv === "function") http.setGlobalProxyFromEnv();
   const cache = options.cacheDirectory ?? defaultCacheDirectory();
-  const releasesUrl = options.releasesUrl ?? process.env.EVERGREEN_DATA_URL ?? DEFAULT_RELEASES_URL;
+  const releasesUrl = options.releasesUrl ?? process.env.EBB_DATA_URL ?? DEFAULT_RELEASES_URL;
 
   if (options.version !== undefined && !/^\d{4}\.\d{2}\.\d{2}(?:\.\d+)?$/.test(options.version)) {
     throw new DataUpdateError(`"${options.version}" is not a data version. Use a version such as 2026.10.01.`);
@@ -383,31 +383,3 @@ async function applyUpdate(pending: PendingUpdate, options: DataUpdateOptions): 
   };
 }
 
-export function renderDataUpdateText(result: DataUpdateResult): string {
-  const lines =
-    result.status === "up-to-date"
-      ? [`Lifecycle data is up to date: ${result.to.version}.`]
-      : result.status === "downloaded"
-        ? [
-            `Downloaded lifecycle data ${result.to.version}. It is not active until you pin it: evergreen scan --data-version ${result.to.version}, or EVERGREEN_DATA_VERSION=${result.to.version}.`,
-          ]
-        : [
-            `Updated lifecycle data: ${result.from.version} (${result.from.source}) → ${result.to.version} (${result.to.source}).`,
-          ];
-  const changes = Object.entries(result.rules)
-    .map(([name, { before, after }]) =>
-      before === null
-        ? `${name}: ${after} rules (new)`
-        : before === after
-          ? undefined
-          : `${name}: ${before} → ${after} rules`,
-    )
-    .filter((line): line is string => line !== undefined);
-  if (result.status === "updated")
-    lines.push(
-      changes.length > 0 ? `Rules: ${changes.join("; ")}.` : "Rule counts are unchanged; the evidence was refreshed.",
-    );
-  if (result.signer) lines.push(`Signed by: ${result.signer.identity}`);
-  lines.push(`Stored in: ${result.cacheDirectory}`);
-  return lines.join("\n");
-}

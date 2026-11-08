@@ -209,7 +209,7 @@ test("data status --json matches data-status.v1.schema.json and rejects undeclar
   const parsed = JSON.parse(stdout);
 
   assert.equal(validate(parsed), true, JSON.stringify(validate.errors));
-  assert.equal(parsed.schemaVersion, "evergreen.data-status.v1");
+  assert.equal(parsed.schemaVersion, "ebb.data-status.v1");
 
   // Top-level undeclared property rejected
   assertAdditionalPropertiesRejected(validate, parsed);

@@ -1,7 +1,7 @@
 import type { EvidenceSource, MigrationGuidance, Severity } from "./domain.js";
 import type { LifecycleEvent, RegistryV2Rule } from "@velella/ebb/registry";
 
-export const RULE_SCHEMA_VERSION = "evergreen.rule.v1" as const;
+export const RULE_SCHEMA_VERSION = "ebb.rule.v1" as const;
 export const RULE_URI_PREFIX = "evergreen://rules/";
 
 /** A lifecycle rule as an agent reads it: the claim, who it applies to, the evidence, and the way out. */

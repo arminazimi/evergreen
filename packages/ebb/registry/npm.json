@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.registry.v2",
+  "schemaVersion": "ebb.registry.v2",
   "ecosystem": "npm",
   "rules": [
     {
@@ -5447,7 +5447,7 @@
       "event": "scheduled-end-of-life",
       "deadline": "2028-06-30",
       "title": "@angular/core v22 reaches end of life on 2028-06-30",
-      "summary": "Angular's release schedule lists v22 with \"LTS ends 2028-06\", a month-precision date. Evergreen uses the last day of that month, 2028-06-30, as the deadline. LTS receives only critical fixes and security patches until the end of that month.",
+      "summary": "Angular's release schedule lists v22 with \"LTS ends 2028-06\", a month-precision date. Ebb uses the last day of that month, 2028-06-30, as the deadline. LTS receives only critical fixes and security patches until the end of that month.",
       "severity": "low",
       "sources": [
         {
@@ -5524,7 +5524,7 @@
       "event": "scheduled-end-of-life",
       "deadline": "2027-06-30",
       "title": "@angular/core v21 reaches end of life on 2027-06-30",
-      "summary": "Angular's release schedule lists v21 with \"LTS ends 2027-06\", a month-precision date. Evergreen uses the last day of that month, 2027-06-30, as the deadline. LTS receives only critical fixes and security patches until the end of that month.",
+      "summary": "Angular's release schedule lists v21 with \"LTS ends 2027-06\", a month-precision date. Ebb uses the last day of that month, 2027-06-30, as the deadline. LTS receives only critical fixes and security patches until the end of that month.",
       "severity": "low",
       "replacement": "@angular/core@22",
       "sources": [

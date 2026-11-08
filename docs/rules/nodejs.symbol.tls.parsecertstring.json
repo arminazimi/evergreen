@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "nodejs.symbol.tls.parsecertstring",
   "ecosystem": "nodejs",
   "purl": "pkg:generic/nodejs",

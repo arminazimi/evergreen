@@ -240,9 +240,9 @@ Use this when rules change and you do not want to wait for a package release. Th
    ```
 
    If the tag and the bundle's version disagree the workflow stops and says which tag the commit needs.
-4. **Confirm.** The release has `evergreen-data-<version>.json`, its `.sigstore.json` signature, and `SHA256SUMS`. On a clean machine, `evergreen data update` should report the new version, and `evergreen data status` should show `cache` and the signer identity.
+4. **Confirm.** The release has `ebb-data-<version>.json`, its `.sigstore.json` signature, and `SHA256SUMS`. On a clean machine, `evergreen data update` should report the new version, and `evergreen data status` should show `cache` and the signer identity.
 
-A data release does not change the npm package or the Action. If the data format itself changes, that needs a new `schemaVersion`, a package release that understands it, and a `minimumEvergreenVersion` in the bundle. See the [decision record](decisions/0006-data-bundle.md) and [Lifecycle data](DATA.md).
+A data release does not change the npm package or the Action. If the data format itself changes, that needs a new `schemaVersion`, a package release that understands it, and a `minimumEbbVersion` in the bundle. See the [decision record](decisions/0006-data-bundle.md) and [Lifecycle data](DATA.md).
 
 ## Rolling back
 

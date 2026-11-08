@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "serverless.azure-functions.runtime-2-x-and-3-x",
   "ecosystem": "serverless",
   "purl": "pkg:generic/azure-functions",

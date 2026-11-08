@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
   "ecosystem": "kubernetes",
   "purl": "pkg:generic/kubernetes/rbac.authorization.k8s.io/ClusterRoleBinding",

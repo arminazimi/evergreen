@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "php.package.swiftmailer.swiftmailer.abandoned",
   "ecosystem": "php",
   "purl": "pkg:composer/swiftmailer/swiftmailer",

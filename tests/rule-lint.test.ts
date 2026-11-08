@@ -36,7 +36,7 @@ function validRule(id = "npm.package.sample.deprecated"): Record<string, unknown
 }
 
 function registry(rules: unknown[]): string {
-  return `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules }, null, 2)}\n`;
+  return `${JSON.stringify({ schemaVersion: "ebb.registry.v2", ecosystem: "npm", rules }, null, 2)}\n`;
 }
 
 async function registryDirectory(files: Record<string, string>): Promise<string> {
@@ -123,7 +123,7 @@ test("a duplicate id across files names both locations", async () => {
 });
 
 test("invalid JSON is reported at the failing line", async () => {
-  const text = '{\n  "schemaVersion": "evergreen.registry.v2",\n  "rules": [\n}\n';
+  const text = '{\n  "schemaVersion": "ebb.registry.v2",\n  "rules": [\n}\n';
   const directory = await registryDirectory({ "npm.json": text });
 
   const result = await lintRuleFiles([join(directory, "npm.json")]);
@@ -169,7 +169,7 @@ test("the command exits 1 on problems, 0 on clean files, and 2 on misuse", async
   const badRule = validRule();
   (badRule.sources as Array<{ url: string }>)[0]!.url = "http://example.com/sample";
   const badDirectory = await registryDirectory({
-    "npm.json": `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: [badRule] }, null, 2)}\n`,
+    "npm.json": `${JSON.stringify({ schemaVersion: "ebb.registry.v2", ecosystem: "npm", rules: [badRule] }, null, 2)}\n`,
   });
   const bad = await run(["rules", "lint", join(badDirectory, "npm.json")], resolve("."));
   assert.equal(bad.code, 1, bad.stderr);

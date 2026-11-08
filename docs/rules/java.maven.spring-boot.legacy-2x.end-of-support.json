@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "java.maven.spring-boot.legacy-2x.end-of-support",
   "ecosystem": "java",
   "purl": "pkg:maven/org.springframework.boot/spring-boot",

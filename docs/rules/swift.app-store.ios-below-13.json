@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "swift.app-store.ios-below-13",
   "ecosystem": "swift",
   "purl": "pkg:generic/ios",

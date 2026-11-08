@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "github-actions.workflow-command.add-path",
   "ecosystem": "github-actions",
   "purl": "pkg:generic/github-actions/add-path",

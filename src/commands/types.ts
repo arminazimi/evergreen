@@ -1,6 +1,6 @@
 import type { ActionableMessage } from "../errors.js";
 
-import { EXIT_CODES, type ErrorCode, type FailureClass } from "@velella/ebb/evergreen-error";
+import { EXIT_CODES, type ErrorCode, type FailureClass } from "../evergreen-error.js";
 
 export { EXIT_CODES };
 export type { FailureClass };

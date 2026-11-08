@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "npm.package.babel-preset-es2015.deprecated",
   "ecosystem": "npm",
   "purl": "pkg:npm/babel-preset-es2015",

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "dart.package.analysis-server-client.discontinued",
   "ecosystem": "dart",
   "purl": "pkg:pub/analysis_server_client",

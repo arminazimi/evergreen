@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "kubernetes.amazon-eks.1-36",
   "ecosystem": "kubernetes",
   "purl": "pkg:generic/amazon-eks",

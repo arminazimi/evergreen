@@ -98,7 +98,7 @@ test("offline data update gets a cause and a next step", async () => {
   assert.equal(isOfflineDataUpdateFailure("Could not download the release list: fetch failed"), true);
   assert.equal(isOfflineDataUpdateFailure("Refusing data bundle 2026.01.01: bad signature"), false);
 
-  const offline = await run(["data", "update"], { EVERGREEN_DATA_URL: "http://127.0.0.1:1/releases" });
+  const offline = await run(["data", "update"], { EBB_DATA_URL: "http://127.0.0.1:1/releases" });
   assert.equal(offline.code, 3);
   assert.match(offline.stderr, /Could not download the release list/);
   assert.match(offline.stderr, /^Next: Connect to the network and retry `evergreen data update`/m);

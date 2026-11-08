@@ -5,7 +5,8 @@ import { join, resolve } from "node:path";
 import { after, test } from "node:test";
 import { Ajv2020 } from "ajv/dist/2020.js";
 
-import { dataStatusFrom, renderDataStatusText, STALE_AFTER_DAYS } from "@velella/ebb/data-status";
+import { dataStatusFrom, STALE_AFTER_DAYS } from "@velella/ebb/data-status";
+import { renderDataStatusText } from "../src/data-text.js";
 import type { ActiveData, DataSourceInfo } from "@velella/ebb/data-source";
 import { runCli } from "./cli-runner.js";
 
@@ -45,7 +46,7 @@ test("bundled data is aged from its newest review date", () => {
 
 test("downloaded data is aged from the time the bundle was built", () => {
   const signer = {
-    identity: "https://github.com/arminazimi/evergreen/.github/workflows/data-release.yml@refs/tags/data-v2026.10.01",
+    identity: "https://github.com/velella-sh/ebb/.github/workflows/data-release.yml@refs/tags/data-v2026.10.01",
     issuer: "https://token.actions.githubusercontent.com",
   };
   const status = dataStatusFrom(
@@ -119,7 +120,7 @@ test("the text output says where the data came from, how old it is, and what wen
 });
 
 async function run(args: string[], cache: string) {
-  return runCli(args, { env: { EVERGREEN_DATA_DIR: cache } });
+  return runCli(args, { env: { EVERGREEN_DATA_DIR: cache, EBB_DATA_DIR: cache } });
 }
 
 test("evergreen data status prints text and JSON, and reads only the local cache", async () => {

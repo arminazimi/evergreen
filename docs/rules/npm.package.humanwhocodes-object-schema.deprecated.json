@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "npm.package.humanwhocodes-object-schema.deprecated",
   "ecosystem": "npm",
   "purl": "pkg:npm/%40humanwhocodes/object-schema",

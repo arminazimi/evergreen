@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "python.symbol.sqlite3.optimizedunicode",
   "ecosystem": "python",
   "purl": "pkg:generic/python",

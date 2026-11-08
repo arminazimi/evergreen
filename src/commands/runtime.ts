@@ -48,7 +48,7 @@ import {
 import { STATUS_FILE_NAME, writeStatusFile } from "../status-file.js";
 import { browseFindings, canBrowse } from "../tui.js";
 import { selectorValuesSummary, unknownSelectors } from "../scan-selectors.js";
-import { classifyError, DEFAULT_REASONS, type ErrorCode } from "@velella/ebb/evergreen-error";
+import { classifyError, DEFAULT_REASONS, type ErrorCode } from "../evergreen-error.js";
 import { EXIT_CODES, type CommandContext, type FailureClass } from "./types.js";
 
 export type { FailureClass };
@@ -209,7 +209,16 @@ async function pinnedData(
   try {
     await getActiveData();
   } catch (error) {
-    if (error instanceof DataPinError) return ctx.failError(error);
+    if (error instanceof DataPinError) {
+      if (!error.missing || dataPin === undefined) return ctx.failError(error);
+      return ctx.failError(
+        new DataPinError(
+          `${error.message} Download it with: evergreen data update --data-version ${dataPin}`,
+          false,
+          true,
+        ),
+      );
+    }
     throw error;
   }
   return undefined;

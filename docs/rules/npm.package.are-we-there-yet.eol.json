@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "npm.package.are-we-there-yet.eol",
   "ecosystem": "npm",
   "purl": "pkg:npm/are-we-there-yet",

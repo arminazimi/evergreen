@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "kubernetes.extensions.daemonset.v1beta1.removed",
   "ecosystem": "kubernetes",
   "purl": "pkg:generic/kubernetes/extensions/DaemonSet",

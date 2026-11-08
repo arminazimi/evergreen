@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "java.maven.org.slf4j.slf4j-log4j12.relocated",
   "ecosystem": "java",
   "purl": "pkg:maven/org.slf4j/slf4j-log4j12",

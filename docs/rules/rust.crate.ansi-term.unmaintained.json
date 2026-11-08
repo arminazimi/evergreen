@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "rust.crate.ansi-term.unmaintained",
   "ecosystem": "rust",
   "purl": "pkg:cargo/ansi_term",

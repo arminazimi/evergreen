@@ -44,7 +44,7 @@ function cleDocument(identifier: string, group: RegistryV2Rule[]): CleDocument {
         effective: `${rule.deadline}T00:00:00Z`,
         published: `${rule.provenance.observedAt}T00:00:00Z`,
         versions: [{ range: rule.vers }],
-        ...(rule.event === "end-of-support" ? { supportId: "evergreen" } : {}),
+        ...(rule.event === "end-of-support" ? { supportId: "ebb" } : {}),
       }),
     )
     .reverse();
@@ -61,8 +61,8 @@ function cleDocument(identifier: string, group: RegistryV2Rule[]): CleDocument {
           definitions: {
             support: [
               {
-                id: "evergreen",
-                description: "Support covered by the Evergreen end-of-support rules for this component.",
+                id: "ebb",
+                description: "Support covered by the Ebb end-of-support rules for this component.",
               },
             ],
           },
@@ -76,7 +76,7 @@ function cleDocument(identifier: string, group: RegistryV2Rule[]): CleDocument {
  * Only dated, component-level support/life events have a faithful CLE equivalent:
  * deprecation does not establish cessation of development, and removal (often of an API)
  * does not establish cessation of distribution. Do not invent those lifecycle claims.
- * `published` records Evergreen's first observation; `updatedAt` its latest review.
+ * `published` records Ebb's first observation; `updatedAt` its latest review.
  * IDs are snapshot-local, not an append-only publisher's event history.
  */
 export function exportCle(rules: readonly RegistryV2Rule[]): { documents: CleDocument[]; skipped: number } {

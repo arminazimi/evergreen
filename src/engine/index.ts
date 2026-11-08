@@ -4,7 +4,8 @@
 import { join, resolve } from "node:path";
 
 import { getActiveData } from "@velella/ebb/data-source";
-import { dataInfoFrom, staleDataWarning } from "@velella/ebb/data-status";
+import { dataInfoFrom } from "@velella/ebb/data-status";
+import { staleDataWarning } from "../data-text.js";
 import type { DataInfo, Finding, ScanResult, UnclassifiedReference } from "../domain.js";
 import type { ScanFileSystem } from "../file-system.js";
 import { nodeFileSystem } from "../node-file-system.js";

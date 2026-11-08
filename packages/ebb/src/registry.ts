@@ -5,7 +5,7 @@ import { isMigrationGuidance, isUsageMatcher, RegistryValidationError, validateR
 import type { Registry, RegistryDefinition } from "./rule-guards.js";
 import { parseVers, validateVersVersions, versionScheme } from "./vers/index.js";
 
-export const REGISTRY_V2_SCHEMA_VERSION = "evergreen.registry.v2" as const;
+export const REGISTRY_V2_SCHEMA_VERSION = "ebb.registry.v2" as const;
 
 /** Review window applied when a registry does not declare `freshness.maxReviewAgeDays`. */
 export const DEFAULT_MAX_REVIEW_AGE_DAYS = 365;

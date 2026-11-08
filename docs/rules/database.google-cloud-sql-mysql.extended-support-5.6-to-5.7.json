@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "database.google-cloud-sql-mysql.extended-support-5.6-to-5.7",
   "ecosystem": "database",
   "purl": "pkg:generic/google-cloud-sql-mysql",

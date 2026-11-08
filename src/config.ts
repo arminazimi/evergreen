@@ -3,7 +3,7 @@ import { basename, dirname, join, resolve } from "node:path";
 
 import type { ScanResult, Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
-import { EvergreenError } from "@velella/ebb/evergreen-error";
+import { EvergreenError } from "./evergreen-error.js";
 
 export const CONFIG_FILE_NAME = ".evergreen.json";
 

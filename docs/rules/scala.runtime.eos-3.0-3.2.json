@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "scala.runtime.eos-3.0-3.2",
   "ecosystem": "scala",
   "purl": "pkg:generic/scala",

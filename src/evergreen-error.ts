@@ -1,3 +1,5 @@
+import { EBB_ERROR_CODES, EbbError, type EbbErrorCode } from "@velella/ebb/errors";
+
 /**
  * The one error model. Every failure a user can see carries a stable reason code, and the code decides the failure
  * class: the CLI maps the class to an exit code and the MCP server reports the same code on its error results.
@@ -64,11 +66,23 @@ export class EvergreenError extends Error {
   }
 }
 
-/** The reason code and failure class of any thrown value; anything that is not an {@link EvergreenError} is `internal`. */
+// Ebb's reason codes are Evergreen reason codes too; this fails to compile if Ebb adds one Evergreen does not know.
+EBB_ERROR_CODES satisfies readonly ErrorCode[];
+
+/** The failure class of a reason code Ebb raised. */
+function ebbFailureClass(code: EbbErrorCode): FailureClass {
+  return ERROR_CODES[code];
+}
+
+/**
+ * The reason code and failure class of any thrown value. Ebb's errors keep their own codes; anything that is neither
+ * an {@link EvergreenError} nor an Ebb error is `internal`.
+ */
 export function classifyError(error: unknown): {
   code: ErrorCode;
   kind: FailureClass;
 } {
   if (error instanceof EvergreenError) return { code: error.code, kind: error.kind };
+  if (error instanceof EbbError) return { code: error.code, kind: ebbFailureClass(error.code) };
   return { code: "internal", kind: "internal" };
 }

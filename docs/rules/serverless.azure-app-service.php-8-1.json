@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "serverless.azure-app-service.php-8-1",
   "ecosystem": "serverless",
   "purl": "pkg:generic/azure-app-service/php",

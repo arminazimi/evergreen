@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "serverless.google-cloud-functions.ruby26",
   "ecosystem": "serverless",
   "purl": "pkg:generic/google-cloud-functions-runtime/ruby26",

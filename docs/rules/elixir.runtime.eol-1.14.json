@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "elixir.runtime.eol-1.14",
   "ecosystem": "elixir",
   "purl": "pkg:generic/elixir",

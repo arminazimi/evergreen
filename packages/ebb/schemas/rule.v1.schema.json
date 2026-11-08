@@ -1,13 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/arminazimi/evergreen/schemas/rule.v1.schema.json",
-  "title": "Evergreen lifecycle rule v1",
-  "description": "One lifecycle rule as exposed to agents through the evergreen://rules/{id} MCP resource.",
+  "$id": "https://github.com/velella-sh/ebb/schemas/rule.v1.schema.json",
+  "title": "Ebb lifecycle rule v1",
+  "description": "One lifecycle rule from an Ebb registry.",
   "type": "object",
   "required": ["schemaVersion", "id", "ecosystem", "purl", "affectedVersions", "event", "severity", "title", "summary", "sources", "provenance"],
   "additionalProperties": false,
   "properties": {
-    "schemaVersion": { "const": "evergreen.rule.v1" },
+    "schemaVersion": { "const": "ebb.rule.v1" },
     "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9.-]*$" },
     "ecosystem": { "type": "string", "minLength": 1 },
     "purl": { "type": "string", "pattern": "^pkg:" },

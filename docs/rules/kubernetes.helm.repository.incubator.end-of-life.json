@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "kubernetes.helm.repository.incubator.end-of-life",
   "ecosystem": "kubernetes",
   "purl": "pkg:generic/helm-repository/incubator",

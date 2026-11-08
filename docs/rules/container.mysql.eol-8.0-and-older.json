@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "container.mysql.eol-8.0-and-older",
   "ecosystem": "container",
   "purl": "pkg:docker/library/mysql",

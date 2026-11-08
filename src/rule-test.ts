@@ -15,7 +15,7 @@ import type { Finding, SourceUsage, UsageMatcher } from "./domain.js";
 import { scanRepository } from "./engine/index.js";
 import { runInventory } from "./inventory/index.js";
 import { analyzeSourceUsage } from "./source-usage.js";
-import { EvergreenError } from "@velella/ebb/evergreen-error";
+import { EvergreenError } from "./evergreen-error.js";
 
 export class RuleTestError extends EvergreenError {
   constructor(message: string) {

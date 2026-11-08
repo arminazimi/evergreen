@@ -267,12 +267,32 @@ export function runCommand(command: string, args: readonly string[]): Promise<vo
   });
 }
 
-export async function publishActionBundle(stagingDir: string, destination = join("dist", "action")): Promise<void> {
+/**
+ * Copies the staged bundle into place, with the Ebb data it reads beside it: ncc inlines Ebb's code but not the JSON
+ * Ebb reads from disk, and the Action runs from a checkout with no node_modules (see tools/copy-ebb-data.mjs).
+ */
+export async function publishActionBundle(
+  stagingDir: string,
+  destination = join("dist", "action"),
+  ebbDirectory = dirname(require.resolve("@velella/ebb/package.json")),
+): Promise<void> {
   await mkdir(destination, { recursive: true });
   const bundle = join(destination, "index.js");
   await copyFile(join(stagingDir, "index.js"), bundle);
   await chmod(bundle, 0o755);
   await copyFile(join(stagingDir, "package.json"), join(destination, "package.json"));
+  for (const directory of ["registry", "data"])
+    await rm(join(destination, directory), { recursive: true, force: true });
+  await mkdir(join(destination, "registry"), { recursive: true });
+  for (const name of await readdir(join(ebbDirectory, "registry"))) {
+    if (name !== "sources.lock.json")
+      await copyFile(join(ebbDirectory, "registry", name), join(destination, "registry", name));
+  }
+  await mkdir(join(destination, "data"), { recursive: true });
+  await copyFile(
+    join(ebbDirectory, "data", "sigstore-trusted-root.json"),
+    join(destination, "data", "sigstore-trusted-root.json"),
+  );
 }
 
 /**
@@ -452,17 +472,33 @@ export async function runCheck(options: RunCheckOptions = {}): Promise<void> {
         },
       },
       { id: "lint", run: () => run(process.execPath, lintArgs(eslintCli)) },
-      { id: "check:quality", run: () => run(process.execPath, ["dist/tools/check-quality.js"]) },
-      { id: "check:binaries", run: () => run(process.execPath, ["dist/tools/check-binary-artifacts.js"]) },
-      { id: "check:plugins", run: () => run(process.execPath, ["dist/tools/plugin-packages.js", "--check"]) },
-      { id: "check:workflows", run: () => run(process.execPath, ["dist/tools/check-workflow-change.js"]) },
+      {
+        id: "check:quality",
+        run: () => run(process.execPath, ["dist/tools/check-quality.js"]),
+      },
+      {
+        id: "check:binaries",
+        run: () => run(process.execPath, ["dist/tools/check-binary-artifacts.js"]),
+      },
+      {
+        id: "check:plugins",
+        run: () => run(process.execPath, ["dist/tools/plugin-packages.js", "--check"]),
+      },
+      {
+        id: "check:workflows",
+        run: () => run(process.execPath, ["dist/tools/check-workflow-change.js"]),
+      },
       ...evals.map((evalStep) => ({
         id: evalStep.id,
         run: () => (skipEvals ? runEvalWhenInputsChanged(evalStep, digests, recorded, log) : evalStep.run()),
       })),
       ...(verifyActionBundle
         ? [
-            { id: "publish-action", after: ["build:action", "test"], run: () => publish(stagingDir) },
+            {
+              id: "publish-action",
+              after: ["build:action", "test"],
+              run: () => publish(stagingDir),
+            },
             {
               id: "check:action-bundle",
               after: ["publish-action"],

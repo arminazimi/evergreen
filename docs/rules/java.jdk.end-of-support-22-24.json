@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "java.jdk.end-of-support-22-24",
   "ecosystem": "java",
   "purl": "pkg:generic/java",

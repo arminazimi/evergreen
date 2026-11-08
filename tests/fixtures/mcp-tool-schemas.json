@@ -3176,7 +3176,7 @@
       "additionalProperties": false,
       "properties": {
         "schemaVersion": {
-          "const": "evergreen.forecast.v1"
+          "const": "ebb.forecast.v1"
         },
         "root": {
           "type": "string"

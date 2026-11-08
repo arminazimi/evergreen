@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "npm.package.eslint-plugin-nuxt.deprecated",
   "ecosystem": "npm",
   "purl": "pkg:npm/eslint-plugin-nuxt",

@@ -63,7 +63,7 @@ test("rejects empty and whitespace versions", () => {
   for (const value of ["", " ", "1 0"]) assert.throws(() => maven.compare(value, "1.0"), VersError);
 });
 
-test("matches the JDK and Gradle ranges Evergreen registry rules use", () => {
+test("matches the JDK and Gradle ranges Ebb registry rules use", () => {
   assert.equal(versContains("vers:maven/<17", "11.0.21"), true);
   assert.equal(versContains("vers:maven/<17", "17.0.1"), false);
   assert.equal(versContains("vers:maven/>=1.8|<9", "1.8.0_402"), true);

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "python.package.asyncio-requests.deprecated",
   "ecosystem": "python",
   "purl": "pkg:pypi/asyncio-requests",

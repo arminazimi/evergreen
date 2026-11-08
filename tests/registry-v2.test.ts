@@ -29,7 +29,7 @@ test("every bundled v2 registry validates", async () => {
     const registry = JSON.parse(await readFile(resolve("packages/ebb/registry", name), "utf8")) as {
       schemaVersion?: string;
     };
-    if (registry.schemaVersion !== "evergreen.registry.v2") continue;
+    if (registry.schemaVersion !== "ebb.registry.v2") continue;
     assert.deepEqual(registryV2Issues(registry), [], name);
   }
 });
@@ -271,7 +271,7 @@ const invalidCases: [name: string, mutate: (registry: any) => void, expected: Re
     (r) => {
       r.schemaVersion = "evergreen.npm-registry.v1";
     },
-    /schemaVersion must be "evergreen\.registry\.v2"/,
+    /schemaVersion must be "ebb\.registry\.v2"/,
   ],
   [
     "zero freshness window",

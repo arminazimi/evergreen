@@ -23,7 +23,7 @@ const many = (ruleId: string, date: string, count: number): ForecastEvent[] =>
   Array.from({ length: count }, (_, index) => event(`${ruleId}.${index + 1}`, date, 0));
 
 const populated: Forecast = {
-  schemaVersion: "evergreen.forecast.v1",
+  schemaVersion: "ebb.forecast.v1",
   root: "/repo",
   today: "2026-10-16",
   until: "2027-04-16",
@@ -41,7 +41,7 @@ const populated: Forecast = {
 };
 
 const busy: Forecast = {
-  schemaVersion: "evergreen.forecast.v1",
+  schemaVersion: "ebb.forecast.v1",
   root: "/repo",
   today: "2026-10-16",
   until: "2027-04-16",
@@ -55,7 +55,7 @@ const busy: Forecast = {
 };
 
 const empty: Forecast = {
-  schemaVersion: "evergreen.forecast.v1",
+  schemaVersion: "ebb.forecast.v1",
   root: "/repo",
   today: "2026-10-16",
   until: "2027-04-16",

@@ -2,7 +2,7 @@
 
 Every lifecycle claim Evergreen makes comes from a rule in `registry/`. A rule says which component is affected, in which versions, what happened to it, who says so, and when that was last checked. This page is the reference for writing one.
 
-The format is `evergreen.registry.v2`. Its JSON Schema is [`packages/ebb/schemas/registry.v2.schema.json`](../packages/ebb/schemas/registry.v2.schema.json), and the reasoning is in [Decision 0004](decisions/0004-registry-v2.md). All five bundled registries (`container`, `github-actions`, `nodejs`, `npm`, `python`) use it.
+The format is `ebb.registry.v2`. Its JSON Schema is [`packages/ebb/schemas/registry.v2.schema.json`](../packages/ebb/schemas/registry.v2.schema.json), and the reasoning is in [Decision 0004](decisions/0004-registry-v2.md). All five bundled registries (`container`, `github-actions`, `nodejs`, `npm`, `python`) use it.
 
 ## From a source to a merged pull request
 
@@ -108,7 +108,7 @@ After merge, the weekly [source check](../.github/workflows/sources.yml) watches
 
 ```json
 {
-  "schemaVersion": "evergreen.registry.v2",
+  "schemaVersion": "ebb.registry.v2",
   "ecosystem": "npm",
   "freshness": { "maxReviewAgeDays": 365 },
   "rules": [
@@ -159,7 +159,7 @@ A second, smaller example lives in [`examples/registry.v2.example.json`](../exam
 
 | Field | Required | Meaning |
 |---|---|---|
-| `schemaVersion` | yes | Always `evergreen.registry.v2`. |
+| `schemaVersion` | yes | Always `ebb.registry.v2`. |
 | `ecosystem` | yes | A lowercase slug such as `npm`. Every rule in the file must use the same value. |
 | `freshness.maxReviewAgeDays` | no | How long a rule may go without review before the weekly check reports it stale. Defaults to 365. |
 | `rules` | yes | The rules, in the order detectors should consider them. |
@@ -206,7 +206,7 @@ A complete rule, also in [`examples/registry.v2.symbol.example.json`](../example
 
 ```json
 {
-  "schemaVersion": "evergreen.registry.v2",
+  "schemaVersion": "ebb.registry.v2",
   "ecosystem": "npm",
   "freshness": {
     "maxReviewAgeDays": 365

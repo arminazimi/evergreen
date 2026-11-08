@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "kubernetes.google-gke.1.32",
   "ecosystem": "kubernetes",
   "purl": "pkg:generic/google-gke",

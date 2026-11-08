@@ -40,7 +40,10 @@ test("npm test builds first, and npm run check builds only once", () => {
   assert.match(scripts["check:plugins"]!, /^npm run build --silent && /);
   assert.match(scripts["eval:plugins"]!, /^npm run build --silent && /);
   assert.match(scripts["eval:agent-loop"]!, /^npm run build --silent && /);
-  assert.match(scripts["build:action"]!, /^ncc build src\/action\.ts -o dist\/action --minify --transpile-only$/);
+  assert.match(
+    scripts["build:action"]!,
+    /^ncc build src\/action\.ts -o dist\/action --minify --transpile-only && node tools\/copy-ebb-data\.mjs dist\/action$/,
+  );
   const lintTargets = LINT_PATTERNS.map((pattern) => `"${pattern}"`).join(" ");
   assert.equal(scripts.lint!, `eslint ${lintTargets} --max-warnings=0`);
   assert.equal(scripts["lint:baseline"]!, `eslint ${lintTargets} --max-warnings=0 --suppress-all`);

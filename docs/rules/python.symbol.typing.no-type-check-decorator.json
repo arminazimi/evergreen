@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "python.symbol.typing.no-type-check-decorator",
   "ecosystem": "python",
   "purl": "pkg:generic/python",

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "database.aws-rds-mysql.end-of-support-8.0",
   "ecosystem": "database",
   "purl": "pkg:generic/aws-rds/mysql",

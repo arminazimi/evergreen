@@ -59,7 +59,7 @@ const forecastOf = (events: ForecastEvent[], today = asOf): Forecast => {
     months.set(month, [...(months.get(month) ?? []), item]);
   }
   return {
-    schemaVersion: "evergreen.forecast.v1",
+    schemaVersion: "ebb.forecast.v1",
     root: ".",
     today,
     until: "2027-10-30",

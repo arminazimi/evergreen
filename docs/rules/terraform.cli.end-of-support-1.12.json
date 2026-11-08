@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "terraform.cli.end-of-support-1.12",
   "ecosystem": "terraform",
   "purl": "pkg:generic/terraform",

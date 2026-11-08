@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/arminazimi/evergreen/schemas/api-product.v1.schema.json",
-  "title": "Evergreen static lifecycle API v1",
+  "$id": "https://github.com/velella-sh/ebb/schemas/api-product.v1.schema.json",
+  "title": "Ebb static lifecycle API v1",
   "description": "The documents served under api/v1/: an index of products, one document per product, one document per PURL type, one document per rule, and the most recently reviewed rules. Every document is generated from registry/*.json and rebuilt to identical bytes.",
   "oneOf": [
     { "$ref": "#/$defs/index" },
@@ -41,7 +41,7 @@
       "required": ["schemaVersion", "products", "recent", "rules", "latestReview"],
       "additionalProperties": false,
       "properties": {
-        "schemaVersion": { "const": "evergreen.api-index.v1" },
+        "schemaVersion": { "const": "ebb.api-index.v1" },
         "products": {
           "type": "array",
           "minItems": 1,
@@ -80,7 +80,7 @@
       "required": ["schemaVersion", "id", "purl", "type", "name", "ecosystems", "events", "latestReview", "rules"],
       "additionalProperties": false,
       "properties": {
-        "schemaVersion": { "const": "evergreen.api-product.v1" },
+        "schemaVersion": { "const": "ebb.api-product.v1" },
         "id": { "$ref": "#/$defs/slug" },
         "purl": { "$ref": "#/$defs/purl" },
         "type": { "$ref": "#/$defs/purlType" },
@@ -113,7 +113,7 @@
       "required": ["schemaVersion", "type", "products", "rules"],
       "additionalProperties": false,
       "properties": {
-        "schemaVersion": { "const": "evergreen.api-type.v1" },
+        "schemaVersion": { "const": "ebb.api-type.v1" },
         "type": { "$ref": "#/$defs/purlType" },
         "products": {
           "type": "array",
@@ -128,7 +128,7 @@
       "required": ["schemaVersion", "productId", "productPath", "rule"],
       "additionalProperties": false,
       "properties": {
-        "schemaVersion": { "const": "evergreen.api-rule.v1" },
+        "schemaVersion": { "const": "ebb.api-rule.v1" },
         "productId": { "$ref": "#/$defs/slug" },
         "productPath": { "$ref": "#/$defs/productPath" },
         "rule": { "$ref": "#/$defs/rule" }
@@ -139,7 +139,7 @@
       "required": ["schemaVersion", "changes"],
       "additionalProperties": false,
       "properties": {
-        "schemaVersion": { "const": "evergreen.api-recent.v1" },
+        "schemaVersion": { "const": "ebb.api-recent.v1" },
         "changes": {
           "type": "array",
           "items": { "$ref": "#/$defs/change" }

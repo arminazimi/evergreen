@@ -1,6 +1,6 @@
 ---
 title: "@angular/core v21 reaches end of life on 2027-06-30 — dates, impact, migration"
-description: "Angular's release schedule lists v21 with \"LTS ends 2027-06\", a month-precision date. Evergreen uses the last day of that month, 2027-06-30, as the deadline."
+description: "Angular's release schedule lists v21 with \"LTS ends 2027-06\", a month-precision date. Ebb uses the last day of that month, 2027-06-30, as the deadline."
 layout: doc
 permalink: "/rules/npm.package.angular.core.v21.scheduled-end-of-life.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v21.scheduled-end-of-life.html"
@@ -20,7 +20,7 @@ Check a version:
 evergreen check pkg:npm/%40angular/core
 ```
 
-Angular's release schedule lists v21 with "LTS ends 2027-06", a month-precision date. Evergreen uses the last day of that month, 2027-06-30, as the deadline. LTS receives only critical fixes and security patches until the end of that month.
+Angular's release schedule lists v21 with "LTS ends 2027-06", a month-precision date. Ebb uses the last day of that month, 2027-06-30, as the deadline. LTS receives only critical fixes and security patches until the end of that month.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
 
@@ -88,7 +88,7 @@ The `npm` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMP
 
 ## Data
 
-This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.angular.core.v21.scheduled-end-of-life`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.angular.core.v21.scheduled-end-of-life`, in the `ebb.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
 
 <script type="application/ld+json">
 {
@@ -100,7 +100,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
       "url": "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v21.scheduled-end-of-life.html",
       "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v21.scheduled-end-of-life.html",
       "headline": "@angular/core v21 reaches end of life on 2027-06-30 — dates, impact, migration",
-      "description": "Angular's release schedule lists v21 with \"LTS ends 2027-06\", a month-precision date. Evergreen uses the last day of that month, 2027-06-30, as the deadline.",
+      "description": "Angular's release schedule lists v21 with \"LTS ends 2027-06\", a month-precision date. Ebb uses the last day of that month, 2027-06-30, as the deadline.",
       "inLanguage": "en",
       "dateModified": "2026-10-24",
       "keywords": [

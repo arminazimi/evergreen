@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "database.google-cloud-sql-postgresql.extended-support-13",
   "ecosystem": "database",
   "purl": "pkg:generic/google-cloud-sql-postgresql",

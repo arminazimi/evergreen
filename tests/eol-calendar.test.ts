@@ -146,10 +146,10 @@ test("loads rules from a data bundle file", async () => {
   try {
     const bundlePath = join(directory, "bundle.json");
     const fakeBundle = {
-      manifest: { schemaVersion: "evergreen.data-bundle.v1" },
+      manifest: { schemaVersion: "ebb.data-bundle.v1" },
       files: {
         "registry/demo.json": {
-          schemaVersion: "evergreen.registry.v2",
+          schemaVersion: "ebb.registry.v2",
           ecosystem: "demo",
           rules: [rule("b.bundle", "2026-12-01", "Bundle rule")],
         },

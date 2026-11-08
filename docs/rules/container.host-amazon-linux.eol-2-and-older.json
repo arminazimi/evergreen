@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "container.host-amazon-linux.eol-2-and-older",
   "ecosystem": "container",
   "purl": "pkg:generic/amzn",

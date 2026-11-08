@@ -48,7 +48,7 @@ const rule = (id: string, overrides: Partial<RegistryV2Rule> = {}): RegistryV2Ru
 });
 
 const registry = (ecosystem: string, rules: RegistryV2Rule[]): RegistryV2 => ({
-  schemaVersion: "evergreen.registry.v2",
+  schemaVersion: "ebb.registry.v2",
   ecosystem,
   rules,
 });
@@ -103,7 +103,7 @@ test("emits an index, one document per product PURL, one per PURL type, one per 
   );
 
   const index = documentAt(documents, `${API_DIRECTORY}/index.json`).document as ApiIndex;
-  assert.equal(index.schemaVersion, "evergreen.api-index.v1");
+  assert.equal(index.schemaVersion, "ebb.api-index.v1");
   assert.equal(index.recent, "recent.json");
   assert.equal(index.rules, 4);
   assert.equal(index.latestReview, "2026-10-09");
@@ -118,7 +118,7 @@ test("emits an index, one document per product PURL, one per PURL type, one per 
   assert.deepEqual(index.types, [{ type: "npm", products: 2, rules: 4, path: "types/npm.json" }]);
 
   const product = documentAt(documents, `${PRODUCTS_DIRECTORY}/npm-b.json`).document as ApiProduct;
-  assert.equal(product.schemaVersion, "evergreen.api-product.v1");
+  assert.equal(product.schemaVersion, "ebb.api-product.v1");
   assert.equal(product.purl, "pkg:npm/b");
   assert.deepEqual(product.ecosystems, ["npm", "osv"], "rules from several ecosystems share one product");
   assert.deepEqual(
@@ -128,7 +128,7 @@ test("emits an index, one document per product PURL, one per PURL type, one per 
   assert.equal(product.latestReview, "2026-10-09");
 
   const type = documentAt(documents, `${TYPES_DIRECTORY}/npm.json`).document as ApiType;
-  assert.equal(type.schemaVersion, "evergreen.api-type.v1");
+  assert.equal(type.schemaVersion, "ebb.api-type.v1");
   assert.equal(type.type, "npm");
   assert.equal(type.rules, 4);
   assert.deepEqual(
@@ -137,14 +137,14 @@ test("emits an index, one document per product PURL, one per PURL type, one per 
   );
 
   const ruleDocument = documentAt(documents, `${RULES_DIRECTORY}/npm.b.new.json`).document as ApiRule;
-  assert.equal(ruleDocument.schemaVersion, "evergreen.api-rule.v1");
+  assert.equal(ruleDocument.schemaVersion, "ebb.api-rule.v1");
   assert.equal(ruleDocument.productId, "npm-b");
   assert.equal(ruleDocument.productPath, "products/npm-b.json");
   assert.equal(ruleDocument.rule.id, "npm.b.new");
   assert.equal(ruleDocument.rule.purl, "pkg:npm/b");
 
   const recent = documentAt(documents, `${API_DIRECTORY}/recent.json`).document as ApiRecent;
-  assert.equal(recent.schemaVersion, "evergreen.api-recent.v1");
+  assert.equal(recent.schemaVersion, "ebb.api-recent.v1");
   assert.deepEqual(
     recent.changes.map((entry) => entry.ruleId),
     ["npm.b.new", "npm.a.one", "npm.b.old", "osv.b"],

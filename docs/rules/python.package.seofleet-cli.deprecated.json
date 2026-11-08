@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "python.package.seofleet-cli.deprecated",
   "ecosystem": "python",
   "purl": "pkg:pypi/seofleet-cli",

@@ -59,7 +59,7 @@ test("the CLI prints text and JSON and rejects unknown products", async () => {
   const json = await runCli(["lookup", "node", "18", "--json"]);
   assert.equal(json.code, 0);
   const result = JSON.parse(json.stdout) as { schemaVersion: string; status: string; product: { purl: string } };
-  assert.equal(result.schemaVersion, "evergreen.lookup.v1");
+  assert.equal(result.schemaVersion, "ebb.lookup.v1");
   assert.equal(result.status, "end-of-life");
   assert.equal(result.product.purl, "pkg:generic/nodejs");
   const unknown = await runCli(["lookup", "nodej"]);

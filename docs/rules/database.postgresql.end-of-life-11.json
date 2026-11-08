@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "database.postgresql.end-of-life-11",
   "ecosystem": "database",
   "purl": "pkg:generic/postgresql",

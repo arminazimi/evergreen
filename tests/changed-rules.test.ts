@@ -25,7 +25,7 @@ function manifest(name: string, version: string): string {
 function registryText(summary = "The package is deprecated."): string {
   return `${JSON.stringify(
     {
-      schemaVersion: "evergreen.registry.v2",
+      schemaVersion: "ebb.registry.v2",
       ecosystem: "npm",
       rules: [
         {
@@ -66,7 +66,7 @@ const REORDERED = `{
       "ecosystem": "npm"
     }
   ],
-  "schemaVersion": "evergreen.registry.v2"
+  "schemaVersion": "ebb.registry.v2"
 }
 `;
 
@@ -125,7 +125,7 @@ test("a new, changed, or reordered rule is reported; an unchanged or deleted one
   assert.deepEqual(
     changedRuleIds(
       registryText(),
-      `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: [] })}\n`,
+      `${JSON.stringify({ schemaVersion: "ebb.registry.v2", ecosystem: "npm", rules: [] })}\n`,
     ),
     [],
   );
@@ -216,7 +216,7 @@ test("a rule deleted with its fixtures is skipped instead of failing", async () 
     await rm(join(root, "tests", "fixtures", RULE_ID), { recursive: true, force: true });
     await writeFile(
       join(root, "packages/ebb/registry", "npm.json"),
-      `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: [] })}\n`,
+      `${JSON.stringify({ schemaVersion: "ebb.registry.v2", ecosystem: "npm", rules: [] })}\n`,
     );
     await commit(root, "remove the rule");
     const result = await runChangedRules({ base, root });

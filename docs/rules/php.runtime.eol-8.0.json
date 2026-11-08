@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "php.runtime.eol-8.0",
   "ecosystem": "php",
   "purl": "pkg:generic/php",

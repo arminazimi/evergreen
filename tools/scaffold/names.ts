@@ -1,4 +1,4 @@
-import { EvergreenError } from "@velella/ebb/evergreen-error";
+import { EvergreenError } from "../../src/evergreen-error.js";
 
 export interface ScaffoldNames {
   /** The detector id: lowercase letters, digits, and single hyphens. */

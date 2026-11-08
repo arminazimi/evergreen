@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "npm.package.types.react-virtualized-auto-sizer.deprecated",
   "ecosystem": "npm",
   "purl": "pkg:npm/%40types/react-virtualized-auto-sizer",

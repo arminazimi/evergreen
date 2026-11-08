@@ -9,17 +9,17 @@ const hex = (character: string) => character.repeat(64);
 function bundle() {
   return {
     manifest: {
-      schemaVersion: "evergreen.data-bundle.v1",
+      schemaVersion: "ebb.data-bundle.v1",
       version: "2026.10.16",
       createdAt: "2026-10-16T09:30:00Z",
-      minimumEvergreenVersion: "0.2.0",
+      minimumEbbVersion: "0.2.0",
       contentDigest: `sha256:${hex("a")}`,
       files: [
         {
           path: "registry/npm.json",
           kind: "registry",
           ecosystem: "npm",
-          schemaVersion: "evergreen.registry.v2",
+          schemaVersion: "ebb.registry.v2",
           rules: 23,
           maxReviewAgeDays: 365,
           sha256: hex("b"),
@@ -29,8 +29,8 @@ function bundle() {
       ],
     },
     files: {
-      "registry/npm.json": { schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: [] },
-      "registry/github-actions-shas.json": { schemaVersion: "evergreen.github-actions-shas.v1", actions: {} },
+      "registry/npm.json": { schemaVersion: "ebb.registry.v2", ecosystem: "npm", rules: [] },
+      "registry/github-actions-shas.json": { schemaVersion: "ebb.github-actions-shas.v1", actions: {} },
     },
   };
 }
@@ -56,7 +56,7 @@ test("the schema rejects each malformed field", async () => {
     [
       "wrong schemaVersion",
       (value) => {
-        value.manifest.schemaVersion = "evergreen.data-bundle.v2";
+        value.manifest.schemaVersion = "ebb.data-bundle.v2";
       },
     ],
     [

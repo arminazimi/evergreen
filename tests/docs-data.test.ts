@@ -32,22 +32,22 @@ test("docs/DATA.md documents the real commands, options, variables, and threshol
     );
   }
   for (const variable of [
-    "EVERGREEN_DATA_DIR",
+    "EBB_DATA_DIR",
     "EVERGREEN_DATA_VERSION",
-    "EVERGREEN_DATA_URL",
+    "EBB_DATA_URL",
     "HTTP_PROXY",
     "HTTPS_PROXY",
     "NO_PROXY",
   ]) {
     assert.ok(docs.includes(variable), `docs mention ${variable}`);
   }
-  for (const variable of ["EVERGREEN_DATA_DIR", "EVERGREEN_DATA_VERSION"]) {
+  for (const variable of ["EBB_DATA_DIR", "EVERGREEN_DATA_VERSION"]) {
     assert.ok(
-      (await read("packages/ebb/src/data-source.ts")).includes(variable) || implementation.includes(variable),
+      (await read("packages/ebb/src/cache-paths.ts")).includes(variable) || implementation.includes(variable),
       `${variable} is read by the code`,
     );
   }
-  assert.ok((await read("packages/ebb/src/data-update.ts")).includes("EVERGREEN_DATA_URL"));
+  assert.ok((await read("packages/ebb/src/data-update.ts")).includes("EBB_DATA_URL"));
   assert.match(docs, new RegExp(`more than ${STALE_AFTER_DAYS} days|after ${STALE_AFTER_DAYS} days`));
   assert.ok(DEFAULT_RELEASES_URL.includes("/releases"));
 });
@@ -66,7 +66,7 @@ test("the release checklist describes the data release the workflow performs", a
   assert.match(releasing, /data-v2026\.10\.16/);
   assert.match(workflow, /tags: \["data-v\*"\]/);
   assert.match(workflow, /dry_run/);
-  for (const asset of ["evergreen-data-", ".sigstore.json", "SHA256SUMS"])
+  for (const asset of ["ebb-data-", ".sigstore.json", "SHA256SUMS"])
     assert.ok(workflow.includes(asset) && releasing.includes(asset), asset);
 });
 

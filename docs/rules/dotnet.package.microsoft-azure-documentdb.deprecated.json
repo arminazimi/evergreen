@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "dotnet.package.microsoft-azure-documentdb.deprecated",
   "ecosystem": "dotnet",
   "purl": "pkg:nuget/Microsoft.Azure.DocumentDB",

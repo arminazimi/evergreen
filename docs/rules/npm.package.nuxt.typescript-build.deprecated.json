@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.rule.v1",
+  "schemaVersion": "ebb.rule.v1",
   "id": "npm.package.nuxt.typescript-build.deprecated",
   "ecosystem": "npm",
   "purl": "pkg:npm/%40nuxt/typescript-build",
