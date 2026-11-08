@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { RUBY_BRANCHES_URL, rubyMaintenanceImporter } from "../../tools/importers/ruby-1.js";
 import { execute, runImporter } from "../../tools/importers/run.js";
@@ -79,7 +79,7 @@ test("drafts one end-of-life rule per eol release line from the recording", asyn
 });
 
 test("recorded drafts match the reviewed registry", async () => {
-  const registry = JSON.parse(await readFile(resolve("registry/ruby.json"), "utf8")) as RegistryV2;
+  const registry = JSON.parse(await readFile(resolve("packages/ebb/registry/ruby.json"), "utf8")) as RegistryV2;
   const drafts = await execute(rubyMaintenanceImporter, { replay: recording, now: "2026-10-18" });
   const diff = diffDrafts(drafts, registry);
   assert.deepEqual(diff.added, []);

@@ -2,11 +2,11 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
-import { validateRegistryV2 } from "../src/registry.js";
-import { versContains } from "../src/vers.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import { versContains } from "@velella/ebb/vers";
 
 async function rules() {
-  return validateRegistryV2(JSON.parse(await readFile("registry/container.json", "utf8"))).rules;
+  return validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/container.json", "utf8"))).rules;
 }
 
 test("container registry has twenty-six image rules, two Dockerfile rules, and seven host OS rules with vendor sources", async () => {

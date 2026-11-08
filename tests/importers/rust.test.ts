@@ -3,9 +3,9 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import { validateRegistryV2 } from "../../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
 import { withoutAccessDates } from "./evidence.js";
-import { versContains } from "../../src/vers/index.js";
+import { versContains } from "@velella/ebb/vers/index";
 import { RUST_CRATE_CANDIDATES } from "../../tools/importers/rust-candidates.js";
 import { rustToolchainImporter, RUST_RELEASES_URL } from "../../tools/importers/rust-1.js";
 import { CRATES_INDEX_URL, indexPath, rustYankedImporter } from "../../tools/importers/rust-2.js";
@@ -41,7 +41,7 @@ test("rust-1 drafts the unsupported-toolchain rule from the newest stable releas
 
 test("the committed toolchain rule matches what the importer drafts from the recording", async () => {
   const [draft] = (await execute(rustToolchainImporter, { replay: releases })).rules;
-  const registry = validateRegistryV2(JSON.parse(await readFile("registry/rust.json", "utf8")));
+  const registry = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/rust.json", "utf8")));
   const committed = registry.rules.find((rule) => rule.id === draft!.id);
   assert.ok(committed, "registry/rust.json has the rule the importer drafts");
   for (const field of ["purl", "vers", "event", "title", "summary", "severity", "replacement", "deadline"] as const) {

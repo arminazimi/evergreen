@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { lookupProduct, LookupError, renderLookupText } from "../src/lookup.js";
+import { lookupProduct, LookupError, renderLookupText } from "@velella/ebb/lookup";
 import { runCli } from "./cli-runner.js";
 
 test("aliases resolve to the same product and report its end of life", async () => {

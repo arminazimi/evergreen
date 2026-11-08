@@ -1,4 +1,4 @@
-import type { RegistryV2Rule } from "../../src/registry.js";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 
 const FIELD_ORDER = [
   "id",

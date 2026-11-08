@@ -2,8 +2,8 @@ import type { McpServer } from "@modelcontextprotocol/server";
 import * as z from "zod/v4";
 
 import type { EvergreenAgentTools } from "../../agent-tools.js";
-import { bundledRules } from "../../check-dependency.js";
-import { buildForecast, DEFAULT_FORECAST_MONTHS, MAX_FORECAST_MONTHS } from "../../forecast.js";
+import { bundledRules } from "@velella/ebb/bundled-rules";
+import { buildForecast, DEFAULT_FORECAST_MONTHS, MAX_FORECAST_MONTHS } from "@velella/ebb/forecast";
 import { failure, registerMcpTool, repositoryInput, success } from "../tool-support.js";
 
 /** Registers `forecast_repository`: what reaches a dated end of life in the coming months. */

@@ -1,4 +1,4 @@
-import type { Forecast } from "./forecast.js";
+import type { Forecast } from "@velella/ebb/forecast";
 
 export interface ForecastTimelineOptions {
   /** Total width in columns. Defaults to 80. */

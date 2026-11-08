@@ -1,5 +1,5 @@
-import { getActiveData } from "./data-source.js";
-import { validateRegistryV2 } from "./registry.js";
+import { getActiveData } from "@velella/ebb/data-source";
+import { validateRegistryV2 } from "@velella/ebb/registry";
 
 const OSV_REGISTRY_PATH = "registry/osv.json";
 

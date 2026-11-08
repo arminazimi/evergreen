@@ -12,7 +12,7 @@ on:
     branches: [main]
     paths:
       - "src/**"
-      - "registry/**"
+      - "packages/ebb/registry/**"
       - "benchmarks/data-replay*"
       - ".github/workflows/data-replay.yml"
 

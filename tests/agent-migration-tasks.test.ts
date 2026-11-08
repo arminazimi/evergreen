@@ -43,9 +43,9 @@ function corpus(): CorpusRepository[] {
 
 function registryRuleIds(): Set<string> {
   const ids = new Set<string>();
-  for (const file of readdirSync(resolve("registry"))) {
+  for (const file of readdirSync(resolve("packages/ebb/registry"))) {
     if (!file.endsWith(".json")) continue;
-    const registry = JSON.parse(readFileSync(resolve("registry", file), "utf8")) as {
+    const registry = JSON.parse(readFileSync(resolve("packages/ebb/registry", file), "utf8")) as {
       rules?: Array<{ id: string }>;
     };
     for (const rule of registry.rules ?? []) ids.add(rule.id);

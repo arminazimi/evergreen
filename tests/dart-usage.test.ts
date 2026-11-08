@@ -7,7 +7,7 @@ import { after, test } from "node:test";
 import { DartDetector } from "../src/detectors/dart/index.js";
 import { scanRepository } from "../src/engine/index.js";
 import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
-import type { RegistryV2Rule } from "../src/registry.js";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import { isUsageMatcher } from "../src/sdk.js";
 import { analyzeSourceUsage, findDartDynamicReferences } from "../src/source-usage.js";
 

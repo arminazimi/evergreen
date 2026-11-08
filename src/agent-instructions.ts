@@ -1,6 +1,6 @@
 /** The section `evergreen init --agents` keeps in a repository's AGENTS.md or CLAUDE.md. */
 
-import { EvergreenError } from "./evergreen-error.js";
+import { EvergreenError } from "@velella/ebb/evergreen-error";
 
 export const SECTION_BEGIN = "<!-- evergreen:begin -->";
 export const SECTION_END = "<!-- evergreen:end -->";

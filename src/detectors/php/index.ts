@@ -1,10 +1,10 @@
 import { readFile, readdir } from "node:fs/promises";
 import { basename, join } from "node:path";
 
-import { loadDataFile } from "../../data-source.js";
+import { loadDataFile } from "@velella/ebb/data-source";
 import { relativePosix } from "../../paths.js";
-import { validateRegistryV2 } from "../../registry.js";
-import type { RegistryV2Rule } from "../../registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
 import type {
   Detector,
@@ -15,7 +15,7 @@ import type {
   DetectorUnclassifiedReference,
 } from "../../sdk.js";
 import { analyzeSourceUsage, findPhpDynamicReferences } from "../../source-usage.js";
-import { parseVersLenient, versContains } from "../../vers/index.js";
+import { parseVersLenient, versContains } from "@velella/ebb/vers/index";
 import { parseComposerJson } from "./parse-composer-json.js";
 import { parseComposerLock } from "./parse-composer-lock.js";
 import { allowedPhpLines } from "./parse-php-constraint.js";

@@ -5,7 +5,7 @@ import { dirname, join } from "node:path";
 import { builtInDetectors } from "./detectors/index.js";
 import type { Finding } from "./domain.js";
 import { scanRepository } from "./engine/index.js";
-import { EvergreenError } from "./evergreen-error.js";
+import { EvergreenError } from "@velella/ebb/evergreen-error";
 
 export const CHECK_SNIPPET_SCHEMA_VERSION = "evergreen.check-snippet.v1" as const;
 

@@ -9,9 +9,9 @@ import { mkdir, readFile, readdir, stat, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-import { addDays, addMonths } from "../src/forecast.js";
-import { isIsoDate, validateRegistryV2 } from "../src/registry.js";
-import type { RegistryV2Rule } from "../src/registry.js";
+import { addDays, addMonths } from "@velella/ebb/forecast";
+import { isIsoDate, validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import { escapeTableCell } from "./markdown.js";
 
 export interface CalendarEntry {
@@ -283,7 +283,7 @@ export async function loadRulesFromBundle(bundlePath: string): Promise<RegistryV
   throw new Error(`"${bundlePath}" is not a valid data bundle.`);
 }
 
-export async function loadRules(source = "registry"): Promise<RegistryV2Rule[]> {
+export async function loadRules(source = "packages/ebb/registry"): Promise<RegistryV2Rule[]> {
   const stats = await stat(source);
   if (stats.isDirectory()) {
     const rules: RegistryV2Rule[] = [];
@@ -313,7 +313,7 @@ export async function main(argv: string[]): Promise<number> {
   }
   const today = options.get("--today") ?? new Date().toISOString().slice(0, 10);
   const bundleFile = options.get("--bundle");
-  const registrySource = options.get("--registry") ?? "registry";
+  const registrySource = options.get("--registry") ?? "packages/ebb/registry";
   const rules = bundleFile ? await loadRulesFromBundle(bundleFile) : await loadRules(registrySource);
   const calendar = buildCalendar(
     rules,

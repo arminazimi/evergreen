@@ -109,7 +109,7 @@ The id is the detector's stable identifier (lowercase letters, digits, and singl
 | --- | --- |
 | `src/detectors/<id>.ts` | The detector. It imports only the public SDK, reports nothing yet, and says in its header what to do next. |
 | `src/detectors/<id>/parse.ts` | A pure, bounded parser: contents in, `{ value, line }` declarations out. Its header lists the rules it keeps and a place to document the forms it deliberately does not read. |
-| `registry/<id>.json` | An empty `evergreen.registry.v2` registry for your rules ([Lifecycle rules](RULES.md)). |
+| `packages/ebb/registry/<id>.json` | An empty `evergreen.registry.v2` registry for your rules ([Lifecycle rules](RULES.md)). |
 | `tests/<id>-detector.test.ts` | The conformance suite (determinism, zero-finding, malformed input) against the generated fixtures. |
 | `tests/<id>-parse.test.ts` | The invariants every parser keeps: no throw on junk, bounded input and lines, determinism, 1-based lines. |
 | `tests/fixtures/<id>/` | A README with a table of cases, and `zero/` and `malformed/` fixtures to replace with real ones. |
@@ -121,7 +121,7 @@ After generating:
 
 1. **Fixtures first.** Fill `tests/fixtures/<id>/` with small repositories: one positive per declaration type, lookalike negatives (comments, unrelated keys, dynamic values), a zero-finding one, and a malformed one. Describe each in the README table.
 2. **Parser.** Teach `parse.ts` to read the declarations, one form at a time, each with a test. Bound the input, never evaluate what you read, and return nothing, not an error, for forms you do not support.
-3. **Rules.** Add evidence-backed rules to `registry/<id>.json` ([evidence policy](../CONTRIBUTING.md#evidence-policy)).
+3. **Rules.** Add evidence-backed rules to `packages/ebb/registry/<id>.json` ([evidence policy](../CONTRIBUTING.md#evidence-policy)).
 4. **Detector.** In `<id>.ts`, find the files, parse them, and match declarations to rules. Report an exact path and line. Add the expected findings to the conformance test.
 5. **Register it.** Add the detector to `builtInDetectors` in `src/detectors/index.ts`. To ship its rules in the signed data bundle ([Lifecycle data](DATA.md)), add the ecosystem to `BUNDLED_ECOSYSTEMS` in `src/data-bundle.ts`. The generator leaves both to you on purpose, so a skeleton never changes what scans report or what a data release contains.
 6. **Check.** `npm run check` must pass, and `npm run validate:public-repos` must still match exactly. A new detector starts non-stable in `benchmarks/thresholds.json` until the corpus has meaningful coverage ([Validation](VALIDATION.md#precision-thresholds)).

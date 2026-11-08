@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import { satisfies } from "semver";
 
 import { checkAgainst, systemToolRules } from "./check-dependency.js";
-import type { RegistryV2Rule } from "./registry.js";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 
 export const doctorCategories = ["runtime", "package", "mcp", "skill", "plugin", "ci", "system"] as const;
 export type DoctorCategory = (typeof doctorCategories)[number];

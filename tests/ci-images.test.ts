@@ -13,8 +13,8 @@ import { runDetectorConformance } from "../src/conformance/index.js";
 import { CiImagesDetector } from "../src/detectors/ci-images/index.js";
 import { scanRepository } from "../src/engine/index.js";
 import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
-import { validateRegistryV2 } from "../src/registry.js";
-import type { RegistryV2Rule } from "../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import type { DetectorFinding } from "../src/sdk.js";
 
 const fixtures = resolve("tests/fixtures/ci-images");
@@ -51,7 +51,7 @@ function expected(rule: RegistryV2Rule, path: string, line: number, summary: str
 }
 
 test("ci-images passes detector conformance on every fixture", async () => {
-  const rules = validateRegistryV2(JSON.parse(await readFile("registry/ci-images.json", "utf8"))).rules;
+  const rules = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/ci-images.json", "utf8"))).rules;
   const ubuntu2004 = rules.find((rule) => rule.id === "ci-images.azure-pipelines.ubuntu-20.04")!;
   const windows2019 = rules.find((rule) => rule.id === "ci-images.azure-pipelines.windows-2019")!;
   await runDetectorConformance({
@@ -157,7 +157,7 @@ test("Azure vmImage matching is case-insensitive and rejects suffixes", async ()
 });
 
 test("GitLab and CircleCI references stay unclassified while retired Azure labels are findings", async () => {
-  const rules = validateRegistryV2(JSON.parse(await readFile("registry/ci-images.json", "utf8"))).rules;
+  const rules = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/ci-images.json", "utf8"))).rules;
   const ubuntu2004 = rules.find((rule) => rule.id === "ci-images.azure-pipelines.ubuntu-20.04")!;
   const windows2019 = rules.find((rule) => rule.id === "ci-images.azure-pipelines.windows-2019")!;
   const analysis = await detector.analyze({ root: resolve(fixtures, "positive") });
@@ -178,7 +178,7 @@ test("GitLab and CircleCI references stay unclassified while retired Azure label
 });
 
 test("every curated ci-images rule has migration guidance with real verification commands", async () => {
-  const rules = validateRegistryV2(JSON.parse(await readFile("registry/ci-images.json", "utf8"))).rules;
+  const rules = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/ci-images.json", "utf8"))).rules;
   assert.equal(rules.length, 5);
   for (const rule of rules) {
     assert.ok(rule.migration && rule.migration.constraints.length >= 1 && rule.migration.steps.length >= 1, rule.id);

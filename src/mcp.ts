@@ -2,7 +2,7 @@ import { completable, McpServer, ResourceNotFoundError, ResourceTemplate } from 
 import * as z from "zod/v4";
 
 import { EvergreenAgentTools } from "./agent-tools.js";
-import { bundledRules } from "./check-dependency.js";
+import { bundledRules } from "@velella/ebb/bundled-rules";
 import { registerMcpTools } from "./mcp/registry.js";
 import { MIGRATE_FINDING_PROMPT, renderMigrationPrompt } from "./migration-prompt.js";
 import { ruleUri, RULE_URI_PREFIX, toRuleDocument } from "./rule-resources.js";

@@ -266,7 +266,7 @@ test("lifecycle rules are listed and readable as resources without a scan", asyn
       title: string;
       mimeType: string;
     }>;
-    const registryRules = (await import("../src/check-dependency.js")).bundledRules;
+    const registryRules = (await import("@velella/ebb/bundled-rules")).bundledRules;
     const rules = await registryRules();
     const listedRules = listed.filter((resource) => resource.uri.startsWith("evergreen://rules/"));
     assert.equal(listedRules.length, rules.length);
@@ -306,7 +306,7 @@ test("lifecycle rules are listed and readable as resources without a scan", asyn
 test("every bundled rule reads back as a valid evergreen.rule.v1 document", async () => {
   const { Ajv2020 } = await import("ajv/dist/2020.js");
   const validate = new Ajv2020({ allErrors: true }).compile(
-    JSON.parse(await readFile(resolve("schemas/rule.v1.schema.json"), "utf8")) as object,
+    JSON.parse(await readFile(resolve("packages/ebb/schemas/rule.v1.schema.json"), "utf8")) as object,
   );
   const client = await connectTestClient();
   try {

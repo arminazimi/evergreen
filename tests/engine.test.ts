@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readdir } from "node:fs/promises";
 import { after, afterEach, beforeEach, test } from "node:test";
 
-import { configureActiveData } from "../src/data-source.js";
+import { configureActiveData } from "@velella/ebb/data-source";
 import { scanRepository } from "../src/engine/index.js";
 import { renderJson, renderText } from "../src/reporters.js";
 import { DETECTOR_API_VERSION } from "../src/sdk.js";

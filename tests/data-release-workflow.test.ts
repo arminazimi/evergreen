@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 import { test } from "node:test";
 import { parse } from "yaml";
 
-import { DATA_SIGNER } from "../src/data-bundle.js";
+import { DATA_SIGNER } from "@velella/ebb/data-bundle";
 
 interface Step {
   name?: string;

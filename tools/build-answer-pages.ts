@@ -28,8 +28,8 @@ import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-import type { RegistryV2, RegistryV2Rule } from "../src/registry.js";
-import { purlIdentity, parsePurl } from "../src/purl.js";
+import type { RegistryV2, RegistryV2Rule } from "@velella/ebb/registry";
+import { purlIdentity, parsePurl } from "@velella/ebb/purl";
 import { SITE_URL, loadRegistries } from "./build-reference-pages.js";
 import type { GeneratedFile } from "./build-reference-pages.js";
 

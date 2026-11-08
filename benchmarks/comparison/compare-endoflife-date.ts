@@ -9,7 +9,7 @@
 import { readFile, readdir, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 
-import { REGISTRY_V2_SCHEMA_VERSION, validateRegistryV2 } from "../../src/registry.js";
+import { REGISTRY_V2_SCHEMA_VERSION, validateRegistryV2 } from "@velella/ebb/registry";
 import { buildResult } from "./endoflife/result.js";
 import { renderJson, renderMarkdown } from "./endoflife/report.js";
 import { loadSnapshot } from "./endoflife/snapshot.js";
@@ -19,7 +19,7 @@ export const SNAPSHOT_PATH = "benchmarks/comparison/endoflife-date.snapshot.json
 export const RESULT_JSON_PATH = "benchmarks/comparison/endoflife-date.json";
 export const RESULT_MARKDOWN_PATH = "benchmarks/comparison/endoflife-date.md";
 
-const REGISTRY_DIRECTORY = "registry";
+const REGISTRY_DIRECTORY = "packages/ebb/registry";
 const CORPUS_DIRECTORY = "benchmarks/public-repositories";
 
 function isRecord(value: unknown): value is Record<string, unknown> {

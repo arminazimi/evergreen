@@ -4,7 +4,7 @@ import { basename, dirname, extname } from "node:path";
 import { severityValues } from "./domain.js";
 import type { ScanResult, Severity } from "./domain.js";
 import { required } from "./required.js";
-import { EvergreenError } from "./evergreen-error.js";
+import { EvergreenError } from "@velella/ebb/evergreen-error";
 
 export class RollupError extends EvergreenError {
   constructor(message: string) {

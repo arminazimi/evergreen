@@ -5,10 +5,10 @@ import { resolve } from "node:path";
 import { test } from "node:test";
 import { Ajv2020 } from "ajv/dist/2020.js";
 
-import { BUNDLED_ECOSYSTEMS } from "../src/data-bundle.js";
-import type { ActiveData } from "../src/data-source.js";
-import { CLE_SCHEMA, exportActiveCle, exportCle } from "../src/export/cle.js";
-import type { RegistryV2Rule } from "../src/registry.js";
+import { BUNDLED_ECOSYSTEMS } from "@velella/ebb/data-bundle";
+import type { ActiveData } from "@velella/ebb/data-source";
+import { CLE_SCHEMA, exportActiveCle, exportCle } from "@velella/ebb/export/cle";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import { runCli } from "./cli-runner.js";
 
 const rule: RegistryV2Rule = {

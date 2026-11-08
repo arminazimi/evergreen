@@ -21,7 +21,7 @@ test("docs/RELEASING.md links to files and workflows that exist", async () => {
   for (const path of [
     "CHANGELOG.md",
     "benchmarks/thresholds.json",
-    "registry/sources.lock.json",
+    "packages/ebb/registry/sources.lock.json",
     ".github/workflows/release.yml",
   ]) {
     assert.ok(text.includes(path), `${path} should be covered`);
@@ -128,6 +128,8 @@ test("every place that carries the release version agrees with package.json", as
   const version = (JSON.parse(await read("package.json")) as { version: string }).version;
   const { VERSION } = await import("../src/version.js");
   assert.equal(VERSION, version, "src/version.ts");
+  const ebb = await import("@velella/ebb/version");
+  assert.equal(ebb.VERSION, version, "packages/ebb/src/version.ts");
   const server = JSON.parse(await read("server.json")) as { version: string; packages: Array<{ version: string }> };
   assert.equal(server.version, version, "server.json version");
   for (const entry of server.packages) assert.equal(entry.version, version, "server.json package version");

@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { ACTION_CANDIDATES } from "../../tools/importers/github-actions-candidates.js";
 import { ACTION_NAME, githubActionsRuntimeImporter, RETIRED_RUNTIMES } from "../../tools/importers/github-actions.js";
@@ -74,7 +74,9 @@ test("drafts a rule for every candidate that still has releases on a retired run
 });
 
 test("reproduces the hand-written rules for checkout, setup-node, and cache", async () => {
-  const existing = JSON.parse(await readFile(resolve("registry/github-actions.json"), "utf8")) as RegistryV2;
+  const existing = JSON.parse(
+    await readFile(resolve("packages/ebb/registry/github-actions.json"), "utf8"),
+  ) as RegistryV2;
   const diff = diffDrafts(await execute(githubActionsRuntimeImporter, { replay: recording }), existing);
   for (const id of ["github-actions.checkout.node20", "github-actions.setup-node.node20"]) {
     const change = diff.changed.find((entry) => entry.id === id)!;
@@ -90,7 +92,9 @@ test("reproduces the hand-written rules for checkout, setup-node, and cache", as
 });
 
 test("shows where the registry and the actions' own metadata disagree", async () => {
-  const existing = JSON.parse(await readFile(resolve("registry/github-actions.json"), "utf8")) as RegistryV2;
+  const existing = JSON.parse(
+    await readFile(resolve("packages/ebb/registry/github-actions.json"), "utf8"),
+  ) as RegistryV2;
   const diff = diffDrafts(await execute(githubActionsRuntimeImporter, { replay: recording }), existing);
   // download-artifact has the same component and versions under another id; upload-artifact moved to Node 24 a major earlier than the registry says.
   assert.deepEqual(diff.duplicates, [

@@ -6,7 +6,7 @@ import { join, resolve } from "node:path";
 import { test } from "node:test";
 import { promisify } from "node:util";
 
-import type { RegistryV2, RegistryV2Rule } from "../../src/registry.js";
+import type { RegistryV2, RegistryV2Rule } from "@velella/ebb/registry";
 import { diffDrafts, fingerprint, hasChanges, loadAcknowledged, renderDiffText } from "../../tools/importers/diff.js";
 import type { DraftRegistry } from "../../tools/importers/types.js";
 

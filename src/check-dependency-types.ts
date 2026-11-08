@@ -1,5 +1,5 @@
 import type { DataInfo, EvidenceSource, MigrationGuidance, Severity } from "./domain.js";
-import type { LifecycleEvent } from "./registry.js";
+import type { LifecycleEvent } from "@velella/ebb/registry";
 
 /** Identifies the schema a dependency check result conforms to. */
 export const CHECK_SCHEMA_VERSION = "evergreen.check.v1" as const;

@@ -12,8 +12,8 @@ import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
 import { checkAgainst } from "../../src/check-dependency.js";
-import { validateRegistryV2 } from "../../src/registry.js";
-import type { RegistryV2Rule } from "../../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 
 export const SCHEMA_VERSION = "evergreen.agent-guardrail.v1" as const;
 export const EXPECTED_TASK_COUNT = 20;
@@ -46,7 +46,7 @@ const SKIP_REGISTRY_FILES = new Set(["sources.lock.json", "github-actions-shas.j
 
 /** Loads every lifecycle rule from `registry/*.json` under `root`. */
 export function loadBundledRegistryRules(root = process.cwd()): RegistryV2Rule[] {
-  const directory = resolve(root, "registry");
+  const directory = resolve(root, "packages/ebb/registry");
   const rules: RegistryV2Rule[] = [];
   for (const file of readdirSync(directory).sort()) {
     if (!file.endsWith(".json") || SKIP_REGISTRY_FILES.has(file)) continue;

@@ -21,7 +21,7 @@ import { join, resolve, sep } from "node:path";
 import { performance } from "node:perf_hooks";
 import { pathToFileURL } from "node:url";
 
-import { bundledRules } from "../../src/check-dependency.js";
+import { bundledRules } from "@velella/ebb/bundled-rules";
 import { builtInDetectors } from "../../src/detectors/index.js";
 import { scanRepository } from "../../src/engine/index.js";
 import { createMigrationPacket } from "../../src/migration-packet.js";

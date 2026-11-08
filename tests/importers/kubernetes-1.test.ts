@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import {
   KUBERNETES_DEPRECATION_GUIDE_URL,
@@ -15,7 +15,7 @@ import { execute, runImporter } from "../../tools/importers/run.js";
 const recording = resolve("tests/importers/recordings/kubernetes-1.json");
 
 async function registry(): Promise<RegistryV2> {
-  return JSON.parse(await readFile(resolve("registry/kubernetes.json"), "utf8")) as RegistryV2;
+  return JSON.parse(await readFile(resolve("packages/ebb/registry/kubernetes.json"), "utf8")) as RegistryV2;
 }
 
 test("drafts a removed rule for every API version the recorded guide says is no longer served", async () => {

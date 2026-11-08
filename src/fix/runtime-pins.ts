@@ -4,9 +4,9 @@ import { isAbsolute, relative, resolve } from "node:path";
 import semver from "semver";
 
 import { renderDiff } from "../agent-instructions.js";
-import { loadDataFile } from "../data-source.js";
+import { loadDataFile } from "@velella/ebb/data-source";
 import type { Finding, ScanResult } from "../domain.js";
-import { validateRegistryV2 } from "../registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
 import { required } from "../required.js";
 import type { FilePatch, Fixer, Refuse } from "./types.js";
 

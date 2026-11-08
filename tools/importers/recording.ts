@@ -1,6 +1,6 @@
 import { readFile, writeFile } from "node:fs/promises";
 
-import { isIsoDate } from "../../src/registry.js";
+import { isIsoDate } from "@velella/ebb/registry";
 import { isoDate } from "./canonical.js";
 import { ImporterError } from "./types.js";
 import type { FetchOptions, ImporterContext } from "./types.js";

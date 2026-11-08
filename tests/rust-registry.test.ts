@@ -2,11 +2,11 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
-import { validateRegistryV2 } from "../src/registry.js";
-import { versContains } from "../src/vers/index.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import { versContains } from "@velella/ebb/vers/index";
 
 async function rules() {
-  return validateRegistryV2(JSON.parse(await readFile("registry/rust.json", "utf8"))).rules;
+  return validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/rust.json", "utf8"))).rules;
 }
 
 test("the Rust registry has five valid rules, each citing an authoritative source", async () => {
@@ -42,7 +42,7 @@ test("the toolchain rule covers every release below the newest stable and nothin
   ] as const) {
     assert.equal(versContains(toolchain.vers, version), affected, version);
   }
-  const registry = JSON.parse(await readFile("registry/rust.json", "utf8")) as {
+  const registry = JSON.parse(await readFile("packages/ebb/registry/rust.json", "utf8")) as {
     freshness: { maxReviewAgeDays: number };
   };
   assert.equal(registry.freshness.maxReviewAgeDays, 45, "a moving rule needs a short review window");

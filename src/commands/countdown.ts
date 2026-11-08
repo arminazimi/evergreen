@@ -1,16 +1,16 @@
 import process from "node:process";
 
-import { bundledRules } from "../check-dependency.js";
+import { bundledRules } from "@velella/ebb/bundled-rules";
 import {
   buildCountdownRows,
   COUNTDOWN_WINDOW_MONTHS,
   DEFAULT_COUNTDOWN_LIMIT,
   renderCountdownJson,
   runCountdown,
-} from "../countdown.js";
+} from "@velella/ebb/countdown";
 import { builtInDetectors } from "../detectors/index.js";
 import { scanRepository } from "../engine/index.js";
-import { buildForecast } from "../forecast.js";
+import { buildForecast } from "@velella/ebb/forecast";
 import { afterGates, preScanPhase, repositoryPhase } from "./runtime.js";
 import type { CliCommand } from "./types.js";
 

@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import { validateRegistryV2 } from "../../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
 import { withoutAccessDates } from "./evidence.js";
 import { DOTNET_RELEASES_INDEX_URL, dotnetReleasesImporter } from "../../tools/importers/dotnet-1.js";
 import { execute } from "../../tools/importers/run.js";
@@ -61,7 +61,7 @@ test("dotnet-1 drafts an end-of-support rule per line past its date and a schedu
 
 test("the committed runtime rules match what the importer drafts from the recording", async () => {
   const drafts = (await execute(dotnetReleasesImporter, { replay: recording })).rules;
-  const registry = validateRegistryV2(JSON.parse(await readFile("registry/dotnet.json", "utf8")));
+  const registry = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/dotnet.json", "utf8")));
   const committed = registry.rules.filter((rule) => rule.purl === "pkg:generic/dotnet");
   assert.ok(committed.length >= 4);
   for (const rule of committed) {

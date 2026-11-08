@@ -1,4 +1,4 @@
-import type { RegistryV2Rule } from "../../src/registry.js";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 
 /** Reviewer recorded on every importer draft. The bundled registries may never contain it. */
 export const PENDING_REVIEWER = "pending-review";

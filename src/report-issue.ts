@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import { basename, isAbsolute, relative, resolve } from "node:path";
 
 import type { Finding } from "./domain.js";
-import { EvergreenError } from "./evergreen-error.js";
+import { EvergreenError } from "@velella/ebb/evergreen-error";
 
 /** Lines kept on each side of the finding's line. Everything else in the file is left out. */
 const CONTEXT_LINES = 2;

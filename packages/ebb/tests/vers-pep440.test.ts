@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 
 import { versContains, VersError, versionScheme } from "../src/vers/index.js";
@@ -73,7 +73,7 @@ test("matches the Python runtime ranges Evergreen registry rules use", () => {
 });
 
 test("passes the VERS pypi containment vectors", async (t) => {
-  const file = JSON.parse(await readFile(resolve("tests/fixtures/vers/pypi_range_containment_test.json"), "utf8")) as {
+  const file = JSON.parse(await readFile(fileURLToPath(new URL("../../tests/fixtures/vers/pypi_range_containment_test.json", import.meta.url)), "utf8")) as {
     tests: { description: string; input: { vers: string; version: string }; expected_output: boolean }[];
   };
   for (const vector of file.tests) {

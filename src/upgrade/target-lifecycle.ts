@@ -11,9 +11,9 @@ import { parsePhpVersion } from "../detectors/php/parse-php-runtime.js";
 import { parseRubyVersion } from "../detectors/ruby/parse-ruby-runtime.js";
 import { parseDockerfile } from "../detectors/container/parse-dockerfile.js";
 import { parseImageReference } from "../detectors/container/parse-image.js";
-import { addDays } from "../forecast.js";
-import { lookupProduct } from "../lookup.js";
-import type { LookupFinding, LookupResult } from "../lookup.js";
+import { addDays } from "@velella/ebb/forecast";
+import { lookupProduct } from "@velella/ebb/lookup";
+import type { LookupFinding, LookupResult } from "@velella/ebb/lookup";
 import { readPinnedRuntimes } from "../runtime-pin.js";
 import type { UpgradeAnalyzer, UpgradeIssue, UpgradeTarget } from "./types.js";
 

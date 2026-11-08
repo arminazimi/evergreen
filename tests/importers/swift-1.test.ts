@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import {
   APP_STORE_REQUIREMENTS_URL,
@@ -119,7 +119,7 @@ test("drafts Xcode App Store upload bands from the recording", async () => {
 // Draft bands below-14.1 and 14.1-through-14 overlap curated swift.xcode.app-store-below-15;
 // a reviewer must pick one set. This PR does not change registry/swift.json.
 test("diff against the curated registry reports additions and leaves below-15 for the reviewer", async () => {
-  const registry = JSON.parse(await readFile(resolve("registry/swift.json"), "utf8")) as RegistryV2;
+  const registry = JSON.parse(await readFile(resolve("packages/ebb/registry/swift.json"), "utf8")) as RegistryV2;
   const drafts = await execute(swiftAppStoreImporter, { replay: recording, now: "2026-10-19" });
   const diff = diffDrafts(drafts, registry);
   assert.deepEqual(diff.added.map((rule) => rule.id).sort(), [

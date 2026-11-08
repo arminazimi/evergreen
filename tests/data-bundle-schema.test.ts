@@ -36,7 +36,9 @@ function bundle() {
 }
 
 async function validator() {
-  const schema = JSON.parse(await readFile(resolve("schemas/data-bundle.v1.schema.json"), "utf8")) as object;
+  const schema = JSON.parse(
+    await readFile(resolve("packages/ebb/schemas/data-bundle.v1.schema.json"), "utf8"),
+  ) as object;
   return new Ajv2020({ allErrors: true }).compile(schema);
 }
 
@@ -181,7 +183,7 @@ test("the schema rejects each malformed field", async () => {
 
 test("the decision record describes the same format as the schema", async () => {
   const record = await readFile(resolve("docs/decisions/0006-data-bundle.md"), "utf8");
-  const schema = JSON.parse(await readFile(resolve("schemas/data-bundle.v1.schema.json"), "utf8")) as {
+  const schema = JSON.parse(await readFile(resolve("packages/ebb/schemas/data-bundle.v1.schema.json"), "utf8")) as {
     $defs: { manifest: { required: string[] } };
   };
   assert.match(record, /^Status: accepted$/m);

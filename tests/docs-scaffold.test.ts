@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 import { test } from "node:test";
 
 import { commands } from "../src/commands/index.generated.js";
-import { BUNDLED_ECOSYSTEMS } from "../src/data-bundle.js";
+import { BUNDLED_ECOSYSTEMS } from "@velella/ebb/data-bundle";
 import { renderScaffold, scaffoldNames } from "../tools/scaffold/index.js";
 
 const read = (path: string) => readFile(resolve(path), "utf8");
@@ -45,12 +45,12 @@ test("the commands in the guide and in CONTRIBUTING.md exist", async () => {
 test("the manual registration steps name files and constants that exist", async () => {
   await access(resolve("src/detectors/index.ts"));
   assert.ok((await read("src/detectors/index.ts")).includes("builtInDetectors"));
-  assert.ok((await read("src/data-bundle.ts")).includes("BUNDLED_ECOSYSTEMS"));
+  assert.ok((await read("packages/ebb/src/data-bundle.ts")).includes("BUNDLED_ECOSYSTEMS"));
   assert.ok(BUNDLED_ECOSYSTEMS.length >= 4);
   await access(resolve("benchmarks/thresholds.json"));
   assert.ok((await read("docs/VALIDATION.md")).includes("## Precision thresholds"), "the guide links to this section");
   assert.ok(
-    (await read("tools/scaffold/index.ts")).includes("BUNDLED_ECOSYSTEMS in src/data-bundle.ts"),
+    (await read("tools/scaffold/index.ts")).includes("BUNDLED_ECOSYSTEMS in packages/ebb/src/data-bundle.ts"),
     "the generator tells the same story",
   );
 });

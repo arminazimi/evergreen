@@ -1,10 +1,10 @@
 import process from "node:process";
 
-import { bundledRules } from "../check-dependency.js";
+import { bundledRules } from "@velella/ebb/bundled-rules";
 import { builtInDetectors } from "../detectors/index.js";
 import { scanRepository } from "../engine/index.js";
-import type { Forecast } from "../forecast.js";
-import { buildForecast, DEFAULT_FORECAST_MONTHS, MAX_FORECAST_MONTHS, renderForecastText } from "../forecast.js";
+import type { Forecast } from "@velella/ebb/forecast";
+import { buildForecast, DEFAULT_FORECAST_MONTHS, MAX_FORECAST_MONTHS, renderForecastText } from "@velella/ebb/forecast";
 import { renderForecastSvg } from "../forecast-svg.js";
 import { renderForecastTimeline } from "../forecast-timeline.js";
 import { renderForecastMermaid } from "../reporters.js";

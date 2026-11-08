@@ -122,7 +122,7 @@ Lifecycle rules are the most valuable contribution and the easiest place to star
    node dist/src/cli.js new-rule npm.package.<name>.deprecated
    ```
 
-   It appends a placeholder rule to [`registry/npm.json`](registry/npm.json) and creates both fixtures under `tests/fixtures/<rule-id>/`. For another ecosystem, pass `--ecosystem <slug>` with a registry that already exists.
+   It appends a placeholder rule to [`packages/ebb/registry/npm.json`](packages/ebb/registry/npm.json) and creates both fixtures under `tests/fixtures/<rule-id>/`. For another ecosystem, pass `--ecosystem <slug>` with a registry that already exists.
 3. **Replace the placeholders** with the claim: `purl` (`pkg:npm/<name>`; scoped names are `pkg:npm/%40scope/name`, and `x-npm.package` is the plain package name), `vers`, `event`, `title`, `summary`, `severity`, `replacement`, `deadline` (only if the source gives a date), `sources`, `provenance` (`observedAt`, `reviewedAt`, `reviewer`), `migration`, and `usage`. The scaffold is valid before you edit it, so the checks below say nothing about whether the values are right. Field by field: [Lifecycle rules](docs/RULES.md#a-rule). The whole path, with one real rule: [From a source to a merged pull request](docs/RULES.md#from-a-source-to-a-merged-pull-request).
 4. **Write both fixtures.** `tests/fixtures/<rule-id>/match/` holds the smallest repository that must report the rule; `clean/` holds a lookalike that must not. Both are scanned as untrusted input and never executed. If the rule depends on detector behavior rather than usage matching, such as a manifest field or a lockfile form, add a case to [`tests/npm.test.ts`](tests/npm.test.ts) too.
 5. **Check.** Run `node dist/src/cli.js rules lint`, `node dist/src/cli.js rules test <rule-id>`, `npm run build:reference`, then `npm run check`. The last one is the gate CI uses.
@@ -146,7 +146,7 @@ Evergreen's findings are only as trustworthy as their sources.
 - Every rule links an authoritative, versioned source: maintainer release notes, an official support or end-of-life policy, a registry deprecation flag, or platform documentation.
 - Never infer lifecycle status from popularity, download counts, or a newer version existing.
 - Dates, affected versions, and replacements must match the source. If the source is ambiguous, say so in the PR.
-- Rules are reviewed data, not code. Changes to `registry/` and `schemas/` always get maintainer review (see `.github/CODEOWNERS`).
+- Rules are reviewed data, not code. Changes to `packages/ebb/registry/`, `packages/ebb/schemas/`, and `schemas/` always get maintainer review (see `.github/CODEOWNERS`).
 
 ## Other contributions
 

@@ -1,6 +1,6 @@
 import semver from "semver";
 
-import { formatPurl } from "../../src/purl.js";
+import { formatPurl } from "@velella/ebb/purl";
 import { NPM_CANDIDATES } from "./npm-candidates.js";
 import { fetchJson } from "./types.js";
 import type { DraftRule, Importer } from "./types.js";

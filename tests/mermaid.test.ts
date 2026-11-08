@@ -5,7 +5,7 @@ import { join, resolve } from "node:path";
 import { test, after } from "node:test";
 
 import type { Finding, ScanResult, Severity } from "../src/domain.js";
-import type { Forecast, ForecastEvent } from "../src/forecast.js";
+import type { Forecast, ForecastEvent } from "@velella/ebb/forecast";
 import { MERMAID_MAX_BARS, renderForecastMermaid, renderScanMermaid } from "../src/mermaid.js";
 import { runCli } from "./cli-runner.js";
 

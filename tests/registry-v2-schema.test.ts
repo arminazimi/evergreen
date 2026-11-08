@@ -4,11 +4,11 @@ import { resolve } from "node:path";
 import { test } from "node:test";
 import { Ajv2020 } from "ajv/dist/2020.js";
 
-import { registryV2Issues } from "../src/registry.js";
+import { registryV2Issues } from "@velella/ebb/registry";
 
 async function exampleAndValidator() {
   const example = JSON.parse(await readFile(resolve("examples/registry.v2.example.json"), "utf8"));
-  const schema = JSON.parse(await readFile(resolve("schemas/registry.v2.schema.json"), "utf8"));
+  const schema = JSON.parse(await readFile(resolve("packages/ebb/schemas/registry.v2.schema.json"), "utf8"));
   return { example, validate: new Ajv2020({ allErrors: true }).compile(schema) };
 }
 
@@ -149,7 +149,7 @@ const symbolMatcher = {
 
 async function symbolValidator() {
   const example = JSON.parse(await readFile(resolve("examples/registry.v2.symbol.example.json"), "utf8"));
-  const schema = JSON.parse(await readFile(resolve("schemas/registry.v2.schema.json"), "utf8"));
+  const schema = JSON.parse(await readFile(resolve("packages/ebb/schemas/registry.v2.schema.json"), "utf8"));
   return { example, validate: new Ajv2020({ allErrors: true }).compile(schema) };
 }
 

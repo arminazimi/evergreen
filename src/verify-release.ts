@@ -1,4 +1,4 @@
-import { getDataStatus } from "./data-status.js";
+import { getDataStatus } from "@velella/ebb/data-status";
 import {
   installedPackageRoot,
   RELEASE_MANIFEST_PATH,

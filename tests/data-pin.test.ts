@@ -5,8 +5,8 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { after, afterEach, test } from "node:test";
 
-import { buildDataBundle, serializeDataBundle } from "../src/data-bundle.js";
-import type { DataBundle } from "../src/data-bundle.js";
+import { buildDataBundle, serializeDataBundle } from "@velella/ebb/data-bundle";
+import type { DataBundle } from "@velella/ebb/data-bundle";
 import {
   ACTIVE_FILE,
   BUNDLE_FILE,
@@ -15,11 +15,11 @@ import {
   DataPinError,
   resolveActiveData,
   SIGNATURE_FILE,
-} from "../src/data-source.js";
+} from "@velella/ebb/data-source";
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine/index.js";
 import { restoreFixtureNames } from "../src/fixture-names.js";
-import { renderDataStatusText, dataStatusFrom } from "../src/data-status.js";
+import { renderDataStatusText, dataStatusFrom } from "@velella/ebb/data-status";
 import { runCli } from "./cli-runner.js";
 
 const roots: string[] = [];
@@ -43,7 +43,7 @@ const scratch = async (name: string) => {
 /** A bundle in which `package` has a rule named after the bundle, so a scan shows which data was used. */
 async function bundleWithRule(createdAt: string, packageName: string): Promise<DataBundle> {
   const root = await scratch("registry");
-  await cp(resolve("registry"), join(root, "registry"), { recursive: true });
+  await cp(resolve("packages/ebb/registry"), join(root, "registry"), { recursive: true });
   await writeFile(join(root, "package.json"), await readFile(resolve("package.json"), "utf8"));
   const npm = JSON.parse(await readFile(join(root, "registry/npm.json"), "utf8")) as {
     rules: Array<Record<string, unknown>>;
@@ -119,7 +119,7 @@ test("a pinned version decides what a scan finds, so CI results do not drift", a
 
 test("every built-in detector scans its fixture with pinned data", async () => {
   const bundle = await buildDataBundle({
-    root: resolve("."),
+    root: resolve("packages/ebb"),
     createdAt: "2999-01-01T00:00:00Z",
     minimumEvergreenVersion: "0.1.0",
   });

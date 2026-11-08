@@ -8,7 +8,7 @@ import { promisify } from "node:util";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
 
-import type { RegistryV2, RegistryV2Rule } from "../src/registry.js";
+import type { RegistryV2, RegistryV2Rule } from "@velella/ebb/registry";
 import {
   API_DIRECTORY,
   PRODUCTS_DIRECTORY,
@@ -60,8 +60,12 @@ function documentAt(documents: readonly ApiDocumentFile[], path: string): ApiDoc
 }
 
 async function apiValidator() {
-  const apiSchema = JSON.parse(await readFile(resolve("schemas/api-product.v1.schema.json"), "utf8")) as object;
-  const registrySchema = JSON.parse(await readFile(resolve("schemas/registry.v2.schema.json"), "utf8")) as object;
+  const apiSchema = JSON.parse(
+    await readFile(resolve("packages/ebb/schemas/api-product.v1.schema.json"), "utf8"),
+  ) as object;
+  const registrySchema = JSON.parse(
+    await readFile(resolve("packages/ebb/schemas/registry.v2.schema.json"), "utf8"),
+  ) as object;
   const ajv = new Ajv2020({ allErrors: true });
   ajv.addSchema(registrySchema);
   return ajv.compile(apiSchema);
@@ -188,7 +192,7 @@ test("the recent file keeps the newest rules by review date, capped at the limit
 });
 
 test("the same registry always renders the same bytes, independent of input order and key order", async () => {
-  const registries = await loadRegistries(resolve("registry"));
+  const registries = await loadRegistries(resolve("packages/ebb/registry"));
   const first = buildFiles(registries);
   const second = buildFiles(registries);
   assert.deepEqual(second, first);
@@ -206,7 +210,7 @@ test("the same registry always renders the same bytes, independent of input orde
 });
 
 test("every generated document matches schemas/api-product.v1.schema.json", async () => {
-  const documents = buildDocuments(await loadRegistries(resolve("registry")));
+  const documents = buildDocuments(await loadRegistries(resolve("packages/ebb/registry")));
   await validateDocuments(documents, resolve("."));
 
   const validate = await apiValidator();
@@ -223,7 +227,7 @@ test("every generated document matches schemas/api-product.v1.schema.json", asyn
 });
 
 test("the generated API matches the registry schemas and covers every product", async () => {
-  const registries = await loadRegistries(resolve("registry"));
+  const registries = await loadRegistries(resolve("packages/ebb/registry"));
   const files = buildFiles(registries);
   assert.ok(isWellFormedDataApi(files));
   await validateDocuments(buildDocuments(registries), resolve("."));
@@ -257,12 +261,12 @@ test("the generated API matches the registry schemas and covers every product", 
 test("the CLI rebuilds identically, removes stale files, and --check confirms the API is buildable", async () => {
   const root = await mkdtemp(join(tmpdir(), "evergreen-data-api-"));
   temporaryRoots.push(root);
-  await mkdir(join(root, "registry"), { recursive: true });
-  await cp(resolve("schemas"), join(root, "schemas"), { recursive: true });
+  await mkdir(join(root, "packages/ebb/registry"), { recursive: true });
+  await cp(resolve("packages/ebb/schemas"), join(root, "packages/ebb/schemas"), { recursive: true });
   const demo = registry("demo", [
     rule("demo.one", { ecosystem: "demo", purl: "pkg:generic/demo", vers: "vers:semver/<2.0.0" }),
   ]);
-  await writeFile(join(root, "registry", "demo.json"), `${JSON.stringify(demo, null, 2)}\n`);
+  await writeFile(join(root, "packages/ebb/registry", "demo.json"), `${JSON.stringify(demo, null, 2)}\n`);
 
   const cli = resolve("dist/tools/build-data-api.js");
   const run = (...args: string[]) => execute(process.execPath, [cli, "--root", root, ...args]);
@@ -272,12 +276,12 @@ test("the CLI rebuilds identically, removes stale files, and --check confirms th
   const index = await readFile(join(root, API_DIRECTORY, "index.json"), "utf8");
   await run();
   assert.equal(await readFile(join(root, API_DIRECTORY, "index.json"), "utf8"), index);
-  assert.deepEqual(await drift(buildFiles(await loadRegistries(join(root, "registry"))), root), []);
+  assert.deepEqual(await drift(buildFiles(await loadRegistries(join(root, "packages/ebb/registry"))), root), []);
 
   const stale = join(root, PRODUCTS_DIRECTORY, "stale.json");
   await writeFile(stale, "{}\n");
   assert.ok(
-    (await drift(buildFiles(await loadRegistries(join(root, "registry"))), root)).some((problem) =>
+    (await drift(buildFiles(await loadRegistries(join(root, "packages/ebb/registry"))), root)).some((problem) =>
       problem.includes("stale.json"),
     ),
   );

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 
 import { versContains, VersError, versionScheme } from "../src/vers/index.js";
@@ -9,7 +9,7 @@ const nuget = versionScheme("nuget");
 const gem = versionScheme("gem");
 
 test("passes every VERS nuget equality and comparison vector", async () => {
-  const file = JSON.parse(await readFile(resolve("tests/fixtures/vers/nuget_version_cmp_test.json"), "utf8")) as {
+  const file = JSON.parse(await readFile(fileURLToPath(new URL("../../tests/fixtures/vers/nuget_version_cmp_test.json", import.meta.url)), "utf8")) as {
     tests: { test_type: string; input: { versions: string[] }; expected_output: boolean | string[] }[];
   };
   assert.ok(file.tests.length >= 30);
@@ -52,7 +52,7 @@ test("rejects invalid NuGet versions", () => {
 });
 
 test("matches RubyGems Gem::Version on generated pairs", async () => {
-  const file = JSON.parse(await readFile(resolve("tests/fixtures/vers/gem_version_cmp_test.json"), "utf8")) as {
+  const file = JSON.parse(await readFile(fileURLToPath(new URL("../../tests/fixtures/vers/gem_version_cmp_test.json", import.meta.url)), "utf8")) as {
     pairs: [string, string, number][];
   };
   assert.ok(file.pairs.length > 300);

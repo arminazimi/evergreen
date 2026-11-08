@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { ORACLE_ROADMAP_URL, TEMURIN_SUPPORT_URL, javaJdkSupportImporter } from "../../tools/importers/java-1.js";
 import { execute, runImporter } from "../../tools/importers/run.js";
@@ -32,7 +32,7 @@ test("drafts one rule per ended non-LTS group from the real recordings", async (
 });
 
 test("recorded drafts match the reviewed Java registry", async () => {
-  const registry = JSON.parse(await readFile(resolve("registry/java.json"), "utf8")) as RegistryV2;
+  const registry = JSON.parse(await readFile(resolve("packages/ebb/registry/java.json"), "utf8")) as RegistryV2;
   const diff = diffDrafts(await execute(javaJdkSupportImporter, { replay: recording }), registry);
   assert.deepEqual([diff.added, diff.changed, diff.removed], [[], [], []]);
 });

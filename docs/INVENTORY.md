@@ -192,7 +192,7 @@ The fixtures under [`tests/fixtures/inventory/docker/`](../tests/fixtures/invent
 
 ### Rules matched
 
-Images map to Docker PURLs, `pkg:docker/<repository>`, and are checked against [`registry/container.json`](../registry/container.json). For example, `node:18-alpine` becomes `pkg:docker/library/node` at version `18-alpine`, and `redis:6.0` becomes `pkg:docker/library/redis` at `6.0`. A tag that names a release line is the version; a floating tag such as `latest` or a digest-only reference has no version, so a range rule reports `version-dependent` instead of guessing.
+Images map to Docker PURLs, `pkg:docker/<repository>`, and are checked against [`registry/container.json`](../packages/ebb/registry/container.json). For example, `node:18-alpine` becomes `pkg:docker/library/node` at version `18-alpine`, and `redis:6.0` becomes `pkg:docker/library/redis` at `6.0`. A tag that names a release line is the version; a floating tag such as `latest` or a digest-only reference has no version, so a range rule reports `version-dependent` instead of guessing.
 
 Images from a registry other than Docker Hub keep the registry as the PURL namespace, for example `pkg:docker/ghcr.io/acme/app`. No Docker Hub rule matches those PURLs, so they are reported as `no-data`.
 
@@ -267,7 +267,7 @@ Unknown engines are skipped: `mariadb`, `sqlserver-*`, `oracle-*`, `db2-*`, `mem
 
 ### Rules matched
 
-The rules live in [`registry/database.json`](../registry/database.json) under the provider PURLs, with the AWS release calendar as their source. "End of standard support" is recorded with the registry's `end-of-support` event; an announced date that is still in the future is recorded as `scheduled-end-of-life` at low severity until it passes. The summary of each rule says whether RDS Extended Support or ElastiCache Extended Support may keep the version running for a fee.
+The rules live in [`registry/database.json`](../packages/ebb/registry/database.json) under the provider PURLs, with the AWS release calendar as their source. "End of standard support" is recorded with the registry's `end-of-support` event; an announced date that is still in the future is recorded as `scheduled-end-of-life` at low severity until it passes. The summary of each rule says whether RDS Extended Support or ElastiCache Extended Support may keep the version running for a fee.
 
 | Service | Versions with a rule (as of 2026-10-30) |
 | --- | --- |

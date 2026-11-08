@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { NPM_CANDIDATES } from "../../tools/importers/npm-candidates.js";
 import { NPM_NAME, npmDeprecatedImporter, registryUrl, ruleSlug } from "../../tools/importers/npm.js";
@@ -139,7 +139,7 @@ test("quotes long notices briefly and flattens whitespace", async () => {
 });
 
 test("against the registry it updates the rules that exist and flags the one it would duplicate", async () => {
-  const existing = JSON.parse(await readFile(resolve("registry/npm.json"), "utf8")) as RegistryV2;
+  const existing = JSON.parse(await readFile(resolve("packages/ebb/registry/npm.json"), "utf8")) as RegistryV2;
   const drafts = await execute(npmDeprecatedImporter, { replay: recording });
   const diff = diffDrafts(drafts, existing);
   const existingIds = new Set(existing.rules.map((rule) => rule.id));

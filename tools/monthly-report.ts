@@ -22,8 +22,8 @@ import type { QualityMetrics } from "./quality-metrics.js";
 
 import { loadPublicCorpus } from "../benchmarks/public-corpus.js";
 import { getCapabilityManifest } from "../src/capabilities.js";
-import { REGISTRY_V2_SCHEMA_VERSION } from "../src/registry.js";
-import type { RegistryV2 } from "../src/registry.js";
+import { REGISTRY_V2_SCHEMA_VERSION } from "@velella/ebb/registry";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { VERSION } from "../src/version.js";
 
 export { FIRST_REVIEW_TARGET_WORKING_DAYS, generateMonthlyReport };
@@ -126,7 +126,7 @@ const defaultGitRunner: GitRunner = (args) => {
 };
 
 /** Collects rule metrics from registry/*.json. */
-export async function collectRuleMetrics(registryDir = "registry", month?: string): Promise<RuleMetrics> {
+export async function collectRuleMetrics(registryDir = "packages/ebb/registry", month?: string): Promise<RuleMetrics> {
   const byEcosystem: Record<string, number> = {};
   const byEvent: Record<string, number> = {};
   const bySeverity: Record<string, number> = {};
@@ -507,7 +507,7 @@ export async function collectReportData(options: CollectReportOptions = {}): Pro
   const asOfDate = dateInput.length >= 10 ? dateInput.slice(0, 10) : `${month}-01`;
 
   const [rules, ecosystems, corpus, adoption, quality] = await Promise.all([
-    collectRuleMetrics(join(root, "registry"), month),
+    collectRuleMetrics(join(root, "packages/ebb/registry"), month),
     Promise.resolve(collectEcosystemMetrics()),
     collectCorpusMetrics(root),
     collectAdoptionMetrics({ adoptionDir: join(root, "metrics", "adoption"), month }),

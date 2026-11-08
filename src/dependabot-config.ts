@@ -1,6 +1,6 @@
 import type { ScanResult } from "./domain.js";
-import { parsePurl, PurlError } from "./purl.js";
-import type { RegistryV2Rule } from "./registry.js";
+import { parsePurl, PurlError } from "@velella/ebb/purl";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 
 /**
  * PURL types Evergreen can map to a Dependabot `package-ecosystem`. The `generic` type (runtime

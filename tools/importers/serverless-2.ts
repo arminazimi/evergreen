@@ -1,4 +1,4 @@
-import { isIsoDate } from "../../src/registry.js";
+import { isIsoDate } from "@velella/ebb/registry";
 import { isoDate } from "./canonical.js";
 import { decodeEntities, stripHtml } from "./html.js";
 import type { DraftRule, Importer } from "./types.js";

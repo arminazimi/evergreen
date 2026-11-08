@@ -6,7 +6,7 @@ import { join, resolve } from "node:path";
 import { after, test } from "node:test";
 import { promisify } from "node:util";
 
-import { validateRegistryV2 } from "../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
 import {
   renderScaffold,
   renderScaffoldResult,
@@ -80,7 +80,7 @@ test("the skeleton is nine files at predictable paths, and its registry is a val
     [
       "src/detectors/go-modules.ts",
       "src/detectors/go-modules/parse.ts",
-      "registry/go-modules.json",
+      "packages/ebb/registry/go-modules.json",
       "tests/go-modules-detector.test.ts",
       "tests/go-modules-parse.test.ts",
       "tests/fixtures/go-modules/README.md",
@@ -89,7 +89,7 @@ test("the skeleton is nine files at predictable paths, and its registry is a val
       "docs/detectors/go-modules.md",
     ],
   );
-  const registry = validateRegistryV2(JSON.parse(files.get("registry/go-modules.json")!));
+  const registry = validateRegistryV2(JSON.parse(files.get("packages/ebb/registry/go-modules.json")!));
   assert.deepEqual([registry.ecosystem, registry.rules.length], ["go", 0]);
 
   const detector = files.get("src/detectors/go-modules.ts")!;
@@ -126,7 +126,7 @@ test("an existing file stops the whole run before anything is written", async ()
   assert.equal(await readFile(join(checkout, "docs", "detectors", "sample.md"), "utf8"), "mine\n");
   for (const path of [
     "src/detectors/sample.ts",
-    "registry/sample.json",
+    "packages/ebb/registry/sample.json",
     "tests/sample-detector.test.ts",
     "tests/fixtures/sample",
   ]) {
@@ -154,7 +154,7 @@ test("the result lists the files and the manual steps that remain", async () => 
   assert.match(text, /^Created the Sample lang detector skeleton:/);
   assert.match(text, /  src\/detectors\/sample-lang\.ts/);
   assert.match(text, /1\. Register the detector: .*sampleLangDetector.*builtInDetectors/);
-  assert.match(text, /BUNDLED_ECOSYSTEMS in src\/data-bundle\.ts/);
+  assert.match(text, /BUNDLED_ECOSYSTEMS in packages\/ebb\/src\/data-bundle\.ts/);
   assert.match(text, /npm run check/);
 });
 
@@ -229,20 +229,20 @@ test("a registry name or rule namespace that is already taken is refused", async
   // nodejs has a registry but no detector of its own: the npm detector reads it.
   await assert.rejects(
     scaffoldDetector("nodejs", { root: checkout }),
-    /"nodejs" is already a registry name or rule namespace, used by registry\/nodejs\.json/,
+    /"nodejs" is already a registry name or rule namespace, used by packages\/ebb\/registry\/nodejs\.json/,
   );
   await assert.rejects(
     scaffoldDetector("my-runtimes", { root: checkout, ecosystem: "nodejs" }),
-    /the ecosystem "nodejs" is already used by registry\/nodejs\.json; rule ids and registries must stay unique/,
+    /the ecosystem "nodejs" is already used by packages\/ebb\/registry\/nodejs\.json; rule ids and registries must stay unique/,
   );
   await assert.rejects(
     scaffoldDetector("my-npm", { root: checkout, ecosystem: "npm" }),
-    /the ecosystem "npm" is already used by registry\/npm\.json/,
+    /the ecosystem "npm" is already used by packages\/ebb\/registry\/npm\.json/,
   );
 
   // A rule-id prefix counts even when no registry file or ecosystem carries that name.
   await writeFile(
-    join(checkout, "registry", "legacy-rules.json"),
+    join(checkout, "packages/ebb/registry", "legacy-rules.json"),
     JSON.stringify({
       schemaVersion: "evergreen.registry.v2",
       ecosystem: "legacy-rules",
@@ -251,7 +251,7 @@ test("a registry name or rule namespace that is already taken is refused", async
   );
   await assert.rejects(
     scaffoldDetector("oldstuff", { root: checkout }),
-    /"oldstuff" is already a registry name or rule namespace, used by registry\/legacy-rules\.json/,
+    /"oldstuff" is already a registry name or rule namespace, used by packages\/ebb\/registry\/legacy-rules\.json/,
   );
   await assert.rejects(
     scaffoldDetector("legacy-rules", { root: checkout }),
@@ -266,7 +266,7 @@ test("every collision is reported at once, so one run is enough to fix a name", 
     return (
       message.includes('the detector id "npm"') &&
       message.includes('"npm" is already a registry name') &&
-      message.includes('the ecosystem "python" is already used by registry/python.json')
+      message.includes('the ecosystem "python" is already used by packages/ebb/registry/python.json')
     );
   });
 });

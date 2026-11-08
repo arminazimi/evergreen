@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import {
   CMAKE_MINIMUM_REQUIRED_URL,
   RELEASE_TAG,
@@ -48,7 +48,7 @@ test("drafts the removed <3.5 and deprecated 3.5–3.10 bands from the recording
 });
 
 test("recorded drafts match the curated C and C++ registry policy rules", async () => {
-  const registry = JSON.parse(await readFile(resolve("registry/cpp.json"), "utf8")) as RegistryV2;
+  const registry = JSON.parse(await readFile(resolve("packages/ebb/registry/cpp.json"), "utf8")) as RegistryV2;
   const drafts = await execute(cmakePolicyImporter, { replay: recording });
   const diff = diffDrafts(drafts, registry);
   assert.deepEqual([diff.added, diff.changed, diff.removed], [[], [], []]);

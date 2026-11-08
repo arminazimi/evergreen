@@ -8,9 +8,9 @@ const root = join(import.meta.dirname, "..", "..");
 test("the registries carry at least 100 symbol-level rules, every one unique and sourced", async () => {
   let total = 0;
   const ids = new Set<string>();
-  for (const name of await readdir(join(root, "registry"))) {
+  for (const name of await readdir(join(root, "packages/ebb/registry"))) {
     if (!name.endsWith(".json") || name === "sources.lock.json") continue;
-    const registry = JSON.parse(await readFile(join(root, "registry", name), "utf8")) as {
+    const registry = JSON.parse(await readFile(join(root, "packages/ebb/registry", name), "utf8")) as {
       rules?: { id: string; event: string; sources: unknown[]; usage?: { kind: string }[] }[];
     };
     for (const rule of registry.rules ?? []) {

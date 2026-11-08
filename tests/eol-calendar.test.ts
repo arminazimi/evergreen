@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2Rule } from "../src/registry.js";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import {
   buildCalendar,
   buildWeeklyPost,

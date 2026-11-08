@@ -1,4 +1,4 @@
-import type { Finding, ScanResult, Severity } from "./domain.js";
+import type { LifecycleFinding, LifecycleScan, Severity } from "./domain.js";
 import { isIsoDate } from "./registry.js";
 import type { RegistryV2Rule } from "./registry.js";
 import { required } from "./required.js";
@@ -56,7 +56,7 @@ const order = (left: ForecastEvent, right: ForecastEvent) =>
 /** A registry rule with the dated end of life the forecast places on the calendar. */
 type DatedRule = RegistryV2Rule & { deadline: string };
 
-function findingRefs(findings: readonly Finding[]): ForecastEvent["findings"] {
+function findingRefs(findings: readonly LifecycleFinding[]): ForecastEvent["findings"] {
   return findings.map((finding) => ({
     id: finding.id,
     path: finding.location.path,
@@ -66,7 +66,7 @@ function findingRefs(findings: readonly Finding[]): ForecastEvent["findings"] {
 
 /** Events for findings whose rule is not in the loaded registries but carries its own deadline. */
 function unlistedRuleEvents(
-  findingsByRule: ReadonlyMap<string, Finding[]>,
+  findingsByRule: ReadonlyMap<string, LifecycleFinding[]>,
   known: ReadonlySet<string>,
   inWindow: (date: string | undefined) => date is string,
   refs: (ruleId: string) => ForecastEvent["findings"],
@@ -104,7 +104,7 @@ function groupByMonth(events: readonly ForecastEvent[]): ForecastMonth[] {
  * listed; nothing is estimated. Reads no clock: the caller passes the day, so output is deterministic.
  */
 export function buildForecast(
-  result: ScanResult,
+  result: LifecycleScan,
   rules: readonly RegistryV2Rule[],
   today: string,
   months = DEFAULT_FORECAST_MONTHS,
@@ -114,7 +114,7 @@ export function buildForecast(
   const inWindow = (date: string | undefined): date is string =>
     date !== undefined && isIsoDate(date) && date >= today && date <= until;
 
-  const findingsByRule = new Map<string, Finding[]>();
+  const findingsByRule = new Map<string, LifecycleFinding[]>();
   for (const finding of result.findings)
     findingsByRule.set(finding.ruleId, [...(findingsByRule.get(finding.ruleId) ?? []), finding]);
   const refs = (ruleId: string) => findingRefs(findingsByRule.get(ruleId) ?? []);

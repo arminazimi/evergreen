@@ -7,7 +7,7 @@ import { promisify } from "node:util";
 import { test } from "node:test";
 
 import { bundledEvents, convertRegistryV1 } from "../tools/registry-v1-to-v2.js";
-import { legacyRule, registryV2Issues } from "../src/registry.js";
+import { legacyRule, registryV2Issues } from "@velella/ebb/registry";
 
 const run = promisify(execFile);
 const options = { observedAt: "2026-10-13", reviewedAt: "2026-10-14", reviewer: "arminazimi" };

@@ -79,7 +79,7 @@ test("classifyChanges runs tests, places modules, and ignores documentation", ()
 
 test("shared paths, configuration, and unknown root files run the full suite", () => {
   for (const path of [
-    "registry/npm.json",
+    "packages/ebb/registry/npm.json",
     "package.json",
     "tools/run-tests.mjs",
     "tests/fixtures/npm/positive/package.json",

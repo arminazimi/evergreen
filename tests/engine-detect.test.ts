@@ -3,7 +3,7 @@ import { readdir, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { after, afterEach, beforeEach, test } from "node:test";
 
-import { configureActiveData } from "../src/data-source.js";
+import { configureActiveData } from "@velella/ebb/data-source";
 import {
   CROSS_FILE_DETECTORS,
   defaultConfidence,

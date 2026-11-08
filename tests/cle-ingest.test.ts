@@ -9,7 +9,7 @@ import { restoreFixtureNames } from "../src/fixture-names.js";
 import { CLE_FILE_NAME, cleDetector, ingestCle, parseCleDocument } from "../src/cle-ingest.js";
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine/index.js";
-import { CLE_SCHEMA } from "../src/export/cle.js";
+import { CLE_SCHEMA } from "@velella/ebb/export/cle";
 
 const packagesRoot = resolve("tests/fixtures/cle-ingest/packages");
 const temporaryRoots: string[] = [];

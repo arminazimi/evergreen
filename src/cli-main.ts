@@ -4,7 +4,7 @@ import { commands } from "./commands/index.generated.js";
 import { bindContext, createCommandContext, fail } from "./commands/runtime.js";
 import { isCompletionShell, renderCompletions, renderHelp } from "./completions.js";
 import { unexpectedFailure } from "./errors.js";
-import { EvergreenError } from "./evergreen-error.js";
+import { EvergreenError } from "@velella/ebb/evergreen-error";
 import { VERSION } from "./version.js";
 
 const HELP = renderHelp(commands);

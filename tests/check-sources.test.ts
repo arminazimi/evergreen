@@ -13,7 +13,7 @@ import {
   updatedLock,
 } from "../tools/check-sources.js";
 import type { SourceLock, SourceObservation } from "../tools/check-sources.js";
-import type { RegistryV2, RegistryV2Rule } from "../src/registry.js";
+import type { RegistryV2, RegistryV2Rule } from "@velella/ebb/registry";
 
 const NOW = new Date("2026-10-15T12:00:00Z");
 

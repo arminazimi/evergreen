@@ -4,12 +4,12 @@ import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
 import type { EvidenceSource, Severity } from "./domain.js";
-import { CLE_SCHEMA } from "./export/cle.js";
+import { CLE_SCHEMA } from "@velella/ebb/export/cle";
 import { relativePosix } from "./paths.js";
-import { parsePurl, purlIdentity, PurlError } from "./purl.js";
+import { parsePurl, purlIdentity, PurlError } from "@velella/ebb/purl";
 import { DETECTOR_API_VERSION } from "./sdk.js";
 import type { Detector, DetectorContext, DetectorFinding, DetectorInputs } from "./sdk.js";
-import { versContains } from "./vers/index.js";
+import { versContains } from "@velella/ebb/vers/index";
 
 /** File name Evergreen looks for at the root of an installed package. */
 export const CLE_FILE_NAME = "cle.json";

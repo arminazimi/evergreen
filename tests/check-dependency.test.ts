@@ -5,7 +5,7 @@ import { test } from "node:test";
 import { Ajv2020 } from "ajv/dist/2020.js";
 
 import { checkAgainst, checkDependency, CheckDependencyError } from "../src/check-dependency.js";
-import type { RegistryV2Rule } from "../src/registry.js";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 
 const rule = (
   id: string,

@@ -15,7 +15,7 @@ import type { Finding, SourceUsage, UsageMatcher } from "./domain.js";
 import { scanRepository } from "./engine/index.js";
 import { runInventory } from "./inventory/index.js";
 import { analyzeSourceUsage } from "./source-usage.js";
-import { EvergreenError } from "./evergreen-error.js";
+import { EvergreenError } from "@velella/ebb/evergreen-error";
 
 export class RuleTestError extends EvergreenError {
   constructor(message: string) {
@@ -66,13 +66,13 @@ const NOT_A_REGISTRY = new Set(["sources.lock.json"]);
 
 /** The rule with this id in `root/registry`, or a clear error naming what to check. */
 async function findRule(root: string, ruleId: string): Promise<FoundRule> {
-  const directory = join(root, "registry");
+  const directory = join(root, "packages/ebb/registry");
   let entries;
   try {
     entries = await readdir(directory, { withFileTypes: true });
   } catch {
     throw new RuleTestError(
-      "rules test runs in a checkout of the Evergreen repository: registry/ was not found. Run it from the repository root.",
+      "rules test runs in a checkout of the Evergreen repository: packages/ebb/registry/ was not found. Run it from the repository root.",
     );
   }
   for (const entry of entries
@@ -101,7 +101,7 @@ async function findRule(root: string, ruleId: string): Promise<FoundRule> {
     }
   }
   throw new RuleTestError(
-    `No rule has the id "${ruleId}". Check registry/*.json, or create one with evergreen new-rule.`,
+    `No rule has the id "${ruleId}". Check packages/ebb/registry/*.json, or create one with evergreen new-rule.`,
   );
 }
 

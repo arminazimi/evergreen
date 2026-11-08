@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
 
 import type { Finding, ScanResult, SuppressionRef, SuppressionState } from "./domain.js";
-import { isIsoDate } from "./registry.js";
+import { isIsoDate } from "@velella/ebb/registry";
 import { required } from "./required.js";
 
 /**

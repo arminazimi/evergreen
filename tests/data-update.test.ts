@@ -9,10 +9,10 @@ import { join, resolve } from "node:path";
 import { after, afterEach, test } from "node:test";
 import { promisify } from "node:util";
 
-import { buildDataBundle, serializeDataBundle } from "../src/data-bundle.js";
-import type { DataBundle } from "../src/data-bundle.js";
-import { configureActiveData, resolveActiveData } from "../src/data-source.js";
-import { compareBundleVersions, latestDataRelease, renderDataUpdateText, updateData } from "../src/data-update.js";
+import { buildDataBundle, serializeDataBundle } from "@velella/ebb/data-bundle";
+import type { DataBundle } from "@velella/ebb/data-bundle";
+import { configureActiveData, resolveActiveData } from "@velella/ebb/data-source";
+import { compareBundleVersions, latestDataRelease, renderDataUpdateText, updateData } from "@velella/ebb/data-update";
 import { VERSION } from "../src/version.js";
 import { runCli } from "./cli-runner.js";
 
@@ -52,7 +52,7 @@ async function bundleAt(
   mutate: (npm: { rules: Array<Record<string, unknown>> }) => void = () => undefined,
 ): Promise<DataBundle> {
   const root = await scratch("registry");
-  await cp(resolve("registry"), join(root, "registry"), { recursive: true });
+  await cp(resolve("packages/ebb/registry"), join(root, "registry"), { recursive: true });
   await writeFile(join(root, "package.json"), await readFile(resolve("package.json"), "utf8"));
   const npm = JSON.parse(await readFile(join(root, "registry/npm.json"), "utf8")) as {
     rules: Array<Record<string, unknown>>;

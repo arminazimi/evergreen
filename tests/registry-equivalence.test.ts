@@ -5,8 +5,8 @@ import { test, after } from "node:test";
 
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine/index.js";
-import { legacyRule, registryV2Issues } from "../src/registry.js";
-import type { RegistryV2 } from "../src/registry.js";
+import { legacyRule, registryV2Issues } from "@velella/ebb/registry";
+import type { RegistryV2 } from "@velella/ebb/registry";
 
 import { copyFixtureTree } from "./fixture-copies.js";
 
@@ -42,7 +42,7 @@ test("each migrated registry reads back as the v1 rules it replaced", async () =
   assert.ok(snapshots.length > 0);
   for (const name of snapshots) {
     const v1 = JSON.parse(await readFile(resolve("tests/fixtures/registry-v1", name), "utf8")) as { rules: unknown[] };
-    const v2 = JSON.parse(await readFile(resolve("registry", name), "utf8")) as RegistryV2;
+    const v2 = JSON.parse(await readFile(resolve("packages/ebb/registry", name), "utf8")) as RegistryV2;
     assert.equal(v2.schemaVersion, "evergreen.registry.v2", `${name} is migrated`);
     assert.deepEqual(registryV2Issues(v2), [], name);
     const views = v2.rules.slice(0, v1.rules.length).map((rule) => {

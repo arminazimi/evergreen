@@ -5,8 +5,8 @@ import { join, resolve } from "node:path";
 import { after, test } from "node:test";
 import { Ajv2020 } from "ajv/dist/2020.js";
 
-import { dataStatusFrom, renderDataStatusText, STALE_AFTER_DAYS } from "../src/data-status.js";
-import type { ActiveData, DataSourceInfo } from "../src/data-source.js";
+import { dataStatusFrom, renderDataStatusText, STALE_AFTER_DAYS } from "@velella/ebb/data-status";
+import type { ActiveData, DataSourceInfo } from "@velella/ebb/data-source";
 import { runCli } from "./cli-runner.js";
 
 const roots: string[] = [];

@@ -1,0 +1,55 @@
+{
+  "name": "@velella/ebb",
+  "version": "0.1.0",
+  "description": "The open almanac of software end-of-life.",
+  "keywords": [
+    "end-of-life",
+    "eol",
+    "deprecation",
+    "lifecycle",
+    "purl",
+    "vers",
+    "registry"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arminazimi/evergreen.git",
+    "directory": "packages/ebb"
+  },
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    "./*": {
+      "types": "./dist/src/*.d.ts",
+      "import": "./dist/src/*.js",
+      "default": "./dist/src/*.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/src",
+    "registry",
+    "schemas",
+    "LICENSE",
+    "LICENSE-DATA",
+    "ATTRIBUTION.md",
+    "!registry/sources.lock.json",
+    "!**/*.map"
+  ],
+  "scripts": {
+    "build": "tsc -b tsconfig.json",
+    "test": "tsc -b tsconfig.json && node --test \"dist/tests/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@sigstore/bundle": "^5.0.0",
+    "@sigstore/protobuf-specs": "^0.5.2",
+    "@sigstore/verify": "^4.1.2",
+    "semver": "^7.8.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

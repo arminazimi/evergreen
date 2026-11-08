@@ -1,12 +1,12 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
-import { loadDataFile } from "../data-source.js";
+import { loadDataFile } from "@velella/ebb/data-source";
 import { parseGoMod } from "../detectors/go/parse-go-mod.js";
 import { parseGoWork } from "../detectors/go/parse-go-work.js";
-import { validateRegistryV2 } from "../registry.js";
-import type { RegistryV2Rule } from "../registry.js";
-import { versContains } from "../vers.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
+import { versContains } from "@velella/ebb/vers";
 import type { UpgradeAnalyzer, UpgradeIssue, UpgradeTarget } from "./types.js";
 
 /**

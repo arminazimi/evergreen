@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { after, afterEach, beforeEach, test } from "node:test";
 
-import { configureActiveData } from "../src/data-source.js";
+import { configureActiveData } from "@velella/ebb/data-source";
 import type { ScanResult } from "../src/domain.js";
 import { applyScanSelection, scanRepository, scanSelectorMatches } from "../src/engine/index.js";
 import { advisoryIdsByRuleId } from "../src/osv-advisories.js";

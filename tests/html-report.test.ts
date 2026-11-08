@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { test } from "node:test";
 
 import type { Finding, ScanResult, Severity } from "../src/domain.js";
-import type { Forecast, ForecastEvent } from "../src/forecast.js";
+import type { Forecast, ForecastEvent } from "@velella/ebb/forecast";
 import { renderHtml, renderJson } from "../src/reporters.js";
 import { runCli } from "./cli-runner.js";
 

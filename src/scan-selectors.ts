@@ -1,4 +1,4 @@
-import { bundledRules } from "./check-dependency.js";
+import { bundledRules } from "@velella/ebb/bundled-rules";
 import { builtInDetectors } from "./detectors/index.js";
 
 /** Selectors that are duplicated, empty, or not an ecosystem or rule-id prefix, in the order they were given. */

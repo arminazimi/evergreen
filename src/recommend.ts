@@ -1,9 +1,9 @@
 import type { EvidenceSource } from "./domain.js";
-import { EvergreenError } from "./evergreen-error.js";
-import { lookupProduct, LookupError } from "./lookup.js";
-import type { LookupFinding } from "./lookup.js";
-import { parseVersLenient, versionScheme } from "./vers.js";
-import type { VersConstraint } from "./vers.js";
+import { EvergreenError } from "@velella/ebb/evergreen-error";
+import { lookupProduct, LookupError } from "@velella/ebb/lookup";
+import type { LookupFinding } from "@velella/ebb/lookup";
+import { parseVersLenient, versionScheme } from "@velella/ebb/vers";
+import type { VersConstraint } from "@velella/ebb/vers";
 
 export const RECOMMEND_SCHEMA_VERSION = "evergreen.recommend.v1" as const;
 

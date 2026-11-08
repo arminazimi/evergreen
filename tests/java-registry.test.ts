@@ -3,11 +3,11 @@ import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
 import { jdkRuleVersion } from "../src/detectors/java/jdk-version.js";
-import { validateRegistryV2 } from "../src/registry.js";
-import { versContains } from "../src/vers/index.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import { versContains } from "@velella/ebb/vers/index";
 
 async function allRules() {
-  return validateRegistryV2(JSON.parse(await readFile("registry/java.json", "utf8"))).rules;
+  return validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/java.json", "utf8"))).rules;
 }
 
 /** The JDK end-of-support rules; the Maven relocation rules are checked separately. */

@@ -2,8 +2,8 @@ import { readFile } from "node:fs/promises";
 import { isMap, isScalar, isSeq, LineCounter, parseDocument } from "yaml";
 import type { YAMLMap, Scalar } from "yaml";
 
-import { loadDataFile } from "../data-source.js";
-import { validateRegistryV2 } from "../registry.js";
+import { loadDataFile } from "@velella/ebb/data-source";
+import { validateRegistryV2 } from "@velella/ebb/registry";
 import type { DetectorFinding } from "../sdk.js";
 import { sourceFiles } from "../source-files.js";
 

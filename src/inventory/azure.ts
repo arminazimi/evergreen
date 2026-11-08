@@ -1,4 +1,4 @@
-import { versionScheme } from "../vers/index.js";
+import { versionScheme } from "@velella/ebb/vers/index";
 import type { InventoryImporter, InventoryItem } from "./types.js";
 
 /**

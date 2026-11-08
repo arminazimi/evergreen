@@ -17,8 +17,8 @@ import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { promisify } from "node:util";
 
-import { validateRegistryV2 } from "../../src/registry.js";
-import type { RegistryV2, RegistryV2Rule } from "../../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2, RegistryV2Rule } from "@velella/ebb/registry";
 import { diffDrafts, loadAcknowledged } from "./diff.js";
 import type { DraftRegistry } from "./types.js";
 
@@ -79,7 +79,7 @@ export function renderCandidateIssue(input: CandidateIssueRenderInput): Rendered
 
 ## Goal
 
-Add the reviewed lifecycle rule \`${rule.id}\` to \`registry/${ecosystem}.json\` with supporting test fixtures.
+Add the reviewed lifecycle rule \`${rule.id}\` to \`packages/ebb/registry/${ecosystem}.json\` with supporting test fixtures.
 
 ## Candidate details
 
@@ -103,13 +103,13 @@ Please review the source to confirm the event, affected version range, and effec
 
 ### Files
 
-• \`registry/${ecosystem}.json\`
+• \`packages/ebb/registry/${ecosystem}.json\`
 • \`tests/fixtures/${ecosystem}/\`
 
 ### Steps
 
 1. Verify the evidence source above to confirm the lifecycle claim, affected versions, and effective date.
-2. Add the rule to \`registry/${ecosystem}.json\` with your GitHub username in \`provenance.reviewer\` and today's date (\`YYYY-MM-DD\`) in \`provenance.reviewedAt\`. Ensure \`provenance.reviewer\` is not left as \`pending-review\`.
+2. Add the rule to \`packages/ebb/registry/${ecosystem}.json\` with your GitHub username in \`provenance.reviewer\` and today's date (\`YYYY-MM-DD\`) in \`provenance.reviewedAt\`. Ensure \`provenance.reviewer\` is not left as \`pending-review\`.
 3. Add a test fixture under \`tests/fixtures/${ecosystem}/\` and update detector tests to verify the rule flags affected versions and produces zero false positives for unaffected versions.
 4. Run \`npm run check\` and ensure all checks and schema validations pass.
 
@@ -134,7 +134,7 @@ npm run check
 
 ## Done when
 
-- [ ] Rule \`${rule.id}\` is added to \`registry/${ecosystem}.json\` with valid reviewer provenance.
+- [ ] Rule \`${rule.id}\` is added to \`packages/ebb/registry/${ecosystem}.json\` with valid reviewer provenance.
 - [ ] Fixture checklist items are completed and detector tests pass.
 - [ ] \`npm run check\` passes.
 
@@ -403,7 +403,7 @@ export async function main(argv: string[], runner?: CandidateIssueRunner): Promi
   const drafts = JSON.parse(await readFile(draftsFile, "utf8")) as DraftRegistry;
 
   let registry: RegistryV2;
-  const registryFile = files[1] ?? `registry/${drafts.ecosystem}.json`;
+  const registryFile = files[1] ?? `packages/ebb/registry/${drafts.ecosystem}.json`;
   if (existsSync(registryFile)) {
     registry = validateRegistryV2(JSON.parse(await readFile(registryFile, "utf8")) as unknown);
   } else {

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 
 import { versContains, VersError, versionScheme } from "../src/vers/index.js";
@@ -8,7 +8,7 @@ import { versContains, VersError, versionScheme } from "../src/vers/index.js";
 const maven = versionScheme("maven");
 
 test("passes every VERS maven comparison and equality vector", async () => {
-  const file = JSON.parse(await readFile(resolve("tests/fixtures/vers/maven_version_cmp_test.json"), "utf8")) as {
+  const file = JSON.parse(await readFile(fileURLToPath(new URL("../../tests/fixtures/vers/maven_version_cmp_test.json", import.meta.url)), "utf8")) as {
     tests: { test_type: string; input: { versions: string[] }; expected_output: boolean | string[] }[];
   };
   assert.ok(file.tests.length > 900);

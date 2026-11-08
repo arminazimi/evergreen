@@ -1,6 +1,6 @@
 import type { DataInfo, Finding, ScanResult, Severity } from "../domain.js";
 import { severityValues } from "../domain.js";
-import type { Forecast } from "../forecast.js";
+import type { Forecast } from "@velella/ebb/forecast";
 
 /** The reporter interface version every format declares. */
 export const REPORTER_API_VERSION = "evergreen.reporter.v1" as const;

@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { GO_MODULE_CANDIDATES, goModUrl, goModuleDeprecationImporter, latestUrl } from "../../tools/importers/go-2.js";
 import { execute, runImporter } from "../../tools/importers/run.js";
@@ -25,7 +25,7 @@ test("drafts rules from real latest go.mod deprecation comments", async () => {
 });
 
 test("recorded drafts match the reviewed rules and never mutate the Go registry", async () => {
-  const registry = JSON.parse(await readFile(resolve("registry/go.json"), "utf8")) as RegistryV2;
+  const registry = JSON.parse(await readFile(resolve("packages/ebb/registry/go.json"), "utf8")) as RegistryV2;
   const before = JSON.stringify(registry);
   const drafts = await execute(goModuleDeprecationImporter, { replay: recording });
   const diff = diffDrafts(drafts, registry);

@@ -47,11 +47,11 @@ const detectorSource = (
 ) => `import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
-import { loadDataFile } from "../data-source.js";
-import { validateRegistryV2 } from "../registry.js";
+import { loadDataFile } from "@velella/ebb/data-source";
+import { validateRegistryV2 } from "@velella/ebb/registry";
 import { defineDetector, DETECTOR_API_VERSION } from "../sdk.js";
 import type { DetectorFinding } from "../sdk.js";
-import { versContains } from "../vers.js";
+import { versContains } from "@velella/ebb/vers";
 import { parse${camel[0]!.toUpperCase()}${camel.slice(1)} } from "./${id}/parse.js";
 
 export const ${camel}Detector = defineDetector({
@@ -152,7 +152,7 @@ export function parseLineVersion(contents: string): LineVersionDeclaration[] {
       ".line-version",
       (value) => `\`\${${value}}.0.0\``,
     ),
-    "registry/line-version.json": JSON.stringify(
+    "packages/ebb/registry/line-version.json": JSON.stringify(
       {
         schemaVersion: "evergreen.registry.v2",
         ecosystem: "line-version",
@@ -201,7 +201,7 @@ export function parseTagList(contents: string): TagListDeclaration[] {
 }
 `,
     "src/detectors/tag-list.ts": detectorSource("tagList", "tag-list", "tags.txt", () => '"1.0.0"'),
-    "registry/tag-list.json": JSON.stringify(
+    "packages/ebb/registry/tag-list.json": JSON.stringify(
       {
         schemaVersion: "evergreen.registry.v2",
         ecosystem: "tags",

@@ -15,11 +15,11 @@
  */
 import { DiffError, parseRange } from "../../src/diff.js";
 import { parseNpmPackage } from "../../src/guard.js";
-import { parseMinSupportDays } from "../../src/min-support.js";
+import { parseMinSupportDays } from "@velella/ebb/min-support";
 import { ConfigError, validateConfig } from "../../src/config.js";
 import { parseBoundedJson } from "../../src/package-files.js";
-import { PurlError, parsePurl } from "../../src/purl.js";
-import { VersError, parseVers, parseVersLenient } from "../../src/vers.js";
+import { PurlError, parsePurl } from "@velella/ebb/purl";
+import { VersError, parseVers, parseVersLenient } from "@velella/ebb/vers";
 import { parseCodeowners } from "../../src/codeowners.js";
 import {
   matchesComposerConstraint,

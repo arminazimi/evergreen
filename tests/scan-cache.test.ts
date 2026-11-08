@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { after, test } from "node:test";
 
-import { configureActiveData } from "../src/data-source.js";
+import { configureActiveData } from "@velella/ebb/data-source";
 import { builtInDetectors } from "../src/detectors/index.js";
 import type { Finding } from "../src/domain.js";
 import { scanRepository } from "../src/engine/index.js";

@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import { validateRegistryV2 } from "../../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
 import { withoutAccessDates } from "./evidence.js";
 import { containerOfficialImagesImporter, officialTags } from "../../tools/importers/container.js";
 import { execute } from "../../tools/importers/run.js";
@@ -35,7 +35,7 @@ test("drafts the Node.js and Python image rules from the vendors' schedules, off
 
 test("the committed Node.js and Python rules match what the importer drafts from the recording", async () => {
   const drafts = await execute(containerOfficialImagesImporter, { replay: recording });
-  const registry = validateRegistryV2(JSON.parse(await readFile("registry/container.json", "utf8")));
+  const registry = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/container.json", "utf8")));
   for (const draft of drafts.rules) {
     const committed = registry.rules.find((rule) => rule.id === draft.id);
     assert.ok(committed, `${draft.id} is missing from registry/container.json`);

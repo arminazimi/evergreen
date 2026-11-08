@@ -12,7 +12,7 @@ import { runDetectorConformance } from "../src/conformance/index.js";
 import { kubernetesDetector, looksLikeHelmTemplateOutput } from "../src/detectors/kubernetes/index.js";
 import { scanRepository } from "../src/engine/index.js";
 import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
-import { validateRegistryV2 } from "../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
 import type { DetectorFinding } from "../src/sdk.js";
 
 const fixtures = resolve("tests/fixtures/kubernetes");
@@ -33,7 +33,7 @@ async function repository(files: Record<string, string>): Promise<string> {
 }
 
 async function expected(ruleId: string, path: string, line: number, declaration: string): Promise<DetectorFinding> {
-  const registry = validateRegistryV2(JSON.parse(await readFile("registry/kubernetes.json", "utf8")));
+  const registry = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/kubernetes.json", "utf8")));
   const rule = registry.rules.find((item) => item.id === ruleId)!;
   return {
     id: `${ruleId}:${path}:${line}`,
@@ -55,7 +55,7 @@ async function expectedHelmDep(
   line: number,
   dependency: string,
 ): Promise<DetectorFinding> {
-  const registry = validateRegistryV2(JSON.parse(await readFile("registry/kubernetes.json", "utf8")));
+  const registry = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/kubernetes.json", "utf8")));
   const rule = registry.rules.find((item) => item.id === ruleId)!;
   return {
     id: `${ruleId}:${path}:${line}`,
@@ -408,7 +408,7 @@ test("retired Helm chart repository dependencies are findings; templated and ali
 });
 
 test("every curated kubernetes rule has migration guidance with real verification commands", async () => {
-  const registry = validateRegistryV2(JSON.parse(await readFile("registry/kubernetes.json", "utf8")));
+  const registry = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/kubernetes.json", "utf8")));
   for (const rule of registry.rules) {
     assert.ok(rule.migration, rule.id);
     assert.ok(rule.migration.constraints.length >= 1, rule.id);

@@ -6,8 +6,8 @@ import { test } from "node:test";
 
 import { TrustedRoot } from "@sigstore/protobuf-specs";
 
-import { DATA_SIGNER } from "../src/data-bundle.js";
-import { DataSignatureError, verifyArtifactSignature } from "../src/data-signature.js";
+import { DATA_SIGNER } from "@velella/ebb/data-bundle";
+import { DataSignatureError, verifyArtifactSignature } from "@velella/ebb/data-signature";
 
 const artifact = await readFile(resolve("tests/fixtures/sigstore/cosign_checksums.txt"));
 const signature = await readFile(resolve("tests/fixtures/sigstore/cosign_checksums.txt.sigstore.json"), "utf8");

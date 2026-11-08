@@ -1,6 +1,6 @@
 import type { Finding } from "./domain.js";
-import { parsePurl, PurlError } from "./purl.js";
-import type { RegistryV2Rule } from "./registry.js";
+import { parsePurl, PurlError } from "@velella/ebb/purl";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import { required } from "./required.js";
 
 /** Renovate's published JSON Schema URL. Presets that include it validate with renovate-config-validator. */

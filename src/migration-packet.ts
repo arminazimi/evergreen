@@ -9,13 +9,13 @@ import type {
   SourceUsage,
   VerificationCommand,
 } from "./domain.js";
-import { EvergreenError } from "./evergreen-error.js";
+import { EvergreenError } from "@velella/ebb/evergreen-error";
 import { runtimeConflicts } from "./runtime-pin.js";
 import type { PinnedRuntimes } from "./runtime-pin.js";
 
-import { addDays } from "./forecast.js";
-import type { RegistryV2Rule } from "./registry.js";
-import { parseVers, versionScheme } from "./vers/index.js";
+import { addDays } from "@velella/ebb/forecast";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
+import { parseVers, versionScheme } from "@velella/ebb/vers/index";
 
 export type { VerificationCommand } from "./domain.js";
 

@@ -4,7 +4,7 @@ import { evaluateBaseline, expiredSuppressionsFail, readBaseline } from "./basel
 import type { ExpiredPolicy } from "./baseline.js";
 import type { ScanResult } from "./domain.js";
 import type { ScanOptions } from "./engine/index.js";
-import { applyMinSupport } from "./min-support.js";
+import { applyMinSupport } from "@velella/ebb/min-support";
 import { scanWithBuiltIns } from "./scan-builtins.js";
 
 /** One scan as an interface asks for it: the repository and the policies applied to what the engine finds. */

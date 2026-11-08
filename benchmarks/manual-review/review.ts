@@ -16,7 +16,7 @@ import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
 import { loadPublicCorpus } from "../public-corpus.js";
-import { isIsoDate } from "../../src/registry.js";
+import { isIsoDate } from "@velella/ebb/registry";
 import { drawSample, wilsonInterval, type Interval } from "./stats.js";
 
 export const SAMPLE_SCHEMA = "evergreen.manual-review-sample.v1" as const;

@@ -3,12 +3,12 @@ import { readFile, readdir } from "node:fs/promises";
 import { join, resolve, sep } from "node:path";
 import { test } from "node:test";
 
-import { loadDataFile } from "../src/data-source.js";
+import { loadDataFile } from "@velella/ebb/data-source";
 import { azureImporter } from "../src/inventory/azure.js";
 import { parseExport, runInventory } from "../src/inventory/index.js";
 import type { InventoryItem } from "../src/inventory/types.js";
-import { validateRegistryV2 } from "../src/registry.js";
-import type { RegistryV2Rule } from "../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import { runCli } from "./cli-runner.js";
 
 const FIXTURES = resolve("tests/fixtures/inventory");

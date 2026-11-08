@@ -13,8 +13,8 @@ import { runDetectorConformance } from "../src/conformance/index.js";
 import { goDetector, matchModule } from "../src/detectors/go/index.js";
 import { scanRepository } from "../src/engine/index.js";
 import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
-import { validateRegistryV2 } from "../src/registry.js";
-import type { RegistryV2Rule } from "../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import type { DetectorFinding } from "../src/sdk.js";
 import { copyFixtureTree } from "./fixture-copies.js";
 
@@ -40,7 +40,7 @@ async function repository(files: Record<string, string>): Promise<string> {
 }
 
 async function rules() {
-  return validateRegistryV2(JSON.parse(await readFile("registry/go.json", "utf8"))).rules;
+  return validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/go.json", "utf8"))).rules;
 }
 
 async function expected(

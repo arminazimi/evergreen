@@ -8,15 +8,18 @@ import { readFile, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-import { REGISTRY_V2_SCHEMA_VERSION } from "../src/registry.js";
-import { lintRuleFiles, renderRuleLintText } from "../src/rule-lint.js";
-import type { RuleLintResult } from "../src/rule-lint.js";
+import { REGISTRY_V2_SCHEMA_VERSION } from "@velella/ebb/registry";
+import { lintRuleFiles, renderRuleLintText } from "@velella/ebb/rule-lint";
+import type { RuleLintResult } from "@velella/ebb/rule-lint";
 import { renderRuleTestText, RuleTestError, testRule } from "../src/rule-test.js";
 import type { RuleTestOptions, RuleTestResult } from "../src/rule-test.js";
 
 const RULE_ID = /^[a-z0-9]+(?:[.-][a-z0-9]+)*$/;
 /** Generated files that live beside the rule registries but are not rule registries. */
-const GENERATED_REGISTRY_FILES = new Set(["registry/sources.lock.json", "registry/github-actions-shas.json"]);
+const GENERATED_REGISTRY_FILES = new Set([
+  "packages/ebb/registry/sources.lock.json",
+  "packages/ebb/registry/github-actions-shas.json",
+]);
 
 export interface ChangedPaths {
   /** Changed files under `registry/`; the runner skips files whose schema is not a rule registry. */
@@ -114,7 +117,8 @@ export function classifyChangedPaths(paths: readonly string[]): ChangedPaths {
   const fixtureRules = new Set<string>();
   for (const path of paths) {
     const normalized = path.replaceAll("\\", "/");
-    if (/^registry\/[^/]+\.json$/.test(normalized) && !GENERATED_REGISTRY_FILES.has(normalized)) files.add(normalized);
+    if (/^packages\/ebb\/registry\/[^/]+\.json$/.test(normalized) && !GENERATED_REGISTRY_FILES.has(normalized))
+      files.add(normalized);
     const fixture = /^tests\/fixtures\/([^/]+)\//.exec(normalized);
     if (fixture?.[1] !== undefined && RULE_ID.test(fixture[1])) fixtureRules.add(fixture[1]);
   }

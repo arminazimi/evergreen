@@ -11,7 +11,7 @@ import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-import type { RegistryV2Rule } from "../src/registry.js";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import { DEFAULT_OG_IMAGE_PATH, loadRegistries, ruleOgImagePath } from "./build-reference-pages.js";
 
 export const OG_DIRECTORY = "docs/assets/og";

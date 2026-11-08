@@ -4,9 +4,9 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { after, afterEach, test } from "node:test";
 
-import { buildDataBundle, canonicalJson, serializeDataBundle } from "../src/data-bundle.js";
-import type { DataBundle } from "../src/data-bundle.js";
-import { DataSignatureError } from "../src/data-signature.js";
+import { buildDataBundle, canonicalJson, serializeDataBundle } from "@velella/ebb/data-bundle";
+import type { DataBundle } from "@velella/ebb/data-bundle";
+import { DataSignatureError } from "@velella/ebb/data-signature";
 import {
   ACTIVE_FILE,
   BUNDLE_FILE,
@@ -16,8 +16,8 @@ import {
   resolveActiveData,
   SIGNATURE_FILE,
   verifyDataBundle,
-} from "../src/data-source.js";
-import type { DataSourceOptions } from "../src/data-source.js";
+} from "@velella/ebb/data-source";
+import type { DataSourceOptions } from "@velella/ebb/data-source";
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine/index.js";
 import { checkDependency } from "../src/check-dependency.js";
@@ -46,7 +46,7 @@ async function registryRoot(
   mutate: (npm: { rules: Array<Record<string, unknown>> }) => void = () => undefined,
 ): Promise<string> {
   const root = await scratch("registry");
-  await cp(resolve("registry"), join(root, "registry"), { recursive: true });
+  await cp(resolve("packages/ebb/registry"), join(root, "registry"), { recursive: true });
   await writeFile(join(root, "package.json"), await readFile(resolve("package.json"), "utf8"));
   const npm = JSON.parse(await readFile(join(root, "registry/npm.json"), "utf8")) as {
     rules: Array<Record<string, unknown>>;
@@ -242,7 +242,7 @@ test("everything after the signature is checked too", async () => {
 test("downloaded data that is not newer than the bundled data is not used", async () => {
   const bundled = await resolveWith(await scratch("none"));
   const sameDay = await buildDataBundle({
-    root: resolve("."),
+    root: resolve("packages/ebb"),
     createdAt: `${bundled.info.reviewedThrough}T12:00:00Z`,
     minimumEvergreenVersion: "0.1.0",
   });

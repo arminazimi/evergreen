@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { execute, runImporter } from "../../tools/importers/run.js";
 import { ImporterError } from "../../tools/importers/types.js";
@@ -53,7 +53,7 @@ test("drafts an end-of-support rule for each line outside the two most recent, f
 });
 
 test("emits drafts that diff against the existing Terraform registry without removals", async () => {
-  const registry = JSON.parse(await readFile("registry/terraform.json", "utf8")) as RegistryV2;
+  const registry = JSON.parse(await readFile("packages/ebb/registry/terraform.json", "utf8")) as RegistryV2;
   const diff = diffDrafts(await execute(terraformCliImporter, { replay: recording }), registry);
   assert.deepEqual(diff.removed, []);
   assert.ok(diff.added.length + diff.changed.length > 0);

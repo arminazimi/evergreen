@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 
 import {
@@ -25,7 +25,7 @@ interface SpecTest {
 }
 
 async function vectors(name: string): Promise<SpecTest[]> {
-  const file = JSON.parse(await readFile(resolve("tests/fixtures/vers", name), "utf8")) as { tests: SpecTest[] };
+  const file = JSON.parse(await readFile(fileURLToPath(new URL(`../../tests/fixtures/vers/${name}`, import.meta.url)), "utf8")) as { tests: SpecTest[] };
   return file.tests;
 }
 

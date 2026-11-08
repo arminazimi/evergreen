@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { after, test } from "node:test";
 
-import { applyAsOf } from "../src/as-of.js";
+import { applyAsOf } from "@velella/ebb/as-of";
 import { builtInDetectors } from "../src/detectors/index.js";
 import type { Finding, ScanResult } from "../src/domain.js";
 import { scanRepository } from "../src/engine/index.js";

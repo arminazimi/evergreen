@@ -9,7 +9,7 @@ import { parseManagedKubernetes } from "../src/detectors/terraform/kubernetes.js
 import { attributeValues, directBlocks, MAXIMUM_INPUT_BYTES, prepareHcl } from "../src/detectors/terraform/hcl.js";
 import { parseTerraformLegacy } from "../src/detectors/terraform/parse-terraform.js";
 import { parseTerraformPlanJson } from "../src/detectors/terraform/plan.js";
-import type { RegistryV2Rule } from "../src/registry.js";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 
 const temporaryRoots: string[] = [];
 

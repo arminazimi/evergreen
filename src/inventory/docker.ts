@@ -1,6 +1,6 @@
 import { parseImageReference } from "../detectors/container/parse-image.js";
 import type { ImageReference } from "../detectors/container/parse-image.js";
-import { formatPurl } from "../purl.js";
+import { formatPurl } from "@velella/ebb/purl";
 import type { InventoryImporter, InventoryItem } from "./types.js";
 
 /**

@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 import { test } from "node:test";
 import { Ajv2020 } from "ajv/dist/2020.js";
 
-import { isIsoDate } from "../src/registry.js";
+import { isIsoDate } from "@velella/ebb/registry";
 import { countMigrations, evaluate, hasUsableLicense, review, statesIntent } from "../benchmarks/mining/review.js";
 import type { ActionHint, Candidate, Checks, Evidence, ReviewLog, TokenHint } from "../benchmarks/mining/review.js";
 

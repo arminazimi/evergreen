@@ -4,9 +4,9 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { after, test } from "node:test";
 
-import { loadDataFile } from "../src/data-source.js";
-import type { RegistryV2Rule } from "../src/registry.js";
-import { validateRegistryV2 } from "../src/registry.js";
+import { loadDataFile } from "@velella/ebb/data-source";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
+import { validateRegistryV2 } from "@velella/ebb/registry";
 import { checkUpgrade } from "../src/upgrade/index.js";
 import type { UpgradeIssue, UpgradeReport } from "../src/upgrade/types.js";
 

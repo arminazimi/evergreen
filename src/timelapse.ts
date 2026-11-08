@@ -1,7 +1,7 @@
 import { writeFile } from "node:fs/promises";
 import process from "node:process";
 
-import { applyAsOf } from "./as-of.js";
+import { applyAsOf } from "@velella/ebb/as-of";
 import type { Finding, ScanResult } from "./domain.js";
 import { required } from "./required.js";
 

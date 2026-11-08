@@ -4,7 +4,7 @@ import { required } from "../../required.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
 import type { Detector, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
 import { analyzeSourceUsage, impactFor } from "../../source-usage.js";
-import { parseVersLenient, versContains } from "../../vers/index.js";
+import { parseVersLenient, versContains } from "@velella/ebb/vers/index";
 import { discoverPythonWorkspaces, usagesOwnedBy } from "../../workspaces.js";
 
 import { scanProject, shareRootLockfile } from "./project.js";

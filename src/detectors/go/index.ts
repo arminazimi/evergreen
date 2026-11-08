@@ -1,16 +1,16 @@
 import { readFile, readdir } from "node:fs/promises";
 import { basename, join } from "node:path";
 
-import { loadDataFile } from "../../data-source.js";
+import { loadDataFile } from "@velella/ebb/data-source";
 import type { UnclassifiedReference } from "../../domain.js";
 import { relativePosix } from "../../paths.js";
 import { analyzeSourceUsage } from "../../source-usage.js";
-import { validateRegistryV2 } from "../../registry.js";
-import type { RegistryV2Rule } from "../../registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
 import { ruleFinding } from "../../rule-finding.js";
 import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
-import { versContains } from "../../vers/index.js";
+import { versContains } from "@velella/ebb/vers/index";
 import { parseGoMod } from "./parse-go-mod.js";
 import { parseGoWork } from "./parse-go-work.js";
 

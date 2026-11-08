@@ -5,9 +5,9 @@ import { join, resolve } from "node:path";
 import { test } from "node:test";
 import { Ajv } from "ajv";
 
-import { BUNDLED_ECOSYSTEMS } from "../src/data-bundle.js";
-import type { ActiveData } from "../src/data-source.js";
-import type { RegistryV2Rule } from "../src/registry.js";
+import { BUNDLED_ECOSYSTEMS } from "@velella/ebb/data-bundle";
+import type { ActiveData } from "@velella/ebb/data-source";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import { CycloneDxError, enrichCycloneDx, enrichCycloneDxFile } from "../src/sbom/cyclonedx.js";
 import { runCli } from "./cli-runner.js";
 const rule: RegistryV2Rule = {

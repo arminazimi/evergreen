@@ -11,8 +11,8 @@ import { malformedInputCheck } from "../src/conformance/checks/malformed.js";
 import { zeroFindingsCheck } from "../src/conformance/checks/zero.js";
 import { runDetectorConformance } from "../src/conformance/index.js";
 import { RustDetector } from "../src/detectors/rust/index.js";
-import { validateRegistryV2 } from "../src/registry.js";
-import type { RegistryV2Rule } from "../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import type { DetectorFinding } from "../src/sdk.js";
 
 import { copyFixtureTree } from "./fixture-copies.js";
@@ -40,7 +40,7 @@ async function repository(files: Record<string, string>): Promise<string> {
 }
 
 async function committedRules() {
-  return validateRegistryV2(JSON.parse(await readFile("registry/rust.json", "utf8"))).rules;
+  return validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/rust.json", "utf8"))).rules;
 }
 
 async function expected(

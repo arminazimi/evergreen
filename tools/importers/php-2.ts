@@ -1,4 +1,4 @@
-import { formatPurl } from "../../src/purl.js";
+import { formatPurl } from "@velella/ebb/purl";
 import { PHP_PACKAGE_CANDIDATES } from "./php-candidates.js";
 import { fetchJson, ImporterError } from "./types.js";
 import type { DraftRule, Importer, ImporterContext, ImporterOutput } from "./types.js";

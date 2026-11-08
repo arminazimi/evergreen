@@ -62,14 +62,12 @@
     "dist/src",
     "examples",
     "data",
-    "registry",
     "schemas",
     "skills",
     "!examples/demo",
     "!examples/gallery",
     "!examples/drift",
     "!examples/upgrade",
-    "!registry/sources.lock.json",
     "!schemas/vendor",
     "!**/*.map",
     "!skills/**/evals"
@@ -86,12 +84,12 @@
     "test": "npm run build --silent && node tools/run-tests.mjs",
     "test:fuzz": "npm run build --silent && node --test dist/tests/fuzz/parsers.test.js",
     "test:mutation": "stryker run",
-    "test:coverage": "npm run build --silent && node --test --experimental-test-coverage --test-coverage-exclude=\"dist/tests/**\" --test-coverage-exclude=\"dist/benchmarks/**\" --test-coverage-exclude=\"dist/action/**\" --test-coverage-exclude=\"dist/src/usage/vendor/**\" --test-coverage-exclude=\"integrations/github-app/replay.mjs\" --test-coverage-lines=93 --test-coverage-branches=87 --test-coverage-functions=93 --test-reporter=spec --test-reporter=lcov --test-reporter-destination=stdout --test-reporter-destination=lcov.info \"dist/tests/**/*.test.js\"",
+    "test:coverage": "npm run build --silent && node --test --experimental-test-coverage --test-coverage-exclude=\"dist/tests/**\" --test-coverage-exclude=\"packages/ebb/dist/tests/**\" --test-coverage-exclude=\"dist/benchmarks/**\" --test-coverage-exclude=\"dist/action/**\" --test-coverage-exclude=\"dist/src/usage/vendor/**\" --test-coverage-exclude=\"integrations/github-app/replay.mjs\" --test-coverage-lines=93 --test-coverage-branches=87 --test-coverage-functions=93 --test-reporter=spec --test-reporter=lcov --test-reporter-destination=stdout --test-reporter-destination=lcov.info \"dist/tests/**/*.test.js\" \"packages/ebb/dist/tests/**/*.test.js\"",
     "format": "biome format --write .",
     "format:check": "biome format .",
     "check:dead-code": "knip --no-progress",
-    "lint": "eslint \"src/**/*.ts\" \"tools/**/*.ts\" --max-warnings=0",
-    "lint:baseline": "eslint \"src/**/*.ts\" \"tools/**/*.ts\" --max-warnings=0 --suppress-all",
+    "lint": "eslint \"src/**/*.ts\" \"packages/ebb/src/**/*.ts\" \"tools/**/*.ts\" --max-warnings=0",
+    "lint:baseline": "eslint \"src/**/*.ts\" \"packages/ebb/src/**/*.ts\" \"tools/**/*.ts\" --max-warnings=0 --suppress-all",
     "check:fast": "npm run build --silent && node dist/tools/check-fast.js",
     "check": "npm run format:check && npm run check:dead-code && npm run build && node dist/tools/check-pipeline.js",
     "check:architecture": "npm run build --silent && node dist/tools/check-architecture.js",
@@ -178,9 +176,8 @@
   },
   "dependencies": {
     "@modelcontextprotocol/server": "^2.3.1",
-    "@sigstore/bundle": "^5.0.0",
     "@sigstore/protobuf-specs": "^0.5.2",
-    "@sigstore/verify": "^4.1.2",
+    "@velella/ebb": "0.1.0",
     "semver": "^7.8.5",
     "smol-toml": "^1.9.1",
     "yaml": "^2.9.1",
@@ -190,5 +187,8 @@
     "minimatch": "^11.0.4",
     "qs": "6.16.1"
   },
-  "mcpName": "io.github.arminazimi/evergreen"
+  "mcpName": "io.github.arminazimi/evergreen",
+  "workspaces": [
+    "packages/ebb"
+  ]
 }

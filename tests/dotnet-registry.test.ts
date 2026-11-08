@@ -2,11 +2,11 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
-import { validateRegistryV2 } from "../src/registry.js";
-import { versContains } from "../src/vers/index.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import { versContains } from "@velella/ebb/vers/index";
 
 async function rules() {
-  return validateRegistryV2(JSON.parse(await readFile("registry/dotnet.json", "utf8"))).rules;
+  return validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/dotnet.json", "utf8"))).rules;
 }
 
 test("the .NET registry has sixteen valid rules, each citing an authoritative source", async () => {

@@ -1,23 +1,14 @@
 import { createHash } from "node:crypto";
-import { homedir } from "node:os";
 import { join } from "node:path";
+
+import { defaultCacheDirectory } from "@velella/ebb/cache-paths";
 
 /**
  * Where Evergreen keeps its caches on disk. This module imports only Node built-ins, so a command that must start
  * fast (`evergreen prompt`) can locate the scan cache without loading the data and signature code.
  */
 
-/** Where downloaded data lives: `EVERGREEN_DATA_DIR`, else the platform's cache directory. */
-export function defaultCacheDirectory(
-  env: NodeJS.ProcessEnv = process.env,
-  platform: NodeJS.Platform = process.platform,
-  home: string = homedir(),
-): string {
-  if (env.EVERGREEN_DATA_DIR) return env.EVERGREEN_DATA_DIR;
-  if (platform === "darwin") return join(home, "Library", "Caches", "evergreen");
-  if (platform === "win32") return join(env.LOCALAPPDATA ?? join(home, "AppData", "Local"), "evergreen", "Cache");
-  return join(env.XDG_CACHE_HOME ?? join(home, ".cache"), "evergreen");
-}
+export { defaultCacheDirectory };
 
 /** Where per-file scan cache data lives: `EVERGREEN_CACHE_DIR`, else `scan-cache` inside Evergreen's cache directory. */
 export function defaultScanCacheDirectory(env: NodeJS.ProcessEnv = process.env): string {

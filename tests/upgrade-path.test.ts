@@ -3,7 +3,7 @@ import { test } from "node:test";
 
 import type { Finding } from "../src/domain.js";
 import { planUpgradePath } from "../src/migration-packet.js";
-import type { RegistryV2Rule } from "../src/registry.js";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 
 function rule(line: string, event: RegistryV2Rule["event"], deadline?: string): RegistryV2Rule {
   return {

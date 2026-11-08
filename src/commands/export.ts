@@ -2,7 +2,7 @@ import process from "node:process";
 
 import { builtInDetectors } from "../detectors/index.js";
 import { scanProjects } from "../engine/index.js";
-import { exportActiveCle } from "../export/cle.js";
+import { exportActiveCle } from "@velella/ebb/export/cle";
 import { exportPortal, portalReportLink } from "../export/portal.js";
 import { withPrepared } from "./runtime.js";
 import type { CliCommand } from "./types.js";

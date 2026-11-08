@@ -2,15 +2,15 @@ import { readFile } from "node:fs/promises";
 
 import { checkAgainst } from "../check-dependency.js";
 import type { DependencyFinding } from "../check-dependency.js";
-import { BUNDLED_ECOSYSTEMS } from "../data-bundle.js";
-import { getActiveData } from "../data-source.js";
-import type { ActiveData } from "../data-source.js";
-import { parsePurl } from "../purl.js";
-import { validateRegistryV2 } from "../registry.js";
-import type { RegistryV2Rule } from "../registry.js";
+import { BUNDLED_ECOSYSTEMS } from "@velella/ebb/data-bundle";
+import { getActiveData } from "@velella/ebb/data-source";
+import type { ActiveData } from "@velella/ebb/data-source";
+import { parsePurl } from "@velella/ebb/purl";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import { required } from "../required.js";
-import "../vers/index.js";
-import { EvergreenError } from "../evergreen-error.js";
+import "@velella/ebb/vers/index";
+import { EvergreenError } from "@velella/ebb/evergreen-error";
 
 type JsonObject = Record<string, unknown>;
 

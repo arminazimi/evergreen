@@ -12,10 +12,10 @@ import { runDetectorConformance } from "../src/conformance/index.js";
 import { npmDetector } from "../src/detectors/npm/index.js";
 import { scanRepository } from "../src/engine/index.js";
 import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
-import { validateRegistryV2 } from "../src/registry.js";
-import type { RegistryV2Rule } from "../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import type { DetectorFinding } from "../src/sdk.js";
-import { versContains } from "../src/vers.js";
+import { versContains } from "@velella/ebb/vers";
 import { copyFixtureTree } from "./fixture-copies.js";
 
 const temporaryRoots: string[] = [];
@@ -43,7 +43,7 @@ async function repository(files: Record<string, string>): Promise<string> {
 }
 
 async function reactNativeRule(): Promise<RegistryV2Rule> {
-  const registry = validateRegistryV2(JSON.parse(await readFile("registry/npm.json", "utf8")));
+  const registry = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/npm.json", "utf8")));
   const rules = registry.rules.filter((rule) => rule.purl === "pkg:npm/react-native");
   assert.deepEqual(
     rules.map((rule) => rule.id),

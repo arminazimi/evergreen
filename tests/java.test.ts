@@ -12,7 +12,7 @@ import { runDetectorConformance } from "../src/conformance/index.js";
 import { javaDetector } from "../src/detectors/java/index.js";
 import { scanRepository } from "../src/engine/index.js";
 import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
-import { validateRegistryV2 } from "../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
 import type { DetectorFinding } from "../src/sdk.js";
 import { copyFixtureTree } from "./fixture-copies.js";
 
@@ -44,7 +44,7 @@ async function expected(
   subject: string,
   severity?: DetectorFinding["severity"],
 ): Promise<DetectorFinding> {
-  const registry = validateRegistryV2(JSON.parse(await readFile("registry/java.json", "utf8")));
+  const registry = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/java.json", "utf8")));
   const rule = registry.rules.find((item) => item.id === ruleId)!;
   return {
     id: `${ruleId}:${path}:${line}`,
@@ -220,7 +220,7 @@ test("a repository with no JVM files scans to nothing without reading the regist
 });
 
 test("every curated java rule has migration guidance with real verification commands", async () => {
-  const registry = validateRegistryV2(JSON.parse(await readFile("registry/java.json", "utf8")));
+  const registry = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/java.json", "utf8")));
   for (const rule of registry.rules) {
     assert.ok(rule.migration, rule.id);
     assert.ok(rule.migration.constraints.length >= 1, rule.id);

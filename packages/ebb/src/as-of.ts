@@ -1,5 +1,5 @@
-import { bundledRules } from "./check-dependency.js";
-import type { ScanResult } from "./domain.js";
+import { bundledRules } from "./bundled-rules.js";
+import type { LifecycleScan } from "./domain.js";
 import type { RegistryV2Rule } from "./registry.js";
 
 /** The severity a scheduled end of life returns to once its date has come (decision 0010). */
@@ -10,11 +10,11 @@ const REACHED_SEVERITY = "high" as const;
  * reported as the ended line it will be, at end-of-life severity. Finding identity never changes, so
  * baselines still match. The scan itself stays clock-free; this is an explicit, deterministic step.
  */
-export async function applyAsOf(
-  result: ScanResult,
+export async function applyAsOf<Scan extends LifecycleScan>(
+  result: Scan,
   asOf: string,
   rules: readonly RegistryV2Rule[] | Promise<readonly RegistryV2Rule[]> = bundledRules(),
-): Promise<ScanResult> {
+): Promise<Scan & { asOf: string }> {
   const reached = new Set(
     (await rules)
       .filter((rule) => rule.event === "scheduled-end-of-life" && rule.deadline !== undefined && rule.deadline <= asOf)

@@ -1,4 +1,72 @@
 {
+  "packages/ebb/src/countdown.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    },
+    "prefer-const": {
+      "count": 2
+    }
+  },
+  "packages/ebb/src/data-bundle.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 4
+    }
+  },
+  "packages/ebb/src/data-signature.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    }
+  },
+  "packages/ebb/src/data-source.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 6
+    },
+    "@typescript-eslint/require-await": {
+      "count": 1
+    }
+  },
+  "packages/ebb/src/data-update.ts": {
+    "@typescript-eslint/no-unsafe-argument": {
+      "count": 1
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 5
+    },
+    "@typescript-eslint/no-unused-vars": {
+      "count": 1
+    }
+  },
+  "packages/ebb/src/forecast.ts": {
+    "@typescript-eslint/restrict-template-expressions": {
+      "count": 1
+    }
+  },
+  "packages/ebb/src/package-files.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    }
+  },
+  "packages/ebb/src/registry.ts": {
+    "@typescript-eslint/no-base-to-string": {
+      "count": 2
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 6
+    }
+  },
+  "packages/ebb/src/rule-guards.ts": {
+    "@typescript-eslint/no-base-to-string": {
+      "count": 1
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 7
+    }
+  },
+  "packages/ebb/src/rule-lint.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    }
+  },
   "src/action-commands.ts": {
     "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 3
@@ -156,43 +224,6 @@
   "src/conformance/trace-reads.ts": {
     "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 8
-    }
-  },
-  "src/countdown.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 1
-    },
-    "prefer-const": {
-      "count": 2
-    }
-  },
-  "src/data-bundle.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 4
-    }
-  },
-  "src/data-signature.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 2
-    }
-  },
-  "src/data-source.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 6
-    },
-    "@typescript-eslint/require-await": {
-      "count": 1
-    }
-  },
-  "src/data-update.ts": {
-    "@typescript-eslint/no-unsafe-argument": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 5
-    },
-    "@typescript-eslint/no-unused-vars": {
-      "count": 1
     }
   },
   "src/detectors/android/parse-build-gradle.ts": {
@@ -380,11 +411,6 @@
       "count": 1
     }
   },
-  "src/forecast.ts": {
-    "@typescript-eslint/restrict-template-expressions": {
-      "count": 1
-    }
-  },
   "src/github-action/diff.ts": {
     "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 1
@@ -503,14 +529,6 @@
       "count": 1
     }
   },
-  "src/registry.ts": {
-    "@typescript-eslint/no-base-to-string": {
-      "count": 2
-    },
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 6
-    }
-  },
   "src/reporters/junit.ts": {
     "no-control-regex": {
       "count": 1
@@ -526,11 +544,6 @@
       "count": 3
     }
   },
-  "src/rule-lint.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 2
-    }
-  },
   "src/rule-test.ts": {
     "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 3
@@ -543,10 +556,10 @@
   },
   "src/sdk.ts": {
     "@typescript-eslint/no-base-to-string": {
-      "count": 2
+      "count": 1
     },
     "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 8
+      "count": 1
     }
   },
   "src/source-files.ts": {
@@ -636,14 +649,6 @@
   },
   "tools/build-data-bundle.ts": {
     "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 2
-    }
-  },
-  "tools/build-data-package.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 4
-    },
-    "@typescript-eslint/restrict-plus-operands": {
       "count": 2
     }
   },

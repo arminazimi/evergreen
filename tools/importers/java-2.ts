@@ -1,5 +1,5 @@
-import { formatPurl } from "../../src/purl.js";
-import { versionScheme } from "../../src/vers/index.js";
+import { formatPurl } from "@velella/ebb/purl";
+import { versionScheme } from "@velella/ebb/vers/index";
 import { MAVEN_CANDIDATES } from "./maven-candidates.js";
 import { ImporterError } from "./types.js";
 import type { DraftRule, Importer, ImporterContext } from "./types.js";

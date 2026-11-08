@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { after, test } from "node:test";
 
-import { lintRuleFiles } from "../src/rule-lint.js";
+import { lintRuleFiles } from "@velella/ebb/rule-lint";
 import { renderRuleTestText, testRule } from "../src/rule-test.js";
 import {
   renderRuleScaffold,
@@ -31,7 +31,7 @@ const emptyRegistry = (ecosystem = "npm") =>
   `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem, rules: [] }, null, 2)}\n`;
 
 async function ruleCheckout(
-  registries: Record<string, string> = { "registry/npm.json": emptyRegistry() },
+  registries: Record<string, string> = { "packages/ebb/registry/npm.json": emptyRegistry() },
 ): Promise<string> {
   const root = await mkdtemp(join(tmpdir(), "evergreen-new-rule-"));
   roots.push(root);
@@ -102,25 +102,28 @@ test("a freshly scaffolded rule passes lint and the harness", async () => {
   const id = "npm.package.sample.deprecated";
   const result = await scaffoldRule(id, { root, today: "2026-10-28" });
 
-  assert.equal(result.registry, "registry/npm.json");
-  assert.deepEqual(result.files, ["registry/npm.json", ...renderRuleScaffold(result.names, "2026-10-28").keys()]);
+  assert.equal(result.registry, "packages/ebb/registry/npm.json");
+  assert.deepEqual(result.files, [
+    "packages/ebb/registry/npm.json",
+    ...renderRuleScaffold(result.names, "2026-10-28").keys(),
+  ]);
   for (const file of result.files) assert.ok(await exists(join(root, file)), file);
 
-  const registry = JSON.parse(await readFile(join(root, "registry/npm.json"), "utf8")) as {
+  const registry = JSON.parse(await readFile(join(root, "packages/ebb/registry/npm.json"), "utf8")) as {
     rules: Array<{ id: string; provenance: { reviewedAt: string } }>;
   };
   assert.equal(registry.rules.length, 1);
   assert.equal(registry.rules[0]!.id, id);
   assert.equal(registry.rules[0]!.provenance.reviewedAt, "2026-10-28");
 
-  const lint = await lintRuleFiles([join(root, "registry/npm.json")]);
+  const lint = await lintRuleFiles([join(root, "packages/ebb/registry/npm.json")]);
   assert.deepEqual(lint.issues, []);
 
   const tested = await testRule(id, { root });
   assert.equal(tested.passed, true, renderRuleTestText(tested));
 
   const text = renderRuleScaffoldResult(result);
-  assert.match(text, /^Created the npm\.package\.sample\.deprecated rule in registry\/npm\.json:/);
+  assert.match(text, /^Created the npm\.package\.sample\.deprecated rule in packages\/ebb\/registry\/npm\.json:/);
   assert.match(text, /evergreen rules test npm\.package\.sample\.deprecated/);
 });
 
@@ -138,11 +141,11 @@ test("the scaffold keeps the rules already in the registry", async () => {
     provenance: { observedAt: "2026-10-01", reviewedAt: "2026-10-02", reviewer: "tester" },
   };
   const root = await ruleCheckout({
-    "registry/npm.json": `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: [existing] }, null, 2)}\n`,
+    "packages/ebb/registry/npm.json": `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: [existing] }, null, 2)}\n`,
   });
   await scaffoldRule("npm.package.sample.deprecated", { root, today: "2026-10-28" });
 
-  const registry = JSON.parse(await readFile(join(root, "registry/npm.json"), "utf8")) as {
+  const registry = JSON.parse(await readFile(join(root, "packages/ebb/registry/npm.json"), "utf8")) as {
     rules: Array<{ id: string }>;
   };
   assert.deepEqual(
@@ -153,11 +156,11 @@ test("the scaffold keeps the rules already in the registry", async () => {
 
 test("a taken rule id, an existing fixture, or a missing registry stops the run before writing", async () => {
   const taken = await ruleCheckout({
-    "registry/npm.json": `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: [{ id: "npm.package.sample.deprecated" }] }, null, 2)}\n`,
+    "packages/ebb/registry/npm.json": `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: [{ id: "npm.package.sample.deprecated" }] }, null, 2)}\n`,
   });
   await assert.rejects(
     scaffoldRule("npm.package.sample.deprecated", { root: taken }),
-    /already defined in registry\/npm\.json/,
+    /already defined in packages\/ebb\/registry\/npm\.json/,
   );
   assert.equal(await exists(join(taken, "tests", "fixtures", "npm.package.sample.deprecated")), false);
 
@@ -168,14 +171,14 @@ test("a taken rule id, an existing fixture, or a missing registry stops the run 
     /Nothing was written: tests\/fixtures\/npm\.package\.sample\.deprecated\/ already exists/,
   );
 
-  const noRegistry = await ruleCheckout({ "registry/python.json": emptyRegistry("python") });
+  const noRegistry = await ruleCheckout({ "packages/ebb/registry/python.json": emptyRegistry("python") });
   await assert.rejects(
     scaffoldRule("npm.package.sample.deprecated", { root: noRegistry }),
-    /registry\/npm\.json does not exist.*new-detector npm/,
+    /packages\/ebb\/registry\/npm\.json does not exist.*new-detector npm/,
   );
   assert.equal(await exists(join(noRegistry, "tests", "fixtures")), false);
 
-  const broken = await ruleCheckout({ "registry/npm.json": "{ not json" });
+  const broken = await ruleCheckout({ "packages/ebb/registry/npm.json": "{ not json" });
   await assert.rejects(scaffoldRule("npm.package.sample.deprecated", { root: broken }), /not valid JSON/);
 
   const outside = await mkdtemp(join(tmpdir(), "evergreen-new-rule-outside-"));
@@ -200,7 +203,10 @@ test("the command scaffolds, then lint and the harness accept the rule", async (
 
   const created = await run(["new-rule", id]);
   assert.equal(created.code, 0, created.stderr);
-  assert.match(created.stdout, /Created the npm\.package\.sample\.deprecated rule in registry\/npm\.json:/);
+  assert.match(
+    created.stdout,
+    /Created the npm\.package\.sample\.deprecated rule in packages\/ebb\/registry\/npm\.json:/,
+  );
   assert.equal(await exists(join(root, "tests", "fixtures", id, "match", "index.js")), true);
 
   const again = await run(["new-rule", id]);

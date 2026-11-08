@@ -15,8 +15,8 @@ import { builtInDetectors } from "../src/detectors/index.js";
 import { ShellDetector, shellDetector } from "../src/detectors/shell/index.js";
 import { scanRepository } from "../src/engine/index.js";
 import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
-import { validateRegistryV2 } from "../src/registry.js";
-import type { RegistryV2Rule } from "../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import type { DetectorFinding } from "../src/sdk.js";
 
 const fixtures = resolve("tests/fixtures/shell");
@@ -59,7 +59,7 @@ async function fixtureRepository(name: string): Promise<string> {
 }
 
 async function committedRules(): Promise<RegistryV2Rule[]> {
-  return validateRegistryV2(JSON.parse(await readFile("registry/shell.json", "utf8"))).rules;
+  return validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/shell.json", "utf8"))).rules;
 }
 
 function expected(rule: RegistryV2Rule, path: string, line: number, summary: string): DetectorFinding {

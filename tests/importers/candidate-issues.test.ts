@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2, RegistryV2Rule } from "../../src/registry.js";
+import type { RegistryV2, RegistryV2Rule } from "@velella/ebb/registry";
 import {
   CANDIDATE_MARKER_PREFIX,
   extractCandidateRuleId,
@@ -69,7 +69,7 @@ test("renderCandidateIssue formats the issue title, marker, evidence, and fixtur
 
   // Agent brief
   assert.ok(rendered.body.includes("## Agent brief"));
-  assert.ok(rendered.body.includes("`registry/npm.json`"));
+  assert.ok(rendered.body.includes("`packages/ebb/registry/npm.json`"));
   assert.ok(rendered.body.includes("`tests/fixtures/npm/`"));
   assert.ok(rendered.body.includes('provenance.reviewer: "pending-review"'));
 
@@ -80,7 +80,9 @@ test("renderCandidateIssue formats the issue title, marker, evidence, and fixtur
 
   // Done when
   assert.ok(rendered.body.includes("## Done when"));
-  assert.ok(rendered.body.includes("[ ] Rule `npm.package.left-pad.deprecated` is added to `registry/npm.json`"));
+  assert.ok(
+    rendered.body.includes("[ ] Rule `npm.package.left-pad.deprecated` is added to `packages/ebb/registry/npm.json`"),
+  );
   assert.ok(rendered.body.includes("[ ] `npm run check` passes."));
 });
 

@@ -35,8 +35,9 @@ export const SCHEMA_VERSION = "evergreen.agent-loop-eval.v1" as const;
 export const EVAL_INPUTS: readonly string[] = [
   "integrations",
   "src",
-  "registry",
+  "packages/ebb/registry",
   "schemas",
+  "packages/ebb/schemas",
   "package.json",
   "package-lock.json",
   "benchmarks/agent-loop",

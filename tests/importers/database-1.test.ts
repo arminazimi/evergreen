@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import {
   MAXIMUM_PAGE_BYTES,
   parseVersioningTable,
@@ -48,7 +48,7 @@ test("drafts an end-of-life rule for each unsupported major from the real record
 });
 
 test("emits drafts that diff against the existing database registry without removals", async () => {
-  const registry = JSON.parse(await readFile("registry/database.json", "utf8")) as RegistryV2;
+  const registry = JSON.parse(await readFile("packages/ebb/registry/database.json", "utf8")) as RegistryV2;
   const diff = diffDrafts(await execute(postgresqlVersioningImporter, { replay: recording }), registry);
   assert.deepEqual(diff.removed, []);
   assert.ok(registry.rules.some((rule) => rule.id === "database.postgresql.end-of-life-10"));

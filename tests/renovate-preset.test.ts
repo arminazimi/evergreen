@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { after, test } from "node:test";
 
 import type { Finding } from "../src/domain.js";
-import type { RegistryV2Rule } from "../src/registry.js";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import {
   buildRenovatePreset,
   isRenovatePackageName,

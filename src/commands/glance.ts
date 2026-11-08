@@ -2,12 +2,12 @@ import { spawnSync } from "node:child_process";
 import process from "node:process";
 import { basename, resolve } from "node:path";
 
-import { applyAsOf } from "../as-of.js";
+import { applyAsOf } from "@velella/ebb/as-of";
 import { repositoryFromRemote } from "../badge.js";
 import { builtInDetectors } from "../detectors/index.js";
 import { scanRepository } from "../engine/index.js";
 import { buildGlanceFacts, renderGlance } from "../glance.js";
-import { isIsoDate } from "../registry.js";
+import { isIsoDate } from "@velella/ebb/registry";
 import type { CliCommand, CommandContext } from "./types.js";
 
 /** Indexed CLI argument; the loop bound already guarantees the index is in range. */

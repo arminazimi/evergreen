@@ -6,8 +6,8 @@ import { after, before, test } from "node:test";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
 
-import { validateRegistryV2 } from "../src/registry.js";
-import type { RegistryV2Rule } from "../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import { checkUpgrade } from "../src/upgrade/index.js";
 import {
   compareGoVersions,
@@ -31,7 +31,7 @@ after(async () => {
 });
 
 async function rule(id: string): Promise<RegistryV2Rule> {
-  const { rules } = validateRegistryV2(JSON.parse(await readFile("registry/go.json", "utf8")) as object);
+  const { rules } = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/go.json", "utf8")) as object);
   const found = rules.find((item) => item.id === id);
   assert.ok(found, `${id} must exist in registry/go.json`);
   return found;

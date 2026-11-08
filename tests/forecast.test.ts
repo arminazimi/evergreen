@@ -5,8 +5,8 @@ import { join } from "node:path";
 import { after, test } from "node:test";
 
 import type { ScanResult } from "../src/domain.js";
-import { addMonths, buildForecast, renderForecastText } from "../src/forecast.js";
-import type { RegistryV2Rule } from "../src/registry.js";
+import { addMonths, buildForecast, renderForecastText } from "@velella/ebb/forecast";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import { runCli } from "./cli-runner.js";
 
 const roots: string[] = [];

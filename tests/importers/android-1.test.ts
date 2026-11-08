@@ -19,7 +19,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { TARGET_SDK_URL, androidTargetSdkImporter } from "../../tools/importers/android-1.js";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { execute, runImporter } from "../../tools/importers/run.js";

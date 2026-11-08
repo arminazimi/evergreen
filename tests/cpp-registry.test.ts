@@ -2,14 +2,14 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
-import { validateRegistryV2 } from "../src/registry.js";
-import { versContains } from "../src/vers/index.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import { versContains } from "@velella/ebb/vers/index";
 
 const CMAKE_ORG = /^https:\/\/cmake\.org\/cmake\/help\/latest\//;
 const KITWARE_RELEASE = /^https:\/\/github\.com\/Kitware\/CMake\/releases\/tag\/v[\d.]+$/;
 
 async function rules() {
-  return validateRegistryV2(JSON.parse(await readFile("registry/cpp.json", "utf8"))).rules;
+  return validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/cpp.json", "utf8"))).rules;
 }
 
 test("the C and C++ registry has five valid rules, each citing cmake.org or a Kitware release", async () => {

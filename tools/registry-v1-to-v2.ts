@@ -10,9 +10,9 @@ import { readFile, writeFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 import { isDeepStrictEqual } from "node:util";
 
-import { formatPurl, parsePurl } from "../src/purl.js";
-import { legacyRule, lifecycleEvents, REGISTRY_V2_SCHEMA_VERSION, validateRegistryV2 } from "../src/registry.js";
-import type { LifecycleEvent, RegistryV2, RegistryV2Rule } from "../src/registry.js";
+import { formatPurl, parsePurl } from "@velella/ebb/purl";
+import { legacyRule, lifecycleEvents, REGISTRY_V2_SCHEMA_VERSION, validateRegistryV2 } from "@velella/ebb/registry";
+import type { LifecycleEvent, RegistryV2, RegistryV2Rule } from "@velella/ebb/registry";
 
 export interface ConvertOptions {
   /** Date the evidence was last seen at its sources (YYYY-MM-DD). */

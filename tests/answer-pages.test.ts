@@ -8,8 +8,8 @@ import { promisify } from "node:util";
 
 import { parse } from "yaml";
 
-import type { RegistryV2, RegistryV2Rule } from "../src/registry.js";
-import { purlIdentity } from "../src/purl.js";
+import type { RegistryV2, RegistryV2Rule } from "@velella/ebb/registry";
+import { purlIdentity } from "@velella/ebb/purl";
 import { SITE_URL, loadRegistries, renderSitemap } from "../tools/build-reference-pages.js";
 import {
   ANSWER_PAGE_LIMIT,
@@ -260,18 +260,21 @@ async function checkIn(directory: string): Promise<{ code: number; stderr: strin
 test("--check passes on fresh pages and fails, naming the page, when one drifts", async () => {
   const root = await mkdtemp(join(tmpdir(), "evergreen-answer-cli-"));
   temporaryRoots.push(root);
-  await mkdir(join(root, "registry"), { recursive: true });
-  await writeFile(join(root, "registry/demo.json"), JSON.stringify(registry([rule()])));
+  await mkdir(join(root, "packages/ebb/registry"), { recursive: true });
+  await writeFile(join(root, "packages/ebb/registry/demo.json"), JSON.stringify(registry([rule()])));
   await write(buildFiles([registry([rule()])]), root);
   assert.deepEqual(await checkIn(root), { code: 0, stderr: "" });
 
-  await writeFile(join(root, "registry/demo.json"), JSON.stringify(registry([rule({ title: "Demo 1 changed" })])));
+  await writeFile(
+    join(root, "packages/ebb/registry/demo.json"),
+    JSON.stringify(registry([rule({ title: "Demo 1 changed" })])),
+  );
   const drifted = await checkIn(root);
   assert.equal(drifted.code, 1);
   assert.match(drifted.stderr, /differs: docs\/eol\/demo\.md/);
   assert.match(drifted.stderr, /npm run build:answer-pages/);
 
-  await writeFile(join(root, "registry/demo.json"), JSON.stringify(registry([])));
+  await writeFile(join(root, "packages/ebb/registry/demo.json"), JSON.stringify(registry([])));
   const removed = await checkIn(root);
   assert.match(removed.stderr, /stale: docs\/eol\/demo\.md/);
   assert.match(removed.stderr, /differs: docs\/eol\/index\.md/);

@@ -98,6 +98,7 @@ export const COVERAGE_LCOV_PATH = "lcov.info";
 /** Same exclusions as the `test:coverage` script in package.json, so both runs measure the same files. */
 export const COVERAGE_EXCLUDES: readonly string[] = [
   "dist/tests/**",
+  "packages/ebb/dist/tests/**",
   "dist/benchmarks/**",
   "dist/action/**",
   "dist/src/usage/vendor/**",
@@ -212,7 +213,7 @@ export async function runEvalWhenInputsChanged(
 }
 
 /** The TypeScript the lint step reads; every file is also in the tsconfig program. */
-export const LINT_PATTERNS: readonly string[] = ["src/**/*.ts", "tools/**/*.ts"];
+export const LINT_PATTERNS: readonly string[] = ["src/**/*.ts", "packages/ebb/src/**/*.ts", "tools/**/*.ts"];
 
 /** One lint run. A warning fails like an error, so nothing new can land without a suppression. */
 export function lintArgs(eslintCli: string): string[] {

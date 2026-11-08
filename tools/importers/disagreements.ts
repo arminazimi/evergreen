@@ -13,7 +13,7 @@ import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 
-import type { RegistryV2Rule } from "../../src/registry.js";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import { defaultGitHubRunner } from "./candidate-issues.js";
 import type { CandidateIssueRunner, IssueRecord, RenderedCandidateIssue } from "./candidate-issues.js";
 import type { DraftRegistry } from "./types.js";

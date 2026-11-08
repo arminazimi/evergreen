@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import { ConfigError } from "../src/config.js";
-import { DataPinError } from "../src/data-source.js";
+import { DataPinError } from "@velella/ebb/data-source";
 import {
   classifyError,
   DEFAULT_REASONS,
@@ -10,9 +10,9 @@ import {
   EvergreenError,
   EXIT_CODES,
   failureClassOf,
-} from "../src/evergreen-error.js";
+} from "@velella/ebb/evergreen-error";
 import { failure } from "../src/mcp/tool-support.js";
-import { PurlError } from "../src/purl.js";
+import { PurlError } from "@velella/ebb/purl";
 import { ScaffoldError } from "../tools/scaffold/index.js";
 
 test("every reason code belongs to a class with an exit code", () => {

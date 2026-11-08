@@ -1,8 +1,8 @@
 import type { EvidenceSource, MigrationGuidance, ReplacementRequirements, Severity, UsageMatcher } from "./domain.js";
 import { severityValues } from "./domain.js";
 import { parsePurl, purlIdentity } from "./purl.js";
-import { isMigrationGuidance, isUsageMatcher, RegistryValidationError, validateRegistry } from "./sdk.js";
-import type { Registry, RegistryDefinition } from "./sdk.js";
+import { isMigrationGuidance, isUsageMatcher, RegistryValidationError, validateRegistry } from "./rule-guards.js";
+import type { Registry, RegistryDefinition } from "./rule-guards.js";
 import { parseVers, validateVersVersions, versionScheme } from "./vers/index.js";
 
 export const REGISTRY_V2_SCHEMA_VERSION = "evergreen.registry.v2" as const;

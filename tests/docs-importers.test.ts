@@ -81,7 +81,8 @@ test("the weekly workflow runs every schedulable importer whose registry file ex
   const expected = importers
     .filter(
       (importer) =>
-        existsSync(resolve(`registry/${importer.ecosystem}.json`)) && !UNSCHEDULED_IMPORTERS.has(importer.id),
+        existsSync(resolve(`packages/ebb/registry/${importer.ecosystem}.json`)) &&
+        !UNSCHEDULED_IMPORTERS.has(importer.id),
     )
     .map((importer) => [importer.id, importer.ecosystem])
     .sort();

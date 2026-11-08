@@ -18,8 +18,8 @@ import {
   DataBundleError,
   serializeDataBundle,
   sha256Hex,
-} from "../src/data-bundle.js";
-import type { DataBundle } from "../src/data-bundle.js";
+} from "@velella/ebb/data-bundle";
+import type { DataBundle } from "@velella/ebb/data-bundle";
 
 const execute = promisify(execFile);
 const createdAt = "2026-10-16T09:30:00Z";
@@ -33,7 +33,7 @@ after(async () => {
 async function registryCopy(): Promise<string> {
   const root = await mkdtemp(join(tmpdir(), "evergreen-bundle-"));
   roots.push(root);
-  await cp(resolve("registry"), join(root, "registry"), { recursive: true });
+  await cp(resolve("packages/ebb/registry"), join(root, "registry"), { recursive: true });
   await writeFile(join(root, "package.json"), await readFile(resolve("package.json"), "utf8"));
   return root;
 }
@@ -54,8 +54,8 @@ test("canonical JSON sorts keys at every level, drops whitespace, and refuses no
 });
 
 test("two builds of the same input are byte for byte identical", async () => {
-  const first = serializeDataBundle(await build(resolve(".")));
-  const second = serializeDataBundle(await build(resolve(".")));
+  const first = serializeDataBundle(await build(resolve("packages/ebb")));
+  const second = serializeDataBundle(await build(resolve("packages/ebb")));
   assert.equal(first, second);
   assert.equal(sha256Hex(first), sha256Hex(second));
 });
@@ -78,7 +78,7 @@ test("the same build from the command line is identical too", async () => {
 });
 
 test("the bundle lists every registry and the SHA map, and matches the published schema", async () => {
-  const bundle = await build(resolve("."));
+  const bundle = await build(resolve("packages/ebb"));
   assert.deepEqual(
     bundle.manifest.files.map((file) => file.path),
     [
@@ -113,18 +113,21 @@ test("the bundle lists every registry and the SHA map, and matches the published
   assert.equal(bundle.manifest.version, "2026.10.16");
   assert.equal(bundle.manifest.minimumEvergreenVersion, "0.2.0");
   for (const file of bundle.manifest.files.filter((item) => item.kind === "registry")) {
-    const rules = (JSON.parse(await readFile(resolve(file.path), "utf8")) as { rules: unknown[] }).rules.length;
+    const rules = (JSON.parse(await readFile(resolve("packages/ebb", file.path), "utf8")) as { rules: unknown[] }).rules
+      .length;
     assert.equal(file.rules, rules, file.path);
     assert.ok(file.maxReviewAgeDays! >= 1);
   }
-  const schema = JSON.parse(await readFile(resolve("schemas/data-bundle.v1.schema.json"), "utf8")) as object;
+  const schema = JSON.parse(
+    await readFile(resolve("packages/ebb/schemas/data-bundle.v1.schema.json"), "utf8"),
+  ) as object;
   const validate = new Ajv2020({ allErrors: true }).compile(schema);
   assert.equal(validate(JSON.parse(serializeDataBundle(bundle))), true, JSON.stringify(validate.errors));
   assert.deepEqual(dataBundleIntegrityProblems(bundle), []);
 });
 
 test("formatting and key order in registry/ never change a digest", async () => {
-  const baseline = await build(resolve("."));
+  const baseline = await build(resolve("packages/ebb"));
   const root = await registryCopy();
   for (const file of ["registry/npm.json", "registry/github-actions-shas.json"]) {
     const reordered = JSON.parse(await readFile(join(root, file), "utf8")) as Record<string, unknown>;
@@ -137,7 +140,7 @@ test("formatting and key order in registry/ never change a digest", async () => 
 });
 
 test("the content address follows the data, not the version or the time", async () => {
-  const root = resolve(".");
+  const root = resolve("packages/ebb");
   const base = await build(root);
   const later = await build(root, { createdAt: "2027-01-02T03:04:05Z", revision: 3 });
   assert.equal(later.manifest.version, "2027.01.02.3");
@@ -187,7 +190,7 @@ test("a registry that does not validate cannot be bundled", async () => {
 });
 
 test("integrity checking finds tampering, omissions, and extras", async () => {
-  const pristine = await build(resolve("."));
+  const pristine = await build(resolve("packages/ebb"));
   const copy = (): DataBundle => structuredClone(pristine);
 
   const tampered = copy();

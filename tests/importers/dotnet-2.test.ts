@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import { validateRegistryV2 } from "../../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
 import { NUGET_CANDIDATES } from "../../tools/importers/dotnet-candidates.js";
 import { nugetDeprecationImporter, obsoleteDate, registrationUrl } from "../../tools/importers/dotnet-2.js";
 import { execute } from "../../tools/importers/run.js";
@@ -59,7 +59,7 @@ test("dotnet-2 drafts a rule for each candidate whose every version is deprecate
 
 test("the committed package rule matches what the importer drafts from the recording", async () => {
   const drafts = (await execute(nugetDeprecationImporter, { replay: recording })).rules;
-  const registry = validateRegistryV2(JSON.parse(await readFile("registry/dotnet.json", "utf8")));
+  const registry = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/dotnet.json", "utf8")));
   const committed = registry.rules.filter((rule) => rule.purl.startsWith("pkg:nuget/"));
   assert.ok(committed.length >= 1);
   for (const rule of committed) {

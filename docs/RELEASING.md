@@ -18,7 +18,7 @@ Every gate must pass on the commit you will tag. None of them is optional.
 | Coverage floors | `npm run test:coverage` | Lines, branches, and functions stay above the floors in `package.json`. |
 | Public corpus | `npm run validate:public-repos` | Exact findings on every pinned public repository, and each detector's precision above its floor in `benchmarks/thresholds.json`. Needs network. |
 | Source freshness | `npm run check:sources` | No rule is stale and no source has moved or disappeared. Needs network. Review anything it reports before releasing. |
-| Package contents | `npm pack --dry-run` | Only `dist/src`, `examples`, `registry`, `schemas`, and `skills` ship; `registry/sources.lock.json` does not. |
+| Package contents | `npm pack --dry-run` | Only `dist/src`, `examples`, `registry`, `schemas`, and `skills` ship; `packages/ebb/registry/sources.lock.json` does not. |
 | Reproducible package | `npm run check:reproducible` | Two clean builds of the same commit pack to byte-identical npm tarballs. CI records the tarball hash on Linux, Windows, and macOS and fails `ci-ok` when the runners disagree; the release workflow runs the local check and fails on a mismatch. |
 
 The last weekly runs of the corpus and source-freshness workflows should also be green. If either is red, fix or explain it before tagging.

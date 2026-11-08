@@ -1,6 +1,7 @@
+import { resolve } from "node:path";
 import process from "node:process";
 
-import { defaultRuleFiles, lintRuleFiles, renderRuleLintText } from "../rule-lint.js";
+import { defaultRuleFiles, lintRuleFiles, renderRuleLintText } from "@velella/ebb/rule-lint";
 import { renderRuleTestText, RuleTestError, testRule } from "../rule-test.js";
 import type { CliCommand } from "./types.js";
 
@@ -21,7 +22,7 @@ export const command: CliCommand = {
         return ctx.fail("usage", "Usage: evergreen rules lint [file...]");
       let files: string[];
       try {
-        files = rest.length > 0 ? rest : await defaultRuleFiles();
+        files = rest.length > 0 ? rest : await defaultRuleFiles(resolve("packages/ebb"));
       } catch (error) {
         return ctx.fail(
           "usage",

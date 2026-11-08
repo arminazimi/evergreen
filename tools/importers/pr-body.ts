@@ -5,8 +5,8 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 
-import { validateRegistryV2 } from "../../src/registry.js";
-import type { RegistryV2Rule } from "../../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import { escapeTableCell } from "../markdown.js";
 import { diffDrafts, loadAcknowledged } from "./diff.js";
 import type { ChangedRule, DraftDiff } from "./diff.js";
@@ -93,7 +93,7 @@ function rows(diff: DraftDiff, drafts: DraftRegistry): Row[] {
 }
 
 export function renderPullRequestBody(diff: DraftDiff, drafts: DraftRegistry): string {
-  const registry = `registry/${diff.ecosystem}.json`;
+  const registry = `packages/ebb/registry/${diff.ecosystem}.json`;
   const head = [
     `Drafts from the \`${diff.importer}\` importer for \`${registry}\`, observed ${drafts.observedAt}.`,
     "",

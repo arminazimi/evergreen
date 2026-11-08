@@ -54,7 +54,9 @@ async function tags(action: string): Promise<GitHubTag[]> {
 }
 
 async function coveredActions(): Promise<string[]> {
-  const registry = JSON.parse(await readFile(resolve("registry/github-actions.json"), "utf8")) as GitHubActionsRegistry;
+  const registry = JSON.parse(
+    await readFile(resolve("packages/ebb/registry/github-actions.json"), "utf8"),
+  ) as GitHubActionsRegistry;
   return [
     ...new Set(
       registry.rules

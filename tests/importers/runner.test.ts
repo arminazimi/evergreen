@@ -7,7 +7,7 @@ import { resolve } from "node:path";
 import { test } from "node:test";
 import { promisify } from "node:util";
 
-import { registryV2Issues } from "../../src/registry.js";
+import { registryV2Issues } from "@velella/ebb/registry";
 import { testProcessArgs } from "../../tools/check-pipeline.js";
 import { EXAMPLE_FEED_URL, exampleImporter } from "../../tools/importers/example.js";
 import { ImporterError, liveContext, runImporter } from "../../tools/importers/run.js";
@@ -236,10 +236,10 @@ test("the command line lists importers and explains mistakes", async () => {
 });
 
 test("no bundled rule is waiting for review", async () => {
-  for (const name of (await readdir(resolve("registry"))).filter(
+  for (const name of (await readdir(resolve("packages/ebb/registry"))).filter(
     (file) => file.endsWith(".json") && !file.startsWith("sources."),
   )) {
-    const registry = JSON.parse(await readFile(resolve("registry", name), "utf8")) as {
+    const registry = JSON.parse(await readFile(resolve("packages/ebb/registry", name), "utf8")) as {
       schemaVersion?: string;
       rules?: { id: string; provenance: { reviewer: string } }[];
     };

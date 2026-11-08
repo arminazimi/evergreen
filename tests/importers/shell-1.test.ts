@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { execute, runImporter } from "../../tools/importers/run.js";
 import {
@@ -53,7 +53,7 @@ test("drafts an end-of-life rule for each retired release from the real recordin
 });
 
 test("emits drafts that match the curated shell registry with no additions or removals", async () => {
-  const registry = JSON.parse(await readFile("registry/shell.json", "utf8")) as RegistryV2;
+  const registry = JSON.parse(await readFile("packages/ebb/registry/shell.json", "utf8")) as RegistryV2;
   const diff = diffDrafts(await execute(powershellLifecycleImporter, { replay: recording }), registry);
   assert.deepEqual(diff.removed, []);
   assert.deepEqual(diff.added, []);

@@ -77,7 +77,7 @@ test("the full and merge jobs stay off the pull request lane", () => {
 });
 
 test("affected runs on pushes to main and on pull requests, only for relevant paths, and never on pull_request_target", () => {
-  assert.ok(workflow.on.push!.paths!.includes("registry/**"));
+  assert.ok(workflow.on.push!.paths!.includes("packages/ebb/registry/**"));
   assert.ok(workflow.on.push!.paths!.includes("src/**"));
   assert.ok(workflow.on.push!.paths!.includes(".github/workflows/corpus.yml"));
   assert.deepEqual(workflow.on.pull_request!.paths, workflow.on.push!.paths);

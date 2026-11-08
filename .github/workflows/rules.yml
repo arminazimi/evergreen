@@ -8,17 +8,17 @@ on:
   push:
     branches: [main]
     paths:
-      - "registry/**"
+      - "packages/ebb/registry/**"
       - "tests/fixtures/**"
-      - "src/rule-lint.ts"
+      - "packages/ebb/src/rule-lint.ts"
       - "src/rule-test.ts"
       - "tools/changed-rules.ts"
       - ".github/workflows/rules.yml"
   pull_request:
     paths:
-      - "registry/**"
+      - "packages/ebb/registry/**"
       - "tests/fixtures/**"
-      - "src/rule-lint.ts"
+      - "packages/ebb/src/rule-lint.ts"
       - "src/rule-test.ts"
       - "tools/changed-rules.ts"
       - ".github/workflows/rules.yml"

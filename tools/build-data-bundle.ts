@@ -10,7 +10,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-import { buildDataBundle, serializeDataBundle, sha256Hex } from "../src/data-bundle.js";
+import { buildDataBundle, serializeDataBundle, sha256Hex } from "@velella/ebb/data-bundle";
 
 function option(argv: string[], name: string): string | undefined {
   const index = argv.indexOf(name);
@@ -27,7 +27,8 @@ export async function main(argv: string[]): Promise<void> {
     .version;
 
   const bundle = await buildDataBundle({
-    root,
+    // The registry ships in Ebb; the minimum version comes from the Offing release that bundles it.
+    root: resolve(root, "packages/ebb"),
     createdAt,
     ...(revision ? { revision: Number(revision) } : {}),
     minimumEvergreenVersion: option(argv, "--minimum-version") ?? packageVersion,

@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { PYTHON_RELEASE_CYCLE_URL, pythonReleaseCycleImporter } from "../../tools/importers/python.js";
 import { execute, runImporter } from "../../tools/importers/run.js";
@@ -69,7 +69,7 @@ test("an exact end date ends a line on that day", async () => {
 });
 
 test("when the schedule had not yet ended 3.10, it reproduces the hand-written rule except for one added source", async () => {
-  const registry = JSON.parse(await readFile(resolve("registry/python.json"), "utf8")) as RegistryV2;
+  const registry = JSON.parse(await readFile(resolve("packages/ebb/registry/python.json"), "utf8")) as RegistryV2;
   const cycle = { "3.9": line("end-of-life", "2025-10-31", 596), "3.10": line("security", "2026-10-01", 619) };
   const drafts = await runImporter(pythonReleaseCycleImporter, inline(cycle, "2025-12-01"));
   const diff = diffDrafts({ ...drafts, rules: drafts.rules.filter((rule) => rule.event === "end-of-life") }, registry);
@@ -88,7 +88,7 @@ test("when the schedule had not yet ended 3.10, it reproduces the hand-written r
 });
 
 test("the registry covers every line the schedule says has ended: the 3.9 and 3.10 rules are both present", async () => {
-  const registry = JSON.parse(await readFile(resolve("registry/python.json"), "utf8")) as RegistryV2;
+  const registry = JSON.parse(await readFile(resolve("packages/ebb/registry/python.json"), "utf8")) as RegistryV2;
   const drafts = await execute(pythonReleaseCycleImporter, { replay: recording });
   const diff = diffDrafts(drafts, registry);
   // Python 3.10 ended on 2026-10-01; the registry gained that rule next to the 3.9 one, so nothing is left to add.

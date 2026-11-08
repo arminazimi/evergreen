@@ -1,13 +1,13 @@
 import { readFile, readdir } from "node:fs/promises";
 import { basename, join } from "node:path";
 
-import { loadDataFile } from "../../data-source.js";
+import { loadDataFile } from "@velella/ebb/data-source";
 import { relativePosix } from "../../paths.js";
-import { validateRegistryV2 } from "../../registry.js";
-import type { RegistryV2Rule } from "../../registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
 import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
-import { parseVersLenient, versContains } from "../../vers/index.js";
+import { parseVersLenient, versContains } from "@velella/ebb/vers/index";
 import { parseToolVersions } from "./parse-elixir-runtime.js";
 import { parseMixExs } from "./parse-mix-exs.js";
 import { parseMixLock } from "./parse-mix-lock.js";

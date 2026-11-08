@@ -4,7 +4,7 @@ import { badgeState } from "../badge.js";
 import type { DiffResult } from "../diff.js";
 import type { DataInfo, Finding, ScanResult, Severity, SuppressionRef, SuppressionState } from "../domain.js";
 import { severityValues } from "../domain.js";
-import { buildForecast } from "../forecast.js";
+import { buildForecast } from "@velella/ebb/forecast";
 import { required } from "../required.js";
 import { describeData } from "../reporters.js";
 import { severityRank } from "./inputs.js";
@@ -90,11 +90,7 @@ function daysBetween(from: string, to: string): number {
  */
 function renderTimeline(findings: readonly Finding[]): string[] {
   const today = new Date().toISOString().slice(0, 10);
-  const forecast = buildForecast(
-    { schemaVersion: "evergreen.scan.v1", root: ".", scannedAt: "", findings: [...findings], diagnostics: [] },
-    [],
-    today,
-  );
+  const forecast = buildForecast({ root: ".", findings }, [], today);
   if (forecast.total === 0) return [];
 
   const events = forecast.groups.flatMap((group) => group.events);

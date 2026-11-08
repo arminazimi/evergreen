@@ -7,7 +7,7 @@ import { after, before, test } from "node:test";
 import { PhpDetector } from "../src/detectors/php/index.js";
 import { scanRepository } from "../src/engine/index.js";
 import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
-import { validateRegistryV2 } from "../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
 import { renderText } from "../src/reporters.js";
 import { isUsageMatcher } from "../src/sdk.js";
 import { analyzeSourceUsage, findPhpDynamicReferences } from "../src/source-usage.js";
@@ -295,7 +295,7 @@ test("php matchers are valid, and an abandoned package finding lists source file
     isUsageMatcher({ kind: "call", language: "php", module: "Swift_Mailer", targets: ["new Swift_Mailer"] }),
     true,
   );
-  const rules = validateRegistryV2(JSON.parse(await readFile("registry/php.json", "utf8"))).rules;
+  const rules = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/php.json", "utf8"))).rules;
   assert.equal(rules.find((rule) => rule.id === "php.runtime.eol-7.4")!.usage, undefined);
   assert.deepEqual(rules.find((rule) => rule.id === "php.package.swiftmailer.swiftmailer.abandoned")!.usage, [
     { kind: "import", language: "php", module: "Swift_Mailer" },

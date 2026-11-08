@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { MAVEN_CENTRAL, mavenRelocationImporter, metadataUrl, pomUrl } from "../../tools/importers/java-2.js";
 import { MAVEN_CANDIDATES } from "../../tools/importers/maven-candidates.js";
@@ -37,7 +37,7 @@ test("drafts relocation rules from the real recording", async () => {
 });
 
 test("reviewed rules match their drafts", async () => {
-  const registry = JSON.parse(await readFile(resolve("registry/java.json"), "utf8")) as RegistryV2;
+  const registry = JSON.parse(await readFile(resolve("packages/ebb/registry/java.json"), "utf8")) as RegistryV2;
   const diff = diffDrafts(await execute(mavenRelocationImporter, { replay: recording }), registry);
   assert.deepEqual(diff.changed, []);
   assert.deepEqual(diff.removed, []);

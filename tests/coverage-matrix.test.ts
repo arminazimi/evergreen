@@ -5,7 +5,7 @@ import { test } from "node:test";
 
 import { getCapabilityManifest } from "../src/capabilities.js";
 import type { CapabilityManifest } from "../src/capabilities.js";
-import type { LifecycleEvent, RegistryV2Rule } from "../src/registry.js";
+import type { LifecycleEvent, RegistryV2Rule } from "@velella/ebb/registry";
 import {
   COMPATIBILITY_PATH,
   END_MARKER,

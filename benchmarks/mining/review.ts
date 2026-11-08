@@ -14,7 +14,7 @@ import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { promisify } from "node:util";
 
-import { isIsoDate } from "../../src/registry.js";
+import { isIsoDate } from "@velella/ebb/registry";
 
 const run = promisify(execFile);
 
@@ -278,8 +278,11 @@ export async function fetchEvidence(candidate: Candidate): Promise<Evidence> {
 async function hints(): Promise<Map<string, Hint>> {
   const map = new Map<string, Hint>();
   const registry = async (name: string) =>
-    (JSON.parse(await readFile(resolve(`registry/${name}.json`), "utf8")) as { rules: Record<string, unknown>[] })
-      .rules;
+    (
+      JSON.parse(await readFile(resolve(`packages/ebb/registry/${name}.json`), "utf8")) as {
+        rules: Record<string, unknown>[];
+      }
+    ).rules;
   for (const rule of await registry("github-actions")) {
     const hint = rule["x-github-actions"] as ActionHint | undefined;
     if (hint) map.set(rule.id as string, hint);

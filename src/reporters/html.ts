@@ -1,6 +1,6 @@
 import type { Finding, ScanResult, Severity } from "../domain.js";
 import { severityValues } from "../domain.js";
-import type { Forecast } from "../forecast.js";
+import type { Forecast } from "@velella/ebb/forecast";
 import { renderForecastSvg } from "../forecast-svg.js";
 import { renderTreemapSvg, treemapFileId } from "../treemap.js";
 import { renderJson } from "./json.js";

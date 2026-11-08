@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { FIRST_DRAFTED_BRANCH, PHP_BRANCHES_URL, phpSupportedVersionsImporter } from "../../tools/importers/php-1.js";
 import { execute, runImporter } from "../../tools/importers/run.js";
@@ -60,7 +60,7 @@ test("drafts one end-of-life rule per ended release line from the recording", as
 });
 
 test("recorded drafts match the curated registry lines and leave nothing to add", async () => {
-  const registry = JSON.parse(await readFile(resolve("registry/php.json"), "utf8")) as RegistryV2;
+  const registry = JSON.parse(await readFile(resolve("packages/ebb/registry/php.json"), "utf8")) as RegistryV2;
   const drafts = await execute(phpSupportedVersionsImporter, { replay: recording, now: "2026-10-19" });
   const diff = diffDrafts(drafts, registry);
   assert.ok(diff.unchanged.includes("php.runtime.eol-7.3"));

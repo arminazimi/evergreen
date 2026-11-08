@@ -1,6 +1,6 @@
 import process from "node:process";
 
-import { lookupProduct, renderLookupText } from "../lookup.js";
+import { lookupProduct, renderLookupText } from "@velella/ebb/lookup";
 import type { CliCommand } from "./types.js";
 
 /** `lookup`: resolves a product name and version against the bundled lifecycle rules. */

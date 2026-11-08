@@ -1,16 +1,16 @@
 import { readFile, readdir } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 
-import { loadDataFile } from "../../data-source.js";
+import { loadDataFile } from "@velella/ebb/data-source";
 import type { UnclassifiedReference } from "../../domain.js";
 import { relativePosix } from "../../paths.js";
 import { analyzeSourceUsage } from "../../source-usage.js";
-import { validateRegistryV2 } from "../../registry.js";
-import type { RegistryV2Rule } from "../../registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
 import { ruleFinding } from "../../rule-finding.js";
 import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
-import { parseVersLenient, versContains } from "../../vers/index.js";
+import { parseVersLenient, versContains } from "@velella/ebb/vers/index";
 import { parseGlobalJson } from "./parse-global-json.js";
 import { parseMsbuild } from "./parse-msbuild.js";
 import type { MsbuildDeclarations } from "./parse-msbuild.js";

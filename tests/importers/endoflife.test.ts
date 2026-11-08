@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import { validateRegistryV2 } from "../../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
 import { ENDOFLIFE_CANDIDATES } from "../../tools/importers/endoflife-candidates.js";
 import { ENDOFLIFE_API, endoflifeDateImporter } from "../../tools/importers/endoflife.js";
 import { execute } from "../../tools/importers/run.js";
@@ -35,7 +35,7 @@ test("drafts at least twenty products from the recording, each evidenced by the 
 
 test("agrees with the hand-reviewed PostgreSQL and Python rules", async () => {
   const drafts = await execute(endoflifeDateImporter, { replay: recording });
-  const registry = validateRegistryV2(JSON.parse(await readFile("registry/container.json", "utf8")));
+  const registry = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/container.json", "utf8")));
   for (const id of ["container.postgres.eol-13-and-older", "container.python.eol-3.10-and-older"]) {
     const draft = drafts.rules.find((rule) => rule.id === id);
     const committed = registry.rules.find((rule) => rule.id === id);

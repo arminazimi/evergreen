@@ -1,21 +1,19 @@
 import { severityValues } from "./domain.js";
-import { getActiveData, loadDataFile } from "./data-source.js";
-import { dataInfoFrom } from "./data-status.js";
+import { bundledRules } from "@velella/ebb/bundled-rules";
+import { getActiveData, loadDataFile } from "@velella/ebb/data-source";
+import { dataInfoFrom } from "@velella/ebb/data-status";
 import { recordCheck } from "./usage-log.js";
 import { CHECK_SCHEMA_VERSION } from "./check-dependency-types.js";
 import type { CheckStatus, DependencyCheck, DependencyFinding } from "./check-dependency-types.js";
-import { parsePurl, PurlError, purlIdentity } from "./purl.js";
+import { parsePurl, PurlError, purlIdentity } from "@velella/ebb/purl";
 import { required } from "./required.js";
-import { validateRegistryV2 } from "./registry.js";
-import type { RegistryV2Rule } from "./registry.js";
-import { parseVersLenient, versContains } from "./vers.js";
-import { EvergreenError } from "./evergreen-error.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
+import { parseVersLenient, versContains } from "@velella/ebb/vers";
+import { EvergreenError } from "@velella/ebb/evergreen-error";
 
 export { CHECK_SCHEMA_VERSION };
 export type { CheckStatus, DependencyCheck, DependencyFinding };
-
-/** The bundled registries a dependency is looked up in. */
-const BUNDLED_REGISTRIES = ["github-actions", "nodejs", "npm", "python"] as const;
 
 /** Thrown when the input cannot be checked, such as an invalid PURL or version. */
 export class CheckDependencyError extends EvergreenError {
@@ -159,26 +157,6 @@ function rulesContaining(
       `"${rawVersion}" is not a valid version for ${identity}: ${error instanceof Error ? error.message : String(error)}`,
     );
   }
-}
-
-let loaded: { source: Promise<unknown>; rules: Promise<RegistryV2Rule[]> } | undefined;
-
-/** The lifecycle rules in use (downloaded data when it verifies, else those bundled with this release), validated. */
-export async function bundledRules(): Promise<RegistryV2Rule[]> {
-  const source = getActiveData();
-  if (loaded?.source !== source) {
-    loaded = {
-      source,
-      rules: (async () => {
-        const rules: RegistryV2Rule[] = [];
-        for (const name of BUNDLED_REGISTRIES) {
-          rules.push(...validateRegistryV2(await loadDataFile(`registry/${name}.json`)).rules);
-        }
-        return rules;
-      })(),
-    };
-  }
-  return loaded.rules;
 }
 
 const SYSTEM_REGISTRIES = ["nodejs", "python", "go", "java", "dotnet", "terraform"] as const;

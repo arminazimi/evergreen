@@ -4,8 +4,8 @@ import { resolve } from "node:path";
 import { after, before, test } from "node:test";
 
 import { PhpDetector } from "../src/detectors/php/index.js";
-import { validateRegistryV2 } from "../src/registry.js";
-import type { RegistryV2Rule } from "../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import { copyFixtureTree } from "./fixture-copies.js";
 
 const temporaryRoots: string[] = [];
@@ -20,7 +20,7 @@ after(async () => {
 });
 
 async function committedRules(): Promise<RegistryV2Rule[]> {
-  return (JSON.parse(await readFile("registry/php.json", "utf8")) as { rules: RegistryV2Rule[] }).rules;
+  return (JSON.parse(await readFile("packages/ebb/registry/php.json", "utf8")) as { rules: RegistryV2Rule[] }).rules;
 }
 
 test("Laravel fixtures cover recently retired and supported majors", async () => {

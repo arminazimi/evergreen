@@ -20,8 +20,8 @@ import { builtInDetectors } from "../../../src/detectors/index.js";
 import { buildDependabotUpdates } from "../../../src/dependabot-config.js";
 import type { Finding } from "../../../src/domain.js";
 import { scanRepository } from "../../../src/engine/index.js";
-import { REGISTRY_V2_SCHEMA_VERSION, validateRegistryV2 } from "../../../src/registry.js";
-import type { RegistryV2, RegistryV2Rule } from "../../../src/registry.js";
+import { REGISTRY_V2_SCHEMA_VERSION, validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2, RegistryV2Rule } from "@velella/ebb/registry";
 import { inBatches } from "../../corpus-harness.js";
 import { loadPublicCorpus } from "../../public-corpus.js";
 import { parseDependabotConfig } from "./config.js";
@@ -88,7 +88,7 @@ async function continuityRepositories(): Promise<Set<string>> {
 /** Every committed registry rule, read from `registry/*.json`: the same set the scan uses. */
 async function registryRules(root: string): Promise<RegistryV2Rule[]> {
   const rules: RegistryV2Rule[] = [];
-  const dir = join(root, "registry");
+  const dir = join(root, "packages/ebb/registry");
   for (const name of (await readdir(dir)).filter((file) => file.endsWith(".json")).sort()) {
     const parsed: unknown = JSON.parse(await readFile(join(dir, name), "utf8"));
     if (!isRegistry(parsed)) continue;

@@ -1,4 +1,4 @@
-import { isIsoDate } from "../../src/registry.js";
+import { isIsoDate } from "@velella/ebb/registry";
 import { NUGET_CANDIDATES } from "./dotnet-candidates.js";
 import { fetchJson } from "./types.js";
 import type { DraftRule, Importer, ImporterContext } from "./types.js";

@@ -2,7 +2,7 @@ import process from "node:process";
 import { resolve } from "node:path";
 
 import { builtInDetectors } from "../detectors/index.js";
-import { bundledRules } from "../check-dependency.js";
+import { bundledRules } from "@velella/ebb/bundled-rules";
 import { buildRenovatePreset } from "../renovate-preset.js";
 import { scanRepository } from "../engine/index.js";
 import { afterGates } from "./runtime.js";

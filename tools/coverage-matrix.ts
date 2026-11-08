@@ -27,9 +27,9 @@ import { maturityLevels } from "../benchmarks/thresholds.js";
 import type { FullRunRecord, MaturityLevel, Thresholds } from "../benchmarks/thresholds.js";
 import { getCapabilityManifest } from "../src/capabilities.js";
 import type { CapabilityManifest } from "../src/capabilities.js";
-import { parsePurl } from "../src/purl.js";
-import { REGISTRY_V2_SCHEMA_VERSION, validateRegistryV2 } from "../src/registry.js";
-import type { LifecycleEvent, RegistryV2Rule } from "../src/registry.js";
+import { parsePurl } from "@velella/ebb/purl";
+import { REGISTRY_V2_SCHEMA_VERSION, validateRegistryV2 } from "@velella/ebb/registry";
+import type { LifecycleEvent, RegistryV2Rule } from "@velella/ebb/registry";
 
 export const README_PATH = "README.md";
 export const README_DESCRIPTIONS_PATH = "docs/readme-coverage.json";
@@ -48,7 +48,7 @@ export const ACCURACY_END_MARKER = "<!-- accuracy-tables:end -->";
 
 export const STATE_OF_EOL_PATH = "docs/state-of-eol.md";
 export const CORPUS_PATH = PUBLIC_CORPUS_DIR;
-export const REGISTRY_DIRECTORY = "registry";
+export const REGISTRY_DIRECTORY = "packages/ebb/registry";
 export const STATE_OF_EOL_START_MARKER = "<!-- state-of-eol:start -->";
 export const STATE_OF_EOL_END_MARKER = "<!-- state-of-eol:end -->";
 

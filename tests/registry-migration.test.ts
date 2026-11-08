@@ -16,7 +16,7 @@ test("every built-in rule provides valid, agent-ready migration guidance", async
   let ruleCount = 0;
 
   for (const registryPath of registryPaths) {
-    const registry = JSON.parse(await readFile(resolve(registryPath), "utf8")) as {
+    const registry = JSON.parse(await readFile(resolve("packages/ebb", registryPath), "utf8")) as {
       rules: unknown[];
     };
 

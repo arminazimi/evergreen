@@ -2,7 +2,7 @@ import { stat, writeFile } from "node:fs/promises";
 import process from "node:process";
 import { resolve } from "node:path";
 
-import { applyAsOf } from "../as-of.js";
+import { applyAsOf } from "@velella/ebb/as-of";
 import {
   DEFAULT_WARN_DAYS,
   createBaseline,
@@ -15,11 +15,11 @@ import {
   writeBaseline,
 } from "../baseline.js";
 import type { ExpiredPolicy } from "../baseline.js";
-import { bundledRules } from "../check-dependency.js";
+import { bundledRules } from "@velella/ebb/bundled-rules";
 import { groupScanByOwner, renderOwnerGroupsText } from "../codeowners.js";
 import { applyIgnore, ConfigError, loadConfig } from "../config.js";
 import type { EvergreenConfig } from "../config.js";
-import { configureActiveData, DataPinError, getActiveData } from "../data-source.js";
+import { configureActiveData, DataPinError, getActiveData } from "@velella/ebb/data-source";
 import { scanDemo } from "../demo.js";
 import { builtInDetectors } from "../detectors/index.js";
 import { scanWithBuiltIns } from "../scan-builtins.js";
@@ -27,12 +27,12 @@ import type { ScanSelection, ScanResult, Severity } from "../domain.js";
 import { severityValues } from "../domain.js";
 import { applyScanSelection, findRepositories, renderMultiScanText, scanProjects } from "../engine/index.js";
 import { invalidConfig, renderActionable, unreadablePath, type ActionableMessage } from "../errors.js";
-import { buildForecast } from "../forecast.js";
+import { buildForecast } from "@velella/ebb/forecast";
 import { hasPersonalConfig } from "../init-personal.js";
-import { applyMinSupport, parseMinSupportDays } from "../min-support.js";
+import { applyMinSupport, parseMinSupportDays } from "@velella/ebb/min-support";
 import { createMigrationPacket } from "../migration-packet.js";
 import { readPinnedRuntimes } from "../runtime-pin.js";
-import { isIsoDate } from "../registry.js";
+import { isIsoDate } from "@velella/ebb/registry";
 import { createIssueReport, ReportIssueError } from "../report-issue.js";
 import {
   formatCommandGates,
@@ -48,7 +48,7 @@ import {
 import { STATUS_FILE_NAME, writeStatusFile } from "../status-file.js";
 import { browseFindings, canBrowse } from "../tui.js";
 import { selectorValuesSummary, unknownSelectors } from "../scan-selectors.js";
-import { classifyError, DEFAULT_REASONS, type ErrorCode } from "../evergreen-error.js";
+import { classifyError, DEFAULT_REASONS, type ErrorCode } from "@velella/ebb/evergreen-error";
 import { EXIT_CODES, type CommandContext, type FailureClass } from "./types.js";
 
 export type { FailureClass };

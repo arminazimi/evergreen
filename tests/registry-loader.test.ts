@@ -3,8 +3,8 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import { legacyRule, loadRegistryRules } from "../src/registry.js";
-import type { RegistryV2 } from "../src/registry.js";
+import { legacyRule, loadRegistryRules } from "@velella/ebb/registry";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { isDeprecationRule, RegistryValidationError, validateRegistry } from "../src/sdk.js";
 import type { RegistryDefinition } from "../src/sdk.js";
 

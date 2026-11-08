@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import {
   DART_PACKAGE_CANDIDATES,
   dartDiscontinuedImporter,
@@ -47,7 +47,7 @@ test("drafts a discontinued-package rule from the real pub.dev recording", async
 });
 
 test("recorded drafts match the curated registry line and leave nothing to add", async () => {
-  const registry = JSON.parse(await readFile("registry/dart.json", "utf8")) as RegistryV2;
+  const registry = JSON.parse(await readFile("packages/ebb/registry/dart.json", "utf8")) as RegistryV2;
   const diff = diffDrafts(await execute(dartDiscontinuedImporter, { replay: recording }), registry);
   assert.deepEqual(diff.added, []);
   assert.deepEqual(diff.removed, []);

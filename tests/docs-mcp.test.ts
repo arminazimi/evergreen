@@ -29,6 +29,7 @@ test("docs/MCP.md documents the resource URIs, the prompt, and the notification 
 
 test("docs/MCP.md only links schemas that exist", async () => {
   for (const file of new Set(docs.match(/[a-z-]+\.v1\.schema\.json/g))) {
-    await readFile(resolve("schemas", file));
+    // Data schemas ship with Ebb; the rest stay with Evergreen.
+    await readFile(resolve("schemas", file)).catch(() => readFile(resolve("packages/ebb/schemas", file)));
   }
 });

@@ -1,14 +1,14 @@
 import semver from "semver";
 
-import { loadDataFile } from "../../data-source.js";
+import { loadDataFile } from "@velella/ebb/data-source";
 import type { DeprecationRule, SourceUsage, UsageMatcher } from "../../domain.js";
 import { relativePosix } from "../../paths.js";
 import { required } from "../../required.js";
-import { loadRegistryRules, withoutSymbolRules } from "../../registry.js";
+import { loadRegistryRules, withoutSymbolRules } from "@velella/ebb/registry";
 import { isDeprecationRule, isUsageMatcher } from "../../sdk.js";
 import type { DetectorFinding, RegistryDefinition } from "../../sdk.js";
 import { impactFor } from "../../source-usage.js";
-import { parseVers, versContains } from "../../vers/index.js";
+import { parseVers, versContains } from "@velella/ebb/vers/index";
 import { usagesOwnedBy } from "../../workspaces.js";
 import { shortestDependencyPath } from "./dependency-graph.js";
 import { declarationLine, declaredDependencies } from "./manifest.js";

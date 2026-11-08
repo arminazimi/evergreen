@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { KUBERNETES_RELEASES_URL, kubernetesReleasesImporter } from "../../tools/importers/kubernetes-2.js";
 import { execute, runImporter } from "../../tools/importers/run.js";
@@ -52,7 +52,7 @@ test("drafts the five newest end-of-life lines from the real recording, using th
 });
 
 test("the reviewed registry adopted the drafts, with 1.34 promoted when its announced date passed", async () => {
-  const registry = JSON.parse(await readFile(resolve("registry/kubernetes.json"), "utf8")) as RegistryV2;
+  const registry = JSON.parse(await readFile(resolve("packages/ebb/registry/kubernetes.json"), "utf8")) as RegistryV2;
   const drafts = await execute(kubernetesReleasesImporter, { replay: recording });
   const diff = diffDrafts(drafts, registry);
   // The recording predates 1.34's end-of-life date, so its draft still schedules it; the reviewed

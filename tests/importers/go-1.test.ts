@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { GO_RELEASE_HISTORY_URL, goReleasePolicyImporter } from "../../tools/importers/go-1.js";
 import { execute, runImporter } from "../../tools/importers/run.js";
@@ -36,7 +36,7 @@ test("drafts the five newest unsupported Go release lines from the real recordin
 });
 
 test("recorded drafts match the reviewed Go registry", async () => {
-  const registry = JSON.parse(await readFile(resolve("registry/go.json"), "utf8")) as RegistryV2;
+  const registry = JSON.parse(await readFile(resolve("packages/ebb/registry/go.json"), "utf8")) as RegistryV2;
   const drafts = await execute(goReleasePolicyImporter, { replay: recording });
   const diff = diffDrafts(drafts, registry);
   assert.deepEqual([diff.added, diff.changed, diff.removed], [[], [], []]);

@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { databaseVendorLifecycleImporter, ENDOFLIFE_API } from "../../tools/importers/database-2.js";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { execute, runImporter } from "../../tools/importers/run.js";
@@ -58,7 +58,7 @@ test("drafts an end-of-life rule for each ended Redis and MongoDB line from the 
 });
 
 test("emits drafts that diff against the existing database registry without removals", async () => {
-  const registry = JSON.parse(await readFile("registry/database.json", "utf8")) as RegistryV2;
+  const registry = JSON.parse(await readFile("packages/ebb/registry/database.json", "utf8")) as RegistryV2;
   const diff = diffDrafts(await execute(databaseVendorLifecycleImporter, { replay: recording }), registry);
   assert.deepEqual(diff.removed, []);
   assert.ok(diff.added.length > 0);

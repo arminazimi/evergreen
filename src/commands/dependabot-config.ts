@@ -1,7 +1,7 @@
 import process from "node:process";
 import { resolve } from "node:path";
 
-import { bundledRules } from "../check-dependency.js";
+import { bundledRules } from "@velella/ebb/bundled-rules";
 import { buildDependabotConfig } from "../dependabot-config.js";
 import { builtInDetectors } from "../detectors/index.js";
 import { scanRepository } from "../engine/index.js";

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import type { Forecast, ForecastEvent } from "../src/forecast.js";
+import type { Forecast, ForecastEvent } from "@velella/ebb/forecast";
 import { renderForecastTimeline } from "../src/forecast-timeline.js";
 
 /** A finding list of `count` entries, so the marker's number is visible and the input is fixed. */

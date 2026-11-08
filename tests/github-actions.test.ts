@@ -275,7 +275,7 @@ test("two pinned refs in one file get their own lines", async () => {
 test("every bundled action rule flags the release below its supported major and accepts the supported one", async () => {
   const { readFile } = await import("node:fs/promises");
   const { resolve } = await import("node:path");
-  const registry = JSON.parse(await readFile(resolve("registry/github-actions.json"), "utf8")) as {
+  const registry = JSON.parse(await readFile(resolve("packages/ebb/registry/github-actions.json"), "utf8")) as {
     rules: Array<{ id: string; "x-github-actions": { action: string; supportedFromMajor: number } }>;
   };
   assert.ok(registry.rules.length >= 15);

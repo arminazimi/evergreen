@@ -248,7 +248,7 @@ export const definitions: Readonly<Record<string, MetricDefinition>> = {
     meaning: "How long ago a maintainer last reviewed a rule drafted from this source.",
     computation:
       "The whole days between the newest provenance.reviewedAt among the registry rules whose provenance.importer is this importer, and the reference day. A source over its target is a miss, and the weekly source-freshness workflow opens an issue for it.",
-    source: "registry/",
+    source: "packages/ebb/registry/",
   },
   corpusRepositories: {
     label: "Repositories",
@@ -381,7 +381,7 @@ export async function renderDashboardData(root: string, today: string): Promise<
   const day = today === "run-date" ? thresholds.lastFullRun?.date : today;
   if (day === undefined) throw new Error(`--today run-date needs a lastFullRun in ${THRESHOLDS_FILE}.`);
   const freshness = measureFreshness(
-    await loadRegistries(resolve(root, "registry")),
+    await loadRegistries(resolve(root, "packages/ebb/registry")),
     await loadFreshnessTargets(root),
     day,
   );

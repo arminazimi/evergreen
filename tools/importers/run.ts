@@ -9,8 +9,8 @@
 import { writeFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 
-import { REGISTRY_V2_SCHEMA_VERSION, isIsoDate, registryV2Issues } from "../../src/registry.js";
-import type { RegistryV2Rule } from "../../src/registry.js";
+import { REGISTRY_V2_SCHEMA_VERSION, isIsoDate, registryV2Issues } from "@velella/ebb/registry";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import { canonicalRule, isoDate } from "./canonical.js";
 import { readRecording, recordingContext, replayContext, writeRecording } from "./recording.js";
 import { ImporterError, PENDING_REVIEWER } from "./types.js";

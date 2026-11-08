@@ -13,8 +13,8 @@ import { readFile, readdir, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-import { REGISTRY_V2_SCHEMA_VERSION, staleRules, validateRegistryV2 } from "../src/registry.js";
-import type { RegistryV2, StaleRule } from "../src/registry.js";
+import { REGISTRY_V2_SCHEMA_VERSION, staleRules, validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2, StaleRule } from "@velella/ebb/registry";
 
 export const SOURCE_CHECK_SCHEMA = "evergreen.source-check.v1" as const;
 export const SOURCE_LOCK_SCHEMA = "evergreen.source-lock.v1" as const;
@@ -353,7 +353,7 @@ export async function main(argv: string[]): Promise<number> {
           })(),
       );
   }
-  const directory = resolve(options.get("--registry-dir") ?? "registry");
+  const directory = resolve(options.get("--registry-dir") ?? "packages/ebb/registry");
   const lockPath = resolve(options.get("--lock") ?? join(directory, "sources.lock.json"));
   const failOn = (options.get("--fail-on") ?? "").split(",").filter(Boolean) as FailCategory[];
   for (const category of failOn)

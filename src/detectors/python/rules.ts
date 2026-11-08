@@ -1,5 +1,5 @@
-import { loadDataFile } from "../../data-source.js";
-import { loadRegistryRules, validateRegistryV2 } from "../../registry.js";
+import { loadDataFile } from "@velella/ebb/data-source";
+import { loadRegistryRules, validateRegistryV2 } from "@velella/ebb/registry";
 import { isDeprecationRule, isUsageMatcher } from "../../sdk.js";
 
 import { asRecord } from "./shared.js";

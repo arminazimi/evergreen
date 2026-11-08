@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 import { after, before, test } from "node:test";
 
 import { NpmDetector } from "../src/detectors/npm/index.js";
-import { versContains } from "../src/vers.js";
+import { versContains } from "@velella/ebb/vers";
 import { copyFixtureTree } from "./fixture-copies.js";
 
 const ANGULAR_PURL = "pkg:npm/%40angular/core";
@@ -36,7 +36,7 @@ type Rule = {
 };
 
 async function angularRules(): Promise<Rule[]> {
-  const registry = JSON.parse(await readFile(resolve("registry/npm.json"), "utf8")) as { rules: Rule[] };
+  const registry = JSON.parse(await readFile(resolve("packages/ebb/registry/npm.json"), "utf8")) as { rules: Rule[] };
   return registry.rules.filter((rule) => rule.purl === ANGULAR_PURL);
 }
 

@@ -6,7 +6,7 @@ import { join } from "node:path";
 import { after, test } from "node:test";
 
 import type { Severity } from "../src/domain.js";
-import type { Forecast, ForecastEvent } from "../src/forecast.js";
+import type { Forecast, ForecastEvent } from "@velella/ebb/forecast";
 import { renderForecastSvg } from "../src/forecast-svg.js";
 import { runCli } from "./cli-runner.js";
 

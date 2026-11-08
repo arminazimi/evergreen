@@ -1,4 +1,4 @@
-import type { RegistryV2Rule } from "./registry.js";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
 import type { DetectorFinding } from "./sdk.js";
 
 /** The finding a reviewed rule produces at one declaration. */

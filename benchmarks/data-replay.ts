@@ -20,8 +20,8 @@ import {
   computeContentDigest,
   serializeDataBundle,
   sha256Hex,
-} from "../src/data-bundle.js";
-import { BUNDLE_FILE, configureActiveData, SIGNATURE_FILE } from "../src/data-source.js";
+} from "@velella/ebb/data-bundle";
+import { BUNDLE_FILE, configureActiveData, SIGNATURE_FILE } from "@velella/ebb/data-source";
 import { scanRepository } from "../src/engine/index.js";
 import { VERSION } from "../src/version.js";
 import { ensureCorpusCacheEntry, resolveCorpusCacheDir } from "./corpus-cache.js";
@@ -237,17 +237,23 @@ function normalizeRelease(files: ReleaseFiles): ReleaseFiles {
 /** Reads every data file as it was at `revision`. */
 async function releaseAt(label: string, revision: string): Promise<Release> {
   const files: ReleaseFiles = {};
-  for (const path of (await git("ls-tree", "--name-only", revision, "registry/")).split("\n").filter(isDataFile)) {
-    const value = JSON.parse(await git("show", `${revision}:${path}`)) as unknown;
-    if (isRegistryOrShaMap(value)) files[path] = value;
+  // Data releases before Ebb was split out kept the registry at the repository root.
+  for (const prefix of ["", "packages/ebb/"]) {
+    const listed = (await git("ls-tree", "--name-only", revision, `${prefix}registry/`)).split("\n").filter(Boolean);
+    for (const path of listed.map((entry) => entry.slice(prefix.length)).filter(isDataFile)) {
+      const value = JSON.parse(await git("show", `${revision}:${prefix}${path}`)) as unknown;
+      if (isRegistryOrShaMap(value)) files[path] = value;
+    }
   }
   return { label, createdAt: await utc(revision), files: normalizeRelease(files) };
 }
 
 async function workingTreeRelease(): Promise<Release> {
   const files: ReleaseFiles = {};
-  for (const name of (await readdir(resolve("registry"))).map((entry) => `registry/${entry}`).filter(isDataFile)) {
-    const value = JSON.parse(await readFile(resolve(name), "utf8")) as unknown;
+  for (const name of (await readdir(resolve("packages/ebb/registry")))
+    .map((entry) => `registry/${entry}`)
+    .filter(isDataFile)) {
+    const value = JSON.parse(await readFile(resolve("packages/ebb", name), "utf8")) as unknown;
     if (isRegistryOrShaMap(value)) files[name] = value;
   }
   return { label: "working-tree", createdAt: await utc("HEAD"), files: normalizeRelease(files) };

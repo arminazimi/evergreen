@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { PYPI_CANDIDATES } from "../../tools/importers/pypi-candidates.js";
 import { normalizeProject, PYPI_NAME, pypiStatusImporter, simpleUrl } from "../../tools/importers/pypi.js";
@@ -165,7 +165,7 @@ test("the candidate list holds valid, sorted projects with distinct normalized n
 });
 
 test("today's drafts are all reviewed rules already in the registry", async () => {
-  const existing = JSON.parse(await readFile(resolve("registry/python.json"), "utf8")) as RegistryV2;
+  const existing = JSON.parse(await readFile(resolve("packages/ebb/registry/python.json"), "utf8")) as RegistryV2;
   const diff = diffDrafts(await execute(pypiStatusImporter, { replay: recording }), existing);
   assert.equal(diff.added.length, 0);
   assert.equal(diff.unchanged.length, 6);

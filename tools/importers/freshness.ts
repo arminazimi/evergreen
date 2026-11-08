@@ -18,7 +18,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { loadRegistries } from "../check-sources.js";
 import { defaultGitHubRunner } from "./candidate-issues.js";
 import type { CandidateIssueRunner, IssueRecord, RenderedCandidateIssue } from "./candidate-issues.js";
@@ -257,7 +257,7 @@ function numberOption(value: string | undefined, name: string): number {
 
 export async function main(argv: string[], runner?: CandidateIssueRunner): Promise<number> {
   const options: FreshnessOptions = {};
-  let registryDir = "registry";
+  let registryDir = "packages/ebb/registry";
   let today: string | undefined;
   for (let index = 0; index < argv.length; index++) {
     const argument = argv[index]!;

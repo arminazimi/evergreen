@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { FIRST_DRAFTED_MAJOR, NODEJS_SCHEDULE_URL, nodejsScheduleImporter } from "../../tools/importers/nodejs.js";
 import { execute, runImporter } from "../../tools/importers/run.js";
@@ -133,7 +133,7 @@ test("a line ends on its end date", async () => {
 });
 
 test("agrees with the hand-written rules on everything except what the official schedule disputes", async () => {
-  const registry = JSON.parse(await readFile(resolve("registry/nodejs.json"), "utf8")) as RegistryV2;
+  const registry = JSON.parse(await readFile(resolve("packages/ebb/registry/nodejs.json"), "utf8")) as RegistryV2;
   const drafts = await execute(nodejsScheduleImporter, { replay: recording });
   for (const id of ["nodejs.runtime.eol-18", "nodejs.runtime.eol-20"]) {
     const draft = drafts.rules.find((rule) => rule.id === id)! as unknown as Record<string, unknown>;

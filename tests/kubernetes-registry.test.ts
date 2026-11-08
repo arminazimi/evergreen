@@ -3,12 +3,12 @@ import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
 import { ruleVersion, splitApiVersion } from "../src/detectors/kubernetes/api-version.js";
-import { validateRegistryV2 } from "../src/registry.js";
-import type { RegistryV2Rule } from "../src/registry.js";
-import { versContains } from "../src/vers/index.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
+import { versContains } from "@velella/ebb/vers/index";
 
 async function rules() {
-  return validateRegistryV2(JSON.parse(await readFile("registry/kubernetes.json", "utf8"))).rules;
+  return validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/kubernetes.json", "utf8"))).rules;
 }
 
 function isApiRemoval(rule: RegistryV2Rule): boolean {

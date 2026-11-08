@@ -46,7 +46,7 @@ export function renderScaffold(names: ScaffoldNames): Map<string, string> {
   return new Map([
     [`src/detectors/${names.id}.ts`, detectorTemplate(names)],
     [`src/detectors/${names.id}/parse.ts`, parserTemplate(names)],
-    [`registry/${names.id}.json`, registryTemplate(names)],
+    [`packages/ebb/registry/${names.id}.json`, registryTemplate(names)],
     [`tests/${names.id}-detector.test.ts`, testTemplate(names)],
     [`tests/${names.id}-parse.test.ts`, parserTestTemplate(names)],
     [`tests/fixtures/${names.id}/README.md`, fixtureReadmeTemplate(names)],
@@ -105,7 +105,7 @@ export async function scaffoldDetector(id: string, options: ScaffoldOptions = {}
       `Register the detector: in src/detectors/index.ts import { ${names.camel}Detector } from "./${names.id}.js" and add it to builtInDetectors.`,
       `Teach src/detectors/${names.id}/parse.ts to read the declarations, match them in src/detectors/${names.id}.ts, and write the rules in registry/${names.id}.json (docs/RULES.md).`,
       `Add each rule with evergreen new-rule <${names.ecosystem}>.<component>.<event>, then follow its next steps.`,
-      `To ship the rules in the signed data bundle, add "${names.ecosystem}" to BUNDLED_ECOSYSTEMS in src/data-bundle.ts.`,
+      `To ship the rules in the signed data bundle, add "${names.ecosystem}" to BUNDLED_ECOSYSTEMS in packages/ebb/src/data-bundle.ts.`,
       `Add fixtures and expected findings to tests/${names.id}-detector.test.ts, then run npm run check.`,
     ],
   };
@@ -163,7 +163,7 @@ export function registryWithRule(contents: string, rule: Record<string, unknown>
 
 /** Rule id -> the registry file that defines it. */
 async function existingRuleIds(root: string): Promise<Map<string, string>> {
-  const directory = join(root, "registry");
+  const directory = join(root, "packages/ebb/registry");
   const ids = new Map<string, string>();
   for (const entry of await readdir(directory, { withFileTypes: true }).catch(() => [])) {
     if (
@@ -173,7 +173,7 @@ async function existingRuleIds(root: string): Promise<Map<string, string>> {
       entry.name.endsWith("-shas.json")
     )
       continue;
-    const file = `registry/${entry.name}`;
+    const file = `packages/ebb/registry/${entry.name}`;
     let value: unknown;
     try {
       value = JSON.parse(await readFile(join(directory, entry.name), "utf8"));
@@ -191,7 +191,7 @@ async function existingRuleIds(root: string): Promise<Map<string, string>> {
 async function assertRuleCheckout(root: string): Promise<void> {
   const manifest = await readFile(join(root, "package.json"), "utf8").catch(() => undefined);
   const name = manifest === undefined ? undefined : (JSON.parse(manifest) as { name?: string }).name;
-  if (name !== "evergreen-deprecation" || !(await exists(join(root, "registry")))) {
+  if (name !== "evergreen-deprecation" || !(await exists(join(root, "packages/ebb/registry")))) {
     throw new ScaffoldError(
       "new-rule creates a rule in a checkout of the Evergreen repository. Run it from the repository root.",
     );
@@ -204,7 +204,7 @@ export async function scaffoldRule(id: string, options: RuleScaffoldOptions = {}
   const today = options.today ?? new Date().toISOString().slice(0, 10);
   await assertRuleCheckout(root);
 
-  const registry = `registry/${names.ecosystem}.json`;
+  const registry = `packages/ebb/registry/${names.ecosystem}.json`;
   if (!(await exists(join(root, registry)))) {
     throw new ScaffoldError(
       `Nothing was written: ${registry} does not exist. Create the ecosystem first with evergreen new-detector ${names.ecosystem}, or pass --ecosystem with a registry that exists.`,

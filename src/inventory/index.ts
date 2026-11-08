@@ -1,8 +1,8 @@
 import { readFile } from "node:fs/promises";
 
 import { checkAgainst } from "../check-dependency.js";
-import { loadDataFile } from "../data-source.js";
-import { validateRegistryV2, type RegistryV2Rule } from "../registry.js";
+import { loadDataFile } from "@velella/ebb/data-source";
+import { validateRegistryV2, type RegistryV2Rule } from "@velella/ebb/registry";
 import { azureImporter } from "./azure.js";
 import { gcpImporter } from "./gcp.js";
 import { awsLambdaImporter } from "./aws-lambda.js";

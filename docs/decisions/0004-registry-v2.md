@@ -4,7 +4,7 @@ Status: accepted
 
 ## Decision
 
-Lifecycle rules move to one registry format, `evergreen.registry.v2` ([schema](../../schemas/registry.v2.schema.json)), shared by every ecosystem. Each rule carries:
+Lifecycle rules move to one registry format, `evergreen.registry.v2` ([schema](../../packages/ebb/schemas/registry.v2.schema.json)), shared by every ecosystem. Each rule carries:
 
 - a canonical identity: a version-less [Package URL](https://github.com/package-url/purl-spec) (`purl`) and a [VERS](https://github.com/package-url/purl-spec/blob/master/VERSION-RANGE-SPEC.rst) range of affected versions (`vers`);
 - a lifecycle `event`: `deprecated`, `end-of-support`, `end-of-life`, or `removed`;

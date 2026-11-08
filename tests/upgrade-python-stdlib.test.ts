@@ -4,8 +4,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { after, test } from "node:test";
 
-import type { RegistryV2Rule } from "../src/registry.js";
-import { registryV2Issues } from "../src/registry.js";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
+import { registryV2Issues } from "@velella/ebb/registry";
 import { checkUpgrade } from "../src/upgrade/index.js";
 import type { UpgradeIssue, UpgradeReport } from "../src/upgrade/types.js";
 
@@ -111,7 +111,7 @@ test("the analyzer does not apply to a repository without Python source", async 
 });
 
 test("every removed standard-library module has a sourced removal rule and a module import matcher", async () => {
-  const registry = JSON.parse(await readFile(join(root, "registry", "python.json"), "utf8")) as {
+  const registry = JSON.parse(await readFile(join(root, "packages/ebb/registry", "python.json"), "utf8")) as {
     rules: RegistryV2Rule[];
   };
   assert.deepEqual(registryV2Issues(registry), []);

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
-import type { RegistryV2, RegistryV2Rule } from "../../src/registry.js";
+import type { RegistryV2, RegistryV2Rule } from "@velella/ebb/registry";
 import type {
   CandidateIssueRunner,
   IssueRecord,

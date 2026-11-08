@@ -17,7 +17,7 @@ import {
   parseOsRelease,
   readRootfs,
 } from "../src/detectors/container/rootfs.js";
-import { validateRegistryV2 } from "../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
 import type { DetectorFinding } from "../src/sdk.js";
 
 const fixtures = resolve("tests/fixtures/container-rootfs");
@@ -35,7 +35,7 @@ async function temporaryDirectory(): Promise<string> {
 
 async function expected(ruleId: string, path: string, line: number, subject: string): Promise<DetectorFinding> {
   for (const file of ["container", "dotnet", "nodejs", "python", "ruby", "php", "java", "go"]) {
-    const rules = validateRegistryV2(JSON.parse(await readFile(`registry/${file}.json`, "utf8"))).rules;
+    const rules = validateRegistryV2(JSON.parse(await readFile(`packages/ebb/registry/${file}.json`, "utf8"))).rules;
     const rule = rules.find((item) => item.id === ruleId);
     if (!rule) continue;
     return {

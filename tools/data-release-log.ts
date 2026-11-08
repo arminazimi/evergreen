@@ -10,7 +10,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-import { sha256Hex } from "../src/data-bundle.js";
+import { sha256Hex } from "@velella/ebb/data-bundle";
 import { appendReleaseLog, extendsReleaseLog, verifyReleaseLog } from "../src/data-release-log.js";
 
 function option(argv: string[], name: string): string | undefined {

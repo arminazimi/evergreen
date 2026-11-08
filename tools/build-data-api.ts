@@ -18,10 +18,10 @@ import { pathToFileURL } from "node:url";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
 
-import { parsePurl, purlIdentity } from "../src/purl.js";
-import type { PackageUrl } from "../src/purl.js";
-import { lifecycleEvents, REGISTRY_V2_SCHEMA_VERSION, validateRegistryV2 } from "../src/registry.js";
-import type { LifecycleEvent, RegistryV2, RegistryV2Rule } from "../src/registry.js";
+import { parsePurl, purlIdentity } from "@velella/ebb/purl";
+import type { PackageUrl } from "@velella/ebb/purl";
+import { lifecycleEvents, REGISTRY_V2_SCHEMA_VERSION, validateRegistryV2 } from "@velella/ebb/registry";
+import type { LifecycleEvent, RegistryV2, RegistryV2Rule } from "@velella/ebb/registry";
 
 export const API_DIRECTORY = "docs/api/v1";
 export const PRODUCTS_DIRECTORY = `${API_DIRECTORY}/products`;
@@ -158,7 +158,7 @@ function idFor(purl: PackageUrl): string {
 }
 
 /** The v2 registries in `directory`, in ecosystem order. Other JSON files there are not rule registries. */
-export async function loadRegistries(directory = "registry"): Promise<RegistryV2[]> {
+export async function loadRegistries(directory = "packages/ebb/registry"): Promise<RegistryV2[]> {
   const registries: RegistryV2[] = [];
   for (const name of (await readdir(directory)).filter((file) => file.endsWith(".json")).sort()) {
     const value = JSON.parse(await readFile(join(directory, name), "utf8")) as { schemaVersion?: string };
@@ -327,8 +327,12 @@ export function buildFiles(registries: readonly RegistryV2[]): GeneratedFile[] {
 
 /** Validates every document against the published schema and the registry rule definition it references. */
 export async function validateDocuments(documents: readonly ApiDocumentFile[], root = "."): Promise<void> {
-  const apiSchema = JSON.parse(await readFile(resolve(root, "schemas/api-product.v1.schema.json"), "utf8")) as object;
-  const registrySchema = JSON.parse(await readFile(resolve(root, "schemas/registry.v2.schema.json"), "utf8")) as object;
+  const apiSchema = JSON.parse(
+    await readFile(resolve(root, "packages/ebb/schemas/api-product.v1.schema.json"), "utf8"),
+  ) as object;
+  const registrySchema = JSON.parse(
+    await readFile(resolve(root, "packages/ebb/schemas/registry.v2.schema.json"), "utf8"),
+  ) as object;
   const ajv = new Ajv2020({ allErrors: true });
   ajv.addSchema(registrySchema);
   const validate = ajv.compile(apiSchema);
@@ -389,7 +393,7 @@ export function isWellFormedDataApi(files: readonly GeneratedFile[]): boolean {
 
 export async function main(argv: readonly string[] = process.argv.slice(2), cwd = "."): Promise<number> {
   const root = resolve(option(argv, "--root") ?? cwd);
-  const documents = buildDocuments(await loadRegistries(resolve(root, "registry")));
+  const documents = buildDocuments(await loadRegistries(resolve(root, "packages/ebb/registry")));
   await validateDocuments(documents, root);
   const files = renderFiles(documents);
   if (argv.includes("--check")) {

@@ -13,9 +13,9 @@ import {
   renderCountdown,
   renderCountdownJson,
   runCountdown,
-} from "../src/countdown.js";
-import type { CountdownIo, CountdownRow } from "../src/countdown.js";
-import type { Forecast, ForecastEvent } from "../src/forecast.js";
+} from "@velella/ebb/countdown";
+import type { CountdownIo, CountdownRow } from "@velella/ebb/countdown";
+import type { Forecast, ForecastEvent } from "@velella/ebb/forecast";
 import { runCli } from "./cli-runner.js";
 
 const roots: string[] = [];

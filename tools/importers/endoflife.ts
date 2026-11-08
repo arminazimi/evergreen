@@ -1,4 +1,4 @@
-import { isIsoDate } from "../../src/registry.js";
+import { isIsoDate } from "@velella/ebb/registry";
 import { isoDate } from "./canonical.js";
 import { ENDOFLIFE_CANDIDATES } from "./endoflife-candidates.js";
 import { fetchJson } from "./types.js";

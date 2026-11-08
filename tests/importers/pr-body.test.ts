@@ -6,7 +6,7 @@ import { join, resolve } from "node:path";
 import { test } from "node:test";
 import { promisify } from "node:util";
 
-import type { RegistryV2, RegistryV2Rule } from "../../src/registry.js";
+import type { RegistryV2, RegistryV2Rule } from "@velella/ebb/registry";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { MAX_BODY_CHARS, renderPullRequestBody } from "../../tools/importers/pr-body.js";
 import type { DraftRegistry } from "../../tools/importers/types.js";
@@ -109,7 +109,9 @@ test("the pull-request body states the draft status, the counts, and the review 
   const { drafts, registry } = scenario();
   const body = renderPullRequestBody(diffDrafts(drafts, registry), drafts);
   assert.ok(
-    body.startsWith("Drafts from the `node-schedule` importer for `registry/nodejs.json`, observed 2026-10-15."),
+    body.startsWith(
+      "Drafts from the `node-schedule` importer for `packages/ebb/registry/nodejs.json`, observed 2026-10-15.",
+    ),
   );
   assert.match(body, /These are \*\*drafts\*\*\. .* Nothing is merged until a maintainer has checked it\./);
   assert.match(body, /^## Summary\n\n1 added, 3 changed, 1 removed, 0 unchanged\.$/m);
@@ -119,7 +121,7 @@ test("the pull-request body states the draft status, the counts, and the review 
   assert.equal(body.match(/^- \[ \] /gm)?.length, 4);
   assert.match(body, /^## Reproduce$/m);
   assert.ok(body.includes("node dist/tools/importers/run.js node-schedule --out drafts.json"));
-  assert.ok(body.includes("node dist/tools/importers/diff.js drafts.json registry/nodejs.json"));
+  assert.ok(body.includes("node dist/tools/importers/diff.js drafts.json packages/ebb/registry/nodejs.json"));
 });
 
 test("the evidence table has one row per added, changed, or removed rule, with the source beside it", () => {

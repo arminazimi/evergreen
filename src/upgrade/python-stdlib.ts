@@ -1,9 +1,9 @@
-import { loadDataFile } from "../data-source.js";
-import type { RegistryV2Rule } from "../registry.js";
-import { validateRegistryV2 } from "../registry.js";
+import { loadDataFile } from "@velella/ebb/data-source";
+import type { RegistryV2Rule } from "@velella/ebb/registry";
+import { validateRegistryV2 } from "@velella/ebb/registry";
 import { hasSourceFiles } from "../source-files.js";
 import { analyzeSourceUsage } from "../source-usage.js";
-import { versContains } from "../vers/index.js";
+import { versContains } from "@velella/ebb/vers/index";
 import type { UpgradeAnalyzer, UpgradeIssue, UpgradeTarget } from "./types.js";
 
 const ID = "python-stdlib";

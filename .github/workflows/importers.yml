@@ -77,7 +77,7 @@ jobs:
           ECOSYSTEM: ${{ matrix.ecosystem }}
         run: |
           set +e
-          node dist/tools/importers/diff.js drafts.json "registry/$ECOSYSTEM.json"
+          node dist/tools/importers/diff.js drafts.json "packages/ebb/registry/$ECOSYSTEM.json"
           code=$?
           set -e
           if [ "$code" -eq 0 ]; then
@@ -91,7 +91,7 @@ jobs:
         if: steps.diff.outputs.changed == 'true'
         env:
           ECOSYSTEM: ${{ matrix.ecosystem }}
-        run: node dist/tools/importers/pr-body.js drafts.json "registry/$ECOSYSTEM.json" --out body.md
+        run: node dist/tools/importers/pr-body.js drafts.json "packages/ebb/registry/$ECOSYSTEM.json" --out body.md
       - name: Keep every draft for the source comparison
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:

@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { resolve } from "node:path";
 
 import { findingFingerprint } from "./baseline.js";
-import { bundledRules } from "./check-dependency.js";
+import { bundledRules } from "@velella/ebb/bundled-rules";
 import type { DataInfo, Finding, ScanResult, Severity, SourceLocation, VerificationCommand } from "./domain.js";
 import { createMigrationPacket } from "./migration-packet.js";
 import type { Receipt } from "./receipt.js";
@@ -11,7 +11,7 @@ import { renderReceiptMarkdown } from "./receipt-markdown.js";
 import { readPinnedRuntimes } from "./runtime-pin.js";
 import { runScanRequest } from "./scan-request.js";
 import type { MigrationPacket } from "./migration-packet.js";
-import { EvergreenError } from "./evergreen-error.js";
+import { EvergreenError } from "@velella/ebb/evergreen-error";
 
 /** A finding reduced to what a list of deprecations shows. */
 export interface DeprecationSummary {

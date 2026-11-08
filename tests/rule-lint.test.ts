@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join, relative, resolve } from "node:path";
 import { after, test } from "node:test";
 
-import { defaultRuleFiles, lintRuleFiles, renderRuleLintText } from "../src/rule-lint.js";
+import { defaultRuleFiles, lintRuleFiles, renderRuleLintText } from "@velella/ebb/rule-lint";
 import { runCli } from "./cli-runner.js";
 
 const roots: string[] = [];
@@ -49,7 +49,7 @@ async function registryDirectory(files: Record<string, string>): Promise<string>
 }
 
 test("every bundled registry passes, so the linter agrees with what ships", async () => {
-  const result = await lintRuleFiles(await defaultRuleFiles(resolve(".")));
+  const result = await lintRuleFiles(await defaultRuleFiles(resolve("packages/ebb")));
   assert.deepEqual(result.issues, []);
   assert.ok(result.rules > 500, `expected the bundled rules, saw ${result.rules}`);
   assert.match(renderRuleLintText(result), /no problems\./);

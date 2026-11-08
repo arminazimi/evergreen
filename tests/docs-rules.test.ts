@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import { registryV2Issues } from "../src/registry.js";
+import { registryV2Issues } from "@velella/ebb/registry";
 
 async function jsonBlocks(path: string): Promise<unknown[]> {
   const text = await readFile(resolve(path), "utf8");
@@ -41,14 +41,14 @@ test("every document that CONTRIBUTING.md and docs/RULES.md link to exists", asy
     [
       "docs/RULES.md",
       [
-        "../schemas/registry.v2.schema.json",
+        "../packages/ebb/schemas/registry.v2.schema.json",
         "decisions/0004-registry-v2.md",
         "../examples/registry.v2.example.json",
         "../.github/workflows/sources.yml",
         "DETECTORS.md",
       ],
     ],
-    ["CONTRIBUTING.md", ["docs/RULES.md", "registry/npm.json", "tests/npm.test.ts"]],
+    ["CONTRIBUTING.md", ["docs/RULES.md", "packages/ebb/registry/npm.json", "tests/npm.test.ts"]],
     ["docs/DETECTORS.md", ["RULES.md"]],
     ["docs/index.md", ["RULES.md"]],
   ] as const) {

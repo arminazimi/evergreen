@@ -30,7 +30,7 @@ export const FULL_RUN_PREFIXES: readonly string[] = [
   "integrations/",
   "planning/",
   "plugins/",
-  "registry/",
+  "packages/ebb/registry/",
   "schemas/",
   "scripts/",
   "skills/",

@@ -20,8 +20,8 @@ import { pathToFileURL } from "node:url";
 import { isDeepStrictEqual } from "node:util";
 
 import type { EvidenceSource } from "../../src/domain.js";
-import { validateRegistryV2 } from "../../src/registry.js";
-import type { RegistryV2, RegistryV2Rule } from "../../src/registry.js";
+import { validateRegistryV2 } from "@velella/ebb/registry";
+import type { RegistryV2, RegistryV2Rule } from "@velella/ebb/registry";
 import { canonicalRule } from "./canonical.js";
 import type { DraftRegistry } from "./types.js";
 

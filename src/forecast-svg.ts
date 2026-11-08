@@ -1,4 +1,4 @@
-import type { Forecast, ForecastEvent } from "./forecast.js";
+import type { Forecast, ForecastEvent } from "@velella/ebb/forecast";
 import { required } from "./required.js";
 import type { Severity } from "./domain.js";
 

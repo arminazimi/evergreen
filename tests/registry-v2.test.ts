@@ -10,8 +10,8 @@ import {
   registryV2Issues,
   staleRules,
   validateRegistryV2,
-} from "../src/registry.js";
-import type { RegistryV2 } from "../src/registry.js";
+} from "@velella/ebb/registry";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { RegistryValidationError } from "../src/sdk.js";
 
 async function example(): Promise<RegistryV2> {
@@ -25,8 +25,10 @@ test("accepts the v2 registry example", async () => {
 });
 
 test("every bundled v2 registry validates", async () => {
-  for (const name of await readdir(resolve("registry"))) {
-    const registry = JSON.parse(await readFile(resolve("registry", name), "utf8")) as { schemaVersion?: string };
+  for (const name of await readdir(resolve("packages/ebb/registry"))) {
+    const registry = JSON.parse(await readFile(resolve("packages/ebb/registry", name), "utf8")) as {
+      schemaVersion?: string;
+    };
     if (registry.schemaVersion !== "evergreen.registry.v2") continue;
     assert.deepEqual(registryV2Issues(registry), [], name);
   }
@@ -296,7 +298,9 @@ const invalidCases: [name: string, mutate: (registry: any) => void, expected: Re
 
 test("rejects invalid rules with errors that name the rule and field", async (t) => {
   const ajv = new Ajv2020({ allErrors: true });
-  const validateSchema = ajv.compile(JSON.parse(await readFile(resolve("schemas/registry.v2.schema.json"), "utf8")));
+  const validateSchema = ajv.compile(
+    JSON.parse(await readFile(resolve("packages/ebb/schemas/registry.v2.schema.json"), "utf8")),
+  );
   const base = await example();
   for (const [name, mutate, expected] of invalidCases) {
     await t.test(name, () => {

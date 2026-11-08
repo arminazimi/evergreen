@@ -42,7 +42,7 @@ export async function existingRegistryNamespaces(root: string): Promise<Map<stri
   const claim = (name: string, file: string) => {
     if (!namespaces.has(name)) namespaces.set(name, file);
   };
-  for (const absolute of await listFiles(join(root, "registry"), ".json")) {
+  for (const absolute of await listFiles(join(root, "packages/ebb/registry"), ".json")) {
     const file = absolute.slice(root.length + 1).replaceAll("\\", "/");
     const base = file.replace(/^registry\//, "").replace(/\.json$/, "");
     if (base === "sources.lock" || base.endsWith("-shas")) continue;

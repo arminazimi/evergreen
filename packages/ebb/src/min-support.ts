@@ -1,4 +1,4 @@
-import type { ScanResult, Severity } from "./domain.js";
+import type { LifecycleScan, Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
 
 /** The severity a line ending inside the window is raised to: a warning, below the default `--fail-on high` gate. */
@@ -16,7 +16,7 @@ function addDays(day: string, days: number): string {
  * to warning severity unless it is already at least that severe. Finding identity never changes, so baselines
  * still match. The scan itself stays clock-free; the caller passes the day.
  */
-export function applyMinSupport(result: ScanResult, days: number, today: string): ScanResult {
+export function applyMinSupport<Scan extends LifecycleScan>(result: Scan, days: number, today: string): Scan {
   const limit = addDays(today, days);
   const floor = severityValues.indexOf(WARNING_SEVERITY);
   return {

@@ -1,6 +1,6 @@
 import type { ScanResult } from "./domain.js";
-import { addDays } from "./forecast.js";
-import type { Forecast } from "./forecast.js";
+import { addDays } from "@velella/ebb/forecast";
+import type { Forecast } from "@velella/ebb/forecast";
 import { required } from "./required.js";
 import { REPORTER_API_VERSION, type Reporter } from "./reporters/shared.js";
 

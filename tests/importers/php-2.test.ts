@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import type { RegistryV2 } from "../../src/registry.js";
+import type { RegistryV2 } from "@velella/ebb/registry";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { PHP_PACKAGE_CANDIDATES } from "../../tools/importers/php-candidates.js";
 import {
@@ -159,7 +159,7 @@ test("drafts abandoned rules from the real recording, including a flag with no r
 });
 
 test("recorded drafts diff against the curated rules and never write the registry", async () => {
-  const registry = JSON.parse(await readFile(resolve("registry/php.json"), "utf8")) as RegistryV2;
+  const registry = JSON.parse(await readFile(resolve("packages/ebb/registry/php.json"), "utf8")) as RegistryV2;
   const before = JSON.stringify(registry);
   const diff = diffDrafts(await execute(phpPackagistAbandonedImporter, { replay: recording }), registry);
 
