@@ -1,0 +1,15 @@
+{
+  "hook_event_name": "PostToolUse",
+  "tool_name": "write",
+  "tool_input": {
+    "file_path": "/Users/dev/app/Dockerfile",
+    "content": "FROM node:16\nWORKDIR /app\nCOPY . .\nCMD [\"node\", \"index.js\"]\n"
+  },
+  "tool_response": {
+    "success": true,
+    "output": "Wrote Dockerfile",
+    "error": null
+  },
+  "session_id": "3f8d1c2a-1111-2222-3333-444455556666",
+  "prompt_id": "b71e9d40-aaaa-bbbb-cccc-ddddeeeeffff"
+}

@@ -1,0 +1,1 @@
+- Add the Devin Local edit hook: `evergreen hook devin` answers Devin's `PostToolUse` payloads for `write`, `edit`, and `apply_patch` with lifecycle findings, and `init --hooks-for devin` merges the project-level `.devin/hooks.v1.json` entry while keeping existing hooks.

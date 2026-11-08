@@ -572,6 +572,86 @@ export async function initClineHooks(options: InitClineHooksOptions): Promise<In
   return { file: CLINE_HOOKS_FILE, change, written: true, diff };
 }
 
+export const DEVIN_HOOKS_FILE = ".devin/hooks.v1.json";
+export const DEVIN_HOOK_MATCHER = "^(write|edit|apply_patch)$";
+/** The same launcher as the other hosts: the project's own package first, the global `evergreen` bin as fallback. */
+export const DEVIN_HOOK_COMMAND = "npx --no-install evergreen-deprecation hook devin";
+/** Devin measures hook timeouts in seconds, so this is a minute, matching the other hosts. */
+export const DEVIN_HOOK_TIMEOUT_SEC = 60;
+
+export type InitDevinHooksOptions = InitClaudeHooksOptions;
+export type InitDevinHooksResult = InitClaudeHooksResult;
+
+/** Recognizes the Devin Local hook this command wrote, however its launcher is spelled. */
+const EVERGREEN_DEVIN_HOOK_COMMAND = /\bevergreen(?:-deprecation)?\b.*\bhook\s+devin\b/;
+
+function hasEvergreenDevinPostToolUse(entries: readonly unknown[]): boolean {
+  return entries.some((entry) => {
+    if (!isRecord(entry) || !Array.isArray(entry.hooks)) return false;
+    return entry.hooks.some(
+      (hook) => isRecord(hook) && typeof hook.command === "string" && EVERGREEN_DEVIN_HOOK_COMMAND.test(hook.command),
+    );
+  });
+}
+
+/**
+ * Merges the `PostToolUse` entry into a parsed Devin hooks document. In `.devin/hooks.v1.json` the hooks object
+ * is the entire file (no wrapper key), with `PostToolUse` arrays of `{ matcher, hooks }` entries
+ * (<https://docs.devin.ai/cli/extensibility/hooks/overview.md>, checked 2026-11-08).
+ */
+export function withDevinPostToolUse(document: unknown): {
+  document: Record<string, unknown>;
+  change: "added" | "unchanged";
+} {
+  if (!isRecord(document))
+    throw new AgentFileError(`${DEVIN_HOOKS_FILE} does not hold a JSON object, so it was not changed.`);
+  const postValue = document.PostToolUse;
+  if (postValue !== undefined && !Array.isArray(postValue)) {
+    throw new AgentFileError(
+      `${DEVIN_HOOKS_FILE} has a "PostToolUse" value that is not an array, so it was not changed.`,
+    );
+  }
+  const postToolUse = (postValue ?? []) as unknown[];
+  if (hasEvergreenDevinPostToolUse(postToolUse)) return { document: structuredClone(document), change: "unchanged" };
+  const entry = {
+    matcher: DEVIN_HOOK_MATCHER,
+    hooks: [{ type: "command", command: DEVIN_HOOK_COMMAND, timeout: DEVIN_HOOK_TIMEOUT_SEC }],
+  };
+  return {
+    document: { ...structuredClone(document), PostToolUse: [...structuredClone(postToolUse), entry] },
+    change: "added",
+  };
+}
+
+/**
+ * Writes or merges the Devin Local post-edit hook into `.devin/hooks.v1.json`, preserving the user's other
+ * events and hooks. The home directory is never touched.
+ */
+export async function initDevinHooks(options: InitDevinHooksOptions): Promise<InitDevinHooksResult> {
+  const root = resolve(options.root);
+  const info = await lstat(root).catch(() => undefined);
+  if (!info?.isDirectory()) throw new AgentFileError(`${root} is not a directory.`);
+  const path = join(root, DEVIN_HOOKS_FILE);
+  await assertInside(root, path);
+  const before = await read(path);
+  let parsed: unknown = {};
+  if (before !== undefined) {
+    try {
+      parsed = JSON.parse(before);
+    } catch {
+      throw new AgentFileError(`${DEVIN_HOOKS_FILE} is not valid JSON, so it was not changed.`);
+    }
+  }
+  const update = withDevinPostToolUse(parsed);
+  const text = `${JSON.stringify(update.document, null, 2)}\n`;
+  const change = before === undefined ? "created" : update.change === "unchanged" ? "unchanged" : "updated";
+  const diff = change === "unchanged" ? "" : renderDiff(DEVIN_HOOKS_FILE, before ?? "", text);
+  if (change === "unchanged" || options.dryRun) return { file: DEVIN_HOOKS_FILE, change, written: false, diff };
+  await mkdir(dirname(path), { recursive: true });
+  await writeFile(path, text);
+  return { file: DEVIN_HOOKS_FILE, change, written: true, diff };
+}
+
 export async function initAgents(options: InitAgentsOptions): Promise<InitAgentsResult> {
   const root = resolve(options.root);
   const info = await lstat(root).catch(() => undefined);
