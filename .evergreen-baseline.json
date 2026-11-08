@@ -78,6 +78,14 @@
       "path": "examples/gallery/database/compose.yaml"
     },
     {
+      "fingerprint": "a43f7d59c1271beaad54ec0920c6eb06faabd696f346700148f92ed1871bf51d",
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "benchmarks/agent-staleness/outputs/seed/plain/dockerfile-node-app/Dockerfile",
+      "owner": "benchmarks",
+      "reason": "Intentional agent-staleness seed fixture for offline scoring tests.",
+      "expires": "2027-11-07"
+    },
+    {
       "fingerprint": "3c97cccbfa9be8803a5e711670a3654e5cc7f6a9cf5c5c60bb61c23e4959f15e",
       "ruleId": "container.node.eol-21-and-older",
       "path": "examples/gallery/container/.devcontainer/devcontainer.json"
@@ -88,12 +96,12 @@
       "path": "examples/gallery/container/docker-compose.yml"
     },
     {
-      "fingerprint": "6c71147717aabad5bd64ab42d3ddba42906955fef107b8c59803a822150a3f6c",
+      "fingerprint": "4f13a6546ce8591a09ca915fd0c3045bd286d06151cb180095b5a80049b25ce1",
       "ruleId": "container.node.eol-21-and-older",
       "path": "examples/gallery/container/Dockerfile"
     },
     {
-      "fingerprint": "4f13a6546ce8591a09ca915fd0c3045bd286d06151cb180095b5a80049b25ce1",
+      "fingerprint": "6c71147717aabad5bd64ab42d3ddba42906955fef107b8c59803a822150a3f6c",
       "ruleId": "container.node.eol-21-and-older",
       "path": "examples/gallery/container/Dockerfile"
     },
@@ -243,12 +251,12 @@
       "path": "examples/drift/dotnet/App/App.csproj"
     },
     {
-      "fingerprint": "7b582fa88e28386dc6ada26714003ef64002e64845b0aae58ae886c2be9a1c75",
+      "fingerprint": "6752ade50d7e500d09ec55b2ca3eae67836a5ef876e82f19804f89502d463dce",
       "ruleId": "elixir.erlang.eol-25",
       "path": "examples/gallery/elixir/.tool-versions"
     },
     {
-      "fingerprint": "6752ade50d7e500d09ec55b2ca3eae67836a5ef876e82f19804f89502d463dce",
+      "fingerprint": "7b582fa88e28386dc6ada26714003ef64002e64845b0aae58ae886c2be9a1c75",
       "ruleId": "elixir.erlang.eol-25",
       "path": "examples/gallery/elixir/.tool-versions"
     },
@@ -373,14 +381,22 @@
       "path": "examples/gallery/java/spring-boot/pom.xml"
     },
     {
+      "fingerprint": "45deb629d0c45b269df27d35ec8f42136590476137617ef274711b13777b41c0",
+      "ruleId": "java.maven.spring-boot.legacy-3x.end-of-support",
+      "path": "examples/gallery/java/spring-boot/pom.xml"
+    },
+    {
       "fingerprint": "83a642e372b14e3d0c28059b85b4e74fc8f2ab15f886e0d695932772851fb996",
       "ruleId": "java.maven.spring-boot.legacy-3x.end-of-support",
       "path": "examples/gallery/java/spring-boot/pom.xml"
     },
     {
-      "fingerprint": "45deb629d0c45b269df27d35ec8f42136590476137617ef274711b13777b41c0",
-      "ruleId": "java.maven.spring-boot.legacy-3x.end-of-support",
-      "path": "examples/gallery/java/spring-boot/pom.xml"
+      "fingerprint": "155be41f36c9af836523706d3ce934f9e03876103078d5c306afb31dbec15dd4",
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "benchmarks/agent-staleness/outputs/seed/plain/k8s-cronjob-nightly/deploy/cronjob.yaml",
+      "owner": "benchmarks",
+      "reason": "Intentional agent-staleness seed fixture for offline scoring tests.",
+      "expires": "2027-11-07"
     },
     {
       "fingerprint": "6c529ade0f0fa27bcb708c2a12323d7e4b2f01efc7bdbb15f59a49af7103847f",
@@ -406,6 +422,14 @@
       "fingerprint": "68db7d8765207807d7aa125f2ec83cac83bd7868c29339ec1d3d4ee05487d856",
       "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
       "path": "examples/gallery/kubernetes/manifests/web.yaml"
+    },
+    {
+      "fingerprint": "4b148af2bce3d89f3c2ae066b3fc17ca72361d6cc4709e089641d0a50e33aa11",
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "benchmarks/agent-staleness/outputs/seed/plain/k8s-ingress-edge/deploy/ingress.yaml",
+      "owner": "benchmarks",
+      "reason": "Intentional agent-staleness seed fixture for offline scoring tests.",
+      "expires": "2027-11-07"
     },
     {
       "fingerprint": "4fbd2ac068a6861f94a41028dbaf865d0cd15bce46fab3a79b053778f9b92930",
@@ -558,6 +582,14 @@
       "path": "examples/gallery/serverless/template.yaml"
     },
     {
+      "fingerprint": "6c574f050c6897112a6d3f27397dadaa8cc9f04e092e2cde901440c4743f56b0",
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "benchmarks/agent-staleness/outputs/seed/plain/terraform-lambda-api/main.tf",
+      "owner": "benchmarks",
+      "reason": "Intentional agent-staleness seed fixture for offline scoring tests.",
+      "expires": "2027-11-07"
+    },
+    {
       "fingerprint": "58cb6892a9af933eb266ca18f882e2dd1705426774558f5c06162fb24f9eade6",
       "ruleId": "serverless.aws-lambda.nodejs14.x",
       "path": "examples/gallery/serverless/main.tf"
@@ -593,6 +625,16 @@
       "path": "examples/gallery/serverless/template.yml"
     },
     {
+      "fingerprint": "fa6f1a39fa906710bd6fb583437eeb45ec4704ad87ab0fd949cb35a0f6b5e3eb",
+      "ruleId": "serverless.azure-app-service.dotnet-below-6-0",
+      "path": "examples/gallery/serverless/main.tf"
+    },
+    {
+      "fingerprint": "cd6f0f47690b9591baa406de66f75ba1bc3db14c30ca00588bb43191d5f46052",
+      "ruleId": "serverless.azure-app-service.node-below-18",
+      "path": "examples/gallery/serverless/main.tf"
+    },
+    {
       "fingerprint": "6444c89ca3d2d59da146198f1576c9e58e27c3ec3f59a6ec9940368a1675e86e",
       "ruleId": "serverless.google-cloud-functions.nodejs14",
       "path": "examples/gallery/serverless/main.tf"
@@ -623,9 +665,12 @@
       "path": "examples/gallery/terraform/.terraform-version"
     },
     {
-      "fingerprint": "81928980c65a24fa26fc73625a7cf9a1634317f258dda018d9f06e0174041d6e",
-      "ruleId": "terraform.function.list-map",
-      "path": "examples/codemods/terraform-legacy/before.tf"
+      "fingerprint": "c60116c2f5d4c260e3d11ba2b73fe7fe2604b7951bd095f22537862de59386d2",
+      "ruleId": "terraform.eks.end-of-life-1.30-and-older",
+      "path": "benchmarks/agent-staleness/outputs/seed/plain/terraform-eks-cluster/main.tf",
+      "owner": "benchmarks",
+      "reason": "Intentional agent-staleness seed fixture for offline scoring tests.",
+      "expires": "2027-11-07"
     },
     {
       "fingerprint": "2d04e1a72bdf55fd8c3bd451ccc81d4e55e9fda01cf6996ee9b1fee0074f62b1",
@@ -633,49 +678,14 @@
       "path": "examples/codemods/terraform-legacy/before.tf"
     },
     {
-      "fingerprint": "6541fcf6287bd868b009caf8746e1bbeb3e02665d24640e076265c304d886b02",
-      "ruleId": "terraform.syntax.interpolation-only",
+      "fingerprint": "81928980c65a24fa26fc73625a7cf9a1634317f258dda018d9f06e0174041d6e",
+      "ruleId": "terraform.function.list-map",
       "path": "examples/codemods/terraform-legacy/before.tf"
     },
     {
-      "fingerprint": "a43f7d59c1271beaad54ec0920c6eb06faabd696f346700148f92ed1871bf51d",
-      "ruleId": "container.node.eol-21-and-older",
-      "path": "benchmarks/agent-staleness/outputs/seed/plain/dockerfile-node-app/Dockerfile",
-      "owner": "benchmarks",
-      "reason": "Intentional agent-staleness seed fixture for offline scoring tests.",
-      "expires": "2027-11-07"
-    },
-    {
-      "fingerprint": "155be41f36c9af836523706d3ce934f9e03876103078d5c306afb31dbec15dd4",
-      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
-      "path": "benchmarks/agent-staleness/outputs/seed/plain/k8s-cronjob-nightly/deploy/cronjob.yaml",
-      "owner": "benchmarks",
-      "reason": "Intentional agent-staleness seed fixture for offline scoring tests.",
-      "expires": "2027-11-07"
-    },
-    {
-      "fingerprint": "4b148af2bce3d89f3c2ae066b3fc17ca72361d6cc4709e089641d0a50e33aa11",
-      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
-      "path": "benchmarks/agent-staleness/outputs/seed/plain/k8s-ingress-edge/deploy/ingress.yaml",
-      "owner": "benchmarks",
-      "reason": "Intentional agent-staleness seed fixture for offline scoring tests.",
-      "expires": "2027-11-07"
-    },
-    {
-      "fingerprint": "6c574f050c6897112a6d3f27397dadaa8cc9f04e092e2cde901440c4743f56b0",
-      "ruleId": "serverless.aws-lambda.nodejs14.x",
-      "path": "benchmarks/agent-staleness/outputs/seed/plain/terraform-lambda-api/main.tf",
-      "owner": "benchmarks",
-      "reason": "Intentional agent-staleness seed fixture for offline scoring tests.",
-      "expires": "2027-11-07"
-    },
-    {
-      "fingerprint": "c60116c2f5d4c260e3d11ba2b73fe7fe2604b7951bd095f22537862de59386d2",
-      "ruleId": "terraform.eks.end-of-life-1.30-and-older",
-      "path": "benchmarks/agent-staleness/outputs/seed/plain/terraform-eks-cluster/main.tf",
-      "owner": "benchmarks",
-      "reason": "Intentional agent-staleness seed fixture for offline scoring tests.",
-      "expires": "2027-11-07"
+      "fingerprint": "6541fcf6287bd868b009caf8746e1bbeb3e02665d24640e076265c304d886b02",
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "examples/codemods/terraform-legacy/before.tf"
     }
   ],
   "history": [
