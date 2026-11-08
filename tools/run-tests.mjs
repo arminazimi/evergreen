@@ -21,7 +21,7 @@ import { spawn } from "node:child_process";
 import { realpathSync } from "node:fs";
 import { appendFile, glob, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, relative, resolve, sep } from "node:path";
+import { isAbsolute, join, relative, resolve, sep } from "node:path";
 import { pathToFileURL } from "node:url";
 
 import {
@@ -305,6 +305,22 @@ export function insertReportersBeforeFiles(nodeArgs, reporters) {
 }
 
 /**
+ * Test file paths relative to `cwd` when they sit under it. The whole suite is passed as arguments, and Windows
+ * refuses a command line over 32,767 characters (`spawn ENAMETOOLONG`); absolute runner paths add about 25
+ * characters to each of the 500 files, which is enough to cross it.
+ *
+ * @param {readonly string[]} nodeArgs
+ * @param {string} cwd
+ */
+export function shortenFilePaths(nodeArgs, cwd) {
+  return nodeArgs.map((arg) => {
+    if (arg.startsWith("-") || !isAbsolute(arg)) return arg;
+    const shortened = relative(cwd, arg);
+    return shortened === "" || shortened.startsWith("..") || isAbsolute(shortened) ? arg : shortened;
+  });
+}
+
+/**
  * Dual reporters: human stream on stdout plus junit to a temp file for per-file timing.
  * Capture mode uses TAP (flaky-retry parsing); otherwise spec keeps local output readable.
  * When coveragePath is set, an lcov reporter writes the shard (or full) coverage report.
@@ -331,7 +347,7 @@ export function spawnTest(nodeArgs, options = {}) {
     reporters.push("--test-reporter=tap");
   }
   // Reporter flags must come before test file paths; Node treats later tokens as files.
-  const args = insertReportersBeforeFiles(nodeArgs, reporters);
+  const args = insertReportersBeforeFiles(shortenFilePaths(nodeArgs, options.cwd ?? process.cwd()), reporters);
   return new Promise((resolvePromise, reject) => {
     /** @type {Buffer[]} */
     const chunks = [];

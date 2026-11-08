@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { test } from "node:test";
 
@@ -188,5 +188,14 @@ test("insertReportersBeforeFiles keeps reporter flags ahead of test paths", asyn
       "dist/tests/a.test.js",
       "dist/tests/b.test.js",
     ],
+  );
+});
+
+test("shortenFilePaths makes test files relative to the working directory so the suite fits a Windows command line", async () => {
+  const { shortenFilePaths } = await import(pathToFileURL(resolve("tools/run-tests.mjs")).href);
+  const cwd = resolve("some-root");
+  assert.deepEqual(
+    shortenFilePaths(["--test", "--test-concurrency=4", resolve(cwd, "dist", "tests", "a.test.js"), resolve("elsewhere", "b.test.js")], cwd),
+    ["--test", "--test-concurrency=4", join("dist", "tests", "a.test.js"), resolve("elsewhere", "b.test.js")],
   );
 });
