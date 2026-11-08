@@ -1,0 +1,1 @@
+- Publish a hash-chained, signed `release-log.jsonl` with every data release, and add a checker that detects a changed past release.

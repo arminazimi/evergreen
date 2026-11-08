@@ -16,10 +16,19 @@ interface Step {
 interface Workflow {
   on: {
     push?: { tags?: string[] };
-    workflow_dispatch?: { inputs?: Record<string, { default?: boolean; type?: string }> };
+    workflow_dispatch?: {
+      inputs?: Record<string, { default?: boolean; type?: string }>;
+    };
   };
   permissions?: Record<string, string>;
-  jobs: Record<string, { permissions?: Record<string, string>; env?: Record<string, string>; steps: Step[] }>;
+  jobs: Record<
+    string,
+    {
+      permissions?: Record<string, string>;
+      env?: Record<string, string>;
+      steps: Step[];
+    }
+  >;
 }
 
 const path = ".github/workflows/data-release.yml";
@@ -97,8 +106,22 @@ test("the workflow and the verifier agree on who may sign", () => {
 });
 
 test("it publishes the bundle, its signature, and checksums", () => {
-  assert.match(commands, /sha256sum evergreen-data-\*\.json evergreen-data-\*\.sigstore\.json > SHA256SUMS/);
+  assert.match(
+    commands,
+    /sha256sum evergreen-data-\*\.json evergreen-data-\*\.sigstore\.json release-log\.jsonl release-log\.jsonl\.sigstore\.json > SHA256SUMS/,
+  );
   assert.match(commands, /gh release create .* out\/\*/s);
   assert.match(commands, /--latest=false/, "a data bundle must never become the repository's Latest release");
   assert.match(commands, /--verify-tag/);
+});
+
+test("the release log is extended from the previous release, checked, signed, and published with the bundle", () => {
+  assert.match(commands, /data-release-log\.js check previous-log\.jsonl/);
+  assert.match(commands, /data-release-log\.js append previous-log\.jsonl/);
+  assert.match(commands, /check out\/release-log\.jsonl --previous previous-log\.jsonl/);
+  assert.match(
+    commands,
+    /cosign sign-blob --yes --bundle out\/release-log\.jsonl\.sigstore\.json out\/release-log\.jsonl/,
+  );
+  assert.match(commands, /sha256sum .*release-log\.jsonl/);
 });

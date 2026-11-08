@@ -98,8 +98,34 @@ jobs:
             --certificate-identity-regexp "${IDENTITY_PATTERN}" \
             "${BUNDLE}"
 
+      - name: Extend the release log
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # The log is hash-chained: each entry holds the hash of the one before it. Start from the newest earlier
+          # data release's log (if it has one), refuse a log that does not verify, add this bundle, and require the
+          # result to extend what was published before. Docs: docs/DATA.md, "Release log".
+          PREVIOUS_TAG=$(gh release list --limit 200 --json tagName --jq '[.[].tagName | select(startswith("data-v"))] | map(select(. != "'"${GITHUB_REF_NAME}"'")) | sort | last // empty')
+          : > previous-log.jsonl
+          if [ -n "${PREVIOUS_TAG}" ]; then
+            gh release download "${PREVIOUS_TAG}" --pattern release-log.jsonl --dir previous-release 2>/dev/null \
+              && mv previous-release/release-log.jsonl previous-log.jsonl || echo "${PREVIOUS_TAG} has no release log; starting one."
+          fi
+          node dist/tools/data-release-log.js check previous-log.jsonl
+          node dist/tools/data-release-log.js append previous-log.jsonl --bundle "${BUNDLE}" --out out/release-log.jsonl
+          node dist/tools/data-release-log.js check out/release-log.jsonl --previous previous-log.jsonl
+
+      - name: Sign the release log (keyless, recorded in the public transparency log)
+        run: |
+          cosign sign-blob --yes --bundle out/release-log.jsonl.sigstore.json out/release-log.jsonl
+          cosign verify-blob \
+            --bundle out/release-log.jsonl.sigstore.json \
+            --certificate-oidc-issuer "${OIDC_ISSUER}" \
+            --certificate-identity-regexp "${IDENTITY_PATTERN}" \
+            out/release-log.jsonl
+
       - name: Checksums
-        run: (cd out && sha256sum evergreen-data-*.json evergreen-data-*.sigstore.json > SHA256SUMS)
+        run: (cd out && sha256sum evergreen-data-*.json evergreen-data-*.sigstore.json release-log.jsonl release-log.jsonl.sigstore.json > SHA256SUMS)
 
       - name: Keep the files as an artifact
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7

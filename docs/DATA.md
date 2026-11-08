@@ -81,6 +81,21 @@ cosign verify-blob \
 - A compromised Evergreen package: the trusted root and the signer identity are part of the release you installed.
 - Wrong evidence. Signing says who published a rule, not that the claim is true; each rule cites its sources and review date for that reason.
 
+### Release log
+
+Every data release also publishes `release-log.jsonl`, a tamper-evident log of all data releases so far, with its own keyless signature (`release-log.jsonl.sigstore.json`). Each line is one release: version, `contentDigest`, the SHA-256 of the bundle file, the build time, the hash of the previous line, and its own hash. Because every entry commits to the one before it, changing, removing, or reordering a past release changes every later hash.
+
+The release workflow downloads the previous release's log, refuses one that does not verify, appends the new bundle, and requires the result to extend the old log before signing it. The signatures of the bundle and of the log are recorded in the public Sigstore transparency log (Rekor), so a quiet rewrite would need the log's hashes and Rekor's entries to change together.
+
+Check a log, and optionally that it extends an older copy you kept:
+
+```bash
+gh release download data-vYYYY.MM.DD --pattern 'release-log.jsonl*'
+node dist/tools/data-release-log.js check release-log.jsonl --previous older-release-log.jsonl
+```
+
+The first release made after this was added starts the log; earlier releases are not listed.
+
 ## When something is wrong
 
 Evergreen reports every refusal in the result, in the scan's `diagnostics` and in `data status`, for example:
