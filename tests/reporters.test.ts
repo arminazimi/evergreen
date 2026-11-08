@@ -160,3 +160,120 @@ test("a scan with findings does not print the empty-scan help", () => {
   assert.doesNotMatch(text, /No lifecycle risks found/);
   assert.doesNotMatch(text, /evergreen scan --demo/);
 });
+
+test("the json reporter is offered to every command that emits a scan document", async () => {
+  const { jsonReporter } = await import("../src/reporters/json.js");
+  assert.deepEqual(jsonReporter.commands, ["scan", "check", "check-snippet", "receipt"]);
+});
+
+test("formatExpectedList joins ids with commas and a final 'or'", async () => {
+  const { formatExpectedList } = await import("../src/reporters/registry.js");
+  assert.equal(formatExpectedList([]), "");
+  assert.equal(formatExpectedList(["a"]), "a");
+  assert.equal(formatExpectedList(["a", "b"]), "a or b");
+  assert.equal(formatExpectedList(["a", "b", "c"]), "a, b, or c");
+});
+
+test("the markdown reporter serves scan and receipt", async () => {
+  const { markdownReporter } = await import("../src/reporters/markdown.js");
+  assert.deepEqual(markdownReporter.commands, ["scan", "receipt"]);
+});
+
+test("markdown links http and https sources and leaves other schemes as plain text", async () => {
+  const { renderMarkdown } = await import("../src/reporters.js");
+  const finding = (url: string) => ({
+    id: "f",
+    ruleId: "r",
+    detector: "npm",
+    title: "t",
+    summary: "s",
+    severity: "high",
+    confidence: "exact",
+    location: { path: "package.json" },
+    sources: [{ title: "Src", url }],
+  });
+  const render = (url: string): string =>
+    renderMarkdown(emptyScan({ findings: [finding(url)] as unknown as ScanResult["findings"] }));
+  assert.match(render("http://example.com/a"), /\[Src\]\(http:\/\/example\.com\/a\)/);
+  assert.match(render("https://example.com/a(b)"), /\[Src\]\(https:\/\/example\.com\/a%28b%29\)/);
+  assert.doesNotMatch(render("ftp://example.com/a"), /\]\(ftp/);
+});
+
+test("deriveScanCoverage lists ecosystems and files in sorted order without duplicates", () => {
+  const reference = (detector: string, path: string) => ({
+    detector,
+    component: "c",
+    reference: "r",
+    reason: "x",
+    location: { path },
+  });
+  const scan = emptyScan();
+  delete scan.coverage;
+  const coverage = deriveScanCoverage(
+    Object.assign(scan, {
+      unclassified: {
+        count: 3,
+        references: [
+          reference("npm", "z/package.json"),
+          reference("cargo", "a/Cargo.toml"),
+          reference("npm", "z/package.json"),
+        ],
+      },
+    }),
+  );
+  assert.deepEqual(coverage.ecosystems, ["cargo", "npm"]);
+  assert.deepEqual(coverage.filesRead, ["a/Cargo.toml", "z/package.json"]);
+  assert.deepEqual(coverage.unsupportedFiles, ["a/Cargo.toml", "z/package.json"]);
+});
+
+test("text output names each selector independently and the text reporter passes firstRun through", async () => {
+  const { renderText } = await import("../src/reporters.js");
+  const { textReporter } = await import("../src/reporters/text.js");
+  const onlyText = renderText(emptyScan({ selection: { only: ["npm", "pip"] } }));
+  assert.match(onlyText, /^Only: npm, pip$/m);
+  assert.doesNotMatch(onlyText, /Excluded/);
+  const excludeText = renderText(emptyScan({ selection: { exclude: ["npm", "pip"] } }));
+  assert.match(excludeText, /^Excluded: npm, pip$/m);
+  assert.doesNotMatch(excludeText, /Only/);
+
+  assert.deepEqual(textReporter.commands, ["scan", "check", "check-snippet"]);
+  const finding = {
+    id: "f",
+    ruleId: "r",
+    detector: "npm",
+    title: "Old thing",
+    summary: "s",
+    severity: "high",
+    confidence: "exact",
+    location: { path: "package.json" },
+    sources: [],
+  } as unknown as ScanResult["findings"][number];
+  const withFinding = emptyScan({ findings: [finding] });
+  const first = textReporter.render(withFinding, { firstRun: true });
+  assert.match(first, /^Found 1 lifecycle risk\. The most urgent:$/m);
+  assert.match(first, /^ {2}HIGH Old thing \(package\.json\)$/m);
+  assert.doesNotMatch(textReporter.render(withFinding, {}), /most urgent/);
+});
+
+test("migration packet text omits the support date when the target line has none", async () => {
+  const { renderMigrationPacketText } = await import("../src/reporters.js");
+  const packet = (endsOn?: string) =>
+    ({
+      finding: { id: "f", title: "T", severity: "high" },
+      affectedFiles: [],
+      constraints: [],
+      steps: [],
+      verification: [],
+      sources: [],
+      upgradePath: {
+        from: { title: "Old", versions: "vers:npm/<2" },
+        skipped: [],
+        target: { title: "New", versions: "vers:npm/>=2", ...(endsOn ? { endsOn } : {}) },
+      },
+    }) as unknown as Parameters<typeof renderMigrationPacketText>[0];
+  assert.match(renderMigrationPacketText(packet()), /^- Land on: New \(vers:npm\/>=2\)$/m);
+  assert.match(
+    renderMigrationPacketText(packet("2030-01-01")),
+    /^- Land on: New \(vers:npm\/>=2, supported until 2030-01-01\)$/m,
+  );
+});

@@ -5,7 +5,16 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { after, test } from "node:test";
 
-import { compareFindings, parseRange } from "../src/diff.js";
+import {
+  compareFindings,
+  DiffError,
+  type DiffResult,
+  exportRef,
+  git as gitObjects,
+  parseRange,
+  renderDiffText,
+  stderrMessage,
+} from "../src/diff.js";
 import type { Finding } from "../src/domain.js";
 import { runCli } from "./cli-runner.js";
 
@@ -100,4 +109,79 @@ test("compareFindings matches by fingerprint and counts duplicates", () => {
     ({ id, ruleId: "r", summary: "s", location: { path: "package.json", line } }) as unknown as Finding;
   const result = compareFindings([finding("a", 1), finding("b", 2)], [finding("c", 9)]);
   assert.deepEqual([result.introduced.length, result.fixed.length, result.unchanged], [0, 1, 1]);
+});
+
+test("parseRange keeps a base that starts with a dot", () => {
+  assert.deepEqual(parseRange(".x..y"), { base: ".x", head: "y" });
+});
+
+test("stderrMessage reads trimmed Buffer and string stderr and nothing else", () => {
+  assert.equal(stderrMessage(Object.assign(new Error("x"), { stderr: Buffer.from("  boom \n") })), "boom");
+  assert.equal(stderrMessage({ stderr: "  bang \n" }), "bang");
+  assert.equal(stderrMessage({ stderr: Buffer.from("  \n") }), undefined);
+  assert.equal(stderrMessage({ stderr: "   " }), undefined);
+  assert.equal(stderrMessage({ stderr: 5 }), undefined);
+  assert.equal(stderrMessage({}), undefined);
+  assert.equal(stderrMessage(null), undefined);
+  assert.equal(stderrMessage("stderr"), undefined);
+});
+
+test("git failures become DiffError carrying git's own message", async () => {
+  const root = await repository();
+  assert.throws(
+    () => gitObjects(root, ["rev-parse", "--verify", "nope-ref"]),
+    (error: unknown) => error instanceof DiffError && error.name === "DiffError" && error.message.length > 0,
+  );
+  const empty = await mkdtemp(join(tmpdir(), "evergreen-diff-nogit-"));
+  roots.push(empty);
+  assert.throws(
+    () => gitObjects(empty, ["status"]),
+    (error: unknown) => error instanceof DiffError && /not a git repository/i.test(error.message),
+  );
+});
+
+test("git falls back to a generic message when stderr is empty", () => {
+  assert.throws(() => gitObjects("/definitely/not/a/directory", ["status"]), /git status failed\./);
+});
+
+test("exportRef refuses refs that look like options and reports unpack failures", async () => {
+  const root = await repository();
+  assert.throws(() => exportRef(root, "--output=x", root), /"--output=x" is not a valid ref\./);
+  assert.throws(() => exportRef(root, "-x", root), /is not a valid ref/);
+  assert.throws(() => exportRef(root, "good", join(root, "missing-directory")), /Cannot unpack good: .+\.$/);
+});
+
+test("renderDiffText prints counts and only the non-empty sections", () => {
+  const finding = (summary: string, line?: number): Finding =>
+    ({
+      id: summary,
+      severity: "high",
+      summary,
+      location: line === undefined ? { path: "a.json" } : { path: "a.json", line },
+    }) as unknown as Finding;
+  const result: DiffResult = {
+    schemaVersion: "evergreen.diff.v1",
+    base: "main",
+    head: "HEAD",
+    introduced: [finding("new one", 3)],
+    fixed: [finding("old one")],
+    unchanged: 2,
+  };
+  assert.equal(
+    renderDiffText(result),
+    [
+      "Evergreen diff main..HEAD",
+      "Introduced: 1  Fixed: 1  Unchanged: 2",
+      "",
+      "Introduced:",
+      "  [high] new one (a.json:3)",
+      "",
+      "Fixed:",
+      "  [high] old one (a.json)",
+    ].join("\n"),
+  );
+  assert.equal(
+    renderDiffText({ ...result, introduced: [], fixed: [] }),
+    "Evergreen diff main..HEAD\nIntroduced: 0  Fixed: 0  Unchanged: 2",
+  );
 });
