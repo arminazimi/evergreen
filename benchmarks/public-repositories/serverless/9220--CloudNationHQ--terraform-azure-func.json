@@ -1,0 +1,7 @@
+{
+  "repository": "CloudNationHQ/terraform-azure-func",
+  "commit": "f3caae4c2184bfc1968fc64953d9a6558cab2575",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": []
+}

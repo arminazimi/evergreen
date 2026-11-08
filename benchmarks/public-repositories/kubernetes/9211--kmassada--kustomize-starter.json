@@ -1,0 +1,26 @@
+{
+  "repository": "kmassada/kustomize-starter",
+  "commit": "e92d3b4a8377bb7f017ff9eea86fa8599c75ceb2",
+  "ecosystem": "kubernetes",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "base/deployment.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read base/deployment.yaml:1 at this commit: `apiVersion: extensions/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "kustomization.yaml",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read kustomization.yaml:9 at this commit: `version: v1beta1`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

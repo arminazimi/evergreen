@@ -1,0 +1,17 @@
+{
+  "repository": "61418/aws-sso-util",
+  "commit": "0f9470828b60cbca643b997dafc37f1f0d087e14",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "serverless.aws-lambda.python3.8",
+      "path": "macro/template.yaml",
+      "line": 109,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read macro/template.yaml:109 at this commit: `Runtime: python3.8`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

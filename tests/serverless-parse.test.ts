@@ -157,8 +157,8 @@ test("serverless.yml junk, oversize, and overlong runtime values return nothing"
 test("reads Lambda, Azure function app, and Google function runtimes from *.tf", async () => {
   assert.deepEqual(parseTf(await fixture("positive", "main.tf")), [
     { value: "nodejs14.x", line: 3, platform: "aws" },
-    { value: "14", line: 13 },
-    { value: "3.1", line: 23 },
+    { value: "14", line: 13, stack: "node" },
+    { value: "3.1", line: 23, stack: "dotnet" },
     { value: "nodejs14", line: 30, platform: "gcp" },
     { value: "python38", line: 38, platform: "gcp" },
   ]);
@@ -167,7 +167,7 @@ test("reads Lambda, Azure function app, and Google function runtimes from *.tf",
 test("returns supported Terraform runtimes too; the registry decides what is a finding", async () => {
   assert.deepEqual(parseTf(await fixture("zero", "main.tf")), [
     { value: "nodejs26.x", line: 3, platform: "aws" },
-    { value: "22", line: 13 },
+    { value: "24", line: 13, stack: "node" },
     { value: "python313", line: 23, platform: "gcp" },
   ]);
 });

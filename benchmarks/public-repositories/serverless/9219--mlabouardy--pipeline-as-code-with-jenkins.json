@@ -1,0 +1,305 @@
+{
+  "repository": "mlabouardy/pipeline-as-code-with-jenkins",
+  "commit": "e3264e037fd0152f5a2dd95b8d9acb112d5faf1b",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "chapter12/functions/movies-parser/Dockerfile.test",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter12/functions/movies-parser/Dockerfile.test:3 at this commit: `ENV VERSION v0.2.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "chapter12/functions/movies-parser/Dockerfile.test",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter12/functions/movies-parser/Dockerfile.test:4 at this commit: `ENV GOCACHE /tmp`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "chapter7/microservices/movies-parser/Dockerfile.test",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter7/microservices/movies-parser/Dockerfile.test:3 at this commit: `ENV VERSION v1.0.22`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "chapter7/microservices/movies-parser/Dockerfile.test",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter7/microservices/movies-parser/Dockerfile.test:4 at this commit: `ENV GOCACHE /tmp`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "chapter14/Dockerfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter14/Dockerfile:2 at this commit: `MAINTAINER mlabouardy <mohamed@labouardy.com>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "chapter12/functions/movies-parser/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter12/functions/movies-parser/Dockerfile:1 at this commit: `FROM golang:1.13.4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "chapter12/functions/movies-parser/Dockerfile.test",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter12/functions/movies-parser/Dockerfile.test:1 at this commit: `FROM golang:1.13.4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "chapter7/microservices/movies-parser/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter7/microservices/movies-parser/Dockerfile:1 at this commit: `FROM golang:1.16.5`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "chapter7/microservices/movies-parser/Dockerfile.test",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter7/microservices/movies-parser/Dockerfile.test:1 at this commit: `FROM golang:1.13.4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "chapter9/pipelines/movies-parser/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter9/pipelines/movies-parser/Dockerfile:1 at this commit: `FROM golang:1.16.5`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "chapter12/functions/movies-marketplace/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter12/functions/movies-marketplace/Dockerfile:1 at this commit: `FROM node:14.0.0 as builder`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "chapter12/functions/movies-marketplace/Dockerfile.test",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter12/functions/movies-marketplace/Dockerfile.test:1 at this commit: `FROM node:14.0.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "chapter12/functions/movies-store/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter12/functions/movies-store/Dockerfile:1 at this commit: `FROM node:14.0.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "chapter12/functions/movies-store/Dockerfile.test",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter12/functions/movies-store/Dockerfile.test:1 at this commit: `FROM node:14.0.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "chapter7/microservices/movies-marketplace/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter7/microservices/movies-marketplace/Dockerfile:1 at this commit: `FROM node:14.17.0 as builder`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "chapter7/microservices/movies-marketplace/Dockerfile.test",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter7/microservices/movies-marketplace/Dockerfile.test:1 at this commit: `FROM node:14.0.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "chapter7/microservices/movies-store/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter7/microservices/movies-store/Dockerfile:1 at this commit: `FROM node:14.17.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "chapter7/microservices/movies-store/Dockerfile.test",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter7/microservices/movies-store/Dockerfile.test:1 at this commit: `FROM node:14.17.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "chapter9/pipelines/movies-marketplace/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter9/pipelines/movies-marketplace/Dockerfile:1 at this commit: `FROM node:14.17.0 as builder`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "chapter9/pipelines/movies-store/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter9/pipelines/movies-store/Dockerfile:1 at this commit: `FROM node:14.17.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.postgres.eol-13-and-older",
+      "path": "chapter9/anchore/docker-compose.yml",
+      "line": 93,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter9/anchore/docker-compose.yml:93 at this commit: `image: \"postgres:9\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "chapter12/functions/movies-loader/Dockerfile.test",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter12/functions/movies-loader/Dockerfile.test:1 at this commit: `FROM python:3.7.3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "chapter7/microservices/movies-loader/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter7/microservices/movies-loader/Dockerfile:1 at this commit: `FROM python:3.7.3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "chapter7/microservices/movies-loader/Dockerfile.test",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter7/microservices/movies-loader/Dockerfile.test:1 at this commit: `FROM python:3.7.3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "chapter9/pipelines/movies-loader/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter9/pipelines/movies-loader/Dockerfile:1 at this commit: `FROM python:3.7.3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "chapter7/microservices/movies-parser/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter7/microservices/movies-parser/go.mod:3 at this commit: `go 1.15`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.autoscaling.horizontalpodautoscaler.v2beta1.removed",
+      "path": "chapter11/jx/movies-store/charts/jx-movies-store/templates/hpa.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter11/jx/movies-store/charts/jx-movies-store/templates/hpa.yaml:2 at this commit: `apiVersion: autoscaling/v2beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+      "path": "chapter11/k8s-dashboard/eks-admin.yaml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter11/k8s-dashboard/eks-admin.yaml:7 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "chapter7/webhook-forwarder/terraform/lambda.tf",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter7/webhook-forwarder/terraform/lambda.tf:26 at this commit: `runtime = \"nodejs14.x\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "chapter6/azure/terraform/jenkins_workers.tf",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter6/azure/terraform/jenkins_workers.tf:7 at this commit: `template = \"${file(\"scripts/join-cluster.tpl\")}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "chapter6/digitalocean/terraform/jenkins_workers.tf",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter6/digitalocean/terraform/jenkins_workers.tf:6 at this commit: `template = \"${file(\"scripts/join-cluster.tpl\")}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "chapter6/gcp/terraform/jenkins_workers.tf",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter6/gcp/terraform/jenkins_workers.tf:16 at this commit: `template = \"${file(\"scripts/join-cluster.tpl\")}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "chapter6/gcp/terraform/outputs.tf",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read chapter6/gcp/terraform/outputs.tf:2 at this commit: `value = \"${google_compute_instance.bastion.network_interface.0.access_config.0.nat_ip }\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

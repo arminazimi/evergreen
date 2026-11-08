@@ -41,12 +41,13 @@ async function committedRules(): Promise<RegistryV2Rule[]> {
   return validateRegistryV2(JSON.parse(await readFile("registry/serverless.json", "utf8"))).rules;
 }
 
-function expected(rule: RegistryV2Rule, path: string, line: number): DetectorFinding {
+function expected(rule: RegistryV2Rule, path: string, line: number, runtime?: string): DetectorFinding {
+  const declared = runtime ?? rule.purl.slice(rule.purl.lastIndexOf("/") + 1);
   return {
     id: `${rule.id}:${path}:${line}`,
     ruleId: rule.id,
     title: rule.title,
-    summary: `${path} declares runtime ${rule.purl.slice(rule.purl.lastIndexOf("/") + 1)}. ${rule.summary}`,
+    summary: `${path} declares runtime ${declared}. ${rule.summary}`,
     severity: rule.severity,
     location: { path, line },
     ...(rule.replacement ? { replacement: rule.replacement } : {}),
@@ -67,6 +68,8 @@ test("serverless passes detector conformance on every fixture", async () => {
         root: resolve(fixtures, "positive"),
         expectedFindings: [
           expected(byId("serverless.aws-lambda.nodejs14.x"), "main.tf", 3),
+          expected(byId("serverless.azure-app-service.node-below-18"), "main.tf", 13, "14"),
+          expected(byId("serverless.azure-app-service.dotnet-below-6-0"), "main.tf", 23, "3.1"),
           expected(byId("serverless.google-cloud-functions.nodejs14"), "main.tf", 30),
           expected(byId("serverless.google-cloud-functions.python38"), "main.tf", 38),
           expected(byId("serverless.aws-lambda.nodejs14.x"), "serverless.yml", 4),
@@ -97,12 +100,14 @@ test("serverless passes detector conformance on every fixture", async () => {
   });
 });
 
-test("matches AWS and Google identifiers by Package URL and ignores Azure version-only pins without rules", async () => {
+test("matches AWS, Google, and Azure App Service pins by Package URL", async () => {
   const findings = await serverlessDetector.scan({ root: resolve(fixtures, "positive") });
   assert.deepEqual(
     findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
     [
       ["serverless.aws-lambda.nodejs14.x", "main.tf", 3],
+      ["serverless.azure-app-service.node-below-18", "main.tf", 13],
+      ["serverless.azure-app-service.dotnet-below-6-0", "main.tf", 23],
       ["serverless.google-cloud-functions.nodejs14", "main.tf", 30],
       ["serverless.google-cloud-functions.python38", "main.tf", 38],
       ["serverless.aws-lambda.nodejs14.x", "serverless.yml", 4],
@@ -114,12 +119,6 @@ test("matches AWS and Google identifiers by Package URL and ignores Azure versio
       ["serverless.aws-lambda.nodejs16.x", "template.yml", 6],
       ["serverless.aws-lambda.ruby2.7", "template.yml", 12],
     ],
-  );
-  assert.ok(
-    !findings.some(
-      (finding) =>
-        finding.location.path === "main.tf" && (finding.location.line === 13 || finding.location.line === 23),
-    ),
   );
 });
 
@@ -269,14 +268,14 @@ test("a migration packet for a Serverless finding names the file, steps, and ver
   );
 });
 
-test("the detector is registered and serverless is beta in the capability manifest", () => {
+test("the detector is registered and serverless is stable in the capability manifest", () => {
   assert.ok(builtInDetectors.some((detector) => detector.id === "serverless"));
   assert.deepEqual(
     getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "serverless"),
     {
       id: "serverless",
       status: "supported",
-      maturity: "beta",
+      maturity: "stable",
       detectorIds: ["serverless"],
     },
   );

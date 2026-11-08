@@ -10,7 +10,7 @@ resource "azurerm_linux_function_app" "api" {
 
   site_config {
     application_stack {
-      node_version = "22"
+      node_version = "24"
     }
   }
 }

@@ -1,0 +1,179 @@
+{
+  "repository": "stefanprodan/k8s-prom-hpa",
+  "commit": "2dbaabafd360e5c1d0f8a9aaa7bfaa7cb80b6c4b",
+  "ecosystem": "kubernetes",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "kubernetes.apiregistration-k8s-io.apiservice.v1beta1.removed",
+      "path": "custom-metrics-api/custom-metrics-apiservice.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read custom-metrics-api/custom-metrics-apiservice.yaml:1 at this commit: `apiVersion: apiregistration.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.apiregistration-k8s-io.apiservice.v1beta1.removed",
+      "path": "metrics-server/metrics-apiservice.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read metrics-server/metrics-apiservice.yaml:1 at this commit: `apiVersion: apiregistration.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed",
+      "path": "podinfo/podinfo-hpa-custom.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read podinfo/podinfo-hpa-custom.yaml:2 at this commit: `apiVersion: autoscaling/v2beta2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed",
+      "path": "podinfo/podinfo-hpa.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read podinfo/podinfo-hpa.yaml:2 at this commit: `apiVersion: autoscaling/v2beta2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "podinfo/podinfo-ingress.yaml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read podinfo/podinfo-ingress.yaml:14 at this commit: `apiVersion: extensions/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrole.v1beta1.removed",
+      "path": "custom-metrics-api/custom-metrics-cluster-role.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read custom-metrics-api/custom-metrics-cluster-role.yaml:1 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrole.v1beta1.removed",
+      "path": "custom-metrics-api/custom-metrics-resource-reader-cluster-role.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read custom-metrics-api/custom-metrics-resource-reader-cluster-role.yaml:1 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrole.v1beta1.removed",
+      "path": "ingress/ingress-nginx-rbac.yaml",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ingress/ingress-nginx-rbac.yaml:8 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrole.v1beta1.removed",
+      "path": "prometheus/prometheus-rbac.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read prometheus/prometheus-rbac.yaml:2 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+      "path": "custom-metrics-api/custom-metrics-apiserver-auth-delegator-cluster-role-binding.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read custom-metrics-api/custom-metrics-apiserver-auth-delegator-cluster-role-binding.yaml:1 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+      "path": "custom-metrics-api/custom-metrics-apiserver-resource-reader-cluster-role-binding.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read custom-metrics-api/custom-metrics-apiserver-resource-reader-cluster-role-binding.yaml:1 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+      "path": "custom-metrics-api/hpa-custom-metrics-cluster-role-binding.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read custom-metrics-api/hpa-custom-metrics-cluster-role-binding.yaml:1 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+      "path": "ingress/ingress-nginx-rbac.yaml",
+      "line": 115,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ingress/ingress-nginx-rbac.yaml:115 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+      "path": "metrics-server/auth-delegator.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read metrics-server/auth-delegator.yaml:1 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+      "path": "prometheus/prometheus-rbac.yaml",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read prometheus/prometheus-rbac.yaml:29 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.role.v1beta1.removed",
+      "path": "ingress/ingress-nginx-rbac.yaml",
+      "line": 60,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ingress/ingress-nginx-rbac.yaml:60 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.rolebinding.v1beta1.removed",
+      "path": "custom-metrics-api/custom-metrics-apiserver-auth-reader-role-binding.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read custom-metrics-api/custom-metrics-apiserver-auth-reader-role-binding.yaml:1 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.rolebinding.v1beta1.removed",
+      "path": "ingress/ingress-nginx-rbac.yaml",
+      "line": 101,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ingress/ingress-nginx-rbac.yaml:101 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.rolebinding.v1beta1.removed",
+      "path": "metrics-server/auth-reader.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read metrics-server/auth-reader.yaml:1 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

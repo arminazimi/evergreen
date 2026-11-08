@@ -24,6 +24,11 @@ export interface RuntimeDeclaration {
   line: number;
   /** The cloud whose runtime ids apply, when the declaration says so: AWS and Cloud Functions share some ids. */
   platform?: "aws" | "gcp";
+  /**
+   * Azure App Service / Functions `application_stack` field that produced this pin
+   * (`node`, `python`, `java`, `dotnet`, `powershell`). Used to build the matching Package URL.
+   */
+  stack?: "node" | "python" | "java" | "dotnet" | "powershell";
 }
 
 /** True when the value is a Serverless variable or another non-literal form. */

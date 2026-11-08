@@ -3,7 +3,7 @@ import type { ManifestEcosystem } from "../schema.js";
 const kubernetes: ManifestEcosystem = {
   id: "kubernetes",
   status: "supported",
-  maturity: "beta",
+  maturity: "stable",
   detectorIds: ["kubernetes"],
 };
 

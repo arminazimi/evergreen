@@ -1,0 +1,188 @@
+{
+  "repository": "t3n/helm-charts",
+  "commit": "53c584dfd364b286b6a1134112169062fe80e3d7",
+  "ecosystem": "kubernetes",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "cronjob/templates/cronjobs.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cronjob/templates/cronjobs.yaml:1 at this commit: `apiVersion: batch/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "gtmetrix-bq/templates/cronjobs.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read gtmetrix-bq/templates/cronjobs.yaml:1 at this commit: `apiVersion: batch/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "matomo/templates/cronjob-archive.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read matomo/templates/cronjob-archive.yaml:2 at this commit: `apiVersion: batch/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "matomo/templates/cronjob-ipdb.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read matomo/templates/cronjob-ipdb.yaml:2 at this commit: `apiVersion: batch/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "postgresql-backup/templates/cronjob-backup.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read postgresql-backup/templates/cronjob-backup.yaml:2 at this commit: `apiVersion: batch/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "postgresql-backup/templates/cronjob-restore.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read postgresql-backup/templates/cronjob-restore.yaml:2 at this commit: `apiVersion: batch/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.helm.repository.stable.end-of-life",
+      "path": "python/Chart.yaml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read python/Chart.yaml:11 at this commit: `- name: postgresql`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.helm.repository.stable.end-of-life",
+      "path": "python/Chart.yaml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read python/Chart.yaml:7 at this commit: `- name: redis-ha`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.helm.repository.stable.end-of-life",
+      "path": "unms/Chart.yaml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read unms/Chart.yaml:11 at this commit: `- name: postgresql`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.helm.repository.stable.end-of-life",
+      "path": "unms/Chart.yaml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read unms/Chart.yaml:14 at this commit: `- name: rabbitmq-ha`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.helm.repository.stable.end-of-life",
+      "path": "unms/Chart.yaml",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read unms/Chart.yaml:8 at this commit: `- name: redis`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.networking-k8s-io.ingress.v1beta1.removed",
+      "path": "matomo/templates/ingress.yaml",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read matomo/templates/ingress.yaml:4 at this commit: `apiVersion: networking.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.policy.poddisruptionbudget.v1beta1.removed",
+      "path": "dashkiosk/templates/poddisruptionbudget.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read dashkiosk/templates/poddisruptionbudget.yaml:2 at this commit: `apiVersion: policy/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.policy.poddisruptionbudget.v1beta1.removed",
+      "path": "loki/templates/pdb.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read loki/templates/pdb.yaml:2 at this commit: `apiVersion: policy/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.policy.poddisruptionbudget.v1beta1.removed",
+      "path": "matomo/templates/poddisruptionbudget.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read matomo/templates/poddisruptionbudget.yaml:2 at this commit: `apiVersion: policy/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.policy.poddisruptionbudget.v1beta1.removed",
+      "path": "python/templates/poddisruptionbudget.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read python/templates/poddisruptionbudget.yaml:2 at this commit: `apiVersion: policy/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.policy.poddisruptionbudget.v1beta1.removed",
+      "path": "snipeit/templates/poddisruptionbudget.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read snipeit/templates/poddisruptionbudget.yaml:2 at this commit: `apiVersion: policy/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.policy.poddisruptionbudget.v1beta1.removed",
+      "path": "snowplow/templates/poddisruptionbudget.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read snowplow/templates/poddisruptionbudget.yaml:2 at this commit: `apiVersion: policy/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.policy.poddisruptionbudget.v1beta1.removed",
+      "path": "unms/templates/poddisruptionbudget.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read unms/templates/poddisruptionbudget.yaml:2 at this commit: `apiVersion: policy/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.policy.poddisruptionbudget.v1beta1.removed",
+      "path": "web/templates/poddisruptionbudget.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read web/templates/poddisruptionbudget.yaml:2 at this commit: `apiVersion: policy/v1beta1`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

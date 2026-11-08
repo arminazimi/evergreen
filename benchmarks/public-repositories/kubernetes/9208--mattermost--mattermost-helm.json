@@ -1,0 +1,62 @@
+{
+  "repository": "mattermost/mattermost-helm",
+  "commit": "07025cf61b2fd7f656d08723acdba53de238454e",
+  "ecosystem": "kubernetes",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "docker/app/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docker/app/Dockerfile:1 at this commit: `FROM ubuntu:16.04`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "mysql-backup/mysql-dump-ScheduledJob.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read mysql-backup/mysql-dump-ScheduledJob.yaml:1 at this commit: `apiVersion: batch/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.helm.repository.incubator.end-of-life",
+      "path": "charts/mattermost-enterprise-edition/Chart.yaml",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read charts/mattermost-enterprise-edition/Chart.yaml:29 at this commit: `- name: mysqlha`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.helm.repository.stable.end-of-life",
+      "path": "charts/mattermost-enterprise-edition/Chart.yaml",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read charts/mattermost-enterprise-edition/Chart.yaml:33 at this commit: `- name: minio`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.helm.repository.stable.end-of-life",
+      "path": "charts/mattermost-enterprise-edition/Chart.yaml",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read charts/mattermost-enterprise-edition/Chart.yaml:37 at this commit: `- name: prometheus`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.helm.repository.stable.end-of-life",
+      "path": "charts/mattermost-team-edition/Chart.yaml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read charts/mattermost-team-edition/Chart.yaml:17 at this commit: `- name: mysql`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

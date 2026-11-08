@@ -1,0 +1,7 @@
+{
+  "repository": "HaseebUllah-DevOps/kubernetes-security-policies",
+  "commit": "5b1a55f698d49d17034df26ad7a77392b2ceaad3",
+  "ecosystem": "kubernetes",
+  "selection": "blind",
+  "expected": []
+}

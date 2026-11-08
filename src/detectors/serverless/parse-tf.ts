@@ -41,6 +41,14 @@ const STACK_KEYS = new Set([
   "dotnet_version",
 ]);
 
+const STACK_BY_KEY: Record<string, NonNullable<RuntimeDeclaration["stack"]>> = {
+  node_version: "node",
+  python_version: "python",
+  java_version: "java",
+  powershell_core_version: "powershell",
+  dotnet_version: "dotnet",
+};
+
 const RESOURCE_KEYWORD = /\bresource\b/g;
 
 export interface RuntimeDeclaration {
@@ -50,6 +58,11 @@ export interface RuntimeDeclaration {
   line: number;
   /** The cloud whose runtime ids apply, when the declaration says so: AWS and Cloud Functions share some ids. */
   platform?: "aws" | "gcp";
+  /**
+   * Azure App Service / Functions `application_stack` field that produced this pin
+   * (`node`, `python`, `java`, `dotnet`, `powershell`). Used to build the matching Package URL.
+   */
+  stack?: "node" | "python" | "java" | "dotnet" | "powershell";
 }
 
 function blankNonNewlines(text: string): string {
@@ -319,7 +332,11 @@ function collectDirectAttributes(
       const equals = index + match[0].length - 1;
       if (equals >= end) return;
       const declaration = readLiteral(source, equals);
-      if (declaration) declarations.push(declaration);
+      if (declaration) {
+        const stack = STACK_BY_KEY[key];
+        if (stack) declaration.stack = stack;
+        declarations.push(declaration);
+      }
       index += match[0].length;
       matched = true;
       break;

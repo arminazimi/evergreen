@@ -1,0 +1,7 @@
+{
+  "repository": "api-evangelist/echo",
+  "commit": "e79eb152421a9f2010acab58c3644611a12b36e9",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": []
+}

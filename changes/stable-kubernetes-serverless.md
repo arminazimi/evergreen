@@ -1,0 +1,1 @@
+- Promote the kubernetes and serverless detectors to stable after Azure App Service pins match and the corpus meets the stable evidence floors.

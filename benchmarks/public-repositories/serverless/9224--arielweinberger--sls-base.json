@@ -1,0 +1,17 @@
+{
+  "repository": "arielweinberger/sls-base",
+  "commit": "ac985fbf36056e3d98dc59846e12e6313c5e46e8",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "serverless.aws-lambda.nodejs20.x",
+      "path": "serverless.yml",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read serverless.yml:8 at this commit: `runtime: nodejs20.x`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

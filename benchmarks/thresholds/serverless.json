@@ -1,6 +1,6 @@
 {
   "order": 210,
-  "level": "beta",
+  "level": "stable",
   "stable": true,
   "minPrecision": 0.95
 }

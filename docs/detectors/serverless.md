@@ -1,6 +1,6 @@
 # Serverless runtimes
 
-The `serverless` detector reports managed serverless runtime identifiers that vendors list as end-of-life, as declared in AWS SAM / CloudFormation templates, Serverless Framework `serverless.yml`, and Terraform. It is **beta**: findings were checked against ground truth on enough repositories to measure them, and the precision floor in `benchmarks/thresholds.json` is enforced. The maturity rules are in [Decision 0013](../decisions/0013-detector-maturity.md).
+The `serverless` detector reports managed serverless runtime identifiers that vendors list as end-of-life, as declared in AWS SAM / CloudFormation templates, Serverless Framework `serverless.yml`, and Terraform (including Azure Functions `application_stack` version pins). It is **stable**: its level is recorded as `stable` in `benchmarks/thresholds.json`, and the precision floor is enforced on the [public corpus](../VALIDATION.md#serverless-corpus). The maturity rules are in [Decision 0013](../decisions/0013-detector-maturity.md).
 
 ## What it reads
 
@@ -16,9 +16,9 @@ It walks the repository up to eight directories deep (at most 500 matching files
 
 ## What it reports
 
-- A literal AWS Lambda runtime identifier that a `pkg:generic/aws-lambda-runtime/<id>` rule covers. The bundled rules cover `nodejs14.x`, `python3.8`, `ruby2.7`, and `dotnetcore3.1`, citing the [AWS Lambda runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) table.
-- A literal Google Cloud Functions runtime identifier that a `pkg:generic/google-cloud-functions-runtime/<id>` rule covers. The bundled rule covers `nodejs14`, citing the [Cloud Run functions runtime support](https://cloud.google.com/functions/docs/runtime-support) schedule.
-- An Azure Functions `application_stack` version pin only when a rule names that identifier. There are no bundled Azure rules yet.
+- A literal AWS Lambda runtime identifier that a `pkg:generic/aws-lambda-runtime/<id>` rule covers, citing the [AWS Lambda runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) table.
+- A literal Google Cloud Functions runtime identifier that a `pkg:generic/google-cloud-functions-runtime/<id>` rule covers, citing the [Cloud Run functions runtime support](https://cloud.google.com/functions/docs/runtime-support) schedule.
+- An Azure Functions / App Service `application_stack` version pin (`node_version`, `python_version`, `java_version`, `dotnet_version`, `powershell_core_version`) on `azurerm_linux_function_app` / `azurerm_windows_function_app` when a `pkg:generic/azure-app-service/<stack>` rule covers that version, citing the [App Service language runtime support policy](https://learn.microsoft.com/en-us/azure/app-service/language-support-policy).
 
 Each finding names the file and line, and carries its rule's source, replacement, deadline, migration guidance, and verification commands. There is no source-usage pass.
 
@@ -26,7 +26,8 @@ Each finding names the file and line, and carries its rule's source, replacement
 
 - Runtime identifiers with no rule in `registry/serverless.json`. A missing finding is not evidence that a runtime is current.
 - CloudFormation intrinsic functions and tags, Serverless Framework variables, Terraform variables and interpolations, and floating aliases such as `latest`.
-- CDK, Pulumi, SAM CLI `samconfig`, Serverless Framework `serverless.ts` / `serverless.js`, and Azure Function `function.json` / `host.json` app settings.
+- CDK, Pulumi, SAM CLI `samconfig`, Serverless Framework `serverless.ts` / `serverless.js`, and Azure Function `function.json` / `host.json` app settings (Terraform `application_stack` pins are judged; app settings are not).
+- Azure stack fields that are Terraform interpolations (`var` / `local` / dynamic blocks), and `node_version` only under `app_settings` or module variable type objects without a literal pin on the resource.
 - Image-based Lambda or Cloud Functions deployments that omit a managed-runtime identifier.
 - Vulnerability advisories and license policy.
 
@@ -43,4 +44,4 @@ The rules are in `registry/serverless.json` and ship in the [data bundle](../DAT
 
 ## Validation
 
-Ten public repositories at pinned commits cover the detector: five targeted (Dwolla, haltakov, HUK-COBURG, BaptisteLecat, aws-samples/sam-python-crud-sample) and five chosen blind by the rule in [Validation](../VALIDATION.md#serverless-blind-selection) (`serverless/examples`, `AnomalyInnovations/serverless-stack-demo-api`, Swizec, skojin, livgust). Each expected finding was reviewed by hand against the file at that commit. Precision and recall are measured on the full public corpus and recorded with the beta promotion in `benchmarks/thresholds.json`.
+Forty-one public repositories at pinned commits cover the detector: seven targeted and thirty-four chosen blind by the rules in [Validation](../VALIDATION.md#serverless-blind-selection) (the 2026-10-21 beta walk plus the 2026-11-08 stable expansion). The set includes SAM `template.yaml`, Serverless Framework `serverless.yml`, Terraform AWS Lambda runtimes, and Azure `application_stack` pins. Each expected finding was reviewed by hand against the file at that commit. Corpus-wide evidence meets every stable count in [decision 0013](../decisions/0013-detector-maturity.md). Offline validate on the Serverless bucket reported precision 1 and recall 1 for `serverless`.

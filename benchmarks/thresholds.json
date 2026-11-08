@@ -61,7 +61,7 @@
       "minPrecision": 0.95
     },
     "kubernetes": {
-      "level": "beta",
+      "level": "stable",
       "stable": true,
       "minPrecision": 0.95
     },
@@ -106,7 +106,7 @@
       "minPrecision": 0.95
     },
     "serverless": {
-      "level": "beta",
+      "level": "stable",
       "stable": true,
       "minPrecision": 0.95
     },

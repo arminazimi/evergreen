@@ -1,0 +1,143 @@
+{
+  "repository": "heptio/aws-quickstart",
+  "commit": "3c6f6e4240cfc05447876fc08e27f24e67b1a126",
+  "ecosystem": "kubernetes",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "ci/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ci/Dockerfile:1 at this commit: `FROM alpine:3.7`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.apps.deployment.v1beta2.removed",
+      "path": "scripts/dashboard.yaml",
+      "line": 100,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/dashboard.yaml:100 at this commit: `apiVersion: apps/v1beta2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.daemonset.v1beta1.removed",
+      "path": "scripts/calico.yaml",
+      "line": 146,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/calico.yaml:146 at this commit: `apiVersion: extensions/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.daemonset.v1beta1.removed",
+      "path": "scripts/calico.yaml",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/calico.yaml:59 at this commit: `apiVersion: extensions/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.daemonset.v1beta1.removed",
+      "path": "scripts/weave.yaml",
+      "line": 140,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/weave.yaml:140 at this commit: `- apiVersion: extensions/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "scripts/calico.yaml",
+      "line": 326,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/calico.yaml:326 at this commit: `apiVersion: extensions/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrole.v1beta1.removed",
+      "path": "scripts/calico.yaml",
+      "line": 398,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/calico.yaml:398 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrole.v1beta1.removed",
+      "path": "scripts/calico.yaml",
+      "line": 435,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/calico.yaml:435 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrole.v1beta1.removed",
+      "path": "scripts/weave.yaml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/weave.yaml:20 at this commit: `- apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+      "path": "scripts/calico.yaml",
+      "line": 382,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/calico.yaml:382 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+      "path": "scripts/calico.yaml",
+      "line": 419,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/calico.yaml:419 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+      "path": "scripts/weave.yaml",
+      "line": 61,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/weave.yaml:61 at this commit: `- apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.role.v1beta1.removed",
+      "path": "scripts/weave.yaml",
+      "line": 84,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/weave.yaml:84 at this commit: `- apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.rolebinding.v1beta1.removed",
+      "path": "scripts/weave.yaml",
+      "line": 116,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/weave.yaml:116 at this commit: `- apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+      "path": "scripts/default.storageclass.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/default.storageclass.yaml:1 at this commit: `apiVersion: storage.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

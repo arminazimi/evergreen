@@ -1,0 +1,26 @@
+{
+  "repository": "wormwlrm/bamboo-forest",
+  "commit": "1b511bd061578e24bf856db94d0df29a63e76dce",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": ".nvmrc",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .nvmrc:1 at this commit: `14.21.2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read serverless.yml:6 at this commit: `runtime: nodejs14.x`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

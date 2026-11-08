@@ -1,0 +1,26 @@
+{
+  "repository": "sasasavic82/roborover",
+  "commit": "c41223fbcaaee26a845cc0a05b3fcda6ee2d3811",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "basestation/serverless.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read basestation/serverless.yml:14 at this commit: `runtime: nodejs14.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "infrastructure/serverless.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read infrastructure/serverless.yml:11 at this commit: `runtime: nodejs14.x`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "repository": "kop7/serverless-nestjs-typeorm",
+  "commit": "9fdd7481a5a47f5ddf69a95003db03e2e95d0161",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "serverless.aws-lambda.nodejs20.x",
+      "path": "serverless.yml",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read serverless.yml:9 at this commit: `runtime: nodejs20.x`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

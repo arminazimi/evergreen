@@ -1,0 +1,7 @@
+{
+  "repository": "fatihsoysalcom/kubernetes-network-policy-example",
+  "commit": "9def9ffb6401a5bf6392a853b178dc76765b438e",
+  "ecosystem": "kubernetes",
+  "selection": "blind",
+  "expected": []
+}

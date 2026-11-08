@@ -1,0 +1,125 @@
+{
+  "repository": "salmon-wallet/salmon-wallet-v2",
+  "commit": "c0eff002c4f9106e16d4e9665a92e6f41c5978c0",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build.yml:30 at this commit: `uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/deploy.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/deploy.yml:19 at this commit: `uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build.yml:38 at this commit: `uses: actions/setup-node@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/deploy.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/deploy.yml:22 at this commit: `uses: actions/setup-node@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-9-10",
+      "path": "android/app/build.gradle",
+      "line": 224,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read android/app/build.gradle:224 at this commit: `sourceCompatibility JavaVersion.VERSION_1_9`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-9-10",
+      "path": "android/app/build.gradle",
+      "line": 225,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read android/app/build.gradle:225 at this commit: `targetCompatibility JavaVersion.VERSION_1_9`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/build.yml",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build.yml:40 at this commit: `node-version: '20'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/deploy.yml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/deploy.yml:24 at this commit: `node-version: '20'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": ".node-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .node-version:1 at this commit: `16`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.react-native.0.77-to-0.84.end-of-support",
+      "path": "package.json",
+      "line": 56,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:56 at this commit: `\"react-native\": \"^0.82.1\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .ruby-version:1 at this commit: `2.7.5`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Gemfile:4 at this commit: `ruby '2.7.5'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs20.x",
+      "path": "serverless.yml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read serverless.yml:10 at this commit: `runtime: nodejs20.x`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "repository": "Peterclark1996/grepolis-live-map",
+  "commit": "bd7a721739c86ddc5da2857cebd8a8517fa5b152",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/main.yml",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/main.yml:31 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/main.yml",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/main.yml:46 at this commit: `uses: actions/setup-node@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-terraform.node20",
+      "path": ".github/workflows/main.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/main.yml:26 at this commit: `- uses: hashicorp/setup-terraform@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": ".github/workflows/main.yml",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/main.yml:48 at this commit: `node-version: 14.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.azure-app-service.node-below-18",
+      "path": "terraform/main.tf",
+      "line": 80,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read terraform/main.tf:80 at this commit: `node_version = \"14\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

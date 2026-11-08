@@ -1,0 +1,44 @@
+{
+  "repository": "coloradodigitalservice/exposure-notifications-metrics-public",
+  "commit": "b6e0086a3d6fc8375e01e21fb7f2ca2c80dc204d",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "serverless.aws-lambda.python3.8",
+      "path": "template.yaml",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read template.yaml:44 at this commit: `Runtime: python3.8`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.8",
+      "path": "template.yaml",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read template.yaml:54 at this commit: `Runtime: python3.8`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.8",
+      "path": "template.yaml",
+      "line": 65,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read template.yaml:65 at this commit: `Runtime: python3.8`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.8",
+      "path": "template.yaml",
+      "line": 72,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read template.yaml:72 at this commit: `Runtime: python3.8`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

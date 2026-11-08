@@ -8,7 +8,7 @@ The pinned repository sets and blind selection rules for each ecosystem detector
 
 ## Kubernetes corpus
 
-Seventeen public repositories at pinned commits cover the `kubernetes` detector. Targeted (chosen knowing their result): `argoproj/argocd-example-apps` (Helm and kustomize applications, including a Chart.yaml dependency on the retired Helm stable repository), `kelseyhightower/ingress-with-static-ip`, `unixhot/salt-kubebin` (a CronJob and three Ingresses), `kubernetes/examples` (two PodSecurityPolicy documents, plus the two end-of-life base images the container detector reports there), and `lusyoe/springboot-k8s-example` (a Helm template and a plain manifest). `ahmetb/kubernetes-network-policy-recipes` is a targeted zero-finding companion (modern NetworkPolicy examples only), added so the kubernetes corpus still has two empty `expected` lists after argocd-example-apps gained the Helm stable finding.
+Thirty-six public repositories at pinned commits cover the `kubernetes` detector. Targeted (chosen knowing their result): `argoproj/argocd-example-apps` (Helm and kustomize applications, including a Chart.yaml dependency on the retired Helm stable repository), `kelseyhightower/ingress-with-static-ip`, `unixhot/salt-kubebin` (a CronJob and three Ingresses), `kubernetes/examples` (two PodSecurityPolicy documents, plus the two end-of-life base images the container detector reports there), and `lusyoe/springboot-k8s-example` (a Helm template and a plain manifest). `ahmetb/kubernetes-network-policy-recipes` is a targeted zero-finding companion (modern NetworkPolicy examples only), added so the kubernetes corpus still has two empty `expected` lists after argocd-example-apps gained the Helm stable finding.
 
 Blind (rule below): `kelseyhightower/kubernetes-cluster-federation` (extensions/v1beta1 Deployments, ReplicaSets, and an Ingress), `motiv-labs/janus` (a PodDisruptionBudget and an Ingress, plus Go and Action findings), `FairwindsOps/pluto` (two extensions/v1beta1 Deployments outside its test directories), `luksa/kubernetes-in-action` (thirty-odd manifests across extensions, apps/v1beta1 and v1beta2, PodSecurityPolicy, CronJob, StatefulSet, CRD, and Ingress), `ossf/package-analysis` (an autoscaling/v2beta2 HorizontalPodAutoscaler), `knrt10/kubernetes-basicLearning` (a networking.k8s.io/v1beta1 Ingress), and five with no Kubernetes finding: `hasura/skor` (the removed version appears only as a `kind: List` item), `stefanprodan/gitops-istio` (the removed version appears only as a Flagger `autoscalerRef`), `doitintl/kube-no-trouble` (the removed versions are in `fixtures/`), `elastic/crd-ref-docs`, and `yaml-schema/yaml-schema`, `shepherd44/helm-charts` (current API versions).
 
@@ -23,6 +23,16 @@ The five earliest Kubernetes repositories were chosen knowing their result, so e
 The blind rule, fixed on 2026-10-23 before Evergreen ran on these additions: GitHub code search restricted to `--extension yaml` (`gh search code <query> --limit 60`) for each of `extensions/v1beta1`, `policy/v1beta1`, `batch/v1beta1`, `autoscaling/v2beta2`, and `networking.k8s.io/v1beta1` (removed API groups, expected to produce findings), and `apps/v1 Deployment` (current API, expected to produce none). Per query, walk the results in order and keep the first two unique repositories, skipping forks, archives, repositories already in the corpus or chosen by an earlier query, and repositories larger than 5,000 KB on GitHub. Pin each at its default-branch commit on that date. The twelve are `hasura/skor`, `kelseyhightower/kubernetes-cluster-federation`, `motiv-labs/janus`, `FairwindsOps/pluto`, `luksa/kubernetes-in-action`, `doitintl/kube-no-trouble`, `ossf/package-analysis`, `stefanprodan/gitops-istio`, `knrt10/kubernetes-basicLearning`, `elastic/crd-ref-docs`, `yaml-schema/yaml-schema`, and `shepherd44/helm-charts`. The query returns different results on another day, so the pinned list above, not a re-run, is the record.
 
 Ground truth: for each repository every `apiVersion` line naming a removed group and version was listed with `grep` over the pinned YAML files and compared with the report, independently of Evergreen's own output, and each reported finding's `kind` was read from its manifest. Every expected finding has a `maintainer-review` note naming the path, the exact line, and the kind.
+
+## Kubernetes stable expansion (2026-11-08)
+
+To meet the stable evidence minimums of [decision 0013](../decisions/0013-detector-maturity.md) (at least 20 repositories with Kubernetes findings, 4 zero-finding Kubernetes-ecosystem repositories, at least two thirds blind, at least 60 `kubernetes.*` expected findings), the Kubernetes corpus gains further blind repositories. The selection rule below was fixed on 2026-11-08 **before** Evergreen ran on these additions.
+
+Blind finding rule (2026-11-08): `gh search code --limit 60` for each of `extensions/v1beta1`, `batch/v1beta1`, `networking.k8s.io/v1beta1`, and `autoscaling/v2beta2` with `--extension yaml`; `charts.helm.sh/stable` with `--filename Chart.yaml` (Helm retired-repo pins); and `extensions/v1beta1` with `--filename kustomization.yaml` (Kustomize overlays). Walk results in order; keep unique repositories that are not forks, not archived, not larger than 50,000 KB, and not already in the corpus; pin each at its default-branch HEAD that day.
+
+Blind zero-finding rule (same day): GitHub repository search for small NetworkPolicy example repositories (`kubernetes networkpolicy examples`, stars 10..5000, not archived). Walk results in order; warm and scan offline; keep a repository only when every detector reports nothing; stop once the Kubernetes ecosystem has four empty `expected` lists. Kept zeros from that walk: `fatihsoysalcom/kubernetes-network-policy-example` and `HaseebUllah-DevOps/kubernetes-security-policies` (alongside the earlier targeted zeros).
+
+Corpus-wide `countEvidence` for `kubernetes` meets every stable row. Offline validate on the Kubernetes bucket reported precision 1 and recall 1.
 
 ## Java and Kotlin corpus
 
@@ -104,7 +114,7 @@ Ground truth: for each repository the `.xcode-version` line, every application-t
 
 ## Serverless corpus
 
-Ten public repositories at pinned commits cover the `serverless` detector.
+Forty-one public repositories at pinned commits cover the `serverless` detector.
 
 Targeted: `Dwolla/webhook-receiver` (`provider.runtime` `nodejs14.x`), `haltakov/natural-language-image-search` (`provider.runtime` `python3.8`), `HUK-COBURG/innoforum-aws-serverless` (SAM and Terraform `nodejs14.x`, plus GitHub Actions pins), `BaptisteLecat/gcp_architect_certification` (Terraform Google Cloud Functions `nodejs14`), and `aws-samples/sam-python-crud-sample` (five SAM `python3.8` functions, plus GitHub Actions pins).
 
@@ -121,6 +131,16 @@ The five earliest Serverless corpus repositories were chosen knowing their resul
 The blind rule, fixed on 2026-10-21 before Evergreen ran on these additions: GitHub code search for `runtime: nodejs14.x` in `filename:serverless.yml`, plus the first results of `Runtime: nodejs14.x` / `Runtime: python3.8` in SAM `template.yaml` and of current `runtime: nodejs22.x` examples, walking public non-fork repositories in the order returned that day. Keep a repository when its default-branch tip contains `serverless.yml`, `template.yaml` / `template.yml`, or a Terraform `aws_lambda_function` / `google_cloudfunctions*_function` runtime declaration; skip archives and the repositories already pinned as targeted. Stop at five. The five, pinned at their default-branch commit on that date, are `serverless/examples`, `AnomalyInnovations/serverless-stack-demo-api`, `Swizec/lambda-screenshot-as-a-service`, `skojin/send-gmail-lambda`, and `livgust/covid-vaccine-scrapers`. The query returns different results on another day, so the pinned list above, not a re-run, is the record.
 
 Ground truth: for each repository the runtime lines (and any other detector findings on the same pin) were listed by reading the pinned files and compared with the report, independently of Evergreen's own output. Every expected finding has a `maintainer-review` note naming the path, the exact line, and the vendor date the rule rests on.
+
+## Serverless stable expansion (2026-11-08)
+
+To meet the stable evidence minimums of [decision 0013](../decisions/0013-detector-maturity.md), the Serverless corpus gains further blind repositories. The selection rule below was fixed on 2026-11-08 **before** Evergreen ran on these additions.
+
+Blind finding rule (2026-11-08): `gh search code --limit 40` for `nodejs14.x` `--filename serverless.yml`, `python3.8` `--filename template.yaml`, `runtime = "nodejs14.x"` `--extension tf`, and `node_version = "14"` `--extension tf` (Azure App Service / Functions pins). Walk results in order; keep unique non-fork, non-archived repositories under 50,000 KB that are not already in the corpus; pin each at its default-branch HEAD that day.
+
+Blind zero-finding rule (same day): walk tiny image-oriented or empty-runtime candidates from repository search (`serverless image packaging`, small star counts); keep only when the offline scan reports nothing for every detector. Kept zeros: `CloudNationHQ/terraform-azure-func` (module with no literal stack pin) and `api-evangelist/echo` (alongside the earlier targeted zeros).
+
+The same change wires Azure `application_stack` version pins to `pkg:generic/azure-app-service/<stack>` rules (regression fixtures under `tests/fixtures/serverless/`). Corpus-wide `countEvidence` for `serverless` meets every stable row. Offline validate on the Serverless bucket reported precision 1 and recall 1.
 
 ## .NET blind selection
 

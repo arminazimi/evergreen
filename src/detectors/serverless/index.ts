@@ -18,10 +18,11 @@ import { parseTf } from "./parse-tf.js";
  *
  * It reads AWS SAM / CloudFormation `template.yaml` / `template.yml`, Serverless Framework
  * `serverless.yml`, and Terraform `*.tf` files, and matches each literal runtime identifier against
- * the rules whose Package URL embeds that identifier (`pkg:generic/aws-lambda-runtime/<id>` or
- * `pkg:generic/google-cloud-functions-runtime/<id>`). The first rule whose VERS range contains the
- * identifier wins. A rule whose VERS is malformed is skipped so it cannot hide a later rule. Cloud
- * tools are never run and nothing is fetched.
+ * the rules whose Package URL embeds that identifier (`pkg:generic/aws-lambda-runtime/<id>`,
+ * `pkg:generic/google-cloud-functions-runtime/<id>`, or `pkg:generic/azure-app-service/<stack>` for
+ * Azure `application_stack` version pins). The first rule whose VERS range contains the identifier
+ * (or the Azure version pin) wins. A rule whose VERS is malformed is skipped so it cannot hide a
+ * later rule. Cloud tools are never run and nothing is fetched.
  */
 
 const MAXIMUM_DEPTH = 8;
@@ -43,6 +44,7 @@ const TEMPLATE_NAMES = new Set(["template.yaml", "template.yml"]);
 const SERVERLESS_YML = "serverless.yml";
 const AWS_PURL_PREFIX = "pkg:generic/aws-lambda-runtime/";
 const GCLOUD_PURL_PREFIX = "pkg:generic/google-cloud-functions-runtime/";
+const AZURE_APP_SERVICE_PURL_PREFIX = "pkg:generic/azure-app-service/";
 
 type ServerlessFileKind = "template" | "serverless-yml" | "tf";
 
@@ -85,8 +87,13 @@ function parseFile(kind: ServerlessFileKind, contents: string): RuntimeDeclarati
   return parseTf(contents);
 }
 
-/** Candidate Package URLs for a runtime identifier as written in the declaration; a known platform narrows them. */
-export function candidatePurls(identifier: string, platform?: "aws" | "gcp"): string[] {
+/** Candidate Package URLs for a runtime identifier as written in the declaration; a known platform or Azure stack narrows them. */
+export function candidatePurls(
+  identifier: string,
+  platform?: "aws" | "gcp",
+  stack?: RuntimeDeclaration["stack"],
+): string[] {
+  if (stack) return [`${AZURE_APP_SERVICE_PURL_PREFIX}${stack}`];
   const aws = `${AWS_PURL_PREFIX}${identifier}`;
   const gcp = `${GCLOUD_PURL_PREFIX}${identifier}`;
   return platform === "aws" ? [aws] : platform === "gcp" ? [gcp] : [aws, gcp];
@@ -164,7 +171,7 @@ export class ServerlessDetector implements Detector {
       const path = relativePosix(context.root, file.path);
       for (const declaration of parseFile(file.kind, contents)) {
         let matched: RegistryV2Rule | undefined;
-        for (const purl of candidatePurls(declaration.value, declaration.platform)) {
+        for (const purl of candidatePurls(declaration.value, declaration.platform, declaration.stack)) {
           matched = firstMatchingRule(byPurl.get(purl) ?? [], declaration.value);
           if (matched) break;
         }

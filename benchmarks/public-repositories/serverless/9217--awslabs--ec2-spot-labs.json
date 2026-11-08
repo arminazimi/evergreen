@@ -1,0 +1,116 @@
+{
+  "repository": "awslabs/ec2-spot-labs",
+  "commit": "545190ba692d300e0c2f4ed176f26975edc8c8c3",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "kubernetes.apps.daemonset.v1beta2.removed",
+      "path": "ec2-spot-eks-solution/spot-termination-handler/deploy-k8-pod/spot-interrupt-handler.yaml",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ec2-spot-eks-solution/spot-termination-handler/deploy-k8-pod/spot-interrupt-handler.yaml:52 at this commit: `apiVersion: apps/v1beta2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.daemonset.v1beta1.removed",
+      "path": "ec2-spot-eks-solution/cluster-autoscaler/cluster-autoscaler-ds.yaml",
+      "line": 105,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ec2-spot-eks-solution/cluster-autoscaler/cluster-autoscaler-ds.yaml:105 at this commit: `apiVersion: extensions/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.policy.poddisruptionbudget.v1beta1.removed",
+      "path": "ec2-spot-eks-solution/cluster-autoscaler/cluster-autoscaler-pdb.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ec2-spot-eks-solution/cluster-autoscaler/cluster-autoscaler-pdb.yaml:1 at this commit: `apiVersion: policy/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrole.v1beta1.removed",
+      "path": "ec2-spot-eks-solution/cluster-autoscaler/cluster-autoscaler-ds.yaml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ec2-spot-eks-solution/cluster-autoscaler/cluster-autoscaler-ds.yaml:11 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+      "path": "ec2-spot-eks-solution/cluster-autoscaler/cluster-autoscaler-ds.yaml",
+      "line": 70,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ec2-spot-eks-solution/cluster-autoscaler/cluster-autoscaler-ds.yaml:70 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.role.v1beta1.removed",
+      "path": "ec2-spot-eks-solution/cluster-autoscaler/cluster-autoscaler-ds.yaml",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ec2-spot-eks-solution/cluster-autoscaler/cluster-autoscaler-ds.yaml:52 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.rolebinding.v1beta1.removed",
+      "path": "ec2-spot-eks-solution/cluster-autoscaler/cluster-autoscaler-ds.yaml",
+      "line": 87,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ec2-spot-eks-solution/cluster-autoscaler/cluster-autoscaler-ds.yaml:87 at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.7",
+      "path": "ec2-spot-interruption-handler/template.yaml",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ec2-spot-interruption-handler/template.yaml:48 at this commit: `Runtime: python3.7`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.7",
+      "path": "ec2-spot-interruption-logging-insights/template.yaml",
+      "line": 103,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ec2-spot-interruption-logging-insights/template.yaml:103 at this commit: `Runtime: python3.7`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.8",
+      "path": "ec2-asg-dynamic-target-tracking/template.yaml",
+      "line": 134,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ec2-asg-dynamic-target-tracking/template.yaml:134 at this commit: `Runtime: python3.8`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.8",
+      "path": "ec2-asg-dynamic-target-tracking/template.yaml",
+      "line": 162,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ec2-asg-dynamic-target-tracking/template.yaml:162 at this commit: `Runtime: python3.8`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.8",
+      "path": "ec2-asg-dynamic-target-tracking/template.yaml",
+      "line": 89,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ec2-asg-dynamic-target-tracking/template.yaml:89 at this commit: `Runtime: python3.8`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}
