@@ -14,6 +14,7 @@ const cli: CapabilitySurface = {
     "migration.context.create",
     "environment.doctor",
     "snippet.check",
+    "version.recommend",
   ],
 };
 

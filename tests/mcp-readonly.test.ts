@@ -154,6 +154,7 @@ test("no tool, resource, or prompt changes the repository tree", async () => {
       check_snippet: { path: "Dockerfile", content: "FROM node:16\n" },
       forecast_repository: { repository_path: root, as_of: "2026-10-29" },
       plan_migrations: { repository_path: root },
+      recommend_version: { product: "node", as_of: "2026-01-01" },
     } satisfies Record<(typeof MCP_TOOL_NAMES)[number], Record<string, unknown>>;
     assert.deepEqual(Object.keys(calls).sort(), [...MCP_TOOL_NAMES].sort(), "every tool must be exercised here");
 

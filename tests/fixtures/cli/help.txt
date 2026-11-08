@@ -71,6 +71,7 @@ Usage:
   evergreen hook <host> [--fail-on <severity|none>]   # check the file an agent just wrote and answer in its hook protocol
   evergreen init --hooks-for <host> [path] [--dry-run]   # post-edit hook for one agent host; docs/HOOKS.md lists them
   evergreen prompt [path] [--format <text|json>] [--symbol <s>]   # shell prompt segment such as ⏳2, read from the scan cache only
+  evergreen recommend <product|purl> [--min-days <n>] [--as-of <date>] [--json]   # which release line to write today (default 180 days of support)
   evergreen timelapse [path] [--from <YYYY-MM>] [--to <YYYY-MM>] [--svg <file>] [--json]   # month-by-month aging: files turn red as deadlines pass
   evergreen verify [path]   # check the installed release's files against its manifest and say what it cannot check offline
   evergreen watch --board [--json]   # ranked risk board across watched projects, with trend arrows
@@ -120,6 +121,7 @@ Examples:
   evergreen completions zsh > ~/.zfunc/_evergreen
   evergreen hook claude-code
   evergreen prompt --symbol EOL:
+  evergreen recommend node
   evergreen timelapse . --from 2026-11 --to 2028-10
   evergreen verify
   evergreen wrapped . --year 2025

@@ -10,6 +10,7 @@ export const MCP_TOOL_NAMES = [
   "check_snippet",
   "forecast_repository",
   "plan_migrations",
+  "recommend_version",
 ] as const;
 
 export type McpToolName = (typeof MCP_TOOL_NAMES)[number];
@@ -26,6 +27,7 @@ export const MCP_OUTPUT_SCHEMA_FILES = {
   check_snippet: "check-snippet.v1.schema.json",
   forecast_repository: "forecast.v1.schema.json",
   plan_migrations: "plan.v1.schema.json",
+  recommend_version: "recommend.v1.schema.json",
 } as const satisfies Record<McpToolName, string>;
 
 /** MCP hints shared by every tool: read-only, idempotent, closed-world, and non-destructive. */

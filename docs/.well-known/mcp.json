@@ -75,6 +75,10 @@
     {
       "name": "plan_migrations",
       "description": "Run a fresh local scan and return a migration plan: waves of independent tasks a coordinating agent can hand to other agents."
+    },
+    {
+      "name": "recommend_version",
+      "description": "Say which release line of a runtime, image, GitHub Action, or package to write today, from Evergreen's bundled lifecycle data only. Never says latest and reads no network."
     }
   ],
   "authentication": {
