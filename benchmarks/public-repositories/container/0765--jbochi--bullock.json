@@ -3,5 +3,60 @@
   "commit": "51b8f170948c7c3c3af180182412e069eb987364",
   "ecosystem": "container",
   "selection": "blind",
-  "expected": []
+  "expected": [
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile-2.7",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-2.7:1 at this commit: `FROM python:2.7-alpine`: the image tag is at or below the bound of rule container.python.eol-3.10-and-older."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile-3.3",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-3.3:1 at this commit: `FROM python:3.3-alpine`: the image tag is at or below the bound of rule container.python.eol-3.10-and-older."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile-3.4",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-3.4:1 at this commit: `FROM python:3.4-alpine`: the image tag is at or below the bound of rule container.python.eol-3.10-and-older."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile-3.5",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-3.5:1 at this commit: `FROM python:3.5-alpine`: the image tag is at or below the bound of rule container.python.eol-3.10-and-older."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile-3.6",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-3.6:1 at this commit: `FROM python:3.6-alpine`: the image tag is at or below the bound of rule container.python.eol-3.10-and-older."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile-3.7",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-3.7:1 at this commit: `FROM python:3.7-alpine`: the image tag is at or below the bound of rule container.python.eol-3.10-and-older."
+      }
+    }
+  ]
 }

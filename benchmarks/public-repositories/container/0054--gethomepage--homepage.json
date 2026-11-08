@@ -21,6 +21,15 @@
         "kind": "maintainer-review",
         "note": "Reviewed at this commit: line 4 of Dockerfile reads FROM node:22-slim AS builder, an image on Node.js 22, which is scheduled to reach end-of-life on 2027-04-30."
       }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile-tilt",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-tilt:2 at this commit: `FROM docker.io/node:18-alpine`: the image tag is at or below the bound of rule container.node.eol-21-and-older."
+      }
     }
   ]
 }

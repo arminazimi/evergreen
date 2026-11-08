@@ -39,6 +39,51 @@
         "kind": "maintainer-review",
         "note": "Read docker-compose.yml:8 at this commit: `image: redis:4.0.10-alpine`: tag 4.0.10-alpine is at or below the rule's 6.0-and-older bound."
       }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "Dockerfile-3.0",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-3.0:2 at this commit: `MAINTAINER Ján Koščo (@s7anley)`: deprecated `MAINTAINER` instruction."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "Dockerfile-3.2",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-3.2:2 at this commit: `MAINTAINER Ján Koščo (@s7anley)`: deprecated `MAINTAINER` instruction."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "Dockerfile-5.0",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-5.0:2 at this commit: `MAINTAINER Ján Koščo (@s7anley)`: deprecated `MAINTAINER` instruction."
+      }
+    },
+    {
+      "ruleId": "container.redis.eol-6.0-and-older",
+      "path": "Dockerfile-3.0",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-3.0:1 at this commit: `FROM redis:3.0.7-alpine`: the image tag is at or below the bound of rule container.redis.eol-6.0-and-older."
+      }
+    },
+    {
+      "ruleId": "container.redis.eol-6.0-and-older",
+      "path": "Dockerfile-3.2",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-3.2:1 at this commit: `FROM redis:3.2.12-alpine`: the image tag is at or below the bound of rule container.redis.eol-6.0-and-older."
+      }
     }
   ]
 }

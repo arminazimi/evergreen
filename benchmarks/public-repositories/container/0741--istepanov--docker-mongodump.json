@@ -3,5 +3,42 @@
   "commit": "b18532207e42f91771e86f99d9ac97a4de0b953d",
   "ecosystem": "container",
   "selection": "blind",
-  "expected": []
+  "expected": [
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "Dockerfile-3.6",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-3.6:2 at this commit: `MAINTAINER Ilya Stepanov <dev@ilyastepanov.com>`: deprecated `MAINTAINER` instruction."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "Dockerfile-4.0",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-4.0:2 at this commit: `MAINTAINER Ilya Stepanov <dev@ilyastepanov.com>`: deprecated `MAINTAINER` instruction."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "Dockerfile-4.2",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-4.2:2 at this commit: `MAINTAINER Ilya Stepanov <dev@ilyastepanov.com>`: deprecated `MAINTAINER` instruction."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "Dockerfile-4.4",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-4.4:2 at this commit: `MAINTAINER Ilya Stepanov <dev@ilyastepanov.com>`: deprecated `MAINTAINER` instruction."
+      }
+    }
+  ]
 }

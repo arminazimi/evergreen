@@ -390,6 +390,15 @@
         "kind": "maintainer-review",
         "note": "Reviewed the pinned workflow at https://github.com/starcoinorg/starcoin/blob/57559ea1a32c3af5a81d84668c9d4a40511991ed/.github/workflows/auto_bump_homebrew.yml#L19: `printf \"::set-output name=%s::%s\\n\" tag-name \"${GITHUB_REF#refs/tags/}\"` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
       }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "docker/Dockerfilefromlocal",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docker/Dockerfilefromlocal:1 at this commit: `FROM ubuntu:bionic`: the image tag is at or below the bound of rule container.ubuntu.eol-20.04-and-older."
+      }
     }
   ]
 }

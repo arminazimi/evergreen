@@ -669,6 +669,33 @@
         "note": "Reviewed at this commit: read line 13 of terragrunt/examples/gcs_backend/modules/pubsub/main.tf, which holds `example-tag = \"${var.tag}\"`; it matches the declared range of registry rule terraform.syntax.interpolation-only, whose sources record a Terraform provider or module pin the terraform lifecycle rules mark as retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
       },
       "line": 13
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "android/Dockerfile-base",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read android/Dockerfile-base:34 at this commit: `ENV ANDROID_HOME ${android_home}`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "android/Dockerfile-base",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read android/Dockerfile-base:35 at this commit: `ENV ADB_INSTALL_TIMEOUT 120`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "android/Dockerfile-ndk",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read android/Dockerfile-ndk:16 at this commit: `ENV ANDROID_NDK_HOME ${android_ndk_home}`: legacy `ENV key value` form (no `=`)."
+      }
     }
   ]
 }

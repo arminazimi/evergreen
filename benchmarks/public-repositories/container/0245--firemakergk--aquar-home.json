@@ -21,6 +21,24 @@
         "kind": "maintainer-review",
         "note": "Read Dockerfile:15 at this commit: `FROM node:16-slim`; the declaration matches the rule's affected range."
       }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile_alpine",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile_alpine:15 at this commit: `FROM node:16-slim`: the image tag is at or below the bound of rule container.node.eol-21-and-older."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile_alpine",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile_alpine:2 at this commit: `FROM node:16-slim as builder`: the image tag is at or below the bound of rule container.node.eol-21-and-older."
+      }
     }
   ]
 }

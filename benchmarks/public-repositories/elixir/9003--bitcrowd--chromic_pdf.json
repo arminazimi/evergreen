@@ -113,6 +113,33 @@
         "url": "https://github.com/erlang/otp/security/policy",
         "note": "Reviewed at this commit: line 3 of .tool-versions reads `erlang 25.3.1`. Erlang/OTP 25 is outside the three newest majors in the Erlang/OTP security policy (https://github.com/erlang/otp/security/policy). The bundled rule covers OTP 25."
       }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": ".github/docker/Dockerfile_alpine-3-17-3",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/docker/Dockerfile_alpine-3-17-3:35 at this commit: `ENV ZUV_JAR /opt/zuv/ZUV-0.8.3.jar`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": ".github/docker/Dockerfile_alpine-3-18-4",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/docker/Dockerfile_alpine-3-18-4:35 at this commit: `ENV ZUV_JAR /opt/zuv/ZUV-0.8.3.jar`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": ".github/docker/Dockerfile_debian-buster",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/docker/Dockerfile_debian-buster:33 at this commit: `ENV ZUV_JAR /opt/zuv/ZUV-0.8.3.jar`: legacy `ENV key value` form (no `=`)."
+      }
     }
   ]
 }

@@ -183,6 +183,24 @@
         "kind": "maintainer-review",
         "note": "Read contrib/google-cloud/store-api/Dockerfile:1 at this commit: `FROM python:3.9`: tag 3.9 is at or below the rule's 3.10-and-older bound."
       }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-22.04",
+      "path": "ci/Dockerfile-dynamic-lang",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ci/Dockerfile-dynamic-lang:1 at this commit: `FROM ubuntu:jammy as builder`: the image tag is at or below the bound of rule container.ubuntu.eol-22.04."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-22.04",
+      "path": "ci/Dockerfile-dynamic-lang",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ci/Dockerfile-dynamic-lang:36 at this commit: `FROM ubuntu:jammy as sast-scan-tools`: the image tag is at or below the bound of rule container.ubuntu.eol-22.04."
+      }
     }
   ]
 }

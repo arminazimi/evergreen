@@ -93,6 +93,33 @@
         "kind": "maintainer-review",
         "note": "Read docker-compose.yml:13 at this commit: `image: redis:7.0.11`; the declaration matches the rule's affected range."
       }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "ansible/playbooks/roles/ANXS.postgresql/tests/Dockerfile-centos6",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ansible/playbooks/roles/ANXS.postgresql/tests/Dockerfile-centos6:2 at this commit: `MAINTAINER ANXS`: deprecated `MAINTAINER` instruction."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "ansible/playbooks/roles/ANXS.postgresql/tests/Dockerfile-ubuntu14.04",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ansible/playbooks/roles/ANXS.postgresql/tests/Dockerfile-ubuntu14.04:2 at this commit: `MAINTAINER ANXS`: deprecated `MAINTAINER` instruction."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "ansible/playbooks/roles/ANXS.postgresql/tests/Dockerfile-ubuntu14.04",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read ansible/playbooks/roles/ANXS.postgresql/tests/Dockerfile-ubuntu14.04:1 at this commit: `FROM ubuntu:14.04`: the image tag is at or below the bound of rule container.ubuntu.eol-20.04-and-older."
+      }
     }
   ]
 }

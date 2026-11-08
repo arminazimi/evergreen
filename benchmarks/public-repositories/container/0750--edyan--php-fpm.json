@@ -39,6 +39,519 @@
         "kind": "maintainer-review",
         "note": "Read .github/workflows/build-docker-image.yml:35 at this commit: `uses: docker/metadata-action@v4` is a `uses:` declaration of metadata-action; the pinned ref is in the rule's affected range."
       }
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "Dockerfile-7.3",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.3:1 at this commit: `FROM        debian:buster-slim`: the image tag is at or below the bound of rule container.debian.eol-11-and-older."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-7.0",
+      "line": 94,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.0:94 at this commit: `ENV         ENVIRONMENT dev`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-7.0",
+      "line": 95,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.0:95 at this commit: `ENV         PHP_ENABLED_MODULES \"\"`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-7.0",
+      "line": 96,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.0:96 at this commit: `ENV         FPM_UID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-7.0",
+      "line": 97,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.0:97 at this commit: `ENV         FPM_GID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-7.1",
+      "line": 96,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.1:96 at this commit: `ENV         ENVIRONMENT dev`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-7.1",
+      "line": 97,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.1:97 at this commit: `ENV         PHP_ENABLED_MODULES \"\"`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-7.1",
+      "line": 98,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.1:98 at this commit: `ENV         FPM_UID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-7.1",
+      "line": 99,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.1:99 at this commit: `ENV         FPM_GID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-7.2",
+      "line": 104,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.2:104 at this commit: `ENV         ENVIRONMENT dev`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-7.2",
+      "line": 105,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.2:105 at this commit: `ENV         PHP_ENABLED_MODULES \"\"`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-7.2",
+      "line": 106,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.2:106 at this commit: `ENV         FPM_UID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-7.2",
+      "line": 107,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.2:107 at this commit: `ENV         FPM_GID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-7.3",
+      "line": 104,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.3:104 at this commit: `ENV         ENVIRONMENT dev`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-7.3",
+      "line": 105,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.3:105 at this commit: `ENV         PHP_ENABLED_MODULES \"\"`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-7.3",
+      "line": 106,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.3:106 at this commit: `ENV         FPM_UID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-7.3",
+      "line": 107,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.3:107 at this commit: `ENV         FPM_GID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-7.4",
+      "line": 105,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.4:105 at this commit: `ENV         ENVIRONMENT dev`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-7.4",
+      "line": 106,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.4:106 at this commit: `ENV         PHP_ENABLED_MODULES \"\"`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-7.4",
+      "line": 107,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.4:107 at this commit: `ENV         FPM_UID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-7.4",
+      "line": 108,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.4:108 at this commit: `ENV         FPM_GID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-8.0",
+      "line": 96,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-8.0:96 at this commit: `ENV         ENVIRONMENT dev`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-8.0",
+      "line": 97,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-8.0:97 at this commit: `ENV         PHP_ENABLED_MODULES \"\"`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-8.0",
+      "line": 98,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-8.0:98 at this commit: `ENV         FPM_UID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-8.0",
+      "line": 99,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-8.0:99 at this commit: `ENV         FPM_GID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-8.1",
+      "line": 105,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-8.1:105 at this commit: `ENV         ENVIRONMENT dev`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-8.1",
+      "line": 106,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-8.1:106 at this commit: `ENV         PHP_ENABLED_MODULES \"\"`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-8.1",
+      "line": 107,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-8.1:107 at this commit: `ENV         FPM_UID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-8.1",
+      "line": 108,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-8.1:108 at this commit: `ENV         FPM_GID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-8.2",
+      "line": 96,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-8.2:96 at this commit: `ENV         ENVIRONMENT dev`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-8.2",
+      "line": 97,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-8.2:97 at this commit: `ENV         PHP_ENABLED_MODULES \"\"`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-8.2",
+      "line": 98,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-8.2:98 at this commit: `ENV         FPM_UID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile-8.2",
+      "line": 99,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-8.2:99 at this commit: `ENV         FPM_GID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "archive/Dockerfile-5.3",
+      "line": 124,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read archive/Dockerfile-5.3:124 at this commit: `ENV         ENVIRONMENT dev`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "archive/Dockerfile-5.3",
+      "line": 125,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read archive/Dockerfile-5.3:125 at this commit: `ENV         PHP_ENABLED_MODULES \"\"`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "archive/Dockerfile-5.3",
+      "line": 126,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read archive/Dockerfile-5.3:126 at this commit: `ENV         FPM_UID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "archive/Dockerfile-5.3",
+      "line": 127,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read archive/Dockerfile-5.3:127 at this commit: `ENV         FPM_GID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "archive/Dockerfile-5.4",
+      "line": 84,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read archive/Dockerfile-5.4:84 at this commit: `ENV         ENVIRONMENT dev`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "archive/Dockerfile-5.4",
+      "line": 85,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read archive/Dockerfile-5.4:85 at this commit: `ENV         PHP_ENABLED_MODULES \"\"`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "archive/Dockerfile-5.4",
+      "line": 86,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read archive/Dockerfile-5.4:86 at this commit: `ENV         FPM_UID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "archive/Dockerfile-5.4",
+      "line": 87,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read archive/Dockerfile-5.4:87 at this commit: `ENV         FPM_GID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "archive/Dockerfile-5.5",
+      "line": 113,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read archive/Dockerfile-5.5:113 at this commit: `ENV         ENVIRONMENT dev`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "archive/Dockerfile-5.5",
+      "line": 114,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read archive/Dockerfile-5.5:114 at this commit: `ENV         PHP_ENABLED_MODULES \"\"`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "archive/Dockerfile-5.5",
+      "line": 115,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read archive/Dockerfile-5.5:115 at this commit: `ENV         FPM_UID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "archive/Dockerfile-5.5",
+      "line": 116,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read archive/Dockerfile-5.5:116 at this commit: `ENV         FPM_GID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "archive/Dockerfile-5.6",
+      "line": 119,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read archive/Dockerfile-5.6:119 at this commit: `ENV         ENVIRONMENT dev`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "archive/Dockerfile-5.6",
+      "line": 120,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read archive/Dockerfile-5.6:120 at this commit: `ENV         PHP_ENABLED_MODULES \"\"`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "archive/Dockerfile-5.6",
+      "line": 121,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read archive/Dockerfile-5.6:121 at this commit: `ENV         FPM_UID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "archive/Dockerfile-5.6",
+      "line": 122,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read archive/Dockerfile-5.6:122 at this commit: `ENV         FPM_GID 33`: legacy `ENV key value` form (no `=`)."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "Dockerfile-7.2",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.2:1 at this commit: `FROM        ubuntu:18.04`: the image tag is at or below the bound of rule container.ubuntu.eol-20.04-and-older."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "Dockerfile-7.4",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.4:1 at this commit: `FROM        ubuntu:20.04`: the image tag is at or below the bound of rule container.ubuntu.eol-20.04-and-older."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "archive/Dockerfile-5.3",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read archive/Dockerfile-5.3:1 at this commit: `FROM        ubuntu:12.04`: the image tag is at or below the bound of rule container.ubuntu.eol-20.04-and-older."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "archive/Dockerfile-5.5",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read archive/Dockerfile-5.5:1 at this commit: `FROM        ubuntu:14.04`: the image tag is at or below the bound of rule container.ubuntu.eol-20.04-and-older."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-22.04",
+      "path": "Dockerfile-7.1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-7.1:1 at this commit: `FROM        ubuntu:22.04`: the image tag is at or below the bound of rule container.ubuntu.eol-22.04."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-22.04",
+      "path": "Dockerfile-8.0",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-8.0:1 at this commit: `FROM        ubuntu:22.04`: the image tag is at or below the bound of rule container.ubuntu.eol-22.04."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-22.04",
+      "path": "Dockerfile-8.1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-8.1:1 at this commit: `FROM        ubuntu:22.04`: the image tag is at or below the bound of rule container.ubuntu.eol-22.04."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-22.04",
+      "path": "Dockerfile-8.2",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile-8.2:1 at this commit: `FROM        ubuntu:22.04`: the image tag is at or below the bound of rule container.ubuntu.eol-22.04."
+      }
     }
   ]
 }
