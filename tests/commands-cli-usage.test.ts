@@ -210,10 +210,10 @@ test("init: the flag combinations that cannot mean one thing are refused", async
   const root = await nodeRepository();
   const hooksFor = await runCli(["init", "--hooks-for", root]);
   assert.equal(hooksFor.code, 2);
-  assert.match(hooksFor.stderr, /--hooks-for needs a host: claude-code, codex, cursor, gemini, copilot, or cline\./);
+  assert.match(hooksFor.stderr, /--hooks-for needs a host: /);
   const host = await runCli(["init", "--hooks-for", "gitlab", root]);
   assert.equal(host.code, 2);
-  assert.match(host.stderr, /--hooks-for needs a host: claude-code, codex, cursor, gemini, copilot, or cline\./);
+  assert.match(host.stderr, /--hooks-for needs a host: /);
 
   const mixed = await runCli(["init", "--personal", "--hooks", root]);
   assert.equal(mixed.code, 2);

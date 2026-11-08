@@ -24,3 +24,14 @@ export interface HostAdapter {
   /** Builds the response that shows `findings` to the agent; an empty list must let the agent continue silently. */
   respond(findings: readonly Finding[]): HookResponse;
 }
+
+/**
+ * One agent host, in its own file under `hosts/`. The registry discovers every `hosts/<id>.ts` module that exports
+ * `hostHook`, so adding a host means adding files, never editing a shared list.
+ */
+export interface HostHook {
+  /** Serves `evergreen hook <id>`; `id` must equal the module's file name. */
+  adapter: HostAdapter;
+  /** Writes (or, with `dryRun`, previews) the host's configuration for `evergreen init --hooks-for <id>`; returns the text to print. */
+  setup(options: { root: string; dryRun: boolean }): Promise<string>;
+}

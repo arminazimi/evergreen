@@ -1,0 +1,1 @@
+- Add an agent edit hook by adding one file under `src/agent-hooks/hosts/`; `evergreen init --hooks-for <host>` and `evergreen hook <host>` discover it, and the help line no longer lists every host.

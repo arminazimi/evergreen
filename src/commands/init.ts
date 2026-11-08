@@ -3,16 +3,9 @@ import process from "node:process";
 import { AgentFileError } from "../agent-instructions.js";
 import type { Severity } from "../domain.js";
 import { severityValues } from "../domain.js";
-import {
-  initAgents,
-  initClaudeHooks,
-  initClineHooks,
-  initCodexHooks,
-  initCopilotHooks,
-  initCursorHooks,
-  initGeminiHooks,
-} from "../init-agents.js";
-import type { AgentFileName, InitClaudeHooksResult, InitCursorHooksResult } from "../init-agents.js";
+import { builtInHostHooks } from "../agent-hooks/registry.js";
+import { initAgents } from "../init-agents.js";
+import type { AgentFileName } from "../init-agents.js";
 import { initHooks } from "../init-hooks.js";
 import type { InitHooksResult } from "../init-hooks.js";
 import { initPersonal } from "../init-personal.js";
@@ -31,7 +24,7 @@ export const command: CliCommand = {
     "  evergreen init --agents [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]",
     "  evergreen init --hooks [path] [--fail-on <severity>] [--dry-run]   # git pre-push hook; combine with --agents",
     "  evergreen init --personal [--fail-on <severity>] [--yes] [--dry-run]   # global config and pre-push hook for every repository",
-    "  evergreen init --hooks-for claude-code|codex|cursor|gemini|copilot|cline [path] [--dry-run]   # post-edit hook for Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, or Cline",
+    "  evergreen init --hooks-for <host> [path] [--dry-run]   # post-edit hook for one agent host; docs/HOOKS.md lists them",
   ],
   usageSlots: [49, 50, 51, 52, 53],
   run(args, ctx) {
@@ -55,18 +48,8 @@ async function confirmOnTerminal(summary: string, defaultYes = false): Promise<b
 }
 
 const initUsage =
-  "Usage: evergreen init [agent] [--agents] [--hooks] [--personal] [--hooks-for claude-code|codex|cursor|gemini|copilot|cline] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]\n";
-const hooksForHosts = "claude-code, codex, cursor, gemini, copilot, or cline";
+  "Usage: evergreen init [agent] [--agents] [--hooks] [--personal] [--hooks-for <host>] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]\n";
 const agentUsage = "Usage: evergreen init agent [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]\n";
-
-/** The hosts `--hooks-for` accepts; one entry per adapter `evergreen hook <host>` serves. */
-const hooksForHostNames = ["claude-code", "codex", "cursor", "gemini", "copilot", "cline"] as const;
-type HooksForHost = (typeof hooksForHostNames)[number];
-const hooksForHostSet = new Set<string>(hooksForHostNames);
-
-function isHooksForHost(value: string | undefined): value is HooksForHost {
-  return value !== undefined && hooksForHostSet.has(value);
-}
 
 /** The `init` flags that choose what to set up, and the operands and values they take. */
 interface InitOptions {
@@ -146,7 +129,14 @@ function initFlags(args: readonly string[]) {
   const personal = args.includes("--personal");
   const hooksForIndex = args.indexOf("--hooks-for");
   const hooksFor = hooksForIndex === -1 ? undefined : args[hooksForIndex + 1];
-  return { agents, hooks, personal, hooksFor, hooksForIndex, guided: !agents && !hooks && !personal && !hooksFor };
+  return {
+    agents,
+    hooks,
+    personal,
+    hooksFor,
+    hooksForIndex,
+    guided: !agents && !hooks && !personal && !hooksFor,
+  };
 }
 
 /** The `--file` and `--fail-on` values and where they sit in `args`. */
@@ -164,10 +154,15 @@ function initValueOptions(args: readonly string[]) {
 type InitFlags = ReturnType<typeof initFlags>;
 type InitValues = ReturnType<typeof initValueOptions>;
 
+/** "a, b, or c": the hosts `--hooks-for` accepts, read from the discovered host modules. */
+function listHosts(ids: readonly string[]): string {
+  return ids.length < 2 ? ids.join("") : `${ids.slice(0, -1).join(", ")}, or ${ids.at(-1)}`;
+}
+
 /** Flag combinations that cannot mean one thing, in the order `init` refuses them. */
-function initCombinationProblem(flags: InitFlags, ctx: CommandContext): number | undefined {
-  if (flags.hooksForIndex !== -1 && !isHooksForHost(flags.hooksFor))
-    return ctx.fail("usage", `--hooks-for needs a host: ${hooksForHosts}.`, initUsage);
+function initCombinationProblem(flags: InitFlags, hostIds: readonly string[], ctx: CommandContext): number | undefined {
+  if (flags.hooksForIndex !== -1 && (flags.hooksFor === undefined || !hostIds.includes(flags.hooksFor)))
+    return ctx.fail("usage", `--hooks-for needs a host: ${listHosts(hostIds)}.`, initUsage);
   if (flags.personal && (flags.agents || flags.hooks || flags.hooksFor))
     return ctx.fail("usage", "--personal cannot be combined with --agents, --hooks, or --hooks-for.", initUsage);
   return undefined;
@@ -224,10 +219,10 @@ function initWords(args: readonly string[], flags: InitFlags, values: InitValues
 }
 
 /** Operands and flags as `init` accepts them, or the exit code of the first refusal it hits. */
-function parseInitOptions(args: string[], ctx: CommandContext): InitOptions | number {
+function parseInitOptions(args: string[], hostIds: readonly string[], ctx: CommandContext): InitOptions | number {
   const flags = initFlags(args);
   const values = initValueOptions(args);
-  const combination = initCombinationProblem(flags, ctx);
+  const combination = initCombinationProblem(flags, hostIds, ctx);
   if (combination !== undefined) return combination;
   const value = initValueProblem(flags, values, ctx);
   if (value !== undefined) return value;
@@ -311,11 +306,15 @@ async function applyInit(options: InitOptions, ctx: CommandContext): Promise<num
     }
     if (options.hooks)
       printHooksResult(
-        await initHooks({ root: options.root, gate: options.gate as Severity, dryRun: options.dryRun }),
+        await initHooks({
+          root: options.root,
+          gate: options.gate as Severity,
+          dryRun: options.dryRun,
+        }),
         options.dryRun,
         options.gate,
       );
-    if (isHooksForHost(options.hooksFor)) await applyHooksFor(options.hooksFor, options.root, options.dryRun);
+    if (options.hooksFor !== undefined) await applyHooksFor(options.hooksFor, options.root, options.dryRun);
     return 0;
   } catch (error) {
     if (error instanceof AgentFileError) return ctx.failError(error);
@@ -325,82 +324,17 @@ async function applyInit(options: InitOptions, ctx: CommandContext): Promise<num
 
 async function runInit(args: string[], ctx: CommandContext): Promise<number> {
   if (args[0] === "agent") return runInitAgent(args, ctx);
-  const options = parseInitOptions(args, ctx);
+  const hostIds = args.includes("--hooks-for") ? (await builtInHostHooks()).map((hook) => hook.adapter.id) : [];
+  const options = parseInitOptions(args, hostIds, ctx);
   if (typeof options === "number") return options;
   return applyInit(options, ctx);
 }
 
-/** Prints one host hooks-file result the same way for Claude Code and Codex. */
-function printHooksFileResult(result: InitClaudeHooksResult, dryRun: boolean, done: string): void {
-  if (result.change === "unchanged") {
-    process.stdout.write(`${result.file} already has the current Evergreen post-edit hook; nothing to change.\n`);
-    return;
-  }
-  const verb = result.change === "created" ? "create" : "update";
-  if (dryRun) {
-    process.stdout.write(`Would ${verb} ${result.file}:\n\n${result.diff}\n`);
-    return;
-  }
-  process.stdout.write(`${result.change === "created" ? "Created" : "Updated"} ${result.file}; ${done}\n`);
-}
-
-/** Prints the Cursor rule result that accompanies the hooks-file merge. */
-function printCursorRuleResult(result: InitCursorHooksResult["rule"], dryRun: boolean): void {
-  if (result.change === "unchanged") {
-    process.stdout.write(`${result.file} already has the current Evergreen section; nothing to change.\n`);
-    return;
-  }
-  if (dryRun) {
-    const verb =
-      result.change === "created" ? "create" : result.change === "added" ? "add the Evergreen section to" : "update";
-    process.stdout.write(`Would ${verb} ${result.file}:\n\n${result.diff}\n`);
-    return;
-  }
-  if (result.change === "created") process.stdout.write(`Created ${result.file}.\n`);
-  else if (result.change === "added") process.stdout.write(`Added the Evergreen section to ${result.file}.\n`);
-  else process.stdout.write(`Updated the Evergreen section in ${result.file}.\n`);
-}
-
-/** Runs the host's post-edit hook setup and prints its result; one shape for every `--hooks-for` host. */
+/** Runs the host's post-edit hook setup and prints its result; the host's own module decides what it writes. */
 async function applyHooksFor(hooksFor: string, root: string, dryRun: boolean): Promise<void> {
-  if (hooksFor === "cursor") {
-    const result = await initCursorHooks({ root, dryRun });
-    printHooksFileResult(
-      result.hooks,
-      dryRun,
-      "Cursor now runs Evergreen afterFileEdit (audit log only; the agent reads .cursor/rules/evergreen.mdc).",
-    );
-    printCursorRuleResult(result.rule, dryRun);
-    return;
-  }
-  if (hooksFor === "gemini") {
-    const result = await initGeminiHooks({ root, dryRun });
-    printHooksFileResult(result, dryRun, "Gemini CLI now runs Evergreen after write_file and replace.");
-    return;
-  }
-  if (hooksFor === "copilot") {
-    const result = await initCopilotHooks({ root, dryRun });
-    printHooksFileResult(result, dryRun, "GitHub Copilot now runs Evergreen after create and edit.");
-    return;
-  }
-  if (hooksFor === "cline") {
-    const result = await initClineHooks({ root, dryRun });
-    printHooksFileResult(
-      result,
-      dryRun,
-      "Cline now runs Evergreen after write_to_file and replace_in_file; turn on Hooks in Cline's feature settings.",
-    );
-    return;
-  }
-  const codex = hooksFor === "codex";
-  const result = codex ? await initCodexHooks({ root, dryRun }) : await initClaudeHooks({ root, dryRun });
-  printHooksFileResult(
-    result,
-    dryRun,
-    codex
-      ? "Codex now runs Evergreen after apply_patch."
-      : "Claude Code now runs Evergreen after Write, Edit, and MultiEdit.",
-  );
+  const hook = (await builtInHostHooks()).find((candidate) => candidate.adapter.id === hooksFor);
+  if (hook === undefined) return;
+  process.stdout.write(await hook.setup({ root, dryRun }));
 }
 
 /**
@@ -409,7 +343,13 @@ async function applyHooksFor(hooksFor: string, root: string, dryRun: boolean): P
  */
 async function guidedInit(
   ctx: CommandContext,
-  options: { root: string; gate: Severity; dryRun?: boolean; file?: AgentFileName; yes?: boolean },
+  options: {
+    root: string;
+    gate: Severity;
+    dryRun?: boolean;
+    file?: AgentFileName;
+    yes?: boolean;
+  },
 ): Promise<number> {
   if (!options.yes && !options.dryRun && !process.stdin.isTTY) {
     return ctx.fail(
@@ -458,8 +398,16 @@ function printGuidedSteps(steps: InitStep[], dryRun: boolean, gate: Severity): v
       );
       continue;
     }
-    const future = { created: "Would create", added: "Would add the Evergreen section to", updated: "Would update" };
-    const past = { created: "Created", added: "Added the Evergreen section to", updated: "Updated" };
+    const future = {
+      created: "Would create",
+      added: "Would add the Evergreen section to",
+      updated: "Would update",
+    };
+    const past = {
+      created: "Created",
+      added: "Added the Evergreen section to",
+      updated: "Updated",
+    };
     if (step.change === "unchanged") {
       const noun = step.kind === "agents" ? "section" : step.kind === "ci" ? "workflow" : "hook";
       process.stdout.write(`${step.file} already has the current Evergreen ${noun}; nothing to change.\n`);

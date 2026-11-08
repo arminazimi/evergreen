@@ -4,7 +4,8 @@ import { builtInDetectors } from "../detectors/index.js";
 import type { Detector } from "../sdk.js";
 import { severityValues, type Finding, type ScanResult, type Severity } from "../domain.js";
 import { scanRepository } from "../engine/index.js";
-import { failOpen, findingsForEdit, hostAdapters } from "./index.js";
+import { failOpen, findingsForEdit } from "./index.js";
+import { builtInHostHooks } from "./registry.js";
 import type { HookResponse, HostAdapter } from "./types.js";
 
 /** The whole hook budget. A slow scan fails open rather than holding the agent's turn. */
@@ -13,7 +14,13 @@ export const HOOK_TIMEOUT_MS = 10_000;
 /** The default gate: findings below `medium` are noise for a file the agent is still editing. */
 export const DEFAULT_HOOK_GATE: Severity = "medium";
 
-const severityRank: Record<Severity, number> = { info: 0, low: 1, medium: 2, high: 3, critical: 4 };
+const severityRank: Record<Severity, number> = {
+  info: 0,
+  low: 1,
+  medium: 2,
+  high: 3,
+  critical: 4,
+};
 
 export type HookGate = Severity | "none";
 
@@ -89,11 +96,11 @@ export async function hookResponse(
 ): Promise<HookResponse> {
   const args = parseHookArguments(argv);
   if (args === undefined) return failOpen;
-  const adapters = options.adapters ?? hostAdapters;
-  const adapter = adapters.find((candidate) => candidate.id === args.host);
-  if (adapter === undefined) return failOpen;
 
   try {
+    const adapters = options.adapters ?? (await builtInHostHooks()).map((hook) => hook.adapter);
+    const adapter = adapters.find((candidate) => candidate.id === args.host);
+    if (adapter === undefined) return failOpen;
     const edit = adapter.parse(JSON.parse(stdin), options.env ?? process.env);
     if (edit === undefined) return failOpen;
     if (args.gate === "none") return failOpen;
