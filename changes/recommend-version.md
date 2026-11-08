@@ -1,0 +1,1 @@
+- Add `evergreen recommend` and the `recommend_version` MCP tool, which say which release line to write today from bundled lifecycle data only. (#1889)

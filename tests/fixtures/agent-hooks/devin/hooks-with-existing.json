@@ -1,0 +1,14 @@
+{
+  "PreToolUse": [
+    {
+      "matcher": "^exec$",
+      "hooks": [{ "type": "command", "command": "echo checked", "timeout": 5 }]
+    }
+  ],
+  "PostToolUse": [
+    {
+      "matcher": "^exec$",
+      "hooks": [{ "type": "command", "command": "echo done", "timeout": 5 }]
+    }
+  ]
+}

@@ -437,6 +437,13 @@
       "version": "1",
       "description": "Execute migration edits or suggested verification commands automatically.",
       "ecosystems": []
+    },
+    {
+      "id": "version.recommend",
+      "status": "supported",
+      "version": "1",
+      "description": "Recommend which release line of a runtime, image, GitHub Action, or package to write today, from bundled lifecycle data only.",
+      "ecosystems": []
     }
   ],
   "surfaces": [
@@ -454,7 +461,8 @@
         "deprecation.explain",
         "migration.context.create",
         "environment.doctor",
-        "snippet.check"
+        "snippet.check",
+        "version.recommend"
       ]
     },
     {
@@ -471,7 +479,8 @@
         "deprecation.explain",
         "migration.context.create",
         "migration.verify",
-        "snippet.check"
+        "snippet.check",
+        "version.recommend"
       ]
     },
     {

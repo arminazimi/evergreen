@@ -1,0 +1,14 @@
+{
+  "hook_event_name": "PostToolUse",
+  "tool_name": "apply_patch",
+  "tool_input": {
+    "command": "*** Begin Patch\n*** Update File: Dockerfile\n@@\n-FROM node:22\n+FROM node:16\n WORKDIR /app\n*** End Patch\n"
+  },
+  "tool_response": {
+    "success": true,
+    "output": "Success. Updated the following files.\nM Dockerfile\n",
+    "error": null
+  },
+  "session_id": "3f8d1c2a-1111-2222-3333-444455556666",
+  "prompt_id": "b71e9d40-aaaa-bbbb-cccc-ddddeeeeffff"
+}

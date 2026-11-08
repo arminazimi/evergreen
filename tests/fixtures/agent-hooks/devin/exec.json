@@ -1,0 +1,14 @@
+{
+  "hook_event_name": "PostToolUse",
+  "tool_name": "exec",
+  "tool_input": {
+    "command": "npm test"
+  },
+  "tool_response": {
+    "success": true,
+    "output": "ok",
+    "error": null
+  },
+  "session_id": "3f8d1c2a-1111-2222-3333-444455556666",
+  "prompt_id": "b71e9d40-aaaa-bbbb-cccc-ddddeeeeffff"
+}

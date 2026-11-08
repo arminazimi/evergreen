@@ -77,6 +77,12 @@
       "name": "Plan migrations",
       "description": "Return a migration plan with waves of independent tasks a coordinating agent can hand out.",
       "tags": ["plan", "migration", "waves", "mcp"]
+    },
+    {
+      "id": "recommend_version",
+      "name": "Recommend version",
+      "description": "Say which release line of a runtime, image, action, or package to write today, from bundled lifecycle data only.",
+      "tags": ["recommend", "version", "lifecycle", "mcp"]
     }
   ]
 }

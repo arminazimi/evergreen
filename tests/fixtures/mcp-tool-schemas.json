@@ -3487,5 +3487,209 @@
         }
       }
     }
+  },
+  {
+    "name": "recommend_version",
+    "title": "Recommend version",
+    "description": "Say which release line of a runtime, container image, GitHub Action, or package to write today, instead of whatever training data remembers. Pass a product name such as node, python, or postgres, or a Package URL such as pkg:docker/library/node or pkg:githubactions/actions/checkout. Returns evergreen.recommend.v1: the recommended line and the date it is supported until, other qualifying alternatives, the lines to avoid with their dates, and evidence sources. A line qualifies when the data does not mark it ended and its end date is at least minimumSupportDays away (default 180). The answer comes only from Evergreen's bundled lifecycle data, never from the network, so it never says 'latest' and is limited to what the data covers. no-data means Evergreen has no data for the product, not that any version is safe. No repository is read.",
+    "inputSchema": {
+      "type": "object",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "properties": {
+        "product": {
+          "type": "string",
+          "minLength": 1,
+          "description": "A product name as lookup accepts it (node, python, postgres) or a Package URL without a version."
+        },
+        "minimumSupportDays": {
+          "default": 180,
+          "description": "Days a release line must stay supported to qualify. Defaults to 180.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "as_of": {
+          "description": "Date the answer is for, YYYY-MM-DD. Defaults to today (UTC); set it for a repeatable answer.",
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        }
+      },
+      "required": [
+        "product"
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    },
+    "outputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://github.com/arminazimi/evergreen/schemas/recommend.v1.schema.json",
+      "title": "Evergreen version recommendation v1",
+      "description": "Which release line of a runtime, image, GitHub Action, or package to write today, answered from Evergreen's bundled lifecycle data only. It is limited to what the data covers and never names a version as the latest.",
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "query",
+        "status",
+        "alternatives",
+        "avoid",
+        "sources",
+        "message"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "schemaVersion": {
+          "const": "evergreen.recommend.v1"
+        },
+        "query": {
+          "type": "object",
+          "required": [
+            "name",
+            "minimumSupportDays",
+            "asOf"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minimumSupportDays": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "asOf": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          }
+        },
+        "status": {
+          "enum": [
+            "recommended",
+            "no-qualifying-line",
+            "no-data"
+          ],
+          "description": "no-data means Evergreen has no lifecycle data for the product; it does not mean any version is safe."
+        },
+        "product": {
+          "type": "object",
+          "required": [
+            "id",
+            "purl",
+            "name"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "purl": {
+              "type": "string",
+              "pattern": "^pkg:"
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "recommended": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The release line to write, such as 22."
+        },
+        "supportedUntil": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "alternatives": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "line",
+              "supportedUntil"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "line": {
+                "type": "string",
+                "minLength": 1
+              },
+              "supportedUntil": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              }
+            }
+          }
+        },
+        "avoid": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "line",
+              "reason",
+              "ruleId"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "line": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reason": {
+                "enum": [
+                  "ended",
+                  "ends-sooner",
+                  "deprecated",
+                  "not-a-line"
+                ]
+              },
+              "ruleId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "endDate": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              }
+            }
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "title",
+              "url"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string",
+                "pattern": "^https://"
+              },
+              "accessedAt": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
   }
 ]

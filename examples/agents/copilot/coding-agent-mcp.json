@@ -19,7 +19,8 @@
         "create_migration_context",
         "verify_migration",
         "forecast_repository",
-        "plan_migrations"
+        "plan_migrations",
+        "recommend_version"
       ]
     }
   }

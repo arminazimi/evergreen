@@ -29,6 +29,7 @@ import { command as newRule } from "./new-rule.js";
 import { command as plan } from "./plan.js";
 import { command as prompt } from "./prompt.js";
 import { command as receipt } from "./receipt.js";
+import { command as recommend } from "./recommend.js";
 import { command as renovatePreset } from "./renovate-preset.js";
 import { command as reportIssue } from "./report-issue.js";
 import { command as rollup } from "./rollup.js";
@@ -74,6 +75,7 @@ export const commands: readonly CliCommand[] = [
   plan,
   prompt,
   receipt,
+  recommend,
   renovatePreset,
   reportIssue,
   rollup,

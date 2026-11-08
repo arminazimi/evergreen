@@ -1,0 +1,16 @@
+{
+  "hook_event_name": "PostToolUse",
+  "tool_name": "edit",
+  "tool_input": {
+    "file_path": "/Users/dev/app/packages/app/Dockerfile",
+    "old_string": "FROM node:22",
+    "new_string": "FROM node:16"
+  },
+  "tool_response": {
+    "success": true,
+    "output": "Updated packages/app/Dockerfile",
+    "error": null
+  },
+  "session_id": "3f8d1c2a-1111-2222-3333-444455556666",
+  "prompt_id": "b71e9d40-aaaa-bbbb-cccc-ddddeeeeffff"
+}

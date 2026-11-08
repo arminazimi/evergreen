@@ -8,7 +8,7 @@ const mcp: CapabilitySurface = {
   status: "supported",
   version: VERSION,
   entryPoints: ["evergreen-mcp"],
-  capabilityIds: [...workflowCapabilityIds, "snippet.check"],
+  capabilityIds: [...workflowCapabilityIds, "snippet.check", "version.recommend"],
 };
 
 export default mcp;

@@ -553,6 +553,8 @@ test("every tool advertises an outputSchema, and its structured content validate
       ["check_snippet", { path: "Dockerfile", content: "FROM node:16\n" }],
       ["forecast_repository", { repository_path: root, as_of: "2026-10-29" }],
       ["plan_migrations", { repository_path: root }],
+      ["recommend_version", { product: "node", as_of: "2026-01-01" }],
+      ["recommend_version", { product: "no-such-product-anywhere" }],
     ];
     for (const [name, args] of calls) {
       const result = await client.request("tools/call", { name, arguments: args });

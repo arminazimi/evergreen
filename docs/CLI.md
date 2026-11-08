@@ -219,6 +219,20 @@ Resolves a product and optional version against the bundled lifecycle rules and 
 | --- | --- |
 | `--json` | Print the structured lookup result. |
 
+### `recommend`
+
+```bash
+evergreen recommend <product|purl> [--min-days <n>] [--as-of <YYYY-MM-DD>] [--json]
+```
+
+Says which release line to write today, from the bundled lifecycle data only. Pass a product name as `lookup` accepts it (`node`, `python`, `postgres`) or a Package URL (`pkg:docker/library/node`, `pkg:githubactions/actions/checkout`). A release line qualifies when the data does not mark it ended and its end date is at least `--min-days` away (default `180`). The newest qualifying line is recommended; the others are listed as alternatives, and `avoid` lists lines that ended or end sooner, each with its date. The command never says "latest" and never uses the network, so the answer is limited to what the data covers. `status: "no-data"` means Evergreen has no data for the product, which is not a statement that any version is safe. Output is `evergreen.recommend.v1`; the same answer is the `recommend_version` MCP tool.
+
+| Flag | What it does |
+| --- | --- |
+| `--min-days <n>` | Days a line must stay supported. Default `180`. |
+| `--as-of <date>` | Answer for this date instead of today, so the result is repeatable. |
+| `--json` | Print the structured `evergreen.recommend.v1` document. |
+
 ### `upgrade-check`
 evergreen upgrade-check --to <runtime@version> [path] [--json]
 Answers from files already in the repository whether the project can move to a target runtime. It reads lockfiles and manifests only: no package manager runs, nothing is installed, and nothing is fetched.

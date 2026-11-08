@@ -1,7 +1,7 @@
 import type { EvidenceSource, Severity } from "./domain.js";
 import { BUNDLED_ECOSYSTEMS } from "./data-bundle.js";
 import { loadDataFile } from "./data-source.js";
-import { parsePurl } from "./purl.js";
+import { parsePurl, purlIdentity } from "./purl.js";
 import { required } from "./required.js";
 import { validateRegistryV2 } from "./registry.js";
 import type { LifecycleEvent, RegistryV2Rule } from "./registry.js";
@@ -161,7 +161,23 @@ function nearestProduct(query: string, products: readonly Product[]): Array<{ pr
     .sort((left, right) => left.distance - right.distance || left.product.id.localeCompare(right.product.id));
 }
 
+/** A package URL names one product exactly; `githubactions` is accepted as the `github` type the bundled rules use. */
+function resolvePurl(name: string, products: readonly Product[]): Product {
+  let identity: string;
+  try {
+    const parsed = parsePurl(name);
+    identity = purlIdentity(parsed.type === "githubactions" ? { ...parsed, type: "github" } : parsed);
+  } catch {
+    throw new LookupError(`Invalid package URL "${name}".`);
+  }
+  const match = products.find((product) => purlIdentity(product.purl) === identity);
+  if (!match)
+    throw new LookupError(`Unknown product "${name}". Evergreen has no lifecycle rules for this package URL.`);
+  return match;
+}
+
 function resolveProduct(name: string, products: readonly Product[]): Product {
+  if (name.toLowerCase().startsWith("pkg:")) return resolvePurl(name, products);
   const query = ALIASES[normalize(name)] ?? normalize(name);
   const matches = products.filter((product) => product.aliases.has(query));
   if (matches.length === 0) {
@@ -219,7 +235,8 @@ function toFinding(rule: RegistryV2Rule): LookupFinding {
 
 /**
  * Resolves a product name, and optionally a version, against the bundled rules. Names come from the product's
- * package URL, its id, and a small alias table, so `node 18` and `nodejs 18` reach the same rules. No network.
+ * package URL, its id, and a small alias table, so `node 18` and `nodejs 18` reach the same rules. A full package
+ * URL such as `pkg:docker/library/node` selects that product exactly. No network.
  */
 export async function lookupProduct(name: string, version?: string): Promise<LookupResult> {
   const products = productsOf(await allRules());
@@ -238,7 +255,12 @@ export async function lookupProduct(name: string, version?: string): Promise<Loo
   return {
     schemaVersion: LOOKUP_SCHEMA_VERSION,
     query: { name, ...(version === undefined ? {} : { version }) },
-    product: { id: product.id, purl: product.purl, name: product.name, ecosystems: product.ecosystems },
+    product: {
+      id: product.id,
+      purl: product.purl,
+      name: product.name,
+      ecosystems: product.ecosystems,
+    },
     ...(version === undefined ? {} : { version }),
     status: primary?.event ?? "supported",
     ...(dated.length === 0 ? {} : { deadline: dated.sort()[0] }),
