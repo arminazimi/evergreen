@@ -8,7 +8,7 @@ import type { CliCommand, CommandContext } from "./types.js";
 const SNIPPET_USAGE = "Usage: evergreen check-snippet --path <path> [--json]   # the snippet content arrives on stdin";
 
 /** The snippet path from the arguments, or the exit code of the usage failure. */
-function snippetPathFrom(args: readonly string[], ctx: CommandContext): string | number {
+export function snippetPathFrom(args: readonly string[], ctx: CommandContext): string | number {
   let snippetPath: string | undefined;
   for (let index = 1; index < args.length; index += 1) {
     const argument = args[index];
@@ -36,12 +36,12 @@ function snippetPathFrom(args: readonly string[], ctx: CommandContext): string |
   return snippetPath;
 }
 
-function readStdin(): Promise<string> {
+export function readStream(stream: NodeJS.ReadableStream): Promise<string> {
   return new Promise<string>((resolveSnippet, rejectSnippet) => {
     const chunks: Buffer[] = [];
-    process.stdin.on("data", (chunk) => chunks.push(chunk));
-    process.stdin.on("end", () => resolveSnippet(Buffer.concat(chunks).toString("utf8")));
-    process.stdin.on("error", rejectSnippet);
+    stream.on("data", (chunk: Buffer) => chunks.push(chunk));
+    stream.on("end", () => resolveSnippet(Buffer.concat(chunks).toString("utf8")));
+    stream.on("error", rejectSnippet);
   });
 }
 
@@ -63,7 +63,7 @@ export const command: CliCommand = {
           "check-snippet reads the snippet content from stdin. Pipe it, for example: cat Dockerfile | evergreen check-snippet --path Dockerfile.",
         );
       try {
-        const check = await checkSnippet({ path: snippetPath, content: await readStdin() });
+        const check = await checkSnippet({ path: snippetPath, content: await readStream(process.stdin) });
         const text = state.json
           ? JSON.stringify(check, null, 2)
           : [check.message, ...check.findings.map(renderFindingText)].join("\n\n");
