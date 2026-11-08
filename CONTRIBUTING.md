@@ -40,7 +40,7 @@ You need Node.js 22 or newer, git, and a GitHub account. The details for each st
    git push -u origin HEAD
    ```
 
-   Use a Conventional Commits subject (`feat:`, `fix:`, `docs:`, `test:`, `chore:`) and put `Closes #<issue-number>` in the pull request body. One issue per pull request.
+   Use a Conventional Commits subject (`feat:`, `fix:`, `docs:`, `test:`, `chore:`) and put `Closes #<issue-number>` in the pull request body. One issue per pull request. If the change touches `.github/workflows/**`, the body also needs a `## Workflow changes` section with `- Reason:` and `- Budget effect:` lines; CI fails without it. The [pull request template](.github/pull_request_template.md) has the section, so start from it when you open the pull request from the command line too (`gh pr create --body-file`).
 
 That is the whole loop. The sections below explain the labels, the optional pre-push hook, how to add a lifecycle rule, the evidence policy, and the [review expectations](#review-expectations).
 

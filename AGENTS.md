@@ -4,10 +4,11 @@ Instructions for coding agents (Codex, Claude Code, Cursor, Copilot, Kilo Code, 
 
 ## Before you change anything
 
-CI rejects a pull request that edits a generated or release-time file, so these three rules save a failed run:
+CI rejects a pull request that edits a generated or release-time file, so these rules save a failed run:
 
 - **Never edit `CHANGELOG.md`.** Add one fragment file under `changes/` instead (see [changes/README.md](changes/README.md)). Only the release pull request, whose title starts with `chore: release`, changes `CHANGELOG.md`.
 - **Never commit a generated file** (`docs/llms-full.txt`, `dist/action/index.js`, `docs/api/v1/`, and the rest of the build-time list in [docs/generated-files.md](docs/generated-files.md)). Change the source and regenerate locally.
+- **A pull request that changes `.github/workflows/**` needs a `## Workflow changes` section in its body**, with `- Reason:` and `- Budget effect:` lines (the runner-minute effect on pull-request runs). CI fails without it. Use [.github/pull_request_template.md](.github/pull_request_template.md) even when you create the pull request from the command line (`gh pr create --body-file`, not a bare `--body`).
 - **Run `npm run check` before you open the pull request.** It is the same gate CI runs.
 
 ## What Evergreen is
