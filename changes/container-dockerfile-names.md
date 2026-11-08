@@ -1,0 +1,1 @@
+- Read every Dockerfile name the container detector declares as an input, such as `Dockerfile_meta` and `Dockerfile-build`, so legacy `ENV` findings are no longer missed in them.

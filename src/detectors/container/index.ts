@@ -46,7 +46,8 @@ const SKIPPED_DIRECTORIES = new Set([
   "__fixtures__",
   "testdata",
 ]);
-const DOCKERFILE_NAME = /^(?:Dockerfile|Containerfile)(?:\.[A-Za-z0-9_.-]+)?$|\.(?:Dockerfile|Containerfile)$/;
+// Matches every name the detector declares in `inputs.fileNames`: `Dockerfile*`, `Containerfile*`, `*.Dockerfile`, `*.Containerfile`.
+const DOCKERFILE_NAME = /^(?:Dockerfile|Containerfile)|\.(?:Dockerfile|Containerfile)$/;
 const COMPOSE_NAME = /^(?:docker-)?compose(?:\.[A-Za-z0-9_.-]+)?\.ya?ml$/;
 const DEVCONTAINER_NAME = /^devcontainer\.json$/;
 const VARIANT =

@@ -441,3 +441,15 @@ test("devcontainer.json with escaped quotes in a string is parsed correctly", as
     [["container.node.eol-21-and-older", 3]],
   );
 });
+
+test("the walker reads every Dockerfile name the detector declares as an input", async () => {
+  const names = ["Dockerfile_meta", "Dockerfile-build", "Dockerfile.build", "Containerfile_dev", "web.Dockerfile"];
+  const root = await repository(
+    Object.fromEntries(names.map((name) => [`docker/${name}`, "FROM scratch\nENV RUST_BACKTRACE 1\n"])),
+  );
+  const paths = (await containerDetector.scan({ root }))
+    .filter((finding) => finding.ruleId === "container.dockerfile.legacy-env-format")
+    .map((finding) => finding.location.path)
+    .sort();
+  assert.deepEqual(paths, names.map((name) => `docker/${name}`).sort());
+});
