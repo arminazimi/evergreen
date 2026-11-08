@@ -625,12 +625,12 @@
       "path": "examples/gallery/serverless/template.yml"
     },
     {
-      "fingerprint": "fa6f1a39fa906710bd6fb583437eeb45ec4704ad87ab0fd949cb35a0f6b5e3eb",
+      "fingerprint": "d7ab89221b3192bd845429e36f9ba2ef7e5be8ea29930a1ffcf84dcb2a6ee88f",
       "ruleId": "serverless.azure-app-service.dotnet-below-6-0",
       "path": "examples/gallery/serverless/main.tf"
     },
     {
-      "fingerprint": "cd6f0f47690b9591baa406de66f75ba1bc3db14c30ca00588bb43191d5f46052",
+      "fingerprint": "4b3c16a258045f2cc1eaecc753fc8e067cb3085abd24b1b3765304d301aeb9dc",
       "ruleId": "serverless.azure-app-service.node-below-18",
       "path": "examples/gallery/serverless/main.tf"
     },
