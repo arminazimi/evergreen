@@ -148,7 +148,7 @@ test("exportRef refuses refs that look like options and reports unpack failures"
   const root = await repository();
   assert.throws(() => exportRef(root, "--output=x", root), /"--output=x" is not a valid ref\./);
   assert.throws(() => exportRef(root, "-x", root), /is not a valid ref/);
-  assert.throws(() => exportRef(root, "good", join(root, "missing-directory")), /Cannot unpack good: .+\.$/);
+  assert.throws(() => exportRef(root, "good", join(root, "missing-directory")), /Cannot unpack good: [\s\S]+\.$/);
 });
 
 test("renderDiffText prints counts and only the non-empty sections", () => {
