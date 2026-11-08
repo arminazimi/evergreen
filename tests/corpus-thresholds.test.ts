@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 import { parse } from "yaml";
@@ -21,36 +21,15 @@ const finding = (ruleId: string, line: number) => ({ ruleId, path: "package.json
 test("thresholds name every shipped detector and enforce precision of at least 0.95", async () => {
   const thresholds = JSON.parse(await readFile(resolve("benchmarks/thresholds.json"), "utf8")) as Thresholds;
   assert.equal(thresholds.schemaVersion, "evergreen.corpus-thresholds.v1");
-  assert.deepEqual(Object.keys(thresholds.detectors).sort(), [
-    "android",
-    "ci-images",
-    "container",
-    "cpp",
-    "dart",
-    "database",
-    "deno",
-    "dotnet",
-    "elixir",
-    "github-actions",
-    "go",
-    "java",
-    "kubernetes",
-    "nodejs",
-    "npm",
-    "php",
-    "python",
-    "ruby",
-    "rust",
-    "scala",
-    "serverless",
-    "shell",
-    "swift",
-    "terraform",
-  ]);
+  // One threshold file per detector: the assembled document names exactly those detectors.
+  const files = (await readdir(resolve("benchmarks/thresholds")))
+    .filter((name) => name.endsWith(".json"))
+    .map((name) => name.slice(0, -".json".length));
+  assert.deepEqual(Object.keys(thresholds.detectors).sort(), files.sort());
   for (const [name, threshold] of Object.entries(thresholds.detectors)) {
-    // Database and Terraform stay experimental: scored and reported, not enforced yet.
-    // Scala/Java (#1896), C/C++/Shell (#1897), Elixir and Deno/Bun (#1895), and Dart/Android (#1894) are stable.
-    assert.equal(threshold.stable, !["database", "terraform"].includes(name), name);
+    // Enforcement follows the level (also checked against the corpus evidence below), so a promotion
+    // edits only its own threshold file and not a list of detector names here.
+    assert.equal(threshold.stable, threshold.level !== "experimental", name);
     assert.ok(threshold.minPrecision >= 0.95);
   }
 });

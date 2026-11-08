@@ -17,31 +17,206 @@
     "unknownSchemaMajor": "reject"
   },
   "ecosystems": [
-    { "id": "android", "status": "supported", "maturity": "stable", "detectorIds": ["android"] },
-    { "id": "bun", "status": "supported", "maturity": "stable", "detectorIds": ["deno"] },
-    { "id": "ci-images", "status": "supported", "maturity": "stable", "detectorIds": ["ci-images"] },
-    { "id": "container", "status": "supported", "maturity": "stable", "detectorIds": ["container"] },
-    { "id": "cpp", "status": "supported", "maturity": "stable", "detectorIds": ["cpp"] },
-    { "id": "dart", "status": "supported", "maturity": "stable", "detectorIds": ["dart"] },
-    { "id": "deno", "status": "supported", "maturity": "stable", "detectorIds": ["deno"] },
-    { "id": "dotnet", "status": "supported", "maturity": "stable", "detectorIds": ["dotnet"] },
-    { "id": "elixir", "status": "supported", "maturity": "stable", "detectorIds": ["elixir"] },
-    { "id": "github-actions", "status": "supported", "maturity": "stable", "detectorIds": ["github-actions"] },
-    { "id": "go", "status": "supported", "maturity": "stable", "detectorIds": ["go"] },
-    { "id": "java", "status": "supported", "maturity": "stable", "detectorIds": ["java"] },
-    { "id": "kubernetes", "status": "supported", "maturity": "beta", "detectorIds": ["kubernetes"] },
-    { "id": "nodejs", "status": "supported", "maturity": "stable", "detectorIds": ["npm"] },
-    { "id": "npm", "status": "supported", "maturity": "stable", "detectorIds": ["npm"] },
-    { "id": "php", "status": "supported", "maturity": "stable", "detectorIds": ["php"] },
-    { "id": "python", "status": "supported", "maturity": "stable", "detectorIds": ["python"] },
-    { "id": "ruby", "status": "supported", "maturity": "stable", "detectorIds": ["ruby"] },
-    { "id": "rust", "status": "supported", "maturity": "stable", "detectorIds": ["rust"] },
-    { "id": "scala", "status": "supported", "maturity": "stable", "detectorIds": ["scala"] },
-    { "id": "serverless", "status": "supported", "maturity": "beta", "detectorIds": ["serverless"] },
-    { "id": "swift", "status": "supported", "maturity": "stable", "detectorIds": ["swift"] },
-    { "id": "terraform", "status": "experimental", "maturity": "experimental", "detectorIds": ["terraform"] },
-    { "id": "database", "status": "experimental", "maturity": "experimental", "detectorIds": ["database"] },
-    { "id": "shell", "status": "supported", "maturity": "stable", "detectorIds": ["shell"] }
+    {
+      "id": "android",
+      "status": "supported",
+      "maturity": "stable",
+      "detectorIds": [
+        "android"
+      ]
+    },
+    {
+      "id": "bun",
+      "status": "supported",
+      "maturity": "stable",
+      "detectorIds": [
+        "deno"
+      ]
+    },
+    {
+      "id": "ci-images",
+      "status": "supported",
+      "maturity": "stable",
+      "detectorIds": [
+        "ci-images"
+      ]
+    },
+    {
+      "id": "container",
+      "status": "supported",
+      "maturity": "stable",
+      "detectorIds": [
+        "container"
+      ]
+    },
+    {
+      "id": "cpp",
+      "status": "supported",
+      "maturity": "stable",
+      "detectorIds": [
+        "cpp"
+      ]
+    },
+    {
+      "id": "dart",
+      "status": "supported",
+      "maturity": "stable",
+      "detectorIds": [
+        "dart"
+      ]
+    },
+    {
+      "id": "deno",
+      "status": "supported",
+      "maturity": "stable",
+      "detectorIds": [
+        "deno"
+      ]
+    },
+    {
+      "id": "dotnet",
+      "status": "supported",
+      "maturity": "stable",
+      "detectorIds": [
+        "dotnet"
+      ]
+    },
+    {
+      "id": "elixir",
+      "status": "supported",
+      "maturity": "stable",
+      "detectorIds": [
+        "elixir"
+      ]
+    },
+    {
+      "id": "github-actions",
+      "status": "supported",
+      "maturity": "stable",
+      "detectorIds": [
+        "github-actions"
+      ]
+    },
+    {
+      "id": "go",
+      "status": "supported",
+      "maturity": "stable",
+      "detectorIds": [
+        "go"
+      ]
+    },
+    {
+      "id": "java",
+      "status": "supported",
+      "maturity": "stable",
+      "detectorIds": [
+        "java"
+      ]
+    },
+    {
+      "id": "kubernetes",
+      "status": "supported",
+      "maturity": "beta",
+      "detectorIds": [
+        "kubernetes"
+      ]
+    },
+    {
+      "id": "nodejs",
+      "status": "supported",
+      "maturity": "stable",
+      "detectorIds": [
+        "npm"
+      ]
+    },
+    {
+      "id": "npm",
+      "status": "supported",
+      "maturity": "stable",
+      "detectorIds": [
+        "npm"
+      ]
+    },
+    {
+      "id": "php",
+      "status": "supported",
+      "maturity": "stable",
+      "detectorIds": [
+        "php"
+      ]
+    },
+    {
+      "id": "python",
+      "status": "supported",
+      "maturity": "stable",
+      "detectorIds": [
+        "python"
+      ]
+    },
+    {
+      "id": "ruby",
+      "status": "supported",
+      "maturity": "stable",
+      "detectorIds": [
+        "ruby"
+      ]
+    },
+    {
+      "id": "rust",
+      "status": "supported",
+      "maturity": "stable",
+      "detectorIds": [
+        "rust"
+      ]
+    },
+    {
+      "id": "scala",
+      "status": "supported",
+      "maturity": "stable",
+      "detectorIds": [
+        "scala"
+      ]
+    },
+    {
+      "id": "serverless",
+      "status": "supported",
+      "maturity": "beta",
+      "detectorIds": [
+        "serverless"
+      ]
+    },
+    {
+      "id": "swift",
+      "status": "supported",
+      "maturity": "stable",
+      "detectorIds": [
+        "swift"
+      ]
+    },
+    {
+      "id": "terraform",
+      "status": "experimental",
+      "maturity": "experimental",
+      "detectorIds": [
+        "terraform"
+      ]
+    },
+    {
+      "id": "database",
+      "status": "experimental",
+      "maturity": "experimental",
+      "detectorIds": [
+        "database"
+      ]
+    },
+    {
+      "id": "shell",
+      "status": "supported",
+      "maturity": "stable",
+      "detectorIds": [
+        "shell"
+      ]
+    }
   ],
   "capabilities": [
     { "id": "repository.scan", "status": "supported", "version": "1", "description": "Scan a local repository with all built-in lifecycle detectors.", "ecosystems": ["android","bun","ci-images","container","cpp","dart","database","deno","dotnet","elixir","github-actions","go","java","kubernetes","nodejs","npm","php","python","ruby","rust","scala","serverless","shell","swift","terraform"] },

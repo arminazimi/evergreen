@@ -74,6 +74,7 @@ Trust rules that apply to every change:
 | `docs/rules/` (per-rule pages) | `npm run build:reference` (source: `registry/*.json`) |
 | `docs/assets/og/` | `npm run build:og-images` (source: `registry/*.json`, brand social-preview template) |
 | `docs/eol/` | `npm run build:answer-pages` (source: `registry/*.json`) |
+| `docs/state-of-eol.md` tables | `node dist/tools/coverage-matrix.js --site` (source: `benchmarks/public-repositories/` and `registry/*.json`; the committed page keeps a placeholder between its markers and the Pages workflow fills the tables; no pull request commits them) |
 | `docs/ROADMAP.md` | `node planning/roadmap/roadmap-md.mjs` (source: `planning/roadmap/`) |
 
 CI fails when generated output drifts from its source. Exceptions not committed on `main`: `dist/action/index.js` (each merge rewrote the same minified lines, so parallel pull requests conflicted; release tags still need it — see `docs/RELEASING.md`, step 5); and `docs/llms-full.txt`, `docs/sitemap.xml`, `docs/rules/index.md`, `docs/dashboard/data.json`, and `docs/api/v1/` (Pages generates them during the site build; `check:reference`, `check:llms`, `check:dashboard`, and `check:data-api` fail when the sources would not produce a well-formed site).
@@ -109,6 +110,7 @@ Prefer adding new per-item files instead of editing assembled or shared registri
 | Generated paths in [Generated files](#generated-files--do-not-edit-by-hand) | Edit the listed source; regenerate; never hand-edit the output. |
 | `benchmarks/public-repositories/` | One file per repo. Add a new file; do not edit a monolith. |
 | `tools/importers/index.ts` | Registration list. Adding an importer means a new file **and** one import line here — expect conflicts. |
+| Corpus counts in tests and docs | Never type a corpus-wide count (repositories, findings, per-detector evidence) into a test or a page. Tests recompute it from `benchmarks/public-repositories/`; `docs/state-of-eol.md` is filled at site build. Write a corpus pass up as its own file in `docs/validation/passes/`, not as a new section of `docs/validation/corpus.md`. |
 | `AGENTS.md`, `CONTRIBUTING.md` | Shared docs; rebase carefully if another PR touched them. |
 | `package-lock.json` | Shared lockfile; regenerate from `package.json` when needed, do not hand-merge blindly. |
 | `CHANGELOG.md` | Do not edit directly. Add a fragment under `changes/` (see [changes/README.md](changes/README.md)). |

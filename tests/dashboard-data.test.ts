@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { readFile, stat } from "node:fs/promises";
+import { readFile, readdir, stat } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 import { promisify } from "node:util";
@@ -8,7 +8,7 @@ import { promisify } from "node:util";
 import { loadPublicCorpus } from "../benchmarks/public-corpus.js";
 import { TARGETS_PATH } from "../benchmarks/corpus-targets.js";
 import type { CorpusTargets } from "../benchmarks/corpus-targets.js";
-import { countEvidence, earnedLevel } from "../benchmarks/thresholds.js";
+import { countEvidence, detectorOf, earnedLevel } from "../benchmarks/thresholds.js";
 import type { Thresholds } from "../benchmarks/thresholds.js";
 import {
   ageInDays,
@@ -80,117 +80,41 @@ test("counts, precision, and recall are the lastFullRun numbers on the real file
   assert.ok(data.corpus.repositories >= last.repositories);
 });
 
-test("the evidence counts agree with the reviewed corpus", () => {
-  const evidence = Object.fromEntries(build().detectors.map((detector) => [detector.id, detector.evidence]));
-  const counts = ({
-    repositoriesWithFindings,
-    expectedFindings,
-    zeroFindingRepositories,
-  }: {
-    repositoriesWithFindings: number;
-    expectedFindings: number;
-    zeroFindingRepositories: number;
-  }) => ({ repositoriesWithFindings, expectedFindings, zeroFindingRepositories });
-  // ADR 0013's table is the 90-repository snapshot; the two .NET repositories with workflow findings added 2 and 6 to GitHub Actions in its 2026-10-19 update. The PHP corpus added 2 repositories-with-findings and 14 findings, and the Android corpus added 1 repository-with-findings and 8 findings. The C/C++ corpus added 2 repositories-with-findings and 7 findings. The Next.js lifecycle rules added 2 repositories-with-findings (trpc/trpc and TanStack/query) and 12 npm findings. The TanStack/query Angular declarations added 12 npm findings for the v20 Angular rule to a repository already counted. The Swift blind corpus added 3 repositories and 11 findings. The Next.js 13 and 14 support-end findings in excalidraw/excalidraw and umami-software/umami added 2 npm findings to repositories already counted. The CI runner images corpus pinned five public repositories: four with findings (8 ci-images findings in total) and one zero-finding repository. The Dart corpus pinned five public repositories: four with findings (8 dart findings in total) and one zero-finding repository; three of the four also have GitHub Actions findings (12 in total) and one has a Swift finding. The Terraform corpus pinned five public repositories: four with findings (6 terraform findings in total) and one zero-finding repository; one of the four also has GitHub Actions findings (4 in total). The Database runtimes corpus pinned five public repositories: four with findings and one zero-finding repository; the database detector also reports on the postgres images in umami-software/umami and trpc/trpc (2 findings, counted with the four for 8 database findings in total), three of the four new repositories also have GitHub Actions findings (11 in total), and CodeForPoznan/infrastructure adds 1 terraform finding to the Terraform counts. The `dotnet-version` inputs of actions/setup-dotnet added 5 .NET findings to repositories already counted (3 in xunit/xunit.analyzers, 1 each in Chrome-Developer-Mode-Extension-Warning-Patcher and SharpSocks). The two .NET base images in nettitude/SharpSocks added 2 .NET findings to a repository already counted. The scheduled Node.js 22 rule added 42 nodejs findings: 7 repositories with no other npm finding gained one, so the npm zero-finding count fell by 2 (two of them already had an npm-rule finding counted elsewhere). The EKS 1.24 pin in infracost/example-terraform added 1 terraform finding and 1 repository-with-findings, and the MYSQL_5_7 pin in BaptisteLecat/gcp_architect_certification added 1 database finding and 1 repository-with-findings. The Terraform interpolation-only rule added 8 findings in GoogleCloudPlatform/notebooks-blueprint-security, which had no terraform finding before, so the terraform repositories-with-findings rose by 1 and the zero-finding count fell by 1. The remaining 28 interpolation-only findings (two more repositories with findings, one fewer zero-finding repository) and the 8 node-sass findings (npm) were recorded once the corpus job ran on pull requests, along with the redis 7.0 and postgres 10 images in HomeBusProjects/HomeBus and weareasterisk/gavel2 (database).
-  // The Go and Rust stable corpus added 97 repositories. Their workflows add 227 GitHub Actions findings in 36 repositories already counted, vault adds 22 Terraform findings (one repository), rustodon adds a database finding (one repository), and mesalink adds a C/C++ finding (one repository).
-  // Workflow-command rules add three set-output findings in actions/toolkit and dai-shi/reactive-react-redux, and 10 more set-output and set-env findings in six repositories already counted.
-  // The Ruby and PHP stable corpus added 48 and 96 repositories; the new repositories carry the other detectors' findings too (GitHub Actions, npm, C/C++, database, Terraform), recorded from a full offline scan.
-  // The pinned Go, Java, and Rust workflows add 36 command findings in seven repositories (#2447).
-  // The Java and Scala stable corpus (#1896), Swift/.NET (#1900), and C/C++/Shell (#1897)
-  // promotions together raise cross-detector evidence counted here.
-  // The Elixir stable corpus and the two Deno/Bun pins add 139 GitHub Actions findings in 24 new
-  // repositories, 4 .NET findings in one repository, 3 Ruby findings in one repository, and 1 C/C++
-  // finding in one repository.
-  // The Dart and Android stable corpus (#1894) added 63 and 72 repositories; their workflows and nested packages add GitHub Actions, C/C++, Ruby, and shell findings recorded from a full offline scan.
-  // The Rust corpus at 200 repositories (#2144) added 122 pins; their workflows add 628 GitHub Actions findings in 70 newly counted repositories, plus one npm, one .NET, one CI-image, two Android, and one shell finding in one repository each.
-  // The Node.js corpus at 200 repositories (#2143) added 122 pins; their workflows add 508 GitHub Actions findings in 60 newly counted repositories, 14 npm findings in 11 repositories (29 more with no npm finding), 5 Ruby findings in 2 repositories, 5 database findings in 1 repository, and 1 Terraform finding in 1 repository.
-  // The Deno and Bun stable corpus (#1895) added 69 pins: 69 Deno or Bun findings in 65 repositories,
-  // four zero-finding controls, and the other detectors' findings recorded from the same pinned trees.
-  assert.deepEqual(counts(evidence["github-actions"]!), {
-    repositoriesWithFindings: 627,
-    expectedFindings: 4532,
-    zeroFindingRepositories: 4,
-  });
-  assert.deepEqual(counts(evidence["npm"]!), {
-    repositoriesWithFindings: 79,
-    expectedFindings: 159,
-    zeroFindingRepositories: 47,
-  });
-  assert.deepEqual(counts(evidence["dotnet"]!), {
-    repositoriesWithFindings: 66,
-    expectedFindings: 591,
-    zeroFindingRepositories: 9,
-  });
-  assert.deepEqual(counts(evidence["php"]!), {
-    repositoriesWithFindings: 35,
-    expectedFindings: 72,
-    zeroFindingRepositories: 53,
-  });
-  assert.deepEqual(counts(evidence["ruby"]!), {
-    repositoriesWithFindings: 70,
-    expectedFindings: 291,
-    zeroFindingRepositories: 23,
-  });
-  assert.deepEqual(counts(evidence["swift"]!), {
-    repositoriesWithFindings: 58,
-    expectedFindings: 75,
-    zeroFindingRepositories: 15,
-  });
-  assert.deepEqual(counts(evidence["cpp"]!), {
-    repositoriesWithFindings: 30,
-    expectedFindings: 276,
-    zeroFindingRepositories: 4,
-  });
-  assert.deepEqual(counts(evidence["ci-images"]!), {
-    repositoriesWithFindings: 30,
-    expectedFindings: 64,
-    zeroFindingRepositories: 20,
-  });
-  assert.deepEqual(counts(evidence["dart"]!), {
-    repositoriesWithFindings: 32,
-    expectedFindings: 140,
-    zeroFindingRepositories: 18,
-  });
-  assert.deepEqual(counts(evidence["android"]!), {
-    repositoriesWithFindings: 44,
-    expectedFindings: 89,
-    zeroFindingRepositories: 22,
-  });
-  assert.deepEqual(counts(evidence["terraform"]!), {
-    repositoriesWithFindings: 17,
-    expectedFindings: 486,
-    zeroFindingRepositories: 1,
-  });
-  assert.deepEqual(counts(evidence["database"]!), {
-    repositoriesWithFindings: 22,
-    expectedFindings: 31,
-    zeroFindingRepositories: 1,
-  });
-  assert.deepEqual(counts(evidence["shell"]!), {
-    repositoriesWithFindings: 31,
-    expectedFindings: 105,
-    zeroFindingRepositories: 9,
-  });
-  assert.deepEqual(counts(evidence["java"]!), {
-    repositoriesWithFindings: 22,
-    expectedFindings: 72,
-    zeroFindingRepositories: 4,
-  });
-  assert.deepEqual(counts(evidence["scala"]!), {
-    repositoriesWithFindings: 51,
-    expectedFindings: 77,
-    zeroFindingRepositories: 12,
-  });
-  assert.deepEqual(counts(evidence["elixir"]!), {
-    repositoriesWithFindings: 36,
-    expectedFindings: 86,
-    zeroFindingRepositories: 4,
-  });
-  assert.deepEqual(counts(evidence["deno"]!), {
-    repositoriesWithFindings: 67,
-    expectedFindings: 71,
-    zeroFindingRepositories: 4,
-  });
+// The expected counts are recomputed from the per-repository files on disk, not typed in here. A
+// literal count would be rewritten by every corpus or promotion task and conflict between them.
+async function rawEvidence(detector: string, ecosystems: readonly string[]) {
+  const root = resolve("benchmarks/public-repositories");
+  const withFindings = new Set<string>();
+  let expectedFindings = 0;
+  let zeroFindingRepositories = 0;
+  for (const bucket of await readdir(root, { withFileTypes: true })) {
+    if (!bucket.isDirectory()) continue;
+    for (const file of await readdir(resolve(root, bucket.name))) {
+      if (!file.endsWith(".json")) continue;
+      const entry = JSON.parse(await readFile(resolve(root, bucket.name, file), "utf8")) as {
+        repository: string;
+        expected: Array<{ ruleId: string }>;
+      };
+      const own = entry.expected.filter((finding) => detectorOf(finding.ruleId) === detector);
+      if (own.length > 0) {
+        withFindings.add(entry.repository);
+        expectedFindings += own.length;
+      }
+      if (ecosystems.includes(bucket.name) && entry.expected.length === 0) zeroFindingRepositories += 1;
+    }
+  }
+  return { repositoriesWithFindings: withFindings.size, expectedFindings, zeroFindingRepositories };
+}
+
+test("the evidence counts agree with the reviewed corpus files", async () => {
+  for (const detector of build().detectors) {
+    const { repositoriesWithFindings, expectedFindings, zeroFindingRepositories } = detector.evidence;
+    assert.deepEqual(
+      { repositoriesWithFindings, expectedFindings, zeroFindingRepositories },
+      await rawEvidence(detector.id, detectorEcosystems[detector.id]!),
+      detector.id,
+    );
+  }
 });
 
 test("the corpus section counts every bucket and carries its committed minimum and target", () => {

@@ -29,6 +29,9 @@ jobs:
         with:
           cache: npm
       - run: npm run build --silent
+      - name: Build the State of EOL tables for the site
+        # Not committed: the page keeps a placeholder so corpus changes never conflict on its counts.
+        run: node dist/tools/coverage-matrix.js --site
       - name: Build docs/llms-full.txt for the site
         # Not committed: generate here so Jekyll copies it into _site at the public URL.
         run: node dist/tools/build-llms-full.js

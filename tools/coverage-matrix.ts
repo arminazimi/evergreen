@@ -6,6 +6,11 @@
 //
 //   node dist/tools/coverage-matrix.js            # rewrites the marked tables
 //   node dist/tools/coverage-matrix.js --check    # exits 1 if a committed table is out of date
+//   node dist/tools/coverage-matrix.js --site     # fills the State of EOL tables, for the site build only
+//
+// The State of EOL tables are counts over the whole corpus, so every corpus or promotion task would
+// rewrite them and conflict. They are not committed: the page keeps a placeholder between its markers,
+// and the Pages workflow fills the real tables with --site.
 //
 // Only the bytes between each pair of markers are replaced; the rest of each document stays as written.
 // README.md and docs/COMPATIBILITY.md stay ordinary Markdown: the generated tables need no include step,
@@ -494,8 +499,18 @@ export function replaceStateOfEolSection(document: string, section: string): str
   return `${document.slice(0, start + STATE_OF_EOL_START_MARKER.length)}\n${section}\n${document.slice(end)}`;
 }
 
-/** docs/state-of-eol.md with the aggregate tables regenerated in memory. */
+/** What the committed State of EOL page holds between its markers. */
+export const STATE_OF_EOL_PLACEHOLDER =
+  "The aggregate tables are built from the corpus and the last recorded full run when the site is built, so they are not committed and a corpus change never edits this page. Build them locally with `node dist/tools/coverage-matrix.js --site`; the live page is at <https://arminazimi.github.io/evergreen/state-of-eol.html>.";
+
+/** docs/state-of-eol.md as committed: the placeholder between the markers. */
 export async function buildStateOfEolDocument(root = "."): Promise<string> {
+  const document = await readFile(resolve(root, STATE_OF_EOL_PATH), "utf8");
+  return replaceStateOfEolSection(document, STATE_OF_EOL_PLACEHOLDER);
+}
+
+/** docs/state-of-eol.md with the aggregate tables built from the corpus, for the site. */
+export async function buildStateOfEolSiteDocument(root = "."): Promise<string> {
   const document = await readFile(resolve(root, STATE_OF_EOL_PATH), "utf8");
   const corpus = await loadPublicCorpus(root);
   const thresholds = JSON.parse(await readFile(resolve(root, THRESHOLDS_PATH), "utf8")) as Thresholds;
@@ -507,6 +522,11 @@ export async function buildStateOfEolDocument(root = "."): Promise<string> {
 }
 
 export async function main(argv: readonly string[] = process.argv.slice(2)): Promise<number> {
+  if (argv.includes("--site")) {
+    await writeFile(resolve(STATE_OF_EOL_PATH), await buildStateOfEolSiteDocument());
+    console.log(`Wrote the State of EOL tables in ${STATE_OF_EOL_PATH} for the site. Do not commit this change.`);
+    return 0;
+  }
   const targets = [
     { path: README_PATH, build: () => buildReadmeDocument() },
     { path: COMPATIBILITY_PATH, build: () => buildDocument() },
@@ -528,6 +548,8 @@ export async function main(argv: readonly string[] = process.argv.slice(2)): Pro
     if (current !== next) await writeFile(file, next);
     console.log(`Wrote the generated table in ${target.path}.`);
   }
+  // The tables are not committed, but the corpus must still aggregate against the registry.
+  await buildStateOfEolSiteDocument();
   return stale ? 1 : 0;
 }
 

@@ -83,7 +83,7 @@ try {
     `Recorded the full run of ${date} at ${commit}: ${record.repositories} repositories, ${record.findings} findings, precision ${record.precision}, recall ${record.recall}.`,
   );
   console.log(
-    "Updated benchmarks/thresholds.json, docs/VALIDATION.md, and docs/state-of-eol.md. Regenerated gitignored docs/dashboard/data.json and docs/llms-full.txt for local preview. Review the diff and commit the tracked files.",
+    "Updated benchmarks/thresholds.json and docs/VALIDATION.md. Regenerated gitignored docs/dashboard/data.json and docs/llms-full.txt for local preview. Review the diff and commit the tracked files.",
   );
 } finally {
   await rm(directory, { recursive: true, force: true });

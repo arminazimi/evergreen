@@ -48,3 +48,14 @@ Three causes, 8 conflicting tasks. `examples/capabilities.json` is an assembled 
 - The tasks are replayed from history, not started fresh from one base, so some conflicts are really dependencies (the later task was written on top of the earlier one). The causes above are the shared paths either way.
 - The merge queue is not on (#2029 is open), so the merges were local `git merge` runs, not queue runs.
 - Rerun this experiment after each cause is fixed. The goal stays zero textual conflicts.
+
+## After the fix for hard-coded counts (#2581)
+
+The first cause above is addressed by deriving the counts instead of typing them:
+
+- `tests/dashboard-data.test.ts` recomputes each detector's evidence from the per-repository files; `tests/corpus-thresholds.test.ts` takes the detector list from `benchmarks/thresholds/` and the enforcement flag from the level.
+- `docs/state-of-eol.md` holds a placeholder; the Pages workflow builds the tables (`coverage-matrix.js --site`).
+- Corpus passes are one file each in `docs/validation/passes/`, not sections appended to `docs/validation/corpus.md`.
+- `examples/capabilities.json` lists each ecosystem over several lines, so promoting two neighbouring ecosystems edits lines that are not adjacent.
+
+Not fixed: the generated README and `docs/COMPATIBILITY.md` coverage tables (and the accuracy table in `docs/VALIDATION.md`) have one line per ecosystem and must stay committed so they render on GitHub and npm. Promoting two ecosystems whose rows sit next to each other still conflicts on those rows. Rerun the experiment to measure the rest.

@@ -22,6 +22,7 @@ import {
   buildDocument,
   buildReadmeDocument,
   buildStateOfEolDocument,
+  buildStateOfEolSiteDocument,
   buildValidationDocument,
   loadDescriptions,
   loadReadmeDescriptions,
@@ -35,6 +36,7 @@ import {
   replaceCoverageTable,
   replaceReadmeCoverageTable,
   replaceStateOfEolSection,
+  STATE_OF_EOL_PLACEHOLDER,
   validateDescriptions,
   validateReadmeDescriptions,
 } from "../tools/coverage-matrix.js";
@@ -337,9 +339,14 @@ test("accuracy rows compute precision and recall from counts and show dashes for
   assert.throws(() => replaceAccuracyTable("no markers", table), /accuracy-tables:start/);
 });
 
-test("the committed State of EOL page matches the corpus and last full run", async () => {
+test("the committed State of EOL page holds only the placeholder; the site build fills the tables", async () => {
   const document = await readFile(resolve(STATE_OF_EOL_PATH), "utf8");
   assert.equal(document, await buildStateOfEolDocument());
+  assert.ok(document.includes(STATE_OF_EOL_PLACEHOLDER));
+  assert.doesNotMatch(document, /### By product/);
+  const site = await buildStateOfEolSiteDocument();
+  assert.match(site, /Measured on the public corpus of \d+ pinned repositories/);
+  assert.match(site, /### By product and release line/);
 });
 
 test("product names come from the Package URL namespace and name", () => {
