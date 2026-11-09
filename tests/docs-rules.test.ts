@@ -36,25 +36,26 @@ test("the validation error shown in docs/RULES.md matches what validation report
   );
 });
 
-test("every document that CONTRIBUTING.md and docs/RULES.md link to exists", async () => {
+test("every document that CONTRIBUTING.md and docs/RULES.md link to exists, and Ebb is linked for the rules", async () => {
   for (const [file, links] of [
     [
       "docs/RULES.md",
       [
-        "../packages/ebb/schemas/registry.v2.schema.json",
+        "https://github.com/velella-sh/ebb/blob/main/schemas/registry.v2.schema.json",
         "decisions/0004-registry-v2.md",
         "../examples/registry.v2.example.json",
-        "../.github/workflows/sources.yml",
+        "https://github.com/velella-sh/ebb/blob/main/.github/workflows/sources.yml",
         "DETECTORS.md",
       ],
     ],
-    ["CONTRIBUTING.md", ["docs/RULES.md", "packages/ebb/registry/npm.json", "tests/npm.test.ts"]],
+    ["CONTRIBUTING.md", ["docs/RULES.md", "https://github.com/velella-sh/ebb", "tests/npm.test.ts"]],
     ["docs/DETECTORS.md", ["RULES.md"]],
     ["docs/index.md", ["RULES.md"]],
   ] as const) {
     const text = await readFile(resolve(file), "utf8");
     for (const link of links) {
       assert.ok(text.includes(`(${link}`), `${file} links ${link}`);
+      if (link.startsWith("https://")) continue; // Ebb's own repository; its files are checked there.
       const target = resolve(file, "..", link.split("#")[0]!);
       await readFile(target); // throws when the target is missing
     }

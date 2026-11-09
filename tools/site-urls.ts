@@ -46,7 +46,7 @@ export async function readSitemapText(root = "."): Promise<string> {
   try {
     return await readFile(path, "utf8");
   } catch {
-    return renderSitemap(await loadRegistries(join(resolve(root), "packages/ebb/registry")));
+    return renderSitemap(await loadRegistries(join(resolve(root), "node_modules/@velella/ebb/registry")));
   }
 }
 

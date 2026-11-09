@@ -24,7 +24,6 @@
 // access. High and critical advisories can never be allowlisted.
 
 import { execFileSync } from "node:child_process";
-import { existsSync } from "node:fs";
 import { readFile, readdir } from "node:fs/promises";
 import { join, posix, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -164,7 +163,6 @@ export interface AuditAdvisory {
 
 export interface QualityInput {
   files: FileMeasure[];
-  registryNonJson: string[];
   allowlist: Allowlist;
   /** Structural problems found while reading the allowlist. */
   allowlistProblems: Finding[];
@@ -182,7 +180,6 @@ const BOUNDARY_RULES = {
   engineNoDetectors: "engine-no-detectors",
   detectorsNoNetwork: "no-network",
   adaptersNoDetectors: "adapters-no-detectors",
-  registryJsonOnly: "registry-json-only",
 } as const;
 
 export const BOUNDARY_RULE_IDS: readonly string[] = Object.values(BOUNDARY_RULES);
@@ -813,9 +810,6 @@ export function evaluateQuality(input: QualityInput): Finding[] {
   for (const file of files) {
     for (const [rule, count] of file.boundary) boundaryCounts.set(`${file.path}\u0000${rule}`, count);
   }
-  for (const file of input.registryNonJson) {
-    boundaryCounts.set(`${file}\u0000${BOUNDARY_RULES.registryJsonOnly}`, 1);
-  }
   for (const [key, count] of boundaryCounts) {
     const [file, rule] = key.split("\u0000") as [string, string];
     const entry = boundaryEntries.get(key);
@@ -880,13 +874,10 @@ function isoToday(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
-/** The hand-written TypeScript under src/ and Ebb's src/, minus the vendored tree and the generated index. */
+/** The hand-written TypeScript under src/, minus the vendored tree and the generated index. */
 export function isHandWritten(path: string): boolean {
   return (
-    (path.startsWith("src/") || path.startsWith("packages/ebb/src/")) &&
-    path.endsWith(".ts") &&
-    !path.includes("/vendor/") &&
-    !path.endsWith(".generated.ts")
+    path.startsWith("src/") && path.endsWith(".ts") && !path.includes("/vendor/") && !path.endsWith(".generated.ts")
   );
 }
 
@@ -900,15 +891,13 @@ async function listFiles(root: string, dir: string): Promise<string[]> {
 }
 
 export async function readRepository(root: string, today: string, auditPath?: string): Promise<QualityInput> {
-  const ebb = existsSync(resolve(root, "packages/ebb/src")) ? await listFiles(root, "packages/ebb/src") : [];
-  const sourcePaths = [...(await listFiles(root, "src")), ...ebb].filter(isHandWritten);
+  const sourcePaths = (await listFiles(root, "src")).filter(isHandWritten);
   const files: FileMeasure[] = [];
   for (const path of sourcePaths) {
     files.push(measureFile(path, await readFile(resolve(root, path), "utf8")));
   }
-  const registryNonJson = (await listFiles(root, "packages/ebb/registry")).filter((path) => !path.endsWith(".json"));
   const { allowlist, problems } = parseAllowlist(JSON.parse(await readFile(resolve(root, ALLOWLIST_PATH), "utf8")));
-  const input: QualityInput = { files, registryNonJson, allowlist, allowlistProblems: problems, today };
+  const input: QualityInput = { files, allowlist, allowlistProblems: problems, today };
   if (auditPath) {
     input.audit = parseAudit(JSON.parse(await readFile(resolve(root, auditPath), "utf8")));
   }

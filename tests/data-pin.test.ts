@@ -5,6 +5,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { after, afterEach, test } from "node:test";
 
+import { VERSION } from "@velella/ebb/version";
 import { buildDataBundle, serializeDataBundle } from "@velella/ebb/data-bundle";
 import type { DataBundle } from "@velella/ebb/data-bundle";
 import {
@@ -44,7 +45,7 @@ const scratch = async (name: string) => {
 /** A bundle in which `package` has a rule named after the bundle, so a scan shows which data was used. */
 async function bundleWithRule(createdAt: string, packageName: string): Promise<DataBundle> {
   const root = await scratch("registry");
-  await cp(resolve("packages/ebb/registry"), join(root, "registry"), { recursive: true });
+  await cp(resolve("node_modules/@velella/ebb/registry"), join(root, "registry"), { recursive: true });
   await writeFile(join(root, "package.json"), await readFile(resolve("package.json"), "utf8"));
   const npm = JSON.parse(await readFile(join(root, "registry/npm.json"), "utf8")) as {
     rules: Array<Record<string, unknown>>;
@@ -57,7 +58,7 @@ async function bundleWithRule(createdAt: string, packageName: string): Promise<D
     "x-npm": { package: packageName },
   });
   await writeFile(join(root, "registry/npm.json"), JSON.stringify(npm));
-  return buildDataBundle({ root, createdAt, minimumEbbVersion: "0.1.0" });
+  return buildDataBundle({ root, createdAt, minimumEbbVersion: VERSION });
 }
 
 async function store(cache: string, bundle: DataBundle, bytes?: string): Promise<void> {
@@ -120,9 +121,9 @@ test("a pinned version decides what a scan finds, so CI results do not drift", a
 
 test("every built-in detector scans its fixture with pinned data", async () => {
   const bundle = await buildDataBundle({
-    root: resolve("packages/ebb"),
+    root: resolve("node_modules/@velella/ebb"),
     createdAt: "2999-01-01T00:00:00Z",
-    minimumEbbVersion: "0.1.0",
+    minimumEbbVersion: VERSION,
   });
   const cache = await scratch("cache");
   await store(cache, bundle);

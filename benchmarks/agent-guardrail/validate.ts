@@ -46,7 +46,7 @@ const SKIP_REGISTRY_FILES = new Set(["sources.lock.json", "github-actions-shas.j
 
 /** Loads every lifecycle rule from `registry/*.json` under `root`. */
 export function loadBundledRegistryRules(root = process.cwd()): RegistryV2Rule[] {
-  const directory = resolve(root, "packages/ebb/registry");
+  const directory = resolve(root, "node_modules/@velella/ebb/registry");
   const rules: RegistryV2Rule[] = [];
   for (const file of readdirSync(directory).sort()) {
     if (!file.endsWith(".json") || SKIP_REGISTRY_FILES.has(file)) continue;

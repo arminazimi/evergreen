@@ -1,4 +1,3 @@
-import { resolve } from "node:path";
 import process from "node:process";
 
 import { defaultRuleFiles, lintRuleFiles, renderRuleLintText } from "@velella/ebb/rule-lint";
@@ -22,11 +21,11 @@ export const command: CliCommand = {
         return ctx.fail("usage", "Usage: evergreen rules lint [file...]");
       let files: string[];
       try {
-        files = rest.length > 0 ? rest : await defaultRuleFiles(resolve("packages/ebb"));
+        files = rest.length > 0 ? rest : await defaultRuleFiles(process.cwd());
       } catch (error) {
         return ctx.fail(
           "usage",
-          `No registry directory here (${(error as Error).message}). Run evergreen rules lint from the repository root, or pass rule files.`,
+          `No registry directory here (${(error as Error).message}). Run evergreen rules lint from the root of an Ebb checkout, or pass rule files.`,
         );
       }
       const result = await lintRuleFiles(files);

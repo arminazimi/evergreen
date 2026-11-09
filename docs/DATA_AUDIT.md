@@ -84,7 +84,7 @@ Deadlines are calendar days counted from the day the correction issue is opened,
 - A correction past its deadline is **open and overdue**, not dismissed. Absence of bandwidth is not a resolution reason; an unfixed correction stays visible until a change or a written rejection closes it.
 - If a target is missed, comment on the issue to nudge the maintainer. A missed target is the project's problem, not the reporter's, and does not mean the correction is unwelcome.
 
-Corrections are one input to keeping the data honest; the other is the proactive weekly **freshness and source** check ([`.github/workflows/sources.yml`](../.github/workflows/sources.yml), `tools/check-sources.ts`), which flags rules past their review window and sources whose URL or title has moved or gone dark.
+Corrections are one input to keeping the data honest; the other is the proactive weekly **freshness and source** check ([`.github/workflows/sources.yml`](https://github.com/velella-sh/ebb/blob/main/.github/workflows/sources.yml), `tools/check-sources.ts`), which flags rules past their review window and sources whose URL or title has moved or gone dark.
 
 ## Public record of corrections
 

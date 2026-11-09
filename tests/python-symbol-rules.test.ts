@@ -11,7 +11,9 @@ const root = join(import.meta.dirname, "..", "..");
 const prefix = "python.symbol.";
 
 async function symbolRules(): Promise<(RegistryV2Rule & { usage: SymbolUsageMatcher[] })[]> {
-  const registry = JSON.parse(await readFile(join(root, "packages/ebb/registry", "python.json"), "utf8")) as {
+  const registry = JSON.parse(
+    await readFile(join(root, "node_modules/@velella/ebb/registry", "python.json"), "utf8"),
+  ) as {
     rules: (RegistryV2Rule & { usage?: SymbolUsageMatcher[] })[];
   };
   assert.deepEqual(registryV2Issues(registry), []);

@@ -1,13 +1,11 @@
 import type { CliCommand } from "./types.js";
 
-/** Creates a rule skeleton and both fixtures in the registry for its ecosystem. The generator lives in tools/. */
+/** Creates the match and clean fixtures of a rule that @velella/ebb defines. The generator lives in tools/. */
 export const command: CliCommand = {
   name: "new-rule",
   flags: ["--ecosystem"],
   example: "evergreen new-rule npm.package.sample.deprecated",
-  usage: [
-    "  evergreen new-rule <id> [--ecosystem <slug>]   # add a rule and its match/clean fixtures to registry/<ecosystem>.json",
-  ],
+  usage: ["  evergreen new-rule <id> [--ecosystem <slug>]   # create match/clean fixtures for a rule Ebb defines"],
   usageSlots: [56],
   async run(args, ctx) {
     const usage = "Usage: evergreen new-rule <id> [--ecosystem <slug>]";

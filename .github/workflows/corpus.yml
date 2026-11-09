@@ -23,14 +23,14 @@ on:
     branches: [main]
     paths:
       - "src/**"
-      - "packages/ebb/registry/**"
+      - "package-lock.json"
       - "tests/fixtures/**"
       - "benchmarks/**"
       - ".github/workflows/corpus.yml"
   pull_request:
     paths:
       - "src/**"
-      - "packages/ebb/registry/**"
+      - "package-lock.json"
       - "tests/fixtures/**"
       - "benchmarks/**"
       - ".github/workflows/corpus.yml"

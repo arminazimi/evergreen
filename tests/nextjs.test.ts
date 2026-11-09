@@ -41,7 +41,7 @@ async function repository(files: Record<string, string>): Promise<string> {
 }
 
 async function committedRules(): Promise<RegistryV2Rule[]> {
-  return validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/npm.json", "utf8"))).rules;
+  return validateRegistryV2(JSON.parse(await readFile("node_modules/@velella/ebb/registry/npm.json", "utf8"))).rules;
 }
 
 async function nextRules(): Promise<RegistryV2Rule[]> {

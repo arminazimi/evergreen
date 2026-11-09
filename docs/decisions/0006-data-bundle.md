@@ -4,7 +4,7 @@ Status: accepted
 
 ## Decision
 
-Lifecycle data can be published and consumed separately from the Evergreen code release as a **data bundle**, one JSON document of type `ebb.data-bundle.v1` ([schema](../../packages/ebb/schemas/data-bundle.v1.schema.json)). It holds a manifest and the files the detectors read.
+Lifecycle data can be published and consumed separately from the Evergreen code release as a **data bundle**, one JSON document of type `ebb.data-bundle.v1` ([schema](https://github.com/velella-sh/ebb/blob/main/schemas/data-bundle.v1.schema.json)). It holds a manifest and the files the detectors read.
 
 ```json
 {

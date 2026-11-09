@@ -279,7 +279,7 @@ async function hints(): Promise<Map<string, Hint>> {
   const map = new Map<string, Hint>();
   const registry = async (name: string) =>
     (
-      JSON.parse(await readFile(resolve(`packages/ebb/registry/${name}.json`), "utf8")) as {
+      JSON.parse(await readFile(resolve(`node_modules/@velella/ebb/registry/${name}.json`), "utf8")) as {
         rules: Record<string, unknown>[];
       }
     ).rules;

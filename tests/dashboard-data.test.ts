@@ -218,8 +218,6 @@ test("the definitions cover every metric, name a committed source, and the limit
     "zeroFindingRepositories",
     "runAge",
     "scanTime",
-    "freshnessTarget",
-    "freshnessAge",
     "corpusRepositories",
     "corpusMinimum",
     "corpusTarget",
@@ -257,28 +255,4 @@ test("docs/dashboard/data.json is buildable with the last run's date as the refe
   assert.equal((JSON.parse(rendered) as { referenceDay: string }).referenceDay, runDate);
   assert.equal(OUTPUT_FILE, "docs/dashboard/data.json");
   await execute(process.execPath, [script, "--today", "run-date", "--check"]);
-});
-
-test("source freshness is part of the data, with the targets file named as its source", () => {
-  const data = buildDashboardData({
-    thresholds,
-    corpus,
-    targets,
-    today: runDate,
-    freshness: [
-      { importer: "go-1", targetDays: 60, rules: 1, lastReviewedAt: "2026-01-01", ageDays: 200, status: "missed" },
-    ],
-  });
-  assert.equal(data.sourceFreshness.file, "tools/importers/freshness.json");
-  assert.deepEqual(
-    data.sourceFreshness.sources.map((s) => s.status),
-    ["missed"],
-  );
-  assert.deepEqual(build().sourceFreshness.sources, []);
-  assert.ok(data.definitions["freshnessTarget"] && data.definitions["freshnessAge"]);
-});
-
-test("the rendered data lists every importer source", async () => {
-  const data = JSON.parse(await renderDashboardData(".", runDate)) as { sourceFreshness: { sources: unknown[] } };
-  assert.ok(data.sourceFreshness.sources.length >= 30);
 });

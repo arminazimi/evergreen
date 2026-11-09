@@ -283,7 +283,7 @@ export async function loadRulesFromBundle(bundlePath: string): Promise<RegistryV
   throw new Error(`"${bundlePath}" is not a valid data bundle.`);
 }
 
-export async function loadRules(source = "packages/ebb/registry"): Promise<RegistryV2Rule[]> {
+export async function loadRules(source = "node_modules/@velella/ebb/registry"): Promise<RegistryV2Rule[]> {
   const stats = await stat(source);
   if (stats.isDirectory()) {
     const rules: RegistryV2Rule[] = [];
@@ -313,7 +313,7 @@ export async function main(argv: string[]): Promise<number> {
   }
   const today = options.get("--today") ?? new Date().toISOString().slice(0, 10);
   const bundleFile = options.get("--bundle");
-  const registrySource = options.get("--registry") ?? "packages/ebb/registry";
+  const registrySource = options.get("--registry") ?? "node_modules/@velella/ebb/registry";
   const rules = bundleFile ? await loadRulesFromBundle(bundleFile) : await loadRules(registrySource);
   const calendar = buildCalendar(
     rules,

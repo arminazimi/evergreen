@@ -36,7 +36,9 @@ async function repository(files: Record<string, string>): Promise<string> {
 }
 
 async function expected(ruleId: string, path: string, line: number, value: string): Promise<DetectorFinding> {
-  const registry = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/container.json", "utf8")));
+  const registry = validateRegistryV2(
+    JSON.parse(await readFile("node_modules/@velella/ebb/registry/container.json", "utf8")),
+  );
   const rule = registry.rules.find((item) => item.id === ruleId)!;
   return {
     id: `${ruleId}:${path}:${line}`,
@@ -251,7 +253,9 @@ import { scanRepository } from "../src/engine/index.js";
 import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 
 test("every curated container image rule has migration guidance with real verification commands", async () => {
-  const registry = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/container.json", "utf8")));
+  const registry = validateRegistryV2(
+    JSON.parse(await readFile("node_modules/@velella/ebb/registry/container.json", "utf8")),
+  );
   for (const rule of registry.rules.filter((item) => item.purl.startsWith("pkg:docker/library/"))) {
     assert.ok(rule.migration, rule.id);
     assert.ok(rule.migration.constraints.length >= 1, rule.id);
@@ -262,7 +266,9 @@ test("every curated container image rule has migration guidance with real verifi
 });
 
 test("every host operating system rule has migration guidance with distribution commands", async () => {
-  const registry = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/container.json", "utf8")));
+  const registry = validateRegistryV2(
+    JSON.parse(await readFile("node_modules/@velella/ebb/registry/container.json", "utf8")),
+  );
   const hosts = registry.rules.filter(
     (item) => item.purl.startsWith("pkg:generic/") && item.purl !== "pkg:generic/dockerfile",
   );

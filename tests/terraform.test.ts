@@ -38,7 +38,8 @@ async function repository(files: Record<string, string>): Promise<string> {
 }
 
 async function committedRules(): Promise<RegistryV2Rule[]> {
-  return validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/terraform.json", "utf8"))).rules;
+  return validateRegistryV2(JSON.parse(await readFile("node_modules/@velella/ebb/registry/terraform.json", "utf8")))
+    .rules;
 }
 
 function expected(rule: RegistryV2Rule, path: string, line: number, summary: string): DetectorFinding {

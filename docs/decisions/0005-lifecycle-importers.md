@@ -1,6 +1,6 @@
 # 0005 — Draft lifecycle rules with importers; never write the registry
 
-Status: accepted
+Status: accepted. On 2026-11-09 the importers moved with the lifecycle data to [Ebb](https://github.com/velella-sh/ebb), where this decision still applies; the paths below are as they were.
 
 ## Decision
 

@@ -41,7 +41,7 @@ async function repository(files: Record<string, string>): Promise<string> {
 }
 
 async function committedRules() {
-  return validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/dotnet.json", "utf8"))).rules;
+  return validateRegistryV2(JSON.parse(await readFile("node_modules/@velella/ebb/registry/dotnet.json", "utf8"))).rules;
 }
 
 const source = (kind: "import" | "call", symbol: string, line: number, column: number, excerpt: string) => ({

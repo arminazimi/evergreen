@@ -40,11 +40,11 @@ The data belongs to Ebb, so it lives in Ebb's cache: `EBB_DATA_DIR` if set, othe
 
 ## What is in a bundle
 
-One JSON file (`ebb.data-bundle.v1`, [schema](../packages/ebb/schemas/data-bundle.v1.schema.json), [decision record](decisions/0006-data-bundle.md)) with a manifest and the files the detectors read: the lifecycle registries (one JSON file per ecosystem under `registry/`), the GitHub Actions SHA map, and the OSV cross-reference (`registry/osv.json`). The manifest lists each file's SHA-256, size, and rule count, a content address for the whole set, the build time, and the oldest Evergreen version that can read it. Versions look like `2026.10.16`, with `.N` for a second bundle on the same day. Building the bundle is deterministic: the same registry files and build time give the same bytes.
+One JSON file (`ebb.data-bundle.v1`, [schema](https://github.com/velella-sh/ebb/blob/main/schemas/data-bundle.v1.schema.json), [decision record](decisions/0006-data-bundle.md)) with a manifest and the files the detectors read: the lifecycle registries (one JSON file per ecosystem under `registry/`), the GitHub Actions SHA map, and the OSV cross-reference (`registry/osv.json`). The manifest lists each file's SHA-256, size, and rule count, a content address for the whole set, the build time, and the oldest Evergreen version that can read it. Versions look like `2026.10.16`, with `.N` for a second bundle on the same day. Building the bundle is deterministic: the same registry files and build time give the same bytes.
 
 ### OSV advisories
 
-`registry/osv.json` maps lifecycle rule ids to OSV advisory identifiers that have **no fixed version** for that package. The `osv` [importer](IMPORTERS.md) drafts those rows at maintainer time from the OSV API; scans never call OSV. When a scan produces a finding whose `ruleId` appears in that file, the finding lists those ids in `advisoryIds` (and as an `Advisories:` line in text output). The risk score can use the count; Evergreen never fetches advisories during a scan.
+`registry/osv.json` maps lifecycle rule ids to OSV advisory identifiers that have **no fixed version** for that package. The `osv` [importer](https://github.com/velella-sh/ebb/blob/main/docs/IMPORTERS.md) drafts those rows at maintainer time from the OSV API; scans never call OSV. When a scan produces a finding whose `ruleId` appears in that file, the finding lists those ids in `advisoryIds` (and as an `Advisories:` line in text output). The risk score can use the count; Evergreen never fetches advisories during a scan.
 
 ## Trust model
 
@@ -90,8 +90,8 @@ The release workflow downloads the previous release's log, refuses one that does
 Check a log, and optionally that it extends an older copy you kept:
 
 ```bash
-gh release download data-vYYYY.MM.DD --pattern 'release-log.jsonl*'
-node dist/tools/data-release-log.js check release-log.jsonl --previous older-release-log.jsonl
+gh release download data-vYYYY.MM.DD --repo velella-sh/ebb --pattern 'release-log.jsonl*'
+node dist/tools/data-release-log.js check release-log.jsonl --previous older-release-log.jsonl   # in a checkout of Ebb
 ```
 
 The first release made after this was added starts the log; earlier releases are not listed.
@@ -114,8 +114,8 @@ To reuse the dataset, credit it and link the license, for example:
 
 > Lifecycle data from Ebb (`@velella/ebb`), by Armin Azimi and Ebb contributors, licensed under CC BY 4.0. https://github.com/velella-sh/ebb
 
-Every rule carries its own `sources` (title, URL, and the `accessedAt` day it was read) and `reviewedAt`, so a consumer can trace a claim back to the page that states it and the date it was retrieved. `registry/sources.lock.json` records the current title and final URL of each cited page for maintainers and stays out of the published package. The upstream facts remain subject to the terms of the pages they come from; the license covers Evergreen's selection, arrangement, normalization, and original text. Product and project names are trademarks of their owners and do not imply endorsement.
+Every rule carries its own `sources` (title, URL, and the `accessedAt` day it was read) and `reviewedAt`, so a consumer can trace a claim back to the page that states it and the date it was retrieved. `registry/sources.lock.json` records the current title and final URL of each cited page for maintainers and stays out of the published package. The upstream facts remain subject to the terms of the pages they come from; the license covers Ebb's selection, arrangement, normalization, and original text. Product and project names are trademarks of their owners and do not imply endorsement.
 
 ## Publishing a bundle
 
-Maintainers push a `data-vYYYY.MM.DD` tag; see [Releasing](RELEASING.md#publishing-lifecycle-data). The workflow builds the bundle twice and requires identical bytes, signs it, verifies the signature, and attaches the bundle, the signature, and checksums to a GitHub release.
+Bundles are published from [Ebb](https://github.com/velella-sh/ebb): a maintainer pushes a `data-vYYYY.MM.DD` tag there, and its [release workflow](https://github.com/velella-sh/ebb/blob/main/.github/workflows/data-release.yml) builds the bundle twice and requires identical bytes, signs it, verifies the signature, and attaches the bundle, the signature, and checksums to a GitHub release. See Ebb's [guide](https://github.com/velella-sh/ebb/blob/main/docs/DATA.md#publishing-a-bundle) and [Rule data](RELEASING.md#rule-data) here.

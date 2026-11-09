@@ -1,6 +1,6 @@
 ---
 title: Runtime dependencies
-description: Why Evergreen ships eight runtime dependencies, what each one does, what removing it would cost, and the checks a new one must pass.
+description: Why Evergreen ships six runtime dependencies, what each one does, what removing it would cost, and the checks a new one must pass.
 ---
 
 # Runtime dependencies
@@ -11,25 +11,24 @@ checks it passed. It is the written reason the [agent brief](../AGENTS.md#depend
 dependency can be kept or added.
 
 The audit ran on **2026-11-06** at commit `efc784e5`. It changed no behavior and added no network access to any
-scan.
+scan. On **2026-11-09** the lifecycle data and the code that reads and verifies it moved into
+[Ebb](https://github.com/velella-sh/ebb) (`@velella/ebb`), so the three Sigstore packages are now Ebb's dependencies and Evergreen depends on Ebb.
 
 ## Result
 
-Eight direct dependencies remain. Each one is imported by shipped `src/` code, declares no install script, and has
+Six direct dependencies remain. Each one is imported by shipped `src/` code, declares no install script, and has
 no reviewed lifecycle rule that would make Evergreen report it as end-of-life, deprecated, or retired. Nothing was
 unused, so nothing was removed. Removing any of them would drop a feature users already rely on; the section for
 each package says which one.
 
-They resolve to a runtime tree of ten packages: `@modelcontextprotocol/core` and `@sigstore/core` are the only
-transitive additions. `npm audit --omit=dev` reports zero advisories, and [SECURITY.md](../SECURITY.md) requires
+They resolve to a runtime tree of eleven packages: `@modelcontextprotocol/core`, Ebb's three Sigstore packages, and
+`@sigstore/core` are the transitive additions. `npm audit --omit=dev` reports zero advisories, and [SECURITY.md](../SECURITY.md) requires
 that to stay true at any severity and any depth.
 
 | Dependency | Range | Installed | License | What it does for Evergreen | Install script |
 |---|---|---|---|---|---|
 | `@modelcontextprotocol/server` | `^2.3.1` | 2.4.0 | Apache-2.0 | Runs the local MCP server and its stdio transport | none |
-| `@sigstore/bundle` | `^5.0.0` | 5.0.0 | Apache-2.0 | Parses a Sigstore bundle before verification | none |
-| `@sigstore/protobuf-specs` | `^0.5.2` | 0.5.2 | Apache-2.0 | Loads the bundled Sigstore trusted root | none |
-| `@sigstore/verify` | `^4.1.2` | 4.1.2 | Apache-2.0 | Verifies signatures, certificate chains, and transparency-log entries | none |
+| `@velella/ebb` | `^0.1.0-rc.1` | 0.1.0-rc.1 | MIT (data CC BY 4.0) | The lifecycle rules, purl and VERS matching, and signed data updates | none |
 | `semver` | `^7.8.5` | 7.8.5 | ISC | Reads and compares semantic versions and npm ranges | none |
 | `smol-toml` | `^1.9.1` | 1.9.1 | BSD-3-Clause | Parses TOML manifests and lockfiles | none |
 | `yaml` | `^2.9.1` | 2.9.1 | ISC | Parses YAML manifests with exact line numbers | none |
@@ -45,27 +44,13 @@ through its `InMemoryTransport`, which is why the package is also imported by `t
 framing, capability negotiation, and transport by hand would replace maintained protocol code with code no host
 has tested, for a server that has to work with Claude, Codex, Copilot, and other MCP hosts.
 
-### `@sigstore/bundle`
+### `@velella/ebb`
 
-`sigstore-bundle` turns a `.sigstore.json` file into the typed bundle the verifier accepts. `packages/ebb/src/data-signature.ts`
-calls `bundleFromJSON` before every data-update signature check, so a malformed bundle fails with a signature error
-instead of reaching verification. Hand-parsing the bundle format would mean reimplementing a published
-specification and its validation rules.
-
-### `@sigstore/protobuf-specs`
-
-`sigstore-protobuf-specs` owns the protobuf message types Sigstore uses, including `TrustedRoot`. Evergreen loads
-`packages/ebb/data/sigstore-trusted-root.json` through `TrustedRoot.fromJSON` in `packages/ebb/src/data-signature.ts`, which is what lets a
-data update be verified offline, with no certificate fetch. Without this package the trusted root could not be
-decoded, and verification would have to go to the network.
-
-### `@sigstore/verify`
-
-`sigstore-verify` is the verifier itself. `packages/ebb/src/data-signature.ts` uses `toSignedEntity`, `toTrustMaterial`, and
-`Verifier` to check the signature, the certificate chain against the bundled root, the transparency-log inclusion,
-and the certificate identity and issuer. This is the security boundary for lifecycle data: a bug here accepts a
-bundle Evergreen should reject. Reimplementing it is not a reduction in trust, it is a new place to get
-cryptography wrong.
+[Ebb](https://github.com/velella-sh/ebb) is the lifecycle data every finding comes from, published as its own package so other tools can use it:
+the rules, the purl and VERS matching, the forecast, and the data updates that fetch a newer signed bundle and verify
+it with Sigstore before use. Its runtime dependencies are `@sigstore/bundle`, `@sigstore/protobuf-specs`, and
+`@sigstore/verify`, which verify a data bundle offline against the trusted root Ebb ships. It is part of the same
+organization and reviewed the same way. Without it Evergreen would have no rules to report.
 
 ### `semver`
 
@@ -100,11 +85,11 @@ Need: every dependency in `package.json` is imported by at least one file under 
 entry points import. `knip` in `npm run check` fails on an unused declaration.
 
 Upkeep: each package is published from an actively maintained upstream (`modelcontextprotocol/typescript-sdk`,
-`sigstore/sigstore-js`, `sigstore/protobuf-specs`, `npm/node-semver`, `squirrelchat/smol-toml`, `eemeli/yaml`,
+`velella-sh/ebb`, `npm/node-semver`, `squirrelchat/smol-toml`, `eemeli/yaml`,
 `colinhacks/zod`). [Dependabot](../.github/dependabot.yml) opens weekly update pull requests with a seven-day
 cooldown, and the lockfile pins the resolved version.
 
-Install scripts: none of the eight declares `preinstall`, `install`, or `postinstall` at its installed version.
+Install scripts: none of the six declares `preinstall`, `install`, or `postinstall` at its installed version.
 These commands reproduce the audit:
 
 ```bash

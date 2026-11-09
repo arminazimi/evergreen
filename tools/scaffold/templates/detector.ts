@@ -11,7 +11,8 @@ import type { DetectorFinding } from "../sdk.js";
  * Next steps (see docs/DETECTORS.md and docs/detectors/${names.id}.md):
  *   1. Find the declarations of ${names.ecosystem} projects (manifests, lock files, version files) and parse them with
  *      the pure parser in ${names.id}/parse.ts.
- *   2. Write rules in registry/${names.id}.json (docs/RULES.md); every rule needs authoritative evidence.
+ *   2. Add the rules to registry/${names.id}.json in Ebb (https://github.com/velella-sh/ebb); every rule needs
+ *      authoritative evidence.
  *   3. Match declarations against the rules and return one finding per affected declaration, with an exact
  *      repository-relative path and line.
  *

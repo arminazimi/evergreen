@@ -46,7 +46,7 @@ test("a rule passes when the match fixture reports it and the clean fixture does
   const root = await fixtures(requestMatch);
   const result = await testRule(requestRule, { fixturesRoot: root });
   assert.equal(result.passed, true, renderRuleTestText(result));
-  assert.equal(result.registry, "packages/ebb/registry/npm.json");
+  assert.equal(result.registry, "@velella/ebb/registry/npm.json");
   assert.equal(result.fixtures[0]!.findings.length, 1);
   assert.equal(result.fixtures[1]!.findings.length, 0);
   assert.match(renderRuleTestText(result), /^Passed npm\.package\.request\.deprecated/);
@@ -126,7 +126,9 @@ test("an unknown rule is a clear error", async () => {
 
 test("the command exits 0 on a pass, 1 on a failure, and 2 on an unknown rule", async () => {
   const rule = (
-    JSON.parse(await readFile(resolve("packages/ebb/registry/npm.json"), "utf8")) as { rules: Array<{ id: string }> }
+    JSON.parse(await readFile(resolve("node_modules/@velella/ebb/registry/npm.json"), "utf8")) as {
+      rules: Array<{ id: string }>;
+    }
   ).rules.find((candidate) => candidate.id === requestRule);
   assert.ok(rule);
   const checkoutFixtures = Object.fromEntries(
@@ -134,7 +136,7 @@ test("the command exits 0 on a pass, 1 on a failure, and 2 on an unknown rule", 
   );
   const root = await fixtures({
     ...checkoutFixtures,
-    "packages/ebb/registry/npm.json": `${JSON.stringify({ schemaVersion: "ebb.registry.v2", ecosystem: "npm", rules: [rule] }, null, 2)}\n`,
+    "registry/npm.json": `${JSON.stringify({ schemaVersion: "ebb.registry.v2", ecosystem: "npm", rules: [rule] }, null, 2)}\n`,
   });
   const run = (args: string[]) => runCli(args, { cwd: root });
 

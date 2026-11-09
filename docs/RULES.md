@@ -1,8 +1,10 @@
 # Lifecycle rules
 
-Every lifecycle claim Evergreen makes comes from a rule in `registry/`. A rule says which component is affected, in which versions, what happened to it, who says so, and when that was last checked. This page is the reference for writing one.
+Every lifecycle claim Evergreen makes comes from a rule in [Ebb](https://github.com/velella-sh/ebb), the open lifecycle dataset Evergreen reads through the `@velella/ebb` package. A rule says which component is affected, in which versions, what happened to it, who says so, and when that was last checked. This page is the reference for writing one and for the fixtures that prove a detector reports it.
 
-The format is `ebb.registry.v2`. Its JSON Schema is [`packages/ebb/schemas/registry.v2.schema.json`](../packages/ebb/schemas/registry.v2.schema.json), and the reasoning is in [Decision 0004](decisions/0004-registry-v2.md). All five bundled registries (`container`, `github-actions`, `nodejs`, `npm`, `python`) use it.
+The rules live in Ebb's [`registry/`](https://github.com/velella-sh/ebb/tree/main/registry), and a rule is added or corrected with one pull request there; Ebb lints it and checks its purl cases. This repository holds the detectors and, for a rule that needs them, the fixtures under `tests/fixtures/<rule-id>/`. When a new Ebb release reaches this repository, every rule with fixtures runs again.
+
+The format is `ebb.registry.v2`. Its JSON Schema is [`schemas/registry.v2.schema.json`](https://github.com/velella-sh/ebb/blob/main/schemas/registry.v2.schema.json) in Ebb, and the reasoning is in [Decision 0004](decisions/0004-registry-v2.md).
 
 ## From a source to a merged pull request
 
@@ -20,39 +22,23 @@ Open the authoritative notice. For `request` it is the deprecation notice on the
 
 If the notice is vague about versions, the event, or a date, do not guess: say so in the issue. A rule without an authoritative source is not a rule; see [Evidence policy](#evidence-policy).
 
-### 2. Branch and scaffold
+### 2. Add the rule to Ebb
+
+Open a pull request in [Ebb](https://github.com/velella-sh/ebb) that adds the rule to `registry/<ecosystem>.json`, with a case in `cases/<ecosystem>.json`: a version the rule must match and one it must not. Ebb's [rule guide](https://github.com/velella-sh/ebb/blob/main/docs/RULES.md) walks through every field, and [A complete rule](#a-complete-rule) below is the finished `request` rule. Once it is merged and released, the rule reaches every user of Ebb, Evergreen included, without a change here.
+
+### 3. Scaffold the fixtures here
+
+When a detector has to prove it reports the rule, update `@velella/ebb` in a checkout of this repository and scaffold the fixtures:
 
 ```bash
 git switch -c rule/<name>-deprecated
 npm ci
+npm install @velella/ebb@latest
 npm run build
 node dist/src/cli.js new-rule npm.package.<name>.deprecated
 ```
 
-Run `new-rule` from a checkout of this repository. It reads `registry/` and refuses an id that is already defined, naming the file that owns it. Otherwise it appends a placeholder rule to `registry/<ecosystem>.json` and creates `tests/fixtures/<rule-id>/match/` and `clean/`, each with a placeholder source file and a README.
-
-The scaffold passes `rules lint` and `npm run check` as generated, because its generic `purl` matches nothing in a real scan. Green checks are necessary but not sufficient: every placeholder below must be replaced before review.
-
-### 3. Replace the placeholder with the claim
-
-Keep `id` and `ecosystem` as generated and work through the rest. The right column is what the submitted `npm.package.request.deprecated` rule uses:
-
-| Generated placeholder | The `request` rule |
-|---|---|
-| `purl: "pkg:generic/<rule-id>"` | `"pkg:npm/request"` |
-| `vers: "vers:semver/*"` | `"vers:npm/*"`, every version the notice covers |
-| `event: "deprecated"` | unchanged, because the notice says deprecated |
-| `title`, `summary`: "Replace this placeholder…" | the claim in one line and two sentences, with no advice |
-| `severity: "info"` | `"high"`, because the whole package is abandoned |
-| `replacement: "Replace with the replacement…"` | `"Native fetch or a maintained HTTP client"` |
-| `sources`: an `example.com` link | the npm page, with the title the page uses |
-| `provenance`: `reviewer: "unreviewed"`, today's dates | your handle, `observedAt` the day you read the source, `reviewedAt` the day you submit |
-| no `deadline` | `"2020-02-11"`, when the source gives one |
-| no `migration` | constraints, ordered steps, and a verification command |
-| `usage`: `module: "<rule-id>"` | `module: "request"` |
-| no `x-npm` | `package: "request"` |
-
-[A rule](#a-rule) describes every field. Keep `summary` factual and put advice in `replacement`; a `scheduled-end-of-life` rule needs the announced date as its `deadline` and `severity: "low"`.
+`new-rule` looks the id up in the installed `@velella/ebb` and refuses one that Ebb does not define or that already has fixtures. Otherwise it creates `tests/fixtures/<rule-id>/match/` and `clean/`, each with a placeholder source file and a README.
 
 ### 4. Write both fixtures
 
@@ -77,13 +63,11 @@ Both directories are scanned offline as untrusted repositories and nothing in th
 ### 5. Run the checks locally
 
 ```bash
-node dist/src/cli.js rules lint
 node dist/src/cli.js rules test <rule-id>
 npm run build:reference
 npm run check
 ```
 
-- `rules lint` checks every registry under `registry/` (or the files you pass) and prints each problem with its file, line, and a fix hint.
 - `rules test` scans both fixtures and prints the expected and actual observations. It needs both directories, so when you edit a rule that predates the fixture harness, add the two fixtures in the same pull request instead of skipping the check.
 - A rule that only `evergreen inventory` judges (Google App Engine runtimes, GKE cluster versions) has no repository file for a detector to read. Put the cloud export in each fixture as a `.json` file, such as `app-engine-versions.json` or `gke-clusters.json`; `rules test` runs the inventory importers over those files and observes the rule when an item matches it.
 - `build:reference` rewrites `docs/rules/<rule-id>.md` from the registry; CI fails when the committed pages drift. `docs/rules/index.md` and `docs/sitemap.xml` are gitignored and rebuilt by Pages with `--site`.
@@ -94,15 +78,15 @@ If the analysis is wrong rather than the rule, fix the detector in the same pull
 ### 6. Open the pull request
 
 ```bash
-git add registry/npm.json docs/rules/npm.package.request.deprecated.md tests/fixtures/npm.package.request.deprecated
-git commit -m "feat(npm): add the request deprecation rule"
+git add package.json package-lock.json docs/rules/npm.package.request.deprecated.md tests/fixtures/npm.package.request.deprecated
+git commit -m "test(npm): add fixtures for the request deprecation rule"
 git push -u origin rule/request-deprecated
-gh pr create --title "feat(npm): add the request deprecation rule" --body "Closes #<issue>"
+gh pr create --title "test(npm): add fixtures for the request deprecation rule" --body "Closes #<issue>"
 ```
 
-Fill the template: the evidence link goes under **Evidence**, the commands you ran under **Verification**. Rules and fixtures are reviewed data; [`/registry/` is owned by a maintainer](../.github/CODEOWNERS), who checks that the source says what the rule says, that versions and dates match it, and that the clean fixture is a fair lookalike. Keep one rule per pull request.
+Fill the template: the evidence link goes under **Evidence**, the commands you ran under **Verification**. A maintainer checks that the clean fixture is a fair lookalike and that the detector reports the rule where the source says it applies. Keep one rule per pull request.
 
-After merge, the weekly [source check](../.github/workflows/sources.yml) watches the link. When the source changes, review the rule and update `reviewedAt`; see [Freshness and sources](#freshness-and-sources).
+After the rule is merged in Ebb, Ebb's weekly [source check](https://github.com/velella-sh/ebb/blob/main/.github/workflows/sources.yml) watches the link. When the source changes, the rule is reviewed there; see [Freshness and sources](#freshness-and-sources).
 
 ## A complete rule
 
@@ -153,7 +137,7 @@ After merge, the weekly [source check](../.github/workflows/sources.yml) watches
 }
 ```
 
-A second, smaller example lives in [`examples/registry.v2.example.json`](../examples/registry.v2.example.json). The bundled files in `registry/` are the best reference for each ecosystem.
+A second, smaller example lives in [`examples/registry.v2.example.json`](../examples/registry.v2.example.json). The files in Ebb's [`registry/`](https://github.com/velella-sh/ebb/tree/main/registry) are the best reference for each ecosystem.
 
 ## The registry file
 
@@ -334,7 +318,7 @@ evergreen rules test <rule-id>          # exits 1 when a fixture fails and print
 evergreen rules lint [file...]          # checks schema, dates, source URLs, and duplicate ids with a fix hint
 ```
 
-Keep fixtures tiny and give each one only the files its detector reads. The fixtures are also the reviewable evidence that the rule matches what you say it matches; when the detector or the rule changes, update them in the same pull request.
+Keep fixtures tiny and give each one only the files its detector reads. The fixtures are also the reviewable evidence that the detector reports the rule where it should. When the detector changes, update them in the same pull request; when an update of `@velella/ebb` changes the rule, update them in the pull request that updates it. `evergreen rules lint` checks registry files in a checkout of Ebb.
 
 ### Provenance
 
@@ -390,7 +374,7 @@ A detector sets `confidence` when it knows better. Otherwise the engine uses `in
 - Every rule needs an authoritative, versioned source: maintainer release notes, an official support or end-of-life policy, a registry deprecation flag, or platform documentation.
 - Never infer lifecycle status from popularity, download counts, or a newer version existing.
 - Dates, affected versions, and replacements must match the source. If the source is ambiguous, say so in the pull request.
-- Rules are reviewed data, not code. Changes to `registry/` and `schemas/` are reviewed by a maintainer (see `.github/CODEOWNERS`).
+- Rules are reviewed data, not code. A maintainer reviews every rule change in Ebb, and every change to `schemas/` and the rule fixtures here (see `.github/CODEOWNERS`).
 
 ## Validation
 
@@ -413,22 +397,7 @@ Supported version schemes are `semver`, `npm`, `cargo`, `golang`, `composer` (Se
 
 ## Freshness and sources
 
-Scans never check freshness and never use the network, so results stay deterministic. A weekly workflow, [`.github/workflows/sources.yml`](../.github/workflows/sources.yml), runs `tools/check-sources.ts` and reports, separately:
-
-- **stale** rules, reviewed longer ago than their `freshness.maxReviewAgeDays`;
-- **changed** sources, whose final URL or title differs from the one recorded in `registry/sources.lock.json`;
-- **unreachable** sources;
-- **blocked** sources behind a bot challenge, which cannot be verified;
-- **unrecorded** sources, not in the lock yet.
-
-The check never edits rules. When it reports something, review the source, update the rule and its `reviewedAt`, and refresh the lock:
-
-```bash
-npm run build
-node dist/tools/check-sources.js --update-lock
-```
-
-Run it locally with `npm run check:sources`.
+Scans never check freshness and never use the network, so results stay deterministic. Ebb's weekly [source check](https://github.com/velella-sh/ebb/blob/main/.github/workflows/sources.yml) reports stale rules, sources whose URL or title moved, and unreachable sources; corrections are made there.
 
 ## Detector hints
 
@@ -445,7 +414,7 @@ The hints must agree with `purl` and `vers`: `x-npm.package` is the package in `
 
 ## Drafting rules from sources
 
-Rules do not have to be typed by hand. [Importers](IMPORTERS.md) read an authoritative source such as the Node.js release schedule or npm's deprecation flags and draft rules for you to review.
+Rules do not have to be typed by hand. Ebb's [importers](https://github.com/velella-sh/ebb/blob/main/docs/IMPORTERS.md) read an authoritative source such as the Node.js release schedule or npm's deprecation flags and draft rules for a maintainer to review.
 
 ## Converting a v1 file
 

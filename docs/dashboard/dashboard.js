@@ -267,34 +267,6 @@
     ]);
   }
 
-  /** One row per importer source: its target, the age of its newest review, and whether the target is met. */
-  function buildFreshness(doc, data) {
-    const sources = data.sourceFreshness && Array.isArray(data.sourceFreshness.sources) ? data.sourceFreshness.sources : [];
-    if (sources.length === 0) return element(doc, "p", {}, ["No freshness targets are recorded."]);
-    const body = sources.map((source) =>
-      element(doc, "tr", {}, [
-        element(doc, "th", { scope: "row" }, [textOf(source.importer)]),
-        element(doc, "td", {}, [formatCount(source.targetDays) + " days"]),
-        element(doc, "td", {}, [typeof source.ageDays === "number" ? daysText(source.ageDays) : NOT_MEASURED]),
-        element(doc, "td", {}, [typeof source.lastReviewedAt === "string" ? source.lastReviewedAt : NOT_MEASURED]),
-        element(doc, "td", {}, [source.status === "missed" ? element(doc, "strong", { class: "badge" }, ["missed"]) : source.status === "met" ? "met" : "no reviewed rules"]),
-      ]),
-    );
-    return element(doc, "table", {}, [
-      element(doc, "caption", {}, ["Freshness target per importer source, against the newest review of a rule drafted from it."]),
-      element(doc, "thead", {}, [
-        element(doc, "tr", {}, [
-          element(doc, "th", { scope: "col" }, ["Source"]),
-          headerCell(doc, data, "freshnessTarget"),
-          headerCell(doc, data, "freshnessAge"),
-          element(doc, "th", { scope: "col" }, ["Last review"]),
-          element(doc, "th", { scope: "col" }, ["Status"]),
-        ]),
-      ]),
-      element(doc, "tbody", {}, body),
-    ]);
-  }
-
   /** What each level needs, from data.evidenceMinimums, so the earned level can be checked by hand. */
   function buildMinimums(doc, data) {
     const minimums = data.evidenceMinimums && typeof data.evidenceMinimums === "object" ? data.evidenceMinimums : {};
@@ -425,7 +397,6 @@
         replaceContents(doc.getElementById("run"), [buildRun(doc, data)]);
         replaceContents(doc.getElementById("ecosystems-table"), [buildEcosystems(doc, data)]);
         replaceContents(doc.getElementById("detectors-table"), [buildTable(doc, data)]);
-        replaceContents(doc.getElementById("freshness-table"), [buildFreshness(doc, data)]);
         replaceContents(doc.getElementById("minimums-table"), [buildMinimums(doc, data)]);
         replaceContents(doc.getElementById("definitions-list"), [buildDefinitions(doc, data)]);
         replaceContents(doc.getElementById("limitations-list"), buildLimitations(doc, data));
@@ -457,7 +428,6 @@
     buildTable,
     buildEcosystems,
     buildMinimums,
-    buildFreshness,
     buildRun,
     buildDefinitions,
     buildLimitations,

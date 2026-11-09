@@ -7,8 +7,9 @@ import { test } from "node:test";
 import { parse } from "yaml";
 
 import {
-  changedRuleIds,
   classifyChangedPaths,
+  ebbVersion,
+  fixtureRuleIds,
   main,
   renderChangedRulesSummary,
   renderChangedRulesText,
@@ -22,53 +23,21 @@ function manifest(name: string, version: string): string {
   return `${JSON.stringify({ name: "fixture", private: true, dependencies: { [name]: version } }, null, 2)}\n`;
 }
 
-function registryText(summary = "The package is deprecated."): string {
-  return `${JSON.stringify(
-    {
-      schemaVersion: "ebb.registry.v2",
-      ecosystem: "npm",
-      rules: [
-        {
-          id: RULE_ID,
-          ecosystem: "npm",
-          purl: "pkg:npm/request",
-          vers: "vers:npm/*",
-          event: "deprecated",
-          title: "request is deprecated",
-          summary,
-          severity: "high",
-          replacement: "Native fetch",
-          sources: [{ title: "Deprecation notice", url: "https://example.com/request", accessedAt: "2026-01-01" }],
-          provenance: { observedAt: "2026-01-01", reviewedAt: "2026-01-02", reviewer: "test" },
-        },
-      ],
-    },
-    null,
-    2,
-  )}\n`;
+function lockfile(ebb: string | undefined): string {
+  const packages: Record<string, unknown> = { "": { name: "fixture" } };
+  if (ebb !== undefined) packages["node_modules/@velella/ebb"] = { version: ebb };
+  return `${JSON.stringify({ name: "fixture", lockfileVersion: 3, packages }, null, 2)}\n`;
 }
 
-// The same rule with its keys written in another order. Only the content counts.
-const REORDERED = `{
-  "ecosystem": "npm",
-  "rules": [
-    {
-      "id": "npm.package.request.deprecated",
-      "provenance": { "reviewer": "test", "reviewedAt": "2026-01-02", "observedAt": "2026-01-01" },
-      "sources": [ { "url": "https://example.com/request", "title": "Deprecation notice", "accessedAt": "2026-01-01" } ],
-      "severity": "high",
-      "replacement": "Native fetch",
-      "summary": "The package is deprecated.",
-      "title": "request is deprecated",
-      "event": "deprecated",
-      "vers": "vers:npm/*",
-      "purl": "pkg:npm/request",
-      "ecosystem": "npm"
-    }
-  ],
-  "schemaVersion": "ebb.registry.v2"
+/** The request rule as the installed @velella/ebb has it, so the throwaway repository's registry matches a scan. */
+async function registryText(): Promise<string> {
+  const installed = JSON.parse(await readFile(resolve("node_modules/@velella/ebb/registry/npm.json"), "utf8")) as {
+    rules: Array<{ id: string }>;
+  };
+  const rule = installed.rules.find((candidate) => candidate.id === RULE_ID);
+  assert.ok(rule, `${RULE_ID} is in @velella/ebb`);
+  return `${JSON.stringify({ schemaVersion: "ebb.registry.v2", ecosystem: "npm", rules: [rule] }, null, 2)}\n`;
 }
-`;
 
 function git(root: string, ...args: string[]): string {
   return execFileSync(
@@ -78,19 +47,22 @@ function git(root: string, ...args: string[]): string {
   );
 }
 
-function fixtureDirectory(root: string, kind: "match" | "clean"): string {
-  return join(root, "tests", "fixtures", RULE_ID, kind, "package.json");
+function fixtureFile(root: string, kind: "match" | "clean", ruleId = RULE_ID): string {
+  return join(root, "tests", "fixtures", ruleId, kind, "package.json");
 }
 
-/** A throwaway repository with one rule and its two fixtures, committed as the base revision. */
+/** A throwaway repository with one rule, its two fixtures, and a lockfile, committed as the base revision. */
 async function repository(): Promise<{ root: string; base: string }> {
-  const root = await mkdtemp(join(tmpdir(), "evergreen-changed-rules-"));
-  await mkdir(join(root, "packages/ebb/registry"), { recursive: true });
+  const root = await mkdtemp(join(tmpdir(), "offing-changed-rules-"));
+  await mkdir(join(root, "registry"), { recursive: true });
   await mkdir(join(root, "tests", "fixtures", RULE_ID, "match"), { recursive: true });
   await mkdir(join(root, "tests", "fixtures", RULE_ID, "clean"), { recursive: true });
-  await writeFile(join(root, "packages/ebb/registry", "npm.json"), registryText());
-  await writeFile(fixtureDirectory(root, "match"), manifest("request", "2.88.2"));
-  await writeFile(fixtureDirectory(root, "clean"), manifest("express", "4.18.2"));
+  await mkdir(join(root, "tests", "fixtures", "cli"), { recursive: true });
+  await writeFile(join(root, "registry", "npm.json"), await registryText());
+  await writeFile(fixtureFile(root, "match"), manifest("request", "2.88.2"));
+  await writeFile(fixtureFile(root, "clean"), manifest("express", "4.18.2"));
+  await writeFile(join(root, "tests", "fixtures", "cli", "README.md"), "Not a rule.\n");
+  await writeFile(join(root, "package-lock.json"), lockfile("0.1.0"));
   await writeFile(join(root, "README.md"), "# Fixture\n");
   git(root, "init", "-q");
   git(root, "add", "-A");
@@ -103,135 +75,118 @@ async function commit(root: string, message: string): Promise<void> {
   git(root, "commit", "-q", "-m", message);
 }
 
-test("changed paths select registry files and fixture rule ids and ignore everything else", () => {
-  const { files, fixtureRules } = classifyChangedPaths([
-    "packages/ebb/registry/npm.json",
-    "packages/ebb/registry/sources.lock.json",
-    "tests/fixtures/npm.package.request.deprecated/match/package.json",
-    "tests/fixtures/npm.package.request.deprecated/clean/package.json",
-    "tests/fixtures/not a rule/notes.txt",
-    "fixtures/npm.package.request.deprecated/match/package.json",
-    "src/rule-test.ts",
-  ]);
-  assert.deepEqual(files, ["packages/ebb/registry/npm.json"]);
-  assert.deepEqual(fixtureRules, ["npm.package.request.deprecated"]);
-});
-
-test("a new, changed, or reordered rule is reported; an unchanged or deleted one is not", () => {
-  assert.deepEqual(changedRuleIds(undefined, registryText()), [RULE_ID]);
-  assert.deepEqual(changedRuleIds(registryText(), registryText()), []);
-  assert.deepEqual(changedRuleIds(registryText(), registryText("Updated summary.")), [RULE_ID]);
-  assert.deepEqual(changedRuleIds(registryText(), REORDERED), []);
-  assert.deepEqual(
-    changedRuleIds(
-      registryText(),
-      `${JSON.stringify({ schemaVersion: "ebb.registry.v2", ecosystem: "npm", rules: [] })}\n`,
-    ),
-    [],
-  );
-  assert.deepEqual(changedRuleIds(registryText(), "{ not json"), []);
-});
-
-test("refreshing a source access date is not a rule change and does not run fixtures", () => {
-  const withoutDate = registryText().replace(/,\s*"accessedAt": "2026-01-01"/, "");
-  assert.deepEqual(changedRuleIds(withoutDate, registryText()), []);
-  assert.deepEqual(changedRuleIds(registryText(), withoutDate), []);
-});
-
-test("a changed rule is linted, tested, and named in the summary", async () => {
+async function withRepository(body: (root: string, base: string) => Promise<void>): Promise<void> {
   const { root, base } = await repository();
   try {
-    await writeFile(join(root, "packages/ebb/registry", "npm.json"), registryText("Updated summary."));
-    await commit(root, "change the rule");
-    const result = await runChangedRules({ base, root });
-    assert.deepEqual(result.files, ["packages/ebb/registry/npm.json"]);
-    assert.deepEqual(result.rules, [RULE_ID]);
-    assert.equal(result.passed, true);
-    const summary = renderChangedRulesSummary(result);
-    assert.match(summary, new RegExp(`\\| \`${escapedRule}\` \\| pass \\| pass \\|`));
-    assert.match(summary, /All 1 changed rule passed\./);
-    assert.match(renderChangedRulesText(result), new RegExp(`Passed ${escapedRule}`));
+    await body(root, base);
   } finally {
     await rm(root, { recursive: true, force: true });
   }
+}
+
+test("changed paths select fixture rule ids and the lockfile and ignore everything else", () => {
+  assert.deepEqual(
+    classifyChangedPaths([
+      "tests/fixtures/npm.package.request.deprecated/match/package.json",
+      "tests/fixtures/npm.package.request.deprecated/clean/package.json",
+      "tests/fixtures/not a rule/notes.txt",
+      "fixtures/npm.package.request.deprecated/match/package.json",
+      "src/rule-test.ts",
+    ]),
+    { fixtureRules: [RULE_ID], lockfile: false },
+  );
+  assert.deepEqual(classifyChangedPaths(["package-lock.json"]), { fixtureRules: [], lockfile: true });
+  assert.deepEqual(classifyChangedPaths(["examples/app/package-lock.json"]), { fixtureRules: [], lockfile: false });
+});
+
+test("the installed @velella/ebb version is read from a lockfile", () => {
+  assert.equal(ebbVersion(lockfile("0.2.0")), "0.2.0");
+  assert.equal(ebbVersion(lockfile(undefined)), undefined);
+  assert.equal(ebbVersion("not json"), undefined);
+  assert.equal(ebbVersion(undefined), undefined);
+});
+
+test("only fixture folders named like a rule id count as rules", async () => {
+  await withRepository(async (root) => {
+    assert.deepEqual(await fixtureRuleIds(join(root, "tests", "fixtures")), [RULE_ID]);
+  });
+});
+
+test("a changed fixture runs its rule and names it in the summary", async () => {
+  await withRepository(async (root, base) => {
+    await writeFile(fixtureFile(root, "match"), manifest("request", "2.88.0"));
+    await commit(root, "change the match fixture");
+    const result = await runChangedRules({ base, root });
+    assert.deepEqual(result.rules, [RULE_ID]);
+    assert.equal(result.passed, true, renderChangedRulesText(result));
+    assert.equal(result.ebb, undefined);
+    assert.equal(result.tests[0]!.registry, "registry/npm.json");
+    const summary = renderChangedRulesSummary(result);
+    assert.match(summary, new RegExp(`\\| \`${escapedRule}\` \\| pass \\|`));
+    assert.match(summary, /All 1 rule passed\./);
+  });
 });
 
 test("a clean fixture that reports the rule fails and names the rule", async () => {
-  const { root, base } = await repository();
-  try {
-    await writeFile(fixtureDirectory(root, "clean"), manifest("request", "2.88.2"));
+  await withRepository(async (root, base) => {
+    await writeFile(fixtureFile(root, "clean"), manifest("request", "2.88.2"));
     await commit(root, "break the clean fixture");
     const result = await runChangedRules({ base, root });
-    assert.deepEqual(result.rules, [RULE_ID]);
     assert.equal(result.passed, false);
     const summary = renderChangedRulesSummary(result);
-    assert.match(summary, new RegExp(`\\| \`${escapedRule}\` \\| pass \\| \\*\\*fail\\*\\* \\|`));
+    assert.match(summary, new RegExp(`\\| \`${escapedRule}\` \\| \\*\\*fail\\*\\* \\|`));
     assert.match(summary, /#### Fixture problems/);
-    assert.match(summary, new RegExp(`Failed ${escapedRule} \\(packages/ebb/registry/npm\\.json\\)`));
-    assert.match(summary, /clean: expected no findings/);
-    assert.match(renderChangedRulesText(result), new RegExp(`Failed ${escapedRule}`));
-  } finally {
-    await rm(root, { recursive: true, force: true });
-  }
+    assert.match(summary, /Failed 1 of 1 rule\./);
+  });
 });
 
-test("a lint problem in a changed registry file fails and names the rule and field", async () => {
-  const { root, base } = await repository();
-  try {
-    const rule = JSON.parse(registryText()) as { rules: { provenance: Record<string, unknown> }[] };
-    delete rule.rules[0]!.provenance.reviewedAt;
-    await writeFile(join(root, "packages/ebb/registry", "npm.json"), `${JSON.stringify(rule, null, 2)}\n`);
-    await commit(root, "break the rule");
+test("a change that touches no fixture and does not move @velella/ebb runs nothing", async () => {
+  await withRepository(async (root, base) => {
+    await writeFile(join(root, "README.md"), "# Fixture, edited\n");
+    await writeFile(join(root, "package-lock.json"), lockfile("0.1.0").replace('"fixture"', '"renamed"'));
+    await commit(root, "unrelated");
     const result = await runChangedRules({ base, root });
-    assert.equal(result.passed, false);
-    const issue = result.lint.issues.find((item) => item.ruleId === RULE_ID);
-    assert.ok(issue !== undefined, JSON.stringify(result.lint.issues));
-    assert.match(issue.message, /provenance\.reviewedAt is required/);
-    const summary = renderChangedRulesSummary(result);
-    assert.match(summary, /#### Lint problems/);
-    assert.match(summary, new RegExp(escapedRule));
-  } finally {
-    await rm(root, { recursive: true, force: true });
-  }
-});
-
-test("a pull request that touches no rule reports that nothing changed", async () => {
-  const { root, base } = await repository();
-  try {
-    await writeFile(join(root, "README.md"), "# Fixture\n\nUpdated.\n");
-    await commit(root, "touch readme only");
-    const result = await runChangedRules({ base, root });
-    assert.equal(result.passed, true);
     assert.deepEqual(result.rules, []);
-    assert.match(renderChangedRulesSummary(result), /No rule changed in this pull request\./);
-    assert.match(renderChangedRulesText(result), /No rule changed/);
-  } finally {
-    await rm(root, { recursive: true, force: true });
-  }
+    assert.equal(result.passed, true);
+    assert.match(renderChangedRulesSummary(result), /No rule fixture is affected by this change\./);
+    assert.equal(renderChangedRulesText(result), "No rule fixture is affected by this change.");
+  });
 });
 
-test("a rule deleted with its fixtures is skipped instead of failing", async () => {
-  const { root, base } = await repository();
-  try {
-    await rm(join(root, "tests", "fixtures", RULE_ID), { recursive: true, force: true });
-    await writeFile(
-      join(root, "packages/ebb/registry", "npm.json"),
-      `${JSON.stringify({ schemaVersion: "ebb.registry.v2", ecosystem: "npm", rules: [] })}\n`,
-    );
-    await commit(root, "remove the rule");
+test("moving @velella/ebb to another version runs every rule with fixtures", async () => {
+  await withRepository(async (root, base) => {
+    await writeFile(join(root, "package-lock.json"), lockfile("0.2.0"));
+    await commit(root, "bump ebb");
     const result = await runChangedRules({ base, root });
-    assert.equal(result.passed, true);
+    assert.deepEqual(result.ebb, { before: "0.1.0", after: "0.2.0" });
+    assert.deepEqual(result.rules, [RULE_ID]);
+    assert.match(renderChangedRulesSummary(result), /@velella\/ebb moved from 0\.1\.0 to 0\.2\.0/);
+  });
+});
+
+test("a fixture folder for a rule Ebb does not have is skipped instead of failing", async () => {
+  await withRepository(async (root, base) => {
+    const gone = "npm.package.not-in-ebb.deprecated";
+    await mkdir(join(root, "tests", "fixtures", gone, "match"), { recursive: true });
+    await writeFile(fixtureFile(root, "match", gone), manifest("left-pad", "1.3.0"));
+    await commit(root, "orphan fixture");
+    const result = await runChangedRules({ base, root });
     assert.deepEqual(result.rules, []);
-    assert.deepEqual(result.files, ["packages/ebb/registry/npm.json"]);
-  } finally {
-    await rm(root, { recursive: true, force: true });
-  }
+    assert.equal(result.passed, true);
+  });
+});
+
+test("without a base every rule with fixtures runs", async () => {
+  await withRepository(async (root) => {
+    const result = await runChangedRules({ root });
+    assert.equal(result.base, "(all)");
+    assert.deepEqual(result.rules, [RULE_ID]);
+  });
 });
 
 test("the command exits 1, names the rule, and writes the summary when a fixture breaks", async () => {
-  const { root, base } = await repository();
-  try {
-    await writeFile(fixtureDirectory(root, "clean"), manifest("request", "2.88.2"));
+  await withRepository(async (root, base) => {
+    await writeFile(fixtureFile(root, "clean"), manifest("request", "2.88.2"));
     await commit(root, "break the clean fixture");
     const summaryPath = join(root, "summary.md");
     const run = spawnSync(
@@ -240,33 +195,31 @@ test("the command exits 1, names the rule, and writes the summary when a fixture
       { cwd: root, encoding: "utf8" },
     );
     assert.equal(run.status, 1, run.stderr);
-    assert.match(run.stderr, new RegExp(`Rule changes failed: ${escapedRule}`));
+    assert.match(run.stderr, new RegExp(`Rule fixtures failed: ${escapedRule}`));
     const summary = await readFile(summaryPath, "utf8");
     assert.match(summary, new RegExp(`\`${escapedRule}\``));
     assert.match(summary, /#### Fixture problems/);
-  } finally {
-    await rm(root, { recursive: true, force: true });
-  }
+  });
 });
 
-test("the command exits 0 when the changed rule passes", async () => {
-  const { root, base } = await repository();
-  try {
-    await writeFile(join(root, "packages/ebb/registry", "npm.json"), registryText("Updated summary."));
-    await commit(root, "change the rule");
-    const run = spawnSync(process.execPath, [resolve("dist/tools/changed-rules.js"), "--base", base], {
-      cwd: root,
-      encoding: "utf8",
-    });
-    assert.equal(run.status, 0, run.stderr);
-    assert.match(run.stdout, new RegExp(`Passed ${escapedRule}`));
-  } finally {
-    await rm(root, { recursive: true, force: true });
-  }
+test("the command exits 0 when the affected rule passes, with --base or --all", async () => {
+  await withRepository(async (root, base) => {
+    await writeFile(fixtureFile(root, "match"), manifest("request", "2.88.0"));
+    await commit(root, "change the match fixture");
+    for (const args of [["--base", base], ["--all"]]) {
+      const run = spawnSync(process.execPath, [resolve("dist/tools/changed-rules.js"), ...args], {
+        cwd: root,
+        encoding: "utf8",
+      });
+      assert.equal(run.status, 0, run.stderr);
+      assert.match(run.stdout, new RegExp(`Passed ${escapedRule}`));
+    }
+  });
 });
 
-test("the command needs a base ref and rejects unknown flags", async () => {
-  await assert.rejects(main([]), /Usage: changed-rules --base/);
+test("the command needs exactly one of --base and --all and rejects unknown flags", async () => {
+  await assert.rejects(main([]), /Usage: changed-rules \(--base <ref> \| --all\)/);
+  await assert.rejects(main(["--all", "--base", "main"]), /Usage: changed-rules/);
   await assert.rejects(main(["--base"]), /--base needs a value/);
   await assert.rejects(main(["--base", "main", "--json"]), /Unknown argument "--json"/);
 });
@@ -290,20 +243,16 @@ const workflowText = await readFile(resolve(".github/workflows/rules.yml"), "utf
 const workflow = parse(workflowText) as Workflow;
 const workflowJob = workflow.jobs.rules!;
 
-test("the rules workflow runs on pushes to main and on pull requests for rule and fixture changes only", () => {
+test("the rules workflow runs on pushes to main and on pull requests for fixture and Ebb changes only", () => {
   assert.deepEqual(Object.keys(workflow.on), ["push", "pull_request"]);
   assert.deepEqual(workflow.on.pull_request!.paths, workflow.on.push!.paths);
-  const paths = workflow.on.push!.paths!;
-  for (const path of [
-    "packages/ebb/registry/**",
+  assert.deepEqual(workflow.on.push!.paths, [
+    "package-lock.json",
     "tests/fixtures/**",
-    "packages/ebb/src/rule-lint.ts",
     "src/rule-test.ts",
     "tools/changed-rules.ts",
     ".github/workflows/rules.yml",
-  ]) {
-    assert.ok(paths.includes(path), path);
-  }
+  ]);
   assert.ok(!workflowText.includes("pull_request_target"));
 });
 
@@ -321,6 +270,7 @@ test("the base commit reaches the rules shell only through an environment variab
   assert.equal(check.env?.BASE_SHA, "${{ github.event.pull_request.base.sha || github.event.before }}");
   assert.match(check.run!, /git fetch --no-tags origin "\$BASE_SHA"/);
   assert.match(check.run!, /--base "\$BASE_SHA"/);
+  assert.match(check.run!, /\^0\+\$ \]\]; then\n\s+node dist\/tools\/changed-rules\.js --all/);
   assert.match(check.run!, /--summary "\$GITHUB_STEP_SUMMARY"/);
 });
 

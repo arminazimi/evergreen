@@ -53,14 +53,14 @@ async function bundleAt(
   mutate: (npm: { rules: Array<Record<string, unknown>> }) => void = () => undefined,
 ): Promise<DataBundle> {
   const root = await scratch("registry");
-  await cp(resolve("packages/ebb/registry"), join(root, "registry"), { recursive: true });
+  await cp(resolve("node_modules/@velella/ebb/registry"), join(root, "registry"), { recursive: true });
   await writeFile(join(root, "package.json"), await readFile(resolve("package.json"), "utf8"));
   const npm = JSON.parse(await readFile(join(root, "registry/npm.json"), "utf8")) as {
     rules: Array<Record<string, unknown>>;
   };
   mutate(npm);
   await writeFile(join(root, "registry/npm.json"), JSON.stringify(npm));
-  return buildDataBundle({ root, createdAt, revision, minimumEbbVersion: "0.1.0" });
+  return buildDataBundle({ root, createdAt, revision, minimumEbbVersion: VERSION });
 }
 
 /** Gives each bundle its own content, since bundles with identical data share a content address and are not "newer". */

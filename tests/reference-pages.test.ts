@@ -134,7 +134,7 @@ test("a page links its JSON twin, and the twin is the ebb.rule.v1 document", () 
 test("every published rule twin is a valid ebb.rule.v1 document", async () => {
   const { Ajv2020 } = await import("ajv/dist/2020.js");
   const validate = new Ajv2020({ allErrors: true }).compile(
-    JSON.parse(await readFile(resolve("packages/ebb/schemas/rule.v1.schema.json"), "utf8")) as object,
+    JSON.parse(await readFile(resolve("node_modules/@velella/ebb/schemas/rule.v1.schema.json"), "utf8")) as object,
   );
   for (const item of await loadRegistries()) {
     for (const entry of item.rules) {
@@ -689,8 +689,8 @@ async function checkIn(directory: string): Promise<{ code: number; stderr: strin
 test("--check passes on fresh pages and fails, naming the page, when one drifts", async () => {
   const root = await mkdtemp(join(tmpdir(), "evergreen-reference-cli-"));
   temporaryRoots.push(root);
-  await mkdir(join(root, "packages/ebb/registry"), { recursive: true });
-  await writeFile(join(root, "packages/ebb/registry/demo.json"), JSON.stringify(registry([rule()])));
+  await mkdir(join(root, "node_modules/@velella/ebb/registry"), { recursive: true });
+  await writeFile(join(root, "node_modules/@velella/ebb/registry/demo.json"), JSON.stringify(registry([rule()])));
   await write(buildFiles([registry([rule()])]), root);
   assert.deepEqual(await checkIn(root), { code: 0, stderr: "" });
 
@@ -701,7 +701,7 @@ test("--check passes on fresh pages and fails, naming the page, when one drifts"
 
   // The registry changes, but the pages are not regenerated.
   await writeFile(
-    join(root, "packages/ebb/registry/demo.json"),
+    join(root, "node_modules/@velella/ebb/registry/demo.json"),
     JSON.stringify(registry([rule({ summary: "A different claim." })])),
   );
   const drifted = await checkIn(root);
@@ -712,7 +712,7 @@ test("--check passes on fresh pages and fails, naming the page, when one drifts"
   assert.doesNotMatch(drifted.stderr, /docs\/sitemap\.xml|docs\/rules\/index\.md/);
 
   // A rule is removed: its page and its JSON twin are stale.
-  await writeFile(join(root, "packages/ebb/registry/demo.json"), JSON.stringify(registry([])));
+  await writeFile(join(root, "node_modules/@velella/ebb/registry/demo.json"), JSON.stringify(registry([])));
   assert.match((await checkIn(root)).stderr, /stale: docs\/rules\/demo\.thing\.eol-1\.md/);
   assert.match((await checkIn(root)).stderr, /stale: docs\/rules\/demo\.thing\.eol-1\.json/);
 });

@@ -9,5 +9,3 @@
 *.zip binary
 *.woff2 binary
 tests/fixtures/sigstore/* -text
-packages/ebb/data/sigstore-trusted-root.json -text
-packages/ebb/tests/fixtures/sigstore/* -text

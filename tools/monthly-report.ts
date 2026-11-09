@@ -126,7 +126,10 @@ const defaultGitRunner: GitRunner = (args) => {
 };
 
 /** Collects rule metrics from registry/*.json. */
-export async function collectRuleMetrics(registryDir = "packages/ebb/registry", month?: string): Promise<RuleMetrics> {
+export async function collectRuleMetrics(
+  registryDir = "node_modules/@velella/ebb/registry",
+  month?: string,
+): Promise<RuleMetrics> {
   const byEcosystem: Record<string, number> = {};
   const byEvent: Record<string, number> = {};
   const bySeverity: Record<string, number> = {};
@@ -507,7 +510,7 @@ export async function collectReportData(options: CollectReportOptions = {}): Pro
   const asOfDate = dateInput.length >= 10 ? dateInput.slice(0, 10) : `${month}-01`;
 
   const [rules, ecosystems, corpus, adoption, quality] = await Promise.all([
-    collectRuleMetrics(join(root, "packages/ebb/registry"), month),
+    collectRuleMetrics(join(root, "node_modules/@velella/ebb/registry"), month),
     Promise.resolve(collectEcosystemMetrics()),
     collectCorpusMetrics(root),
     collectAdoptionMetrics({ adoptionDir: join(root, "metrics", "adoption"), month }),

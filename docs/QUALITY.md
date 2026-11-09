@@ -118,7 +118,6 @@ number a reviewer may point to in the follow-up.
 | --- | --- | --- |
 | `engine-no-detectors` | `src/engine/` and `src/domain.ts` do not import `src/detectors/**`. | mechanical |
 | `no-network` | `src/detectors/**`, `src/engine/`, and `src/domain.ts` import none of `node:net`, `node:http`, `node:https`, `node:dgram`, `node:tls`, `node:child_process` (or the bare names), and call no `fetch(`. | mechanical, direct imports and calls only |
-| `registry-json-only` | `registry/**` holds JSON files only. | mechanical |
 | `adapters-no-detectors` | `src/cli.ts`, `src/mcp.ts`, and `src/github-action.ts` do not import `src/detectors/**`. | mechanical; the rule "owns no detector logic" is review |
 | Source usage holds no detector rules | `src/source-usage.ts` holds traversal and matching only. | **review** |
 | Scans stay offline | no path reads the network, including through a helper module. | mechanical for direct imports; transitive reach is **review** |

@@ -111,7 +111,9 @@ test("the analyzer does not apply to a repository without Python source", async 
 });
 
 test("every removed standard-library module has a sourced removal rule and a module import matcher", async () => {
-  const registry = JSON.parse(await readFile(join(root, "packages/ebb/registry", "python.json"), "utf8")) as {
+  const registry = JSON.parse(
+    await readFile(join(root, "node_modules/@velella/ebb/registry", "python.json"), "utf8"),
+  ) as {
     rules: RegistryV2Rule[];
   };
   assert.deepEqual(registryV2Issues(registry), []);

@@ -295,7 +295,9 @@ test("php matchers are valid, and an abandoned package finding lists source file
     isUsageMatcher({ kind: "call", language: "php", module: "Swift_Mailer", targets: ["new Swift_Mailer"] }),
     true,
   );
-  const rules = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/php.json", "utf8"))).rules;
+  const rules = validateRegistryV2(
+    JSON.parse(await readFile("node_modules/@velella/ebb/registry/php.json", "utf8")),
+  ).rules;
   assert.equal(rules.find((rule) => rule.id === "php.runtime.eol-7.4")!.usage, undefined);
   assert.deepEqual(rules.find((rule) => rule.id === "php.package.swiftmailer.swiftmailer.abandoned")!.usage, [
     { kind: "import", language: "php", module: "Swift_Mailer" },

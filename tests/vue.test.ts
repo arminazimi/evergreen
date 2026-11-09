@@ -37,7 +37,9 @@ async function repository(files: Record<string, string>): Promise<string> {
 }
 
 async function vueRules(): Promise<RegistryV2Rule[]> {
-  const registry = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/npm.json", "utf8")));
+  const registry = validateRegistryV2(
+    JSON.parse(await readFile("node_modules/@velella/ebb/registry/npm.json", "utf8")),
+  );
   return registry.rules.filter((rule) => rule.purl === "pkg:npm/vue");
 }
 

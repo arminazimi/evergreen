@@ -86,7 +86,7 @@ Do not raise it to make a single change pass.
   before merge (`record:reproducible`, [`compare-build-hashes.mjs`](../tools/compare-build-hashes.mjs)).
 - Decision-record presence when `schemas/`, `src/sdk.ts`, or `src/mcp.ts` change
   ([`decisions.yml`](../.github/workflows/decisions.yml)).
-- Rules lint when registry files change ([`rules.yml`](../.github/workflows/rules.yml)).
+- Rule fixtures when they change or `@velella/ebb` moves to another version ([`rules.yml`](../.github/workflows/rules.yml)).
 - The [runner-minute budget](#runner-minute-budget-350) on every `npm run check`, plus the
   workflow-change note when `.github/workflows/` changes
   ([`tools/check-workflow-change.ts`](../tools/check-workflow-change.ts)).
@@ -166,8 +166,6 @@ covered. That transitional cost is accepted; removing it is #2030's job after #2
 | CI health / quarantine | `ci-health.yml` | Nightly + weekly |
 | Full public corpus | `corpus.yml` (`full`) | Weekly |
 | Record full corpus | `corpus.yml` (`record`) | Twice monthly |
-| Source freshness | `sources.yml` | Weekly |
-| Lifecycle importers | `importers.yml` | Weekly |
 | Scorecard + floor | `scorecard.yml`, `scorecard-floor.yml` | Weekly |
 | CodeQL (scheduled scan) | `codeql.yml` | Weekly (also runs on every PR and main push) |
 | Open alerts gate | `open-alerts.yml` | Push to main + daily |
@@ -190,7 +188,6 @@ a green queue. Affected, full, and record corpus runs live in one file (`corpus.
 - Standalone binaries, signatures, attestations.
 - Quickstart smoke against the published package.
 - Container and Homebrew channels the release docs list.
-- Data-bundle release when registry data changes ([`data-release.yml`](../.github/workflows/data-release.yml)).
 
 **Stages.** `release.yml` is a thin orchestrator that calls reusable stage workflows (verify, build,
 publish per channel including npm via the `npm-publish` job, smoke). A version tag runs the full chain in
@@ -468,10 +465,10 @@ path filter adjusted through maintainers — do not rename files to dodge the fi
 
 ### Rule fixtures missing or contradicting (`Rules (changed)`)
 
-**Symptom.** The `rules.yml` job's `Lint and test the changed rules` step prints, per rule:
+**Symptom.** The `rules.yml` job's `Test the affected rule fixtures` step prints, per rule:
 
 ```
-Failed <rule-id> (registry/<file>.json)
+Failed <rule-id> (@velella/ebb/registry/<file>.json)
   match: expected at least one finding for "<rule-id>"; got none.
 ```
 
@@ -487,12 +484,14 @@ or
   match: missing fixture: tests/fixtures/<rule-id>/match is not a directory. Create both tests/fixtures/<rule-id>/match and clean; see docs/RULES.md.
 ```
 
-**Cause.** Every rule the diff touches must have `tests/fixtures/<rule-id>/match` (where the rule
-must fire) and `.../clean` (where it must not). Editing a rule's matchers without its fixtures — or
-fixtures without the rule — fails here.
+**Cause.** A rule's `tests/fixtures/<rule-id>/match` must report it and `.../clean` must not. The job runs
+the rules whose fixtures changed, and every rule with fixtures when the diff moves `@velella/ebb` to another
+version. A detector change that stops reporting a rule, or a new Ebb version whose rule no longer matches its
+fixture, fails here.
 
-**Fix.** Add or correct the fixture directories; see [RULES.md](RULES.md) for the fixture contract.
-New rules scaffold them via `evergreen new-rule`.
+**Fix.** Correct the detector or the fixture directories; see [RULES.md](RULES.md) for the fixture contract.
+When the rule itself is wrong, fix it in [Ebb](https://github.com/velella-sh/ebb). New fixtures are scaffolded
+with `evergreen new-rule`.
 
 ### Workflow lint runs after merge (`Workflow lint`)
 
@@ -564,7 +563,7 @@ hand, and do not re-run the failing `main` commit hoping for green; fix forward 
 
 ### Nightly and scheduled signal, not a gate
 
-Red `corpus.yml` (affected, full, or record), `mutation.yml`, `sources.yml`, `importers.yml`,
+Red `corpus.yml` (affected, full, or record), `mutation.yml`,
 `scorecard.yml`, scheduled CodeQL, or MCP-listing runs **never block a green queue** — see the Nightly lane
 and [What this design deliberately leaves out](#what-this-design-deliberately-leaves-out-of-the-merge-gate).
 The affected-corpus job was the second-heaviest failure source in the 30-day window above; it needs
@@ -612,7 +611,7 @@ just because a later task will fold it.
 | --- | --- | --- | --- |
 | `ci.yml` | Pull request / merge queue / main | `pull_request`, `push` to `main`, `merge_group` | Main gate: classify docs vs code, `npm run check` matrix, quality, self-scan path, and the required `ci-ok` aggregator |
 | `decisions.yml` | Pull request | `pull_request` on contract paths | Fail when a public-contract change lacks a decision record |
-| `rules.yml` | Pull request / main | `pull_request` / `push` on registry paths | Lint and fixture-test only the rules the diff touches |
+| `rules.yml` | Pull request / main | `pull_request` / `push` on fixture paths and `package-lock.json` | Fixture-test the rules the diff can affect |
 | `docs-doctor.yml` | Pull request / merge queue | `pull_request` on docs site paths; `workflow_call` from `ci.yml`; `workflow_dispatch` | Slipway doctor on the documentation site (report-only until the site is clean) |
 | `site-budget.yml` | Pull request / merge queue | `pull_request` on site paths; `workflow_call` from `ci.yml`; `workflow_dispatch` | Fail when the docs site exceeds size or LCP budgets |
 | `fuzz.yml` | Pull request / nightly | `pull_request` on parser paths; nightly schedule; `workflow_dispatch` | Deeper parser fuzz than the tight budget inside `npm run check` |
@@ -624,22 +623,20 @@ just because a later task will fold it.
 | `ci-health.yml` | Nightly | `workflow_run` of CI on `main`; schedules; `workflow_dispatch` | Open/close devops issues on main failures, measure CI duration, quarantine flaky tests |
 | `mutation.yml` | Nightly | Nightly schedule; `workflow_dispatch` | Mutation testing matrix (too slow for the merge gate) |
 | `corpus.yml` | Pull request / main / nightly | `pull_request` / `push` on detector paths; weekly + twice-monthly schedules; `workflow_dispatch` with `mode` (`affected` / `full` / `record`) | Affected-ecosystem signal; full public corpus validate in eight shards plus a merge job; recorded full-run PR |
-| `sources.yml` | Nightly | Weekly schedule; `workflow_dispatch` | Evidence URL reachability and rule freshness windows |
-| `importers.yml` | Nightly | Weekly schedule; `workflow_dispatch` | Draft lifecycle rules from authoritative sources; open one PR per importer |
 | `scorecard.yml` | Nightly | Weekly schedule; `branch_protection_rule`; `workflow_dispatch` | OpenSSF Scorecard publish + SARIF upload |
 | `scorecard-floor.yml` | Nightly | Weekly schedule (after Scorecard); `workflow_dispatch` | Alert when the published Scorecard score is below the QUALITY.md floor |
 | `codeql.yml` | Pull request / main / nightly | Every `pull_request`; `push` to `main`; weekly schedule; `workflow_dispatch` | CodeQL analysis of every proposed change and `main` |
 | `open-alerts.yml` | Push to main | Push to `main`; daily schedule; `workflow_dispatch` | Fail on any open code-scanning or Dependabot alert on `main` that `tools/open-alerts-baseline.json` does not accept |
 | `mcp-listings.yml` | Nightly | Weekly schedule; `workflow_dispatch` | Compare tracked MCP directory listings to `server.json` |
 | `publish.yml` | Release | `workflow_call` from `release.yml` | package smoke and MCP Registry (the npm publish itself is in `release.yml`) |
-| `data-release.yml` | Release | `data-v*` tags; dry-run `workflow_dispatch` | Build, sign, and publish the lifecycle data bundle |
 | `gitlab-sync.yml` | Release | `v*` tags; `workflow_dispatch` | Push the release commit and tags to the GitLab CI/CD Catalog project |
 | `evergreen-reusable.yml` | Product (caller) | `workflow_call` only | Reusable per-repository Evergreen scan for other repositories to `uses:` |
 | `org-scan.yml` | Product (caller) | `workflow_call`; `workflow_dispatch` | Organization-wide scan, rollup, and optional Slack/Teams digest |
 
 ### Last-run audit (2026-11-03)
 
-Checked with `gh run list --workflow <file> --limit 1` against `arminazimi/evergreen`.
+Checked with `gh run list --workflow <file> --limit 1` against `arminazimi/evergreen`. Since then `sources.yml`,
+`importers.yml`, and `data-release.yml` have moved to [Ebb](https://github.com/velella-sh/ebb) with the lifecycle data.
 
 | Outcome | Workflows |
 | --- | --- |

@@ -19,7 +19,7 @@ export const SNAPSHOT_PATH = "benchmarks/comparison/endoflife-date.snapshot.json
 export const RESULT_JSON_PATH = "benchmarks/comparison/endoflife-date.json";
 export const RESULT_MARKDOWN_PATH = "benchmarks/comparison/endoflife-date.md";
 
-const REGISTRY_DIRECTORY = "packages/ebb/registry";
+const REGISTRY_DIRECTORY = "node_modules/@velella/ebb/registry";
 const CORPUS_DIRECTORY = "benchmarks/public-repositories";
 
 function isRecord(value: unknown): value is Record<string, unknown> {

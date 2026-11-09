@@ -58,7 +58,7 @@ Usage:
   evergreen init --personal [--fail-on <severity>] [--yes] [--dry-run]   # global config and pre-push hook for every repository
   evergreen setup [path] [--yes] [--dry-run]
   evergreen new-detector <id> [--ecosystem <slug>]
-  evergreen new-rule <id> [--ecosystem <slug>]   # add a rule and its match/clean fixtures to registry/<ecosystem>.json
+  evergreen new-rule <id> [--ecosystem <slug>]   # create match/clean fixtures for a rule Ebb defines
   evergreen rules lint [file...]   # check lifecycle rules for problems before CI does; exits 1 on any problem
   evergreen rules test <id>   # run a rule against tests/fixtures/<id>/match and clean; exits 1 on a failed fixture
   evergreen data update [--data-version <version>] [--json]

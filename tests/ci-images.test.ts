@@ -51,7 +51,9 @@ function expected(rule: RegistryV2Rule, path: string, line: number, summary: str
 }
 
 test("ci-images passes detector conformance on every fixture", async () => {
-  const rules = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/ci-images.json", "utf8"))).rules;
+  const rules = validateRegistryV2(
+    JSON.parse(await readFile("node_modules/@velella/ebb/registry/ci-images.json", "utf8")),
+  ).rules;
   const ubuntu2004 = rules.find((rule) => rule.id === "ci-images.azure-pipelines.ubuntu-20.04")!;
   const windows2019 = rules.find((rule) => rule.id === "ci-images.azure-pipelines.windows-2019")!;
   await runDetectorConformance({
@@ -157,7 +159,9 @@ test("Azure vmImage matching is case-insensitive and rejects suffixes", async ()
 });
 
 test("GitLab and CircleCI references stay unclassified while retired Azure labels are findings", async () => {
-  const rules = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/ci-images.json", "utf8"))).rules;
+  const rules = validateRegistryV2(
+    JSON.parse(await readFile("node_modules/@velella/ebb/registry/ci-images.json", "utf8")),
+  ).rules;
   const ubuntu2004 = rules.find((rule) => rule.id === "ci-images.azure-pipelines.ubuntu-20.04")!;
   const windows2019 = rules.find((rule) => rule.id === "ci-images.azure-pipelines.windows-2019")!;
   const analysis = await detector.analyze({ root: resolve(fixtures, "positive") });
@@ -178,7 +182,9 @@ test("GitLab and CircleCI references stay unclassified while retired Azure label
 });
 
 test("every curated ci-images rule has migration guidance with real verification commands", async () => {
-  const rules = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/ci-images.json", "utf8"))).rules;
+  const rules = validateRegistryV2(
+    JSON.parse(await readFile("node_modules/@velella/ebb/registry/ci-images.json", "utf8")),
+  ).rules;
   assert.equal(rules.length, 5);
   for (const rule of rules) {
     assert.ok(rule.migration && rule.migration.constraints.length >= 1 && rule.migration.steps.length >= 1, rule.id);

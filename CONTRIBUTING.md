@@ -110,22 +110,25 @@ Bypass it once with `git push --no-verify`; undo it with `git config --unset cor
 
 ## Your first contribution: add a lifecycle rule
 
-Lifecycle rules are the most valuable contribution and the easiest place to start. This walkthrough adds an npm package deprecation; other ecosystems follow the same shape.
+Lifecycle rules are the most valuable contribution and the easiest place to start. The rules live in [Ebb](https://github.com/velella-sh/ebb), the open lifecycle dataset Evergreen reads, so a new rule or a correction is one pull request there, and it reaches Evergreen with the next Ebb release. Ebb's [contributing guide](https://github.com/velella-sh/ebb/blob/main/CONTRIBUTING.md) walks through it.
+
+This repository adds the part only a scanner can prove: fixtures that show a detector reports the rule.
 
 1. **Find the evidence.** Locate the authoritative source that states the deprecation, for example the package's npm deprecation notice, the maintainer's announcement, or the project's support policy. If you cannot find one, stop here; see the [evidence policy](#evidence-policy).
-2. **Branch and scaffold.**
+2. **Add the rule to Ebb** and wait for the release that contains it.
+3. **Branch and scaffold the fixtures.**
 
    ```bash
    git switch -c rule/<package>-deprecated
    npm ci
+   npm install @velella/ebb@latest
    npm run build
    node dist/src/cli.js new-rule npm.package.<name>.deprecated
    ```
 
-   It appends a placeholder rule to [`packages/ebb/registry/npm.json`](packages/ebb/registry/npm.json) and creates both fixtures under `tests/fixtures/<rule-id>/`. For another ecosystem, pass `--ecosystem <slug>` with a registry that already exists.
-3. **Replace the placeholders** with the claim: `purl` (`pkg:npm/<name>`; scoped names are `pkg:npm/%40scope/name`, and `x-npm.package` is the plain package name), `vers`, `event`, `title`, `summary`, `severity`, `replacement`, `deadline` (only if the source gives a date), `sources`, `provenance` (`observedAt`, `reviewedAt`, `reviewer`), `migration`, and `usage`. The scaffold is valid before you edit it, so the checks below say nothing about whether the values are right. Field by field: [Lifecycle rules](docs/RULES.md#a-rule). The whole path, with one real rule: [From a source to a merged pull request](docs/RULES.md#from-a-source-to-a-merged-pull-request).
+   It looks the rule up in the installed `@velella/ebb` and creates both fixtures under `tests/fixtures/<rule-id>/`. The whole path, with one real rule: [From a source to a merged pull request](docs/RULES.md#from-a-source-to-a-merged-pull-request).
 4. **Write both fixtures.** `tests/fixtures/<rule-id>/match/` holds the smallest repository that must report the rule; `clean/` holds a lookalike that must not. Both are scanned as untrusted input and never executed. If the rule depends on detector behavior rather than usage matching, such as a manifest field or a lockfile form, add a case to [`tests/npm.test.ts`](tests/npm.test.ts) too.
-5. **Check.** Run `node dist/src/cli.js rules lint`, `node dist/src/cli.js rules test <rule-id>`, `npm run build:reference`, then `npm run check`. The last one is the gate CI uses.
+5. **Check.** Run `node dist/src/cli.js rules test <rule-id>`, `npm run build:reference`, then `npm run check`. The last one is the gate CI uses.
 6. **Open a pull request** with `Closes #<issue>` (if there is one). The template asks for the commands you ran and the evidence link.
 
 ## Add a new detector
@@ -137,7 +140,7 @@ npm run build
 node dist/src/cli.js new-detector <id> [--ecosystem <slug>]
 ```
 
-It creates the detector, a parser, an empty v2 registry, conformance and parser tests with fixtures, and a docs page, and it refuses names that existing detectors or registries already use. [Detector authoring](docs/DETECTORS.md#start-a-new-detector-in-this-repository) describes the files and the order to work in: fixtures, parser, rules, detector, registration, `npm run check`, then `npm run validate:public-repos`. Each of those is a good size for one pull request.
+It creates the detector, a parser, conformance and parser tests with fixtures, and a docs page, and it refuses names that existing detectors or Ebb's registries already use. The detector's rules are added to [Ebb](https://github.com/velella-sh/ebb). [Detector authoring](docs/DETECTORS.md#start-a-new-detector-in-this-repository) describes the files and the order to work in: fixtures, parser, rules, detector, registration, `npm run check`, then `npm run validate:public-repos`. Each of those is a good size for one pull request.
 
 ## Evidence policy
 
@@ -146,14 +149,14 @@ Evergreen's findings are only as trustworthy as their sources.
 - Every rule links an authoritative, versioned source: maintainer release notes, an official support or end-of-life policy, a registry deprecation flag, or platform documentation.
 - Never infer lifecycle status from popularity, download counts, or a newer version existing.
 - Dates, affected versions, and replacements must match the source. If the source is ambiguous, say so in the PR.
-- Rules are reviewed data, not code. Changes to `packages/ebb/registry/`, `packages/ebb/schemas/`, and `schemas/` always get maintainer review (see `.github/CODEOWNERS`).
+- Rules are reviewed data, not code. Rule changes are reviewed in [Ebb](https://github.com/velella-sh/ebb); changes to `schemas/` and the rule fixtures here always get maintainer review (see `.github/CODEOWNERS`).
 
 ## Other contributions
 
 - **Bugs:** use the bug report form with a minimal fixture, the command, and the actual and expected output.
 - **Rule requests without code:** use the [lifecycle rule proposal form](https://github.com/arminazimi/evergreen/issues/new?template=rule-proposal.yml); a product, version range, date, and authoritative source URL are required.
 - **New ecosystems:** use the ecosystem request form, or the detector proposal form if you already know the matching boundaries. New detectors are built as an epic of small tasks, each starting from the generated skeleton (see [Add a new detector](#add-a-new-detector)).
-- **Importer candidates:** to have a package, project, or action checked for deprecations automatically, add its name to the matching candidate list (see [docs/IMPORTERS.md](docs/IMPORTERS.md)).
+- **Importer candidates:** to have a package, project, or action checked for deprecations automatically, add its name to the matching candidate list in Ebb (see its [importers guide](https://github.com/velella-sh/ebb/blob/main/docs/IMPORTERS.md)).
 - **Docs and corpus improvements** are welcome without prior discussion.
 - **Check the docs site with Slipway's doctor:** pull requests that touch `docs/` run `slipway doctor` and annotate the changed lines (report-only for now). To run it locally, build the site (`cd docs && bundle exec jekyll build --baseurl ""`), then from a checkout of [arminazimi/slipway](https://github.com/arminazimi/slipway) at `v0.2.0` run `npm ci --omit=dev && node packages/doctor/bin/slipway.mjs doctor <path to evergreen>/docs --build <path to evergreen>/docs/_site`. The `slipway` package on npm is a different project, so `npx slipway` does not run the doctor yet.
 

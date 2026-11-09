@@ -88,7 +88,7 @@ async function continuityRepositories(): Promise<Set<string>> {
 /** Every committed registry rule, read from `registry/*.json`: the same set the scan uses. */
 async function registryRules(root: string): Promise<RegistryV2Rule[]> {
   const rules: RegistryV2Rule[] = [];
-  const dir = join(root, "packages/ebb/registry");
+  const dir = join(root, "node_modules/@velella/ebb/registry");
   for (const name of (await readdir(dir)).filter((file) => file.endsWith(".json")).sort()) {
     const parsed: unknown = JSON.parse(await readFile(join(dir, name), "utf8"));
     if (!isRegistry(parsed)) continue;

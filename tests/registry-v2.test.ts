@@ -25,8 +25,8 @@ test("accepts the v2 registry example", async () => {
 });
 
 test("every bundled v2 registry validates", async () => {
-  for (const name of await readdir(resolve("packages/ebb/registry"))) {
-    const registry = JSON.parse(await readFile(resolve("packages/ebb/registry", name), "utf8")) as {
+  for (const name of await readdir(resolve("node_modules/@velella/ebb/registry"))) {
+    const registry = JSON.parse(await readFile(resolve("node_modules/@velella/ebb/registry", name), "utf8")) as {
       schemaVersion?: string;
     };
     if (registry.schemaVersion !== "ebb.registry.v2") continue;
@@ -299,7 +299,7 @@ const invalidCases: [name: string, mutate: (registry: any) => void, expected: Re
 test("rejects invalid rules with errors that name the rule and field", async (t) => {
   const ajv = new Ajv2020({ allErrors: true });
   const validateSchema = ajv.compile(
-    JSON.parse(await readFile(resolve("packages/ebb/schemas/registry.v2.schema.json"), "utf8")),
+    JSON.parse(await readFile(resolve("node_modules/@velella/ebb/schemas/registry.v2.schema.json"), "utf8")),
   );
   const base = await example();
   for (const [name, mutate, expected] of invalidCases) {

@@ -59,9 +59,11 @@ async function files(directory: string): Promise<string[]> {
 
 async function registryContracts(): Promise<SourceUsageContract[]> {
   const contracts: SourceUsageContract[] = [];
-  for (const name of await readdir(join(repositoryRoot, "packages/ebb/registry"))) {
+  for (const name of await readdir(join(repositoryRoot, "node_modules/@velella/ebb/registry"))) {
     if (!name.endsWith(".json") || name === "sources.lock.json") continue;
-    const registry = JSON.parse(await readFile(join(repositoryRoot, "packages/ebb/registry", name), "utf8")) as {
+    const registry = JSON.parse(
+      await readFile(join(repositoryRoot, "node_modules/@velella/ebb/registry", name), "utf8"),
+    ) as {
       rules?: { id: string; usage?: UsageMatcher[] }[];
     };
     for (const rule of registry.rules ?? []) {

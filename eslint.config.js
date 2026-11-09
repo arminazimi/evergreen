@@ -213,14 +213,14 @@ export default tseslint.config(
   {
     // Only the package surface is held to this: a symbol an entry point exports needs a doc comment
     // saying what it does, not one that restates its name.
-    files: ["src/**/*.ts", "packages/ebb/src/**/*.ts"],
+    files: ["src/**/*.ts"],
     plugins: { local: localPlugin },
     rules: { "local/public-api-docs": "error" },
   },
   {
     // Capability modules are the only default exports: the capability registry imports them by their
     // capability ID. Everywhere else a module named its exports and callers name what they import.
-    files: ["src/**/*.ts", "packages/ebb/src/**/*.ts"],
+    files: ["src/**/*.ts"],
     ignores: ["src/capabilities/**"],
     rules: {
       "no-restricted-syntax": [

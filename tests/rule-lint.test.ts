@@ -1,23 +1,16 @@
 import assert from "node:assert/strict";
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, relative, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { after, test } from "node:test";
 
-import { defaultRuleFiles, lintRuleFiles, renderRuleLintText } from "@velella/ebb/rule-lint";
 import { runCli } from "./cli-runner.js";
+
+// The rule linter itself is tested in @velella/ebb. This file tests the `rules lint` command that wraps it.
 
 const roots: string[] = [];
 
 after(() => Promise.all(roots.map((root) => rm(root, { recursive: true, force: true }))));
-
-const lineOf = (text: string, needle: string): number => {
-  const index = text.indexOf(needle);
-  assert.notEqual(index, -1, `missing ${needle}`);
-  return text.slice(0, index).split("\n").length;
-};
-
-const display = (file: string): string => relative(process.cwd(), resolve(file)).replaceAll("\\", "/");
 
 function validRule(id = "npm.package.sample.deprecated"): Record<string, unknown> {
   return {
@@ -48,116 +41,6 @@ async function registryDirectory(files: Record<string, string>): Promise<string>
   return directory;
 }
 
-test("every bundled registry passes, so the linter agrees with what ships", async () => {
-  const result = await lintRuleFiles(await defaultRuleFiles(resolve("packages/ebb")));
-  assert.deepEqual(result.issues, []);
-  assert.ok(result.rules > 500, `expected the bundled rules, saw ${result.rules}`);
-  assert.match(renderRuleLintText(result), /no problems\./);
-});
-
-test("an http source is reported at its own line with an https hint", async () => {
-  const rule = validRule();
-  (rule.sources as Array<{ url: string }>)[0]!.url = "http://example.com/sample";
-  const text = registry([rule]);
-  const directory = await registryDirectory({ "npm.json": text });
-  const file = join(directory, "npm.json");
-
-  const result = await lintRuleFiles([file]);
-  assert.equal(result.issues.length, 1);
-  const [issue] = result.issues;
-  assert.equal(issue!.file, display(file));
-  assert.equal(issue!.line, lineOf(text, '"sources"'));
-  assert.equal(issue!.ruleId, "npm.package.sample.deprecated");
-  assert.match(issue!.message, /sources\[0\]\.url must be an https URL/);
-  assert.match(issue!.hint, /https/);
-  assert.match(renderRuleLintText(result), new RegExp(`${display(file)}:${issue!.line}:`));
-});
-
-test("a source without an access date is reported with a fix hint", async () => {
-  const rule = validRule();
-  delete (rule.sources as Array<{ accessedAt?: string }>)[0]!.accessedAt;
-  const text = registry([rule]);
-  const directory = await registryDirectory({ "npm.json": text });
-
-  const result = await lintRuleFiles([join(directory, "npm.json")]);
-  assert.equal(result.issues.length, 1);
-  assert.equal(result.issues[0]!.line, lineOf(text, '"sources"'));
-  assert.match(result.issues[0]!.message, /sources\[0\]\.accessedAt is required \(YYYY-MM-DD\)/);
-  assert.match(result.issues[0]!.hint, /accessedAt/);
-});
-
-test("reviewedAt before observedAt is reported at provenance with a fix hint", async () => {
-  const rule = validRule();
-  (rule.provenance as { reviewedAt: string }).reviewedAt = "2026-09-01";
-  const text = registry([rule]);
-  const directory = await registryDirectory({ "npm.json": text });
-
-  const result = await lintRuleFiles([join(directory, "npm.json")]);
-  assert.equal(result.issues.length, 1);
-  assert.equal(result.issues[0]!.line, lineOf(text, '"provenance"'));
-  assert.match(result.issues[0]!.message, /reviewedAt must not be earlier than provenance\.observedAt/);
-  assert.match(result.issues[0]!.hint, /observedAt/);
-});
-
-test("a duplicate id in one file is an error at the second rule", async () => {
-  const text = registry([validRule(), validRule()]);
-  const directory = await registryDirectory({ "npm.json": text });
-
-  const result = await lintRuleFiles([join(directory, "npm.json")]);
-  assert.ok(result.issues.some((issue) => /id is duplicated/.test(issue.message)));
-  assert.ok(result.issues.every((issue) => issue.line >= 1));
-});
-
-test("a duplicate id across files names both locations", async () => {
-  const first = registry([validRule()]);
-  const second = registry([validRule()]);
-  const directory = await registryDirectory({ "a.json": first, "b.json": second });
-
-  const result = await lintRuleFiles([join(directory, "a.json"), join(directory, "b.json")]);
-  assert.equal(result.issues.length, 1);
-  const [issue] = result.issues;
-  assert.match(issue!.message, /duplicate rule id "npm\.package\.sample\.deprecated"/);
-  assert.match(issue!.message, new RegExp(`${display(join(directory, "a.json"))}:${lineOf(first, '"id"')}`));
-  assert.equal(issue!.line, lineOf(second, '"id"'));
-  assert.match(issue!.hint, /global/);
-});
-
-test("invalid JSON is reported at the failing line", async () => {
-  const text = '{\n  "schemaVersion": "ebb.registry.v2",\n  "rules": [\n}\n';
-  const directory = await registryDirectory({ "npm.json": text });
-
-  const result = await lintRuleFiles([join(directory, "npm.json")]);
-  assert.equal(result.issues.length, 1);
-  assert.match(result.issues[0]!.message, /invalid JSON/);
-  assert.ok(result.issues[0]!.line >= 3, `line ${result.issues[0]!.line}`);
-  assert.match(result.issues[0]!.hint, /JSON syntax/);
-});
-
-test("a replacement requirement naming an unknown runtime is an error", async () => {
-  const rule = validRule();
-  rule.requires = { deno: "2.0.0" };
-  const text = registry([rule]);
-  const directory = await registryDirectory({ "npm.json": text });
-
-  const result = await lintRuleFiles([join(directory, "npm.json")]);
-  assert.equal(result.issues.length, 1);
-  assert.equal(result.issues[0]!.line, lineOf(text, '"requires"'));
-  assert.match(result.issues[0]!.message, /requires has unknown runtime "deno"/);
-  assert.match(result.issues[0]!.hint, /node and python/);
-});
-
-test("an unknown field is reported with a field hint", async () => {
-  const rule = validRule();
-  rule.typo = true;
-  const text = registry([rule]);
-  const directory = await registryDirectory({ "npm.json": text });
-
-  const result = await lintRuleFiles([join(directory, "npm.json")]);
-  assert.ok(
-    result.issues.some((issue) => /unknown field "typo"/.test(issue.message) && /x-<ecosystem>/.test(issue.hint)),
-  );
-});
-
 test("the command exits 1 on problems, 0 on clean files, and 2 on misuse", async () => {
   const run = (args: string[], cwd: string) => runCli(args, { cwd });
 
@@ -179,6 +62,11 @@ test("the command exits 1 on problems, 0 on clean files, and 2 on misuse", async
   assert.equal((await run(["rules"], resolve("."))).code, 2);
   assert.equal((await run(["rules", "fix"], resolve("."))).code, 2);
   assert.equal((await run(["rules", "lint", "--json"], resolve("."))).code, 2);
+
+  // With no files it lints registry/ in the current directory, as in a checkout of the Ebb repository.
+  const checkout = await run(["rules", "lint"], dirname(cleanDirectory));
+  assert.equal(checkout.code, 0, checkout.stderr);
+  assert.match(checkout.stdout, /no problems\./);
 
   const outside = await mkdtemp(join(tmpdir(), "evergreen-rule-lint-outside-"));
   roots.push(outside);

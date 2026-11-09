@@ -6,7 +6,7 @@
 // tools/architecture-baseline.json; the baseline may only shrink: a finding that is gone must be
 // removed from it, and a new one fails the check. Offline: it reads source files only.
 
-import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, posix, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
@@ -31,12 +31,6 @@ const ADAPTERS = [
 ] as const;
 
 export const RULES: readonly BoundaryRule[] = [
-  {
-    id: "ebb-no-offing",
-    from: ["packages/ebb/src/"],
-    to: ["src/"],
-    why: "Ebb, the lifecycle data library, must not depend on Offing",
-  },
   {
     id: "engine-no-detectors",
     from: ["src/engine/", "src/domain.ts"],
@@ -72,15 +66,12 @@ export const RULES: readonly BoundaryRule[] = [
     from: [
       "src/domain.ts",
       "src/errors.ts",
-      "packages/ebb/src/purl.ts",
       "src/paths.ts",
-      "packages/ebb/src/vers/",
       "src/sdk.ts",
       "src/engine/",
       "src/source-usage.ts",
       "src/source-files.ts",
       "src/scan-cache.ts",
-      "packages/ebb/src/registry.ts",
       "src/detector-inputs.ts",
       "src/file-system.ts",
       "src/usage/",
@@ -127,7 +118,6 @@ function matches(target: string, prefixes: readonly string[]): boolean {
 /** Resolve a relative `.js` specifier to the `.ts` path it was compiled from. */
 export function resolveSpecifier(fromFile: string, spec: string): string | null {
   if (spec.startsWith("node:")) return spec;
-  if (spec.startsWith("@velella/ebb/")) return `packages/ebb/src/${spec.slice("@velella/ebb/".length)}.ts`;
   if (!spec.startsWith(".")) return null;
   const joined = posix.normalize(posix.join(posix.dirname(fromFile), spec));
   return joined.replace(/\.js$/, ".ts");
@@ -226,8 +216,7 @@ function listSources(root: string, dir: string, out: string[] = []): string[] {
 
 export function loadSources(root: string): Map<string, string> {
   const files = new Map<string, string>();
-  const ebb = existsSync(join(root, "packages/ebb/src")) ? listSources(root, "packages/ebb/src") : [];
-  for (const path of [...listSources(root, "src"), ...ebb].sort()) {
+  for (const path of listSources(root, "src").sort()) {
     files.set(path, readFileSync(join(root, path), "utf8"));
   }
   return files;

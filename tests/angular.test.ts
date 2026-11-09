@@ -36,7 +36,9 @@ type Rule = {
 };
 
 async function angularRules(): Promise<Rule[]> {
-  const registry = JSON.parse(await readFile(resolve("packages/ebb/registry/npm.json"), "utf8")) as { rules: Rule[] };
+  const registry = JSON.parse(await readFile(resolve("node_modules/@velella/ebb/registry/npm.json"), "utf8")) as {
+    rules: Rule[];
+  };
   return registry.rules.filter((rule) => rule.purl === ANGULAR_PURL);
 }
 

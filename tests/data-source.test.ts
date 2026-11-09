@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { after, afterEach, test } from "node:test";
 
+import { VERSION } from "@velella/ebb/version";
 import { buildDataBundle, canonicalJson, serializeDataBundle } from "@velella/ebb/data-bundle";
 import type { DataBundle } from "@velella/ebb/data-bundle";
 import { DataSignatureError } from "@velella/ebb/data-signature";
@@ -46,7 +47,7 @@ async function registryRoot(
   mutate: (npm: { rules: Array<Record<string, unknown>> }) => void = () => undefined,
 ): Promise<string> {
   const root = await scratch("registry");
-  await cp(resolve("packages/ebb/registry"), join(root, "registry"), { recursive: true });
+  await cp(resolve("node_modules/@velella/ebb/registry"), join(root, "registry"), { recursive: true });
   await writeFile(join(root, "package.json"), await readFile(resolve("package.json"), "utf8"));
   const npm = JSON.parse(await readFile(join(root, "registry/npm.json"), "utf8")) as {
     rules: Array<Record<string, unknown>>;
@@ -85,7 +86,7 @@ async function cacheWith(bundle: DataBundle, options: { version?: string; bytes?
 }
 
 const newerBundle = async (mutate?: Parameters<typeof registryRoot>[0]) =>
-  buildDataBundle({ root: await registryRoot(mutate), createdAt: NEWER, minimumEbbVersion: "0.1.0" });
+  buildDataBundle({ root: await registryRoot(mutate), createdAt: NEWER, minimumEbbVersion: VERSION });
 
 const resolveWith = (cache: Cache | string, extra: DataSourceOptions = {}) =>
   resolveActiveData({ cacheDirectory: typeof cache === "string" ? cache : cache.directory, ...accepting, ...extra });
@@ -242,9 +243,9 @@ test("everything after the signature is checked too", async () => {
 test("downloaded data that is not newer than the bundled data is not used", async () => {
   const bundled = await resolveWith(await scratch("none"));
   const sameDay = await buildDataBundle({
-    root: resolve("packages/ebb"),
+    root: resolve("node_modules/@velella/ebb"),
     createdAt: `${bundled.info.reviewedThrough}T12:00:00Z`,
-    minimumEbbVersion: "0.1.0",
+    minimumEbbVersion: VERSION,
   });
   const data = await resolveWith(await cacheWith(sameDay));
   assert.equal(data.info.source, "bundled");

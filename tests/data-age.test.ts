@@ -9,6 +9,7 @@ import { Ajv2020 } from "ajv/dist/2020.js";
 
 import { EvergreenAgentTools } from "../src/agent-tools.js";
 import { checkDependency } from "../src/check-dependency.js";
+import { VERSION } from "@velella/ebb/version";
 import { buildDataBundle, serializeDataBundle } from "@velella/ebb/data-bundle";
 import { BUNDLE_FILE, cachedBundleDirectory, configureActiveData, SIGNATURE_FILE } from "@velella/ebb/data-source";
 import { builtInDetectors } from "../src/detectors/index.js";
@@ -48,9 +49,9 @@ async function project(): Promise<string> {
 /** A cache with one old, "verified" bundle, pinned so that it is used whatever its age. */
 async function pinOldData(createdAt: string): Promise<string> {
   const root = await scratch("registry");
-  await cp(resolve("packages/ebb/registry"), join(root, "registry"), { recursive: true });
+  await cp(resolve("node_modules/@velella/ebb/registry"), join(root, "registry"), { recursive: true });
   await writeFile(join(root, "package.json"), await readFile(resolve("package.json"), "utf8"));
-  const bundle = await buildDataBundle({ root, createdAt, minimumEbbVersion: "0.1.0" });
+  const bundle = await buildDataBundle({ root, createdAt, minimumEbbVersion: VERSION });
   const cache = await scratch("cache");
   const directory = cachedBundleDirectory(cache, bundle.manifest.version);
   await mkdir(directory, { recursive: true });

@@ -116,7 +116,7 @@ test("every source directory, registry file, and fixture directory is listed, so
     .filter((name) => name !== "index" && name !== "json-lines");
   for (const name of sources)
     assert.ok(name in DETECTOR_ECOSYSTEMS, `src/detectors/${name} is missing from DETECTOR_ECOSYSTEMS`);
-  for (const file of await readdir("packages/ebb/registry"))
+  for (const file of await readdir("node_modules/@velella/ebb/registry"))
     assert.ok(file in REGISTRY_ECOSYSTEMS, `registry/${file} is missing from REGISTRY_ECOSYSTEMS`);
   const detectorFixtures = (await readdir("tests/fixtures", { withFileTypes: true }))
     .filter((entry) => entry.isDirectory())

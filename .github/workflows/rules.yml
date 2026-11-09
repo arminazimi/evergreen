@@ -1,24 +1,23 @@
 name: Rules (changed)
 
-# Pull-request CI for registry rules. It lints the changed registry files and fixture-tests only the rules the
-# diff touches, so a rule change is verified by the scan engine before merge instead of after a release.
-# Offline: it reads the checkout only. There is no network step, no secret, and no write scope.
+# Pull-request CI for rule fixtures. The rules live in @velella/ebb, which lints them; this workflow checks that the
+# detectors still report each rule's match fixture and not its clean fixture. It runs the rules whose fixtures the
+# diff touches, and every rule with fixtures when the diff moves @velella/ebb to another version.
+# Offline: it reads the checkout and the installed packages only. There is no secret and no write scope.
 
 on:
   push:
     branches: [main]
     paths:
-      - "packages/ebb/registry/**"
+      - "package-lock.json"
       - "tests/fixtures/**"
-      - "packages/ebb/src/rule-lint.ts"
       - "src/rule-test.ts"
       - "tools/changed-rules.ts"
       - ".github/workflows/rules.yml"
   pull_request:
     paths:
-      - "packages/ebb/registry/**"
+      - "package-lock.json"
       - "tests/fixtures/**"
-      - "packages/ebb/src/rule-lint.ts"
       - "src/rule-test.ts"
       - "tools/changed-rules.ts"
       - ".github/workflows/rules.yml"
@@ -45,10 +44,15 @@ jobs:
         with:
           cache: npm
       - run: npm run build --silent
-      - name: Lint and test the changed rules
+      - name: Test the affected rule fixtures
         shell: bash
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: |
-          git fetch --no-tags origin "$BASE_SHA"
-          node dist/tools/changed-rules.js --base "$BASE_SHA" --summary "$GITHUB_STEP_SUMMARY"
+          # A new branch has no previous commit (all zeros), so every rule with fixtures runs.
+          if [[ "$BASE_SHA" =~ ^0+$ ]]; then
+            node dist/tools/changed-rules.js --all --summary "$GITHUB_STEP_SUMMARY"
+          else
+            git fetch --no-tags origin "$BASE_SHA"
+            node dist/tools/changed-rules.js --base "$BASE_SHA" --summary "$GITHUB_STEP_SUMMARY"
+          fi

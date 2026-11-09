@@ -12,7 +12,7 @@ on:
     branches: [main]
     paths:
       - "src/**"
-      - "packages/ebb/registry/**"
+      - "package-lock.json"
       - "benchmarks/data-replay*"
       - ".github/workflows/data-replay.yml"
 

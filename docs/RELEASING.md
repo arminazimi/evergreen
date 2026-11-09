@@ -17,11 +17,10 @@ Every gate must pass on the commit you will tag. None of them is optional.
 | Full check | `npm run check` | Build, the Action bundle compiles, all tests including coverage floors in CI, plugin packages are in sync, plugin evals. This is what CI and `npm publish` (through `prepack`) run. |
 | Coverage floors | `npm run test:coverage` | Lines, branches, and functions stay above the floors in `package.json`. |
 | Public corpus | `npm run validate:public-repos` | Exact findings on every pinned public repository, and each detector's precision above its floor in `benchmarks/thresholds.json`. Needs network. |
-| Source freshness | `npm run check:sources` | No rule is stale and no source has moved or disappeared. Needs network. Review anything it reports before releasing. |
-| Package contents | `npm pack --dry-run` | Only `dist/src`, `examples`, `registry`, `schemas`, and `skills` ship; `packages/ebb/registry/sources.lock.json` does not. |
+| Package contents | `npm pack --dry-run` | Only `dist/src`, `examples`, `schemas`, and `skills` ship. The rules come from the `@velella/ebb` dependency. |
 | Reproducible package | `npm run check:reproducible` | Two clean builds of the same commit pack to byte-identical npm tarballs. CI records the tarball hash on Linux, Windows, and macOS and fails `ci-ok` when the runners disagree; the release workflow runs the local check and fails on a mismatch. |
 
-The last weekly runs of the corpus and source-freshness workflows should also be green. If either is red, fix or explain it before tagging.
+The last weekly run of the corpus workflow should also be green. If either is red, fix or explain it before tagging.
 
 ## Action bundles on release tags
 
@@ -224,25 +223,11 @@ Later backfills run from `main`; use the same command with `@refs/heads/main`.
 
 ## Rule data
 
-Lifecycle rules ship inside the npm package under `registry/`, so every package release carries the rules as of its commit. Between package releases, rules reach users through a signed data release.
-
-## Publishing lifecycle data
-
-Use this when rules change and you do not want to wait for a package release. The data in `registry/` on `main` is what gets published, so merge the rule changes first and let CI pass.
-
-1. **Check the data.** `npm run check`, then `npm run validate:public-repos` and `npm run check:sources` as in the gates above.
-2. **Dry run.** In GitHub, open Actions, *Data release*, *Run workflow* on `main` with *dry run* on (the default). It builds the bundle twice and requires identical bytes, signs it, verifies the signature, and keeps the files as a workflow artifact without publishing anything. Note that signing writes an entry to the public Sigstore transparency log, even in a dry run.
-3. **Tag.** The tag must be `data-v` plus the date of the commit being released in UTC, with `.N` for a second bundle that day:
-
-   ```bash
-   git tag -a data-v2026.10.16 -m "Lifecycle data 2026.10.16" <commit>
-   git push origin data-v2026.10.16
-   ```
-
-   If the tag and the bundle's version disagree the workflow stops and says which tag the commit needs.
-4. **Confirm.** The release has `ebb-data-<version>.json`, its `.sigstore.json` signature, and `SHA256SUMS`. On a clean machine, `evergreen data update` should report the new version, and `evergreen data status` should show `cache` and the signer identity.
-
-A data release does not change the npm package or the Action. If the data format itself changes, that needs a new `schemaVersion`, a package release that understands it, and a `minimumEbbVersion` in the bundle. See the [decision record](decisions/0006-data-bundle.md) and [Lifecycle data](DATA.md).
+Lifecycle rules come from [Ebb](https://github.com/velella-sh/ebb) through the `@velella/ebb` dependency, so every package release carries the
+rules of the Ebb version it locks. Between releases, rules reach users through Ebb's signed data releases, which
+`evergreen data update` downloads and verifies. Ebb publishes them; its [release guide](https://github.com/velella-sh/ebb/blob/main/docs/DATA.md#publishing-a-bundle)
+describes how. A new Ebb version reaches this repository as a dependency update, and the rules workflow runs every
+rule fixture against it.
 
 ## Rolling back
 

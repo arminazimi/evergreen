@@ -1,6 +1,6 @@
 # Vue lifecycle fixtures
 
-These fixtures exercise the Vue lifecycle rules in [`registry/npm.json`](../../../packages/ebb/registry/npm.json). Vue is an npm package, so the bundled `npm` detector reads them: `package.json` declares `vue`, and `package-lock.json` resolves it. Line numbers below are 1-based.
+These fixtures exercise the Vue lifecycle rules in [`registry/npm.json`](../../../node_modules/@velella/ebb/registry/npm.json). Vue is an npm package, so the bundled `npm` detector reads them: `package.json` declares `vue`, and `package-lock.json` resolves it. Line numbers below are 1-based.
 
 The rule covers Vue 2 only (`vers:npm/>=2.0.0|<3.0.0`, `npm.package.vue.eol-2`). Its deadline, 2023-12-31, comes from the [Vue 2 LTS, EOL & Extended Support](https://v2.vuejs.org/lts/) page. Vue 3 is a supported major, so it has no lifecycle rule and produces no finding. Vue 0.x and 1.x are not covered because no reviewed source states their status.
 

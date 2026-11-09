@@ -110,7 +110,6 @@ Prefer adding new per-item files instead of editing assembled or shared registri
 | `examples/capabilities.json` | Assembled. Edit per-item files under `src/capabilities/`, then regenerate. Do not edit the assembled file by hand. |
 | Generated paths in [Generated files](#generated-files--do-not-edit-by-hand) | Edit the listed source; regenerate; never hand-edit the output. |
 | `benchmarks/public-repositories/` | One file per repo. Add a new file; do not edit a monolith. |
-| `tools/importers/index.ts` | Registration list. Adding an importer means a new file **and** one import line here — expect conflicts. |
 | Corpus counts in tests and docs | Never type a corpus-wide count (repositories, findings, per-detector evidence) into a test or a page. Tests recompute it from `benchmarks/public-repositories/`; `docs/state-of-eol.md` is filled at site build. Write a corpus pass up as its own file in `docs/validation/passes/`, not as a new section of `docs/validation/corpus.md`. |
 | `AGENTS.md`, `CONTRIBUTING.md` | Shared docs; rebase carefully if another PR touched them. |
 | `package-lock.json` | Shared lockfile; regenerate from `package.json` when needed, do not hand-merge blindly. |

@@ -45,7 +45,6 @@ const DEBT = { owner: "#2041", expires: MAX_EXPIRY, reason: "Measured for a test
 function input(overrides: Partial<QualityInput> & { files?: FileMeasure[] } = {}): QualityInput {
   return {
     files: [],
-    registryNonJson: [],
     allowlist: EMPTY,
     allowlistProblems: [],
     today: TODAY,
@@ -501,12 +500,6 @@ test("the report prints the committed allowlist's non-null total", async () => {
   const repository = await readRepository(ROOT, TODAY);
   const total = repository.allowlist.nonNull.reduce((sum, entry) => sum + entry.count, 0);
   assert.match(renderReport(repository.allowlist), new RegExp(`^non-null +${total} `, "m"));
-});
-
-test("a registry file that is not JSON fails the boundary rule", () => {
-  const findings = evaluateQuality(input({ registryNonJson: ["registry/evil.js"] }));
-  assert.equal(findings[0]?.location, "registry/evil.js");
-  assert.match(findings[0]?.message ?? "", /registry-json-only/);
 });
 
 test("allowlist entries need an issue owner, a date no later than the phase end, and a reason", () => {

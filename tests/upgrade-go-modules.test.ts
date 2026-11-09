@@ -31,7 +31,9 @@ after(async () => {
 });
 
 async function rule(id: string): Promise<RegistryV2Rule> {
-  const { rules } = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/go.json", "utf8")) as object);
+  const { rules } = validateRegistryV2(
+    JSON.parse(await readFile("node_modules/@velella/ebb/registry/go.json", "utf8")) as object,
+  );
   const found = rules.find((item) => item.id === id);
   assert.ok(found, `${id} must exist in registry/go.json`);
   return found;

@@ -23,7 +23,7 @@ test("docs/DATA.md quotes the signer policy the verifier enforces", () => {
 
 test("docs/DATA.md documents the real commands, options, variables, and thresholds", async () => {
   const help = renderHelp(commands);
-  const implementation = `${help}\n${await read("src/commands/data.ts")}\n${await read("src/commands/runtime.ts")}\n${await read("src/cache-paths.ts")}\n${await read("packages/ebb/src/cache-paths.ts")}`;
+  const implementation = `${help}\n${await read("src/commands/data.ts")}\n${await read("src/commands/runtime.ts")}\n${await read("src/cache-paths.ts")}\n${await read("node_modules/@velella/ebb/dist/src/cache-paths.js")}`;
   for (const text of ["data status", "data update", "--data-version"]) {
     assert.ok(docs.includes(text), `docs mention ${text}`);
     assert.ok(
@@ -43,11 +43,12 @@ test("docs/DATA.md documents the real commands, options, variables, and threshol
   }
   for (const variable of ["EBB_DATA_DIR", "EVERGREEN_DATA_VERSION"]) {
     assert.ok(
-      (await read("packages/ebb/src/cache-paths.ts")).includes(variable) || implementation.includes(variable),
+      (await read("node_modules/@velella/ebb/dist/src/cache-paths.js")).includes(variable) ||
+        implementation.includes(variable),
       `${variable} is read by the code`,
     );
   }
-  assert.ok((await read("packages/ebb/src/data-update.ts")).includes("EBB_DATA_URL"));
+  assert.ok((await read("node_modules/@velella/ebb/dist/src/data-update.js")).includes("EBB_DATA_URL"));
   assert.match(docs, new RegExp(`more than ${STALE_AFTER_DAYS} days|after ${STALE_AFTER_DAYS} days`));
   assert.ok(DEFAULT_RELEASES_URL.includes("/releases"));
 });
@@ -58,16 +59,14 @@ test("the privacy page names the one network command and links to the data page"
   assert.ok(privacy.includes("(DATA.md)"));
 });
 
-test("the release checklist describes the data release the workflow performs", async () => {
+test("the release checklist and the data page send data releases to Ebb", async () => {
   const releasing = await read("docs/RELEASING.md");
-  const workflow = await read(".github/workflows/data-release.yml");
-  assert.ok(releasing.includes("## Publishing lifecycle data"));
-  assert.ok(docs.includes("RELEASING.md#publishing-lifecycle-data"));
-  assert.match(releasing, /data-v2026\.10\.16/);
-  assert.match(workflow, /tags: \["data-v\*"\]/);
-  assert.match(workflow, /dry_run/);
-  for (const asset of ["ebb-data-", ".sigstore.json", "SHA256SUMS"])
-    assert.ok(workflow.includes(asset) && releasing.includes(asset), asset);
+  assert.ok(releasing.includes("## Rule data"));
+  assert.ok(docs.includes("RELEASING.md#rule-data"));
+  for (const text of [releasing, docs]) {
+    assert.ok(text.includes("https://github.com/velella-sh/ebb/blob/main/docs/DATA.md#publishing-a-bundle"));
+  }
+  assert.ok(DEFAULT_RELEASES_URL.startsWith("https://api.github.com/repos/velella-sh/ebb/"), DEFAULT_RELEASES_URL);
 });
 
 test("every file and page that docs/DATA.md links to exists", async () => {

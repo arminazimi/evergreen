@@ -4,7 +4,7 @@ import type { ScaffoldNames } from "../names.js";
 export function docsTemplate(names: ScaffoldNames): string {
   return `# ${names.title} detector
 
-Detector id: \`${names.id}\` · Parser: \`src/detectors/${names.id}/parse.ts\` · Registry: \`packages/ebb/registry/${names.id}.json\` · Fixtures: \`tests/fixtures/${names.id}/\`
+Detector id: \`${names.id}\` · Parser: \`src/detectors/${names.id}/parse.ts\` · Rules: \`registry/${names.id}.json\` in [Ebb](https://github.com/velella-sh/ebb) · Fixtures: \`tests/fixtures/${names.id}/\`
 
 ## What it reads
 

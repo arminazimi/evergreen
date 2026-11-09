@@ -83,12 +83,12 @@
     "test": "npm run build --silent && node tools/run-tests.mjs",
     "test:fuzz": "npm run build --silent && node --test dist/tests/fuzz/parsers.test.js",
     "test:mutation": "stryker run",
-    "test:coverage": "npm run build --silent && node --test --experimental-test-coverage --test-coverage-exclude=\"dist/tests/**\" --test-coverage-exclude=\"packages/ebb/dist/tests/**\" --test-coverage-exclude=\"dist/benchmarks/**\" --test-coverage-exclude=\"dist/action/**\" --test-coverage-exclude=\"dist/src/usage/vendor/**\" --test-coverage-exclude=\"integrations/github-app/replay.mjs\" --test-coverage-lines=93 --test-coverage-branches=87 --test-coverage-functions=93 --test-reporter=spec --test-reporter=lcov --test-reporter-destination=stdout --test-reporter-destination=lcov.info \"dist/tests/**/*.test.js\" \"packages/ebb/dist/tests/**/*.test.js\"",
+    "test:coverage": "npm run build --silent && node --test --experimental-test-coverage --test-coverage-exclude=\"dist/tests/**\" --test-coverage-exclude=\"dist/benchmarks/**\" --test-coverage-exclude=\"dist/action/**\" --test-coverage-exclude=\"dist/src/usage/vendor/**\" --test-coverage-exclude=\"integrations/github-app/replay.mjs\" --test-coverage-lines=93 --test-coverage-branches=87 --test-coverage-functions=93 --test-reporter=spec --test-reporter=lcov --test-reporter-destination=stdout --test-reporter-destination=lcov.info \"dist/tests/**/*.test.js\"",
     "format": "biome format --write .",
     "format:check": "biome format .",
     "check:dead-code": "knip --no-progress",
-    "lint": "eslint \"src/**/*.ts\" \"packages/ebb/src/**/*.ts\" \"tools/**/*.ts\" --max-warnings=0",
-    "lint:baseline": "eslint \"src/**/*.ts\" \"packages/ebb/src/**/*.ts\" \"tools/**/*.ts\" --max-warnings=0 --suppress-all",
+    "lint": "eslint \"src/**/*.ts\" \"tools/**/*.ts\" --max-warnings=0",
+    "lint:baseline": "eslint \"src/**/*.ts\" \"tools/**/*.ts\" --max-warnings=0 --suppress-all",
     "check:fast": "npm run build --silent && node dist/tools/check-fast.js",
     "check": "npm run format:check && npm run check:dead-code && npm run build && node dist/tools/check-pipeline.js",
     "check:architecture": "npm run build --silent && node dist/tools/check-architecture.js",
@@ -99,7 +99,6 @@
     "check:quality": "npm run build --silent && node dist/tools/check-quality.js",
     "check:mutation": "npm run build --silent && node dist/tools/mutation-baseline.js",
     "check:plugins": "npm run build --silent && node dist/tools/plugin-packages.js --check",
-    "check:sources": "npm run build --silent && node dist/tools/check-sources.js",
     "benchmark:usage": "npm run build --silent && node dist/benchmarks/source-usage.js",
     "benchmark:perf-budget": "npm run build --silent && node dist/benchmarks/perf-budget.js",
     "benchmark:detector-budget": "npm run build --silent && node dist/benchmarks/detector-budget.js",
@@ -132,7 +131,6 @@
     "metrics:quality": "npm run build --silent && node dist/tools/quality-metrics.js",
     "report:monthly": "npm run build --silent && node dist/tools/monthly-report.js",
     "org:rollout": "npm run build --silent && node dist/tools/org-rollout.js",
-    "build:data-bundle": "npm run build --silent && node dist/tools/build-data-bundle.js",
     "build:data-api": "npm run build --silent && node dist/tools/build-data-api.js",
     "check:data-api": "npm run build --silent && node dist/tools/build-data-api.js --check",
     "build:llms": "npm run build --silent && node dist/tools/build-llms-full.js",
@@ -175,7 +173,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/server": "^2.3.1",
-    "@velella/ebb": "0.1.0",
+    "@velella/ebb": "^0.1.0-rc.1",
     "semver": "^7.8.5",
     "smol-toml": "^1.9.1",
     "yaml": "^2.9.1",
@@ -185,8 +183,5 @@
     "minimatch": "^11.0.4",
     "qs": "6.16.1"
   },
-  "mcpName": "io.github.arminazimi/evergreen",
-  "workspaces": [
-    "packages/ebb"
-  ]
+  "mcpName": "io.github.arminazimi/evergreen"
 }

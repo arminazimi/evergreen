@@ -13,7 +13,7 @@ const samples = [
 test("every template renders with sample input and substitutes every name", () => {
   for (const names of samples) {
     const files = renderScaffold(names);
-    assert.equal(files.size, 9, names.id);
+    assert.equal(files.size, 8, names.id);
     for (const [path, contents] of files) {
       assert.ok(contents.length > 0, path);
       assert.ok(

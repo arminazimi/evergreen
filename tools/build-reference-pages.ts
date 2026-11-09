@@ -856,7 +856,7 @@ export function renderSitemap(registries: readonly RegistryV2[]): string {
 }
 
 /** The v2 registries in `registry/`, in ecosystem order. Other JSON files there are not rule registries. */
-export async function loadRegistries(directory = "packages/ebb/registry"): Promise<RegistryV2[]> {
+export async function loadRegistries(directory = "node_modules/@velella/ebb/registry"): Promise<RegistryV2[]> {
   const registries: RegistryV2[] = [];
   for (const name of (await readdir(directory)).filter((file) => file.endsWith(".json")).sort()) {
     const value = JSON.parse(await readFile(join(directory, name), "utf8")) as { schemaVersion?: string };

@@ -44,12 +44,6 @@ jobs:
           - shard: diff
             mutate: src/diff.ts
             hash: src/diff.ts
-          - shard: vers-maven
-            mutate: "packages/ebb/src/vers/maven.ts,packages/ebb/src/vers/semver.ts"
-            hash: packages/ebb/packages/ebb/src/vers/**/*.ts
-          - shard: vers-formats
-            mutate: "packages/ebb/src/vers/gem.ts,packages/ebb/src/vers/nuget.ts,packages/ebb/src/vers/pep440.ts"
-            hash: packages/ebb/packages/ebb/src/vers/**/*.ts
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -72,7 +66,7 @@ jobs:
           SHARD: ${{ matrix.shard }}
           # The reporters shard runs the reporter tests; every other shard runs the core tests, so a shard
           # does not pay for suites that cannot reach its files.
-          TEST_COMMAND: ${{ matrix.command || 'node --test --test-concurrency=1 dist/tests/engine.test.js dist/tests/engine-discover.test.js dist/tests/engine-detect.test.js dist/tests/engine-resolve.test.js dist/tests/engine-report.test.js dist/tests/baseline.test.js dist/tests/diff.test.js packages/ebb/dist/tests/vers.test.js packages/ebb/dist/tests/vers-semver.test.js packages/ebb/dist/tests/vers-pep440.test.js packages/ebb/dist/tests/vers-maven.test.js packages/ebb/dist/tests/vers-nuget-gem.test.js' }}
+          TEST_COMMAND: ${{ matrix.command || 'node --test --test-concurrency=1 dist/tests/engine.test.js dist/tests/engine-discover.test.js dist/tests/engine-detect.test.js dist/tests/engine-resolve.test.js dist/tests/engine-report.test.js dist/tests/baseline.test.js dist/tests/diff.test.js' }}
         run: |
           set -euo pipefail
           start=$(date +%s)

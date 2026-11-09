@@ -56,10 +56,9 @@ const NETWORK_USE =
 
 test("only the update command, the CLI entry point, and the Action's GitHub API calls can reach the network in the source tree", async () => {
   const using: string[] = [];
-  for (const file of [...(await sourceFiles(resolve("src"))), ...(await sourceFiles(resolve("packages/ebb/src")))])
+  for (const file of await sourceFiles(resolve("src")))
     if (NETWORK_USE.test(await readFile(file, "utf8"))) using.push(relative(process.cwd(), file).replaceAll("\\", "/"));
   assert.deepEqual(using.sort(), [
-    "packages/ebb/src/data-update.ts",
     "src/action-fix-pr.ts",
     "src/action-tracking-issue.ts",
     "src/commands/data.ts",
@@ -135,7 +134,7 @@ async function projectWithEverything(): Promise<string> {
 /** A cache holding a bundle that cannot verify (a placeholder signature), so loading it exercises verification too. */
 async function cacheWithUnverifiableBundle(): Promise<string> {
   const root = await scratch("registry");
-  await cp(resolve("packages/ebb/registry"), join(root, "registry"), { recursive: true });
+  await cp(resolve("node_modules/@velella/ebb/registry"), join(root, "registry"), { recursive: true });
   await writeFile(join(root, "package.json"), await readFile(resolve("package.json"), "utf8"));
   const bundle = await buildDataBundle({ root, createdAt: "2999-01-01T00:00:00Z", minimumEbbVersion: "0.1.0" });
   const cache = await scratch("cache");

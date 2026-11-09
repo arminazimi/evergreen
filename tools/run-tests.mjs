@@ -383,11 +383,8 @@ export function spawnTest(nodeArgs, options = {}) {
  */
 async function listDistTests() {
   const files = [];
-  // Ebb's own tests live in its workspace package and run with the rest of the suite.
-  for (const pattern of ["dist/tests/**/*.test.js", "packages/ebb/dist/tests/**/*.test.js"]) {
-    for await (const file of glob(pattern, { cwd: ROOT })) {
-      files.push(resolve(ROOT, file));
-    }
+  for await (const file of glob("dist/tests/**/*.test.js", { cwd: ROOT })) {
+    files.push(resolve(ROOT, file));
   }
   return files.sort();
 }

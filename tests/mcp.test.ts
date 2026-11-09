@@ -306,7 +306,7 @@ test("lifecycle rules are listed and readable as resources without a scan", asyn
 test("every bundled rule reads back as a valid ebb.rule.v1 document", async () => {
   const { Ajv2020 } = await import("ajv/dist/2020.js");
   const validate = new Ajv2020({ allErrors: true }).compile(
-    JSON.parse(await readFile(resolve("packages/ebb/schemas/rule.v1.schema.json"), "utf8")) as object,
+    JSON.parse(await readFile(resolve("node_modules/@velella/ebb/schemas/rule.v1.schema.json"), "utf8")) as object,
   );
   const client = await connectTestClient();
   try {

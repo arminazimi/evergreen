@@ -158,7 +158,7 @@ function idFor(purl: PackageUrl): string {
 }
 
 /** The v2 registries in `directory`, in ecosystem order. Other JSON files there are not rule registries. */
-export async function loadRegistries(directory = "packages/ebb/registry"): Promise<RegistryV2[]> {
+export async function loadRegistries(directory = "node_modules/@velella/ebb/registry"): Promise<RegistryV2[]> {
   const registries: RegistryV2[] = [];
   for (const name of (await readdir(directory)).filter((file) => file.endsWith(".json")).sort()) {
     const value = JSON.parse(await readFile(join(directory, name), "utf8")) as { schemaVersion?: string };
@@ -328,10 +328,10 @@ export function buildFiles(registries: readonly RegistryV2[]): GeneratedFile[] {
 /** Validates every document against the published schema and the registry rule definition it references. */
 export async function validateDocuments(documents: readonly ApiDocumentFile[], root = "."): Promise<void> {
   const apiSchema = JSON.parse(
-    await readFile(resolve(root, "packages/ebb/schemas/api-product.v1.schema.json"), "utf8"),
+    await readFile(resolve(root, "node_modules/@velella/ebb/schemas/api-product.v1.schema.json"), "utf8"),
   ) as object;
   const registrySchema = JSON.parse(
-    await readFile(resolve(root, "packages/ebb/schemas/registry.v2.schema.json"), "utf8"),
+    await readFile(resolve(root, "node_modules/@velella/ebb/schemas/registry.v2.schema.json"), "utf8"),
   ) as object;
   const ajv = new Ajv2020({ allErrors: true });
   ajv.addSchema(registrySchema);
@@ -393,7 +393,7 @@ export function isWellFormedDataApi(files: readonly GeneratedFile[]): boolean {
 
 export async function main(argv: readonly string[] = process.argv.slice(2), cwd = "."): Promise<number> {
   const root = resolve(option(argv, "--root") ?? cwd);
-  const documents = buildDocuments(await loadRegistries(resolve(root, "packages/ebb/registry")));
+  const documents = buildDocuments(await loadRegistries(resolve(root, "node_modules/@velella/ebb/registry")));
   await validateDocuments(documents, root);
   const files = renderFiles(documents);
   if (argv.includes("--check")) {

@@ -262,10 +262,11 @@ async function releaseAt(label: string, revision: string): Promise<Release> {
 
 async function workingTreeRelease(): Promise<Release> {
   const files: ReleaseFiles = {};
-  for (const name of (await readdir(resolve("packages/ebb/registry")))
+  // The working tree's data is the installed @velella/ebb.
+  for (const name of (await readdir(resolve("node_modules/@velella/ebb/registry")))
     .map((entry) => `registry/${entry}`)
     .filter(isDataFile)) {
-    const value = JSON.parse(await readFile(resolve("packages/ebb", name), "utf8")) as unknown;
+    const value = JSON.parse(await readFile(resolve("node_modules/@velella/ebb", name), "utf8")) as unknown;
     if (isRegistryOrShaMap(value)) files[name] = value;
   }
   return { label: "working-tree", createdAt: await utc("HEAD"), files: normalizeRelease(files) };

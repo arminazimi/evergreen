@@ -211,7 +211,7 @@ test("a malformed Django version matches no rule and does not stop the scan", as
 });
 
 test("bundled Django rules cover each end-of-life series once and no supported series", async () => {
-  const registry = JSON.parse(await readFile(resolve("packages/ebb/registry/python.json"), "utf8")) as {
+  const registry = JSON.parse(await readFile(resolve("node_modules/@velella/ebb/registry/python.json"), "utf8")) as {
     rules: Array<{ id: string; purl: string; vers: string; event: string; deadline?: string }>;
   };
   const djangoRules = registry.rules.filter((rule) => rule.purl === "pkg:pypi/django");

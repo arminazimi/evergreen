@@ -20,7 +20,9 @@ after(async () => {
 });
 
 async function committedRules(): Promise<RegistryV2Rule[]> {
-  return (JSON.parse(await readFile("packages/ebb/registry/php.json", "utf8")) as { rules: RegistryV2Rule[] }).rules;
+  return (
+    JSON.parse(await readFile("node_modules/@velella/ebb/registry/php.json", "utf8")) as { rules: RegistryV2Rule[] }
+  ).rules;
 }
 
 test("Laravel fixtures cover recently retired and supported majors", async () => {

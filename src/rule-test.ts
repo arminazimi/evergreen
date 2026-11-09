@@ -7,7 +7,8 @@
 
 import { cp, mkdtemp, readdir, readFile, rm, stat } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, relative } from "node:path";
+import { createRequire } from "node:module";
+import { dirname, join, relative } from "node:path";
 
 import { builtInDetectors } from "./detectors/index.js";
 import { restoreFixtureNames } from "./fixture-names.js";
@@ -25,7 +26,10 @@ export class RuleTestError extends EvergreenError {
 }
 
 export interface RuleTestOptions {
-  /** Repository root holding `registry/` and `tests/fixtures`; defaults to the current directory. */
+  /**
+   * Repository root holding `tests/fixtures`; defaults to the current directory. Rules come from its `registry/` when
+   * it has one, otherwise from the installed `@velella/ebb`.
+   */
   root?: string;
   /** Fixtures root; defaults to `<root>/tests/fixtures`. */
   fixturesRoot?: string;
@@ -64,16 +68,26 @@ interface FoundRule {
 
 const NOT_A_REGISTRY = new Set(["sources.lock.json"]);
 
-/** The rule with this id in `root/registry`, or a clear error naming what to check. */
+/**
+ * Where the rules come from: `<root>/registry` in a checkout of the Ebb repository (or a test repository), otherwise
+ * the registries of the installed `@velella/ebb` package, which are the rules a scan uses. `label` is how a report
+ * names the directory.
+ */
+export async function ruleRegistryDirectory(root: string): Promise<{ directory: string; label: string }> {
+  const local = join(root, "registry");
+  if (await isDirectory(local)) return { directory: local, label: "registry" };
+  const installed = dirname(createRequire(import.meta.url).resolve("@velella/ebb/package.json"));
+  return { directory: join(installed, "registry"), label: "@velella/ebb/registry" };
+}
+
+/** The rule with this id in the registries, or a clear error naming what to check. */
 async function findRule(root: string, ruleId: string): Promise<FoundRule> {
-  const directory = join(root, "packages/ebb/registry");
+  const { directory, label } = await ruleRegistryDirectory(root);
   let entries;
   try {
     entries = await readdir(directory, { withFileTypes: true });
   } catch {
-    throw new RuleTestError(
-      "rules test runs in a checkout of the Evergreen repository: packages/ebb/registry/ was not found. Run it from the repository root.",
-    );
+    throw new RuleTestError(`No rule registry was found at ${directory}. Install dependencies with npm ci.`);
   }
   for (const entry of entries
     .filter(
@@ -96,12 +110,12 @@ async function findRule(root: string, ruleId: string): Promise<FoundRule> {
     if (!Array.isArray(rules)) continue;
     for (const rule of rules) {
       if (typeof rule === "object" && rule !== null && (rule as { id?: unknown }).id === ruleId) {
-        return { rule: rule as Record<string, unknown>, registry: relative(root, file).replaceAll("\\", "/") };
+        return { rule: rule as Record<string, unknown>, registry: `${label}/${entry.name}` };
       }
     }
   }
   throw new RuleTestError(
-    `No rule has the id "${ruleId}". Check packages/ebb/registry/*.json, or create one with evergreen new-rule.`,
+    `No rule has the id "${ruleId}" in ${label}/*.json. Rules live in @velella/ebb; a new rule is added there first.`,
   );
 }
 

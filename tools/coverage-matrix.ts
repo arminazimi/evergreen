@@ -48,7 +48,7 @@ export const ACCURACY_END_MARKER = "<!-- accuracy-tables:end -->";
 
 export const STATE_OF_EOL_PATH = "docs/state-of-eol.md";
 export const CORPUS_PATH = PUBLIC_CORPUS_DIR;
-export const REGISTRY_DIRECTORY = "packages/ebb/registry";
+export const REGISTRY_DIRECTORY = "node_modules/@velella/ebb/registry";
 export const STATE_OF_EOL_START_MARKER = "<!-- state-of-eol:start -->";
 export const STATE_OF_EOL_END_MARKER = "<!-- state-of-eol:end -->";
 

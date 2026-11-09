@@ -6,7 +6,6 @@ import { join, resolve } from "node:path";
 import { after, test } from "node:test";
 import { promisify } from "node:util";
 
-import { validateRegistryV2 } from "@velella/ebb/registry";
 import {
   renderScaffold,
   renderScaffoldResult,
@@ -72,7 +71,7 @@ test("ids that the SDK would reject, or that could escape the repository, are re
   assert.throws(() => scaffoldNames("go", "../x"), /not a valid ecosystem slug/);
 });
 
-test("the skeleton is nine files at predictable paths, and its registry is a valid empty v2 registry", () => {
+test("the skeleton is eight files at predictable paths, and the rules stay in Ebb", () => {
   const names = scaffoldNames("go-modules", "go");
   const files = renderScaffold(names);
   assert.deepEqual(
@@ -80,7 +79,6 @@ test("the skeleton is nine files at predictable paths, and its registry is a val
     [
       "src/detectors/go-modules.ts",
       "src/detectors/go-modules/parse.ts",
-      "packages/ebb/registry/go-modules.json",
       "tests/go-modules-detector.test.ts",
       "tests/go-modules-parse.test.ts",
       "tests/fixtures/go-modules/README.md",
@@ -89,8 +87,7 @@ test("the skeleton is nine files at predictable paths, and its registry is a val
       "docs/detectors/go-modules.md",
     ],
   );
-  const registry = validateRegistryV2(JSON.parse(files.get("packages/ebb/registry/go-modules.json")!));
-  assert.deepEqual([registry.ecosystem, registry.rules.length], ["go", 0]);
+  assert.ok(![...files.keys()].some((path) => path.includes("registry")), "rules are added to Ebb, not here");
 
   const detector = files.get("src/detectors/go-modules.ts")!;
   assert.match(detector, /import \{ defineDetector, DETECTOR_API_VERSION \} from "\.\.\/sdk\.js";/);
@@ -124,12 +121,7 @@ test("an existing file stops the whole run before anything is written", async ()
     /Nothing was written: docs\/detectors\/sample\.md already exists/,
   );
   assert.equal(await readFile(join(checkout, "docs", "detectors", "sample.md"), "utf8"), "mine\n");
-  for (const path of [
-    "src/detectors/sample.ts",
-    "packages/ebb/registry/sample.json",
-    "tests/sample-detector.test.ts",
-    "tests/fixtures/sample",
-  ]) {
+  for (const path of ["src/detectors/sample.ts", "tests/sample-detector.test.ts", "tests/fixtures/sample"]) {
     assert.equal(await exists(join(checkout, path)), false, path);
   }
 });
@@ -137,7 +129,7 @@ test("an existing file stops the whole run before anything is written", async ()
 test("a generated skeleton compiles and passes the conformance suite with zero rules", async () => {
   const checkout = await compileCheckout(roots);
   const result = await scaffoldDetector("sample-lang", { root: checkout, ecosystem: "sample" });
-  assert.equal(result.files.length, 9);
+  assert.equal(result.files.length, 8);
   for (const file of result.files) assert.ok(await exists(join(checkout, file)), file);
 
   const compiled = await compile(checkout);
@@ -154,7 +146,7 @@ test("the result lists the files and the manual steps that remain", async () => 
   assert.match(text, /^Created the Sample lang detector skeleton:/);
   assert.match(text, /  src\/detectors\/sample-lang\.ts/);
   assert.match(text, /1\. Register the detector: .*sampleLangDetector.*builtInDetectors/);
-  assert.match(text, /BUNDLED_ECOSYSTEMS in packages\/ebb\/src\/data-bundle\.ts/);
+  assert.match(text, /Add the rules to registry\/sample-lang\.json in Ebb/);
   assert.match(text, /npm run check/);
 });
 
@@ -229,20 +221,20 @@ test("a registry name or rule namespace that is already taken is refused", async
   // nodejs has a registry but no detector of its own: the npm detector reads it.
   await assert.rejects(
     scaffoldDetector("nodejs", { root: checkout }),
-    /"nodejs" is already a registry name or rule namespace, used by packages\/ebb\/registry\/nodejs\.json/,
+    /"nodejs" is already a registry name or rule namespace, used by registry\/nodejs\.json/,
   );
   await assert.rejects(
     scaffoldDetector("my-runtimes", { root: checkout, ecosystem: "nodejs" }),
-    /the ecosystem "nodejs" is already used by packages\/ebb\/registry\/nodejs\.json; rule ids and registries must stay unique/,
+    /the ecosystem "nodejs" is already used by registry\/nodejs\.json; rule ids and registries must stay unique/,
   );
   await assert.rejects(
     scaffoldDetector("my-npm", { root: checkout, ecosystem: "npm" }),
-    /the ecosystem "npm" is already used by packages\/ebb\/registry\/npm\.json/,
+    /the ecosystem "npm" is already used by registry\/npm\.json/,
   );
 
   // A rule-id prefix counts even when no registry file or ecosystem carries that name.
   await writeFile(
-    join(checkout, "packages/ebb/registry", "legacy-rules.json"),
+    join(checkout, "registry", "legacy-rules.json"),
     JSON.stringify({
       schemaVersion: "ebb.registry.v2",
       ecosystem: "legacy-rules",
@@ -251,7 +243,7 @@ test("a registry name or rule namespace that is already taken is refused", async
   );
   await assert.rejects(
     scaffoldDetector("oldstuff", { root: checkout }),
-    /"oldstuff" is already a registry name or rule namespace, used by packages\/ebb\/registry\/legacy-rules\.json/,
+    /"oldstuff" is already a registry name or rule namespace, used by registry\/legacy-rules\.json/,
   );
   await assert.rejects(
     scaffoldDetector("legacy-rules", { root: checkout }),
@@ -266,7 +258,7 @@ test("every collision is reported at once, so one run is enough to fix a name", 
     return (
       message.includes('the detector id "npm"') &&
       message.includes('"npm" is already a registry name') &&
-      message.includes('the ecosystem "python" is already used by packages/ebb/registry/python.json')
+      message.includes('the ecosystem "python" is already used by registry/python.json')
     );
   });
 });
@@ -282,7 +274,7 @@ test("detectors written as classes are found too, and fresh names still work", a
     /the detector id "legacy-class" is already used by src\/detectors\/legacy\.ts/,
   );
   const created = await scaffoldDetector("fresh-one", { root: checkout });
-  assert.equal(created.files.length, 9);
+  assert.equal(created.files.length, 8);
   await assert.rejects(
     scaffoldDetector("fresh-one", { root: checkout }),
     /Nothing was written: the detector id "fresh-one" is already used by src\/detectors\/fresh-one\.ts/,

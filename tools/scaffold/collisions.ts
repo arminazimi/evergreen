@@ -1,5 +1,7 @@
 import { readdir, readFile } from "node:fs/promises";
-import { join } from "node:path";
+import { basename, join } from "node:path";
+
+import { ruleRegistryDirectory } from "../../src/rule-test.js";
 
 import type { ScaffoldNames } from "./names.js";
 
@@ -42,9 +44,10 @@ export async function existingRegistryNamespaces(root: string): Promise<Map<stri
   const claim = (name: string, file: string) => {
     if (!namespaces.has(name)) namespaces.set(name, file);
   };
-  for (const absolute of await listFiles(join(root, "packages/ebb/registry"), ".json")) {
-    const file = absolute.slice(root.length + 1).replaceAll("\\", "/");
-    const base = file.replace(/^registry\//, "").replace(/\.json$/, "");
+  const { directory, label } = await ruleRegistryDirectory(root);
+  for (const absolute of await listFiles(directory, ".json")) {
+    const base = basename(absolute, ".json");
+    const file = `${label}/${base}.json`;
     if (base === "sources.lock" || base.endsWith("-shas")) continue;
     claim(base, file);
     let registry: unknown;

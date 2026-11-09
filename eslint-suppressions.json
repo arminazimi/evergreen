@@ -1,72 +1,4 @@
 {
-  "packages/ebb/src/countdown.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 1
-    },
-    "prefer-const": {
-      "count": 2
-    }
-  },
-  "packages/ebb/src/data-bundle.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 4
-    }
-  },
-  "packages/ebb/src/data-signature.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 2
-    }
-  },
-  "packages/ebb/src/data-source.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 6
-    },
-    "@typescript-eslint/require-await": {
-      "count": 1
-    }
-  },
-  "packages/ebb/src/data-update.ts": {
-    "@typescript-eslint/no-unsafe-argument": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 5
-    },
-    "@typescript-eslint/no-unused-vars": {
-      "count": 1
-    }
-  },
-  "packages/ebb/src/forecast.ts": {
-    "@typescript-eslint/restrict-template-expressions": {
-      "count": 1
-    }
-  },
-  "packages/ebb/src/package-files.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 2
-    }
-  },
-  "packages/ebb/src/registry.ts": {
-    "@typescript-eslint/no-base-to-string": {
-      "count": 2
-    },
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 6
-    }
-  },
-  "packages/ebb/src/rule-guards.ts": {
-    "@typescript-eslint/no-base-to-string": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 7
-    }
-  },
-  "packages/ebb/src/rule-lint.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 2
-    }
-  },
   "src/action-commands.ts": {
     "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 3
@@ -647,11 +579,6 @@
       "count": 4
     }
   },
-  "tools/build-data-bundle.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 2
-    }
-  },
   "tools/build-llms-full.ts": {
     "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 2
@@ -660,11 +587,6 @@
   "tools/build-reference-pages.ts": {
     "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 2
-    }
-  },
-  "tools/changed-rules.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 1
     }
   },
   "tools/changelog.ts": {
@@ -705,11 +627,6 @@
     },
     "preserve-caught-error": {
       "count": 1
-    }
-  },
-  "tools/check-sources.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 6
     }
   },
   "tools/ci-duration.ts": {
@@ -755,150 +672,6 @@
       "count": 1
     },
     "no-control-regex": {
-      "count": 1
-    }
-  },
-  "tools/github-actions-shas.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 2
-    }
-  },
-  "tools/importers/candidate-issues.ts": {
-    "@typescript-eslint/no-duplicate-type-constituents": {
-      "count": 4
-    },
-    "@typescript-eslint/no-redundant-type-constituents": {
-      "count": 2
-    },
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 3
-    }
-  },
-  "tools/importers/canonical.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 1
-    }
-  },
-  "tools/importers/cpp-1.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 1
-    }
-  },
-  "tools/importers/dart-1.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 1
-    }
-  },
-  "tools/importers/diff.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 6
-    },
-    "@typescript-eslint/no-unused-vars": {
-      "count": 1
-    }
-  },
-  "tools/importers/dotnet-1.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 1
-    }
-  },
-  "tools/importers/dotnet-2.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 1
-    }
-  },
-  "tools/importers/github-actions.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 2
-    }
-  },
-  "tools/importers/java-1.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 2
-    }
-  },
-  "tools/importers/java-2.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 1
-    },
-    "@typescript-eslint/unbound-method": {
-      "count": 1
-    }
-  },
-  "tools/importers/kubernetes-1.ts": {
-    "@typescript-eslint/no-unnecessary-type-assertion": {
-      "count": 2
-    },
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 1
-    }
-  },
-  "tools/importers/npm.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 1
-    }
-  },
-  "tools/importers/php-1.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 1
-    }
-  },
-  "tools/importers/php-2.ts": {
-    "@typescript-eslint/no-unnecessary-type-assertion": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 1
-    }
-  },
-  "tools/importers/pr-body.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 2
-    }
-  },
-  "tools/importers/pypi.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 1
-    }
-  },
-  "tools/importers/python.ts": {
-    "@typescript-eslint/no-unnecessary-type-assertion": {
-      "count": 1
-    }
-  },
-  "tools/importers/recording.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 2
-    },
-    "@typescript-eslint/require-await": {
-      "count": 1
-    }
-  },
-  "tools/importers/run.ts": {
-    "@typescript-eslint/no-unnecessary-type-assertion": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 3
-    }
-  },
-  "tools/importers/rust-2.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 1
-    }
-  },
-  "tools/importers/serverless-2.ts": {
-    "@typescript-eslint/no-unnecessary-type-assertion": {
-      "count": 1
-    }
-  },
-  "tools/importers/terraform-1.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 1
-    }
-  },
-  "tools/importers/types.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 1
     }
   },
@@ -983,10 +756,7 @@
   },
   "tools/scaffold/index.ts": {
     "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 3
-    },
-    "@typescript-eslint/no-unused-vars": {
-      "count": 1
+      "count": 2
     }
   },
   "tools/site-urls.ts": {

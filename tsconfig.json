@@ -6,10 +6,5 @@
     "incremental": true
   },
   "include": ["src/**/*.ts", "tests/**/*.ts", "examples/**/*.ts", "benchmarks/**/*.ts", "tools/**/*.ts"],
-  "exclude": ["dist", "node_modules"],
-  "references": [
-    {
-      "path": "./packages/ebb"
-    }
-  ]
+  "exclude": ["dist", "node_modules"]
 }

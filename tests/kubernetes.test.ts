@@ -33,7 +33,9 @@ async function repository(files: Record<string, string>): Promise<string> {
 }
 
 async function expected(ruleId: string, path: string, line: number, declaration: string): Promise<DetectorFinding> {
-  const registry = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/kubernetes.json", "utf8")));
+  const registry = validateRegistryV2(
+    JSON.parse(await readFile("node_modules/@velella/ebb/registry/kubernetes.json", "utf8")),
+  );
   const rule = registry.rules.find((item) => item.id === ruleId)!;
   return {
     id: `${ruleId}:${path}:${line}`,
@@ -55,7 +57,9 @@ async function expectedHelmDep(
   line: number,
   dependency: string,
 ): Promise<DetectorFinding> {
-  const registry = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/kubernetes.json", "utf8")));
+  const registry = validateRegistryV2(
+    JSON.parse(await readFile("node_modules/@velella/ebb/registry/kubernetes.json", "utf8")),
+  );
   const rule = registry.rules.find((item) => item.id === ruleId)!;
   return {
     id: `${ruleId}:${path}:${line}`,
@@ -408,7 +412,9 @@ test("retired Helm chart repository dependencies are findings; templated and ali
 });
 
 test("every curated kubernetes rule has migration guidance with real verification commands", async () => {
-  const registry = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/kubernetes.json", "utf8")));
+  const registry = validateRegistryV2(
+    JSON.parse(await readFile("node_modules/@velella/ebb/registry/kubernetes.json", "utf8")),
+  );
   for (const rule of registry.rules) {
     assert.ok(rule.migration, rule.id);
     assert.ok(rule.migration.constraints.length >= 1, rule.id);

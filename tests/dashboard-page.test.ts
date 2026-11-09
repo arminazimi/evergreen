@@ -77,7 +77,6 @@ interface DashboardApi {
   buildTable(doc: unknown, data: unknown): ElementNode;
   buildEcosystems(doc: unknown, data: unknown): ElementNode;
   buildMinimums(doc: unknown, data: unknown): ElementNode;
-  buildFreshness(doc: unknown, data: unknown): ElementNode;
   buildRun(doc: unknown, data: unknown, now?: Date): ElementNode;
   buildDefinitions(doc: unknown, data: unknown): ElementNode;
   buildLimitations(doc: unknown, data: unknown): ElementNode[];
@@ -444,7 +443,6 @@ test("a page served over HTTP fills every section and hides the status", async (
     "run",
     "ecosystems-table",
     "detectors-table",
-    "freshness-table",
     "minimums-table",
     "definitions-list",
     "limitations-list",
@@ -473,7 +471,6 @@ test("a page opened from disk says how to serve it, instead of failing silently"
     "data-sections",
     "run",
     "detectors-table",
-    "freshness-table",
     "minimums-table",
     "definitions-list",
     "limitations-list",
@@ -498,7 +495,6 @@ test("a failed request, or data in another schema, is reported with the reason",
     "data-sections",
     "run",
     "detectors-table",
-    "freshness-table",
     "minimums-table",
     "definitions-list",
     "limitations-list",
@@ -637,28 +633,10 @@ test("the page loads nothing from elsewhere and is not in the sitemap", async ()
     "run",
     "ecosystems-table",
     "detectors-table",
-    "freshness-table",
     "minimums-table",
     "definitions-list",
     "limitations-list",
   ]) {
     assert.ok(html.includes(`id="${id}"`), id);
   }
-});
-
-test("the freshness table marks a missed source and says so for a source with no reviewed rules", () => {
-  const doc = fakeDocument();
-  const sourceFreshness = {
-    file: "tools/importers/freshness.json",
-    sources: [
-      { importer: "go-1", targetDays: 60, rules: 1, lastReviewedAt: "2026-01-01", ageDays: 200, status: "missed" },
-      { importer: "go-2", targetDays: 90, rules: 0, lastReviewedAt: null, ageDays: null, status: "no-rules" },
-    ],
-  };
-  const table = api.buildFreshness(doc, { ...data, sourceFreshness });
-  const rows = walk(find(table, (node) => node.tag === "tbody")!).filter((node) => node.tag === "tr");
-  assert.equal(rows.length, 2);
-  assert.match(text(rows[0]!), /go-1.*60 days.*200 days.*2026-01-01.*missed/);
-  assert.match(text(rows[1]!), /go-2.*90 days.*no reviewed rules/);
-  assert.equal(api.buildFreshness(doc, { ...data, sourceFreshness: undefined }).tag, "p");
 });

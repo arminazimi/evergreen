@@ -36,15 +36,15 @@ A separate workspace package per layer is unnecessary while the interface and im
 
 | Layer | Lives in | Owns |
 |---|---|---|
-| Domain | [domain.ts](../src/domain.ts), [errors.ts](../src/errors.ts), [purl.ts](../packages/ebb/src/purl.ts), [paths.ts](../src/paths.ts), [vers/](../packages/ebb/src/vers) | Types, output contracts, pure helpers |
+| Domain | [domain.ts](../src/domain.ts), [errors.ts](../src/errors.ts), [paths.ts](../src/paths.ts) | Types, output contracts, pure helpers |
 | Detector SDK | [sdk.ts](../src/sdk.ts) | API version, stable detector ID, one `scan` operation |
-| Core | [engine/](../src/engine), [source-usage.ts](../src/source-usage.ts), [usage/](../src/usage), [registry.ts](../packages/ebb/src/registry.ts), [scan-cache.ts](../src/scan-cache.ts), [detector-inputs.ts](../src/detector-inputs.ts) | Detector attribution, sorting, repository traversal, usage matching, rule loading |
+| Core | [engine/](../src/engine), [source-usage.ts](../src/source-usage.ts), [usage/](../src/usage), [scan-cache.ts](../src/scan-cache.ts), [detector-inputs.ts](../src/detector-inputs.ts) | Detector attribution, sorting, repository traversal, usage matching, rule loading |
 | Detectors | [detectors/](../src/detectors) | Reading manifests and lockfiles for one ecosystem |
-| Services | [plan.ts](../src/plan.ts), [migration-packet.ts](../src/migration-packet.ts), [fix/](../src/fix), [sbom/](../src/sbom), [drift/](../src/drift), [export/](../src/export), [inventory/](../src/inventory), [baseline.ts](../src/baseline.ts), [diff.ts](../src/diff.ts), [forecast.ts](../packages/ebb/src/forecast.ts), [receipt.ts](../src/receipt.ts), [agent-tools.ts](../src/agent-tools.ts) | Analysis built on a scan result. No argument parsing, no host protocol |
+| Services | [plan.ts](../src/plan.ts), [migration-packet.ts](../src/migration-packet.ts), [fix/](../src/fix), [sbom/](../src/sbom), [drift/](../src/drift), [export/](../src/export), [inventory/](../src/inventory), [baseline.ts](../src/baseline.ts), [diff.ts](../src/diff.ts), [receipt.ts](../src/receipt.ts), [agent-tools.ts](../src/agent-tools.ts) | Analysis built on a scan result. No argument parsing, no host protocol |
 | Reporters | [reporters.ts](../src/reporters.ts), [reporters/](../src/reporters), [mermaid.ts](../src/mermaid.ts) | Text, JSON, SARIF, HTML, and other formats |
 | Adapters | [cli.ts](../src/cli.ts), [commands/](../src/commands), [mcp.ts](../src/mcp.ts), [lsp.ts](../src/lsp.ts), [action.ts](../src/action.ts), [github-action.ts](../src/github-action.ts), [tui.ts](../src/tui.ts) | Translating one host interface to services and reporters |
 
-Registry data under `packages/ebb/registry/` is data, not a layer. It ships with Ebb ([`packages/ebb`](../packages/ebb/)), the lifecycle data library, and only the core loads it.
+Lifecycle rules, and the purl, VERS, registry, and forecast code that reads them, come from [Ebb](https://github.com/velella-sh/ebb) (`@velella/ebb`), a separate package. It is a dependency, not a layer: the domain and the core import it, and nothing in Ebb imports Evergreen.
 
 Rules that follow from the table:
 

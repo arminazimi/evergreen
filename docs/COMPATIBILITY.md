@@ -81,13 +81,13 @@ Each row is a published contract. The guarantee is the machine-readable shape: i
 | Capabilities manifest | `evergreen.capabilities.v1` · [`capabilities.v1.schema.json`](../schemas/capabilities.v1.schema.json) | Manifest shape stays; new optional capability or surface entries may appear. |
 | Baseline | `evergreen.baseline.v1` · [`baseline.v1.schema.json`](../schemas/baseline.v1.schema.json) | File format stays so CI baselines written under 1.x keep loading. |
 | Config | `evergreen.config.v1` · [`config.v1.schema.json`](../schemas/config.v1.schema.json) | Documented keys keep their meaning; new optional keys may appear. |
-| Rule document | `ebb.rule.v1` · [`rule.v1.schema.json`](../packages/ebb/schemas/rule.v1.schema.json) | Rule view shape stays for MCP resources and tooling. |
+| Rule document | `ebb.rule.v1` · [`rule.v1.schema.json`](https://github.com/velella-sh/ebb/blob/main/schemas/rule.v1.schema.json) | Rule view shape stays for MCP resources and tooling. |
 | Fix plan | `evergreen.fix.v1` · [`fix.v1.schema.json`](../schemas/fix.v1.schema.json) | Plan shape stays. |
 | Data status | `ebb.data-status.v1` · [`data-status.v1.schema.json`](../schemas/data-status.v1.schema.json) | Status shape stays. |
 | CLI errors | `evergreen.error.v1` | `error.code` classes and exit codes stay as in [Exit codes](CAPABILITIES.md#exit-codes-and-error-codes). |
 | Detector SDK | `evergreen.detector.v1` · [`src/sdk.ts`](../src/sdk.ts) | Detectors written to this API keep loading; a `v2` API may ship in parallel. |
-| Registry file | `ebb.registry.v2` · [`registry.v2.schema.json`](../packages/ebb/schemas/registry.v2.schema.json) | `v2` registries keep validating and loading; a `v3` may ship in parallel. |
-| Data bundle | `ebb.data-bundle.v1` · [`data-bundle.v1.schema.json`](../packages/ebb/schemas/data-bundle.v1.schema.json) | Bundle manifest shape stays; older bundles remain accepted for the window after a successor appears. |
+| Registry file | `ebb.registry.v2` · [`registry.v2.schema.json`](https://github.com/velella-sh/ebb/blob/main/schemas/registry.v2.schema.json) | `v2` registries keep validating and loading; a `v3` may ship in parallel. |
+| Data bundle | `ebb.data-bundle.v1` · [`data-bundle.v1.schema.json`](https://github.com/velella-sh/ebb/blob/main/schemas/data-bundle.v1.schema.json) | Bundle manifest shape stays; older bundles remain accepted for the window after a successor appears. |
 | MCP server | Tool names, resource URIs, and input fields in [MCP](MCP.md) | Listed tools and resources keep working; new tools or optional inputs may appear. Output documents use the rows above. |
 | GitHub Action / GitLab component | Input names in [GitHub Action](GITHUB_ACTION.md) and [GitLab](GITLAB.md) | Documented inputs keep their meaning; new inputs default to current behavior. |
 | SARIF export | SARIF 2.1.0 from `scan --format sarif` | Remains valid SARIF 2.1.0; field mapping changes that would break code scanning need notice as for versioned formats. |

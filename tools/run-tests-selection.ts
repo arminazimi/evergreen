@@ -25,12 +25,10 @@ export const GRAPH_DIRECTORIES: readonly string[] = ["src", "tests", "tools", "b
 export const FULL_RUN_PREFIXES: readonly string[] = [
   ".github/",
   "benchmarks/",
-  "packages/ebb/data/",
   "examples/",
   "integrations/",
   "planning/",
   "plugins/",
-  "packages/ebb/registry/",
   "schemas/",
   "scripts/",
   "skills/",

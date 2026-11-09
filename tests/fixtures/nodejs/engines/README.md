@@ -1,6 +1,6 @@
 # Node.js `engines.node` fixtures
 
-These fixtures lock the held-out triage boundary for concrete `engines.node` pins ([VALIDATION.md — The held-out set](../../../docs/VALIDATION.md#the-held-out-set)). After #1101, two unexpected findings were concrete EOL `engines.node` declarations that the labeller does not read; Evergreen correctly reports them. Line numbers below are 1-based. Lifecycle status comes from the reviewed `nodejs.runtime.*` rules in [`registry/nodejs.json`](../../../packages/ebb/registry/nodejs.json), not from these fixtures.
+These fixtures lock the held-out triage boundary for concrete `engines.node` pins ([VALIDATION.md — The held-out set](../../../docs/VALIDATION.md#the-held-out-set)). After #1101, two unexpected findings were concrete EOL `engines.node` declarations that the labeller does not read; Evergreen correctly reports them. Line numbers below are 1-based. Lifecycle status comes from the reviewed `nodejs.runtime.*` rules in [`registry/nodejs.json`](../../../node_modules/@velella/ebb/registry/nodejs.json), not from these fixtures.
 
 | Fixture file | Expected case |
 | --- | --- |

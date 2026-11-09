@@ -284,9 +284,9 @@ Questions, ideas, and things you built with Evergreen belong in [GitHub Discussi
 ## License and brand
 
 Evergreen source code is licensed under the [Apache License 2.0](LICENSE). The
-lifecycle data library in [`packages/ebb`](packages/ebb/) (published as `@velella/ebb`)
-is licensed under the [MIT License](packages/ebb/LICENSE), and its dataset under
-[CC BY 4.0](packages/ebb/LICENSE-DATA); its attribution notice is in
-[`packages/ebb/ATTRIBUTION.md`](packages/ebb/ATTRIBUTION.md). The
+lifecycle data it reads comes from [Ebb](https://github.com/velella-sh/ebb) (`@velella/ebb`), whose code is licensed under
+the [MIT License](https://github.com/velella-sh/ebb/blob/main/LICENSE) and its dataset under
+[CC BY 4.0](https://github.com/velella-sh/ebb/blob/main/LICENSE-DATA); its attribution notice is in
+[`ATTRIBUTION.md`](https://github.com/velella-sh/ebb/blob/main/ATTRIBUTION.md). The
 Evergreen name, logo, and files in [`brand/`](brand/) are proprietary brand assets
 and are covered by separate [brand asset terms](brand/LICENSE.md).

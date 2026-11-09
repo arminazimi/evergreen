@@ -37,11 +37,11 @@ These produce no finding and are not guessed:
 - A project that keeps an old JDK **on purpose**, for example to test compatibility, is still reported. The rule states a vendor fact; whether the old version is intended is for the repository to decide, for example with a [baseline](../../README.md).
 - A compile level below the runtime JDK is common and fine; it is reported at medium severity because the declaration cannot say which JDK runs the code.
 - Imports are mapped to files for moved dependencies; calls through imported names are not.
-- Relocation rules are checked against the newest ten versions of each watched artifact, so the earliest version that carries a relocation may be earlier than the rule says. The watched list is `tools/importers/maven-candidates.ts`.
+- Relocation rules are checked against the newest ten versions of each watched artifact, so the earliest version that carries a relocation may be earlier than the rule says. The watched list is [`tools/importers/maven-candidates.ts`](https://github.com/velella-sh/ebb/blob/main/tools/importers/maven-candidates.ts) in Ebb.
 
 ## Data
 
-The rules are in `registry/java.json` and ship in the [data bundle](../DATA.md). The `java-1` and `java-2` [importers](../IMPORTERS.md) draft them from the Oracle roadmap, the Temurin support page, and Maven Central.
+The rules are in `registry/java.json` and ship in the [data bundle](../DATA.md). The `java-1` and `java-2` [importers](https://github.com/velella-sh/ebb/blob/main/docs/IMPORTERS.md) draft them from the Oracle roadmap, the Temurin support page, and Maven Central.
 
 ## Validation
 

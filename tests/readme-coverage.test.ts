@@ -92,13 +92,13 @@ test("a new registry rule needs no hand edit of the README or the compatibility 
   const root = await mkdtemp(join(tmpdir(), "evergreen-readme-registry-"));
   temporaryRoots.push(root);
   await mkdir(join(root, "docs"), { recursive: true });
-  await mkdir(join(root, "packages/ebb/registry"), { recursive: true });
+  await mkdir(join(root, "node_modules/@velella/ebb/registry"), { recursive: true });
   await writeFile(join(root, README_PATH), readme);
   await writeFile(join(root, README_DESCRIPTIONS_PATH), await read(README_DESCRIPTIONS_PATH));
   await writeFile(join(root, "docs/COMPATIBILITY.md"), await read("docs/COMPATIBILITY.md"));
   await writeFile(join(root, "docs/coverage-descriptions.json"), await read("docs/coverage-descriptions.json"));
   await writeFile(
-    join(root, "packages/ebb/registry/example.json"),
+    join(root, "node_modules/@velella/ebb/registry/example.json"),
     JSON.stringify({ schemaVersion: "ebb.registry.v2", rules: [{ id: "example.package.deprecated" }] }),
   );
   assert.equal(await buildReadmeDocument(root), readme);
@@ -109,7 +109,9 @@ test("each ecosystem in the README rows has a registry with rules", async () => 
   const described = (await loadReadmeDescriptions()).rows.flatMap((row) => row.ecosystems);
   for (const registry of ["go", "github-actions", "nodejs", "npm", "python", "rust"]) {
     assert.ok(described.includes(registry), `${registry} is listed in the README`);
-    const rules = (JSON.parse(await read(`packages/ebb/registry/${registry}.json`)) as { rules: unknown[] }).rules;
+    const rules = (
+      JSON.parse(await read(`node_modules/@velella/ebb/registry/${registry}.json`)) as { rules: unknown[] }
+    ).rules;
     assert.ok(rules.length > 0, registry);
   }
 });

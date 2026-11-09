@@ -7,11 +7,6 @@
     ".": {
       "entry": ["src/action.ts", "src/agent-hooks/hosts/*.ts", "tools/**/*.ts", "benchmarks/**/*.ts", "tests/**/*.test.ts"],
       "project": ["src/**/*.ts", "tools/**/*.ts", "benchmarks/**/*.ts", "tests/**/*.ts"]
-    },
-    // Ebb publishes every module under src/ (the "./*" export), so each one is an entry point.
-    "packages/ebb": {
-      "entry": ["src/**/*.ts", "tests/**/*.test.ts"],
-      "project": ["src/**/*.ts", "tests/**/*.ts"]
     }
   },
   "ignore": ["tests/fixtures/**"],

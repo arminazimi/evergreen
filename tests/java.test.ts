@@ -44,7 +44,9 @@ async function expected(
   subject: string,
   severity?: DetectorFinding["severity"],
 ): Promise<DetectorFinding> {
-  const registry = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/java.json", "utf8")));
+  const registry = validateRegistryV2(
+    JSON.parse(await readFile("node_modules/@velella/ebb/registry/java.json", "utf8")),
+  );
   const rule = registry.rules.find((item) => item.id === ruleId)!;
   return {
     id: `${ruleId}:${path}:${line}`,
@@ -220,7 +222,9 @@ test("a repository with no JVM files scans to nothing without reading the regist
 });
 
 test("every curated java rule has migration guidance with real verification commands", async () => {
-  const registry = validateRegistryV2(JSON.parse(await readFile("packages/ebb/registry/java.json", "utf8")));
+  const registry = validateRegistryV2(
+    JSON.parse(await readFile("node_modules/@velella/ebb/registry/java.json", "utf8")),
+  );
   for (const rule of registry.rules) {
     assert.ok(rule.migration, rule.id);
     assert.ok(rule.migration.constraints.length >= 1, rule.id);
