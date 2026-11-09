@@ -104,7 +104,7 @@ jobs:
         with:
           repository: ${{ needs.list.outputs.organization }}/${{ matrix.repo }}
           persist-credentials: false
-      - uses: arminazimi/evergreen@a0225978d6fae230468cf7efd47d4b1b3a4cbc33 # v0.7.1
+      - uses: arminazimi/evergreen@2e8ce92c9a3510348513a5fcef316fc3df7f2d39 # v0.7.2
         with:
           fail-on-severity: ${{ inputs.fail-on-severity }}
           report-name: evergreen-report-${{ matrix.repo }}
