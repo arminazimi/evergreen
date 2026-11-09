@@ -60,12 +60,14 @@ jobs:
         run: |
           set -euo pipefail
           set +e
-          # Not incremental: the run is already limited to the changed hunks. The shard config has no
-          # break threshold; the check step below applies it to the score of the changed lines.
+          # Not incremental: the run is already limited to the changed hunks, and --force runs every
+          # mutant even though the config turns incremental mode on (--incremental is a switch and
+          # takes no value). The shard config has no break threshold; the check step below applies it
+          # to the score of the changed lines.
           timeout --signal=INT --kill-after=60s "$TIME_LIMIT" \
             npm run test:mutation -- stryker.shard.config.mjs \
               --mutate "$MUTATE" \
-              --incremental false
+              --force
           status=$?
           set -e
           if [ "$status" -eq 124 ] || [ "$status" -eq 137 ]; then
