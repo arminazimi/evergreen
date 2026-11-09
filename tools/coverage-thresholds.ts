@@ -54,7 +54,22 @@ function counter(hit: number, found: number): Counter {
  * "all files" row. Throws when the report holds no file, so an empty artifact fails loudly
  * instead of reporting full coverage.
  */
-export function parseLcovTotals(text: string): CoverageTotals {
+/** The source files an LCOV report has records for. */
+export function lcovFiles(text: string): Set<string> {
+  const files = new Set<string>();
+  for (const raw of text.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (line.startsWith("SF:")) files.add(line.slice(3));
+  }
+  return files;
+}
+
+/**
+ * Sums the LCOV totals, over every file or only over `onlyFiles`. Comparing a pull request with main
+ * over the files both reports cover keeps deleted or added files from moving the totals: a file
+ * that is gone is not a coverage drop, and a new file is held to the floors and the per-file check.
+ */
+export function parseLcovTotals(text: string, onlyFiles?: ReadonlySet<string>): CoverageTotals {
   const hits: Record<CoverageMetric, number> = { lines: 0, branches: 0, functions: 0 };
   const found: Record<CoverageMetric, number> = { lines: 0, branches: 0, functions: 0 };
   const tags: Record<string, CoverageMetric> = {
@@ -66,13 +81,16 @@ export function parseLcovTotals(text: string): CoverageTotals {
     FNF: "functions",
   };
   let files = 0;
+  let counted = true;
 
   for (const raw of text.split(/\r?\n/)) {
     const line = raw.trim();
     if (line.startsWith("SF:")) {
       files += 1;
+      counted = onlyFiles === undefined || onlyFiles.has(line.slice(3));
       continue;
     }
+    if (!counted) continue;
     const record = /^(LH|LF|BRH|BRF|FNH|FNF):(\d+)$/.exec(line);
     if (record === null) continue;
     const metric = tags[record[1]!]!;
@@ -214,10 +232,19 @@ export async function main(argv: readonly string[]): Promise<number> {
   process.stdout.write(`${renderThresholdText(result, floors)}\n`);
   if (summaryPath !== undefined) await writeFile(summaryPath, renderThresholdSummary(result, floors), { flag: "a" });
 
-  // A pull request also may not lower any total below main's report, beyond rounding.
+  // A pull request also may not lower any total below main's report, beyond rounding, over the files both
+  // reports cover.
   const baselinePath = readFlagValue(argv, "--baseline");
   if (baselinePath === undefined) return result.passed ? 0 : 1;
-  const drops = checkCoverageAgainstBase(totals, parseLcovTotals(await readFile(baselinePath, "utf8")));
+  const headText = await readFile(lcovPath, "utf8");
+  const baseText = await readFile(baselinePath, "utf8");
+  const baseFiles = lcovFiles(baseText);
+  const shared = new Set([...lcovFiles(headText)].filter((file) => baseFiles.has(file)));
+  if (shared.size === 0) {
+    process.stdout.write("No file is in both coverage reports; skipping the comparison with main.\n");
+    return result.passed ? 0 : 1;
+  }
+  const drops = checkCoverageAgainstBase(parseLcovTotals(headText, shared), parseLcovTotals(baseText, shared));
   for (const drop of drops) {
     process.stderr.write(
       `${drop.metric} is ${formatPercent(drop.percent)}, below main's ${formatPercent(drop.base)}.\n`,

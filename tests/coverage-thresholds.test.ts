@@ -8,6 +8,7 @@ import {
   BASELINE_TOLERANCE,
   checkCoverageAgainstBase,
   checkCoverageFloors,
+  lcovFiles,
   main,
   parseLcovTotals,
   readCoverageFloors,
@@ -142,4 +143,35 @@ test("a pull request may not lower a total below main, beyond the rounding toler
     ["lines"],
   );
   assert.equal(drops[0]?.base, 95);
+});
+
+test("totals can be limited to the files two reports share", () => {
+  const text = record("src/a.ts", [90, 100], [9, 10], [9, 10]) + record("src/b.ts", [100, 100], [10, 10], [10, 10]);
+  assert.deepEqual([...lcovFiles(text)], ["src/a.ts", "src/b.ts"]);
+  const onlyA = parseLcovTotals(text, new Set(["src/a.ts"]));
+  assert.equal(onlyA.lines.found, 100);
+  assert.equal(onlyA.lines.hit, 90);
+  assert.equal(parseLcovTotals(text).lines.found, 200);
+});
+
+test("removing a well-covered file is not a drop below main, but a lower shared file still is", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "coverage-base-"));
+  try {
+    const kept = (hit: number) => record("src/kept.ts", [hit, 100], [9, 10], [10, 10]);
+    const removed = record("src/removed.ts", [1000, 1000], [100, 100], [100, 100]);
+    const basePath = join(directory, "base.info");
+    const headPath = join(directory, "head.info");
+    await writeFile(basePath, kept(96) + removed);
+
+    await writeFile(headPath, kept(96));
+    assert.equal(await main(["--lcov", headPath, "--baseline", basePath]), 0);
+
+    await writeFile(headPath, kept(94) + record("src/new.ts", [100, 100], [10, 10], [10, 10]));
+    assert.equal(await main(["--lcov", headPath, "--baseline", basePath]), 1);
+
+    await writeFile(headPath, record("src/new.ts", [100, 100], [10, 10], [10, 10]));
+    assert.equal(await main(["--lcov", headPath, "--baseline", basePath]), 0);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
 });
